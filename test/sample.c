@@ -1,10 +1,23 @@
 #include <stdio.h>
-#include "libosinfo.h"
+#include <stdlib.h>
+#include <errno.h>
+#include <assert.h>
+#include <libosinfo.h>
 
 int main(void)
 {
-  int i, ret, count;
-  osi_lib_t lib = osi_get_lib_handle();
+  int i, ret, count, err;
+  osi_lib_t lib;
+  osi_filter_t filter;
+  osi_os_t rhel, os;
+  osi_os_list_t results, more_results;
+  char* os_id;
+
+  lib = osi_get_lib_handle(&err, "/home/arjun/Desktop/redhat/libosinfo/data");
+  if (err != 0) {
+      printf("Error: Could not get lib handle.\n");
+      exit(1);
+  }
 
   ret = osi_set_lib_param(lib, "libvirt-version", "3.4");
   if (ret != 0) {
@@ -12,7 +25,7 @@ int main(void)
     exit(1);
   }
 
-  ret = osi_set_hypervisor(lib, "kvm", "1.2");
+  ret = osi_set_lib_hypervisor(lib, "http://qemu.org/qemu-kvm-0.11.0");
   if (ret != 0) {
     printf("Error: Could not set hypervisor!\n");
     exit(1);
@@ -24,15 +37,20 @@ int main(void)
     exit(1);
   }
 
-  osi_filter_t filter = osi_get_filter(lib);
-  ret = osi_add_constraint(filter, "short-id", "rhel5.4");
+  filter = osi_get_filter(lib, &err);
+  if (err != 0) {
+      printf("Error: Could not get filter!\n");
+      exit(1);
+  }
+
+  ret = osi_add_filter_constraint(filter, "short-id", "fedora11");
   if (ret != 0) {
     printf("Error: Could not set constraint!\n");
     exit(1);
   }
 
-  osi_os_list_t results = osi_get_os_list(lib, filter);
-  if (osi_bad_object(results))
+  results = osi_get_os_list(lib, filter, &err);
+  if (err != 0) {
     printf("Bad result list!\n");
     exit(1);
   }
@@ -46,7 +64,11 @@ int main(void)
     exit(1);
   }
 
-  osi_os_t rhel = osi_get_os_by_index(results, 0);
+  rhel = osi_get_os_by_index(results, 0, &err);
+  if (err != 0) {
+    printf("Couldn't get os!\n");
+    exit(1);
+  }
 
   // Now that we have a handle to rhel5.4, we can free the results list
   // that we used to get to it. The handle to the single os is still
@@ -64,16 +86,13 @@ int main(void)
     exit(1);
   }
 
-  if (osi_add_constraint(filter, "kernel", "linux") != 0 ||
-      osi_add_constraint(filter, "kernel-version", "2.6.30") != 0 ||
-      osi_add_relation_constraint(filter, DERIVES_FROM, rhel) != 0)
-  {
+  if (osi_add_filter_constraint(filter, "vendor", "Fedora Project") != 0) {
     printf("Error adding constraints!\n");
     exit(1);
   }
 
-  osi_os_list_t more_results = osi_get_os_list(lib, filter);
-  if (osi_bad_object(more_results))
+  more_results = osi_get_os_list(lib, filter, &err);
+  if (err != 0) {
     printf("Bad result list!\n");
     exit(1);
   }
@@ -82,41 +101,50 @@ int main(void)
   count = osi_os_list_length(more_results);
   for (i = 0; i < count; i++) {
     int j, num;
-    osi_os_t os = osi_os_by_index(more_results, i);
-    char* osname = osi_get_property_pref_value(os, "name");
+    os = osi_get_os_by_index(more_results, i, &err);
+    if (err != 0) {
+        printf("Couldn't get os!\n");
+        exit(1);
+    }
+    char* osname = osi_get_os_property_first_value(os, "name", &err);
+    if (err != 0) {
+        printf("Couldn't get property!\n");
+        exit(1);
+    }
 
-    osi_device_list_t audio_devices = osi_match_devices(os, "audio", "class", "audio");
+    osi_device_list_t audio_devices = osi_os_devices(os, "audio", NULL, &err);
     num = osi_devices_list_length(audio_devices);
+    os_id = osi_get_os_id(os, &err);
 
     // For each audio device:
     for (j = 0; j < num; j++) {
-      osi_device_t device = osi_get_device_by_index(audio_devices, j);
-      printf("Audio device for %s:\n", distroname);
+      osi_device_t device = osi_get_device_by_index(audio_devices, j, &err);
+      printf("Audio device for %s:\n", os_id);
       printf("\tBus Type: %s Vendor: %s Product: %s\n", 
-                 osi_get_device_property_value(device, "bus-type"),
-                 osi_get_device_property_value(device, "vendor"),
-                 osi_get_device_property_value(device, "product"));
-      printf("\tDriver is: %s\n", osi_get_device_driver(device, distro));
+                 osi_get_device_property_value(device, "bus-type", &err),
+                 osi_get_device_property_value(device, "vendor", &err),
+                 osi_get_device_property_value(device, "product", &err));
+      printf("\tDriver is: %s\n", osi_get_device_driver(device, "audio", os, &err));
     }
 
-    // And free the distroname and list of audio devices for this distro
-    free(distroname);
-    ret = osi_put_devices_list(audio_devices);
+    // And free the os id string and list of audio devices for this distro
+    free(os_id);
+    ret = osi_free_devices_list(audio_devices);
     if (ret != 0) {
         printf("Error freeing devices list!\n");
         exit(1);
     }
   }
 
-  ret = osi_put_distros_list(more_results); // Done with that list
+  ret = osi_free_os_list(more_results); // Done with that list
   if (ret != 0) {
     printf("Error freeing distro list!\n");
     exit(1);
   }
 
-  ret = osi_put_filter(filter); // Done with the filter
+  ret = osi_free_filter(filter); // Done with the filter
   if (ret != 0) {
-    printf("Error freeing filter!\n"):
+    printf("Error freeing filter!\n");
     exit(1);
   }
 
