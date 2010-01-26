@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <libosinfo.h>
 
-int main(void)
+int main(int argc, char** argv)
 {
     int i, ret, num, err, len;
     osi_lib_t lib;
@@ -14,10 +14,14 @@ int main(void)
     osi_os_t os;
     osi_filter_t filter;
     char* value;
+    char* data_dir;
+
+    assert ( argc == 2 );
+    data_dir = argv[1];
 
     printf("Starting test-get_devices...\n");
     printf("Checking to see if we got library handle...\n");
-    lib = osi_get_lib_handle(&err, "/home/arjun/Desktop/redhat/libosinfo/data");
+    lib = osi_get_lib_handle(&err, data_dir);
     assert ( err == 0 );
 
     /* Set hypervisor for library */

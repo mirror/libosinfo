@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <libosinfo.h>
 
-int main(void)
+int main(int argc, char** argv)
 {
     int ret, len, err;
     osi_lib_t lib;
@@ -12,10 +12,14 @@ int main(void)
     osi_os_t os, os_check;
     char** filter_properties;
     char* value, * os_id, * os_check_id;
+    char* data_dir;
+
+    assert ( argc == 2 );
+    data_dir = argv[1];
 
     printf("Starting test-filter...\n");
     printf("Checking to see if we got library handle...\n");
-    lib = osi_get_lib_handle(&err, "/home/arjun/Desktop/redhat/libosinfo/data");
+    lib = osi_get_lib_handle(&err, data_dir);
     assert ( err == 0 );
 
     /* Initializing library */

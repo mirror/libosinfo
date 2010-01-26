@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <libosinfo.h>
 
-int main(void)
+int main(int argc, char** argv)
 {
   int i, ret, count, err;
   osi_lib_t lib;
@@ -12,8 +12,16 @@ int main(void)
   osi_os_t rhel, os;
   osi_os_list_t results, more_results;
   char* os_id;
+  char* data_dir;
 
-  lib = osi_get_lib_handle(&err, "/home/arjun/Desktop/redhat/libosinfo/data");
+  if (argc != 2) {
+      printf("Need to specify data dir.\n");
+      exit(1);
+  }
+
+  data_dir = argv[1];
+
+  lib = osi_get_lib_handle(&err, data_dir);
   if (err != 0) {
       printf("Error: Could not get lib handle.\n");
       exit(1);

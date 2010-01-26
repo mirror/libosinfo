@@ -7,23 +7,27 @@
 #define KVM "http://qemu.org/qemu-kvm-0.11.0"
 #define XEN "http://bits.xensource.com/oss-xen/release/3.4.1"
 
-int main(void)
+int main(int argc, char** argv)
 {
     int ret, num, err;
     char** hypervisor_rdfs;
     char * hv_one_rdf, * hv_two_rdf, * hv_default_rdf;
     osi_lib_t lib_hv_one, lib_hv_two, lib_hv_default;
     osi_hypervisor_t hv_one, hv_two, hv_test;
+    char* data_dir;
+
+    assert ( argc == 2 );
+    data_dir = argv[1];
 
     printf("Starting test-hypervisor...\n");
     printf("Get library handles...\n");
-    lib_hv_one = osi_get_lib_handle(&err, "/home/arjun/Desktop/redhat/libosinfo/data");
+    lib_hv_one = osi_get_lib_handle(&err, data_dir);
     assert ( err == 0 );
 
-    lib_hv_two = osi_get_lib_handle(&err, "/home/arjun/Desktop/redhat/libosinfo/data");
+    lib_hv_two = osi_get_lib_handle(&err, data_dir);
     assert ( err == 0 );
 
-    lib_hv_default = osi_get_lib_handle(&err, "/home/arjun/Desktop/redhat/libosinfo/data");
+    lib_hv_default = osi_get_lib_handle(&err, data_dir);
     assert ( err == 0 );
 
     /* Get a list of the hypervisor rdfs */
