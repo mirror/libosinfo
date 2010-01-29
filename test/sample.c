@@ -119,6 +119,7 @@ int main(int argc, char** argv)
         printf("Couldn't get property!\n");
         exit(1);
     }
+    printf ("osname: %s\n", osname);
 
     osi_device_list_t audio_devices = osi_os_devices(os, "audio", NULL, &err);
     num = osi_devices_list_length(audio_devices);
@@ -128,7 +129,7 @@ int main(int argc, char** argv)
     for (j = 0; j < num; j++) {
       osi_device_t device = osi_get_device_by_index(audio_devices, j, &err);
       printf("Audio device for %s:\n", os_id);
-      printf("\tBus Type: %s Vendor: %s Product: %s\n", 
+      printf("\tBus Type: %s Vendor: %s Product: %s\n",
                  osi_get_device_property_value(device, "bus-type", &err),
                  osi_get_device_property_value(device, "vendor", &err),
                  osi_get_device_property_value(device, "product", &err));
