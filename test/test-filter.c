@@ -129,7 +129,7 @@ int main(int argc, char** argv)
     ret = osi_clear_filter_constraint(filter, "vendor");
     assert ( ret == 0 );
     value = osi_get_filter_constraint_value(filter, "vendor", &err);
-    assert ( err != 0 );
+    assert ( err == 0 );
     assert ( value == NULL );
 
     /* Clear relationship constraint and check */
@@ -145,7 +145,7 @@ int main(int argc, char** argv)
     ret = osi_clear_all_constraints(filter);
     assert ( ret == 0 );
     value = osi_get_filter_constraint_value(filter, "bus-type", &err);
-    assert ( err != 0 );
+    assert ( err == 0 );
     assert ( value == NULL );
     ret = osi_clear_filter_constraint(filter, "bus-type");
     assert ( ret != 0 );
