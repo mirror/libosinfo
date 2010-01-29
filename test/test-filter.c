@@ -30,6 +30,7 @@ int main(int argc, char** argv)
 
     /* Ensure that freeing an uninitialized filter is invalid */
     printf("Checking that freeing unitialized filter is invalid...\n");
+    memset (&filter, sizeof filter, 0);
     ret = osi_free_filter(filter);
     assert ( ret != 0 );
 
