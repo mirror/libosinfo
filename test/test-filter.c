@@ -154,7 +154,6 @@ int main(int argc, char** argv)
     printf("Freeing filter...\n");
     ret = osi_free_filter(filter);
     assert ( ret == 0 );
-    assert ( osi_is_error(filter) == 1 );
 
     /* Close library */
     printf("Closing library...\n");
