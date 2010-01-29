@@ -6,7 +6,7 @@
 
 int main(int argc, char** argv)
 {
-    int ret, len, err;
+    int ret, err;
     osi_lib_t lib;
     osi_os_t os;
     osi_os_list_t os_list;

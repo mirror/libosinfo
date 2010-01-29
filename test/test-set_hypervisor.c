@@ -11,7 +11,7 @@ int main(int argc, char** argv)
 {
     int ret, num, err;
     char** hypervisor_rdfs;
-    char * hv_one_rdf, * hv_two_rdf, * hv_default_rdf;
+    char * hv_one_rdf, * hv_two_rdf;
     osi_lib_t lib_hv_one, lib_hv_two, lib_hv_default;
     osi_hypervisor_t hv_one, hv_two, hv_test;
     char* data_dir;
@@ -36,7 +36,7 @@ int main(int argc, char** argv)
     assert ( err == 0 );
     assert ( num == 2 ); /* Only two defined in the dummy data */
     assert ( hypervisor_rdfs != NULL );
-    ret = (strcmp(KVM, hypervisor_rdfs[0]) == 0) || 
+    ret = (strcmp(KVM, hypervisor_rdfs[0]) == 0) ||
           (strcmp(XEN, hypervisor_rdfs[0] == 0));
     assert ( ret == 1 );
     if (strcmp(KVM, hypervisor_rdfs[0]) == 0)

@@ -6,7 +6,7 @@
 
 int main(int argc, char** argv)
 {
-    int i, ret, num, err, len;
+    int ret, err, len;
     osi_lib_t lib;
     osi_hypervisor_t hv;
     osi_device_list_t all_audio_devices, subset_audio_devices;
