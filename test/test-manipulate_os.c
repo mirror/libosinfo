@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <errno.h>
 #include <assert.h>
 #include <libosinfo.h>
@@ -99,7 +100,7 @@ int main(int argc, char** argv)
     assert ( len == 3 );
     assert ( unique_values != NULL );
     for (i = 0; i < len; i++) {
-        assert ( 
+        assert (
             strcmp("Fedora Project", unique_values[i]) == 0 ||
             strcmp("OpenSuse Project", unique_values[i]) == 0 ||
             strcmp("Red Hat", unique_values[i]) == 0
