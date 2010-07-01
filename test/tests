@@ -1,0 +1,16 @@
+Tests
+
+1. Create and destroy DB
+2. Get single OS, single device, single hypervisor
+   Treat all as entity
+   Get id, params, value for param, all values for param
+8. Given OS, HV, get device driver. Also NULL HV, and also case with no driver. (no HV info, or HV info and no support)
+
+3. Filter self-test
+4. Get list of OS, Dev, HV filtered
+5. Get two filtered lists, do list operations
+
+6. Get unique values for OS, Dev, HV, and list of OS by relationships
+7. Get hypervisor device types, and devices per type, with and without filter
+9. Get preferred device for OS and all devices for OS given HV/not HV.
+10. Get related OSes.

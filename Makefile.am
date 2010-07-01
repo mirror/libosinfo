@@ -1,33 +1,35 @@
 
-AM_CPPFLAGS = -I$(top_srcdir)/inc $(LIBXML_CFLAGS)
-libosinfo_la_LDFLAGS = $(LIBXML_LIBS)
+AM_CPPFLAGS = -I$(top_srcdir)/inc -I$(top_srcdir)/api $(LIBXML_CFLAGS) $(GOBJECT_CFLAGS)
+libosinfo_la_LDFLAGS = $(LIBXML_LIBS) $(GOBJECT_LIBS)
 
 lib_LTLIBRARIES = libosinfo.la
 
 libosinfo_la_SOURCES =		\
-  inc/libosinfo.h		\
-  inc/osi_api_methods.h		\
-  inc/osi_api_types.h		\
-  src/list.h			\
-  src/osi_common.c		\
-  src/osi_dataread.c		\
-  src/osi_device.c		\
-  src/osi_filter.c		\
-  src/osi_hv.c			\
-  src/osi_internal_types.h	\
-  src/osi_lib.c			\
-  src/osi_os.c
+  api/osinfo_db.h		\
+  api/osinfo_device.h		\
+  api/osinfo_devicelist.h		\
+  api/osinfo_entity.h		\
+  api/osinfo_filter.h		\
+  api/osinfo_hypervisor.h		\
+  api/osinfo_hypervisorlist.h		\
+  api/osinfo_list.h		\
+  api/osinfo_os.h		\
+  api/osinfo_oslist.h		\
+  inc/osinfo_common.h		\
+  src/osinfo_common.c		\
+  src/osinfo_dataread.c		\
+  src/osinfo_device.c		\
+  src/osinfo_devicelist.c		\
+  src/osinfo_entity.c		\
+  src/osinfo_filter.c		\
+  src/osinfo_hypervisor.c	\
+  src/osinfo_hypervisorlist.c	\
+  src/osinfo_list.c	\
+  src/osinfo_oslist.c	\
+  src/osinfo_db.c			\
+  src/osinfo_os.c
 
 check_PROGRAMS =			\
-  test/sample				\
-  test/test-filter			\
-  test/test-get_devices			\
-  test/test-get_os			\
-  test/test-manipulate_devices		\
-  test/test-manipulate_hypervisor	\
-  test/test-manipulate_library		\
-  test/test-manipulate_os		\
-  test/test-set_hypervisor		\
   test/test-skeleton
 
 EXTRA_DIST =				\

@@ -1,14 +1,17 @@
-AC_INIT([libosinfo], [0.1], [virt-tools-list@redhat.com])
+AC_INIT([libosinfo], [0.2], [virt-tools-list@redhat.com])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.11.1 -Wall -Werror foreign color-tests])
 AC_PREREQ([2.61])
-AC_CONFIG_SRCDIR([src/osi_internal_types.h])
+AC_CONFIG_SRCDIR([src/osinfo_common.c])
 AC_CONFIG_HEADERS([config.h])
 AC_PROG_LIBTOOL
 AC_PROG_CC
 
 LIBXML_REQUIRED=2.6.0
+
+#PKG_CHECK_MODULES([GLIB], [glib-2.0], [GLIB_FOUND=yes], [GLIB_FOUND=no])
+PKG_CHECK_MODULES([GOBJECT], [gobject-2.0], [GOBJECT_FOUND=yes], [GOBJECT_FOUND=no])
 
 dnl ==========================================================================
 dnl find libxml2 library, borrowed from xmlsec
