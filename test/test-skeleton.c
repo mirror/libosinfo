@@ -4,7 +4,7 @@
 #include <assert.h>
 
 #include <glib-object.h>
-#include <osinfo.h>
+#include <osinfo/osinfo.h>
 
 int
 main (int argc, char *argv[])
@@ -14,7 +14,7 @@ main (int argc, char *argv[])
 
     /* Create our object */
     OsinfoDb *db = g_object_new (OSINFO_TYPE_DB, "backing-dir",
-                                 "./data", NULL);
+                                 "../data", NULL);
 
     // Read in data
     ret = osinfoInitializeDb(db, NULL);

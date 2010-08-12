@@ -53,5 +53,9 @@ fi
 AC_SUBST([LIBXML_CFLAGS])
 AC_SUBST([LIBXML_LIBS])
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([
+	Makefile
+	osinfo/Makefile
+	test/Makefile
+])
 AC_OUTPUT
