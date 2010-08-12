@@ -48,6 +48,8 @@ struct _OsinfoOsClass
     /* class members */
 };
 
+GType osinfo_os_get_type(void);
+
 OsinfoDevice *osinfoGetPreferredDeviceForOs(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter, GError **err);
 OsinfoOsList *osinfoGetRelatedOs(OsinfoOs *self, osinfoRelationship relshp, GError **err);
 OsinfoDeviceList *osinfoGetDevicesForOs(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter, GError **err);

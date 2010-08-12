@@ -1,5 +1,6 @@
 
 AM_CPPFLAGS = \
+	$(WARN_CFLAGS) \
 	-I$(top_srcdir) \
 	$(LIBXML_CFLAGS) \
 	$(GOBJECT_CFLAGS)

@@ -40,6 +40,8 @@ struct _OsinfoListClass
     /* class members */
 };
 
+GType osinfo_list_get_type(void);
+
 void osinfoFreeList(OsinfoList *self);
 gint osinfoListLength(OsinfoList *self);
 

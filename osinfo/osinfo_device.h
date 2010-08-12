@@ -44,6 +44,8 @@ struct _OsinfoDeviceClass
     /* class members */
 };
 
+GType osinfo_device_get_type(void);
+
 gchar *osinfoGetDeviceDriver(OsinfoDevice *self, gchar *devType, OsinfoOs *os, OsinfoHypervisor *hv, GError **err);
 
 #endif /* __OSINFO_DEVICE_H__ */

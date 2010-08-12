@@ -43,6 +43,8 @@ struct _OsinfoOsListClass
     /* class members */
 };
 
+GType osinfo_oslist_get_type(void);
+
 OsinfoOsList *osinfoOsListFilter(OsinfoOsList *self, OsinfoFilter *filter, GError **err);
 OsinfoOs *osinfoGetOsAtIndex(OsinfoOsList *self, gint idx, GError **err);
 OsinfoOsList *osinfoOsListIntersect(OsinfoOsList *self, OsinfoOsList *otherOsList, GError **err);

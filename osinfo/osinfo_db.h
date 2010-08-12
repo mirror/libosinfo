@@ -62,6 +62,8 @@ struct _OsinfoDbClass
     /* class members */
 };
 
+GType osinfo_db_get_type(void);
+
 int osinfoInitializeDb(OsinfoDb *self, GError **err);
 
 OsinfoHypervisor *osinfoGetHypervisorById(OsinfoDb *self, gchar *hvId, GError **err);

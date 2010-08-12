@@ -1,12 +1,19 @@
 AC_INIT([libosinfo], [0.2], [virt-tools-list@redhat.com])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([1.11.1 -Wall -Werror foreign color-tests])
+AM_INIT_AUTOMAKE([1.11.1 foreign color-tests])
 AC_PREREQ([2.61])
 AC_CONFIG_SRCDIR([osinfo/osinfo_common.c])
 AC_CONFIG_HEADERS([config.h])
 AC_PROG_LIBTOOL
 AC_PROG_CC
+
+GNOME_COMPILE_WARNINGS([maximum])
+GNOME_MAINTAINER_MODE_DEFINES
+AM_MAINTAINER_MODE([enable])
+
+# Use the silent-rules feature when possible.
+m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 LIBXML_REQUIRED=2.6.0
 

@@ -43,6 +43,8 @@ struct _OsinfoEntityClass
     /* class members */
 };
 
+GType osinfo_entity_get_type(void);
+
 gchar *osinfoGetId(OsinfoEntity *self, GError **err);
 GPtrArray *osinfoGetParams(OsinfoEntity *self, GError **err);
 gchar *osinfoGetParamValue(OsinfoEntity *self, gchar *key, GError **err);

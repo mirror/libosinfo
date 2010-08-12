@@ -46,6 +46,8 @@ struct _OsinfoFilterClass
     /* class members */
 };
 
+GType osinfo_filter_get_type(void);
+
 void osinfoFreeFilter(OsinfoFilter *self);
 
 gint osinfoAddFilterContstraint(OsinfoFilter *self, gchar *propName, gchar *propVal, GError **err);
