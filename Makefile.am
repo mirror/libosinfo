@@ -1,33 +1,33 @@
 
-AM_CPPFLAGS = -I$(top_srcdir)/inc -I$(top_srcdir)/api $(LIBXML_CFLAGS) $(GOBJECT_CFLAGS)
+AM_CPPFLAGS = -I$(top_srcdir) $(LIBXML_CFLAGS) $(GOBJECT_CFLAGS)
 libosinfo_la_LDFLAGS = $(LIBXML_LIBS) $(GOBJECT_LIBS)
 
 lib_LTLIBRARIES = libosinfo.la
 
 libosinfo_la_SOURCES =		\
-  api/osinfo_db.h		\
-  api/osinfo_device.h		\
-  api/osinfo_devicelist.h		\
-  api/osinfo_entity.h		\
-  api/osinfo_filter.h		\
-  api/osinfo_hypervisor.h		\
-  api/osinfo_hypervisorlist.h		\
-  api/osinfo_list.h		\
-  api/osinfo_os.h		\
-  api/osinfo_oslist.h		\
-  inc/osinfo_common.h		\
-  src/osinfo_common.c		\
-  src/osinfo_dataread.c		\
-  src/osinfo_device.c		\
-  src/osinfo_devicelist.c		\
-  src/osinfo_entity.c		\
-  src/osinfo_filter.c		\
-  src/osinfo_hypervisor.c	\
-  src/osinfo_hypervisorlist.c	\
-  src/osinfo_list.c	\
-  src/osinfo_oslist.c	\
-  src/osinfo_db.c			\
-  src/osinfo_os.c
+  osinfo/osinfo_db.h		\
+  osinfo/osinfo_device.h		\
+  osinfo/osinfo_devicelist.h		\
+  osinfo/osinfo_entity.h		\
+  osinfo/osinfo_filter.h		\
+  osinfo/osinfo_hypervisor.h		\
+  osinfo/osinfo_hypervisorlist.h		\
+  osinfo/osinfo_list.h		\
+  osinfo/osinfo_os.h		\
+  osinfo/osinfo_oslist.h		\
+  osinfo/osinfo_common.h		\
+  osinfo/osinfo_common.c		\
+  osinfo/osinfo_dataread.c		\
+  osinfo/osinfo_device.c		\
+  osinfo/osinfo_devicelist.c		\
+  osinfo/osinfo_entity.c		\
+  osinfo/osinfo_filter.c		\
+  osinfo/osinfo_hypervisor.c	\
+  osinfo/osinfo_hypervisorlist.c	\
+  osinfo/osinfo_list.c	\
+  osinfo/osinfo_oslist.c	\
+  osinfo/osinfo_db.c			\
+  osinfo/osinfo_os.c
 
 check_PROGRAMS =			\
   test/test-skeleton

@@ -1,4 +1,4 @@
-#include <osinfo.h>
+#include <osinfo/osinfo.h>
 
 G_DEFINE_TYPE (OsinfoHypervisor, osinfo_hypervisor, OSINFO_TYPE_ENTITY);
 

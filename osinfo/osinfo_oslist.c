@@ -1,4 +1,4 @@
-#include <osinfo.h>
+#include <osinfo/osinfo.h>
 
 G_DEFINE_TYPE (OsinfoOsList, osinfo_oslist, OSINFO_TYPE_LIST);
 

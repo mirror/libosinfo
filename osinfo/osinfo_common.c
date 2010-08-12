@@ -1,4 +1,4 @@
-#include <osinfo.h>
+#include <osinfo/osinfo.h>
 
 static int __osinfoAddDeviceToList(GTree *allSectionsAsList,
                                    gchar *sectionName,

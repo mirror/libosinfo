@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <libxml/xmlreader.h>
 
-#include <osinfo.h>
+#include <osinfo/osinfo.h>
 
 #ifdef LIBXML_READER_ENABLED
 
