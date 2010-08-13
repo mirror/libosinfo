@@ -35,3 +35,37 @@ osinfo_hypervisorlist_init (OsinfoHypervisorList *self)
     self->priv = priv = OSINFO_HYPERVISORLIST_GET_PRIVATE(self);
 
 }
+
+
+OsinfoHypervisorList *osinfo_hypervisorlist_new(void)
+{
+    return g_object_new(OSINFO_TYPE_HYPERVISORLIST, NULL);
+}
+
+OsinfoHypervisorList *osinfo_hypervisorlist_new_filtered(OsinfoHypervisorList *source, OsinfoFilter *filter)
+{
+    OsinfoHypervisorList *newList = osinfo_hypervisorlist_new();
+    osinfo_list_add_filtered(OSINFO_LIST(newList),
+			     OSINFO_LIST(source),
+			     filter);
+    return newList;
+}
+
+OsinfoHypervisorList *osinfo_hypervisorlist_new_intersection(OsinfoHypervisorList *sourceOne, OsinfoHypervisorList *sourceTwo)
+{
+    OsinfoHypervisorList *newList = osinfo_hypervisorlist_new();
+    osinfo_list_add_intersection(OSINFO_LIST(newList),
+				 OSINFO_LIST(sourceOne),
+				 OSINFO_LIST(sourceTwo));
+    return newList;
+}
+
+OsinfoHypervisorList *osinfo_hypervisorlist_new_union(OsinfoHypervisorList *sourceOne, OsinfoHypervisorList *sourceTwo)
+{
+    OsinfoHypervisorList *newList = osinfo_hypervisorlist_new();
+    osinfo_list_add_union(OSINFO_LIST(newList),
+			  OSINFO_LIST(sourceOne),
+			  OSINFO_LIST(sourceTwo));
+    return newList;
+}
+

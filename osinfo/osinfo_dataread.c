@@ -433,7 +433,7 @@ static int __osinfoProcessOs(OsinfoDb *db,
     if (!id)
         return -EINVAL;
 
-    os = g_object_new(OSINFO_TYPE_OS, "id", id, NULL);
+    os = osinfo_os_new(id);
     free(id);
 
     if (empty)
@@ -551,8 +551,7 @@ static int __osinfoProcessHypervisor(OsinfoDb *db,
     if (!id)
         return -EINVAL;
 
-
-    hv = g_object_new(OSINFO_TYPE_HYPERVISOR, "id", id, NULL);
+    hv = osinfo_hypervisor_new(id);
     free(id);
 
     if (empty)
@@ -659,7 +658,7 @@ static int __osinfoProcessDevice(OsinfoDb *db,
     if (!id)
         return -EINVAL;
 
-    dev = g_object_new(OSINFO_TYPE_DEVICE, "id", id, NULL);
+    dev = osinfo_device_new(id);
     free(id);
 
     if (empty)

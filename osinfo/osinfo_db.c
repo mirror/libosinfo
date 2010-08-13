@@ -209,7 +209,7 @@ OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self, OsinfoFilter *filter)
     g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
 
     // Create list
-    OsinfoOsList *newList = g_object_new(OSINFO_TYPE_OSLIST, NULL);
+    OsinfoOsList *newList = osinfo_oslist_new();
     osinfo_db_populate_list(self->priv->oses, OSINFO_LIST (newList), filter);
     return newList;
 }
@@ -220,7 +220,7 @@ OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self, OsinfoFilter
     g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
 
     // Create list
-    OsinfoHypervisorList *newList = g_object_new(OSINFO_TYPE_HYPERVISORLIST, NULL);
+    OsinfoHypervisorList *newList = osinfo_hypervisorlist_new();
     osinfo_db_populate_list(self->priv->hypervisors, OSINFO_LIST (newList), filter);
     return newList;
 }
@@ -231,7 +231,7 @@ OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self, OsinfoFilter *filter
     g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
 
     // Create list
-    OsinfoDeviceList *newList = g_object_new(OSINFO_TYPE_DEVICELIST, NULL);
+    OsinfoDeviceList *newList = osinfo_devicelist_new();
     osinfo_db_populate_list(self->priv->devices, OSINFO_LIST (newList), filter);
     return newList;
 }
@@ -339,7 +339,7 @@ OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, osinfo
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
 
     // Create list
-    OsinfoOsList *newList = g_object_new(OSINFO_TYPE_OSLIST, NULL);
+    OsinfoOsList *newList = osinfo_oslist_new();
 
     struct __osinfoOsCheckRelationshipArgs args = {OSINFO_LIST (newList), relshp};
 

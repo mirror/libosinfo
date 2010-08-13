@@ -8,10 +8,6 @@
 #ifndef __OSINFO_DB_H__
 #define __OSINFO_DB_H__
 
-#include "osinfo_devicelist.h"
-#include "osinfo_hypervisorlist.h"
-#include "osinfo_oslist.h"
-
 /*
  * Type macros.
  */

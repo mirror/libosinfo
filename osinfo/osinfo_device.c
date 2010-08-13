@@ -32,6 +32,13 @@ osinfo_device_init (OsinfoDevice *self)
     self->priv = priv = OSINFO_DEVICE_GET_PRIVATE(self);
 }
 
+OsinfoDevice *osinfo_device_new(const gchar *id)
+{
+    return g_object_new(OSINFO_TYPE_DEVICE,
+			"id", id,
+			NULL);
+}
+
 gchar *osinfo_device_get_driver(OsinfoDevice *self,
 				gchar *devType,
 				OsinfoOs *os,

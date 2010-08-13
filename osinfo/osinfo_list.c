@@ -41,33 +41,6 @@ osinfo_list_init (OsinfoList *self)
     self->priv->array = g_ptr_array_new();
 }
 
-OsinfoList *osinfo_list_new(void)
-{
-    return g_object_new(OSINFO_TYPE_LIST, NULL);
-}
-
-OsinfoList *osinfo_list_new_filtered(OsinfoList *source, OsinfoFilter *filter)
-{
-    OsinfoList *newList = osinfo_list_new();
-    osinfo_list_add_filtered(newList, source, filter);
-    return newList;
-}
-
-OsinfoList *osinfo_list_new_intersection(OsinfoList *sourceOne, OsinfoList *sourceTwo)
-{
-    OsinfoList *newList = osinfo_list_new();
-    osinfo_list_add_intersection(newList, sourceOne, sourceTwo);
-    return newList;
-}
-
-OsinfoList *osinfo_list_new_union(OsinfoList *sourceOne, OsinfoList *sourceTwo)
-{
-    OsinfoList *newList = osinfo_list_new();
-    osinfo_list_add_union(newList, sourceOne, sourceTwo);
-    return newList;
-}
-
-
 gint osinfo_list_get_length(OsinfoList *self)
 {
     return self->priv->array->len;

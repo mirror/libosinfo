@@ -48,6 +48,8 @@ struct _OsinfoHypervisorClass
 
 GType osinfo_hypervisor_get_type(void);
 
+OsinfoHypervisor *osinfo_hypervisor_new(const gchar *id);
+
 GPtrArray *osinfo_hypervisor_get_device_types(OsinfoHypervisor *self);
 OsinfoDeviceList *osinfo_hypervisor_get_devices_by_type(OsinfoHypervisor *self, gchar *devType, OsinfoFilter *filter);
 

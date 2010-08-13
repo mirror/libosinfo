@@ -59,6 +59,14 @@ osinfo_os_init (OsinfoOs *self)
                                               __osinfoFreeHvSection);
 }
 
+OsinfoOs *osinfo_os_new(const gchar *id)
+{
+    return g_object_new(OSINFO_TYPE_OS,
+			"id", id,
+			NULL);
+}
+
+
 static int __osinfoAddOsRelationshipByOs(OsinfoOs *self,
                                          gchar *otherOsId,
                                          osinfoRelationship rel,
@@ -262,7 +270,7 @@ OsinfoOsList *osinfo_os_get_related(OsinfoOs *self, osinfoRelationship relshp)
     g_return_val_if_fail(OSINFO_IS_OS(self), NULL);
 
     // Create our list
-    OsinfoOsList *newList = g_object_new(OSINFO_TYPE_OSLIST, NULL);
+    OsinfoOsList *newList = osinfo_oslist_new();
 
     GPtrArray *relatedOses = NULL;
     relatedOses = g_tree_lookup(self->priv->relationshipsByType, (gpointer) relshp);
@@ -288,7 +296,7 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, gc
     GPtrArray *sectionList = NULL;
 
     // Create our device list
-    OsinfoDeviceList *newList = g_object_new(OSINFO_TYPE_DEVICELIST, NULL);
+    OsinfoDeviceList *newList = osinfo_devicelist_new();
 
     if (hv) {
         struct __osinfoHvSection *hvSection = NULL;

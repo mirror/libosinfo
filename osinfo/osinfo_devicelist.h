@@ -26,7 +26,7 @@ typedef struct _OsinfoDeviceListPrivate OsinfoDeviceListPrivate;
 /* object */
 struct _OsinfoDeviceList
 {
-    GObject parent_instance;
+    OsinfoList parent_instance;
 
     /* public */
 
@@ -37,11 +37,16 @@ struct _OsinfoDeviceList
 /* class */
 struct _OsinfoDeviceListClass
 {
-    GObjectClass parent_class;
+    OsinfoListClass parent_class;
 
     /* class members */
 };
 
 GType osinfo_devicelist_get_type(void);
+
+OsinfoDeviceList *osinfo_devicelist_new(void);
+OsinfoDeviceList *osinfo_devicelist_new_filtered(OsinfoDeviceList *source, OsinfoFilter *filter);
+OsinfoDeviceList *osinfo_devicelist_new_intersection(OsinfoDeviceList *sourceOne, OsinfoDeviceList *sourceTwo);
+OsinfoDeviceList *osinfo_devicelist_new_union(OsinfoDeviceList *sourceOne, OsinfoDeviceList *sourceTwo);
 
 #endif /* __OSINFO_DEVICELIST_H__ */

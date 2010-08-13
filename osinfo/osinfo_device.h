@@ -46,6 +46,8 @@ struct _OsinfoDeviceClass
 
 GType osinfo_device_get_type(void);
 
+OsinfoDevice *osinfo_device_new(const gchar *id);
+
 gchar *osinfo_device_get_driver(OsinfoDevice *self, gchar *devType, OsinfoOs *os, OsinfoHypervisor *hv);
 
 #endif /* __OSINFO_DEVICE_H__ */

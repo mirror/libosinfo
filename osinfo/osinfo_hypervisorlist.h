@@ -26,7 +26,7 @@ typedef struct _OsinfoHypervisorListPrivate OsinfoHypervisorListPrivate;
 /* object */
 struct _OsinfoHypervisorList
 {
-    GObject parent_instance;
+    OsinfoList parent_instance;
 
     /* public */
 
@@ -37,11 +37,16 @@ struct _OsinfoHypervisorList
 /* class */
 struct _OsinfoHypervisorListClass
 {
-    GObjectClass parent_class;
+    OsinfoListClass parent_class;
 
     /* class members */
 };
 
 GType osinfo_hypervisorlist_get_type(void);
+
+OsinfoHypervisorList *osinfo_hypervisorlist_new(void);
+OsinfoHypervisorList *osinfo_hypervisorlist_new_filtered(OsinfoHypervisorList *source, OsinfoFilter *filter);
+OsinfoHypervisorList *osinfo_hypervisorlist_new_intersection(OsinfoHypervisorList *sourceOne, OsinfoHypervisorList *sourceTwo);
+OsinfoHypervisorList *osinfo_hypervisorlist_new_union(OsinfoHypervisorList *sourceOne, OsinfoHypervisorList *sourceTwo);
 
 #endif /* __OSINFO_HYPERVISORLIST_H__ */

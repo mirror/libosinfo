@@ -40,11 +40,6 @@ struct _OsinfoListClass
     /* class members */
 };
 
-OsinfoList *osinfo_list_new(void);
-OsinfoList *osinfo_list_new_filtered(OsinfoList *source, OsinfoFilter *filter);
-OsinfoList *osinfo_list_new_intersection(OsinfoList *sourceOne, OsinfoList *sourceTwo);
-OsinfoList *osinfo_list_new_union(OsinfoList *sourceOne, OsinfoList *sourceTwo);
-
 GType osinfo_list_get_type(void);
 
 gint osinfo_list_get_length(OsinfoList *self);

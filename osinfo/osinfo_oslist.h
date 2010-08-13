@@ -27,7 +27,7 @@ typedef struct _OsinfoOsListPrivate OsinfoOsListPrivate;
 /* object */
 struct _OsinfoOsList
 {
-    GObject parent_instance;
+    OsinfoList parent_instance;
 
     /* public */
 
@@ -38,11 +38,16 @@ struct _OsinfoOsList
 /* class */
 struct _OsinfoOsListClass
 {
-    GObjectClass parent_class;
+    OsinfoListClass parent_class;
 
     /* class members */
 };
 
 GType osinfo_oslist_get_type(void);
+
+OsinfoOsList *osinfo_oslist_new(void);
+OsinfoOsList *osinfo_oslist_new_filtered(OsinfoOsList *source, OsinfoFilter *filter);
+OsinfoOsList *osinfo_oslist_new_intersection(OsinfoOsList *sourceOne, OsinfoOsList *sourceTwo);
+OsinfoOsList *osinfo_oslist_new_union(OsinfoOsList *sourceOne, OsinfoOsList *sourceTwo);
 
 #endif /* __OSINFO_OSLIST_H__ */

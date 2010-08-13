@@ -38,6 +38,14 @@ osinfo_hypervisor_init (OsinfoHypervisor *self)
     self->priv->sectionsAsList = g_tree_new_full(__osinfoStringCompare, NULL, g_free, __osinfoFreePtrArray);
 }
 
+OsinfoHypervisor *osinfo_hypervisor_new(const gchar *id)
+{
+    return g_object_new(OSINFO_TYPE_HYPERVISOR,
+			"id", id,
+			NULL);
+}
+
+
 int __osinfoAddDeviceToSectionHv(OsinfoHypervisor *self, gchar *section, gchar *id, gchar *driver)
 {
     if( !OSINFO_IS_HYPERVISOR(self) || !section || !id || !driver)
@@ -72,7 +80,7 @@ OsinfoDeviceList *osinfo_hypervisor_get_devices_by_type(OsinfoHypervisor *self, 
     g_return_val_if_fail(devType != NULL, NULL);
 
     // Create our device list
-    OsinfoDeviceList *newList = g_object_new(OSINFO_TYPE_DEVICELIST, NULL);
+    OsinfoDeviceList *newList = osinfo_devicelist_new();
 
     // If section does not exist, return empty list
     GPtrArray *sectionList = NULL;
