@@ -51,6 +51,19 @@ OsinfoEntity *osinfo_list_get_nth(OsinfoList *self, gint idx)
     return g_ptr_array_index(self->priv->array, idx);
 }
 
+OsinfoEntity *osinfo_list_find_by_id(OsinfoList *self, const gchar *id)
+{
+    int i;
+    for (i = 0 ; i < self->priv->array->len ; i++) {
+        OsinfoEntity *ent = g_ptr_array_index(self->priv->array, i);
+	const gchar *thisid = osinfo_entity_get_id(ent);
+	if (g_strcmp0(id, thisid) == 0)
+	    return ent;
+    }
+    return NULL;
+}
+
+
 void osinfo_list_add(OsinfoList *self, OsinfoEntity *entity)
 {
     g_ptr_array_add(self->priv->array, entity);
@@ -133,3 +146,12 @@ void osinfo_list_add_union(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *
     g_tree_destroy(newSet);
 }
 
+
+void osinfo_list_foreach(OsinfoList *self, osinfo_list_iterator iter, gpointer data)
+{
+    int i;
+    for (i = 0 ; i < self->priv->array->len ; i++) {
+        OsinfoEntity *ent = g_ptr_array_index(self->priv->array, i);
+	iter(self, ent, data);
+    }
+}

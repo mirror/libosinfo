@@ -68,9 +68,9 @@ OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *self, gchar *hvId);
 OsinfoDevice *osinfo_db_get_device(OsinfoDb *self, gchar *devId);
 OsinfoOs *osinfo_db_get_os(OsinfoDb *self, gchar *osId);
 
-OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self, OsinfoFilter *filter);
-OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self, OsinfoFilter *filter);
-OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self, OsinfoFilter *filter);
+OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self);
+OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self);
+OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self);
 
 // Get me all unique values for property "vendor" among operating systems
 GPtrArray *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, gchar *propName);
@@ -83,10 +83,6 @@ GPtrArray *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, gchar *pr
 
 // Get me all OSes that 'upgrade' another OS (or whatever relationship is specified)
 OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, osinfoRelationship relshp);
-
-void osinfo_db_add_device(OsinfoDb *db, OsinfoDevice *dev);
-void osinfo_db_add_hypervisor(OsinfoDb *db, OsinfoHypervisor *hv);
-void osinfo_db_add_os(OsinfoDb *db, OsinfoOs *os);
 
 
 #endif /* __OSINFO_DB_H__ */

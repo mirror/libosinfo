@@ -23,6 +23,9 @@ typedef struct _OsinfoHypervisor OsinfoHypervisor;
 typedef struct _OsinfoOs         OsinfoOs;
 typedef struct _OsinfoFilter     OsinfoFilter;
 typedef struct _OsinfoList       OsinfoList;
+typedef struct _OsinfoDeviceList       OsinfoDeviceList;
+typedef struct _OsinfoHypervisorList       OsinfoHypervisorList;
+typedef struct _OsinfoOsList       OsinfoOsList;
 
 typedef enum OSI_RELATIONSHIP {
     DERIVES_FROM,
@@ -129,18 +132,6 @@ struct _OsinfoFilterPrivate
     // Value: Array of OsinfoOs *
     // Note: Only used when filtering OsinfoOs objects
     GTree *relationshipConstraints;
-};
-
-struct _OsinfoDbPrivate
-{
-    int ready;
-
-    gchar *backing_dir;
-    gchar *libvirt_ver;
-
-    GTree *devices;
-    GTree *hypervisors;
-    GTree *oses;
 };
 
 struct _OsinfoDevicePrivate

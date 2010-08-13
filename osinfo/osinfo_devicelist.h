@@ -17,7 +17,7 @@
 #define OSINFO_IS_DEVICELIST_CLASS(klass)       (G_TYPE_CHECK_CLASS_TYPE ((klass), OSINFO_TYPE_DEVICELIST))
 #define OSINFO_DEVICELIST_GET_CLASS(obj)        (G_TYPE_INSTANCE_GET_CLASS ((obj), OSINFO_TYPE_DEVICELIST, OsinfoDeviceListClass))
 
-typedef struct _OsinfoDeviceList        OsinfoDeviceList;
+//typedef struct _OsinfoDeviceList        OsinfoDeviceList;
 
 typedef struct _OsinfoDeviceListClass   OsinfoDeviceListClass;
 

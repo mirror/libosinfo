@@ -44,8 +44,9 @@ static gboolean __osinfoResolveDeviceLink(gpointer key, gpointer value, gpointer
     struct __osinfoDbRet *dbRet = (struct __osinfoDbRet *) data;
     OsinfoDb *db = dbRet->db;
     int *ret = dbRet->ret;
+    OsinfoDeviceList *devices = osinfo_db_get_device_list(db);
 
-    OsinfoDevice *dev = g_tree_lookup(db->priv->devices, id);
+    OsinfoDevice *dev = OSINFO_DEVICE(osinfo_list_find_by_id(OSINFO_LIST(devices), id));
     if (!dev) {
         *ret = -EINVAL;
         return TRUE;
@@ -80,12 +81,13 @@ static gboolean __osinfoResolveHvLink(gpointer key, gpointer value, gpointer dat
     int *ret = dbRet->ret;
     struct __osinfoHvSection *hvSection = (struct __osinfoHvSection *) value;
     OsinfoHypervisor *hv;
+    OsinfoHypervisorList *hypervisors = osinfo_db_get_hypervisor_list(db);
 
     g_tree_foreach(hvSection->sections, __osinfoResolveSectionDevices, dbRet);
     if (*ret)
         return TRUE;
 
-    hv = g_tree_lookup(db->priv->hypervisors, hvId);
+    hv = OSINFO_HYPERVISOR(osinfo_list_find_by_id(OSINFO_LIST(hypervisors), hvId));
     if (!hv) {
         *ret = -EINVAL;
         return TRUE;
@@ -103,9 +105,10 @@ static gboolean __osinfoResolveOsLink(gpointer key, gpointer value, gpointer dat
     OsinfoDb *db = dbRet->db;
     int *ret = dbRet->ret;
     struct __osinfoOsLink *osLink = (struct __osinfoOsLink *) value;
-
     OsinfoOs *targetOs;
-    targetOs = g_tree_lookup(db->priv->oses, targetOsId);
+    OsinfoOsList *oslist = osinfo_db_get_os_list(db);
+
+    targetOs = OSINFO_OS(osinfo_list_find_by_id(OSINFO_LIST(oslist), targetOsId));
     if (!targetOs) {
         *ret = -EINVAL;
         return TRUE;
@@ -116,11 +119,11 @@ static gboolean __osinfoResolveOsLink(gpointer key, gpointer value, gpointer dat
     return FALSE;
 }
 
-static gboolean __osinfoFixOsLinks(gpointer key, gpointer value, gpointer data)
+static gboolean __osinfoFixOsLinks(OsinfoList *list, OsinfoEntity *entity, gpointer data)
 {
-    struct __osinfoDbRet *dbRet = (struct __osinfoDbRet *) data;
+    struct __osinfoDbRet *dbRet = data;
     int *ret = dbRet->ret;
-    OsinfoOs *os = OSINFO_OS(value);
+    OsinfoOs *os = OSINFO_OS(entity);
     if (!os) {
         *ret = -EINVAL;
         return TRUE;
@@ -142,11 +145,11 @@ static gboolean __osinfoFixOsLinks(gpointer key, gpointer value, gpointer data)
     return FALSE;
 }
 
-static gboolean __osinfoFixHvLinks(gpointer key, gpointer value, gpointer data)
+static gboolean __osinfoFixHvLinks(OsinfoList *list, OsinfoEntity *entity, gpointer data)
 {
-    struct __osinfoDbRet *dbRet = (struct __osinfoDbRet *) data;
+    struct __osinfoDbRet *dbRet = data;
     int *ret = dbRet->ret;
-    OsinfoHypervisor *hv = OSINFO_HYPERVISOR(value);
+    OsinfoHypervisor *hv = OSINFO_HYPERVISOR(entity);
     if (!hv) {
         *ret = -EINVAL;
         return TRUE;
@@ -166,11 +169,13 @@ static int __osinfoFixObjLinks(OsinfoDb *db)
         return -EINVAL;
 
     struct __osinfoDbRet dbRet = {db, &ret};
+    OsinfoHypervisorList *hypervisors = osinfo_db_get_hypervisor_list(db);
+    OsinfoOsList *oses = osinfo_db_get_os_list(db);
 
-    g_tree_foreach(db->priv->hypervisors, __osinfoFixHvLinks, &dbRet);
+    osinfo_list_foreach(OSINFO_LIST(hypervisors), __osinfoFixHvLinks, &dbRet);
     if (ret)
         return ret;
-    g_tree_foreach(db->priv->oses, __osinfoFixOsLinks, &dbRet);
+    osinfo_list_foreach(OSINFO_LIST(oses), __osinfoFixOsLinks, &dbRet);
 
     return ret;
 }
@@ -426,6 +431,7 @@ static int __osinfoProcessOs(OsinfoDb *db,
     gchar* id, * key = NULL, * val = NULL;
     const gchar* name;
     OsinfoOs *os;
+    OsinfoOsList *oses = osinfo_db_get_os_list(db);
 
     id = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");
     empty = xmlTextReaderIsEmptyElement(reader);
@@ -518,7 +524,7 @@ static int __osinfoProcessOs(OsinfoDb *db,
     }
 
 finished:
-    osinfo_db_add_os(db, os);
+    osinfo_list_add(OSINFO_LIST(oses), OSINFO_ENTITY(os));
     return 0;
     /* At end, cursor is at end of os node */
 
@@ -544,6 +550,7 @@ static int __osinfoProcessHypervisor(OsinfoDb *db,
     gchar* id;
     const gchar * name;
     OsinfoHypervisor *hv;
+    OsinfoHypervisorList *hypervisors = osinfo_db_get_hypervisor_list(db);
 
     id = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");
     empty = xmlTextReaderIsEmptyElement(reader);
@@ -625,7 +632,7 @@ static int __osinfoProcessHypervisor(OsinfoDb *db,
     }
 
 finished:
-    osinfo_db_add_hypervisor(db, hv);
+    osinfo_list_add(OSINFO_LIST(hypervisors), OSINFO_ENTITY(hv));
     return 0;
     /* At end, cursor is at end of hv node */
 
@@ -651,6 +658,7 @@ static int __osinfoProcessDevice(OsinfoDb *db,
     gchar* id, * key, * val;
     const gchar* name;
     OsinfoDevice *dev;
+    OsinfoDeviceList *devices = osinfo_db_get_device_list(db);
 
     id = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");
     empty = xmlTextReaderIsEmptyElement(reader);
@@ -716,7 +724,7 @@ static int __osinfoProcessDevice(OsinfoDb *db,
 
 finished:
     // Add dev to db
-    osinfo_db_add_device(db, dev);
+    osinfo_list_add(OSINFO_LIST(devices), OSINFO_ENTITY(dev));
     return 0;
     /* At end, cursor is at end of device node */
 

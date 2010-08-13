@@ -4,6 +4,19 @@ G_DEFINE_TYPE (OsinfoDb, osinfo_db, G_TYPE_OBJECT);
 
 #define OSINFO_DB_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_DB, OsinfoDbPrivate))
 
+struct _OsinfoDbPrivate
+{
+    int ready;
+
+    gchar *backing_dir;
+    gchar *libvirt_ver;
+
+    OsinfoDeviceList *devices;
+    OsinfoHypervisorList *hypervisors;
+    OsinfoOsList *oses;
+};
+
+
 static void osinfo_db_set_property(GObject * object, guint prop_id,
                                          const GValue * value,
                                          GParamSpec * pspec);
@@ -27,9 +40,9 @@ osinfo_db_finalize (GObject *object)
     g_free (self->priv->backing_dir);
     g_free (self->priv->libvirt_ver);
 
-    g_tree_destroy(self->priv->devices);
-    g_tree_destroy(self->priv->hypervisors);
-    g_tree_destroy(self->priv->oses);
+    g_object_unref(self->priv->devices);
+    g_object_unref(self->priv->hypervisors);
+    g_object_unref(self->priv->oses);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_db_parent_class)->finalize (object);
@@ -126,9 +139,9 @@ osinfo_db_init (OsinfoDb *self)
     OsinfoDbPrivate *priv;
     self->priv = priv = OSINFO_DB_GET_PRIVATE(self);
 
-    self->priv->devices = g_tree_new_full(__osinfoStringCompare, NULL, g_free, g_object_unref);
-    self->priv->hypervisors = g_tree_new_full(__osinfoStringCompare, NULL, g_free, g_object_unref);
-    self->priv->oses = g_tree_new_full(__osinfoStringCompare, NULL, g_free, g_object_unref);
+    self->priv->devices = osinfo_devicelist_new();
+    self->priv->hypervisors = osinfo_hypervisorlist_new();
+    self->priv->oses = osinfo_oslist_new();
 
     self->priv->ready = 0;
 }
@@ -162,7 +175,7 @@ OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *self, gchar *id)
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
     g_return_val_if_fail(id != NULL, NULL);
 
-    return g_tree_lookup(self->priv->hypervisors, id);
+    return OSINFO_HYPERVISOR(osinfo_list_find_by_id(OSINFO_LIST(self->priv->hypervisors), id));
 }
 
 OsinfoDevice *osinfo_db_get_device(OsinfoDb *self, gchar *id)
@@ -170,7 +183,7 @@ OsinfoDevice *osinfo_db_get_device(OsinfoDb *self, gchar *id)
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
     g_return_val_if_fail(id != NULL, NULL);
 
-    return g_tree_lookup(self->priv->devices, id);
+    return OSINFO_DEVICE(osinfo_list_find_by_id(OSINFO_LIST(self->priv->hypervisors), id));
 }
 
 OsinfoOs *osinfo_db_get_os(OsinfoDb *self, gchar *id)
@@ -178,72 +191,36 @@ OsinfoOs *osinfo_db_get_os(OsinfoDb *self, gchar *id)
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
     g_return_val_if_fail(id != NULL, NULL);
 
-    return g_tree_lookup(self->priv->oses, id);
+    return OSINFO_OS(osinfo_list_find_by_id(OSINFO_LIST(self->priv->oses), id));
 }
 
-static gboolean __osinfoFilteredAddToList(gpointer key, gpointer value, gpointer data)
-{
-    struct __osinfoPopulateListArgs *args;
-    args = (struct __osinfoPopulateListArgs *) data;
-    OsinfoFilter *filter = args->filter;
-    OsinfoList *list = args->list;
 
-    // Key is string ID, value is pointer to entity
-    OsinfoEntity *entity = (OsinfoEntity *) value;
-    if (__osinfoEntityPassesFilter(filter, entity)) {
-        osinfo_list_add(list, entity);
-    }
-
-    return FALSE; // continue iteration
-}
-
-static void osinfo_db_populate_list(GTree *entities, OsinfoList *newList, OsinfoFilter *filter)
-{
-    struct __osinfoPopulateListArgs args = { filter, newList};
-    g_tree_foreach(entities, __osinfoFilteredAddToList, &args);
-}
-
-OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self, OsinfoFilter *filter)
+OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self)
 {
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
-    g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
 
-    // Create list
-    OsinfoOsList *newList = osinfo_oslist_new();
-    osinfo_db_populate_list(self->priv->oses, OSINFO_LIST (newList), filter);
-    return newList;
+    return self->priv->oses;
 }
 
-OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self, OsinfoFilter *filter)
+OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self)
 {
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
-    g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
 
-    // Create list
-    OsinfoHypervisorList *newList = osinfo_hypervisorlist_new();
-    osinfo_db_populate_list(self->priv->hypervisors, OSINFO_LIST (newList), filter);
-    return newList;
+    return self->priv->hypervisors;
 }
 
-OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self, OsinfoFilter *filter)
+OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self)
 {
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
-    g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
 
-    // Create list
-    OsinfoDeviceList *newList = osinfo_devicelist_new();
-    osinfo_db_populate_list(self->priv->devices, OSINFO_LIST (newList), filter);
-    return newList;
+    return self->priv->devices;
 }
 
-static gboolean osinfo_db_get_property_values_in_entity(gpointer key, gpointer value, gpointer data)
+static gboolean osinfo_db_get_property_values_in_entity(OsinfoList *list, OsinfoEntity *entity, gpointer data)
 {
-    struct __osinfoPopulateValuesArgs *args;
-    args = (struct __osinfoPopulateValuesArgs *) data;
+    struct __osinfoPopulateValuesArgs *args = data;
     GTree *values = args->values;
     gchar *property = args->property;
-
-    OsinfoEntity *entity = OSINFO_ENTITY (value);
     GPtrArray *valueArray = NULL;
 
     valueArray = g_tree_lookup(entity->priv->params, property);
@@ -275,12 +252,12 @@ static gboolean __osinfoPutKeysInList(gpointer key, gpointer value, gpointer dat
 }
 
 
-static GPtrArray *osinfo_db_unique_values_for_property_in_entity(GTree *entities, gchar *propName)
+static GPtrArray *osinfo_db_unique_values_for_property_in_entity(OsinfoList *entities, gchar *propName)
 {
     GTree *values = g_tree_new(__osinfoStringCompareBase);
 
     struct __osinfoPopulateValuesArgs args = { values, propName};
-    g_tree_foreach(entities, osinfo_db_get_property_values_in_entity, &args);
+    osinfo_list_foreach(entities, osinfo_db_get_property_values_in_entity, &args);
 
     // For each key in tree, add to gptrarray
     GPtrArray *valuesList = g_ptr_array_sized_new(g_tree_nnodes(values));
@@ -296,7 +273,7 @@ GPtrArray *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, gchar *pro
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
     g_return_val_if_fail(propName != NULL, NULL);
 
-    return osinfo_db_unique_values_for_property_in_entity(self->priv->oses, propName);
+    return osinfo_db_unique_values_for_property_in_entity(OSINFO_LIST(self->priv->oses), propName);
 }
 
 // Get me all unique values for property "vendor" among hypervisors
@@ -305,7 +282,7 @@ GPtrArray *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, gchar *pro
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
     g_return_val_if_fail(propName != NULL, NULL);
 
-    return osinfo_db_unique_values_for_property_in_entity(self->priv->hypervisors, propName);
+    return osinfo_db_unique_values_for_property_in_entity(OSINFO_LIST(self->priv->hypervisors), propName);
 }
 
 // Get me all unique values for property "vendor" among devices
@@ -314,20 +291,19 @@ GPtrArray *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, gchar *pr
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
     g_return_val_if_fail(propName != NULL, NULL);
 
-    return osinfo_db_unique_values_for_property_in_entity(self->priv->devices, propName);
+    return osinfo_db_unique_values_for_property_in_entity(OSINFO_LIST(self->priv->devices), propName);
 }
 
-static gboolean __osinfoAddOsIfRelationship(gpointer key, gpointer value, gpointer data)
+static gboolean __osinfoAddOsIfRelationship(OsinfoList *list, OsinfoEntity *entity, gpointer data)
 {
-    OsinfoOs *os = (OsinfoOs *) value;
-    struct __osinfoOsCheckRelationshipArgs *args;
-    args = (struct __osinfoOsCheckRelationshipArgs *) data;
-    OsinfoList *list = args->list;
+    struct __osinfoOsCheckRelationshipArgs *args = data;
+    OsinfoOs *os = OSINFO_OS(entity);
+    OsinfoList *newList = args->list;
 
     GPtrArray *relatedOses = NULL;
     relatedOses = g_tree_lookup(os->priv->relationshipsByType, (gpointer) args->relshp);
     if (relatedOses) {
-        osinfo_list_add(list, OSINFO_ENTITY (os));
+        osinfo_list_add(newList, OSINFO_ENTITY (os));
     }
 
     return FALSE;
@@ -343,29 +319,7 @@ OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, osinfo
 
     struct __osinfoOsCheckRelationshipArgs args = {OSINFO_LIST (newList), relshp};
 
-    g_tree_foreach(self->priv->oses, __osinfoAddOsIfRelationship, &args);
+    osinfo_list_foreach(OSINFO_LIST(self->priv->oses), __osinfoAddOsIfRelationship, &args);
 
     return newList;
-}
-
-
-void osinfo_db_add_device(OsinfoDb *db, OsinfoDevice *dev)
-{
-    gchar *id;
-    g_object_get(G_OBJECT(dev), "id", &id, NULL);
-    g_tree_insert(db->priv->devices, id, dev);
-}
-
-void osinfo_db_add_hypervisor(OsinfoDb *db, OsinfoHypervisor *hv)
-{
-    gchar *id;
-    g_object_get(G_OBJECT(hv), "id", &id, NULL);
-    g_tree_insert(db->priv->hypervisors, id, hv);
-}
-
-void osinfo_db_add_os(OsinfoDb *db, OsinfoOs *os)
-{
-    gchar *id;
-    g_object_get(G_OBJECT(os), "id", &id, NULL);
-    g_tree_insert(db->priv->oses, id, os);
 }
