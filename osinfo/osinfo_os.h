@@ -50,8 +50,8 @@ struct _OsinfoOsClass
 
 GType osinfo_os_get_type(void);
 
-OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter, GError **err);
-OsinfoOsList *osinfo_os_get_related(OsinfoOs *self, osinfoRelationship relshp, GError **err);
-OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter, GError **err);
+OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter);
+OsinfoOsList *osinfo_os_get_related(OsinfoOs *self, osinfoRelationship relshp);
+OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter);
 
 #endif /* __OSINFO_OS_H__ */

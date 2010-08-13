@@ -54,43 +54,22 @@ void __osinfoClearDeviceSectionHv(OsinfoHypervisor *self, gchar *section)
     __osinfoClearDeviceSection(self->priv->sections, self->priv->sectionsAsList, section);
 }
 
-GPtrArray *osinfo_hypervisor_get_device_types(OsinfoHypervisor *self, GError **err)
+GPtrArray *osinfo_hypervisor_get_device_types(OsinfoHypervisor *self)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
-
-    if (!OSINFO_IS_HYPERVISOR(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_HV);
-        return NULL;
-    }
+    g_return_val_if_fail(OSINFO_IS_HYPERVISOR(self), NULL);
 
     GPtrArray *deviceTypes = g_ptr_array_sized_new(g_tree_nnodes(self->priv->sections));
 
     // For each key in our tree of device sections, dup and add to the array
-    struct __osinfoPtrArrayErr arrayErr = {deviceTypes, 0};
-    g_tree_foreach(self->priv->sections, osinfo_get_keys, &arrayErr);
+    g_tree_foreach(self->priv->sections, osinfo_get_keys, deviceTypes);
     return deviceTypes;
 }
 
-OsinfoDeviceList *osinfo_hypervisor_get_devices_by_type(OsinfoHypervisor *self, gchar *devType, OsinfoFilter *filter, GError **err)
+OsinfoDeviceList *osinfo_hypervisor_get_devices_by_type(OsinfoHypervisor *self, gchar *devType, OsinfoFilter *filter)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
-
-    if (!OSINFO_IS_HYPERVISOR(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_HV);
-        return NULL;
-    }
-
-    if (filter && !OSINFO_IS_FILTER(filter)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_FILTER);
-        return NULL;
-    }
-
-    if (!devType) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_NO_DEVTYPE);
-        return NULL;
-    }
+    g_return_val_if_fail(OSINFO_IS_HYPERVISOR(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
+    g_return_val_if_fail(devType != NULL, NULL);
 
     // Create our device list
     OsinfoDeviceList *newList = g_object_new(OSINFO_TYPE_DEVICELIST, NULL);

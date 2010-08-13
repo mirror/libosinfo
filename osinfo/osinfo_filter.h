@@ -48,17 +48,17 @@ struct _OsinfoFilterClass
 
 GType osinfo_filter_get_type(void);
 
-gint osinfo_filter_add_constraint(OsinfoFilter *self, gchar *propName, gchar *propVal, GError **err);
+gint osinfo_filter_add_constraint(OsinfoFilter *self, gchar *propName, gchar *propVal);
 
 // Only applicable to OSes, ignored by other types of objects
-gint osinfo_filter_add_relation_constraint(OsinfoFilter *self, osinfoRelationship relshp, OsinfoOs *os, GError **err);
+gint osinfo_filter_add_relation_constraint(OsinfoFilter *self, osinfoRelationship relshp, OsinfoOs *os);
 
 void osinfo_filter_clear_constraint(OsinfoFilter *self, gchar *propName);
 void osinfo_filter_clear_relationship_constraint(OsinfoFilter *self, osinfoRelationship relshp);
 void osinfo_filter_clear_all_constraints(OsinfoFilter *self);
 
-GPtrArray *osinfo_filter_get_constraint_keys(OsinfoFilter *self, GError **err);
-GPtrArray *osinfo_filter_get_constraint_values(OsinfoFilter *self, gchar *propName, GError **err);
-OsinfoOsList *osinfo_filter_get_relationship_constraint_value(OsinfoFilter *self, osinfoRelationship relshp, GError **err);
+GPtrArray *osinfo_filter_get_constraint_keys(OsinfoFilter *self);
+GPtrArray *osinfo_filter_get_constraint_values(OsinfoFilter *self, gchar *propName);
+OsinfoOsList *osinfo_filter_get_relationship_constraint_value(OsinfoFilter *self, osinfoRelationship relshp);
 
 #endif /* __OSINFO_FILTER_H__ */

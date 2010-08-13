@@ -35,31 +35,12 @@ osinfo_device_init (OsinfoDevice *self)
 gchar *osinfo_device_get_driver(OsinfoDevice *self,
 				gchar *devType,
 				OsinfoOs *os,
-				OsinfoHypervisor *hv,
-				GError **err)
+				OsinfoHypervisor *hv)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
-
-    if (!OSINFO_IS_DEVICE(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_DEVICE);
-        return NULL;
-    }
-
-    if (!OSINFO_IS_OS(os)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_OS);
-        return NULL;
-    }
-
-    if (!OSINFO_IS_HYPERVISOR(hv)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_HV);
-        return NULL;
-    }
-
-    if (!devType) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_NO_DEVTYPE);
-        return NULL;
-    }
+    g_return_val_if_fail(OSINFO_IS_DEVICE(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+    g_return_val_if_fail(OSINFO_IS_HYPERVISOR(hv), NULL);
+    g_return_val_if_fail(devType != NULL, NULL);
 
     gchar *driver = NULL;
 

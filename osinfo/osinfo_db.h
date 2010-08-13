@@ -68,25 +68,25 @@ OsinfoDb *osinfo_db_new(const gchar *backingDir);
 
 int osinfo_db_initialize(OsinfoDb *self, GError **err);
 
-OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *self, gchar *hvId, GError **err);
-OsinfoDevice *osinfo_db_get_device(OsinfoDb *self, gchar *devId, GError **err);
-OsinfoOs *osinfo_db_get_os(OsinfoDb *self, gchar *osId, GError **err);
+OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *self, gchar *hvId);
+OsinfoDevice *osinfo_db_get_device(OsinfoDb *self, gchar *devId);
+OsinfoOs *osinfo_db_get_os(OsinfoDb *self, gchar *osId);
 
-OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self, OsinfoFilter *filter, GError **err);
-OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self, OsinfoFilter *filter, GError **err);
-OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self, OsinfoFilter *filter, GError **err);
+OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self, OsinfoFilter *filter);
+OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self, OsinfoFilter *filter);
+OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self, OsinfoFilter *filter);
 
 // Get me all unique values for property "vendor" among operating systems
-GPtrArray *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, gchar *propName, GError **err);
+GPtrArray *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, gchar *propName);
 
 // Get me all unique values for property "vendor" among hypervisors
-GPtrArray *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, gchar *propName, GError **err);
+GPtrArray *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, gchar *propName);
 
 // Get me all unique values for property "vendor" among devices
-GPtrArray *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, gchar *propName, GError **err);
+GPtrArray *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, gchar *propName);
 
 // Get me all OSes that 'upgrade' another OS (or whatever relationship is specified)
-OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, osinfoRelationship relshp, GError **err);
+OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, osinfoRelationship relshp);
 
 void osinfo_db_add_device(OsinfoDb *db, OsinfoDevice *dev);
 void osinfo_db_add_hypervisor(OsinfoDb *db, OsinfoHypervisor *hv);

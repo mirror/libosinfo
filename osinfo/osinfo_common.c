@@ -296,19 +296,6 @@ int __osinfoHypervisorPassesFilter(OsinfoFilter *filter, OsinfoHypervisor *hyper
     return __osinfoEntityPassesFilter(filter, OSINFO_ENTITY (hypervisor));
 }
 
-int __osinfoCheckGErrorParamValid(GError **err)
-{
-    // If err is not null and *err is not null, then invalid
-    if (err && *err)
-        return 0;
-    else return 1;
-}
-
-int __osinfoCheckRelationshipValid(osinfoRelationship relshp)
-{
-    return (relshp > RELATIONSHIP_MIN && relshp < RELATIONSHIP_MAX);
-}
-
 gchar *__osinfoErrorToString(int err)
 {
     switch (err) {

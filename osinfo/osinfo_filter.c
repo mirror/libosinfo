@@ -48,25 +48,11 @@ osinfo_filter_init (OsinfoFilter *self)
 }
 
 
-gint osinfo_filter_add_constraint(OsinfoFilter *self, gchar *propName, gchar *propVal, GError **err)
+gint osinfo_filter_add_constraint(OsinfoFilter *self, gchar *propName, gchar *propVal)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return -EINVAL;
-
-    if (!OSINFO_IS_FILTER(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_FILTER);
-        return -EINVAL;
-    }
-
-    if (!propName) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_NO_PROPNAME);
-        return -EINVAL;
-    }
-
-    if (!propVal) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_NO_PROPVAL);
-        return -EINVAL;
-    }
+    g_return_val_if_fail(OSINFO_IS_FILTER(self), -1);
+    g_return_val_if_fail(propName != NULL, -1);
+    g_return_val_if_fail(propVal != NULL, -1);
 
     // First check if there exists an array of entries for this key
     // If not, create a ptrarray of strings for this key and insert into map
@@ -93,25 +79,10 @@ gint osinfo_filter_add_constraint(OsinfoFilter *self, gchar *propName, gchar *pr
 }
 
 // Only applicable to OSes, ignored by other types of objects
-gint osinfo_filter_add_relation_constraint(OsinfoFilter *self, osinfoRelationship relshp, OsinfoOs *os, GError **err)
+gint osinfo_filter_add_relation_constraint(OsinfoFilter *self, osinfoRelationship relshp, OsinfoOs *os)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return -EINVAL;
-
-    if (!OSINFO_IS_FILTER(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_FILTER);
-        return -EINVAL;
-    }
-
-    if (!__osinfoCheckRelationshipValid(relshp)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_INVALID_RELATIONSHIP);
-        return -EINVAL;
-    }
-
-    if (!OSINFO_IS_OS(os)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_OS);
-        return -EINVAL;
-    }
+    g_return_val_if_fail(OSINFO_IS_FILTER(self), -1);
+    g_return_val_if_fail(OSINFO_IS_OS(os), -1);
 
     // First check if there exists an array of entries for this key
     // If not, create a ptrarray of strings for this key and insert into map
@@ -157,49 +128,22 @@ void osinfo_filter_clear_all_constraints(OsinfoFilter *self)
 }
 
 // get keyset for constraints map
-GPtrArray *osinfo_filter_get_constraint_keys(OsinfoFilter *self, GError **err)
+GPtrArray *osinfo_filter_get_constraint_keys(OsinfoFilter *self)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
-
-    if (!OSINFO_IS_FILTER(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_FILTER);
-        return NULL;
-    }
+    g_return_val_if_fail(OSINFO_IS_FILTER(self), NULL);
 
     GPtrArray *constraints = g_ptr_array_new();
 
-    struct __osinfoPtrArrayErr arrayErr = {constraints, 0};
-    g_tree_foreach(self->priv->propertyConstraints, osinfo_get_keys, &arrayErr);
-
-    // If we had an error, cleanup and return NULL
-    if (arrayErr.err != 0) {
-        int i;
-        for (i = 0; i < constraints->len; i++)
-            g_free(g_ptr_array_index(constraints, i));
-        g_ptr_array_free(constraints, TRUE);
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), arrayErr.err, __osinfoErrorToString(arrayErr.err));
-        return NULL;
-    }
+    g_tree_foreach(self->priv->propertyConstraints, osinfo_get_keys, constraints);
 
     return constraints;
 }
 
 // get values for given key
-GPtrArray *osinfo_filter_get_constraint_values(OsinfoFilter *self, gchar *propName, GError **err)
+GPtrArray *osinfo_filter_get_constraint_values(OsinfoFilter *self, gchar *propName)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
-
-    if (!OSINFO_IS_FILTER(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_FILTER);
-        return NULL;
-    }
-
-    if (!propName) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_NO_PROPNAME);
-        return NULL;
-    }
+    g_return_val_if_fail(OSINFO_IS_FILTER(self), NULL);
+    g_return_val_if_fail(propName != NULL, NULL);
 
     gboolean found;
     gpointer origKey, value;
@@ -214,33 +158,15 @@ GPtrArray *osinfo_filter_get_constraint_values(OsinfoFilter *self, gchar *propNa
     if (srcArray->len == 0)
         return retArray;
 
-    struct __osinfoPtrArrayErr arrayErr = {retArray, 0};
-    g_ptr_array_foreach(srcArray, osinfo_dup_array, &arrayErr);
-    if (arrayErr.err) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), arrayErr.err, __osinfoErrorToString(arrayErr.err));
-        g_ptr_array_set_free_func(retArray, g_free);
-        g_ptr_array_free(retArray, TRUE);
-        return NULL;
-    }
+    g_ptr_array_foreach(srcArray, osinfo_dup_array, retArray);
 
     return retArray;
 }
 
 // get oses for given relshp
-OsinfoOsList *osinfo_filter_get_relationship_constraint_value(OsinfoFilter *self, osinfoRelationship relshp, GError **err)
+OsinfoOsList *osinfo_filter_get_relationship_constraint_value(OsinfoFilter *self, osinfoRelationship relshp)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
-
-    if (!OSINFO_IS_FILTER(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_FILTER);
-        return NULL;
-    }
-
-    if (!__osinfoCheckRelationshipValid(relshp)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_INVALID_RELATIONSHIP);
-        return NULL;
-    }
+    g_return_val_if_fail(OSINFO_IS_FILTER(self), NULL);
 
     // Create our list
     OsinfoOsList *newList = g_object_new(OSINFO_TYPE_OSLIST, NULL);

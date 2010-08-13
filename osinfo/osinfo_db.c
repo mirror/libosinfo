@@ -17,7 +17,6 @@ enum OSI_DB_PROPERTIES {
 
     OSI_DB_BACKING_DIR,
     OSI_DB_LIBVIRT_VER,
-    OSI_DB_ERROR
 };
 
 static void
@@ -56,9 +55,6 @@ osinfo_db_set_property (GObject      *object,
         self->priv->libvirt_ver = g_value_dup_string (value);
         break;
 
-      case OSI_DB_ERROR:
-        break;
-
       default:
         /* We don't have any other property... */
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -82,10 +78,6 @@ osinfo_db_get_property (GObject    *object,
 
       case OSI_DB_LIBVIRT_VER:
         g_value_set_string (value, self->priv->libvirt_ver);
-        break;
-
-      case OSI_DB_ERROR:
-        g_value_set_pointer(value, self->priv->error);
         break;
 
       default:
@@ -124,14 +116,6 @@ osinfo_db_class_init (OsinfoDbClass *klass)
                                      OSI_DB_LIBVIRT_VER,
                                      pspec);
 
-    pspec = g_param_spec_pointer ("error",
-                                  "Error",
-                                  "GError object for db",
-                                  G_PARAM_READABLE);
-    g_object_class_install_property (g_klass,
-                                     OSI_DB_ERROR,
-                                     pspec);
-
     g_type_class_add_private (klass, sizeof (OsinfoDbPrivate));
 }
 
@@ -146,7 +130,6 @@ osinfo_db_init (OsinfoDb *self)
     self->priv->hypervisors = g_tree_new_full(__osinfoStringCompare, NULL, g_free, g_object_unref);
     self->priv->oses = g_tree_new_full(__osinfoStringCompare, NULL, g_free, g_object_unref);
 
-    self->priv->error = NULL;
     self->priv->ready = 0;
 }
 
@@ -174,56 +157,26 @@ int osinfo_db_initialize(OsinfoDb *self, GError **err)
     return ret;
 }
 
-OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *self, gchar *id, GError **err)
+OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *self, gchar *id)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
-
-    if (!OSINFO_IS_DB(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_DB);
-        return NULL;
-    }
-
-    if (!id) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_NO_ID);
-        return NULL;
-    }
+    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
+    g_return_val_if_fail(id != NULL, NULL);
 
     return g_tree_lookup(self->priv->hypervisors, id);
 }
 
-OsinfoDevice *osinfo_db_get_device(OsinfoDb *self, gchar *id, GError **err)
+OsinfoDevice *osinfo_db_get_device(OsinfoDb *self, gchar *id)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
-
-    if (!OSINFO_IS_DB(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_DB);
-        return NULL;
-    }
-
-    if (!id) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_NO_ID);
-        return NULL;
-    }
+    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
+    g_return_val_if_fail(id != NULL, NULL);
 
     return g_tree_lookup(self->priv->devices, id);
 }
 
-OsinfoOs *osinfo_db_get_os(OsinfoDb *self, gchar *id, GError **err)
+OsinfoOs *osinfo_db_get_os(OsinfoDb *self, gchar *id)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
-
-    if (!OSINFO_IS_DB(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_DB);
-        return NULL;
-    }
-
-    if (!id) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_NO_ID);
-        return NULL;
-    }
+    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
+    g_return_val_if_fail(id != NULL, NULL);
 
     return g_tree_lookup(self->priv->oses, id);
 }
@@ -250,20 +203,10 @@ static void osinfo_db_populate_list(GTree *entities, OsinfoList *newList, Osinfo
     g_tree_foreach(entities, __osinfoFilteredAddToList, &args);
 }
 
-OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self, OsinfoFilter *filter, GError **err)
+OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self, OsinfoFilter *filter)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
-
-    if (!OSINFO_IS_DB(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_DB);
-        return NULL;
-    }
-
-    if (filter && !OSINFO_IS_FILTER(filter)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_FILTER);
-        return NULL;
-    }
+    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
 
     // Create list
     OsinfoOsList *newList = g_object_new(OSINFO_TYPE_OSLIST, NULL);
@@ -271,17 +214,10 @@ OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self, OsinfoFilter *filter, GError
     return newList;
 }
 
-OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self, OsinfoFilter *filter, GError **err)
+OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self, OsinfoFilter *filter)
 {
-    if (!OSINFO_IS_DB(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_DB);
-        return NULL;
-    }
-
-    if (filter && !OSINFO_IS_FILTER(filter)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_FILTER);
-        return NULL;
-    }
+    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
 
     // Create list
     OsinfoHypervisorList *newList = g_object_new(OSINFO_TYPE_HYPERVISORLIST, NULL);
@@ -289,17 +225,10 @@ OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self, OsinfoFilter
     return newList;
 }
 
-OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self, OsinfoFilter *filter, GError **err)
+OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self, OsinfoFilter *filter)
 {
-    if (!OSINFO_IS_DB(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_DB);
-        return NULL;
-    }
-
-    if (filter && !OSINFO_IS_FILTER(filter)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_FILTER);
-        return NULL;
-    }
+    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
 
     // Create list
     OsinfoDeviceList *newList = g_object_new(OSINFO_TYPE_DEVICELIST, NULL);
@@ -346,7 +275,7 @@ static gboolean __osinfoPutKeysInList(gpointer key, gpointer value, gpointer dat
 }
 
 
-static GPtrArray *osinfo_db_unique_values_for_property_in_entity(GTree *entities, gchar *propName, GError **err)
+static GPtrArray *osinfo_db_unique_values_for_property_in_entity(GTree *entities, gchar *propName)
 {
     GTree *values = g_tree_new(__osinfoStringCompareBase);
 
@@ -362,60 +291,30 @@ static GPtrArray *osinfo_db_unique_values_for_property_in_entity(GTree *entities
 }
 
 // Get me all unique values for property "vendor" among operating systems
-GPtrArray *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, gchar *propName, GError **err)
+GPtrArray *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, gchar *propName)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
+    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
+    g_return_val_if_fail(propName != NULL, NULL);
 
-    if (!OSINFO_IS_DB(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_DB);
-        return NULL;
-    }
-
-    if (!propName) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_NO_PROPNAME);
-        return NULL;
-    }
-
-    return osinfo_db_unique_values_for_property_in_entity(self->priv->oses, propName, err);
+    return osinfo_db_unique_values_for_property_in_entity(self->priv->oses, propName);
 }
 
 // Get me all unique values for property "vendor" among hypervisors
-GPtrArray *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, gchar *propName, GError **err)
+GPtrArray *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, gchar *propName)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
+    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
+    g_return_val_if_fail(propName != NULL, NULL);
 
-    if (!OSINFO_IS_DB(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_DB);
-        return NULL;
-    }
-
-    if (!propName) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_NO_PROPNAME);
-        return NULL;
-    }
-
-    return osinfo_db_unique_values_for_property_in_entity(self->priv->hypervisors, propName, err);
+    return osinfo_db_unique_values_for_property_in_entity(self->priv->hypervisors, propName);
 }
 
 // Get me all unique values for property "vendor" among devices
-GPtrArray *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, gchar *propName, GError **err)
+GPtrArray *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, gchar *propName)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
+    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
+    g_return_val_if_fail(propName != NULL, NULL);
 
-    if (!OSINFO_IS_DB(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_DB);
-        return NULL;
-    }
-
-    if (!propName) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_NO_PROPNAME);
-        return NULL;
-    }
-
-    return osinfo_db_unique_values_for_property_in_entity(self->priv->devices, propName, err);
+    return osinfo_db_unique_values_for_property_in_entity(self->priv->devices, propName);
 }
 
 static gboolean __osinfoAddOsIfRelationship(gpointer key, gpointer value, gpointer data)
@@ -435,20 +334,9 @@ static gboolean __osinfoAddOsIfRelationship(gpointer key, gpointer value, gpoint
 }
 
 // Get me all OSes that 'upgrade' another OS (or whatever relationship is specified)
-OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, osinfoRelationship relshp, GError **err)
+OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, osinfoRelationship relshp)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
-
-    if (!OSINFO_IS_DB(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_DB);
-        return NULL;
-    }
-
-    if (!__osinfoCheckRelationshipValid(relshp)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_INVALID_RELATIONSHIP);
-        return NULL;
-    }
+    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
 
     // Create list
     OsinfoOsList *newList = g_object_new(OSINFO_TYPE_OSLIST, NULL);

@@ -218,31 +218,12 @@ void __osinfoRemoveHvSectionFromOs(OsinfoOs *self, gchar *hvId)
     g_tree_remove(self->priv->hypervisors, hvId);
 }
 
-OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter, GError **err)
+OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
-
-    if (!OSINFO_IS_OS(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_OS);
-        return NULL;
-    }
-
-    if (hv && !OSINFO_IS_HYPERVISOR(hv)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_HV);
-        return NULL;
-    }
-
-    if (!devType) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_NO_DEVTYPE);
-        return NULL;
-    }
-
-    if (filter && !OSINFO_IS_FILTER(filter)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_FILTER);
-        return NULL;
-    }
-
+    g_return_val_if_fail(OSINFO_IS_OS(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_HYPERVISOR(hv), NULL);
+    g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
+    g_return_val_if_fail(devType != NULL, NULL);
     // Check if device type info present for <os,hv>, else return NULL.
 
     GPtrArray *sectionList = NULL;
@@ -276,20 +257,9 @@ OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *h
     return NULL;
 }
 
-OsinfoOsList *osinfo_os_get_related(OsinfoOs *self, osinfoRelationship relshp, GError **err)
+OsinfoOsList *osinfo_os_get_related(OsinfoOs *self, osinfoRelationship relshp)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
-
-    if (!OSINFO_IS_OS(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_OS);
-        return NULL;
-    }
-
-    if (!__osinfoCheckRelationshipValid(relshp)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_INVALID_RELATIONSHIP);
-        return NULL;
-    }
+    g_return_val_if_fail(OSINFO_IS_OS(self), NULL);
 
     // Create our list
     OsinfoOsList *newList = g_object_new(OSINFO_TYPE_OSLIST, NULL);
@@ -308,30 +278,12 @@ OsinfoOsList *osinfo_os_get_related(OsinfoOs *self, osinfoRelationship relshp, G
     return newList;
 }
 
-OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter, GError **err)
+OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
-
-    if (!OSINFO_IS_OS(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_OS);
-        return NULL;
-    }
-
-    if (!OSINFO_IS_HYPERVISOR(hv)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_HV);
-        return NULL;
-    }
-
-    if (!devType) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_NO_DEVTYPE);
-        return NULL;
-    }
-
-    if (filter && !OSINFO_IS_FILTER(filter)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_FILTER);
-        return NULL;
-    }
+    g_return_val_if_fail(OSINFO_IS_OS(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_HYPERVISOR(hv), NULL);
+    g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
+    g_return_val_if_fail(devType != NULL, NULL);
 
     GPtrArray *sectionList = NULL;
 

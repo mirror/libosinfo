@@ -25,11 +25,9 @@ typedef struct _OsinfoFilter     OsinfoFilter;
 typedef struct _OsinfoList       OsinfoList;
 
 typedef enum OSI_RELATIONSHIP {
-    RELATIONSHIP_MIN = 0,
     DERIVES_FROM,
     UPGRADES,
     CLONES,
-    RELATIONSHIP_MAX
 } osinfoRelationship;
 
 
@@ -59,11 +57,6 @@ struct __osinfoOsLink {
     OsinfoOs *subjectOs;
     osinfoRelationship verb;
     OsinfoOs *directObjectOs;
-};
-
-struct __osinfoPtrArrayErr {
-    GPtrArray *array;
-    int err;
 };
 
 struct __osinfoPopulateListArgs {
@@ -122,9 +115,6 @@ int __osinfoDevicePassesFilter(OsinfoFilter *filter, OsinfoDevice *device);
 int __osinfoOsPassesFilter(OsinfoFilter *filter, OsinfoOs *device);
 int __osinfoHypervisorPassesFilter(OsinfoFilter *filter, OsinfoHypervisor *device);
 
-int __osinfoCheckGErrorParamValid(GError **err);
-int __osinfoCheckRelationshipValid(osinfoRelationship relshp);
-
 /** ****************************************************************************
  *      Private structures for objects
  ******************************************************************************/
@@ -151,8 +141,6 @@ struct _OsinfoDbPrivate
     GTree *devices;
     GTree *hypervisors;
     GTree *oses;
-
-    GError *error;
 };
 
 struct _OsinfoDevicePrivate

@@ -147,8 +147,7 @@ void osinfo_entity_clear_param(OsinfoEntity *self, gchar *key)
 
 gboolean osinfo_get_keys(gpointer key, gpointer value, gpointer data)
 {
-    struct __osinfoPtrArrayErr *arrayErr = (struct __osinfoPtrArrayErr *) data;
-    GPtrArray *results = arrayErr->array;
+    GPtrArray *results = data;
     gchar *keyDup = g_strdup(key);
 
     g_ptr_array_add(results, keyDup);
@@ -157,74 +156,36 @@ gboolean osinfo_get_keys(gpointer key, gpointer value, gpointer data)
 
 void osinfo_dup_array(gpointer data, gpointer user_data)
 {
-    struct __osinfoPtrArrayErr *arrayErr = (struct __osinfoPtrArrayErr *) data;
-    GPtrArray *results = arrayErr->array;
-
-    if (arrayErr->err != 0)
-        return;
-
-    gchar *valueDup = g_strdup((gchar *)data);
+    GPtrArray *results = data;
+    gchar *valueDup = g_strdup(data);
 
     g_ptr_array_add(results, valueDup);
 }
 
-gchar *osinfo_entity_get_id(OsinfoEntity *self, GError **err)
+gchar *osinfo_entity_get_id(OsinfoEntity *self)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
-
-    if (!OSINFO_IS_ENTITY(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_ENTITY);
-        return NULL;
-    }
+    g_return_val_if_fail(OSINFO_IS_ENTITY(self), NULL);
 
     gchar *dupId = g_strdup(self->priv->id);
 
     return dupId;
 }
 
-GPtrArray *osinfo_entity_get_params(OsinfoEntity *self, GError **err)
+GPtrArray *osinfo_entity_get_params(OsinfoEntity *self)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
-
-    if (!OSINFO_IS_ENTITY(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_ENTITY);
-        return NULL;
-    }
+    g_return_val_if_fail(OSINFO_IS_ENTITY(self), NULL);
 
     GPtrArray *params = g_ptr_array_new();
 
-    struct __osinfoPtrArrayErr arrayErr = {params, 0};
-    g_tree_foreach(self->priv->params, osinfo_get_keys, &arrayErr);
-
-    // If we had an error, cleanup and return NULL
-    if (arrayErr.err != 0) {
-        int i;
-        for (i = 0; i < params->len; i++)
-            g_free(g_ptr_array_index(params, i));
-        g_ptr_array_free(params, TRUE);
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), arrayErr.err, __osinfoErrorToString(arrayErr.err));
-        return NULL;
-    }
+    g_tree_foreach(self->priv->params, osinfo_get_keys, params);
 
     return params;
 }
 
-gchar *osinfo_entity_get_param_value(OsinfoEntity *self, gchar *key, GError **err)
+gchar *osinfo_entity_get_param_value(OsinfoEntity *self, gchar *key)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
-
-    if (!OSINFO_IS_ENTITY(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_ENTITY);
-        return NULL;
-    }
-
-    if (!key) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_NO_PROPNAME);
-        return NULL;
-    }
+    g_return_val_if_fail(OSINFO_IS_ENTITY(self), NULL);
+    g_return_val_if_fail(key != NULL, NULL);
 
     gboolean found;
     gpointer origKey, value;
@@ -243,20 +204,10 @@ gchar *osinfo_entity_get_param_value(OsinfoEntity *self, gchar *key, GError **er
     return firstValueDup;
 }
 
-GPtrArray *osinfo_entity_get_param_all_values(OsinfoEntity *self, gchar *key, GError **err)
+GPtrArray *osinfo_entity_get_param_all_values(OsinfoEntity *self, gchar *key)
 {
-    if (!__osinfoCheckGErrorParamValid(err))
-        return NULL;
-
-    if (!OSINFO_IS_ENTITY(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_ENTITY);
-        return NULL;
-    }
-
-    if (!key) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_NO_PROPNAME);
-        return NULL;
-    }
+    g_return_val_if_fail(OSINFO_IS_ENTITY(self), NULL);
+    g_return_val_if_fail(key != NULL, NULL);
 
     gboolean found;
     gpointer origKey, value;
@@ -271,14 +222,7 @@ GPtrArray *osinfo_entity_get_param_all_values(OsinfoEntity *self, gchar *key, GE
     if (srcArray->len == 0)
         return retArray;
 
-    struct __osinfoPtrArrayErr arrayErr = {retArray, 0};
-    g_ptr_array_foreach(srcArray, osinfo_dup_array, &arrayErr);
-    if (arrayErr.err) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), arrayErr.err, __osinfoErrorToString(arrayErr.err));
-        g_ptr_array_set_free_func(retArray, g_free);
-        g_ptr_array_free(retArray, TRUE);
-        return NULL;
-    }
+    g_ptr_array_foreach(srcArray, osinfo_dup_array, retArray);
 
     return retArray;
 }
