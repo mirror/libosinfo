@@ -301,7 +301,7 @@ OsinfoOsList *osinfo_os_get_related(OsinfoOs *self, osinfoRelationship relshp, G
         len = relatedOses->len;
         for (i = 0; i < len; i++) {
             struct __osinfoOsLink *osLink = g_ptr_array_index(relatedOses, i);
-            __osinfo_list_add(OSINFO_LIST (newList), OSINFO_ENTITY (osLink->directObjectOs));
+            osinfo_list_add(OSINFO_LIST (newList), OSINFO_ENTITY (osLink->directObjectOs));
         }
     }
 
@@ -360,7 +360,7 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, gc
     for (i = 0; i < sectionList->len; i++) {
         deviceLink = g_ptr_array_index(sectionList, i);
         if (__osinfoDevicePassesFilter(filter, deviceLink->dev))
-            __osinfo_list_add(OSINFO_LIST (newList), OSINFO_ENTITY (deviceLink->dev));
+	    osinfo_list_add(OSINFO_LIST (newList), OSINFO_ENTITY (deviceLink->dev));
     }
 
     return NULL;

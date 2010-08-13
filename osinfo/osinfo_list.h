@@ -43,7 +43,7 @@ struct _OsinfoListClass
 GType osinfo_list_get_type(void);
 
 gint osinfo_list_get_length(OsinfoList *self);
-
+void osinfo_list_add(OsinfoList *self, OsinfoEntity *entity);
 OsinfoList *osinfo_list_filter(OsinfoList *self, OsinfoFilter *filter, GError **err);
 OsinfoEntity *osinfo_list_get_nth(OsinfoList *self, gint idx);
 OsinfoList *osinfo_list_intersect(OsinfoList *self, OsinfoList *otherList, GError **err);

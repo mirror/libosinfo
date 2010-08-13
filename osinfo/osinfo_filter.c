@@ -252,7 +252,7 @@ OsinfoOsList *osinfo_filter_get_relationship_constraint_value(OsinfoFilter *self
         len = relatedOses->len;
         for (i = 0; i < len; i++) {
              OsinfoOs *os = g_ptr_array_index(relatedOses, i);
-            __osinfo_list_add(OSINFO_LIST (newList), OSINFO_ENTITY (os));
+	     osinfo_list_add(OSINFO_LIST (newList), OSINFO_ENTITY (os));
         }
     }
 

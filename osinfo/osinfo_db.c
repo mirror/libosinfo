@@ -240,7 +240,7 @@ static gboolean __osinfoFilteredAddToList(gpointer key, gpointer value, gpointer
     // Key is string ID, value is pointer to entity
     OsinfoEntity *entity = (OsinfoEntity *) value;
     if (__osinfoEntityPassesFilter(filter, entity)) {
-        __osinfo_list_add(list, entity);
+        osinfo_list_add(list, entity);
     }
 
     args->errcode = 0;
@@ -470,7 +470,7 @@ static gboolean __osinfoAddOsIfRelationship(gpointer key, gpointer value, gpoint
     GPtrArray *relatedOses = NULL;
     relatedOses = g_tree_lookup(os->priv->relationshipsByType, (gpointer) args->relshp);
     if (relatedOses) {
-        __osinfo_list_add(list, OSINFO_ENTITY (os));
+        osinfo_list_add(list, OSINFO_ENTITY (os));
     }
 
     return FALSE;

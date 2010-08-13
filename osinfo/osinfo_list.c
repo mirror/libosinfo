@@ -51,7 +51,7 @@ OsinfoEntity *osinfo_list_get_nth(OsinfoList *self, gint idx)
     return g_ptr_array_index(self->priv->array, idx);
 }
 
-void __osinfo_list_add(OsinfoList *self, OsinfoEntity *entity)
+void osinfo_list_add(OsinfoList *self, OsinfoEntity *entity)
 {
     g_ptr_array_add(self->priv->array, entity);
 }
@@ -63,7 +63,7 @@ void __osinfo_list_filter(OsinfoList *src, OsinfoList *dst, OsinfoFilter *filter
     for (i = 0; i < len; i++) {
         OsinfoEntity *entity = osinfo_list_get_nth(src, i);
         if (__osinfoEntityPassesFilter(filter, entity))
-            __osinfo_list_add(dst, entity);
+	    osinfo_list_add(dst, entity);
     }
 }
 
@@ -111,7 +111,7 @@ int __osinfo_list_intersect(OsinfoList *src1, OsinfoList *src2, OsinfoList *dst)
         if (g_tree_lookup(otherSet, entity->priv->id) &&
             !g_tree_lookup(newSet, entity->priv->id)) {
             g_tree_insert(newSet, id, entity);
-            __osinfo_list_add(dst, entity);
+            osinfo_list_add(dst, entity);
         }
     }
 
@@ -151,7 +151,7 @@ int __osinfo_list_union(OsinfoList *src1, OsinfoList *src2, OsinfoList *dst)
     for (i = 0; i < len; i++) {
         OsinfoEntity *entity = osinfo_list_get_nth(src2, i);
         gchar *id = entity->priv->id;
-        __osinfo_list_add(dst, entity);
+        osinfo_list_add(dst, entity);
         g_tree_insert(newSet, id, entity);
     }
 
@@ -162,7 +162,7 @@ int __osinfo_list_union(OsinfoList *src1, OsinfoList *src2, OsinfoList *dst)
         gchar *id = entity->priv->id;
         // If new list does not contain element, add to new list
         if (!g_tree_lookup(newSet, id)) {
-            __osinfo_list_add(dst, entity);
+	    osinfo_list_add(dst, entity);
             g_tree_insert(newSet, id, entity);
         }
     }
