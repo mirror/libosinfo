@@ -64,26 +64,33 @@ struct _OsinfoDbClass
 
 GType osinfo_db_get_type(void);
 
-int osinfoInitializeDb(OsinfoDb *self, GError **err);
+OsinfoDb *osinfo_db_new(const gchar *backingDir);
 
-OsinfoHypervisor *osinfoGetHypervisorById(OsinfoDb *self, gchar *hvId, GError **err);
-OsinfoDevice *osinfoGetDeviceById(OsinfoDb *self, gchar *devId, GError **err);
-OsinfoOs *osinfoGetOsById(OsinfoDb *self, gchar *osId, GError **err);
+int osinfo_db_initialize(OsinfoDb *self, GError **err);
 
-OsinfoOsList *osinfoGetOsList(OsinfoDb *self, OsinfoFilter *filter, GError **err);
-OsinfoHypervisorList *osinfoGetHypervisorList(OsinfoDb *self, OsinfoFilter *filter, GError **err);
-OsinfoDeviceList *osinfoGetDeviceList(OsinfoDb *self, OsinfoFilter *filter, GError **err);
+OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *self, gchar *hvId, GError **err);
+OsinfoDevice *osinfo_db_get_device(OsinfoDb *self, gchar *devId, GError **err);
+OsinfoOs *osinfo_db_get_os(OsinfoDb *self, gchar *osId, GError **err);
+
+OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self, OsinfoFilter *filter, GError **err);
+OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self, OsinfoFilter *filter, GError **err);
+OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self, OsinfoFilter *filter, GError **err);
 
 // Get me all unique values for property "vendor" among operating systems
-GPtrArray *osinfoUniqueValuesForPropertyInOs(OsinfoDb *self, gchar *propName, GError **err);
+GPtrArray *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, gchar *propName, GError **err);
 
 // Get me all unique values for property "vendor" among hypervisors
-GPtrArray *osinfoUniqueValuesForPropertyInHv(OsinfoDb *self, gchar *propName, GError **err);
+GPtrArray *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, gchar *propName, GError **err);
 
 // Get me all unique values for property "vendor" among devices
-GPtrArray *osinfoUniqueValuesForPropertyInDev(OsinfoDb *self, gchar *propName, GError **err);
+GPtrArray *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, gchar *propName, GError **err);
 
 // Get me all OSes that 'upgrade' another OS (or whatever relationship is specified)
-OsinfoOsList *osinfoUniqueValuesForOsRelationship(OsinfoDb *self, osinfoRelationship relshp, GError **err);
+OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, osinfoRelationship relshp, GError **err);
+
+void osinfo_db_add_device(OsinfoDb *db, OsinfoDevice *dev);
+void osinfo_db_add_hypervisor(OsinfoDb *db, OsinfoHypervisor *hv);
+void osinfo_db_add_os(OsinfoDb *db, OsinfoOs *os);
+
 
 #endif /* __OSINFO_DB_H__ */

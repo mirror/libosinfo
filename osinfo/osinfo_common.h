@@ -235,10 +235,6 @@ gchar *__osinfoErrorToString(int err);
  *      Private Methods
  ******************************************************************************/
 
-void __osinfoAddDeviceToDb(OsinfoDb *db, OsinfoDevice *dev);
-void __osinfoAddHypervisorToDb(OsinfoDb *db, OsinfoHypervisor *hv);
-void __osinfoAddOsToDb(OsinfoDb *db, OsinfoOs *os);
-
 // Private
 int __osinfoAddDeviceToSectionOs(OsinfoOs *self, gchar *section, gchar *id, gchar *driver);
 void __osinfoClearDeviceSectionOs(OsinfoOs *self, gchar *section);

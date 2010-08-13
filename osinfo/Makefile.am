@@ -6,7 +6,7 @@ AM_CPPFLAGS = \
 	$(GOBJECT_CFLAGS)
 libosinfo_la_LDFLAGS = \
 	$(LIBXML_LIBS) \
-	$(GOBJECT_LIBS)
+	$(GOBJECT_LIBS) -Wl,-no-undefined
 
 lib_LTLIBRARIES = libosinfo.la
 

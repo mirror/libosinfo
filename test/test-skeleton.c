@@ -13,11 +13,10 @@ main (int argc, char *argv[])
     g_type_init();
 
     /* Create our object */
-    OsinfoDb *db = g_object_new (OSINFO_TYPE_DB, "backing-dir",
-                                 "../data", NULL);
+    OsinfoDb *db = osinfo_db_new("../data");
 
     // Read in data
-    ret = osinfoInitializeDb(db, NULL);
+    ret = osinfo_db_initialize(db, NULL);
     if (ret != 0) {
         printf("Error initializing db! %d\n", ret);
         exit(1);

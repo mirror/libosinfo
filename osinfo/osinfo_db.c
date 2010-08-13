@@ -153,7 +153,15 @@ osinfo_db_init (OsinfoDb *self)
 
 /** PUBLIC METHODS */
 
-int osinfoInitializeDb(OsinfoDb *self, GError **err)
+OsinfoDb *osinfo_db_new(const gchar *backingDir)
+{
+  return g_object_new (OSINFO_TYPE_DB,
+		       "backing-dir", backingDir,
+		       NULL);
+}
+
+
+int osinfo_db_initialize(OsinfoDb *self, GError **err)
 {
     int ret;
     // And now read in data.
@@ -167,7 +175,7 @@ int osinfoInitializeDb(OsinfoDb *self, GError **err)
     return ret;
 }
 
-OsinfoHypervisor *osinfoGetHypervisorById(OsinfoDb *self, gchar *id, GError **err)
+OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *self, gchar *id, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;
@@ -185,7 +193,7 @@ OsinfoHypervisor *osinfoGetHypervisorById(OsinfoDb *self, gchar *id, GError **er
     return g_tree_lookup(self->priv->hypervisors, id);
 }
 
-OsinfoDevice *osinfoGetDeviceById(OsinfoDb *self, gchar *id, GError **err)
+OsinfoDevice *osinfo_db_get_device(OsinfoDb *self, gchar *id, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;
@@ -203,7 +211,7 @@ OsinfoDevice *osinfoGetDeviceById(OsinfoDb *self, gchar *id, GError **err)
     return g_tree_lookup(self->priv->devices, id);
 }
 
-OsinfoOs *osinfoGetOsById(OsinfoDb *self, gchar *id, GError **err)
+OsinfoOs *osinfo_db_get_os(OsinfoDb *self, gchar *id, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;
@@ -247,7 +255,7 @@ static int __osinfoPopulateList(GTree *entities, OsinfoList *newList, OsinfoFilt
     return args.errcode;
 }
 
-OsinfoOsList *osinfoGetOsList(OsinfoDb *self, OsinfoFilter *filter, GError **err)
+OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self, OsinfoFilter *filter, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;
@@ -280,7 +288,7 @@ OsinfoOsList *osinfoGetOsList(OsinfoDb *self, OsinfoFilter *filter, GError **err
     return newList;
 }
 
-OsinfoHypervisorList *osinfoGetHypervisorList(OsinfoDb *self, OsinfoFilter *filter, GError **err)
+OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self, OsinfoFilter *filter, GError **err)
 {
     if (!OSINFO_IS_DB(self)) {
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_DB);
@@ -310,7 +318,7 @@ OsinfoHypervisorList *osinfoGetHypervisorList(OsinfoDb *self, OsinfoFilter *filt
     return newList;
 }
 
-OsinfoDeviceList *osinfoGetDeviceList(OsinfoDb *self, OsinfoFilter *filter, GError **err)
+OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self, OsinfoFilter *filter, GError **err)
 {
     if (!OSINFO_IS_DB(self)) {
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_DB);
@@ -340,7 +348,7 @@ OsinfoDeviceList *osinfoGetDeviceList(OsinfoDb *self, OsinfoFilter *filter, GErr
     return newList;
 }
 
-gboolean __osinfoGetPropertyValuesInEntity(gpointer key, gpointer value, gpointer data)
+static gboolean osinfo_db_get_property_values_in_entity(gpointer key, gpointer value, gpointer data)
 {
     struct __osinfoPopulateValuesArgs *args;
     args = (struct __osinfoPopulateValuesArgs *) data;
@@ -385,7 +393,7 @@ static gboolean __osinfoFreeKeys(gpointer key, gpointer value, gpointer data)
     return FALSE; // keep iterating
 }
 
-static GPtrArray *__osinfoUniqueValuesForPropertyInEntity(GTree *entities, gchar *propName, GError **err)
+static GPtrArray *osinfo_db_unique_values_for_property_in_entity(GTree *entities, gchar *propName, GError **err)
 {
     GTree *values = g_tree_new(__osinfoStringCompareBase);
     if (!values) {
@@ -394,7 +402,7 @@ static GPtrArray *__osinfoUniqueValuesForPropertyInEntity(GTree *entities, gchar
     }
 
     struct __osinfoPopulateValuesArgs args = {err, 0, values, propName};
-    g_tree_foreach(entities, __osinfoGetPropertyValuesInEntity, &args);
+    g_tree_foreach(entities, osinfo_db_get_property_values_in_entity, &args);
 
     if (args.errcode != 0) {
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), args.errcode, __osinfoErrorToString(args.errcode));
@@ -418,7 +426,7 @@ static GPtrArray *__osinfoUniqueValuesForPropertyInEntity(GTree *entities, gchar
 }
 
 // Get me all unique values for property "vendor" among operating systems
-GPtrArray *osinfoUniqueValuesForPropertyInOs(OsinfoDb *self, gchar *propName, GError **err)
+GPtrArray *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, gchar *propName, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;
@@ -433,11 +441,11 @@ GPtrArray *osinfoUniqueValuesForPropertyInOs(OsinfoDb *self, gchar *propName, GE
         return NULL;
     }
 
-    return __osinfoUniqueValuesForPropertyInEntity(self->priv->oses, propName, err);
+    return osinfo_db_unique_values_for_property_in_entity(self->priv->oses, propName, err);
 }
 
 // Get me all unique values for property "vendor" among hypervisors
-GPtrArray *osinfoUniqueValuesForPropertyInHv(OsinfoDb *self, gchar *propName, GError **err)
+GPtrArray *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, gchar *propName, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;
@@ -452,11 +460,11 @@ GPtrArray *osinfoUniqueValuesForPropertyInHv(OsinfoDb *self, gchar *propName, GE
         return NULL;
     }
 
-    return __osinfoUniqueValuesForPropertyInEntity(self->priv->hypervisors, propName, err);
+    return osinfo_db_unique_values_for_property_in_entity(self->priv->hypervisors, propName, err);
 }
 
 // Get me all unique values for property "vendor" among devices
-GPtrArray *osinfoUniqueValuesForPropertyInDev(OsinfoDb *self, gchar *propName, GError **err)
+GPtrArray *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, gchar *propName, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;
@@ -471,7 +479,7 @@ GPtrArray *osinfoUniqueValuesForPropertyInDev(OsinfoDb *self, gchar *propName, G
         return NULL;
     }
 
-    return __osinfoUniqueValuesForPropertyInEntity(self->priv->devices, propName, err);
+    return osinfo_db_unique_values_for_property_in_entity(self->priv->devices, propName, err);
 }
 
 static gboolean __osinfoAddOsIfRelationship(gpointer key, gpointer value, gpointer data)
@@ -492,7 +500,7 @@ static gboolean __osinfoAddOsIfRelationship(gpointer key, gpointer value, gpoint
 }
 
 // Get me all OSes that 'upgrade' another OS (or whatever relationship is specified)
-OsinfoOsList *osinfoUniqueValuesForOsRelationship(OsinfoDb *self, osinfoRelationship relshp, GError **err)
+OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, osinfoRelationship relshp, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;
@@ -526,23 +534,22 @@ OsinfoOsList *osinfoUniqueValuesForOsRelationship(OsinfoDb *self, osinfoRelation
     return newList;
 }
 
-/**  PRIVATE */
 
-void __osinfoAddDeviceToDb(OsinfoDb *db, OsinfoDevice *dev)
+void osinfo_db_add_device(OsinfoDb *db, OsinfoDevice *dev)
 {
     gchar *id;
     g_object_get(G_OBJECT(dev), "id", &id, NULL);
     g_tree_insert(db->priv->devices, id, dev);
 }
 
-void __osinfoAddHypervisorToDb(OsinfoDb *db, OsinfoHypervisor *hv)
+void osinfo_db_add_hypervisor(OsinfoDb *db, OsinfoHypervisor *hv)
 {
     gchar *id;
     g_object_get(G_OBJECT(hv), "id", &id, NULL);
     g_tree_insert(db->priv->hypervisors, id, hv);
 }
 
-void __osinfoAddOsToDb(OsinfoDb *db, OsinfoOs *os)
+void osinfo_db_add_os(OsinfoDb *db, OsinfoOs *os)
 {
     gchar *id;
     g_object_get(G_OBJECT(os), "id", &id, NULL);
