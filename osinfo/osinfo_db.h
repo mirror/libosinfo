@@ -73,13 +73,13 @@ OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self);
 OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self);
 
 // Get me all unique values for property "vendor" among operating systems
-GPtrArray *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, gchar *propName);
+GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, gchar *propName);
 
 // Get me all unique values for property "vendor" among hypervisors
-GPtrArray *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, gchar *propName);
+GList *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, gchar *propName);
 
 // Get me all unique values for property "vendor" among devices
-GPtrArray *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, gchar *propName);
+GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, gchar *propName);
 
 // Get me all OSes that 'upgrade' another OS (or whatever relationship is specified)
 OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, osinfoRelationship relshp);

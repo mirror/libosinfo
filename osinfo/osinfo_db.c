@@ -216,10 +216,15 @@ OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self)
     return self->priv->devices;
 }
 
+struct osinfo_db_populate_values_args {
+    GHashTable *values;
+    gchar *property;
+};
+
 static gboolean osinfo_db_get_property_values_in_entity(OsinfoList *list, OsinfoEntity *entity, gpointer data)
 {
-    struct __osinfoPopulateValuesArgs *args = data;
-    GTree *values = args->values;
+    struct osinfo_db_populate_values_args *args = data;
+    GHashTable *values = args->values;
     gchar *property = args->property;
     GPtrArray *valueArray = NULL;
 
@@ -230,45 +235,34 @@ static gboolean osinfo_db_get_property_values_in_entity(OsinfoList *list, Osinfo
     int i;
     for (i = 0; i < valueArray->len; i++) {
         gchar *currValue = g_ptr_array_index(valueArray, i);
-        void *test = g_tree_lookup(values, currValue);
+        void *test = g_hash_table_lookup(values, currValue);
         if (test)
             continue;
-        gchar *dupValue = g_strdup(currValue);
 
-        // Add to tree with dummy value
-        g_tree_insert(values, dupValue, (gpointer) 1);
+        g_hash_table_insert(values,
+			    g_strdup(currValue),
+			    GINT_TO_POINTER(1));
     }
 
     return FALSE; // Continue iterating
 }
 
-static gboolean __osinfoPutKeysInList(gpointer key, gpointer value, gpointer data)
+static GList *osinfo_db_unique_values_for_property_in_entity(OsinfoList *entities, gchar *propName)
 {
-    gchar *currValue = (gchar *) key;
-    GPtrArray *valuesList = (GPtrArray *) data;
+    /* Delibrately no free func for key, since we return those to caller */
+    GHashTable *values = g_hash_table_new(g_str_hash, g_str_equal);
+    GList *ret;
+    struct osinfo_db_populate_values_args args = { values, propName};
 
-    g_ptr_array_add(valuesList, currValue);
-    return FALSE; // keep iterating
-}
-
-
-static GPtrArray *osinfo_db_unique_values_for_property_in_entity(OsinfoList *entities, gchar *propName)
-{
-    GTree *values = g_tree_new(__osinfoStringCompareBase);
-
-    struct __osinfoPopulateValuesArgs args = { values, propName};
     osinfo_list_foreach(entities, osinfo_db_get_property_values_in_entity, &args);
 
-    // For each key in tree, add to gptrarray
-    GPtrArray *valuesList = g_ptr_array_sized_new(g_tree_nnodes(values));
-
-    g_tree_foreach(values, __osinfoPutKeysInList, valuesList);
-    g_tree_destroy(values);
-    return valuesList;
+    ret = g_hash_table_get_keys(values);
+    g_hash_table_unref(values);
+    return ret;
 }
 
 // Get me all unique values for property "vendor" among operating systems
-GPtrArray *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, gchar *propName)
+GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, gchar *propName)
 {
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
     g_return_val_if_fail(propName != NULL, NULL);
@@ -277,7 +271,7 @@ GPtrArray *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, gchar *pro
 }
 
 // Get me all unique values for property "vendor" among hypervisors
-GPtrArray *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, gchar *propName)
+GList *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, gchar *propName)
 {
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
     g_return_val_if_fail(propName != NULL, NULL);
@@ -286,7 +280,7 @@ GPtrArray *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, gchar *pro
 }
 
 // Get me all unique values for property "vendor" among devices
-GPtrArray *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, gchar *propName)
+GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, gchar *propName)
 {
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
     g_return_val_if_fail(propName != NULL, NULL);

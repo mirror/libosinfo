@@ -67,11 +67,6 @@ struct __osinfoPopulateListArgs {
     OsinfoList *list;
 };
 
-struct __osinfoPopulateValuesArgs {
-    GTree *values;
-    gchar *property;
-};
-
 struct __osinfoOsCheckRelationshipArgs {
     OsinfoList *list;
     osinfoRelationship relshp;

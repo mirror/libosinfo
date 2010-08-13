@@ -87,15 +87,15 @@ void osinfo_list_add_intersection(OsinfoList *self, OsinfoList *sourceOne, Osinf
     int i, len;
 
     // Make set representation of otherList and newList
-    GTree *otherSet = g_tree_new(__osinfoStringCompareBase);
-    GTree *newSet = g_tree_new(__osinfoStringCompareBase);
+    GHashTable *otherSet = g_hash_table_new(g_str_hash, g_str_equal);
+    GHashTable *newSet = g_hash_table_new(g_str_hash, g_str_equal);
 
     // Add all from otherList to otherSet
     len = osinfo_list_get_length(sourceTwo);
     for (i = 0; i < len; i++) {
         OsinfoEntity *entity = osinfo_list_get_nth(sourceTwo, i);
         gchar *id = entity->priv->id;
-        g_tree_insert(otherSet, id, entity);
+        g_hash_table_insert(otherSet, id, entity);
     }
 
     // If other contains entity, and new list does not, add to new list
@@ -104,22 +104,22 @@ void osinfo_list_add_intersection(OsinfoList *self, OsinfoList *sourceOne, Osinf
         OsinfoEntity *entity = osinfo_list_get_nth(sourceOne, i);
         gchar *id = entity->priv->id;
 
-        if (g_tree_lookup(otherSet, entity->priv->id) &&
-            !g_tree_lookup(newSet, entity->priv->id)) {
-            g_tree_insert(newSet, id, entity);
+        if (g_hash_table_lookup(otherSet, entity->priv->id) &&
+            !g_hash_table_lookup(newSet, entity->priv->id)) {
+            g_hash_table_insert(newSet, id, entity);
             osinfo_list_add(self, entity);
         }
     }
 
-    g_tree_destroy(otherSet);
-    g_tree_destroy(newSet);
+    g_hash_table_destroy(otherSet);
+    g_hash_table_destroy(newSet);
 }
 
 
 void osinfo_list_add_union(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *sourceTwo)
 {
     // Make set version of new list
-    GTree *newSet = g_tree_new(__osinfoStringCompareBase);
+    GHashTable *newSet = g_hash_table_new(g_str_hash, g_str_equal);
 
     // Add all from other list to new list
     int i, len;
@@ -128,7 +128,7 @@ void osinfo_list_add_union(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *
         OsinfoEntity *entity = osinfo_list_get_nth(sourceTwo, i);
         gchar *id = entity->priv->id;
         osinfo_list_add(self, entity);
-        g_tree_insert(newSet, id, entity);
+        g_hash_table_insert(newSet, id, entity);
     }
 
     // Add remaining elements from this list to new list
@@ -137,13 +137,13 @@ void osinfo_list_add_union(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *
         OsinfoEntity *entity = osinfo_list_get_nth(sourceOne, i);
         gchar *id = entity->priv->id;
         // If new list does not contain element, add to new list
-        if (!g_tree_lookup(newSet, id)) {
+        if (!g_hash_table_lookup(newSet, id)) {
 	    osinfo_list_add(self, entity);
-            g_tree_insert(newSet, id, entity);
+            g_hash_table_insert(newSet, id, entity);
         }
     }
 
-    g_tree_destroy(newSet);
+    g_hash_table_unref(newSet);
 }
 
 
