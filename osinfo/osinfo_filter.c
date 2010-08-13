@@ -47,12 +47,8 @@ osinfo_filter_init (OsinfoFilter *self)
                                                          __osinfoFreePtrArray);
 }
 
-void osinfoFreeFilter(OsinfoFilter *self)
-{
-    g_object_unref(self);
-}
 
-gint osinfoAddFilterConstraint(OsinfoFilter *self, gchar *propName, gchar *propVal, GError **err)
+gint osinfo_filter_add_constraint(OsinfoFilter *self, gchar *propName, gchar *propVal, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return -EINVAL;
@@ -97,7 +93,7 @@ gint osinfoAddFilterConstraint(OsinfoFilter *self, gchar *propName, gchar *propV
 }
 
 // Only applicable to OSes, ignored by other types of objects
-gint osinfoAddRelationConstraint(OsinfoFilter *self, osinfoRelationship relshp, OsinfoOs *os, GError **err)
+gint osinfo_filter_add_relation_constraint(OsinfoFilter *self, osinfoRelationship relshp, OsinfoOs *os, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return -EINVAL;
@@ -143,12 +139,12 @@ error_nomem:
     return -ENOMEM;
 }
 
-void osinfoClearFilterConstraint(OsinfoFilter *self, gchar *propName)
+void osinfo_filter_clear_constraint(OsinfoFilter *self, gchar *propName)
 {
     g_tree_remove(self->priv->propertyConstraints, propName);
 }
 
-void osinfoClearRelationshipConstraint(OsinfoFilter *self, osinfoRelationship relshp)
+void osinfo_filter_clear_relationship_constraint(OsinfoFilter *self, osinfoRelationship relshp)
 {
     g_tree_remove(self->priv->relationshipConstraints, (gpointer) relshp);
 }
@@ -160,14 +156,14 @@ static gboolean __osinfoRemoveTreeEntry(gpointer key, gpointer value, gpointer d
     return FALSE; // continue iterating
 }
 
-void osinfoClearAllFilterConstraints(OsinfoFilter *self)
+void osinfo_filter_clear_all_constraints(OsinfoFilter *self)
 {
     g_tree_foreach(self->priv->propertyConstraints, __osinfoRemoveTreeEntry, self->priv->propertyConstraints);
     g_tree_foreach(self->priv->relationshipConstraints, __osinfoRemoveTreeEntry, self->priv->relationshipConstraints);
 }
 
 // get keyset for constraints map
-GPtrArray *osinfoGetFilterConstraintKeys(OsinfoFilter *self, GError **err)
+GPtrArray *osinfo_filter_get_constraint_keys(OsinfoFilter *self, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;
@@ -200,7 +196,7 @@ GPtrArray *osinfoGetFilterConstraintKeys(OsinfoFilter *self, GError **err)
 }
 
 // get values for given key
-GPtrArray *osinfoGetFilterConstraintValues(OsinfoFilter *self, gchar *propName, GError **err)
+GPtrArray *osinfo_filter_get_constraint_values(OsinfoFilter *self, gchar *propName, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;
@@ -245,7 +241,7 @@ GPtrArray *osinfoGetFilterConstraintValues(OsinfoFilter *self, gchar *propName, 
 }
 
 // get oses for given relshp
-OsinfoOsList *osinfoGetRelationshipConstraintValue(OsinfoFilter *self, osinfoRelationship relshp, GError **err)
+OsinfoOsList *osinfo_filter_get_relationship_constraint_value(OsinfoFilter *self, osinfoRelationship relshp, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;
