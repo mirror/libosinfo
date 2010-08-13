@@ -38,7 +38,7 @@ osinfo_list_init (OsinfoList *self)
     OsinfoListPrivate *priv;
     self->priv = priv = OSINFO_LIST_GET_PRIVATE(self);
 
-    self->priv->array = g_ptr_array_new();
+    self->priv->array = g_ptr_array_new_with_free_func(g_object_unref);
 }
 
 gint osinfo_list_get_length(OsinfoList *self)
@@ -66,6 +66,7 @@ OsinfoEntity *osinfo_list_find_by_id(OsinfoList *self, const gchar *id)
 
 void osinfo_list_add(OsinfoList *self, OsinfoEntity *entity)
 {
+    g_object_ref(entity);
     g_ptr_array_add(self->priv->array, entity);
 }
 

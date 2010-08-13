@@ -525,6 +525,7 @@ static int __osinfoProcessOs(OsinfoDb *db,
 
 finished:
     osinfo_list_add(OSINFO_LIST(oses), OSINFO_ENTITY(os));
+    g_object_unref(os);
     return 0;
     /* At end, cursor is at end of os node */
 
@@ -633,6 +634,7 @@ static int __osinfoProcessHypervisor(OsinfoDb *db,
 
 finished:
     osinfo_list_add(OSINFO_LIST(hypervisors), OSINFO_ENTITY(hv));
+    g_object_unref(hv);
     return 0;
     /* At end, cursor is at end of hv node */
 
@@ -725,6 +727,7 @@ static int __osinfoProcessDevice(OsinfoDb *db,
 finished:
     // Add dev to db
     osinfo_list_add(OSINFO_LIST(devices), OSINFO_ENTITY(dev));
+    g_object_unref(dev);
     return 0;
     /* At end, cursor is at end of device node */
 
