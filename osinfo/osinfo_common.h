@@ -72,16 +72,12 @@ struct __osinfoPopulateListArgs {
 };
 
 struct __osinfoPopulateValuesArgs {
-    GError **err;
-    int errcode;
     GTree *values;
     gchar *property;
 };
 
 struct __osinfoOsCheckRelationshipArgs {
     OsinfoList *list;
-    int errcode;
-    GError **err;
     osinfoRelationship relshp;
 };
 

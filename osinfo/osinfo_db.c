@@ -140,7 +140,6 @@ static void
 osinfo_db_init (OsinfoDb *self)
 {
     OsinfoDbPrivate *priv;
-    int ret;
     self->priv = priv = OSINFO_DB_GET_PRIVATE(self);
 
     self->priv->devices = g_tree_new_full(__osinfoStringCompare, NULL, g_free, g_object_unref);
@@ -313,7 +312,6 @@ static gboolean osinfo_db_get_property_values_in_entity(gpointer key, gpointer v
     struct __osinfoPopulateValuesArgs *args;
     args = (struct __osinfoPopulateValuesArgs *) data;
     GTree *values = args->values;
-    GError **err = args->err;
     gchar *property = args->property;
 
     OsinfoEntity *entity = OSINFO_ENTITY (value);
@@ -347,25 +345,13 @@ static gboolean __osinfoPutKeysInList(gpointer key, gpointer value, gpointer dat
     return FALSE; // keep iterating
 }
 
-static gboolean __osinfoFreeKeys(gpointer key, gpointer value, gpointer data)
-{
-    g_free(key);
-    return FALSE; // keep iterating
-}
 
 static GPtrArray *osinfo_db_unique_values_for_property_in_entity(GTree *entities, gchar *propName, GError **err)
 {
     GTree *values = g_tree_new(__osinfoStringCompareBase);
 
-    struct __osinfoPopulateValuesArgs args = {err, 0, values, propName};
+    struct __osinfoPopulateValuesArgs args = { values, propName};
     g_tree_foreach(entities, osinfo_db_get_property_values_in_entity, &args);
-
-    if (args.errcode != 0) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), args.errcode, __osinfoErrorToString(args.errcode));
-        g_tree_foreach(values, __osinfoFreeKeys, NULL);
-        g_tree_destroy(values);
-        return NULL;
-    }
 
     // For each key in tree, add to gptrarray
     GPtrArray *valuesList = g_ptr_array_sized_new(g_tree_nnodes(values));
@@ -437,7 +423,6 @@ static gboolean __osinfoAddOsIfRelationship(gpointer key, gpointer value, gpoint
     OsinfoOs *os = (OsinfoOs *) value;
     struct __osinfoOsCheckRelationshipArgs *args;
     args = (struct __osinfoOsCheckRelationshipArgs *) data;
-    GError **err = args->err;
     OsinfoList *list = args->list;
 
     GPtrArray *relatedOses = NULL;
@@ -468,14 +453,9 @@ OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, osinfo
     // Create list
     OsinfoOsList *newList = g_object_new(OSINFO_TYPE_OSLIST, NULL);
 
-    struct __osinfoOsCheckRelationshipArgs args = {OSINFO_LIST (newList), 0, err, relshp};
+    struct __osinfoOsCheckRelationshipArgs args = {OSINFO_LIST (newList), relshp};
 
     g_tree_foreach(self->priv->oses, __osinfoAddOsIfRelationship, &args);
-    if (args.errcode != 0) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), args.errcode, __osinfoErrorToString(args.errcode));
-        g_object_unref(newList);
-        return NULL;
-    }
 
     return newList;
 }
