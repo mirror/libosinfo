@@ -194,10 +194,6 @@ GPtrArray *osinfo_entity_get_params(OsinfoEntity *self, GError **err)
     }
 
     GPtrArray *params = g_ptr_array_new();
-    if (!params) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     struct __osinfoPtrArrayErr arrayErr = {params, 0};
     g_tree_foreach(self->priv->params, osinfo_get_keys, &arrayErr);
@@ -267,10 +263,6 @@ GPtrArray *osinfo_entity_get_param_all_values(OsinfoEntity *self, gchar *key, GE
     GPtrArray *srcArray, *retArray;
 
     retArray = g_ptr_array_new();
-    if (!retArray) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     found = g_tree_lookup_extended(self->priv->params, key, &origKey, &value);
     if (!found)

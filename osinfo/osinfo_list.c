@@ -81,10 +81,6 @@ OsinfoList *osinfo_list_filter(OsinfoList *self, OsinfoFilter *filter, GError **
 
     // For each element in self, if passes filter, add to new list.
     OsinfoList *newList = g_object_new(OSINFO_TYPE_LIST, NULL);
-    if (!newList) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     __osinfo_list_filter(self, newList, filter);
     return newList;
@@ -96,14 +92,7 @@ int __osinfo_list_intersect(OsinfoList *src1, OsinfoList *src2, OsinfoList *dst)
 
     // Make set representation of otherList and newList
     GTree *otherSet = g_tree_new(__osinfoStringCompareBase);
-    if (!otherSet)
-        return -ENOMEM;
-
     GTree *newSet = g_tree_new(__osinfoStringCompareBase);
-    if (!newSet) {
-        g_tree_destroy(otherSet);
-        return -ENOMEM;
-    }
 
     // Add all from otherList to otherSet
     len = osinfo_list_get_length(src2);
@@ -139,11 +128,6 @@ OsinfoList *osinfo_list_intersect(OsinfoList *self, OsinfoList *otherList, GErro
     }
 
     OsinfoList *newList = g_object_new(OSINFO_TYPE_LIST, NULL);
-    if (!newList) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
-
     int ret;
 
     ret = __osinfo_list_intersect(self, otherList, newList);
@@ -160,8 +144,6 @@ int __osinfo_list_union(OsinfoList *src1, OsinfoList *src2, OsinfoList *dst)
 {
     // Make set version of new list
     GTree *newSet = g_tree_new(__osinfoStringCompareBase);
-    if (!newSet)
-        return -ENOMEM;
 
     // Add all from other list to new list
     int i, len;
@@ -197,11 +179,6 @@ OsinfoList *osinfo_list_union(OsinfoList *self, OsinfoList *otherList, GError **
     }
 
     OsinfoList *newList = g_object_new(OSINFO_TYPE_LIST, NULL);
-    if (!newList) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
-
     int ret;
     ret = __osinfo_list_union(self, otherList, newList);
     if (ret != 0) {

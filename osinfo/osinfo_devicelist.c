@@ -62,10 +62,6 @@ OsinfoDeviceList *osinfo_device_list_filter(OsinfoDeviceList *self, OsinfoFilter
 
     // For each element in self, if passes filter, add to new list.
     OsinfoDeviceList *newList = g_object_new(OSINFO_TYPE_DEVICELIST, NULL);
-    if (!newList) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     __osinfo_list_filter(OSINFO_LIST (self), OSINFO_LIST (newList), filter);
     return newList;
@@ -79,10 +75,6 @@ OsinfoDeviceList *osinfo_device_list_intersect(OsinfoDeviceList *self, OsinfoDev
     }
 
     OsinfoDeviceList *newList = g_object_new(OSINFO_TYPE_DEVICELIST, NULL);
-    if (!newList) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     int ret;
 
@@ -104,10 +96,6 @@ OsinfoDeviceList *osinfo_device_list_union(OsinfoDeviceList *self, OsinfoDeviceL
     }
 
     OsinfoDeviceList *newList = g_object_new(OSINFO_TYPE_DEVICELIST, NULL);
-    if (!newList) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     int ret;
     ret = __osinfo_list_union(self, otherList, newList);

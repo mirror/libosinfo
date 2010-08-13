@@ -191,11 +191,7 @@ static int __osinfoProcessTag(xmlTextReaderPtr reader, char** ptr_to_key, char**
     if (!node_name)
         goto error;
 
-    key = strdup(node_name);
-    if (!key) {
-        err = -ENOMEM;
-        goto error;
-    }
+    key = g_strdup(node_name);
 
     /* Advance to next node */
     ret = xmlTextReaderRead(reader);
@@ -212,11 +208,7 @@ static int __osinfoProcessTag(xmlTextReaderPtr reader, char** ptr_to_key, char**
     if (!xml_value)
         goto error;
 
-    val = strdup(xml_value);
-    if (!val) {
-        err = -ENOMEM;
-        goto error;
-    }
+    val = g_strdup(xml_value);
 
     /* Advance to the next node */
     ret = xmlTextReaderRead(reader);
@@ -449,8 +441,6 @@ static int __osinfoProcessOs(OsinfoDb *db,
 
     os = g_object_new(OSINFO_TYPE_OS, "id", id, "db", db, NULL);
     free(id);
-    if (!os)
-        return -ENOMEM;
 
     if (empty)
         goto finished;
@@ -570,9 +560,6 @@ static int __osinfoProcessHypervisor(OsinfoDb *db,
 
     hv = g_object_new(OSINFO_TYPE_HYPERVISOR, "id", id, "db", db, NULL);
     free(id);
-    if (!hv) {
-        return -ENOMEM;
-    }
 
     if (empty)
         goto finished;
@@ -680,10 +667,6 @@ static int __osinfoProcessDevice(OsinfoDb *db,
 
     dev = g_object_new(OSINFO_TYPE_DEVICE, "id", id, "db", db, NULL);
     free(id);
-    if (!dev) {
-        // TODO: How do errors in gobject creation manifest themselves?
-        return -ENOMEM;
-    }
 
     if (empty)
         goto finished;

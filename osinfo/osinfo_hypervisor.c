@@ -65,10 +65,6 @@ GPtrArray *osinfo_hypervisor_get_device_types(OsinfoHypervisor *self, GError **e
     }
 
     GPtrArray *deviceTypes = g_ptr_array_sized_new(g_tree_nnodes(self->priv->sections));
-    if (!deviceTypes) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     // For each key in our tree of device sections, dup and add to the array
     struct __osinfoPtrArrayErr arrayErr = {deviceTypes, 0};
@@ -98,10 +94,6 @@ OsinfoDeviceList *osinfo_hypervisor_get_devices_by_type(OsinfoHypervisor *self, 
 
     // Create our device list
     OsinfoDeviceList *newList = g_object_new(OSINFO_TYPE_DEVICELIST, NULL);
-    if (!newList) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     // If section does not exist, return empty list
     GPtrArray *sectionList = NULL;

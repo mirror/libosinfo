@@ -122,8 +122,6 @@ gint osinfo_filter_add_relation_constraint(OsinfoFilter *self, osinfoRelationshi
     found = g_tree_lookup_extended(self->priv->relationshipConstraints, (gpointer) relshp, &origKey, &foundValue);
     if (!found) {
         valueArray = g_ptr_array_new();
-        if (!valueArray)
-            goto error_nomem;
 
         g_tree_insert(self->priv->relationshipConstraints, (gpointer) relshp, valueArray);
     }
@@ -133,10 +131,6 @@ gint osinfo_filter_add_relation_constraint(OsinfoFilter *self, osinfoRelationshi
     // Add to the array
     g_ptr_array_add(valueArray, os);
     return 0;
-
-error_nomem:
-    g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-    return -ENOMEM;
 }
 
 void osinfo_filter_clear_constraint(OsinfoFilter *self, gchar *propName)
@@ -174,10 +168,6 @@ GPtrArray *osinfo_filter_get_constraint_keys(OsinfoFilter *self, GError **err)
     }
 
     GPtrArray *constraints = g_ptr_array_new();
-    if (!constraints) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     struct __osinfoPtrArrayErr arrayErr = {constraints, 0};
     g_tree_foreach(self->priv->propertyConstraints, osinfo_get_keys, &arrayErr);
@@ -216,10 +206,6 @@ GPtrArray *osinfo_filter_get_constraint_values(OsinfoFilter *self, gchar *propNa
     GPtrArray *srcArray, *retArray;
 
     retArray = g_ptr_array_new();
-    if (!retArray) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     found = g_tree_lookup_extended(self->priv->propertyConstraints, propName, &origKey, &value);
     if (!found)
@@ -258,10 +244,6 @@ OsinfoOsList *osinfo_filter_get_relationship_constraint_value(OsinfoFilter *self
 
     // Create our list
     OsinfoOsList *newList = g_object_new(OSINFO_TYPE_OSLIST, NULL);
-    if (!newList) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     GPtrArray *relatedOses = NULL;
     relatedOses = g_tree_lookup(self->priv->relationshipConstraints, (gpointer) relshp);

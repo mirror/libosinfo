@@ -94,8 +94,6 @@ static int __osinfoAddOsRelationshipByType(OsinfoOs *self,
     found = g_tree_lookup_extended(self->priv->relationshipsByType, (gpointer) relshp, &origKey, &foundValue);
     if (!found) {
         relationshipsForType = g_ptr_array_new();
-        if (!relationshipsForType)
-            return -ENOMEM;
 
         g_tree_insert(self->priv->relationshipsByType, (gpointer) relshp, relationshipsForType);
     }
@@ -137,9 +135,7 @@ int __osinfoAddOsRelationship (OsinfoOs *self, gchar *otherOsId, osinfoRelations
         return -EINVAL;
 
     struct __osinfoOsLink *osLink = NULL;
-    osLink = g_malloc(sizeof(*osLink));
-    if (!osLink)
-        return -ENOMEM;
+    osLink = g_new0(struct __osinfoOsLink, 1);
 
     osLink->subjectOs = self;
     osLink->verb = rel;
@@ -297,10 +293,6 @@ OsinfoOsList *osinfo_os_get_related(OsinfoOs *self, osinfoRelationship relshp, G
 
     // Create our list
     OsinfoOsList *newList = g_object_new(OSINFO_TYPE_OSLIST, NULL);
-    if (!newList) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     GPtrArray *relatedOses = NULL;
     relatedOses = g_tree_lookup(self->priv->relationshipsByType, (gpointer) relshp);
@@ -345,10 +337,6 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, gc
 
     // Create our device list
     OsinfoDeviceList *newList = g_object_new(OSINFO_TYPE_DEVICELIST, NULL);
-    if (!newList) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     if (hv) {
         struct __osinfoHvSection *hvSection = NULL;

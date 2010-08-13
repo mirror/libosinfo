@@ -272,11 +272,6 @@ OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self, OsinfoFilter *filter, GError
 
     // Create list
     OsinfoOsList *newList = g_object_new(OSINFO_TYPE_OSLIST, NULL);
-    if (!newList) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
-
     int ret;
     ret = __osinfoPopulateList(self->priv->oses, OSINFO_LIST (newList), filter, err);
     if (ret != 0) {
@@ -302,10 +297,6 @@ OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self, OsinfoFilter
 
     // Create list
     OsinfoHypervisorList *newList = g_object_new(OSINFO_TYPE_HYPERVISORLIST, NULL);
-    if (!newList) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     int ret;
     ret = __osinfoPopulateList(self->priv->hypervisors, OSINFO_LIST (newList), filter, err);
@@ -332,10 +323,6 @@ OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self, OsinfoFilter *filter
 
     // Create list
     OsinfoDeviceList *newList = g_object_new(OSINFO_TYPE_DEVICELIST, NULL);
-    if (!newList) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     int ret;
     ret = __osinfoPopulateList(self->priv->devices, OSINFO_LIST (newList), filter, err);
@@ -396,10 +383,6 @@ static gboolean __osinfoFreeKeys(gpointer key, gpointer value, gpointer data)
 static GPtrArray *osinfo_db_unique_values_for_property_in_entity(GTree *entities, gchar *propName, GError **err)
 {
     GTree *values = g_tree_new(__osinfoStringCompareBase);
-    if (!values) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     struct __osinfoPopulateValuesArgs args = {err, 0, values, propName};
     g_tree_foreach(entities, osinfo_db_get_property_values_in_entity, &args);
@@ -413,12 +396,6 @@ static GPtrArray *osinfo_db_unique_values_for_property_in_entity(GTree *entities
 
     // For each key in tree, add to gptrarray
     GPtrArray *valuesList = g_ptr_array_sized_new(g_tree_nnodes(values));
-    if (!valuesList) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        g_tree_foreach(values, __osinfoFreeKeys, NULL);
-        g_tree_destroy(values);
-        return NULL;
-    }
 
     g_tree_foreach(values, __osinfoPutKeysInList, valuesList);
     g_tree_destroy(values);
@@ -517,10 +494,6 @@ OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, osinfo
 
     // Create list
     OsinfoOsList *newList = g_object_new(OSINFO_TYPE_OSLIST, NULL);
-    if (!newList) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     struct __osinfoOsCheckRelationshipArgs args = {OSINFO_LIST (newList), 0, err, relshp};
 

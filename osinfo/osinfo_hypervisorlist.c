@@ -62,10 +62,6 @@ OsinfoHypervisorList *osinfo_hypervisor_list_filter(OsinfoHypervisorList *self, 
 
     // For each element in self, if passes filter, add to new list.
     OsinfoHypervisorList *newList = g_object_new(OSINFO_TYPE_HYPERVISORLIST, NULL);
-    if (!newList) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     __osinfo_list_filter(OSINFO_LIST (self), OSINFO_LIST (newList), filter);
     return newList;
@@ -79,10 +75,6 @@ OsinfoHypervisorList *osinfo_hypervisor_list_intersect(OsinfoHypervisorList *sel
     }
 
     OsinfoHypervisorList *newList = g_object_new(OSINFO_TYPE_HYPERVISORLIST, NULL);
-    if (!newList) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     int ret;
 
@@ -104,10 +96,6 @@ OsinfoHypervisorList *osinfo_hypervisor_list_union(OsinfoHypervisorList *self, O
     }
 
     OsinfoHypervisorList *newList = g_object_new(OSINFO_TYPE_HYPERVISORLIST, NULL);
-    if (!newList) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     int ret;
     ret = __osinfo_list_union(self, otherList, newList);

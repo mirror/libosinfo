@@ -312,8 +312,6 @@ int __osinfoCheckRelationshipValid(osinfoRelationship relshp)
 gchar *__osinfoErrorToString(int err)
 {
     switch (err) {
-        case -ENOMEM:
-            return OSINFO_NO_MEM;
         default:
             return OSINFO_OTHER;
     }
