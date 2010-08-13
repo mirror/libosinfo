@@ -4,6 +4,12 @@ G_DEFINE_TYPE (OsinfoDevice, osinfo_device, OSINFO_TYPE_ENTITY);
 
 #define OSINFO_DEVICE_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_DEVICE, OsinfoDevicePrivate))
 
+struct _OsinfoDevicePrivate
+{
+    gboolean unused;
+};
+
+
 static void osinfo_device_finalize (GObject *object);
 
 static void

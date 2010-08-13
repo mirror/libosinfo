@@ -134,11 +134,6 @@ struct _OsinfoFilterPrivate
     GTree *relationshipConstraints;
 };
 
-struct _OsinfoDevicePrivate
-{
-    int tmp;
-};
-
 struct _OsinfoHypervisorPrivate
 {
     // Key: gchar* (device type)

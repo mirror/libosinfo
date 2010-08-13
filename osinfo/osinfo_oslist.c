@@ -8,7 +8,7 @@ static void osinfo_oslist_finalize (GObject *object);
 
 struct _OsinfoOsListPrivate
 {
-    int tmp;
+    gboolean unused;
 };
 
 static void

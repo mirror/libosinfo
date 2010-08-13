@@ -8,7 +8,7 @@ static void osinfo_hypervisorlist_finalize (GObject *object);
 
 struct _OsinfoHypervisorListPrivate
 {
-    int tmp;
+    gboolean unused;
 };
 
 static void

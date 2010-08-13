@@ -8,7 +8,7 @@ static void osinfo_devicelist_finalize (GObject *object);
 
 struct _OsinfoDeviceListPrivate
 {
-    int tmp;
+    gboolean unused;
 };
 
 static void
