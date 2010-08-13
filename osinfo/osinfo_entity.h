@@ -45,9 +45,11 @@ struct _OsinfoEntityClass
 
 GType osinfo_entity_get_type(void);
 
-gchar *osinfoGetId(OsinfoEntity *self, GError **err);
-GPtrArray *osinfoGetParams(OsinfoEntity *self, GError **err);
-gchar *osinfoGetParamValue(OsinfoEntity *self, gchar *key, GError **err);
-GPtrArray *osinfoGetParamAllValues(OsinfoEntity *self, gchar *key, GError **err);
+gchar *osinfo_entity_get_id(OsinfoEntity *self, GError **err);
+GPtrArray *osinfo_entity_get_params(OsinfoEntity *self, GError **err);
+gchar *osinfo_entity_get_param_value(OsinfoEntity *self, gchar *key, GError **err);
+GPtrArray *osinfo_entity_get_param_all_values(OsinfoEntity *self, gchar *key, GError **err);
+int osinfo_entity_add_param(OsinfoEntity *self, gchar *key, gchar *value);
+void osinfo_entity_clear_param(OsinfoEntity *self, gchar *key);
 
 #endif /* __OSINFO_ENTITY_H__ */

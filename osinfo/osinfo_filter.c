@@ -184,7 +184,7 @@ GPtrArray *osinfoGetFilterConstraintKeys(OsinfoFilter *self, GError **err)
     }
 
     struct __osinfoPtrArrayErr arrayErr = {constraints, 0};
-    g_tree_foreach(self->priv->propertyConstraints, __osinfoGetKeys, &arrayErr);
+    g_tree_foreach(self->priv->propertyConstraints, osinfo_get_keys, &arrayErr);
 
     // If we had an error, cleanup and return NULL
     if (arrayErr.err != 0) {
@@ -233,7 +233,7 @@ GPtrArray *osinfoGetFilterConstraintValues(OsinfoFilter *self, gchar *propName, 
         return retArray;
 
     struct __osinfoPtrArrayErr arrayErr = {retArray, 0};
-    g_ptr_array_foreach(srcArray, __osinfoDupArray, &arrayErr);
+    g_ptr_array_foreach(srcArray, osinfo_dup_array, &arrayErr);
     if (arrayErr.err) {
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), arrayErr.err, __osinfoErrorToString(arrayErr.err));
         g_ptr_array_set_free_func(retArray, g_free);

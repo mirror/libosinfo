@@ -120,8 +120,8 @@ void __osinfoListAdd(OsinfoList *self, OsinfoEntity *entity);
 int __osinfoAddDeviceToSection(GTree *allSections, GTree *allSectionsAsList, gchar *sectionName, gchar *id, gchar *driver);
 void __osinfoClearDeviceSection(GTree *allSections, GTree *allSectionsAsList, gchar *section);
 
-gboolean __osinfoGetKeys(gpointer key, gpointer value, gpointer data);
-void __osinfoDupArray(gpointer data, gpointer user_data);
+gboolean osinfo_get_keys(gpointer key, gpointer value, gpointer data);
+void osinfo_dup_array(gpointer data, gpointer user_data);
 
 int __osinfoEntityPassesFilter(OsinfoFilter *filter, OsinfoEntity *device);
 int __osinfoDevicePassesFilter(OsinfoFilter *filter, OsinfoDevice *device);
@@ -249,6 +249,3 @@ void __osinfoRemoveHvSectionFromOs(OsinfoOs *self, gchar *hvId);
 int __osinfoAddDeviceToSectionHv(OsinfoHypervisor *self, gchar *section, gchar *id, gchar *driver);
 void __osinfoClearDeviceSectionHv(OsinfoHypervisor *self, gchar *section);
 
-// Private
-int __osinfoAddParam(OsinfoEntity *self, gchar *key, gchar *value);
-void __osinfoClearParam(OsinfoEntity *self, gchar *key);

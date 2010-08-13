@@ -111,7 +111,7 @@ osinfo_entity_init (OsinfoEntity *self)
     self->priv->params = g_tree_new_full(__osinfoStringCompare, NULL, g_free, __osinfoFreeParamVals);
 }
 
-int __osinfoAddParam(OsinfoEntity *self, gchar *key, gchar *value)
+int osinfo_entity_add_param(OsinfoEntity *self, gchar *key, gchar *value)
 {
     if (!OSINFO_IS_ENTITY(self) || !key || !value)
         return -EINVAL;
@@ -140,12 +140,12 @@ int __osinfoAddParam(OsinfoEntity *self, gchar *key, gchar *value)
     return 0;
 }
 
-void __osinfoClearParam(OsinfoEntity *self, gchar *key)
+void osinfo_entity_clear_param(OsinfoEntity *self, gchar *key)
 {
     g_tree_remove(self->priv->params, key);
 }
 
-gboolean __osinfoGetKeys(gpointer key, gpointer value, gpointer data)
+gboolean osinfo_get_keys(gpointer key, gpointer value, gpointer data)
 {
     struct __osinfoPtrArrayErr *arrayErr = (struct __osinfoPtrArrayErr *) data;
     GPtrArray *results = arrayErr->array;
@@ -155,7 +155,7 @@ gboolean __osinfoGetKeys(gpointer key, gpointer value, gpointer data)
     return FALSE; // Continue iterating
 }
 
-void __osinfoDupArray(gpointer data, gpointer user_data)
+void osinfo_dup_array(gpointer data, gpointer user_data)
 {
     struct __osinfoPtrArrayErr *arrayErr = (struct __osinfoPtrArrayErr *) data;
     GPtrArray *results = arrayErr->array;
@@ -168,7 +168,7 @@ void __osinfoDupArray(gpointer data, gpointer user_data)
     g_ptr_array_add(results, valueDup);
 }
 
-gchar *osinfoGetId(OsinfoEntity *self, GError **err)
+gchar *osinfo_entity_get_id(OsinfoEntity *self, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;
@@ -183,7 +183,7 @@ gchar *osinfoGetId(OsinfoEntity *self, GError **err)
     return dupId;
 }
 
-GPtrArray *osinfoGetParams(OsinfoEntity *self, GError **err)
+GPtrArray *osinfo_entity_get_params(OsinfoEntity *self, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;
@@ -200,7 +200,7 @@ GPtrArray *osinfoGetParams(OsinfoEntity *self, GError **err)
     }
 
     struct __osinfoPtrArrayErr arrayErr = {params, 0};
-    g_tree_foreach(self->priv->params, __osinfoGetKeys, &arrayErr);
+    g_tree_foreach(self->priv->params, osinfo_get_keys, &arrayErr);
 
     // If we had an error, cleanup and return NULL
     if (arrayErr.err != 0) {
@@ -215,7 +215,7 @@ GPtrArray *osinfoGetParams(OsinfoEntity *self, GError **err)
     return params;
 }
 
-gchar *osinfoGetParamValue(OsinfoEntity *self, gchar *key, GError **err)
+gchar *osinfo_entity_get_param_value(OsinfoEntity *self, gchar *key, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;
@@ -247,7 +247,7 @@ gchar *osinfoGetParamValue(OsinfoEntity *self, gchar *key, GError **err)
     return firstValueDup;
 }
 
-GPtrArray *osinfoGetParamAllValues(OsinfoEntity *self, gchar *key, GError **err)
+GPtrArray *osinfo_entity_get_param_all_values(OsinfoEntity *self, gchar *key, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;
@@ -280,7 +280,7 @@ GPtrArray *osinfoGetParamAllValues(OsinfoEntity *self, gchar *key, GError **err)
         return retArray;
 
     struct __osinfoPtrArrayErr arrayErr = {retArray, 0};
-    g_ptr_array_foreach(srcArray, __osinfoDupArray, &arrayErr);
+    g_ptr_array_foreach(srcArray, osinfo_dup_array, &arrayErr);
     if (arrayErr.err) {
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), arrayErr.err, __osinfoErrorToString(arrayErr.err));
         g_ptr_array_set_free_func(retArray, g_free);

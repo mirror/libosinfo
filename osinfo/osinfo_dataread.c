@@ -524,7 +524,7 @@ static int __osinfoProcessOs(OsinfoDb *db,
             if (err != 0 || !key || !val)
                 goto cleanup_error;
 
-            err = __osinfoAddParam(OSINFO_ENTITY(os), key, val);
+            err = osinfo_entity_add_param(OSINFO_ENTITY(os), key, val);
             if (err != 0)
                 goto cleanup_error;
 
@@ -636,7 +636,7 @@ static int __osinfoProcessHypervisor(OsinfoDb *db,
                 goto cleanup_error;
 
 
-            err = __osinfoAddParam(OSINFO_ENTITY(hv), key, val);
+            err = osinfo_entity_add_param(OSINFO_ENTITY(hv), key, val);
             free(key);
             free(val);
             if (err != 0)
@@ -730,7 +730,7 @@ static int __osinfoProcessDevice(OsinfoDb *db,
         if (err != 0 || !key || !val)
             goto cleanup_error;
 
-        err = __osinfoAddParam(OSINFO_ENTITY(dev), key, val);
+        err = osinfo_entity_add_param(OSINFO_ENTITY(dev), key, val);
         if (err != 0)
             goto cleanup_error;
 

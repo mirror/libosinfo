@@ -72,7 +72,7 @@ GPtrArray *osinfoGetHypervisorDeviceTypes(OsinfoHypervisor *self, GError **err)
 
     // For each key in our tree of device sections, dup and add to the array
     struct __osinfoPtrArrayErr arrayErr = {deviceTypes, 0};
-    g_tree_foreach(self->priv->sections, __osinfoGetKeys, &arrayErr);
+    g_tree_foreach(self->priv->sections, osinfo_get_keys, &arrayErr);
     return deviceTypes;
 }
 
