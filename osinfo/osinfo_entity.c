@@ -125,20 +125,10 @@ int __osinfoAddParam(OsinfoEntity *self, gchar *key, gchar *value)
 
     valueDup = g_strdup(value);
 
-    if (!valueDup)
-        goto error_free;
-
     found = g_tree_lookup_extended(self->priv->params, key, &origKey, &foundValue);
     if (!found) {
         keyDup = g_strdup(key);
         valueArray = g_ptr_array_new_with_free_func(g_free);
-
-        if (!valueArray)
-            goto error_free;
-        if (!keyDup) {
-            g_ptr_array_free(valueArray, TRUE);
-            goto error_free;
-        }
 
         g_tree_insert(self->priv->params, keyDup, valueArray);
     }
@@ -148,11 +138,6 @@ int __osinfoAddParam(OsinfoEntity *self, gchar *key, gchar *value)
     // Add a copy of the value to the array
     g_ptr_array_add(valueArray, valueDup);
     return 0;
-
-error_free:
-    g_free(keyDup);
-    g_free(valueDup);
-    return -ENOMEM;
 }
 
 void __osinfoClearParam(OsinfoEntity *self, gchar *key)
@@ -166,10 +151,6 @@ gboolean __osinfoGetKeys(gpointer key, gpointer value, gpointer data)
     GPtrArray *results = arrayErr->array;
     gchar *keyDup = g_strdup(key);
 
-    if (!keyDup) {
-        arrayErr->err = -ENOMEM;
-        return TRUE;
-    }
     g_ptr_array_add(results, keyDup);
     return FALSE; // Continue iterating
 }
@@ -183,10 +164,7 @@ void __osinfoDupArray(gpointer data, gpointer user_data)
         return;
 
     gchar *valueDup = g_strdup((gchar *)data);
-    if (!valueDup) {
-        arrayErr->err = -ENOMEM;
-        return;
-    }
+
     g_ptr_array_add(results, valueDup);
 }
 
@@ -201,10 +179,7 @@ gchar *osinfoGetId(OsinfoEntity *self, GError **err)
     }
 
     gchar *dupId = g_strdup(self->priv->id);
-    if (!dupId) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
+
     return dupId;
 }
 
@@ -268,10 +243,6 @@ gchar *osinfoGetParamValue(OsinfoEntity *self, gchar *key, GError **err)
         return NULL;
 
     firstValueDup = g_strdup(g_ptr_array_index(array, 0));
-    if (!firstValueDup) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     return firstValueDup;
 }

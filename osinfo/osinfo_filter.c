@@ -81,20 +81,10 @@ gint osinfoAddFilterConstraint(OsinfoFilter *self, gchar *propName, gchar *propV
 
     valueDup = g_strdup(propVal);
 
-    if (!valueDup)
-        goto error_free;
-
     found = g_tree_lookup_extended(self->priv->propertyConstraints, propName, &origKey, &foundValue);
     if (!found) {
         keyDup = g_strdup(propName);
         valueArray = g_ptr_array_new_with_free_func(g_free);
-
-        if (!valueArray)
-            goto error_free;
-        if (!keyDup) {
-            g_ptr_array_free(valueArray, TRUE);
-            goto error_free;
-        }
 
         g_tree_insert(self->priv->propertyConstraints, keyDup, valueArray);
     }
@@ -104,12 +94,6 @@ gint osinfoAddFilterConstraint(OsinfoFilter *self, gchar *propName, gchar *propV
     // Add a copy of the value to the array
     g_ptr_array_add(valueArray, valueDup);
     return 0;
-
-error_free:
-    g_free(keyDup);
-    g_free(valueDup);
-    g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-    return -ENOMEM;
 }
 
 // Only applicable to OSes, ignored by other types of objects

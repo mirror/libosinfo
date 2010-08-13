@@ -74,12 +74,6 @@ static int __osinfoAddOsRelationshipByOs(OsinfoOs *self,
         otherOsIdDup = g_strdup(otherOsId);
         relationshipsForOs = g_ptr_array_new_with_free_func(__osinfoFreeOsLink);
 
-        if (!relationshipsForOs)
-            return -ENOMEM;
-        if (!otherOsIdDup) {
-            g_ptr_array_free(relationshipsForOs, TRUE);
-            return -ENOMEM;
-        }
         g_tree_insert(self->priv->relationshipsByOs, otherOsIdDup, relationshipsForOs);
     }
     else
@@ -205,23 +199,11 @@ struct __osinfoHvSection *__osinfoAddHypervisorSectionToOs(OsinfoOs *self, gchar
                                         g_free,
                                         __osinfoFreeDeviceSection);
 
-        if (!deviceSections)
-            goto error_free;
 
         deviceSectionsAsList = g_tree_new_full(__osinfoStringCompare,
                                                NULL,
                                                g_free,
                                                __osinfoFreePtrArray);
-        if (!deviceSectionsAsList) {
-            g_tree_destroy(deviceSections);
-            goto error_free;
-        }
-
-        if (!hvSection || !hvIdDup) {
-            g_tree_destroy(deviceSectionsAsList);
-            g_tree_destroy(deviceSections);
-            goto error_free;
-        }
 
         hvSection->os = self;
         // Will set hv link later
@@ -233,11 +215,6 @@ struct __osinfoHvSection *__osinfoAddHypervisorSectionToOs(OsinfoOs *self, gchar
     }
     else
         return (struct __osinfoHvSection *) foundValue;
-
-error_free:
-    g_free(hvSection);
-    g_free(hvIdDup);
-    return NULL;
 }
 
 void __osinfoRemoveHvSectionFromOs(OsinfoOs *self, gchar *hvId)

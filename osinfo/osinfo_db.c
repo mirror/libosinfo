@@ -362,11 +362,6 @@ gboolean __osinfoGetPropertyValuesInEntity(gpointer key, gpointer value, gpointe
         if (test)
             continue;
         gchar *dupValue = g_strdup(currValue);
-        if (!dupValue) {
-            g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-            args->errcode = -ENOMEM;
-            return TRUE;
-        }
 
         // Add to tree with dummy value
         g_tree_insert(values, dupValue, (gpointer) 1);

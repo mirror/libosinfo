@@ -85,10 +85,6 @@ gchar *osinfoGetDeviceDriver(OsinfoDevice *self,
         return NULL;
 
     driver = g_strdup(deviceLink->driver);
-    if (!driver) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -ENOMEM, OSINFO_NO_MEM);
-        return NULL;
-    }
 
     return driver;
 }

@@ -16,14 +16,6 @@ static int __osinfoAddDeviceToList(GTree *allSectionsAsList,
     if (!found) {
         sectionList = g_ptr_array_new();
         sectionNameDup = g_strdup(sectionName);
-
-        if (!sectionList)
-            goto error_free;
-        if (!sectionNameDup) {
-            g_ptr_array_free(sectionList, TRUE);
-            goto error_free;
-        }
-
         g_tree_insert(allSectionsAsList, sectionNameDup, sectionList);
     }
     else
@@ -31,10 +23,6 @@ static int __osinfoAddDeviceToList(GTree *allSectionsAsList,
 
     g_ptr_array_add(sectionList, deviceLink);
     return 0;
-
-error_free:
-    g_free(sectionNameDup);
-    return -ENOMEM;
 }
 
 int __osinfoAddDeviceToSection(GTree *allSections, GTree *allSectionsAsList, gchar *sectionName, gchar *id, gchar *driver)
@@ -51,22 +39,12 @@ int __osinfoAddDeviceToSection(GTree *allSections, GTree *allSectionsAsList, gch
 
     idDup = g_strdup(id);
     driverDup = g_strdup(driver);
-    deviceLink = g_malloc(sizeof(*deviceLink));
-
-    if (!idDup || g_strcmp0(driverDup, driver) != 0 || !deviceLink)
-        goto error_free;
+    deviceLink = g_new0(struct __osinfoDeviceLink, 1);
 
     found = g_tree_lookup_extended(allSections, sectionName, &origKey, &foundValue);
     if (!found) {
         section = g_tree_new_full(__osinfoStringCompare, NULL, g_free, __osinfoFreeDeviceLink);
         sectionNameDup = g_strdup(sectionName);
-
-        if (!section)
-            goto error_free;
-        if (!sectionNameDup) {
-            g_tree_destroy(section);
-            goto error_free;
-        }
 
         g_tree_insert(allSections, sectionNameDup, section);
     }
@@ -81,13 +59,6 @@ int __osinfoAddDeviceToSection(GTree *allSections, GTree *allSectionsAsList, gch
         ret = __osinfoAddDeviceToList(allSectionsAsList, sectionName, deviceLink);
 
     return ret;
-
-error_free:
-    g_free(sectionNameDup);
-    g_free(idDup);
-    g_free(driverDup);
-    g_free(deviceLink);
-    return -ENOMEM;
 }
 
 void __osinfoClearDeviceSection(GTree *allSections, GTree *allSectionsAsList, gchar *section)
