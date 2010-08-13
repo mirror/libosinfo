@@ -184,8 +184,6 @@ struct _OsinfoEntityPrivate
     // Key: gchar*
     // Value: Array of gchar* values for key (multiple values allowed)
     GTree *params;
-
-    OsinfoDb *db; // Backpointer to db object
 };
 
 /** ****************************************************************************

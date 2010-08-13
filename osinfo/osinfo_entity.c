@@ -10,7 +10,6 @@ enum OSI_ENTITY_PROPERTIES {
     OSI_ENTITY_PROP_0,
 
     OSI_ENTITY_ID,
-    OSI_DB_PTR
 };
 
 static void
@@ -26,9 +25,6 @@ osinfo_entity_set_property (GObject      *object,
       case OSI_ENTITY_ID:
         g_free(self->priv->id);
         self->priv->id = g_value_dup_string (value);
-        break;
-      case OSI_DB_PTR:
-        self->priv->db = g_value_get_pointer (value);
         break;
       default:
         /* We don't have any other property... */
@@ -49,9 +45,6 @@ osinfo_entity_get_property (GObject    *object,
       {
       case OSI_ENTITY_ID:
         g_value_set_string (value, self->priv->id);
-        break;
-      case OSI_DB_PTR:
-        g_value_set_pointer(value, self->priv->db);
         break;
       default:
         /* We don't have any other property... */
@@ -89,13 +82,6 @@ osinfo_entity_class_init (OsinfoEntityClass *klass)
                                  G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE);
     g_object_class_install_property (g_klass,
                                      OSI_ENTITY_ID,
-                                     pspec);
-    pspec = g_param_spec_pointer ("db",
-                                 "Db pointer",
-                                 "Contains backpointer to libosinfo db object.",
-                                 G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE);
-    g_object_class_install_property (g_klass,
-                                     OSI_DB_PTR,
                                      pspec);
 
     g_klass->finalize = osinfo_entity_finalize;
