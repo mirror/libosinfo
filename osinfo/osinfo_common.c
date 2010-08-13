@@ -295,11 +295,3 @@ int __osinfoHypervisorPassesFilter(OsinfoFilter *filter, OsinfoHypervisor *hyper
 {
     return __osinfoEntityPassesFilter(filter, OSINFO_ENTITY (hypervisor));
 }
-
-gchar *__osinfoErrorToString(int err)
-{
-    switch (err) {
-        default:
-            return OSINFO_OTHER;
-    }
-}

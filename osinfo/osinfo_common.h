@@ -173,31 +173,6 @@ struct _OsinfoEntityPrivate
 };
 
 /** ****************************************************************************
- *      Error strings
- ******************************************************************************/
-
-gchar *__osinfoErrorToString(int err);
-
-#define OSINFO_OTHER "An unspecified error occured"
-#define OSINFO_OBJ_NOT_DB "Object is wrong type (expected OsInfoDb)"
-#define OSINFO_OBJ_NOT_ENTITY "Object is wrong type (expected OsInfoEntity)"
-#define OSINFO_OBJ_NOT_DEVICE "Object is wrong type (expected OsInfoDevice)"
-#define OSINFO_OBJ_NOT_OS "Object is wrong type (expected OsInfoOs)"
-#define OSINFO_OBJ_NOT_HV "Object is wrong type (expected OsInfoHypervisor)"
-#define OSINFO_OBJ_NOT_LIST "Object is wrong type (expected OsInfoList)"
-#define OSINFO_OBJ_NOT_HYPERVISORLIST "Object is wrong type (expected OsInfoHypervisorList)"
-#define OSINFO_OBJ_NOT_DEVICELIST "Object is wrong type (expected OsInfoDeviceList)"
-#define OSINFO_OBJ_NOT_OSLIST "Object is wrong type (expected OsInfoOsList)"
-#define OSINFO_OBJ_NOT_FILTER "Object is wrong type (expected OsInfoFilter)"
-#define OSINFO_NO_ID "No object id specified"
-#define OSINFO_NO_DEVTYPE "No device type specified"
-#define OSINFO_NO_MEM "Not enough memory to complete operation"
-#define OSINFO_NO_PROPNAME "No property specified"
-#define OSINFO_NO_PROPVAL "No value specified for property"
-#define OSINFO_INVALID_RELATIONSHIP "Invalid relationship specified"
-#endif /* __OSINFO_OBJECTS_H__ */
-
-/** ****************************************************************************
  *      Private Methods
  ******************************************************************************/
 
@@ -215,3 +190,4 @@ void __osinfoRemoveHvSectionFromOs(OsinfoOs *self, gchar *hvId);
 int __osinfoAddDeviceToSectionHv(OsinfoHypervisor *self, gchar *section, gchar *id, gchar *driver);
 void __osinfoClearDeviceSectionHv(OsinfoHypervisor *self, gchar *section);
 
+#endif /* __OSINFO_OBJECTS_H__ */
