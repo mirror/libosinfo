@@ -36,7 +36,7 @@ osinfo_devicelist_init (OsinfoDeviceList *self)
 
 }
 
-OsinfoDevice *osinfoGetDeviceAtIndex(OsinfoDeviceList *self, gint idx, GError **err)
+OsinfoDevice *osinfo_device_list_get_nth(OsinfoDeviceList *self, gint idx, GError **err)
 {
     if (!OSINFO_IS_DEVICELIST(self)) {
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_DEVICELIST);
@@ -44,11 +44,11 @@ OsinfoDevice *osinfoGetDeviceAtIndex(OsinfoDeviceList *self, gint idx, GError **
     }
 
     OsinfoList *selfAsList = OSINFO_LIST (self);
-    OsinfoEntity *entity = osinfoGetEntityAtIndex(selfAsList, idx);
+    OsinfoEntity *entity = osinfo_list_get_nth(selfAsList, idx);
     return OSINFO_DEVICE (entity);
 }
 
-OsinfoDeviceList *osinfoDeviceListFilter(OsinfoDeviceList *self, OsinfoFilter *filter, GError **err)
+OsinfoDeviceList *osinfo_device_list_filter(OsinfoDeviceList *self, OsinfoFilter *filter, GError **err)
 {
     if (!OSINFO_IS_DEVICELIST(self)) {
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_DEVICELIST);
@@ -67,11 +67,11 @@ OsinfoDeviceList *osinfoDeviceListFilter(OsinfoDeviceList *self, OsinfoFilter *f
         return NULL;
     }
 
-    __osinfoDoFilter(OSINFO_LIST (self), OSINFO_LIST (newList), filter);
+    __osinfo_list_filter(OSINFO_LIST (self), OSINFO_LIST (newList), filter);
     return newList;
 }
 
-OsinfoDeviceList *osinfoDeviceListIntersect(OsinfoDeviceList *self, OsinfoDeviceList *otherList, GError **err)
+OsinfoDeviceList *osinfo_device_list_intersect(OsinfoDeviceList *self, OsinfoDeviceList *otherList, GError **err)
 {
     if (!OSINFO_IS_DEVICELIST(self) || !OSINFO_IS_DEVICELIST(otherList)) {
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_DEVICELIST);
@@ -86,7 +86,7 @@ OsinfoDeviceList *osinfoDeviceListIntersect(OsinfoDeviceList *self, OsinfoDevice
 
     int ret;
 
-    ret = __osinfoDoIntersect(self, otherList, newList);
+    ret = __osinfo_list_intersect(self, otherList, newList);
     if (ret != 0) {
         g_object_unref(newList);
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), ret, __osinfoErrorToString(ret));
@@ -96,7 +96,7 @@ OsinfoDeviceList *osinfoDeviceListIntersect(OsinfoDeviceList *self, OsinfoDevice
     return newList;
 }
 
-OsinfoDeviceList *osinfoDeviceListUnion(OsinfoDeviceList *self, OsinfoDeviceList *otherList, GError **err)
+OsinfoDeviceList *osinfo_device_list_union(OsinfoDeviceList *self, OsinfoDeviceList *otherList, GError **err)
 {
     if (!OSINFO_IS_DEVICELIST(self) || !OSINFO_IS_DEVICELIST(otherList)) {
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_DEVICELIST);
@@ -110,7 +110,7 @@ OsinfoDeviceList *osinfoDeviceListUnion(OsinfoDeviceList *self, OsinfoDeviceList
     }
 
     int ret;
-    ret = __osinfoDoUnion(self, otherList, newList);
+    ret = __osinfo_list_union(self, otherList, newList);
     if (ret != 0) {
         g_object_unref(newList);
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), ret, __osinfoErrorToString(ret));

@@ -115,7 +115,7 @@ OsinfoDeviceList *osinfo_hypervisor_get_devices_by_type(OsinfoHypervisor *self, 
     for (i = 0; i < sectionList->len; i++) {
         deviceLink = g_ptr_array_index(sectionList, i);
         if (__osinfoDevicePassesFilter(filter, deviceLink->dev))
-            __osinfoListAdd(OSINFO_LIST (newList), OSINFO_ENTITY (deviceLink->dev));
+            __osinfo_list_add(OSINFO_LIST (newList), OSINFO_ENTITY (deviceLink->dev));
     }
 
     return newList;

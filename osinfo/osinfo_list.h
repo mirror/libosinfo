@@ -42,12 +42,11 @@ struct _OsinfoListClass
 
 GType osinfo_list_get_type(void);
 
-void osinfoFreeList(OsinfoList *self);
-gint osinfoListLength(OsinfoList *self);
+gint osinfo_list_get_length(OsinfoList *self);
 
-OsinfoList *osinfoListFilter(OsinfoList *self, OsinfoFilter *filter, GError **err);
-OsinfoEntity *osinfoGetEntityAtIndex(OsinfoList *self, gint idx);
-OsinfoList *osinfoListIntersect(OsinfoList *self, OsinfoList *otherList, GError **err);
-OsinfoList *osinfoListUnion(OsinfoList *self, OsinfoList *otherList, GError **err);
+OsinfoList *osinfo_list_filter(OsinfoList *self, OsinfoFilter *filter, GError **err);
+OsinfoEntity *osinfo_list_get_nth(OsinfoList *self, gint idx);
+OsinfoList *osinfo_list_intersect(OsinfoList *self, OsinfoList *otherList, GError **err);
+OsinfoList *osinfo_list_union(OsinfoList *self, OsinfoList *otherList, GError **err);
 
 #endif /* __OSINFO_LIST_H__ */

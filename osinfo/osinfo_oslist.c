@@ -36,7 +36,7 @@ osinfo_oslist_init (OsinfoOsList *self)
 
 }
 
-OsinfoOs *osinfoGetOsAtIndex(OsinfoOsList *self, gint idx, GError **err)
+OsinfoOs *osinfo_os_list_get_nth(OsinfoOsList *self, gint idx, GError **err)
 {
     if (!OSINFO_IS_OSLIST(self)) {
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_OSLIST);
@@ -44,11 +44,11 @@ OsinfoOs *osinfoGetOsAtIndex(OsinfoOsList *self, gint idx, GError **err)
     }
 
     OsinfoList *selfAsList = OSINFO_LIST (self);
-    OsinfoEntity *entity = osinfoGetEntityAtIndex(selfAsList, idx);
+    OsinfoEntity *entity = osinfo_list_get_nth(selfAsList, idx);
     return OSINFO_OS (entity);
 }
 
-OsinfoOsList *osinfoOsListFilter(OsinfoOsList *self, OsinfoFilter *filter, GError **err)
+OsinfoOsList *osinfo_os_list_filter(OsinfoOsList *self, OsinfoFilter *filter, GError **err)
 {
     if (!OSINFO_IS_OSLIST(self)) {
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_OSLIST);
@@ -67,11 +67,11 @@ OsinfoOsList *osinfoOsListFilter(OsinfoOsList *self, OsinfoFilter *filter, GErro
         return NULL;
     }
 
-    __osinfoDoFilter(OSINFO_LIST (self), OSINFO_LIST (newList), filter);
+    __osinfo_list_filter(OSINFO_LIST (self), OSINFO_LIST (newList), filter);
     return newList;
 }
 
-OsinfoOsList *osinfoOsListIntersect(OsinfoOsList *self, OsinfoOsList *otherList, GError **err)
+OsinfoOsList *osinfo_os_list_intersect(OsinfoOsList *self, OsinfoOsList *otherList, GError **err)
 {
     if (!OSINFO_IS_OSLIST(self) || !OSINFO_IS_OSLIST(otherList)) {
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_OSLIST);
@@ -86,7 +86,7 @@ OsinfoOsList *osinfoOsListIntersect(OsinfoOsList *self, OsinfoOsList *otherList,
 
     int ret;
 
-    ret = __osinfoDoIntersect(self, otherList, newList);
+    ret = __osinfo_list_intersect(self, otherList, newList);
     if (ret != 0) {
         g_object_unref(newList);
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), ret, __osinfoErrorToString(ret));
@@ -96,7 +96,7 @@ OsinfoOsList *osinfoOsListIntersect(OsinfoOsList *self, OsinfoOsList *otherList,
     return newList;
 }
 
-OsinfoOsList *osinfoOsListUnion(OsinfoOsList *self, OsinfoOsList *otherList, GError **err)
+OsinfoOsList *osinfo_os_list_union(OsinfoOsList *self, OsinfoOsList *otherList, GError **err)
 {
     if (!OSINFO_IS_OSLIST(self) || !OSINFO_IS_OSLIST(otherList)) {
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_OSLIST);
@@ -110,7 +110,7 @@ OsinfoOsList *osinfoOsListUnion(OsinfoOsList *self, OsinfoOsList *otherList, GEr
     }
 
     int ret;
-    ret = __osinfoDoUnion(self, otherList, newList);
+    ret = __osinfo_list_union(self, otherList, newList);
     if (ret != 0) {
         g_object_unref(newList);
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), ret, __osinfoErrorToString(ret));

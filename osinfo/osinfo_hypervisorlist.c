@@ -36,7 +36,7 @@ osinfo_hypervisorlist_init (OsinfoHypervisorList *self)
 
 }
 
-OsinfoHypervisor *osinfoGetHypervisorAtIndex(OsinfoHypervisorList *self, gint idx, GError **err)
+OsinfoHypervisor *osinfo_hypervisor_list_get_nth(OsinfoHypervisorList *self, gint idx, GError **err)
 {
     if (!OSINFO_IS_HYPERVISORLIST(self)) {
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_HYPERVISORLIST);
@@ -44,11 +44,11 @@ OsinfoHypervisor *osinfoGetHypervisorAtIndex(OsinfoHypervisorList *self, gint id
     }
 
     OsinfoList *selfAsList = OSINFO_LIST (self);
-    OsinfoEntity *entity = osinfoGetEntityAtIndex(selfAsList, idx);
+    OsinfoEntity *entity = osinfo_list_get_nth(selfAsList, idx);
     return OSINFO_HYPERVISOR (entity);
 }
 
-OsinfoHypervisorList *osinfoHypervisorListFilter(OsinfoHypervisorList *self, OsinfoFilter *filter, GError **err)
+OsinfoHypervisorList *osinfo_hypervisor_list_filter(OsinfoHypervisorList *self, OsinfoFilter *filter, GError **err)
 {
     if (!OSINFO_IS_HYPERVISORLIST(self)) {
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_HYPERVISORLIST);
@@ -67,11 +67,11 @@ OsinfoHypervisorList *osinfoHypervisorListFilter(OsinfoHypervisorList *self, Osi
         return NULL;
     }
 
-    __osinfoDoFilter(OSINFO_LIST (self), OSINFO_LIST (newList), filter);
+    __osinfo_list_filter(OSINFO_LIST (self), OSINFO_LIST (newList), filter);
     return newList;
 }
 
-OsinfoHypervisorList *osinfoHypervisorListIntersect(OsinfoHypervisorList *self, OsinfoHypervisorList *otherList, GError **err)
+OsinfoHypervisorList *osinfo_hypervisor_list_intersect(OsinfoHypervisorList *self, OsinfoHypervisorList *otherList, GError **err)
 {
     if (!OSINFO_IS_HYPERVISORLIST(self) || !OSINFO_IS_HYPERVISORLIST(otherList)) {
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_HYPERVISORLIST);
@@ -86,7 +86,7 @@ OsinfoHypervisorList *osinfoHypervisorListIntersect(OsinfoHypervisorList *self, 
 
     int ret;
 
-    ret = __osinfoDoIntersect(self, otherList, newList);
+    ret = __osinfo_list_intersect(self, otherList, newList);
     if (ret != 0) {
         g_object_unref(newList);
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), ret, __osinfoErrorToString(ret));
@@ -96,7 +96,7 @@ OsinfoHypervisorList *osinfoHypervisorListIntersect(OsinfoHypervisorList *self, 
     return newList;
 }
 
-OsinfoHypervisorList *osinfoHypervisorListUnion(OsinfoHypervisorList *self, OsinfoHypervisorList *otherList, GError **err)
+OsinfoHypervisorList *osinfo_hypervisor_list_union(OsinfoHypervisorList *self, OsinfoHypervisorList *otherList, GError **err)
 {
     if (!OSINFO_IS_HYPERVISORLIST(self) || !OSINFO_IS_HYPERVISORLIST(otherList)) {
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_HYPERVISORLIST);
@@ -110,7 +110,7 @@ OsinfoHypervisorList *osinfoHypervisorListUnion(OsinfoHypervisorList *self, Osin
     }
 
     int ret;
-    ret = __osinfoDoUnion(self, otherList, newList);
+    ret = __osinfo_list_union(self, otherList, newList);
     if (ret != 0) {
         g_object_unref(newList);
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), ret, __osinfoErrorToString(ret));
