@@ -59,7 +59,6 @@ static gboolean __osinfoResolveDeviceLink(gpointer key, gpointer value, gpointer
 static gboolean __osinfoResolveSectionDevices(gpointer key, gpointer value, gpointer data)
 {
     struct __osinfoDbRet *dbRet = (struct __osinfoDbRet *) data;
-    OsinfoDb *db = dbRet->db;
     int *ret = dbRet->ret;
     GTree *section = (GTree *) value;
     if (!section) {
@@ -120,7 +119,6 @@ static gboolean __osinfoResolveOsLink(gpointer key, gpointer value, gpointer dat
 static gboolean __osinfoFixOsLinks(gpointer key, gpointer value, gpointer data)
 {
     struct __osinfoDbRet *dbRet = (struct __osinfoDbRet *) data;
-    OsinfoDb *db = dbRet->db;
     int *ret = dbRet->ret;
     OsinfoOs *os = OSINFO_OS(value);
     if (!os) {
@@ -147,7 +145,6 @@ static gboolean __osinfoFixOsLinks(gpointer key, gpointer value, gpointer data)
 static gboolean __osinfoFixHvLinks(gpointer key, gpointer value, gpointer data)
 {
     struct __osinfoDbRet *dbRet = (struct __osinfoDbRet *) data;
-    OsinfoDb *db = dbRet->db;
     int *ret = dbRet->ret;
     OsinfoHypervisor *hv = OSINFO_HYPERVISOR(value);
     if (!hv) {
@@ -163,8 +160,6 @@ static gboolean __osinfoFixHvLinks(gpointer key, gpointer value, gpointer data)
 
 static int __osinfoFixObjLinks(OsinfoDb *db)
 {
-    OsinfoHypervisor *hv;
-    OsinfoOs *os;
     int ret;
 
     if (!OSINFO_IS_DB(db))
@@ -185,13 +180,13 @@ static int __osinfoProcessTag(xmlTextReaderPtr reader, char** ptr_to_key, char**
     int node_type, ret, err = 0;
     char* key = NULL;
     char* val = NULL;
-    const xmlChar* node_name, * end_node_name, * xml_value;
+    const gchar* node_name, * end_node_name, * xml_value;
 
-    node_name = xmlTextReaderConstName(reader);
+    node_name = (const gchar *)xmlTextReaderConstName(reader);
     if (!node_name)
         goto error;
 
-    key = g_strdup(node_name);
+    key = g_strdup((const gchar *)node_name);
 
     /* Advance to next node */
     ret = xmlTextReaderRead(reader);
@@ -204,11 +199,11 @@ static int __osinfoProcessTag(xmlTextReaderPtr reader, char** ptr_to_key, char**
         goto error;
 
     /* Store the value of the text node */
-    xml_value = xmlTextReaderConstValue(reader);
+    xml_value = (const gchar *)xmlTextReaderConstValue(reader);
     if (!xml_value)
         goto error;
 
-    val = g_strdup(xml_value);
+    val = g_strdup((const gchar *)xml_value);
 
     /* Advance to the next node */
     ret = xmlTextReaderRead(reader);
@@ -217,10 +212,11 @@ static int __osinfoProcessTag(xmlTextReaderPtr reader, char** ptr_to_key, char**
 
     /* Ensure the node is an end node for the tracked start node */
     node_type = xmlTextReaderNodeType(reader);
-    end_node_name = xmlTextReaderConstName(reader);
+    end_node_name = (const gchar *)xmlTextReaderConstName(reader);
     if (node_type != END_NODE ||
         !end_node_name ||
-        strcmp(end_node_name, node_name) != 0)
+        strcmp((const gchar *)end_node_name,
+	       (const gchar *)node_name) != 0)
             goto error;
 
     /* Now we have key and val with no errors so we return with success */
@@ -242,13 +238,13 @@ static int __osinfoProcessDevSection(xmlTextReaderPtr reader,
                                      GTree *section, GTree *sectionAsList)
 {
     int err, empty, node_type;
-    char * sectionType, * id, * key = NULL, * driver = NULL;
-    const char * name;
+    gchar * sectionType, * id, * key = NULL, * driver = NULL;
+    const gchar * name;
 
     if (!section)
         return -EINVAL;
 
-    sectionType = xmlTextReaderGetAttribute(reader, "type");
+    sectionType = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "type");
     empty = xmlTextReaderIsEmptyElement(reader);
 
     if (!sectionType)
@@ -268,7 +264,7 @@ static int __osinfoProcessDevSection(xmlTextReaderPtr reader,
         }
 
         node_type = xmlTextReaderNodeType(reader);
-        name = xmlTextReaderConstName(reader);
+        name = (const gchar *)xmlTextReaderConstName(reader);
 
         /* If end of section, break */
         if (node_type == END_NODE && strcmp(name, "section") == 0)
@@ -284,7 +280,7 @@ static int __osinfoProcessDevSection(xmlTextReaderPtr reader,
             goto error;
         }
 
-        id = xmlTextReaderGetAttribute(reader, "id");
+        id = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");
         empty = xmlTextReaderIsEmptyElement(reader);
 
         if (!id) {
@@ -311,7 +307,6 @@ static int __osinfoProcessDevSection(xmlTextReaderPtr reader,
     }
     free(sectionType);
 
-finished:
     return 0;
 
 error:
@@ -337,10 +332,10 @@ static int __osinfoProcessOsHvLink(xmlTextReaderPtr reader,
      */
     int empty, node_type, err;
     char* id;
-    const xmlChar* name;
+    const gchar* name;
     struct __osinfoHvSection *hvSection;
 
-    id = xmlTextReaderGetAttribute(reader, "id");
+    id = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");
     empty = xmlTextReaderIsEmptyElement(reader);
 
     if (!id)
@@ -363,7 +358,7 @@ static int __osinfoProcessOsHvLink(xmlTextReaderPtr reader,
         }
 
         node_type = xmlTextReaderNodeType(reader);
-        name = xmlTextReaderConstName(reader);
+        name = (const gchar *)xmlTextReaderConstName(reader);
         if (node_type == -1 || !name) {
             err = -EINVAL;
             goto error;
@@ -401,10 +396,9 @@ static int __osinfoProcessOsRelationship(xmlTextReaderPtr reader,
                                          osinfoRelationship relationship)
 {
     int empty, ret;
-    char* id;
-    struct osi_os_link * os_link;
+    gchar *id;
 
-    id = xmlTextReaderGetAttribute(reader, "id");
+    id = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");
     empty = xmlTextReaderIsEmptyElement(reader);
     if (!empty || !id) {
         free(id);
@@ -429,11 +423,11 @@ static int __osinfoProcessOs(OsinfoDb *db,
      */
 
     int empty, node_type, err, ret;
-    char* id, * key = NULL, * val = NULL;
-    const xmlChar* name;
+    gchar* id, * key = NULL, * val = NULL;
+    const gchar* name;
     OsinfoOs *os;
 
-    id = xmlTextReaderGetAttribute(reader, "id");
+    id = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");
     empty = xmlTextReaderIsEmptyElement(reader);
 
     if (!id)
@@ -469,7 +463,7 @@ static int __osinfoProcessOs(OsinfoDb *db,
         }
 
         node_type = xmlTextReaderNodeType(reader);
-        name = xmlTextReaderConstName(reader);
+        name = (const gchar *)xmlTextReaderConstName(reader);
         if (node_type == -1 || !name) {
             err = -EINVAL;
             goto cleanup_error;
@@ -547,11 +541,11 @@ static int __osinfoProcessHypervisor(OsinfoDb *db,
      */
 
     int empty, node_type, err, ret;
-    char* id;
-    const xmlChar* name;
+    gchar* id;
+    const gchar * name;
     OsinfoHypervisor *hv;
 
-    id = xmlTextReaderGetAttribute(reader, "id");
+    id = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");
     empty = xmlTextReaderIsEmptyElement(reader);
 
     if (!id)
@@ -596,7 +590,7 @@ static int __osinfoProcessHypervisor(OsinfoDb *db,
         }
 
         node_type = xmlTextReaderNodeType(reader);
-        name = xmlTextReaderConstName(reader);
+        name = (const gchar *)xmlTextReaderConstName(reader);
         if (node_type == -1 || !name) {
             err = -EINVAL;
             goto cleanup_error;
@@ -655,11 +649,11 @@ static int __osinfoProcessDevice(OsinfoDb *db,
      */
 
     int empty, node_type, err, ret;
-    char* id, * key, * val;
-    const xmlChar* name;
+    gchar* id, * key, * val;
+    const gchar* name;
     OsinfoDevice *dev;
 
-    id = xmlTextReaderGetAttribute(reader, "id");
+    id = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");
     empty = xmlTextReaderIsEmptyElement(reader);
 
     if (!id)
@@ -693,7 +687,7 @@ static int __osinfoProcessDevice(OsinfoDb *db,
         }
 
         node_type = xmlTextReaderNodeType(reader);
-        name = xmlTextReaderConstName(reader);
+        name = (const gchar *)xmlTextReaderConstName(reader);
 
         if (node_type == -1 || !name) {
             err = -EINVAL;
@@ -754,7 +748,7 @@ static int __osinfoProcessFile(OsinfoDb *db,
      */
 
     int err, node_type, ret;
-    const char* name;
+    const gchar* name;
 
     /* Advance to starting libosinfo tag */
     for (;;) {
@@ -768,7 +762,7 @@ static int __osinfoProcessFile(OsinfoDb *db,
         if (node_type != ELEMENT_NODE)
             continue;
 
-        name = xmlTextReaderConstName(reader);
+        name = (const gchar *)xmlTextReaderConstName(reader);
         if (strcmp(name, "libosinfo") == 0)
             break;
     }
@@ -783,7 +777,7 @@ static int __osinfoProcessFile(OsinfoDb *db,
         }
 
         node_type = xmlTextReaderNodeType(reader);
-        name = xmlTextReaderConstName(reader);
+        name = (const gchar *)xmlTextReaderConstName(reader);
 
         if (node_type == -1 || !name) {
             err = -EINVAL;
