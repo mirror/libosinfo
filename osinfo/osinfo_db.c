@@ -235,7 +235,6 @@ static gboolean __osinfoFilteredAddToList(gpointer key, gpointer value, gpointer
     args = (struct __osinfoPopulateListArgs *) data;
     OsinfoFilter *filter = args->filter;
     OsinfoList *list = args->list;
-    GError **err = args->err;
 
     // Key is string ID, value is pointer to entity
     OsinfoEntity *entity = (OsinfoEntity *) value;
@@ -243,16 +242,13 @@ static gboolean __osinfoFilteredAddToList(gpointer key, gpointer value, gpointer
         osinfo_list_add(list, entity);
     }
 
-    args->errcode = 0;
-
     return FALSE; // continue iteration
 }
 
-static int __osinfoPopulateList(GTree *entities, OsinfoList *newList, OsinfoFilter *filter, GError **err)
+static void osinfo_db_populate_list(GTree *entities, OsinfoList *newList, OsinfoFilter *filter)
 {
-    struct __osinfoPopulateListArgs args = {err, 0, filter, newList};
+    struct __osinfoPopulateListArgs args = { filter, newList};
     g_tree_foreach(entities, __osinfoFilteredAddToList, &args);
-    return args.errcode;
 }
 
 OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self, OsinfoFilter *filter, GError **err)
@@ -272,14 +268,7 @@ OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self, OsinfoFilter *filter, GError
 
     // Create list
     OsinfoOsList *newList = g_object_new(OSINFO_TYPE_OSLIST, NULL);
-    int ret;
-    ret = __osinfoPopulateList(self->priv->oses, OSINFO_LIST (newList), filter, err);
-    if (ret != 0) {
-        g_object_unref(newList);
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), ret, __osinfoErrorToString(ret));
-        return NULL;
-    }
-
+    osinfo_db_populate_list(self->priv->oses, OSINFO_LIST (newList), filter);
     return newList;
 }
 
@@ -297,15 +286,7 @@ OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self, OsinfoFilter
 
     // Create list
     OsinfoHypervisorList *newList = g_object_new(OSINFO_TYPE_HYPERVISORLIST, NULL);
-
-    int ret;
-    ret = __osinfoPopulateList(self->priv->hypervisors, OSINFO_LIST (newList), filter, err);
-    if (ret != 0) {
-        g_object_unref(newList);
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), ret, __osinfoErrorToString(ret));
-        return NULL;
-    }
-
+    osinfo_db_populate_list(self->priv->hypervisors, OSINFO_LIST (newList), filter);
     return newList;
 }
 
@@ -323,15 +304,7 @@ OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self, OsinfoFilter *filter
 
     // Create list
     OsinfoDeviceList *newList = g_object_new(OSINFO_TYPE_DEVICELIST, NULL);
-
-    int ret;
-    ret = __osinfoPopulateList(self->priv->devices, OSINFO_LIST (newList), filter, err);
-    if (ret != 0) {
-        g_object_unref(newList);
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), ret, __osinfoErrorToString(ret));
-        return NULL;
-    }
-
+    osinfo_db_populate_list(self->priv->devices, OSINFO_LIST (newList), filter);
     return newList;
 }
 

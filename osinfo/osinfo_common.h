@@ -67,8 +67,6 @@ struct __osinfoPtrArrayErr {
 };
 
 struct __osinfoPopulateListArgs {
-    GError **err;
-    int errcode;
     OsinfoFilter *filter;
     OsinfoList *list;
 };
