@@ -32,11 +32,11 @@ osinfo_device_init (OsinfoDevice *self)
     self->priv = priv = OSINFO_DEVICE_GET_PRIVATE(self);
 }
 
-gchar *osinfoGetDeviceDriver(OsinfoDevice *self,
-                             gchar *devType,
-                             OsinfoOs *os,
-                             OsinfoHypervisor *hv,
-                             GError **err)
+gchar *osinfo_device_get_driver(OsinfoDevice *self,
+				gchar *devType,
+				OsinfoOs *os,
+				OsinfoHypervisor *hv,
+				GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;

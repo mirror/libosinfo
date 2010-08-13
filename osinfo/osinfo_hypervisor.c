@@ -54,7 +54,7 @@ void __osinfoClearDeviceSectionHv(OsinfoHypervisor *self, gchar *section)
     __osinfoClearDeviceSection(self->priv->sections, self->priv->sectionsAsList, section);
 }
 
-GPtrArray *osinfoGetHypervisorDeviceTypes(OsinfoHypervisor *self, GError **err)
+GPtrArray *osinfo_hypervisor_get_device_types(OsinfoHypervisor *self, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;
@@ -76,7 +76,7 @@ GPtrArray *osinfoGetHypervisorDeviceTypes(OsinfoHypervisor *self, GError **err)
     return deviceTypes;
 }
 
-OsinfoDeviceList *osinfoGetHypervisorDevicesByType(OsinfoHypervisor *self, gchar *devType, OsinfoFilter *filter, GError **err)
+OsinfoDeviceList *osinfo_hypervisor_get_devices_by_type(OsinfoHypervisor *self, gchar *devType, OsinfoFilter *filter, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;

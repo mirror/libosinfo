@@ -222,7 +222,7 @@ void __osinfoRemoveHvSectionFromOs(OsinfoOs *self, gchar *hvId)
     g_tree_remove(self->priv->hypervisors, hvId);
 }
 
-OsinfoDevice *osinfoGetPreferredDeviceForOs(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter, GError **err)
+OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;
@@ -280,7 +280,7 @@ OsinfoDevice *osinfoGetPreferredDeviceForOs(OsinfoOs *self, OsinfoHypervisor *hv
     return NULL;
 }
 
-OsinfoOsList *osinfoGetRelatedOs(OsinfoOs *self, osinfoRelationship relshp, GError **err)
+OsinfoOsList *osinfo_os_get_related(OsinfoOs *self, osinfoRelationship relshp, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;
@@ -316,7 +316,7 @@ OsinfoOsList *osinfoGetRelatedOs(OsinfoOs *self, osinfoRelationship relshp, GErr
     return newList;
 }
 
-OsinfoDeviceList *osinfoGetDevicesForOs(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter, GError **err)
+OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter, GError **err)
 {
     if (!__osinfoCheckGErrorParamValid(err))
         return NULL;
