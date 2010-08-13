@@ -15,8 +15,6 @@ static void osinfo_device_finalize (GObject *object);
 static void
 osinfo_device_finalize (GObject *object)
 {
-    OsinfoDevice *self = OSINFO_DEVICE (object);
-
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_device_parent_class)->finalize (object);
 }

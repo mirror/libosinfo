@@ -13,10 +13,10 @@
 #include <stdlib.h>
 #include <glib-object.h>
 #include <errno.h>
-#include "osinfo_entity.h"
 
 #define FREE_N(x) free(x); x = null;
 
+typedef struct _OsinfoEntity     OsinfoEntity;
 typedef struct _OsinfoDb         OsinfoDb;
 typedef struct _OsinfoDevice     OsinfoDevice;
 typedef struct _OsinfoHypervisor OsinfoHypervisor;
@@ -108,26 +108,9 @@ void __osinfoClearDeviceSection(GTree *allSections, GTree *allSectionsAsList, gc
 gboolean osinfo_get_keys(gpointer key, gpointer value, gpointer data);
 void osinfo_dup_array(gpointer data, gpointer user_data);
 
-int __osinfoEntityPassesFilter(OsinfoFilter *filter, OsinfoEntity *device);
-int __osinfoDevicePassesFilter(OsinfoFilter *filter, OsinfoDevice *device);
-int __osinfoOsPassesFilter(OsinfoFilter *filter, OsinfoOs *device);
-int __osinfoHypervisorPassesFilter(OsinfoFilter *filter, OsinfoHypervisor *device);
-
 /** ****************************************************************************
  *      Private structures for objects
  ******************************************************************************/
-
-struct _OsinfoFilterPrivate
-{
-    // Key: Constraint name
-    // Value: Array of constraint values
-    GTree *propertyConstraints;
-
-    // Key: relationship type
-    // Value: Array of OsinfoOs *
-    // Note: Only used when filtering OsinfoOs objects
-    GTree *relationshipConstraints;
-};
 
 struct _OsinfoHypervisorPrivate
 {

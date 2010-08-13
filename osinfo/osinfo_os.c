@@ -257,8 +257,8 @@ OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *h
     struct __osinfoDeviceLink *deviceLink;
     for (i = 0; i < sectionList->len; i++) {
         deviceLink = g_ptr_array_index(sectionList, i);
-        if (__osinfoDevicePassesFilter(filter, deviceLink->dev))
-            return deviceLink->dev;
+        if (osinfo_entity_matches_filter(OSINFO_ENTITY(deviceLink->dev), filter))
+	    return deviceLink->dev;
     }
 
     // If no devices pass filter, return NULL.
@@ -319,7 +319,7 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, gc
     struct __osinfoDeviceLink *deviceLink;
     for (i = 0; i < sectionList->len; i++) {
         deviceLink = g_ptr_array_index(sectionList, i);
-        if (__osinfoDevicePassesFilter(filter, deviceLink->dev))
+        if (osinfo_entity_matches_filter(OSINFO_ENTITY(deviceLink->dev), filter))
 	    osinfo_list_add(OSINFO_LIST (newList), OSINFO_ENTITY (deviceLink->dev));
     }
 

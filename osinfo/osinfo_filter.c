@@ -4,6 +4,19 @@ G_DEFINE_TYPE (OsinfoFilter, osinfo_filter, G_TYPE_OBJECT);
 
 #define OSINFO_FILTER_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_FILTER, OsinfoFilterPrivate))
 
+struct _OsinfoFilterPrivate
+{
+    // Key: Constraint name
+    // Value: Array of constraint values
+    GTree *propertyConstraints;
+
+    // Key: relationship type
+    // Value: Array of OsinfoOs *
+    // Note: Only used when filtering OsinfoOs objects
+    GTree *relationshipConstraints;
+};
+
+
 static void osinfo_filter_finalize (GObject *object);
 
 static void
@@ -183,4 +196,64 @@ OsinfoOsList *osinfo_filter_get_relationship_constraint_value(OsinfoFilter *self
     }
 
     return newList;
+}
+
+
+struct osinfo_filter_match_args {
+    OsinfoFilter *self;
+    osinfo_filter_match_func matcher;
+    gpointer data;
+    gboolean matched;
+};
+
+static gboolean osinfo_filter_match_iterator(gpointer key, gpointer value, gpointer data)
+{
+    struct osinfo_filter_match_args *args = data;
+
+    if (!(args->matcher)(args->self, key, value, args->data)) {
+        args->matched = FALSE;
+	return FALSE;
+    }
+    return TRUE;
+}
+
+gboolean osinfo_filter_matches_constraints(OsinfoFilter *self,
+					   osinfo_filter_match_func matcher,
+					   gpointer data)
+{
+    struct osinfo_filter_match_args args = { self, matcher, data, TRUE };
+    g_tree_foreach(self->priv->propertyConstraints,
+		   osinfo_filter_match_iterator,
+		   &args);
+    return args.matched;
+}
+
+
+struct osinfo_filter_match_relation_args {
+    OsinfoFilter *self;
+    osinfo_filter_match_relation_func matcher;
+    gpointer data;
+    gboolean matched;
+};
+
+static gboolean osinfo_filter_match_relation_iterator(gpointer key, gpointer value, gpointer data)
+{
+    struct osinfo_filter_match_args *args = data;
+
+    if (!(args->matcher)(args->self, key, value, args->data)) {
+        args->matched = FALSE;
+	return FALSE;
+    }
+    return TRUE;
+}
+
+gboolean osinfo_filter_matches_relation_constraints(OsinfoFilter *self,
+						    osinfo_filter_match_relation_func matcher,
+						    gpointer data)
+{
+    struct osinfo_filter_match_relation_args args = { self, matcher, data, TRUE };
+    g_tree_foreach(self->priv->propertyConstraints,
+		   osinfo_filter_match_relation_iterator,
+		   &args);
+    return args.matched;
 }

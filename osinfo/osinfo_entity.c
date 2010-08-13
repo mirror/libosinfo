@@ -212,3 +212,88 @@ GPtrArray *osinfo_entity_get_param_all_values(OsinfoEntity *self, gchar *key)
 
     return retArray;
 }
+
+
+static gboolean osinfo_entity_matcher(OsinfoFilter *self,
+				      const gchar *propName,
+				      GList *propValues,
+				      gpointer data)
+{
+    OsinfoEntity *entity = data;
+    GPtrArray *entityValues = g_tree_lookup(entity->priv->params, propName);
+
+    if (propValues && !entityValues)
+        return FALSE;
+
+    while (propValues) {
+        const gchar *propValue = propValues->data;
+        int j;
+	gboolean found = FALSE;
+        for (j = 0; j < entityValues->len; j++) {
+	    const gchar *testValue = g_ptr_array_index(entityValues, j);
+            if (g_strcmp0(propValue, testValue) == 0) {
+                found = TRUE;
+                break;
+            }
+        }
+        if (!found)
+	    return FALSE;
+
+        propValues = propValues->next;
+    }
+
+    return TRUE;
+}
+
+
+static gboolean osinfo_entity_relation_matcher(OsinfoFilter *self,
+					       osinfoRelationship relshp,
+					       GList *relOses,
+					       gpointer data)
+{
+    OsinfoOs *os = data;
+    GPtrArray *osOses;
+
+    osOses = g_tree_lookup(os->priv->relationshipsByType, GINT_TO_POINTER(relshp));
+    if (relOses && !osOses)
+        return FALSE;
+
+    while (relOses) {
+        OsinfoOs *currOs = relOses->data;
+        int j;
+	gboolean found = FALSE;
+        for (j = 0; j < osOses->len; j++) {
+            OsinfoOs *testOs = g_ptr_array_index(osOses, j);
+            if (testOs == currOs) {
+                found = TRUE;
+                break;
+            }
+        }
+        if (!found)
+	    return FALSE;
+
+	relOses = relOses->next;
+    }
+
+    return TRUE;
+}
+
+
+gboolean osinfo_entity_matches_filter(OsinfoEntity *self, OsinfoFilter *filter)
+{
+    g_return_val_if_fail(OSINFO_IS_ENTITY(self), FALSE);
+    g_return_val_if_fail(OSINFO_IS_FILTER(filter), FALSE);
+
+    if (!osinfo_filter_matches_constraints(filter,
+					   osinfo_entity_matcher,
+					   self))
+        return FALSE;
+
+    if (OSINFO_IS_OS(self) &&
+	!osinfo_filter_matches_relation_constraints(filter,
+						    osinfo_entity_relation_matcher,
+						    self))
+        return FALSE;
+
+    return TRUE;
+}

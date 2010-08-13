@@ -61,4 +61,20 @@ GPtrArray *osinfo_filter_get_constraint_keys(OsinfoFilter *self);
 GPtrArray *osinfo_filter_get_constraint_values(OsinfoFilter *self, gchar *propName);
 OsinfoOsList *osinfo_filter_get_relationship_constraint_value(OsinfoFilter *self, osinfoRelationship relshp);
 
+typedef gboolean (*osinfo_filter_match_func)(OsinfoFilter *self,
+					     const gchar *propName,
+					     GList *propValues,
+					     gpointer data);
+typedef gboolean (*osinfo_filter_match_relation_func)(OsinfoFilter *self,
+						      osinfoRelationship relshp,
+						      GList *relOses,
+						      gpointer data);
+
+gboolean osinfo_filter_matches_constraints(OsinfoFilter *self,
+					   osinfo_filter_match_func matcher,
+					   gpointer data);
+gboolean osinfo_filter_matches_relation_constraints(OsinfoFilter *self,
+						    osinfo_filter_match_relation_func matcher,
+						    gpointer data);
+
 #endif /* __OSINFO_FILTER_H__ */

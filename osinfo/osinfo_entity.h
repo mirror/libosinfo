@@ -18,7 +18,7 @@
 #define OSINFO_IS_ENTITY_CLASS(klass)       (G_TYPE_CHECK_CLASS_TYPE ((klass), OSINFO_TYPE_ENTITY))
 #define OSINFO_ENTITY_GET_CLASS(obj)        (G_TYPE_INSTANCE_GET_CLASS ((obj), OSINFO_TYPE_ENTITY, OsinfoEntityClass))
 
-typedef struct _OsinfoEntity        OsinfoEntity;
+//typedef struct _OsinfoEntity        OsinfoEntity;
 
 typedef struct _OsinfoEntityClass   OsinfoEntityClass;
 
@@ -51,5 +51,7 @@ gchar *osinfo_entity_get_param_value(OsinfoEntity *self, gchar *key);
 GPtrArray *osinfo_entity_get_param_all_values(OsinfoEntity *self, gchar *key);
 int osinfo_entity_add_param(OsinfoEntity *self, gchar *key, gchar *value);
 void osinfo_entity_clear_param(OsinfoEntity *self, gchar *key);
+
+gboolean osinfo_entity_matches_filter(OsinfoEntity *self, OsinfoFilter *filter);
 
 #endif /* __OSINFO_ENTITY_H__ */
