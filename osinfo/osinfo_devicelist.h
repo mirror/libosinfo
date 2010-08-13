@@ -44,9 +44,4 @@ struct _OsinfoDeviceListClass
 
 GType osinfo_devicelist_get_type(void);
 
-OsinfoDeviceList *osinfo_device_list_filter(OsinfoDeviceList *self, OsinfoFilter *filter, GError **err);
-OsinfoDevice *osinfo_device_list_get_nth(OsinfoDeviceList *self, gint idx, GError **err);
-OsinfoDeviceList *osinfo_device_list_intersect(OsinfoDeviceList *self, OsinfoDeviceList *otherDeviceList, GError **err);
-OsinfoDeviceList *osinfo_device_list_union(OsinfoDeviceList *self, OsinfoDeviceList *otherDeviceList, GError **err);
-
 #endif /* __OSINFO_DEVICELIST_H__ */

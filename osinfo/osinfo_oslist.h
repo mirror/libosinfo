@@ -45,9 +45,4 @@ struct _OsinfoOsListClass
 
 GType osinfo_oslist_get_type(void);
 
-OsinfoOsList *osinfo_os_list_filter(OsinfoOsList *self, OsinfoFilter *filter, GError **err);
-OsinfoOs *osinfo_os_list_get_nth(OsinfoOsList *self, gint idx, GError **err);
-OsinfoOsList *osinfo_os_list_intersect(OsinfoOsList *self, OsinfoOsList *otherOsList, GError **err);
-OsinfoOsList *osinfo_os_list_union(OsinfoOsList *self, OsinfoOsList *otherOsList, GError **err);
-
 #endif /* __OSINFO_OSLIST_H__ */

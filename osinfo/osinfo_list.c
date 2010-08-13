@@ -41,6 +41,33 @@ osinfo_list_init (OsinfoList *self)
     self->priv->array = g_ptr_array_new();
 }
 
+OsinfoList *osinfo_list_new(void)
+{
+    return g_object_new(OSINFO_TYPE_LIST, NULL);
+}
+
+OsinfoList *osinfo_list_new_filtered(OsinfoList *source, OsinfoFilter *filter)
+{
+    OsinfoList *newList = osinfo_list_new();
+    osinfo_list_add_filtered(newList, source, filter);
+    return newList;
+}
+
+OsinfoList *osinfo_list_new_intersection(OsinfoList *sourceOne, OsinfoList *sourceTwo)
+{
+    OsinfoList *newList = osinfo_list_new();
+    osinfo_list_add_intersection(newList, sourceOne, sourceTwo);
+    return newList;
+}
+
+OsinfoList *osinfo_list_new_union(OsinfoList *sourceOne, OsinfoList *sourceTwo)
+{
+    OsinfoList *newList = osinfo_list_new();
+    osinfo_list_add_union(newList, sourceOne, sourceTwo);
+    return newList;
+}
+
+
 gint osinfo_list_get_length(OsinfoList *self)
 {
     return self->priv->array->len;
@@ -56,37 +83,20 @@ void osinfo_list_add(OsinfoList *self, OsinfoEntity *entity)
     g_ptr_array_add(self->priv->array, entity);
 }
 
-void __osinfo_list_filter(OsinfoList *src, OsinfoList *dst, OsinfoFilter *filter)
+
+void osinfo_list_add_filtered(OsinfoList *self, OsinfoList *source, OsinfoFilter *filter)
 {
     int i, len;
-    len = osinfo_list_get_length(src);
+    len = osinfo_list_get_length(source);
     for (i = 0; i < len; i++) {
-        OsinfoEntity *entity = osinfo_list_get_nth(src, i);
+        OsinfoEntity *entity = osinfo_list_get_nth(source, i);
         if (__osinfoEntityPassesFilter(filter, entity))
-	    osinfo_list_add(dst, entity);
+	    osinfo_list_add(self, entity);
     }
 }
 
-OsinfoList *osinfo_list_filter(OsinfoList *self, OsinfoFilter *filter, GError **err)
-{
-    if (!OSINFO_IS_LIST(self)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_LIST);
-        return NULL;
-    }
 
-    if (filter && !OSINFO_IS_FILTER(filter)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_FILTER);
-        return NULL;
-    }
-
-    // For each element in self, if passes filter, add to new list.
-    OsinfoList *newList = g_object_new(OSINFO_TYPE_LIST, NULL);
-
-    __osinfo_list_filter(self, newList, filter);
-    return newList;
-}
-
-int __osinfo_list_intersect(OsinfoList *src1, OsinfoList *src2, OsinfoList *dst)
+void osinfo_list_add_intersection(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *sourceTwo)
 {
     int i, len;
 
@@ -95,97 +105,58 @@ int __osinfo_list_intersect(OsinfoList *src1, OsinfoList *src2, OsinfoList *dst)
     GTree *newSet = g_tree_new(__osinfoStringCompareBase);
 
     // Add all from otherList to otherSet
-    len = osinfo_list_get_length(src2);
+    len = osinfo_list_get_length(sourceTwo);
     for (i = 0; i < len; i++) {
-        OsinfoEntity *entity = osinfo_list_get_nth(src2, i);
+        OsinfoEntity *entity = osinfo_list_get_nth(sourceTwo, i);
         gchar *id = entity->priv->id;
         g_tree_insert(otherSet, id, entity);
     }
 
     // If other contains entity, and new list does not, add to new list
-    len = osinfo_list_get_length(src1);
+    len = osinfo_list_get_length(sourceOne);
     for (i = 0; i < len; i++) {
-        OsinfoEntity *entity = osinfo_list_get_nth(src1, i);
+        OsinfoEntity *entity = osinfo_list_get_nth(sourceOne, i);
         gchar *id = entity->priv->id;
 
         if (g_tree_lookup(otherSet, entity->priv->id) &&
             !g_tree_lookup(newSet, entity->priv->id)) {
             g_tree_insert(newSet, id, entity);
-            osinfo_list_add(dst, entity);
+            osinfo_list_add(self, entity);
         }
     }
 
     g_tree_destroy(otherSet);
     g_tree_destroy(newSet);
-    return 0;
 }
 
-OsinfoList *osinfo_list_intersect(OsinfoList *self, OsinfoList *otherList, GError **err)
-{
-    if (!OSINFO_IS_LIST(self) || !OSINFO_IS_LIST(otherList)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_LIST);
-        return NULL;
-    }
 
-    OsinfoList *newList = g_object_new(OSINFO_TYPE_LIST, NULL);
-    int ret;
-
-    ret = __osinfo_list_intersect(self, otherList, newList);
-    if (ret != 0) {
-        g_object_unref(newList);
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), ret, __osinfoErrorToString(ret));
-        return NULL;
-    }
-
-    return newList;
-}
-
-int __osinfo_list_union(OsinfoList *src1, OsinfoList *src2, OsinfoList *dst)
+void osinfo_list_add_union(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *sourceTwo)
 {
     // Make set version of new list
     GTree *newSet = g_tree_new(__osinfoStringCompareBase);
 
     // Add all from other list to new list
     int i, len;
-    len = osinfo_list_get_length(src2);
+    len = osinfo_list_get_length(sourceTwo);
     for (i = 0; i < len; i++) {
-        OsinfoEntity *entity = osinfo_list_get_nth(src2, i);
+        OsinfoEntity *entity = osinfo_list_get_nth(sourceTwo, i);
         gchar *id = entity->priv->id;
-        osinfo_list_add(dst, entity);
+        osinfo_list_add(self, entity);
         g_tree_insert(newSet, id, entity);
     }
 
     // Add remaining elements from this list to new list
-    len = osinfo_list_get_length(src1);
+    len = osinfo_list_get_length(sourceOne);
     for (i = 0; i < len; i++) {
-        OsinfoEntity *entity = osinfo_list_get_nth(src1, i);
+        OsinfoEntity *entity = osinfo_list_get_nth(sourceOne, i);
         gchar *id = entity->priv->id;
         // If new list does not contain element, add to new list
         if (!g_tree_lookup(newSet, id)) {
-	    osinfo_list_add(dst, entity);
+	    osinfo_list_add(self, entity);
             g_tree_insert(newSet, id, entity);
         }
     }
 
     g_tree_destroy(newSet);
-    return 0;
 }
 
-OsinfoList *osinfo_list_union(OsinfoList *self, OsinfoList *otherList, GError **err)
-{
-    if (!OSINFO_IS_LIST(self) || !OSINFO_IS_LIST(otherList)) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), -EINVAL, OSINFO_OBJ_NOT_LIST);
-        return NULL;
-    }
-
-    OsinfoList *newList = g_object_new(OSINFO_TYPE_LIST, NULL);
-    int ret;
-    ret = __osinfo_list_union(self, otherList, newList);
-    if (ret != 0) {
-        g_object_unref(newList);
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), ret, __osinfoErrorToString(ret));
-        return NULL;
-    }
-
-    return newList;
-}

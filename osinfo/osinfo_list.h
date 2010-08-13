@@ -40,13 +40,19 @@ struct _OsinfoListClass
     /* class members */
 };
 
+OsinfoList *osinfo_list_new(void);
+OsinfoList *osinfo_list_new_filtered(OsinfoList *source, OsinfoFilter *filter);
+OsinfoList *osinfo_list_new_intersection(OsinfoList *sourceOne, OsinfoList *sourceTwo);
+OsinfoList *osinfo_list_new_union(OsinfoList *sourceOne, OsinfoList *sourceTwo);
+
 GType osinfo_list_get_type(void);
 
 gint osinfo_list_get_length(OsinfoList *self);
-void osinfo_list_add(OsinfoList *self, OsinfoEntity *entity);
-OsinfoList *osinfo_list_filter(OsinfoList *self, OsinfoFilter *filter, GError **err);
 OsinfoEntity *osinfo_list_get_nth(OsinfoList *self, gint idx);
-OsinfoList *osinfo_list_intersect(OsinfoList *self, OsinfoList *otherList, GError **err);
-OsinfoList *osinfo_list_union(OsinfoList *self, OsinfoList *otherList, GError **err);
+
+void osinfo_list_add(OsinfoList *self, OsinfoEntity *entity);
+void osinfo_list_add_filtered(OsinfoList *self, OsinfoList *source, OsinfoFilter *filter);
+void osinfo_list_add_intersection(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *sourceTwo);
+void osinfo_list_add_union(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *sourceTwo);
 
 #endif /* __OSINFO_LIST_H__ */

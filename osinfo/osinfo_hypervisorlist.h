@@ -44,9 +44,4 @@ struct _OsinfoHypervisorListClass
 
 GType osinfo_hypervisorlist_get_type(void);
 
-OsinfoHypervisorList *osinfo_hypervisor_list_filter(OsinfoHypervisorList *self, OsinfoFilter *filter, GError **err);
-OsinfoHypervisor *osinfo_hypervisor_list_get_nth(OsinfoHypervisorList *self, gint idx, GError **err);
-OsinfoHypervisorList *osinfo_hypervisor_list_intersect(OsinfoHypervisorList *self, OsinfoHypervisorList *otherHypervisorList, GError **err);
-OsinfoHypervisorList *osinfo_hypervisor_list_union(OsinfoHypervisorList *self, OsinfoHypervisorList *otherHypervisorList, GError **err);
-
 #endif /* __OSINFO_HYPERVISORLIST_H__ */
