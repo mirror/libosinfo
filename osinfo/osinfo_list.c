@@ -95,19 +95,17 @@ void osinfo_list_add_intersection(OsinfoList *self, OsinfoList *sourceOne, Osinf
     len = osinfo_list_get_length(sourceTwo);
     for (i = 0; i < len; i++) {
         OsinfoEntity *entity = osinfo_list_get_nth(sourceTwo, i);
-        gchar *id = entity->priv->id;
-        g_hash_table_insert(otherSet, id, entity);
+        g_hash_table_insert(otherSet, osinfo_entity_get_id(entity), entity);
     }
 
     // If other contains entity, and new list does not, add to new list
     len = osinfo_list_get_length(sourceOne);
     for (i = 0; i < len; i++) {
         OsinfoEntity *entity = osinfo_list_get_nth(sourceOne, i);
-        gchar *id = entity->priv->id;
 
-        if (g_hash_table_lookup(otherSet, entity->priv->id) &&
-            !g_hash_table_lookup(newSet, entity->priv->id)) {
-            g_hash_table_insert(newSet, id, entity);
+        if (g_hash_table_lookup(otherSet, osinfo_entity_get_id(entity)) &&
+            !g_hash_table_lookup(newSet, osinfo_entity_get_id(entity))) {
+	    g_hash_table_insert(newSet, osinfo_entity_get_id(entity), entity);
             osinfo_list_add(self, entity);
         }
     }
@@ -127,20 +125,18 @@ void osinfo_list_add_union(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *
     len = osinfo_list_get_length(sourceTwo);
     for (i = 0; i < len; i++) {
         OsinfoEntity *entity = osinfo_list_get_nth(sourceTwo, i);
-        gchar *id = entity->priv->id;
         osinfo_list_add(self, entity);
-        g_hash_table_insert(newSet, id, entity);
+        g_hash_table_insert(newSet, osinfo_entity_get_id(entity), entity);
     }
 
     // Add remaining elements from this list to new list
     len = osinfo_list_get_length(sourceOne);
     for (i = 0; i < len; i++) {
         OsinfoEntity *entity = osinfo_list_get_nth(sourceOne, i);
-        gchar *id = entity->priv->id;
         // If new list does not contain element, add to new list
-        if (!g_hash_table_lookup(newSet, id)) {
+        if (!g_hash_table_lookup(newSet, osinfo_entity_get_id(entity))) {
 	    osinfo_list_add(self, entity);
-            g_hash_table_insert(newSet, id, entity);
+            g_hash_table_insert(newSet, osinfo_entity_get_id(entity), entity);
         }
     }
 

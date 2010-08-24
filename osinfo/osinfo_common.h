@@ -106,14 +106,6 @@ struct _OsinfoOsPrivate
     GList *osLinks;
 };
 
-struct _OsinfoEntityPrivate
-{
-    gchar *id;
-
-    // Key: gchar*
-    // Value: GList of gchar* values
-    GHashTable *params;
-};
 
 
 #endif /* __OSINFO_OBJECTS_H__ */

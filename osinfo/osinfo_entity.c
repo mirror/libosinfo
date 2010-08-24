@@ -4,6 +4,15 @@ G_DEFINE_ABSTRACT_TYPE (OsinfoEntity, osinfo_entity, G_TYPE_OBJECT);
 
 #define OSINFO_ENTITY_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_ENTITY, OsinfoEntityPrivate))
 
+struct _OsinfoEntityPrivate
+{
+    gchar *id;
+
+    // Key: gchar*
+    // Value: GList of gchar* values
+    GHashTable *params;
+};
+
 static void osinfo_entity_finalize (GObject *object);
 
 enum OSI_ENTITY_PROPERTIES {
