@@ -7,31 +7,14 @@ G_DEFINE_TYPE (OsinfoFilter, osinfo_filter, G_TYPE_OBJECT);
 struct _OsinfoFilterPrivate
 {
     // Key: Constraint name
-    // Value: Array of constraint values
-    GTree *propertyConstraints;
+    // Value: GList of constraint values
+    GHashTable *propertyConstraints;
 
     // Key: relationship type
-    // Value: Array of OsinfoOs *
+    // Value: GList of OsinfoOs *
     // Note: Only used when filtering OsinfoOs objects
-    GTree *relationshipConstraints;
+    GHashTable *relationshipConstraints;
 };
-
-gboolean osinfo_get_keys(gpointer key, gpointer value, gpointer data)
-{
-    GPtrArray *results = data;
-    gchar *keyDup = g_strdup(key);
-
-    g_ptr_array_add(results, keyDup);
-    return FALSE; // Continue iterating
-}
-
-void osinfo_dup_array(gpointer data, gpointer user_data)
-{
-    GPtrArray *results = data;
-    gchar *valueDup = g_strdup(data);
-
-    g_ptr_array_add(results, valueDup);
-}
 
 
 static void osinfo_filter_finalize (GObject *object);
@@ -41,8 +24,8 @@ osinfo_filter_finalize (GObject *object)
 {
     OsinfoFilter *self = OSINFO_FILTER (object);
 
-    g_tree_destroy(self->priv->propertyConstraints);
-    g_tree_destroy(self->priv->relationshipConstraints);
+    g_hash_table_unref(self->priv->propertyConstraints);
+    g_hash_table_unref(self->priv->relationshipConstraints);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_filter_parent_class)->finalize (object);
@@ -58,6 +41,32 @@ osinfo_filter_class_init (OsinfoFilterClass *klass)
     g_type_class_add_private (klass, sizeof (OsinfoFilterPrivate));
 }
 
+
+static void
+osinfo_filter_prop_constraint_free(gpointer value, gpointer opaque G_GNUC_UNUSED)
+{
+    g_free(value);
+}
+
+static void
+osinfo_filter_prop_constraints_free(gpointer props)
+{
+    g_list_foreach(props, osinfo_filter_prop_constraint_free, NULL);
+}
+
+
+static void
+osinfo_filter_relshp_constraint_free(gpointer value, gpointer opaque G_GNUC_UNUSED)
+{
+    g_object_unref(value);
+}
+
+static void
+osinfo_filter_relshp_constraints_free(gpointer relshps)
+{
+    g_list_foreach(relshps, osinfo_filter_relshp_constraint_free, NULL);
+}
+
 static void
 osinfo_filter_init (OsinfoFilter *self)
 {
@@ -65,16 +74,18 @@ osinfo_filter_init (OsinfoFilter *self)
     priv = OSINFO_FILTER_GET_PRIVATE(self);
     self->priv = priv;
 
-    self->priv->propertyConstraints = g_tree_new_full(__osinfoStringCompare,
-                                                     NULL,
-                                                     g_free,
-                                                     __osinfoFreePtrArray);
+    self->priv->propertyConstraints =
+        g_hash_table_new_full(g_str_hash,
+			      g_str_equal,
+			      g_free,
+			      osinfo_filter_prop_constraints_free);
 
 
-    self->priv->relationshipConstraints = g_tree_new_full(__osinfoIntCompare,
-                                                         NULL,
-                                                         NULL,
-                                                         __osinfoFreePtrArray);
+    self->priv->relationshipConstraints =
+        g_hash_table_new_full(g_int_hash,
+			      g_int_equal,
+			      NULL,
+			      osinfo_filter_relshp_constraints_free);
 }
 
 
@@ -88,23 +99,16 @@ gint osinfo_filter_add_constraint(OsinfoFilter *self, gchar *propName, gchar *pr
     // If not, create a ptrarray of strings for this key and insert into map
     gboolean found;
     gpointer origKey, foundValue;
-    GPtrArray *valueArray;
-    gchar *valueDup = NULL, *keyDup = NULL;
+    GList *values = NULL;
 
-    valueDup = g_strdup(propVal);
-
-    found = g_tree_lookup_extended(self->priv->propertyConstraints, propName, &origKey, &foundValue);
-    if (!found) {
-        keyDup = g_strdup(propName);
-        valueArray = g_ptr_array_new_with_free_func(g_free);
-
-        g_tree_insert(self->priv->propertyConstraints, keyDup, valueArray);
+    found = g_hash_table_lookup_extended(self->priv->propertyConstraints, propName, &origKey, &foundValue);
+    if (found) {
+        values = foundValue;
+        g_hash_table_steal(self->priv->propertyConstraints, propName);
     }
-    else
-        valueArray = (GPtrArray *) foundValue;
+    values = g_list_prepend(values, g_strdup(propVal));
+    g_hash_table_insert(self->priv->propertyConstraints, g_strdup(propName), values);
 
-    // Add a copy of the value to the array
-    g_ptr_array_add(valueArray, valueDup);
     return 0;
 }
 
@@ -118,79 +122,51 @@ gint osinfo_filter_add_relation_constraint(OsinfoFilter *self, osinfoRelationshi
     // If not, create a ptrarray of strings for this key and insert into map
     gboolean found;
     gpointer origKey, foundValue;
-    GPtrArray *valueArray;
+    GList *values = NULL;
 
-    found = g_tree_lookup_extended(self->priv->relationshipConstraints, (gpointer) relshp, &origKey, &foundValue);
-    if (!found) {
-        valueArray = g_ptr_array_new();
-
-        g_tree_insert(self->priv->relationshipConstraints, (gpointer) relshp, valueArray);
+    found = g_hash_table_lookup_extended(self->priv->relationshipConstraints, GINT_TO_POINTER(relshp), &origKey, &foundValue);
+    if (found) {
+        values = foundValue;
+        g_hash_table_steal(self->priv->propertyConstraints, GINT_TO_POINTER(relshp));
     }
-    else
-        valueArray = (GPtrArray *) foundValue;
+    g_object_ref(os);
+    values = g_list_prepend(values, os);
+    g_hash_table_insert(self->priv->propertyConstraints, GINT_TO_POINTER(relshp), values);
 
-    // Add to the array
-    g_ptr_array_add(valueArray, os);
     return 0;
 }
 
 void osinfo_filter_clear_constraint(OsinfoFilter *self, gchar *propName)
 {
-    g_tree_remove(self->priv->propertyConstraints, propName);
+    g_hash_table_remove(self->priv->propertyConstraints, propName);
 }
 
 void osinfo_filter_clear_relationship_constraint(OsinfoFilter *self, osinfoRelationship relshp)
 {
-    g_tree_remove(self->priv->relationshipConstraints, (gpointer) relshp);
-}
-
-static gboolean __osinfoRemoveTreeEntry(gpointer key, gpointer value, gpointer data)
-{
-    GTree *tree = (GTree *) data;
-    g_tree_remove(tree, key);
-    return FALSE; // continue iterating
+    g_hash_table_remove(self->priv->relationshipConstraints, (gpointer) relshp);
 }
 
 void osinfo_filter_clear_all_constraints(OsinfoFilter *self)
 {
-    g_tree_foreach(self->priv->propertyConstraints, __osinfoRemoveTreeEntry, self->priv->propertyConstraints);
-    g_tree_foreach(self->priv->relationshipConstraints, __osinfoRemoveTreeEntry, self->priv->relationshipConstraints);
+    g_hash_table_remove_all(self->priv->propertyConstraints);
+    g_hash_table_remove_all(self->priv->relationshipConstraints);
 }
 
 // get keyset for constraints map
-GPtrArray *osinfo_filter_get_constraint_keys(OsinfoFilter *self)
+GList *osinfo_filter_get_constraint_keys(OsinfoFilter *self)
 {
     g_return_val_if_fail(OSINFO_IS_FILTER(self), NULL);
 
-    GPtrArray *constraints = g_ptr_array_new();
-
-    g_tree_foreach(self->priv->propertyConstraints, osinfo_get_keys, constraints);
-
-    return constraints;
+    return g_hash_table_get_keys(self->priv->propertyConstraints);
 }
 
 // get values for given key
-GPtrArray *osinfo_filter_get_constraint_values(OsinfoFilter *self, gchar *propName)
+GList *osinfo_filter_get_constraint_values(OsinfoFilter *self, gchar *propName)
 {
     g_return_val_if_fail(OSINFO_IS_FILTER(self), NULL);
     g_return_val_if_fail(propName != NULL, NULL);
 
-    gboolean found;
-    gpointer origKey, value;
-    GPtrArray *srcArray, *retArray;
-
-    retArray = g_ptr_array_new();
-
-    found = g_tree_lookup_extended(self->priv->propertyConstraints, propName, &origKey, &value);
-    if (!found)
-        return retArray;
-    srcArray = (GPtrArray *) value;
-    if (srcArray->len == 0)
-        return retArray;
-
-    g_ptr_array_foreach(srcArray, osinfo_dup_array, retArray);
-
-    return retArray;
+    return g_hash_table_lookup(self->priv->propertyConstraints, propName);
 }
 
 // get oses for given relshp
@@ -202,7 +178,7 @@ OsinfoOsList *osinfo_filter_get_relationship_constraint_value(OsinfoFilter *self
     OsinfoOsList *newList = g_object_new(OSINFO_TYPE_OSLIST, NULL);
 
     GPtrArray *relatedOses = NULL;
-    relatedOses = g_tree_lookup(self->priv->relationshipConstraints, (gpointer) relshp);
+    relatedOses = g_hash_table_lookup(self->priv->relationshipConstraints, GINT_TO_POINTER(relshp));
     if (relatedOses) {
         int i, len;
         len = relatedOses->len;
@@ -223,15 +199,12 @@ struct osinfo_filter_match_args {
     gboolean matched;
 };
 
-static gboolean osinfo_filter_match_iterator(gpointer key, gpointer value, gpointer data)
+static void osinfo_filter_match_iterator(gpointer key, gpointer value, gpointer data)
 {
     struct osinfo_filter_match_args *args = data;
 
-    if (!(args->matcher)(args->self, key, value, args->data)) {
+    if (!(args->matcher)(args->self, key, value, args->data))
         args->matched = FALSE;
-	return FALSE;
-    }
-    return TRUE;
 }
 
 gboolean osinfo_filter_matches_constraints(OsinfoFilter *self,
@@ -239,9 +212,9 @@ gboolean osinfo_filter_matches_constraints(OsinfoFilter *self,
 					   gpointer data)
 {
     struct osinfo_filter_match_args args = { self, matcher, data, TRUE };
-    g_tree_foreach(self->priv->propertyConstraints,
-		   osinfo_filter_match_iterator,
-		   &args);
+    g_hash_table_foreach(self->priv->propertyConstraints,
+			 osinfo_filter_match_iterator,
+			 &args);
     return args.matched;
 }
 
@@ -253,15 +226,12 @@ struct osinfo_filter_match_relation_args {
     gboolean matched;
 };
 
-static gboolean osinfo_filter_match_relation_iterator(gpointer key, gpointer value, gpointer data)
+static void osinfo_filter_match_relation_iterator(gpointer key, gpointer value, gpointer data)
 {
     struct osinfo_filter_match_args *args = data;
 
-    if (!(args->matcher)(args->self, key, value, args->data)) {
+    if (!(args->matcher)(args->self, key, value, args->data))
         args->matched = FALSE;
-	return FALSE;
-    }
-    return TRUE;
 }
 
 gboolean osinfo_filter_matches_relation_constraints(OsinfoFilter *self,
@@ -269,8 +239,8 @@ gboolean osinfo_filter_matches_relation_constraints(OsinfoFilter *self,
 						    gpointer data)
 {
     struct osinfo_filter_match_relation_args args = { self, matcher, data, TRUE };
-    g_tree_foreach(self->priv->propertyConstraints,
-		   osinfo_filter_match_relation_iterator,
-		   &args);
+    g_hash_table_foreach(self->priv->propertyConstraints,
+			 osinfo_filter_match_relation_iterator,
+			 &args);
     return args.matched;
 }

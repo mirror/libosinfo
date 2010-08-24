@@ -57,8 +57,8 @@ void osinfo_filter_clear_constraint(OsinfoFilter *self, gchar *propName);
 void osinfo_filter_clear_relationship_constraint(OsinfoFilter *self, osinfoRelationship relshp);
 void osinfo_filter_clear_all_constraints(OsinfoFilter *self);
 
-GPtrArray *osinfo_filter_get_constraint_keys(OsinfoFilter *self);
-GPtrArray *osinfo_filter_get_constraint_values(OsinfoFilter *self, gchar *propName);
+GList *osinfo_filter_get_constraint_keys(OsinfoFilter *self);
+GList *osinfo_filter_get_constraint_values(OsinfoFilter *self, gchar *propName);
 OsinfoOsList *osinfo_filter_get_relationship_constraint_value(OsinfoFilter *self, osinfoRelationship relshp);
 
 typedef gboolean (*osinfo_filter_match_func)(OsinfoFilter *self,

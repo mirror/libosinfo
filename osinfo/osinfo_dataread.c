@@ -207,7 +207,7 @@ static int __osinfoProcessOsRelationship(xmlTextReaderPtr reader,
                                          OsinfoOs *os,
                                          osinfoRelationship relationship)
 {
-    int empty, ret;
+    int empty;
     gchar *id;
 
     id = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");

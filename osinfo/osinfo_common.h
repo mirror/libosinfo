@@ -31,29 +31,4 @@ typedef enum OSI_RELATIONSHIP {
     CLONES,
 } osinfoRelationship;
 
-
-/** ****************************************************************************
- * Internal data structures
- ******************************************************************************/
-
-
-/** ****************************************************************************
- *      Convenience methods
- ******************************************************************************/
-
-gint __osinfoIntCompare(gconstpointer a,
-                        gconstpointer b,
-                        gpointer data);
-gint __osinfoStringCompare(gconstpointer a,
-                           gconstpointer b,
-                           gpointer data);
-
-void __osinfoFreePtrArray(gpointer ptrarray);
-
-/** ****************************************************************************
- *      Private structures for objects
- ******************************************************************************/
-
-
-
 #endif /* __OSINFO_OBJECTS_H__ */
