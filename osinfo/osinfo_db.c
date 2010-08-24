@@ -156,18 +156,13 @@ OsinfoDb *osinfo_db_new(const gchar *backingDir)
 }
 
 
-int osinfo_db_initialize(OsinfoDb *self, GError **err)
+extern void osinfo_dataread(OsinfoDb *db, GError **err);
+
+void osinfo_db_initialize(OsinfoDb *self, GError **err)
 {
-    int ret;
-    // And now read in data.
-    ret = __osinfoInitializeData(self);
-    if (ret != 0) {
-        self->priv->ready = 0;
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), ret, "Error during reading data");
-    }
-    else
+    osinfo_dataread(self, err);
+    if (!*err)
         self->priv->ready = 1;
-    return ret;
 }
 
 OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *self, gchar *id)

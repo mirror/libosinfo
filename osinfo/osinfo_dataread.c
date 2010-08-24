@@ -16,6 +16,8 @@
 #define WHITESPACE_NODE 14
 #define COMMENT_NODE 8
 
+void osinfo_dataread(OsinfoDb *db, GError **err);
+
 /*
  * TODO:
  * 1. More robust handling of files that are in bad format
@@ -34,8 +36,11 @@
 
 struct __osinfoDbRet {
     OsinfoDb *db;
-    int *ret;
+    GError **err;
 };
+
+#define OSINFO_ERROR(err, msg) \
+  g_set_error_literal((err), g_quark_from_static_string("libosinfo"), 0, (msg));
 
 static gboolean __osinfoResolveDeviceLink(gpointer key, gpointer value, gpointer data)
 {
@@ -43,32 +48,27 @@ static gboolean __osinfoResolveDeviceLink(gpointer key, gpointer value, gpointer
     struct __osinfoDeviceLink *devLink = (struct __osinfoDeviceLink *) value;
     struct __osinfoDbRet *dbRet = (struct __osinfoDbRet *) data;
     OsinfoDb *db = dbRet->db;
-    int *ret = dbRet->ret;
     OsinfoDeviceList *devices = osinfo_db_get_device_list(db);
 
     OsinfoDevice *dev = OSINFO_DEVICE(osinfo_list_find_by_id(OSINFO_LIST(devices), id));
     if (!dev) {
-        *ret = -EINVAL;
-        return TRUE;
+        OSINFO_ERROR(dbRet->err, "missing device");
+	return TRUE;
     }
 
     devLink->dev = dev;
-    *ret = 0;
     return FALSE;
 }
 
 static gboolean __osinfoResolveSectionDevices(gpointer key, gpointer value, gpointer data)
 {
+    g_return_val_if_fail(value != NULL, TRUE);
+
     struct __osinfoDbRet *dbRet = (struct __osinfoDbRet *) data;
-    int *ret = dbRet->ret;
-    GTree *section = (GTree *) value;
-    if (!section) {
-        *ret = -EINVAL;
-        return TRUE;
-    }
+    GTree *section = value;
 
     g_tree_foreach(section, __osinfoResolveDeviceLink, dbRet);
-    if (*ret)
+    if (*dbRet->err)
         return TRUE;
     return FALSE;
 }
@@ -78,23 +78,21 @@ static void __osinfoResolveHvLink(gpointer key, gpointer value, gpointer data)
     gchar *hvId = (gchar *) key;
     struct __osinfoDbRet *dbRet = (struct __osinfoDbRet *) data;
     OsinfoDb *db = dbRet->db;
-    int *ret = dbRet->ret;
     struct __osinfoHvSection *hvSection = (struct __osinfoHvSection *) value;
     OsinfoHypervisor *hv;
     OsinfoHypervisorList *hypervisors = osinfo_db_get_hypervisor_list(db);
 
     g_tree_foreach(hvSection->sections, __osinfoResolveSectionDevices, dbRet);
-    if (*ret)
+    if (*dbRet->err)
         return;
 
     hv = OSINFO_HYPERVISOR(osinfo_list_find_by_id(OSINFO_LIST(hypervisors), hvId));
     if (!hv) {
-        *ret = -EINVAL;
+        OSINFO_ERROR(dbRet->err, "missing hypervisor");
         return;
     }
 
     hvSection->hv = hv;
-    *ret = 0;
 }
 
 static gboolean __osinfoResolveOsLink(gpointer key, gpointer value, gpointer data)
@@ -102,81 +100,68 @@ static gboolean __osinfoResolveOsLink(gpointer key, gpointer value, gpointer dat
     gchar *targetOsId = (gchar *) key;
     struct __osinfoDbRet *dbRet = (struct __osinfoDbRet *) data;
     OsinfoDb *db = dbRet->db;
-    int *ret = dbRet->ret;
     struct __osinfoOsLink *osLink = (struct __osinfoOsLink *) value;
     OsinfoOs *targetOs;
     OsinfoOsList *oslist = osinfo_db_get_os_list(db);
 
     targetOs = OSINFO_OS(osinfo_list_find_by_id(OSINFO_LIST(oslist), targetOsId));
     if (!targetOs) {
-        *ret = -EINVAL;
+        OSINFO_ERROR(dbRet->err, "missing os");
         return TRUE;
     }
 
     osLink->directObjectOs = targetOs;
-    *ret = 0;
     return FALSE;
 }
 
 static gboolean __osinfoFixOsLinks(OsinfoList *list, OsinfoEntity *entity, gpointer data)
 {
+    g_return_val_if_fail(OSINFO_OS(entity), TRUE);
+
     struct __osinfoDbRet *dbRet = data;
-    int *ret = dbRet->ret;
     OsinfoOs *os = OSINFO_OS(entity);
-    if (!os) {
-        *ret = -EINVAL;
-        return TRUE;
-    }
 
     g_tree_foreach(os->priv->sections, __osinfoResolveSectionDevices, dbRet);
-    if (*ret)
+    if (*dbRet->err)
         return TRUE;
 
     g_tree_foreach(os->priv->relationshipsByOs, __osinfoResolveOsLink, dbRet);
-    if (*ret)
+    if (*dbRet->err)
         return TRUE;
 
     g_hash_table_foreach(os->priv->hypervisors, __osinfoResolveHvLink, dbRet);
-    if (*ret)
+    if (*dbRet->err)
         return TRUE;
 
-    *ret = 0;
     return FALSE;
 }
 
 static gboolean __osinfoFixHvLinks(OsinfoList *list, OsinfoEntity *entity, gpointer data)
 {
+    g_return_val_if_fail(OSINFO_HYPERVISOR(entity), TRUE);
+
     struct __osinfoDbRet *dbRet = data;
-    int *ret = dbRet->ret;
     OsinfoHypervisor *hv = OSINFO_HYPERVISOR(entity);
-    if (!hv) {
-        *ret = -EINVAL;
-        return TRUE;
-    }
 
     g_tree_foreach(hv->priv->sections, __osinfoResolveSectionDevices, dbRet);
-    if (*ret)
+    if (*dbRet->err)
         return TRUE;
     return FALSE;
 }
 
-static int __osinfoFixObjLinks(OsinfoDb *db)
+static void __osinfoFixObjLinks(OsinfoDb *db, GError **err)
 {
-    int ret;
+    g_return_if_fail(OSINFO_IS_DB(db));
 
-    if (!OSINFO_IS_DB(db))
-        return -EINVAL;
-
-    struct __osinfoDbRet dbRet = {db, &ret};
+    struct __osinfoDbRet dbRet = {db, err };
     OsinfoHypervisorList *hypervisors = osinfo_db_get_hypervisor_list(db);
     OsinfoOsList *oses = osinfo_db_get_os_list(db);
 
     osinfo_list_foreach(OSINFO_LIST(hypervisors), __osinfoFixHvLinks, &dbRet);
-    if (ret)
-        return ret;
-    osinfo_list_foreach(OSINFO_LIST(oses), __osinfoFixOsLinks, &dbRet);
+    if (*dbRet.err)
+        return;
 
-    return ret;
+    osinfo_list_foreach(OSINFO_LIST(oses), __osinfoFixOsLinks, &dbRet);
 }
 
 static int __osinfoProcessTag(xmlTextReaderPtr reader, char** ptr_to_key, char** ptr_to_val)
@@ -831,9 +816,10 @@ cleanup_error:
     return err;
 }
 
-static int __osinfoReadDataFile(OsinfoDb *db,
+static int osinfo_dataread_file(OsinfoDb *db,
                                 const char *dir,
-                                const char *filename)
+                                const char *filename,
+				GError **err)
 {
     int ret;
     xmlTextReaderPtr reader;
@@ -853,7 +839,7 @@ static int __osinfoReadDataFile(OsinfoDb *db,
     return ret;
 }
 
-int __osinfoInitializeData(OsinfoDb *db)
+void osinfo_dataread(OsinfoDb *db, GError **err)
 {
     int ret;
     DIR* dir;
@@ -872,30 +858,31 @@ int __osinfoInitializeData(OsinfoDb *db)
     /* Get XML files in directory */
     dir = opendir(backingDir);
     if (!dir) {
-        ret = errno;
+        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), 0,
+			    "unable to read backing dir");
         goto cleanup;
     }
 
     while ((dp=readdir(dir)) != NULL) {
         if (dp->d_type != DT_REG)
             continue;
-        ret = __osinfoReadDataFile(db, backingDir, dp->d_name);
+        ret = osinfo_dataread_file(db, backingDir, dp->d_name, err);
         if (ret != 0)
             break;
     }
     closedir(dir);
-    if (ret == 0)
-        ret = __osinfoFixObjLinks(db);
+    if (!*err)
+        __osinfoFixObjLinks(db, err);
 
 cleanup:
     xmlCleanupParser();
     g_free(backingDir);
-    return ret;
 }
 
 #else
-int __osinfoInitializeData(OsinfoDb *db)
+void osinfo_dataread(OsinfoDb *db, GError **err)
 {
-    return -ENOSYS;
+    g_set_error_literal(err, g_quark_from_static_string("libosinfo"), 0,
+			"xml loading not available");
 }
 #endif

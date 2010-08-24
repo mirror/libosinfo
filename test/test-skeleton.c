@@ -14,11 +14,12 @@ main (int argc, char *argv[])
 
     /* Create our object */
     OsinfoDb *db = osinfo_db_new("../data");
+    GError *err = NULL;
 
     // Read in data
-    ret = osinfo_db_initialize(db, NULL);
-    if (ret != 0) {
-        printf("Error initializing db! %d\n", ret);
+    osinfo_db_initialize(db, &err);
+    if (err) {
+        printf("Error loading db: %s\n", err->message);
         exit(1);
     }
 
