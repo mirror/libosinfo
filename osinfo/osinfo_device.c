@@ -57,7 +57,7 @@ gchar *osinfo_device_get_driver(OsinfoDevice *self,
 
     // For os, get hypervisor specific info. If not present, return NULL.
     struct __osinfoHvSection *hvSection = NULL;
-    hvSection = g_tree_lookup(os->priv->hypervisors, (OSINFO_ENTITY(hv))->priv->id);
+    hvSection = g_hash_table_lookup(os->priv->hypervisors, (OSINFO_ENTITY(hv))->priv->id);
     if (!hvSection)
         return NULL;
 

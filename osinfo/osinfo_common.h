@@ -85,7 +85,6 @@ void __osinfoFreePtrArray(gpointer ptrarray);
 void __osinfoFreeRelationship(gpointer ptrarray);
 void __osinfoFreeParamVals(gpointer ptrarray);
 void __osinfoFreeDeviceSection(gpointer tree);
-void __osinfoFreeHvSection(gpointer hvSection);
 void __osinfoFreeDeviceLink(gpointer ptr);
 void __osinfoFreeOsLink(gpointer ptr);
 
@@ -113,8 +112,8 @@ struct _OsinfoOsPrivate
 {
     // OS-Hypervisor specific information
     // Key: gchar* (hypervisor id)
-    // Value: hv_section struct
-    GTree *hypervisors;
+    // Value: __osinfoHvSection struct
+    GHashTable *hypervisors;
 
     // Key: gchar* (device type)
     // Value: Tree of device_link structs (multiple devices per type)

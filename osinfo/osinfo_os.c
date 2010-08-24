@@ -13,7 +13,7 @@ osinfo_os_finalize (GObject *object)
 
     g_tree_destroy (self->priv->sections);
     g_tree_destroy (self->priv->sectionsAsList);
-    g_tree_destroy (self->priv->hypervisors);
+    g_hash_table_unref(self->priv->hypervisors);
     g_tree_destroy (self->priv->relationshipsByOs);
     g_tree_destroy (self->priv->relationshipsByType);
 
@@ -29,6 +29,16 @@ osinfo_os_class_init (OsinfoOsClass *klass)
 
     g_klass->finalize = osinfo_os_finalize;
     g_type_class_add_private (klass, sizeof (OsinfoOsPrivate));
+}
+
+static void osinfo_hv_section_free(gpointer value)
+{
+    struct __osinfoHvSection * hvSection = value;
+    if (!hvSection)
+        return;
+    g_tree_destroy(hvSection->sections);
+    g_tree_destroy(hvSection->sectionsAsList);
+    g_free(hvSection);
 }
 
 static void
@@ -53,10 +63,10 @@ osinfo_os_init (OsinfoOs *self)
                                                 __osinfoFreeRelationship);
     self->priv->relationshipsByType = g_tree_new(__osinfoIntCompareBase);
 
-    self->priv->hypervisors = g_tree_new_full(__osinfoStringCompare,
-                                              NULL,
-                                              g_free,
-                                              __osinfoFreeHvSection);
+    self->priv->hypervisors = g_hash_table_new_full(g_str_hash,
+						    g_str_equal,
+						    g_free,
+						    osinfo_hv_section_free);
 }
 
 OsinfoOs *osinfo_os_new(const gchar *id)
@@ -190,14 +200,12 @@ struct __osinfoHvSection *__osinfoAddHypervisorSectionToOs(OsinfoOs *self, gchar
     gboolean found;
     gpointer origKey, foundValue;
     struct __osinfoHvSection *hvSection = NULL;
-    gchar *hvIdDup = NULL;
     GTree *deviceSections;
     GTree *deviceSectionsAsList;
 
-    found = g_tree_lookup_extended(self->priv->hypervisors, hvId, &origKey, &foundValue);
+    found = g_hash_table_lookup_extended(self->priv->hypervisors, hvId, &origKey, &foundValue);
     if (!found) {
         hvSection = g_malloc(sizeof(*hvSection));
-        hvIdDup = g_strdup(hvId);
         deviceSections = g_tree_new_full(__osinfoStringCompare,
                                         NULL,
                                         g_free,
@@ -214,7 +222,8 @@ struct __osinfoHvSection *__osinfoAddHypervisorSectionToOs(OsinfoOs *self, gchar
         hvSection->sections = deviceSections;
         hvSection->sectionsAsList = deviceSectionsAsList;
 
-        g_tree_insert(self->priv->hypervisors, hvIdDup, hvSection);
+        g_hash_table_insert(self->priv->hypervisors,
+			    g_strdup(hvId), hvSection);
         return hvSection;
     }
     else
@@ -223,7 +232,7 @@ struct __osinfoHvSection *__osinfoAddHypervisorSectionToOs(OsinfoOs *self, gchar
 
 void __osinfoRemoveHvSectionFromOs(OsinfoOs *self, gchar *hvId)
 {
-    g_tree_remove(self->priv->hypervisors, hvId);
+    g_hash_table_remove(self->priv->hypervisors, hvId);
 }
 
 OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter)
@@ -238,7 +247,7 @@ OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *h
     if (hv) {
         // Check if hypervisor specific info present for Os, else return NULL.
         struct __osinfoHvSection *hvSection = NULL;
-        hvSection = g_tree_lookup(self->priv->hypervisors, (OSINFO_ENTITY(hv))->priv->id);
+        hvSection = g_hash_table_lookup(self->priv->hypervisors, (OSINFO_ENTITY(hv))->priv->id);
         if (!hvSection)
             return NULL;
 
@@ -300,7 +309,7 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, gc
 
     if (hv) {
         struct __osinfoHvSection *hvSection = NULL;
-        hvSection = g_tree_lookup(self->priv->hypervisors, (OSINFO_ENTITY(hv))->priv->id);
+        hvSection = g_hash_table_lookup(self->priv->hypervisors, (OSINFO_ENTITY(hv))->priv->id);
         if (!hvSection)
             return newList;
 

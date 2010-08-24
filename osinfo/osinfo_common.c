@@ -150,13 +150,3 @@ void __osinfoFreeOsLink(gpointer ptr)
     struct __osinfoOsLink *osLink = (struct __osinfoOsLink *) ptr;
     g_free(osLink);
 }
-
-void __osinfoFreeHvSection(gpointer ptr)
-{
-    if (!ptr)
-        return;
-    struct __osinfoHvSection * hvSection = (struct __osinfoHvSection *) ptr;
-    g_tree_destroy(hvSection->sections);
-    g_tree_destroy(hvSection->sectionsAsList);
-    g_free(hvSection);
-}

@@ -73,7 +73,7 @@ static gboolean __osinfoResolveSectionDevices(gpointer key, gpointer value, gpoi
     return FALSE;
 }
 
-static gboolean __osinfoResolveHvLink(gpointer key, gpointer value, gpointer data)
+static void __osinfoResolveHvLink(gpointer key, gpointer value, gpointer data)
 {
     gchar *hvId = (gchar *) key;
     struct __osinfoDbRet *dbRet = (struct __osinfoDbRet *) data;
@@ -85,17 +85,16 @@ static gboolean __osinfoResolveHvLink(gpointer key, gpointer value, gpointer dat
 
     g_tree_foreach(hvSection->sections, __osinfoResolveSectionDevices, dbRet);
     if (*ret)
-        return TRUE;
+        return;
 
     hv = OSINFO_HYPERVISOR(osinfo_list_find_by_id(OSINFO_LIST(hypervisors), hvId));
     if (!hv) {
         *ret = -EINVAL;
-        return TRUE;
+        return;
     }
 
     hvSection->hv = hv;
     *ret = 0;
-    return FALSE;
 }
 
 static gboolean __osinfoResolveOsLink(gpointer key, gpointer value, gpointer data)
@@ -137,7 +136,7 @@ static gboolean __osinfoFixOsLinks(OsinfoList *list, OsinfoEntity *entity, gpoin
     if (*ret)
         return TRUE;
 
-    g_tree_foreach(os->priv->hypervisors, __osinfoResolveHvLink, dbRet);
+    g_hash_table_foreach(os->priv->hypervisors, __osinfoResolveHvLink, dbRet);
     if (*ret)
         return TRUE;
 
