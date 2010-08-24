@@ -11,6 +11,11 @@ static void osinfo_device_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED
     __osinfoFreeDeviceLink(data);
 }
 
+static void osinfo_os_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED)
+{
+    __osinfoFreeOsLink(data);
+}
+
 
 static void
 osinfo_os_finalize (GObject *object)
@@ -20,8 +25,9 @@ osinfo_os_finalize (GObject *object)
     g_list_foreach(self->priv->deviceLinks, osinfo_device_link_free, NULL);
     g_list_free(self->priv->deviceLinks);
     g_hash_table_unref(self->priv->hypervisors);
-    g_tree_destroy (self->priv->relationshipsByOs);
-    g_tree_destroy (self->priv->relationshipsByType);
+
+    g_list_foreach(self->priv->osLinks, osinfo_os_link_free, NULL);
+    g_list_free(self->priv->osLinks);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_os_parent_class)->finalize (object);
@@ -53,13 +59,7 @@ osinfo_os_init (OsinfoOs *self)
     self->priv = priv = OSINFO_OS_GET_PRIVATE(self);
 
     self->priv->deviceLinks = NULL;
-
-    self->priv->relationshipsByOs = g_tree_new_full(__osinfoStringCompare,
-                                                NULL,
-                                                g_free,
-                                                __osinfoFreeRelationship);
-    self->priv->relationshipsByType = g_tree_new(__osinfoIntCompareBase);
-
+    self->priv->osLinks = NULL;
     self->priv->hypervisors = g_hash_table_new_full(g_str_hash,
 						    g_str_equal,
 						    g_free,
@@ -71,106 +71,6 @@ OsinfoOs *osinfo_os_new(const gchar *id)
     return g_object_new(OSINFO_TYPE_OS,
 			"id", id,
 			NULL);
-}
-
-
-static int __osinfoAddOsRelationshipByOs(OsinfoOs *self,
-                                         gchar *otherOsId,
-                                         osinfoRelationship rel,
-                                         struct __osinfoOsLink *osLink)
-{
-    gboolean found;
-    gpointer origKey, foundValue;
-    GPtrArray *relationshipsForOs;
-    gchar *otherOsIdDup = NULL;
-
-    found = g_tree_lookup_extended(self->priv->relationshipsByOs, otherOsId, &origKey, &foundValue);
-    if (!found) {
-        otherOsIdDup = g_strdup(otherOsId);
-        relationshipsForOs = g_ptr_array_new_with_free_func(__osinfoFreeOsLink);
-
-        g_tree_insert(self->priv->relationshipsByOs, otherOsIdDup, relationshipsForOs);
-    }
-    else
-        relationshipsForOs = (GPtrArray *) foundValue;
-
-    g_ptr_array_add(relationshipsForOs, osLink);
-    return 0;
-}
-
-static int __osinfoAddOsRelationshipByType(OsinfoOs *self,
-                                           osinfoRelationship relshp,
-                                           struct __osinfoOsLink *osLink)
-{
-    gboolean found;
-    gpointer origKey, foundValue;
-    GPtrArray *relationshipsForType;
-
-    found = g_tree_lookup_extended(self->priv->relationshipsByType, (gpointer) relshp, &origKey, &foundValue);
-    if (!found) {
-        relationshipsForType = g_ptr_array_new();
-
-        g_tree_insert(self->priv->relationshipsByType, (gpointer) relshp, relationshipsForType);
-    }
-    else
-        relationshipsForType = (GPtrArray *) foundValue;
-
-    g_ptr_array_add(relationshipsForType, osLink);
-    return 0;
-}
-
-static void __osinfoRemoveOsLink(OsinfoOs *self,
-                                 gchar *otherOsId,
-                                 osinfoRelationship relshp,
-                                 struct __osinfoOsLink *osLink)
-{
-    gboolean found;
-    gpointer origKey, foundValue;
-    GPtrArray *relationshipsForOs;
-    GPtrArray *relationshipsForType;
-
-    // First from by-os list
-    found = g_tree_lookup_extended(self->priv->relationshipsByOs, otherOsId, &origKey, &foundValue);
-    if (found) {
-        relationshipsForOs = (GPtrArray *) foundValue;
-        g_ptr_array_remove(relationshipsForOs, osLink);
-    }
-
-    // Now from by-relshp list
-    found = g_tree_lookup_extended(self->priv->relationshipsByType, (gpointer) relshp, &origKey, &foundValue);
-    if (found) {
-        relationshipsForType = (GPtrArray *) foundValue;
-        g_ptr_array_remove(relationshipsForType, osLink);
-    }
-}
-
-int __osinfoAddOsRelationship (OsinfoOs *self, gchar *otherOsId, osinfoRelationship rel)
-{
-    if ( !OSINFO_IS_OS(self) || !otherOsId)
-        return -EINVAL;
-
-    struct __osinfoOsLink *osLink = NULL;
-    osLink = g_new0(struct __osinfoOsLink, 1);
-
-    osLink->subjectOs = self;
-    osLink->verb = rel;
-
-    int ret;
-    ret = __osinfoAddOsRelationshipByOs(self, otherOsId, rel, osLink);
-    if (ret != 0)
-        goto error_free;
-
-    ret = __osinfoAddOsRelationshipByType(self, rel, osLink);
-    if (ret != 0)
-        goto error_cleanup;
-
-    return ret;
-
-error_cleanup:
-    __osinfoRemoveOsLink(self, otherOsId, rel, osLink);
-error_free:
-    g_free(osLink);
-    return ret;
 }
 
 
@@ -211,16 +111,15 @@ OsinfoOsList *osinfo_os_get_related(OsinfoOs *self, osinfoRelationship relshp)
 
     // Create our list
     OsinfoOsList *newList = osinfo_oslist_new();
+    GList *tmp = self->priv->osLinks;
 
-    GPtrArray *relatedOses = NULL;
-    relatedOses = g_tree_lookup(self->priv->relationshipsByType, (gpointer) relshp);
-    if (relatedOses) {
-        int i, len;
-        len = relatedOses->len;
-        for (i = 0; i < len; i++) {
-            struct __osinfoOsLink *osLink = g_ptr_array_index(relatedOses, i);
-            osinfo_list_add(OSINFO_LIST (newList), OSINFO_ENTITY (osLink->directObjectOs));
-        }
+    while (tmp) {
+        struct __osinfoOsLink *link = tmp->data;
+
+	if (link->relshp == relshp)
+	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link->otherOs));
+
+        tmp = tmp->next;
     }
 
     return newList;
@@ -279,3 +178,17 @@ void osinfo_os_add_device(OsinfoOs *self, OsinfoHypervisor *hv, OsinfoDevice *de
     }
 }
 
+
+void osinfo_os_add_related_os(OsinfoOs *self, osinfoRelationship relshp, OsinfoOs *otheros)
+{
+    g_return_if_fail(OSINFO_IS_OS(self));
+    g_return_if_fail(OSINFO_IS_OS(otheros));
+
+    struct __osinfoOsLink *osLink = g_new0(struct __osinfoOsLink, 1);
+
+    g_object_ref(otheros);
+    osLink->otherOs = otheros;
+    osLink->relshp = relshp;
+
+    self->priv->osLinks = g_list_prepend(self->priv->osLinks, osLink);
+}

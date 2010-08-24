@@ -42,14 +42,13 @@ struct __osinfoDeviceLink {
 };
 
 struct __osinfoOsLink {
-    /* <subject_os> 'verbs' <direct_object_os>
+    /* <self> 'verbs' <other_os>
      * fedora11 upgrades fedora10
      * centos clones rhel
      * scientificlinux derives from rhel
      */
-    OsinfoOs *subjectOs;
-    osinfoRelationship verb;
-    OsinfoOs *directObjectOs;
+    osinfoRelationship relshp;
+    OsinfoOs *otherOs;
 };
 
 struct __osinfoOsCheckRelationshipArgs {
@@ -103,13 +102,8 @@ struct _OsinfoOsPrivate
     // Value: List of device_link structs
     GList *deviceLinks;
 
-    // OS-OS relationships
-    // Key: gchar* (other os id)
     // Value: Array of os_link structs
-    GTree *relationshipsByOs;
-    // Key: relationship type
-    // Value: Array of os_link structs
-    GTree *relationshipsByType;
+    GList *osLinks;
 };
 
 struct _OsinfoEntityPrivate
@@ -121,11 +115,5 @@ struct _OsinfoEntityPrivate
     GTree *params;
 };
 
-/** ****************************************************************************
- *      Private Methods
- ******************************************************************************/
-
-int __osinfoAddOsRelationship (OsinfoOs *self, gchar *otherOsId, osinfoRelationship rel);
-void __osinfoClearOsRelationships (OsinfoOs *self, gchar *otherOsId);
 
 #endif /* __OSINFO_OBJECTS_H__ */

@@ -43,49 +43,6 @@ struct __osinfoDbRet {
   g_set_error_literal((err), g_quark_from_static_string("libosinfo"), 0, (msg));
 
 
-static gboolean __osinfoResolveOsLink(gpointer key, gpointer value, gpointer data)
-{
-    gchar *targetOsId = (gchar *) key;
-    struct __osinfoDbRet *dbRet = (struct __osinfoDbRet *) data;
-    OsinfoDb *db = dbRet->db;
-    struct __osinfoOsLink *osLink = (struct __osinfoOsLink *) value;
-    OsinfoOs *targetOs;
-    OsinfoOsList *oslist = osinfo_db_get_os_list(db);
-
-    targetOs = OSINFO_OS(osinfo_list_find_by_id(OSINFO_LIST(oslist), targetOsId));
-    if (!targetOs) {
-        OSINFO_ERROR(dbRet->err, "missing os");
-        return TRUE;
-    }
-
-    osLink->directObjectOs = targetOs;
-    return FALSE;
-}
-
-static gboolean __osinfoFixOsLinks(OsinfoList *list, OsinfoEntity *entity, gpointer data)
-{
-    g_return_val_if_fail(OSINFO_OS(entity), TRUE);
-
-    struct __osinfoDbRet *dbRet = data;
-    OsinfoOs *os = OSINFO_OS(entity);
-
-    g_tree_foreach(os->priv->relationshipsByOs, __osinfoResolveOsLink, dbRet);
-    if (*dbRet->err)
-        return TRUE;
-
-    return FALSE;
-}
-
-static void __osinfoFixObjLinks(OsinfoDb *db, GError **err)
-{
-    g_return_if_fail(OSINFO_IS_DB(db));
-
-    struct __osinfoDbRet dbRet = {db, err };
-    OsinfoOsList *oses = osinfo_db_get_os_list(db);
-
-    osinfo_list_foreach(OSINFO_LIST(oses), __osinfoFixOsLinks, &dbRet);
-}
-
 static int __osinfoProcessTag(xmlTextReaderPtr reader, char** ptr_to_key, char** ptr_to_val)
 {
     int node_type, ret, err = 0;
@@ -246,6 +203,7 @@ error:
 }
 
 static int __osinfoProcessOsRelationship(xmlTextReaderPtr reader,
+					 OsinfoDb *db,
                                          OsinfoOs *os,
                                          osinfoRelationship relationship)
 {
@@ -259,9 +217,14 @@ static int __osinfoProcessOsRelationship(xmlTextReaderPtr reader,
         return -EINVAL;
     }
 
-    ret = __osinfoAddOsRelationship (os, id, relationship);
+    OsinfoOs *otheros = osinfo_db_get_os(db, id);
+    if (!otheros) {
+        free(id);
+        return -ENOENT;
+    }
+    osinfo_os_add_related_os(os, relationship, otheros);
     free(id);
-    return ret;
+    return 0;
 }
 
 static int __osinfoProcessOs(OsinfoDb *db,
@@ -367,17 +330,17 @@ static int __osinfoProcessOs(OsinfoDb *db,
                 goto cleanup_error;
         }
         else if (strcmp(name, "upgrades") == 0) {
-            err = __osinfoProcessOsRelationship(reader, os, UPGRADES);
+	    err = __osinfoProcessOsRelationship(reader, db, os, UPGRADES);
             if (err != 0)
                 goto cleanup_error;
         }
         else if (strcmp(name, "clones") == 0) {
-            err = __osinfoProcessOsRelationship(reader, os, CLONES);
+	    err = __osinfoProcessOsRelationship(reader, db, os, CLONES);
             if (err != 0)
                 goto cleanup_error;
         }
         else if (strcmp(name, "derives-from") == 0) {
-            err = __osinfoProcessOsRelationship(reader, os, DERIVES_FROM);
+	    err = __osinfoProcessOsRelationship(reader, db, os, DERIVES_FROM);
             if (err != 0)
                 goto cleanup_error;
         }
@@ -784,8 +747,6 @@ void osinfo_dataread(OsinfoDb *db, GError **err)
             break;
     }
     closedir(dir);
-    if (!*err)
-        __osinfoFixObjLinks(db, err);
 
 cleanup:
     xmlCleanupParser();

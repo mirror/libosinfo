@@ -252,30 +252,36 @@ static gboolean osinfo_entity_relation_matcher(OsinfoFilter *self,
 					       gpointer data)
 {
     OsinfoOs *os = data;
-    GPtrArray *osOses;
+    OsinfoOsList *oslist = osinfo_os_get_related(os, relshp);
+    gboolean ret = TRUE;
 
-    osOses = g_tree_lookup(os->priv->relationshipsByType, GINT_TO_POINTER(relshp));
-    if (relOses && !osOses)
-        return FALSE;
+    if (relOses && osinfo_list_get_length(OSINFO_LIST(oslist)) == 0) {
+        ret = FALSE;
+	goto cleanup;
+    }
 
     while (relOses) {
         OsinfoOs *currOs = relOses->data;
-        int j;
+        int i;
 	gboolean found = FALSE;
-        for (j = 0; j < osOses->len; j++) {
-            OsinfoOs *testOs = g_ptr_array_index(osOses, j);
+	for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(oslist)) ; i++) {
+	    OsinfoOs *testOs = OSINFO_OS(osinfo_list_get_nth(OSINFO_LIST(oslist), i));
             if (testOs == currOs) {
                 found = TRUE;
                 break;
             }
         }
-        if (!found)
-	    return FALSE;
+        if (!found) {
+	    ret = FALSE;
+	    goto cleanup;
+	}
 
 	relOses = relOses->next;
     }
 
-    return TRUE;
+ cleanup:
+    g_object_unref(oslist);
+    return ret;
 }
 
 

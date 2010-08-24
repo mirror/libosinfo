@@ -60,4 +60,6 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, Os
 
 void osinfo_os_add_device(OsinfoOs *self, OsinfoHypervisor *hv, OsinfoDevice *dev, const gchar *driver);
 
+void osinfo_os_add_related_os(OsinfoOs *self, osinfoRelationship relshp, OsinfoOs *otheros);
+
 #endif /* __OSINFO_OS_H__ */

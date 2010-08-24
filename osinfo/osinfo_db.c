@@ -288,11 +288,12 @@ static gboolean __osinfoAddOsIfRelationship(OsinfoList *list, OsinfoEntity *enti
     struct __osinfoOsCheckRelationshipArgs *args = data;
     OsinfoOs *os = OSINFO_OS(entity);
     OsinfoList *newList = args->list;
+    OsinfoOsList *thisList = osinfo_os_get_related(os, args->relshp);
+    int i;
 
-    GPtrArray *relatedOses = NULL;
-    relatedOses = g_tree_lookup(os->priv->relationshipsByType, (gpointer) args->relshp);
-    if (relatedOses) {
-        osinfo_list_add(newList, OSINFO_ENTITY (os));
+    for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(thisList)) ; i++) {
+        OsinfoEntity *entity = osinfo_list_get_nth(OSINFO_LIST(thisList), i);
+	osinfo_list_add(newList, entity);
     }
 
     return FALSE;
