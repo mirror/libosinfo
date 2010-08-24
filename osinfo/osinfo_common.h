@@ -60,20 +60,11 @@ struct __osinfoOsLink {
     OsinfoOs *directObjectOs;
 };
 
-struct __osinfoPopulateListArgs {
-    OsinfoFilter *filter;
-    OsinfoList *list;
-};
-
 struct __osinfoOsCheckRelationshipArgs {
     OsinfoList *list;
     osinfoRelationship relshp;
 };
 
-struct __osinfoFilterPassArgs {
-    int passed;
-    OsinfoEntity *entity;
-};
 
 /** ****************************************************************************
  *      Convenience methods
