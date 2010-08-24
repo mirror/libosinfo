@@ -16,6 +16,23 @@ struct _OsinfoFilterPrivate
     GTree *relationshipConstraints;
 };
 
+gboolean osinfo_get_keys(gpointer key, gpointer value, gpointer data)
+{
+    GPtrArray *results = data;
+    gchar *keyDup = g_strdup(key);
+
+    g_ptr_array_add(results, keyDup);
+    return FALSE; // Continue iterating
+}
+
+void osinfo_dup_array(gpointer data, gpointer user_data)
+{
+    GPtrArray *results = data;
+    gchar *valueDup = g_strdup(data);
+
+    g_ptr_array_add(results, valueDup);
+}
+
 
 static void osinfo_filter_finalize (GObject *object);
 

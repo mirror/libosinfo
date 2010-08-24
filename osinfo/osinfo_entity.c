@@ -148,23 +148,6 @@ void osinfo_entity_clear_param(OsinfoEntity *self, gchar *key)
     g_hash_table_remove(self->priv->params, key);
 }
 
-gboolean osinfo_get_keys(gpointer key, gpointer value, gpointer data)
-{
-    GPtrArray *results = data;
-    gchar *keyDup = g_strdup(key);
-
-    g_ptr_array_add(results, keyDup);
-    return FALSE; // Continue iterating
-}
-
-void osinfo_dup_array(gpointer data, gpointer user_data)
-{
-    GPtrArray *results = data;
-    gchar *valueDup = g_strdup(data);
-
-    g_ptr_array_add(results, valueDup);
-}
-
 gchar *osinfo_entity_get_id(OsinfoEntity *self)
 {
     g_return_val_if_fail(OSINFO_IS_ENTITY(self), NULL);

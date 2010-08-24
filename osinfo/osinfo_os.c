@@ -4,16 +4,51 @@ G_DEFINE_TYPE (OsinfoOs, osinfo_os, OSINFO_TYPE_ENTITY);
 
 #define OSINFO_OS_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_OS, OsinfoOsPrivate))
 
+struct _OsinfoOsPrivate
+{
+    // OS-Hypervisor specific information
+    // Key: gchar* (hypervisor id)
+    // Value: GList: Element Value: List of device_link structs
+    GHashTable *hypervisors;
+
+    // Value: List of device_link structs
+    GList *deviceLinks;
+
+    // Value: Array of os_link structs
+    GList *osLinks;
+};
+
+struct _OsinfoOsOsLink {
+    /* <self> 'verbs' <other_os>
+     * fedora11 upgrades fedora10
+     * centos clones rhel
+     * scientificlinux derives from rhel
+     */
+    osinfoRelationship relshp;
+    OsinfoOs *otherOs;
+};
+
+struct _OsinfoOsDeviceLink {
+    OsinfoDevice *dev;
+    gchar *driver;
+};
+
+
 static void osinfo_os_finalize (GObject *object);
 
 static void osinfo_device_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED)
 {
-    __osinfoFreeDeviceLink(data);
+    struct _OsinfoOsDeviceLink *link = data;
+    g_object_unref(link->dev);
+    g_free(link->driver);
+    g_free(link);
 }
 
 static void osinfo_os_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED)
 {
-    __osinfoFreeOsLink(data);
+    struct _OsinfoOsOsLink *link = data;
+    g_object_unref(link->otherOs);
+    g_free(link);
 }
 
 
@@ -92,7 +127,7 @@ OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *h
 
     // For each device in section list, apply filter. If filter passes, return device.
     while (tmp) {
-        struct __osinfoDeviceLink *link = tmp->data;
+        struct _OsinfoOsDeviceLink *link = tmp->data;
 
         if (osinfo_entity_matches_filter(OSINFO_ENTITY(link->dev), filter)) {
 	    *driver = link->driver;
@@ -114,7 +149,7 @@ OsinfoOsList *osinfo_os_get_related(OsinfoOs *self, osinfoRelationship relshp)
     GList *tmp = self->priv->osLinks;
 
     while (tmp) {
-        struct __osinfoOsLink *link = tmp->data;
+        struct _OsinfoOsOsLink *link = tmp->data;
 
 	if (link->relshp == relshp)
 	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link->otherOs));
@@ -141,7 +176,7 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, Os
         tmp = self->priv->deviceLinks;
 
     while (tmp) {
-        struct __osinfoDeviceLink *link = tmp->data;
+        struct _OsinfoOsDeviceLink *link = tmp->data;
 
         if (osinfo_entity_matches_filter(OSINFO_ENTITY(link->dev), filter))
 	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link->dev));
@@ -159,7 +194,7 @@ void osinfo_os_add_device(OsinfoOs *self, OsinfoHypervisor *hv, OsinfoDevice *de
     g_return_if_fail(OSINFO_IS_DEVICE(dev));
     g_return_if_fail(driver != NULL);
 
-    struct __osinfoDeviceLink *link = g_new0(struct __osinfoDeviceLink, 1);
+    struct _OsinfoOsDeviceLink *link = g_new0(struct _OsinfoOsDeviceLink, 1);
 
     g_object_ref(dev);
     link->dev = dev;
@@ -184,7 +219,7 @@ void osinfo_os_add_related_os(OsinfoOs *self, osinfoRelationship relshp, OsinfoO
     g_return_if_fail(OSINFO_IS_OS(self));
     g_return_if_fail(OSINFO_IS_OS(otheros));
 
-    struct __osinfoOsLink *osLink = g_new0(struct __osinfoOsLink, 1);
+    struct _OsinfoOsOsLink *osLink = g_new0(struct _OsinfoOsOsLink, 1);
 
     g_object_ref(otheros);
     osLink->otherOs = otheros;

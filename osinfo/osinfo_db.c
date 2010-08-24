@@ -279,6 +279,12 @@ GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, gchar *propNa
     return osinfo_db_unique_values_for_property_in_entity(OSINFO_LIST(self->priv->devices), propName);
 }
 
+struct __osinfoOsCheckRelationshipArgs {
+    OsinfoList *list;
+    osinfoRelationship relshp;
+};
+
+
 static gboolean __osinfoAddOsIfRelationship(OsinfoList *list, OsinfoEntity *entity, gpointer data)
 {
     struct __osinfoOsCheckRelationshipArgs *args = data;

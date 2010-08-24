@@ -4,11 +4,25 @@ G_DEFINE_TYPE (OsinfoHypervisor, osinfo_hypervisor, OSINFO_TYPE_ENTITY);
 
 #define OSINFO_HYPERVISOR_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_HYPERVISOR, OsinfoHypervisorPrivate))
 
+struct _OsinfoHypervisorPrivate
+{
+    // Value: List of device_link structs
+    GList *deviceLinks;
+};
+
+struct _OsinfoHypervisorDeviceLink {
+    OsinfoDevice *dev;
+    gchar *driver;
+};
+
 static void osinfo_hypervisor_finalize (GObject *object);
 
 static void osinfo_device_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED)
 {
-    __osinfoFreeDeviceLink(data);
+    struct _OsinfoHypervisorDeviceLink *link = data;
+    g_object_unref(link->dev);
+    g_free(link->driver);
+    g_free(link);
 }
 
 static void
@@ -59,7 +73,7 @@ OsinfoDeviceList *osinfo_hypervisor_get_devices(OsinfoHypervisor *self, OsinfoFi
     GList *tmp = self->priv->deviceLinks;
 
     while (tmp) {
-        struct __osinfoDeviceLink *link = tmp->data;
+        struct _OsinfoHypervisorDeviceLink *link = tmp->data;
 
         if (osinfo_entity_matches_filter(OSINFO_ENTITY(link->dev), filter))
 	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link->dev));
@@ -76,7 +90,7 @@ void osinfo_hypervisor_add_device(OsinfoHypervisor *self, OsinfoDevice *dev, con
     g_return_if_fail(OSINFO_IS_DEVICE(dev));
     g_return_if_fail(driver != NULL);
 
-    struct __osinfoDeviceLink *link = g_new0(struct __osinfoDeviceLink, 1);
+    struct _OsinfoHypervisorDeviceLink *link = g_new0(struct _OsinfoHypervisorDeviceLink, 1);
 
     g_object_ref(dev);
     link->dev = dev;
