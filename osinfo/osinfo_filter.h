@@ -27,7 +27,7 @@ typedef struct _OsinfoFilterPrivate OsinfoFilterPrivate;
 /* object */
 struct _OsinfoFilter
 {
-    OsinfoEntity parent_instance;
+    GObject parent_instance;
 
     /* public */
 
@@ -38,12 +38,14 @@ struct _OsinfoFilter
 /* class */
 struct _OsinfoFilterClass
 {
-    OsinfoEntityClass parent_class;
+    GObjectClass parent_class;
 
     /* class members */
 };
 
 GType osinfo_filter_get_type(void);
+
+OsinfoFilter *osinfo_filter_new(void);
 
 gint osinfo_filter_add_constraint(OsinfoFilter *self, gchar *propName, gchar *propVal);
 

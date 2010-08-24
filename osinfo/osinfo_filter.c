@@ -42,6 +42,12 @@ osinfo_filter_class_init (OsinfoFilterClass *klass)
 }
 
 
+OsinfoFilter *osinfo_filter_new(void)
+{
+    return g_object_new(OSINFO_TYPE_FILTER, NULL);
+}
+
+
 static void
 osinfo_filter_prop_constraint_free(gpointer value, gpointer opaque G_GNUC_UNUSED)
 {
