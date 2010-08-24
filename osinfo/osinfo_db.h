@@ -18,8 +18,7 @@
 #define OSINFO_IS_DB_CLASS(klass)       (G_TYPE_CHECK_CLASS_TYPE ((klass), OSINFO_TYPE_DB))
 #define OSINFO_DB_GET_CLASS(obj)        (G_TYPE_INSTANCE_GET_CLASS ((obj), OSINFO_TYPE_DB, OsinfoDbClass))
 
-//typedef struct _OsinfoDb        OsinfoDb;
-// (defined in osinfo_objects.h)
+typedef struct _OsinfoDb        OsinfoDb;
 
 typedef struct _OsinfoDbClass   OsinfoDbClass;
 
@@ -82,7 +81,7 @@ GList *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, gchar *propNam
 GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, gchar *propName);
 
 // Get me all OSes that 'upgrade' another OS (or whatever relationship is specified)
-OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, osinfoRelationship relshp);
+OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, OsinfoOsRelationship relshp);
 
 
 #endif /* __OSINFO_DB_H__ */

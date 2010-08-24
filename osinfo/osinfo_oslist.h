@@ -18,7 +18,7 @@
 #define OSINFO_IS_OSLIST_CLASS(klass)       (G_TYPE_CHECK_CLASS_TYPE ((klass), OSINFO_TYPE_OSLIST))
 #define OSINFO_OSLIST_GET_CLASS(obj)        (G_TYPE_INSTANCE_GET_CLASS ((obj), OSINFO_TYPE_OSLIST, OsinfoOsListClass))
 
-//typedef struct _OsinfoOsList        OsinfoOsList;
+typedef struct _OsinfoOsList        OsinfoOsList;
 
 typedef struct _OsinfoOsListClass   OsinfoOsListClass;
 

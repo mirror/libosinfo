@@ -113,7 +113,7 @@ gint osinfo_filter_add_constraint(OsinfoFilter *self, gchar *propName, gchar *pr
 }
 
 // Only applicable to OSes, ignored by other types of objects
-gint osinfo_filter_add_relation_constraint(OsinfoFilter *self, osinfoRelationship relshp, OsinfoOs *os)
+gint osinfo_filter_add_relation_constraint(OsinfoFilter *self, OsinfoOsRelationship relshp, OsinfoOs *os)
 {
     g_return_val_if_fail(OSINFO_IS_FILTER(self), -1);
     g_return_val_if_fail(OSINFO_IS_OS(os), -1);
@@ -141,7 +141,7 @@ void osinfo_filter_clear_constraint(OsinfoFilter *self, gchar *propName)
     g_hash_table_remove(self->priv->propertyConstraints, propName);
 }
 
-void osinfo_filter_clear_relationship_constraint(OsinfoFilter *self, osinfoRelationship relshp)
+void osinfo_filter_clear_relationship_constraint(OsinfoFilter *self, OsinfoOsRelationship relshp)
 {
     g_hash_table_remove(self->priv->relationshipConstraints, (gpointer) relshp);
 }
@@ -170,7 +170,7 @@ GList *osinfo_filter_get_constraint_values(OsinfoFilter *self, gchar *propName)
 }
 
 // get oses for given relshp
-OsinfoOsList *osinfo_filter_get_relationship_constraint_value(OsinfoFilter *self, osinfoRelationship relshp)
+OsinfoOsList *osinfo_filter_get_relationship_constraint_value(OsinfoFilter *self, OsinfoOsRelationship relshp)
 {
     g_return_val_if_fail(OSINFO_IS_FILTER(self), NULL);
 

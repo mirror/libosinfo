@@ -19,9 +19,6 @@
 #define OSINFO_FILTER_GET_CLASS(obj)        (G_TYPE_INSTANCE_GET_CLASS ((obj), OSINFO_TYPE_FILTER, OsinfoFilterClass))
 
 //typedef struct _OsinfoFilter        OsinfoFilter;
-// (defined in osinfo_objects.h)
-
-#include "osinfo_oslist.h"
 
 typedef struct _OsinfoFilterClass  OsinfoFilterClass;
 
@@ -51,22 +48,22 @@ GType osinfo_filter_get_type(void);
 gint osinfo_filter_add_constraint(OsinfoFilter *self, gchar *propName, gchar *propVal);
 
 // Only applicable to OSes, ignored by other types of objects
-gint osinfo_filter_add_relation_constraint(OsinfoFilter *self, osinfoRelationship relshp, OsinfoOs *os);
+gint osinfo_filter_add_relation_constraint(OsinfoFilter *self, OsinfoOsRelationship relshp, OsinfoOs *os);
 
 void osinfo_filter_clear_constraint(OsinfoFilter *self, gchar *propName);
-void osinfo_filter_clear_relationship_constraint(OsinfoFilter *self, osinfoRelationship relshp);
+void osinfo_filter_clear_relationship_constraint(OsinfoFilter *self, OsinfoOsRelationship relshp);
 void osinfo_filter_clear_all_constraints(OsinfoFilter *self);
 
 GList *osinfo_filter_get_constraint_keys(OsinfoFilter *self);
 GList *osinfo_filter_get_constraint_values(OsinfoFilter *self, gchar *propName);
-OsinfoOsList *osinfo_filter_get_relationship_constraint_value(OsinfoFilter *self, osinfoRelationship relshp);
+OsinfoOsList *osinfo_filter_get_relationship_constraint_value(OsinfoFilter *self, OsinfoOsRelationship relshp);
 
 typedef gboolean (*osinfo_filter_match_func)(OsinfoFilter *self,
 					     const gchar *propName,
 					     GList *propValues,
 					     gpointer data);
 typedef gboolean (*osinfo_filter_match_relation_func)(OsinfoFilter *self,
-						      osinfoRelationship relshp,
+						      OsinfoOsRelationship relshp,
 						      GList *relOses,
 						      gpointer data);
 

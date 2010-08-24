@@ -18,8 +18,7 @@
 #define OSINFO_IS_DEVICE_CLASS(klass)       (G_TYPE_CHECK_CLASS_TYPE ((klass), OSINFO_TYPE_DEVICE))
 #define OSINFO_DEVICE_GET_CLASS(obj)        (G_TYPE_INSTANCE_GET_CLASS ((obj), OSINFO_TYPE_DEVICE, OsinfoDeviceClass))
 
-//typedef struct _OsinfoDevice        OsinfoDevice;
-// (defined in osinfo_objects.h)
+typedef struct _OsinfoDevice        OsinfoDevice;
 
 typedef struct _OsinfoDeviceClass   OsinfoDeviceClass;
 

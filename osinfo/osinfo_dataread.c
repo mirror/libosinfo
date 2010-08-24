@@ -205,7 +205,7 @@ error:
 static int __osinfoProcessOsRelationship(xmlTextReaderPtr reader,
 					 OsinfoDb *db,
                                          OsinfoOs *os,
-                                         osinfoRelationship relationship)
+                                         OsinfoOsRelationship relationship)
 {
     int empty;
     gchar *id;

@@ -25,8 +25,6 @@ libosinfo_include_HEADERS = 		\
   osinfo_oslist.h
 
 libosinfo_la_SOURCES =		\
-  osinfo_common.h		\
-  osinfo_common.c		\
   osinfo_dataread.c		\
   osinfo_device.c		\
   osinfo_devicelist.c		\

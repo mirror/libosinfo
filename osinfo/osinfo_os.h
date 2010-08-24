@@ -22,8 +22,7 @@
 #define OSINFO_IS_OS_CLASS(klass)       (G_TYPE_CHECK_CLASS_TYPE ((klass), OSINFO_TYPE_OS))
 #define OSINFO_OS_GET_CLASS(obj)        (G_TYPE_INSTANCE_GET_CLASS ((obj), OSINFO_TYPE_OS, OsinfoOsClass))
 
-//typedef struct _OsinfoOs        OsinfoOs;
-// (defined in osinfo_objects.h)
+typedef struct _OsinfoOs        OsinfoOs;
 
 typedef struct _OsinfoOsClass   OsinfoOsClass;
 
@@ -48,18 +47,25 @@ struct _OsinfoOsClass
     /* class members */
 };
 
+typedef enum {
+    DERIVES_FROM,
+    UPGRADES,
+    CLONES,
+} OsinfoOsRelationship;
+
+
 GType osinfo_os_get_type(void);
 
 OsinfoOs *osinfo_os_new(const gchar *id);
 
 OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter,
 					     const gchar **driver);
-OsinfoOsList *osinfo_os_get_related(OsinfoOs *self, osinfoRelationship relshp);
+OsinfoOsList *osinfo_os_get_related(OsinfoOs *self, OsinfoOsRelationship relshp);
 
 OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, OsinfoFilter *filter);
 
 void osinfo_os_add_device(OsinfoOs *self, OsinfoHypervisor *hv, OsinfoDevice *dev, const gchar *driver);
 
-void osinfo_os_add_related_os(OsinfoOs *self, osinfoRelationship relshp, OsinfoOs *otheros);
+void osinfo_os_add_related_os(OsinfoOs *self, OsinfoOsRelationship relshp, OsinfoOs *otheros);
 
 #endif /* __OSINFO_OS_H__ */

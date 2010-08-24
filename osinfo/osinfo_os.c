@@ -24,7 +24,7 @@ struct _OsinfoOsOsLink {
      * centos clones rhel
      * scientificlinux derives from rhel
      */
-    osinfoRelationship relshp;
+    OsinfoOsRelationship relshp;
     OsinfoOs *otherOs;
 };
 
@@ -140,7 +140,7 @@ OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *h
     return NULL;
 }
 
-OsinfoOsList *osinfo_os_get_related(OsinfoOs *self, osinfoRelationship relshp)
+OsinfoOsList *osinfo_os_get_related(OsinfoOs *self, OsinfoOsRelationship relshp)
 {
     g_return_val_if_fail(OSINFO_IS_OS(self), NULL);
 
@@ -214,7 +214,7 @@ void osinfo_os_add_device(OsinfoOs *self, OsinfoHypervisor *hv, OsinfoDevice *de
 }
 
 
-void osinfo_os_add_related_os(OsinfoOs *self, osinfoRelationship relshp, OsinfoOs *otheros)
+void osinfo_os_add_related_os(OsinfoOs *self, OsinfoOsRelationship relshp, OsinfoOs *otheros)
 {
     g_return_if_fail(OSINFO_IS_OS(self));
     g_return_if_fail(OSINFO_IS_OS(otheros));

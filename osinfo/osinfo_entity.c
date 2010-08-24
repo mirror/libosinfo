@@ -222,7 +222,7 @@ static gboolean osinfo_entity_matcher(OsinfoFilter *self,
 
 
 static gboolean osinfo_entity_relation_matcher(OsinfoFilter *self,
-					       osinfoRelationship relshp,
+					       OsinfoOsRelationship relshp,
 					       GList *relOses,
 					       gpointer data)
 {

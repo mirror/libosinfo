@@ -18,7 +18,9 @@
 #define OSINFO_IS_ENTITY_CLASS(klass)       (G_TYPE_CHECK_CLASS_TYPE ((klass), OSINFO_TYPE_ENTITY))
 #define OSINFO_ENTITY_GET_CLASS(obj)        (G_TYPE_INSTANCE_GET_CLASS ((obj), OSINFO_TYPE_ENTITY, OsinfoEntityClass))
 
-//typedef struct _OsinfoEntity        OsinfoEntity;
+typedef struct _OsinfoEntity        OsinfoEntity;
+/* Temp hack */
+typedef struct _OsinfoFilter        OsinfoFilter;
 
 typedef struct _OsinfoEntityClass   OsinfoEntityClass;
 

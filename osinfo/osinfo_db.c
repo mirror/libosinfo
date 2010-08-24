@@ -281,7 +281,7 @@ GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, gchar *propNa
 
 struct __osinfoOsCheckRelationshipArgs {
     OsinfoList *list;
-    osinfoRelationship relshp;
+    OsinfoOsRelationship relshp;
 };
 
 
@@ -302,7 +302,7 @@ static gboolean __osinfoAddOsIfRelationship(OsinfoList *list, OsinfoEntity *enti
 }
 
 // Get me all OSes that 'upgrade' another OS (or whatever relationship is specified)
-OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, osinfoRelationship relshp)
+OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, OsinfoOsRelationship relshp)
 {
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
 

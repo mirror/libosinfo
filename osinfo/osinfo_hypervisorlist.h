@@ -17,7 +17,7 @@
 #define OSINFO_IS_HYPERVISORLIST_CLASS(klass)       (G_TYPE_CHECK_CLASS_TYPE ((klass), OSINFO_TYPE_HYPERVISORLIST))
 #define OSINFO_HYPERVISORLIST_GET_CLASS(obj)        (G_TYPE_INSTANCE_GET_CLASS ((obj), OSINFO_TYPE_HYPERVISORLIST, OsinfoHypervisorListClass))
 
-//typedef struct _OsinfoHypervisorList        OsinfoHypervisorList;
+typedef struct _OsinfoHypervisorList        OsinfoHypervisorList;
 
 typedef struct _OsinfoHypervisorListClass   OsinfoHypervisorListClass;
 
