@@ -46,10 +46,10 @@ struct _OsinfoEntityClass
 GType osinfo_entity_get_type(void);
 
 gchar *osinfo_entity_get_id(OsinfoEntity *self);
-GPtrArray *osinfo_entity_get_params(OsinfoEntity *self);
+GList *osinfo_entity_get_param_keys(OsinfoEntity *self);
 gchar *osinfo_entity_get_param_value(OsinfoEntity *self, gchar *key);
-GPtrArray *osinfo_entity_get_param_all_values(OsinfoEntity *self, gchar *key);
-int osinfo_entity_add_param(OsinfoEntity *self, gchar *key, gchar *value);
+GList *osinfo_entity_get_param_value_list(OsinfoEntity *self, gchar *key);
+void osinfo_entity_add_param(OsinfoEntity *self, gchar *key, gchar *value);
 void osinfo_entity_clear_param(OsinfoEntity *self, gchar *key);
 
 gboolean osinfo_entity_matches_filter(OsinfoEntity *self, OsinfoFilter *filter);

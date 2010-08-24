@@ -219,24 +219,20 @@ struct osinfo_db_populate_values_args {
 static gboolean osinfo_db_get_property_values_in_entity(OsinfoList *list, OsinfoEntity *entity, gpointer data)
 {
     struct osinfo_db_populate_values_args *args = data;
-    GHashTable *values = args->values;
+    GHashTable *newValues = args->values;
     gchar *property = args->property;
-    GPtrArray *valueArray = NULL;
+    GList *values = osinfo_entity_get_param_value_list(entity, property);
 
-    valueArray = g_tree_lookup(entity->priv->params, property);
-    if (valueArray)
-        return FALSE; // No values here, skip
+    while (values) {
+        gchar *value = values->data;
 
-    int i;
-    for (i = 0; i < valueArray->len; i++) {
-        gchar *currValue = g_ptr_array_index(valueArray, i);
-        void *test = g_hash_table_lookup(values, currValue);
-        if (test)
-            continue;
+	if (!g_hash_table_lookup(newValues, value)) {
+	    g_hash_table_insert(newValues,
+				g_strdup(value),
+				GINT_TO_POINTER(1));
+	}
 
-        g_hash_table_insert(values,
-			    g_strdup(currValue),
-			    GINT_TO_POINTER(1));
+	values = values->next;
     }
 
     return FALSE; // Continue iterating

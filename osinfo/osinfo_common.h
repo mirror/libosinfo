@@ -111,8 +111,8 @@ struct _OsinfoEntityPrivate
     gchar *id;
 
     // Key: gchar*
-    // Value: Array of gchar* values for key (multiple values allowed)
-    GTree *params;
+    // Value: GList of gchar* values
+    GHashTable *params;
 };
 
 

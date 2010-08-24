@@ -58,8 +58,8 @@ osinfo_entity_finalize (GObject *object)
 {
     OsinfoEntity *self = OSINFO_ENTITY (object);
 
-    g_free (self->priv->id);
-    g_tree_destroy (self->priv->params);
+    g_free(self->priv->id);
+    g_hash_table_destroy(self->priv->params);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_entity_parent_class)->finalize (object);
@@ -88,47 +88,55 @@ osinfo_entity_class_init (OsinfoEntityClass *klass)
     g_type_class_add_private (klass, sizeof (OsinfoEntityPrivate));
 }
 
+static void osinfo_entity_param_value_free(gpointer value, gpointer opaque G_GNUC_UNUSED)
+{
+    g_free(value);
+}
+
+static void osinfo_entity_param_values_free(gpointer values)
+{
+    g_list_foreach(values, osinfo_entity_param_value_free, NULL);
+    g_list_free(values);
+}
+
+
 static void
 osinfo_entity_init (OsinfoEntity *self)
 {
     OsinfoEntityPrivate *priv;
     self->priv = priv = OSINFO_ENTITY_GET_PRIVATE(self);
 
-    self->priv->params = g_tree_new_full(__osinfoStringCompare, NULL, g_free, __osinfoFreeParamVals);
+    self->priv->params = g_hash_table_new_full(g_str_hash,
+					       g_str_equal,
+					       g_free,
+					       osinfo_entity_param_values_free);
 }
 
-int osinfo_entity_add_param(OsinfoEntity *self, gchar *key, gchar *value)
+void osinfo_entity_add_param(OsinfoEntity *self, gchar *key, gchar *value)
 {
-    if (!OSINFO_IS_ENTITY(self) || !key || !value)
-        return -EINVAL;
+    g_return_if_fail(OSINFO_IS_ENTITY(self));
+    g_return_if_fail(key != NULL);
+    g_return_if_fail(value != NULL);
 
     // First check if there exists an existing array of entries for this key
     // If not, create a ptrarray of strings for this key and insert into map
     gboolean found;
     gpointer origKey, foundValue;
-    GPtrArray *valueArray;
-    gchar *valueDup = NULL, *keyDup = NULL;
+    GList *values = NULL;
 
-    valueDup = g_strdup(value);
-
-    found = g_tree_lookup_extended(self->priv->params, key, &origKey, &foundValue);
-    if (!found) {
-        keyDup = g_strdup(key);
-        valueArray = g_ptr_array_new_with_free_func(g_free);
-
-        g_tree_insert(self->priv->params, keyDup, valueArray);
+    found = g_hash_table_lookup_extended(self->priv->params, key, &origKey, &foundValue);
+    if (found) {
+        g_hash_table_steal(self->priv->params, key);
+	values = foundValue;
     }
-    else
-        valueArray = (GPtrArray *) foundValue;
 
-    // Add a copy of the value to the array
-    g_ptr_array_add(valueArray, valueDup);
-    return 0;
+    values = g_list_append(values, g_strdup(key));
+    g_hash_table_insert(self->priv->params, g_strdup(key), values);
 }
 
 void osinfo_entity_clear_param(OsinfoEntity *self, gchar *key)
 {
-    g_tree_remove(self->priv->params, key);
+    g_hash_table_remove(self->priv->params, key);
 }
 
 gboolean osinfo_get_keys(gpointer key, gpointer value, gpointer data)
@@ -157,15 +165,11 @@ gchar *osinfo_entity_get_id(OsinfoEntity *self)
     return dupId;
 }
 
-GPtrArray *osinfo_entity_get_params(OsinfoEntity *self)
+GList *osinfo_entity_get_param_keys(OsinfoEntity *self)
 {
     g_return_val_if_fail(OSINFO_IS_ENTITY(self), NULL);
 
-    GPtrArray *params = g_ptr_array_new();
-
-    g_tree_foreach(self->priv->params, osinfo_get_keys, params);
-
-    return params;
+    return g_hash_table_get_keys(self->priv->params);
 }
 
 gchar *osinfo_entity_get_param_value(OsinfoEntity *self, gchar *key)
@@ -173,44 +177,21 @@ gchar *osinfo_entity_get_param_value(OsinfoEntity *self, gchar *key)
     g_return_val_if_fail(OSINFO_IS_ENTITY(self), NULL);
     g_return_val_if_fail(key != NULL, NULL);
 
-    gboolean found;
-    gpointer origKey, value;
-    gchar *firstValueDup;
-    GPtrArray *array;
+    GList *values;
 
-    found = g_tree_lookup_extended(self->priv->params, key, &origKey, &value);
-    if (!found)
-        return NULL;
-    array = (GPtrArray *) value;
-    if (array->len == 0)
-        return NULL;
+    values = g_hash_table_lookup(self->priv->params, key);
 
-    firstValueDup = g_strdup(g_ptr_array_index(array, 0));
-
-    return firstValueDup;
+    if (values)
+        return g_strdup(values->data);
+    return NULL;
 }
 
-GPtrArray *osinfo_entity_get_param_all_values(OsinfoEntity *self, gchar *key)
+GList *osinfo_entity_get_param_value_list(OsinfoEntity *self, gchar *key)
 {
     g_return_val_if_fail(OSINFO_IS_ENTITY(self), NULL);
     g_return_val_if_fail(key != NULL, NULL);
 
-    gboolean found;
-    gpointer origKey, value;
-    GPtrArray *srcArray, *retArray;
-
-    retArray = g_ptr_array_new();
-
-    found = g_tree_lookup_extended(self->priv->params, key, &origKey, &value);
-    if (!found)
-        return retArray;
-    srcArray = (GPtrArray *) value;
-    if (srcArray->len == 0)
-        return retArray;
-
-    g_ptr_array_foreach(srcArray, osinfo_dup_array, retArray);
-
-    return retArray;
+    return g_hash_table_lookup(self->priv->params, key);
 }
 
 
@@ -220,21 +201,23 @@ static gboolean osinfo_entity_matcher(OsinfoFilter *self,
 				      gpointer data)
 {
     OsinfoEntity *entity = data;
-    GPtrArray *entityValues = g_tree_lookup(entity->priv->params, propName);
+    GList *values = g_hash_table_lookup(entity->priv->params, propName);
 
-    if (propValues && !entityValues)
+    if (propValues && !values)
         return FALSE;
 
     while (propValues) {
         const gchar *propValue = propValues->data;
-        int j;
 	gboolean found = FALSE;
-        for (j = 0; j < entityValues->len; j++) {
-	    const gchar *testValue = g_ptr_array_index(entityValues, j);
+	GList *tmp = values;
+	while (tmp) {
+	    const gchar *testValue = tmp->data;
             if (g_strcmp0(propValue, testValue) == 0) {
                 found = TRUE;
                 break;
             }
+
+	    tmp = tmp->next;
         }
         if (!found)
 	    return FALSE;
