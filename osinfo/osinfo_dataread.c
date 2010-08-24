@@ -136,30 +136,12 @@ static gboolean __osinfoFixOsLinks(OsinfoList *list, OsinfoEntity *entity, gpoin
     return FALSE;
 }
 
-static gboolean __osinfoFixHvLinks(OsinfoList *list, OsinfoEntity *entity, gpointer data)
-{
-    g_return_val_if_fail(OSINFO_HYPERVISOR(entity), TRUE);
-
-    struct __osinfoDbRet *dbRet = data;
-    OsinfoHypervisor *hv = OSINFO_HYPERVISOR(entity);
-
-    g_tree_foreach(hv->priv->sections, __osinfoResolveSectionDevices, dbRet);
-    if (*dbRet->err)
-        return TRUE;
-    return FALSE;
-}
-
 static void __osinfoFixObjLinks(OsinfoDb *db, GError **err)
 {
     g_return_if_fail(OSINFO_IS_DB(db));
 
     struct __osinfoDbRet dbRet = {db, err };
-    OsinfoHypervisorList *hypervisors = osinfo_db_get_hypervisor_list(db);
     OsinfoOsList *oses = osinfo_db_get_os_list(db);
-
-    osinfo_list_foreach(OSINFO_LIST(hypervisors), __osinfoFixHvLinks, &dbRet);
-    if (*dbRet.err)
-        return;
 
     osinfo_list_foreach(OSINFO_LIST(oses), __osinfoFixOsLinks, &dbRet);
 }
@@ -532,8 +514,8 @@ static int __osinfoProcessHypervisor(OsinfoDb *db,
      */
 
     int empty, node_type, err, ret;
-    gchar* id;
-    const gchar * name;
+    gchar *id, *key, *driver;
+    const gchar *name;
     OsinfoHypervisor *hv;
     OsinfoHypervisorList *hypervisors = osinfo_db_get_hypervisor_list(db);
 
@@ -594,13 +576,37 @@ static int __osinfoProcessHypervisor(OsinfoDb *db,
         if (node_type != ELEMENT_NODE)
             continue;
 
-        if (strcmp(name, "section") == 0) {
-            /* Node is start of device section for hv */
-            err = __osinfoProcessDevSection(reader, (OSINFO_HYPERVISOR(hv))->priv->sections, (OSINFO_HYPERVISOR(hv))->priv->sectionsAsList);
-            if (err != 0)
-                goto cleanup_error;
-        }
-        else {
+        /* Element within section needs to be of type device */
+        if (strcmp(name, "device") == 0) {
+	    id = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");
+	    empty = xmlTextReaderIsEmptyElement(reader);
+
+	    if (!id) {
+	      fprintf(stderr, "no id\n");
+	        err = -EINVAL;
+		goto cleanup_error;
+	    }
+
+	    if (!empty) {
+	        err = __osinfoProcessTag(reader, &key, &driver);
+		if (err != 0 || !key || !driver)
+		    goto cleanup_error;
+		free(key);
+		key = NULL; /* In case the next malloc fails, avoid a double free */
+	    }
+
+	    // Alright, we have the id and driver
+	    OsinfoDevice *dev = osinfo_db_get_device(db, id);
+	    if (!dev) {
+	        err = -ENOENT;
+		goto cleanup_error;
+	    }
+	    osinfo_hypervisor_add_device(hv, dev, driver);
+	    free (driver);
+	    driver = NULL;
+	    free (id);
+	    id = NULL;
+        } else {
             /* Node is start of element of known name */
             char *key = NULL, *val = NULL;
             err = __osinfoProcessTag(reader, &key, &val);

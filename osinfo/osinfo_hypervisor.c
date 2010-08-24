@@ -6,13 +6,18 @@ G_DEFINE_TYPE (OsinfoHypervisor, osinfo_hypervisor, OSINFO_TYPE_ENTITY);
 
 static void osinfo_hypervisor_finalize (GObject *object);
 
+static void osinfo_device_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED)
+{
+    __osinfoFreeDeviceLink(data);
+}
+
 static void
 osinfo_hypervisor_finalize (GObject *object)
 {
     OsinfoHypervisor *self = OSINFO_HYPERVISOR (object);
 
-    g_tree_destroy (self->priv->sections);
-    g_tree_destroy (self->priv->sectionsAsList);
+    g_list_foreach(self->priv->deviceLinks, osinfo_device_link_free, NULL);
+    g_list_free(self->priv->deviceLinks);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_hypervisor_parent_class)->finalize (object);
@@ -34,8 +39,7 @@ osinfo_hypervisor_init (OsinfoHypervisor *self)
     OsinfoHypervisorPrivate *priv;
     self->priv = priv = OSINFO_HYPERVISOR_GET_PRIVATE(self);
 
-    self->priv->sections = g_tree_new_full(__osinfoStringCompare, NULL, g_free, __osinfoFreeDeviceSection);
-    self->priv->sectionsAsList = g_tree_new_full(__osinfoStringCompare, NULL, g_free, __osinfoFreePtrArray);
+    self->priv->deviceLinks = NULL;
 }
 
 OsinfoHypervisor *osinfo_hypervisor_new(const gchar *id)
@@ -46,56 +50,35 @@ OsinfoHypervisor *osinfo_hypervisor_new(const gchar *id)
 }
 
 
-int __osinfoAddDeviceToSectionHv(OsinfoHypervisor *self, gchar *section, gchar *id, gchar *driver)
-{
-    if( !OSINFO_IS_HYPERVISOR(self) || !section || !id || !driver)
-        return -EINVAL;
-
-    return __osinfoAddDeviceToSection(self->priv->sections, self->priv->sectionsAsList, section, id, driver);
-}
-
-void __osinfoClearDeviceSectionHv(OsinfoHypervisor *self, gchar *section)
-{
-    if (!OSINFO_IS_HYPERVISOR(self) || !section)
-        return;
-
-    __osinfoClearDeviceSection(self->priv->sections, self->priv->sectionsAsList, section);
-}
-
-GPtrArray *osinfo_hypervisor_get_device_types(OsinfoHypervisor *self)
-{
-    g_return_val_if_fail(OSINFO_IS_HYPERVISOR(self), NULL);
-
-    GPtrArray *deviceTypes = g_ptr_array_sized_new(g_tree_nnodes(self->priv->sections));
-
-    // For each key in our tree of device sections, dup and add to the array
-    g_tree_foreach(self->priv->sections, osinfo_get_keys, deviceTypes);
-    return deviceTypes;
-}
-
-OsinfoDeviceList *osinfo_hypervisor_get_devices_by_type(OsinfoHypervisor *self, gchar *devType, OsinfoFilter *filter)
+OsinfoDeviceList *osinfo_hypervisor_get_devices(OsinfoHypervisor *self, OsinfoFilter *filter)
 {
     g_return_val_if_fail(OSINFO_IS_HYPERVISOR(self), NULL);
     g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
-    g_return_val_if_fail(devType != NULL, NULL);
 
-    // Create our device list
     OsinfoDeviceList *newList = osinfo_devicelist_new();
+    GList *tmp = self->priv->deviceLinks;
 
-    // If section does not exist, return empty list
-    GPtrArray *sectionList = NULL;
-    sectionList = g_tree_lookup(self->priv->sectionsAsList, devType);
-    if (!sectionList)
-        return newList;
+    while (tmp) {
+        struct __osinfoDeviceLink *link = tmp->data;
 
-    // For each device in section list, apply filter. If filter passes, add device to list.
-    int i;
-    struct __osinfoDeviceLink *deviceLink;
-    for (i = 0; i < sectionList->len; i++) {
-        deviceLink = g_ptr_array_index(sectionList, i);
-        if (osinfo_entity_matches_filter(OSINFO_ENTITY(deviceLink->dev), filter))
-	    osinfo_list_add(OSINFO_LIST (newList), OSINFO_ENTITY (deviceLink->dev));
+        if (osinfo_entity_matches_filter(OSINFO_ENTITY(link->dev), filter))
+	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link->dev));
     }
 
     return newList;
+}
+
+void osinfo_hypervisor_add_device(OsinfoHypervisor *self, OsinfoDevice *dev, const gchar *driver)
+{
+    g_return_if_fail(OSINFO_IS_HYPERVISOR(self));
+    g_return_if_fail(OSINFO_IS_DEVICE(dev));
+    g_return_if_fail(driver != NULL);
+
+    struct __osinfoDeviceLink *link = g_new0(struct __osinfoDeviceLink, 1);
+
+    g_object_ref(dev);
+    link->dev = dev;
+    link->driver = g_strdup(driver);
+
+    self->priv->deviceLinks = g_list_prepend(self->priv->deviceLinks, link);
 }

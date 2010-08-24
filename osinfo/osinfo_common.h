@@ -102,10 +102,8 @@ void osinfo_dup_array(gpointer data, gpointer user_data);
 
 struct _OsinfoHypervisorPrivate
 {
-    // Key: gchar* (device type)
-    // Value: Tree of device_link structs (multiple devices per type)
-    GTree *sections;
-    GTree *sectionsAsList; // Mapping GString key (device type) to Array of deviceLink structs
+    // Value: List of device_link structs
+    GList *deviceLinks;
 };
 
 struct _OsinfoOsPrivate
