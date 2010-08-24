@@ -14,8 +14,6 @@
 #include <glib-object.h>
 #include <errno.h>
 
-#define FREE_N(x) free(x); x = null;
-
 typedef struct _OsinfoEntity     OsinfoEntity;
 typedef struct _OsinfoDb         OsinfoDb;
 typedef struct _OsinfoDevice     OsinfoDevice;
