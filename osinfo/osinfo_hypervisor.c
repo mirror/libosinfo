@@ -63,6 +63,8 @@ OsinfoDeviceList *osinfo_hypervisor_get_devices(OsinfoHypervisor *self, OsinfoFi
 
         if (osinfo_entity_matches_filter(OSINFO_ENTITY(link->dev), filter))
 	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link->dev));
+
+	tmp = tmp->next;
     }
 
     return newList;

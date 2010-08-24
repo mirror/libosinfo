@@ -52,8 +52,12 @@ GType osinfo_os_get_type(void);
 
 OsinfoOs *osinfo_os_new(const gchar *id);
 
-OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter);
+OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter,
+					     const gchar **driver);
 OsinfoOsList *osinfo_os_get_related(OsinfoOs *self, osinfoRelationship relshp);
-OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter);
+
+OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, OsinfoFilter *filter);
+
+void osinfo_os_add_device(OsinfoOs *self, OsinfoHypervisor *hv, OsinfoDevice *dev, const gchar *driver);
 
 #endif /* __OSINFO_OS_H__ */

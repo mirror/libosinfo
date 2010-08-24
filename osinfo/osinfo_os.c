@@ -6,13 +6,19 @@ G_DEFINE_TYPE (OsinfoOs, osinfo_os, OSINFO_TYPE_ENTITY);
 
 static void osinfo_os_finalize (GObject *object);
 
+static void osinfo_device_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED)
+{
+    __osinfoFreeDeviceLink(data);
+}
+
+
 static void
 osinfo_os_finalize (GObject *object)
 {
     OsinfoOs *self = OSINFO_OS (object);
 
-    g_tree_destroy (self->priv->sections);
-    g_tree_destroy (self->priv->sectionsAsList);
+    g_list_foreach(self->priv->deviceLinks, osinfo_device_link_free, NULL);
+    g_list_free(self->priv->deviceLinks);
     g_hash_table_unref(self->priv->hypervisors);
     g_tree_destroy (self->priv->relationshipsByOs);
     g_tree_destroy (self->priv->relationshipsByType);
@@ -31,14 +37,13 @@ osinfo_os_class_init (OsinfoOsClass *klass)
     g_type_class_add_private (klass, sizeof (OsinfoOsPrivate));
 }
 
-static void osinfo_hv_section_free(gpointer value)
+static void
+osinfo_os_hypervisor_devices_free(gpointer opaque)
 {
-    struct __osinfoHvSection * hvSection = value;
-    if (!hvSection)
-        return;
-    g_tree_destroy(hvSection->sections);
-    g_tree_destroy(hvSection->sectionsAsList);
-    g_free(hvSection);
+    GList *deviceLinks = opaque;
+
+    g_list_foreach(deviceLinks, osinfo_device_link_free, NULL);
+    g_list_free(deviceLinks);
 }
 
 static void
@@ -47,15 +52,7 @@ osinfo_os_init (OsinfoOs *self)
     OsinfoOsPrivate *priv;
     self->priv = priv = OSINFO_OS_GET_PRIVATE(self);
 
-    self->priv->sections = g_tree_new_full(__osinfoStringCompare,
-                                           NULL,
-                                           g_free,
-                                           __osinfoFreeDeviceSection);
-
-    self->priv->sectionsAsList = g_tree_new_full(__osinfoStringCompare,
-                                                 NULL,
-                                                 g_free,
-                                                 __osinfoFreePtrArray);
+    self->priv->deviceLinks = NULL;
 
     self->priv->relationshipsByOs = g_tree_new_full(__osinfoStringCompare,
                                                 NULL,
@@ -66,7 +63,7 @@ osinfo_os_init (OsinfoOs *self)
     self->priv->hypervisors = g_hash_table_new_full(g_str_hash,
 						    g_str_equal,
 						    g_free,
-						    osinfo_hv_section_free);
+						    osinfo_os_hypervisor_devices_free);
 }
 
 OsinfoOs *osinfo_os_new(const gchar *id)
@@ -176,66 +173,9 @@ error_free:
     return ret;
 }
 
-int __osinfoAddDeviceToSectionOs(OsinfoOs *self, gchar *section, gchar *id, gchar *driver)
-{
-    if( !OSINFO_IS_OS(self) || !section || !id || !driver)
-        return -EINVAL;
 
-    return __osinfoAddDeviceToSection(self->priv->sections, self->priv->sectionsAsList, section, id, driver);
-}
-
-void __osinfoClearDeviceSectionOs(OsinfoOs *self, gchar *section)
-{
-    if (!OSINFO_IS_OS(self) || !section)
-        return;
-
-    __osinfoClearDeviceSection(self->priv->sections, self->priv->sectionsAsList, section);
-}
-
-struct __osinfoHvSection *__osinfoAddHypervisorSectionToOs(OsinfoOs *self, gchar *hvId)
-{
-    if (!OSINFO_IS_OS(self) || !hvId)
-        return NULL;
-
-    gboolean found;
-    gpointer origKey, foundValue;
-    struct __osinfoHvSection *hvSection = NULL;
-    GTree *deviceSections;
-    GTree *deviceSectionsAsList;
-
-    found = g_hash_table_lookup_extended(self->priv->hypervisors, hvId, &origKey, &foundValue);
-    if (!found) {
-        hvSection = g_malloc(sizeof(*hvSection));
-        deviceSections = g_tree_new_full(__osinfoStringCompare,
-                                        NULL,
-                                        g_free,
-                                        __osinfoFreeDeviceSection);
-
-
-        deviceSectionsAsList = g_tree_new_full(__osinfoStringCompare,
-                                               NULL,
-                                               g_free,
-                                               __osinfoFreePtrArray);
-
-        hvSection->os = self;
-        // Will set hv link later
-        hvSection->sections = deviceSections;
-        hvSection->sectionsAsList = deviceSectionsAsList;
-
-        g_hash_table_insert(self->priv->hypervisors,
-			    g_strdup(hvId), hvSection);
-        return hvSection;
-    }
-    else
-        return (struct __osinfoHvSection *) foundValue;
-}
-
-void __osinfoRemoveHvSectionFromOs(OsinfoOs *self, gchar *hvId)
-{
-    g_hash_table_remove(self->priv->hypervisors, hvId);
-}
-
-OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter)
+OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter,
+					     const gchar **driver)
 {
     g_return_val_if_fail(OSINFO_IS_OS(self), NULL);
     g_return_val_if_fail(OSINFO_IS_HYPERVISOR(hv), NULL);
@@ -243,34 +183,25 @@ OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *h
     g_return_val_if_fail(devType != NULL, NULL);
     // Check if device type info present for <os,hv>, else return NULL.
 
-    GPtrArray *sectionList = NULL;
-    if (hv) {
-        // Check if hypervisor specific info present for Os, else return NULL.
-        struct __osinfoHvSection *hvSection = NULL;
-        hvSection = g_hash_table_lookup(self->priv->hypervisors, (OSINFO_ENTITY(hv))->priv->id);
-        if (!hvSection)
-            return NULL;
-
-        sectionList = g_tree_lookup(hvSection->sectionsAsList, devType);
-        if (!sectionList)
-            return NULL;
-    }
-    else {
-        sectionList = g_tree_lookup(self->priv->sectionsAsList, devType);
-        if (!sectionList)
-            return NULL;
-    }
+    GList *tmp;
+    if (hv)
+        tmp = g_hash_table_lookup(self->priv->hypervisors,
+				  osinfo_entity_get_id(OSINFO_ENTITY(hv)));
+    else
+        tmp = self->priv->deviceLinks;
 
     // For each device in section list, apply filter. If filter passes, return device.
-    int i;
-    struct __osinfoDeviceLink *deviceLink;
-    for (i = 0; i < sectionList->len; i++) {
-        deviceLink = g_ptr_array_index(sectionList, i);
-        if (osinfo_entity_matches_filter(OSINFO_ENTITY(deviceLink->dev), filter))
-	    return deviceLink->dev;
+    while (tmp) {
+        struct __osinfoDeviceLink *link = tmp->data;
+
+        if (osinfo_entity_matches_filter(OSINFO_ENTITY(link->dev), filter)) {
+	    *driver = link->driver;
+	    return link->dev;
+	}
     }
 
     // If no devices pass filter, return NULL.
+    *driver= NULL;
     return NULL;
 }
 
@@ -295,42 +226,56 @@ OsinfoOsList *osinfo_os_get_related(OsinfoOs *self, osinfoRelationship relshp)
     return newList;
 }
 
-OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter)
+OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, OsinfoFilter *filter)
 {
     g_return_val_if_fail(OSINFO_IS_OS(self), NULL);
     g_return_val_if_fail(OSINFO_IS_HYPERVISOR(hv), NULL);
     g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
-    g_return_val_if_fail(devType != NULL, NULL);
 
-    GPtrArray *sectionList = NULL;
-
-    // Create our device list
     OsinfoDeviceList *newList = osinfo_devicelist_new();
+    GList *tmp = NULL;
 
-    if (hv) {
-        struct __osinfoHvSection *hvSection = NULL;
-        hvSection = g_hash_table_lookup(self->priv->hypervisors, (OSINFO_ENTITY(hv))->priv->id);
-        if (!hvSection)
-            return newList;
+    if (hv)
+        tmp = g_hash_table_lookup(self->priv->hypervisors,
+				  osinfo_entity_get_id(OSINFO_ENTITY(hv)));
+    else
+        tmp = self->priv->deviceLinks;
 
-        sectionList = g_tree_lookup(hvSection->sectionsAsList, devType);
-        if (!sectionList)
-            return newList;
-    }
-    else {
-        sectionList = g_tree_lookup(self->priv->sectionsAsList, devType);
-        if (!sectionList)
-            return newList;
-    }
+    while (tmp) {
+        struct __osinfoDeviceLink *link = tmp->data;
 
-    // For each device in section list, apply filter. If filter passes, add device to list.
-    int i;
-    struct __osinfoDeviceLink *deviceLink;
-    for (i = 0; i < sectionList->len; i++) {
-        deviceLink = g_ptr_array_index(sectionList, i);
-        if (osinfo_entity_matches_filter(OSINFO_ENTITY(deviceLink->dev), filter))
-	    osinfo_list_add(OSINFO_LIST (newList), OSINFO_ENTITY (deviceLink->dev));
+        if (osinfo_entity_matches_filter(OSINFO_ENTITY(link->dev), filter))
+	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link->dev));
+
+	tmp = tmp->next;
     }
 
     return NULL;
 }
+
+
+void osinfo_os_add_device(OsinfoOs *self, OsinfoHypervisor *hv, OsinfoDevice *dev, const gchar *driver)
+{
+    g_return_if_fail(OSINFO_IS_HYPERVISOR(self));
+    g_return_if_fail(OSINFO_IS_DEVICE(dev));
+    g_return_if_fail(driver != NULL);
+
+    struct __osinfoDeviceLink *link = g_new0(struct __osinfoDeviceLink, 1);
+
+    g_object_ref(dev);
+    link->dev = dev;
+    link->driver = g_strdup(driver);
+
+    if (hv) {
+        GList *tmp = g_hash_table_lookup(self->priv->hypervisors,
+					 osinfo_entity_get_id(OSINFO_ENTITY(hv)));
+	g_hash_table_steal(self->priv->hypervisors,
+			   osinfo_entity_get_id(OSINFO_ENTITY(hv)));
+	tmp = g_list_prepend(tmp, link);
+	g_hash_table_insert(self->priv->hypervisors,
+			    osinfo_entity_get_id(OSINFO_ENTITY(hv)), tmp);
+    } else {
+        self->priv->deviceLinks = g_list_prepend(self->priv->deviceLinks, link);
+    }
+}
+

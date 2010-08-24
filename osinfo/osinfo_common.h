@@ -41,14 +41,6 @@ struct __osinfoDeviceLink {
     gchar *driver;
 };
 
-struct __osinfoHvSection {
-    OsinfoHypervisor *hv;
-    OsinfoOs *os;
-
-    GTree *sections; // Mapping GString key (device type) to GTree of deviceLink structs
-    GTree *sectionsAsList; // Mapping GString key (device type) to Array of deviceLink structs
-};
-
 struct __osinfoOsLink {
     /* <subject_os> 'verbs' <direct_object_os>
      * fedora11 upgrades fedora10
@@ -88,11 +80,6 @@ void __osinfoFreeDeviceSection(gpointer tree);
 void __osinfoFreeDeviceLink(gpointer ptr);
 void __osinfoFreeOsLink(gpointer ptr);
 
-void __osinfoListAdd(OsinfoList *self, OsinfoEntity *entity);
-
-int __osinfoAddDeviceToSection(GTree *allSections, GTree *allSectionsAsList, gchar *sectionName, gchar *id, gchar *driver);
-void __osinfoClearDeviceSection(GTree *allSections, GTree *allSectionsAsList, gchar *section);
-
 gboolean osinfo_get_keys(gpointer key, gpointer value, gpointer data);
 void osinfo_dup_array(gpointer data, gpointer user_data);
 
@@ -110,13 +97,11 @@ struct _OsinfoOsPrivate
 {
     // OS-Hypervisor specific information
     // Key: gchar* (hypervisor id)
-    // Value: __osinfoHvSection struct
+    // Value: GList: Element Value: List of device_link structs
     GHashTable *hypervisors;
 
-    // Key: gchar* (device type)
-    // Value: Tree of device_link structs (multiple devices per type)
-    GTree *sections;
-    GTree *sectionsAsList; // Mapping GString key (device type) to Array of deviceLink structs
+    // Value: List of device_link structs
+    GList *deviceLinks;
 
     // OS-OS relationships
     // Key: gchar* (other os id)
@@ -140,18 +125,7 @@ struct _OsinfoEntityPrivate
  *      Private Methods
  ******************************************************************************/
 
-// Private
-int __osinfoAddDeviceToSectionOs(OsinfoOs *self, gchar *section, gchar *id, gchar *driver);
-void __osinfoClearDeviceSectionOs(OsinfoOs *self, gchar *section);
-
 int __osinfoAddOsRelationship (OsinfoOs *self, gchar *otherOsId, osinfoRelationship rel);
 void __osinfoClearOsRelationships (OsinfoOs *self, gchar *otherOsId);
-
-struct __osinfoHvSection *__osinfoAddHypervisorSectionToOs(OsinfoOs *self, gchar *hvId);
-void __osinfoRemoveHvSectionFromOs(OsinfoOs *self, gchar *hvId);
-
-// Private
-int __osinfoAddDeviceToSectionHv(OsinfoHypervisor *self, gchar *section, gchar *id, gchar *driver);
-void __osinfoClearDeviceSectionHv(OsinfoHypervisor *self, gchar *section);
 
 #endif /* __OSINFO_OBJECTS_H__ */
