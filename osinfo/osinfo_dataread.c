@@ -8,8 +8,6 @@
 
 #include <osinfo/osinfo.h>
 
-#ifdef LIBXML_READER_ENABLED
-
 #define TEXT_NODE 3
 #define ELEMENT_NODE 1
 #define END_NODE 15
@@ -746,11 +744,3 @@ cleanup:
     xmlCleanupParser();
     g_free(backingDir);
 }
-
-#else
-void osinfo_dataread(OsinfoDb *db, GError **err)
-{
-    g_set_error_literal(err, g_quark_from_static_string("libosinfo"), 0,
-			"xml loading not available");
-}
-#endif
