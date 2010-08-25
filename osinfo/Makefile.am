@@ -22,18 +22,20 @@ libosinfo_include_HEADERS = 		\
   osinfo_hypervisorlist.h		\
   osinfo_list.h		\
   osinfo_os.h		\
+  osinfo_osfilter.h     \
   osinfo_oslist.h
 
 libosinfo_la_SOURCES =		\
-  osinfo_dataread.c		\
-  osinfo_device.c		\
-  osinfo_devicelist.c		\
   osinfo_entity.c		\
   osinfo_filter.c		\
-  osinfo_hypervisor.c	\
+  osinfo_list.c			\
+  osinfo_device.c		\
+  osinfo_devicelist.c		\
+  osinfo_hypervisor.c		\
   osinfo_hypervisorlist.c	\
-  osinfo_list.c	\
-  osinfo_oslist.c	\
-  osinfo_db.c			\
-  osinfo_os.c
+  osinfo_osfilter.c		\
+  osinfo_oslist.c		\
+  osinfo_os.c			\
+  osinfo_dataread.c		\
+  osinfo_db.c
 

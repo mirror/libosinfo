@@ -8,8 +8,6 @@
 #ifndef __OSINFO_HYPERVISOR_H__
 #define __OSINFO_HYPERVISOR_H__
 
-#include "osinfo_devicelist.h"
-
 /*
  * Type macros.
  */

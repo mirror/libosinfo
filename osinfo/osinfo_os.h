@@ -8,10 +8,6 @@
 #ifndef __OSINFO_OS_H__
 #define __OSINFO_OS_H__
 
-#include <glib-object.h>
-#include "osinfo_oslist.h"
-#include "osinfo_devicelist.h"
-
 /*
  * Type macros.
  */
