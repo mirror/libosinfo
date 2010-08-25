@@ -4,3 +4,4 @@ aclocal
 autoheader
 autoconf --force
 automake --add-missing
+./configure
