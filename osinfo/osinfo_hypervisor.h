@@ -5,6 +5,10 @@
  * Represents a hypervisor in libosinfo.
  */
 
+#include <glib-object.h>
+#include <osinfo/osinfo_device.h>
+#include <osinfo/osinfo_devicelist.h>
+
 #ifndef __OSINFO_HYPERVISOR_H__
 #define __OSINFO_HYPERVISOR_H__
 

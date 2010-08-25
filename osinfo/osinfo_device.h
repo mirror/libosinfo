@@ -5,6 +5,9 @@
  * Represents a device in libosinfo.
  */
 
+#include <glib-object.h>
+#include <osinfo/osinfo_entity.h>
+
 #ifndef __OSINFO_DEVICE_H__
 #define __OSINFO_DEVICE_H__
 

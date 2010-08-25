@@ -4,6 +4,10 @@
  * osinfo_devicelist.h
  */
 
+#include <glib-object.h>
+#include <osinfo/osinfo_filter.h>
+#include <osinfo/osinfo_list.h>
+
 #ifndef __OSINFO_DEVICELIST_H__
 #define __OSINFO_DEVICELIST_H__
 

@@ -5,6 +5,10 @@
  * All entities represented in libosinfo are derived from this class.
  */
 
+#include <glib-object.h>
+#include <osinfo/osinfo_filter.h>
+#include <osinfo/osinfo_list.h>
+
 #ifndef __OSINFO_OSLIST_H__
 #define __OSINFO_OSLIST_H__
 

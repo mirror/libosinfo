@@ -5,6 +5,11 @@
  * Represents an operating system in libosinfo.
  */
 
+#include <glib-object.h>
+#include <osinfo/osinfo_device.h>
+#include <osinfo/osinfo_devicelist.h>
+#include <osinfo/osinfo_oslist.h>
+
 #ifndef __OSINFO_OS_H__
 #define __OSINFO_OS_H__
 
@@ -44,9 +49,9 @@ struct _OsinfoOsClass
 };
 
 typedef enum {
-    DERIVES_FROM,
-    UPGRADES,
-    CLONES,
+  OSINFO_OS_RELATIONSHIP_DERIVES_FROM,
+  OSINFO_OS_RELATIONSHIP_UPGRADES,
+  OSINFO_OS_RELATIONSHIP_CLONES,
 } OsinfoOsRelationship;
 
 

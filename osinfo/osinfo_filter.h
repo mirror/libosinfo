@@ -5,6 +5,9 @@
  * Represents a filter in libosinfo.
  */
 
+#include <glib-object.h>
+#include <osinfo/osinfo_entity.h>
+
 #ifndef __OSINFO_FILTER_H__
 #define __OSINFO_FILTER_H__
 

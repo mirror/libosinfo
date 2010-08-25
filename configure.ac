@@ -57,6 +57,27 @@ AC_SUBST([NO_UNDEFINED_FLAGS])
 AC_SUBST([VERSION_SCRIPT_FLAGS])
 AM_CONDITIONAL([USE_VERSION_DEFS], [test "$USE_VERSION_DEFS" = "1"])
 
+if test "x$enable_introspection" != "xno" ; then
+        PKG_CHECK_MODULES([GOBJECT_INTROSPECTION],
+                          [gobject-introspection-1.0 >= 0.9.0],
+                          [enable_introspection=yes],
+                          [
+                             if test "x$enable_introspection" = "xcheck"; then
+                               enable_introspection=no
+                             else
+                               AC_MSG_ERROR([gobject-introspection is not available])
+                             fi
+                          ])
+        if test "x$enable_introspection" = "xyes" ; then
+          AC_DEFINE([WITH_GOBJECT_INTROSPECTION], [1], [enable GObject introspection support])
+          AC_SUBST(GOBJECT_INTROSPECTION_CFLAGS)
+          AC_SUBST(GOBJECT_INTROSPECTION_LIBS)
+          AC_SUBST([G_IR_SCANNER], [$($PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0)])
+          AC_SUBST([G_IR_COMPILER], [$($PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0)])
+        fi
+fi
+AM_CONDITIONAL([WITH_GOBJECT_INTROSPECTION], [test "x$enable_introspection" = "xyes"])
+
 AC_CONFIG_FILES([
 	Makefile
 	osinfo/Makefile

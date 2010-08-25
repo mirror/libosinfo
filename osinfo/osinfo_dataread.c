@@ -328,17 +328,20 @@ static int __osinfoProcessOs(OsinfoDb *db,
                 goto cleanup_error;
         }
         else if (strcmp(name, "upgrades") == 0) {
-	    err = __osinfoProcessOsRelationship(reader, db, os, UPGRADES);
+	    err = __osinfoProcessOsRelationship(reader, db, os,
+						OSINFO_OS_RELATIONSHIP_UPGRADES);
             if (err != 0)
                 goto cleanup_error;
         }
         else if (strcmp(name, "clones") == 0) {
-	    err = __osinfoProcessOsRelationship(reader, db, os, CLONES);
+	    err = __osinfoProcessOsRelationship(reader, db, os,
+						OSINFO_OS_RELATIONSHIP_CLONES);
             if (err != 0)
                 goto cleanup_error;
         }
         else if (strcmp(name, "derives-from") == 0) {
-	    err = __osinfoProcessOsRelationship(reader, db, os, DERIVES_FROM);
+	    err = __osinfoProcessOsRelationship(reader, db, os,
+						OSINFO_OS_RELATIONSHIP_DERIVES_FROM);
             if (err != 0)
                 goto cleanup_error;
         }

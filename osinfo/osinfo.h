@@ -1,7 +1,6 @@
 #ifndef __OSINFO_H__
 #define __OSINFO_H__
 
-#include <glib-object.h>
 #include <osinfo/osinfo_entity.h>
 #include <osinfo/osinfo_filter.h>
 #include <osinfo/osinfo_list.h>

@@ -5,6 +5,14 @@
  * Represents the main entry point to data contained by libosinfo.
  */
 
+#include <glib-object.h>
+#include <osinfo/osinfo_hypervisor.h>
+#include <osinfo/osinfo_os.h>
+#include <osinfo/osinfo_device.h>
+#include <osinfo/osinfo_hypervisorlist.h>
+#include <osinfo/osinfo_oslist.h>
+#include <osinfo/osinfo_devicelist.h>
+
 #ifndef __OSINFO_DB_H__
 #define __OSINFO_DB_H__
 

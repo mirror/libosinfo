@@ -63,3 +63,35 @@ libosinfo_1_0_la_SOURCES =		\
   osinfo_dataread.c		\
   osinfo_db.c
 
+if WITH_GOBJECT_INTROSPECTION
+
+Libosinfo-1.0.gir: libosinfo-1.0.la $(G_IR_SCANNER) Makefile.am
+	$(AM_V_GEN)$(G_IR_SCANNER) --quiet \
+		--namespace Libosinfo \
+		--nsversion 1.0 \
+		--include GObject-2.0 \
+		--strip-prefix=osinfo \
+		--library=$(builddir)/libosinfo-1.0.la \
+		--output $@ \
+		-I$(top_srcdir) \
+		-I$(srcdir) \
+		--verbose \
+		--pkg=gobject-2.0 \
+		$(libosinfo_1_0_include_HEADERS:%=$(srcdir)/%) \
+		$(libosinfo_1_0_la_SOURCES:%=$(srcdir)/%)
+
+girdir = $(datadir)/gir-1.0
+gir_DATA = Libosinfo-1.0.gir
+
+typelibsdir = $(libdir)/girepository-1.0
+typelibs_DATA = Libosinfo-1.0.typelib
+
+%.typelib: %.gir
+	$(AM_V_GEN)$(G_IR_COMPILER) \
+		--includedir=$(builddir) \
+		--includedir=$(girdir) \
+		-o $@ $<
+
+CLEANFILES = $(gir_DATA) $(typelibs_DATA)
+
+endif # WITH_GOBJECT_INTROSPECTION

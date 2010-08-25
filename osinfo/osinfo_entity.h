@@ -5,6 +5,8 @@
  * All entities represented in libosinfo are derived from this class.
  */
 
+#include <glib-object.h>
+
 #ifndef __OSINFO_ENTITY_H__
 #define __OSINFO_ENTITY_H__
 
