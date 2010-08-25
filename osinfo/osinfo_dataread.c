@@ -694,14 +694,10 @@ static int osinfo_dataread_file(OsinfoDb *db,
 {
     int ret;
     xmlTextReaderPtr reader;
-    char *rel_name = malloc (strlen(dir) + 1 + strlen(filename) + 1);
-    if (!rel_name)
-      return -errno;
-
-    stpcpy(stpcpy(stpcpy(rel_name, dir), "/"), filename);
+    char *rel_name = g_strdup_printf("%s/%s", dir, filename);
 
     reader = xmlReaderForFile(rel_name, NULL, 0);
-    free(rel_name);
+    g_free(rel_name);
     if (!reader) {
         return -EINVAL;
     }
@@ -735,8 +731,8 @@ void osinfo_dataread(OsinfoDb *db, GError **err)
     }
 
     while ((dp=readdir(dir)) != NULL) {
-        if (dp->d_type != DT_REG)
-            continue;
+        if (dp->d_name[0] == '.')
+	    continue;
         ret = osinfo_dataread_file(db, backingDir, dp->d_name, err);
         if (ret != 0)
             break;
