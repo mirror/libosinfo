@@ -80,6 +80,8 @@ AM_CONDITIONAL([WITH_GOBJECT_INTROSPECTION], [test "x$enable_introspection" = "x
 
 AC_CONFIG_FILES([
 	Makefile
+	libosinfo.spec
+	mingw32-libosinfo.spec
 	osinfo/Makefile
 	osinfo/libosinfo-1.0.pc
 	test/Makefile

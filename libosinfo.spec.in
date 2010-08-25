@@ -1,0 +1,98 @@
+# -*- rpm-spec -*-
+
+# Plugin isn't ready for real world use yet - it needs
+# a security audit at very least
+%define with_plugin 0
+
+%define with_gir 0
+
+%if 0%{fedora} >= 12
+%define with_gir 1
+%endif
+
+Summary: A library for managing OS information for virtualization
+Name: libosinfo
+Version: @VERSION@
+Release: 1%{?dist}%{?extra_release}
+License: LGPLv2+
+Group: Development/Libraries
+Source: %{name}-%{version}.tar.gz
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+URL: https://fedorahosted.org/libosinfo/
+BuildRequires: glib2-devel
+BuildRequires: libxml2-devel >= 2.6.0
+%if %{with_gir}
+BuildRequires: gobject-introspection-devel
+%if 0%{?fedora} < 14
+BuildRequires: gir-repository-devel
+%endif
+%endif
+
+%description
+libosinfo is a library that allows virtualization provisioning tools to
+determine the optimal device settings for a hypervisor/operating system
+combination.
+
+%package devel
+Summary: Libraries, includes, etc. to compile with the libosinfo library
+Group: Development/Libraries
+Requires: %{name} = %{version}-%{release}
+Requires: pkgconfig
+Requires: glib2-devel
+
+%description devel
+libosinfo is a library that allows virtualization provisioning tools to
+determine the optimal device settings for a hypervisor/operating system
+combination.
+
+Libraries, includes, etc. to compile with the libosinfo library
+
+%prep
+%setup -q
+
+%build
+%if %{with_gir}
+%define gir_arg --enable-introspection=yes
+%else
+%define gir_arg --enable-introspection=no
+%endif
+
+%configure %{gir_arg}
+%__make %{?_smp_mflags} V=1
+
+%install
+rm -fr %{buildroot}
+%__make install DESTDIR=%{buildroot}
+rm -f %{buildroot}%{_libdir}/*.a
+rm -f %{buildroot}%{_libdir}/*.la
+#find_lang %{name}
+
+%clean
+rm -fr %{buildroot}
+
+%post -p /sbin/ldconfig
+
+%postun -p /sbin/ldconfig
+
+%files
+%defattr(-, root, root)
+%doc AUTHORS ChangeLog COPYING NEWS README
+%{_libdir}/%{name}-1.0.so.*
+%if %{with_gir}
+%{_libdir}/girepository-1.0/Libosinfo-1.0.typelib
+%endif
+
+%files devel
+%defattr(-, root, root)
+%{_libdir}/%{name}-1.0.so
+%dir %{_includedir}/%{name}-1.0/
+%dir %{_includedir}/%{name}-1.0/osinfo/
+%{_includedir}/%{name}-1.0/osinfo/*.h
+%{_libdir}/pkgconfig/%{name}-1.0.pc
+%if %{with_gir}
+%{_datadir}/gir-1.0/Libosinfo-1.0.gir
+%endif
+
+%changelog
+* Wed Aug 25 2010 Daniel P. Berrange <berrange@redhat.com> - 0.2.0-1
+- Initial package

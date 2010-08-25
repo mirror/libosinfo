@@ -8,12 +8,12 @@ BUILT_SOURCES = $(LIBOSINFO_VERSION_FILE)
 %.def: %.syms
 	$(AM_V_GEN)rm -f -- $@-tmp $@ ; \
 	printf 'EXPORTS\n' > $@-tmp && \
-	sed -e '/^$$/d; /#/d; /:/d; /\}/d; /\*/d; /LIBVIRT_/d; s/[ \t]*\(.*\)\;/    \1/g' $^ >> $@-tmp && \
+	sed -e '/^$$/d; /#/d; /:/d; /\}/d; /\*/d; /LIBOSINFO_/d; s/[ \t]*\(.*\)\;/    \1/g' $^ >> $@-tmp && \
 	chmod a-w $@-tmp && \
 	mv $@-tmp $@
 
 else
-LIBOSINFO_VERSION_FILE = libosinfo.syms
+LIBOSINFO_VERSION_FILE = $(srcdir)/libosinfo.syms
 endif
 
 pkgconfigdir = $(libdir)/pkgconfig
@@ -37,6 +37,7 @@ libosinfo_1_0_la_LDFLAGS = \
 libosinfo_1_0_includedir = $(includedir)/libosinfo-1.0/osinfo
 
 libosinfo_1_0_include_HEADERS = 		\
+  osinfo.h		\
   osinfo_db.h		\
   osinfo_device.h		\
   osinfo_devicelist.h		\

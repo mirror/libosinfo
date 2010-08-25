@@ -80,7 +80,7 @@ LIBOSINFO_0.0.1 {
 
   LIBOSINFO_0.0.2 {
     global:
-      ...
+
   } LIBOSINFO_0.0.1;
 
 */
