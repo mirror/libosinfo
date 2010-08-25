@@ -77,7 +77,7 @@ void osinfo_list_add_filtered(OsinfoList *self, OsinfoList *source, OsinfoFilter
     len = osinfo_list_get_length(source);
     for (i = 0; i < len; i++) {
         OsinfoEntity *entity = osinfo_list_get_nth(source, i);
-        if (osinfo_entity_matches_filter(entity, filter))
+        if (osinfo_filter_matches(filter, entity))
 	    osinfo_list_add(self, entity);
     }
 }

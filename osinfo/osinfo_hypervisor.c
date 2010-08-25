@@ -75,7 +75,7 @@ OsinfoDeviceList *osinfo_hypervisor_get_devices(OsinfoHypervisor *self, OsinfoFi
     while (tmp) {
         struct _OsinfoHypervisorDeviceLink *link = tmp->data;
 
-        if (osinfo_entity_matches_filter(OSINFO_ENTITY(link->dev), filter))
+        if (osinfo_filter_matches(filter, OSINFO_ENTITY(link->dev)))
 	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link->dev));
 
 	tmp = tmp->next;

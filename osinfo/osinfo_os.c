@@ -129,7 +129,7 @@ OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *h
     while (tmp) {
         struct _OsinfoOsDeviceLink *link = tmp->data;
 
-        if (osinfo_entity_matches_filter(OSINFO_ENTITY(link->dev), filter)) {
+        if (osinfo_filter_matches(filter, OSINFO_ENTITY(link->dev))) {
 	    *driver = link->driver;
 	    return link->dev;
 	}
@@ -178,7 +178,7 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, Os
     while (tmp) {
         struct _OsinfoOsDeviceLink *link = tmp->data;
 
-        if (osinfo_entity_matches_filter(OSINFO_ENTITY(link->dev), filter))
+        if (osinfo_filter_matches(filter, OSINFO_ENTITY(link->dev)))
 	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link->dev));
 
 	tmp = tmp->next;

@@ -121,7 +121,7 @@ osinfo_entity_init (OsinfoEntity *self)
 					       osinfo_entity_param_values_free);
 }
 
-void osinfo_entity_add_param(OsinfoEntity *self, gchar *key, gchar *value)
+void osinfo_entity_add_param(OsinfoEntity *self, const gchar *key, const gchar *value)
 {
     g_return_if_fail(OSINFO_IS_ENTITY(self));
     g_return_if_fail(key != NULL);
@@ -143,7 +143,7 @@ void osinfo_entity_add_param(OsinfoEntity *self, gchar *key, gchar *value)
     g_hash_table_insert(self->priv->params, g_strdup(key), values);
 }
 
-void osinfo_entity_clear_param(OsinfoEntity *self, gchar *key)
+void osinfo_entity_clear_param(OsinfoEntity *self, const gchar *key)
 {
     g_hash_table_remove(self->priv->params, key);
 }
@@ -164,7 +164,7 @@ GList *osinfo_entity_get_param_keys(OsinfoEntity *self)
     return g_hash_table_get_keys(self->priv->params);
 }
 
-gchar *osinfo_entity_get_param_value(OsinfoEntity *self, gchar *key)
+gchar *osinfo_entity_get_param_value(OsinfoEntity *self, const gchar *key)
 {
     g_return_val_if_fail(OSINFO_IS_ENTITY(self), NULL);
     g_return_val_if_fail(key != NULL, NULL);
@@ -178,7 +178,7 @@ gchar *osinfo_entity_get_param_value(OsinfoEntity *self, gchar *key)
     return NULL;
 }
 
-GList *osinfo_entity_get_param_value_list(OsinfoEntity *self, gchar *key)
+GList *osinfo_entity_get_param_value_list(OsinfoEntity *self, const gchar *key)
 {
     g_return_val_if_fail(OSINFO_IS_ENTITY(self), NULL);
     g_return_val_if_fail(key != NULL, NULL);
@@ -187,94 +187,3 @@ GList *osinfo_entity_get_param_value_list(OsinfoEntity *self, gchar *key)
 }
 
 
-static gboolean osinfo_entity_matcher(OsinfoFilter *self,
-				      const gchar *propName,
-				      GList *propValues,
-				      gpointer data)
-{
-    OsinfoEntity *entity = data;
-    GList *values = g_hash_table_lookup(entity->priv->params, propName);
-
-    if (propValues && !values)
-        return FALSE;
-
-    while (propValues) {
-        const gchar *propValue = propValues->data;
-	gboolean found = FALSE;
-	GList *tmp = values;
-	while (tmp) {
-	    const gchar *testValue = tmp->data;
-            if (g_strcmp0(propValue, testValue) == 0) {
-                found = TRUE;
-                break;
-            }
-
-	    tmp = tmp->next;
-        }
-        if (!found)
-	    return FALSE;
-
-        propValues = propValues->next;
-    }
-
-    return TRUE;
-}
-
-
-static gboolean osinfo_entity_relation_matcher(OsinfoFilter *self,
-					       OsinfoOsRelationship relshp,
-					       GList *relOses,
-					       gpointer data)
-{
-    OsinfoOs *os = data;
-    OsinfoOsList *oslist = osinfo_os_get_related(os, relshp);
-    gboolean ret = TRUE;
-
-    if (relOses && osinfo_list_get_length(OSINFO_LIST(oslist)) == 0) {
-        ret = FALSE;
-	goto cleanup;
-    }
-
-    while (relOses) {
-        OsinfoOs *currOs = relOses->data;
-        int i;
-	gboolean found = FALSE;
-	for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(oslist)) ; i++) {
-	    OsinfoOs *testOs = OSINFO_OS(osinfo_list_get_nth(OSINFO_LIST(oslist), i));
-            if (testOs == currOs) {
-                found = TRUE;
-                break;
-            }
-        }
-        if (!found) {
-	    ret = FALSE;
-	    goto cleanup;
-	}
-
-	relOses = relOses->next;
-    }
-
- cleanup:
-    g_object_unref(oslist);
-    return ret;
-}
-
-
-gboolean osinfo_entity_matches_filter(OsinfoEntity *self, OsinfoFilter *filter)
-{
-    g_return_val_if_fail(OSINFO_IS_ENTITY(self), FALSE);
-    g_return_val_if_fail(OSINFO_IS_FILTER(filter), FALSE);
-
-    if (!osinfo_filter_matches_constraints(filter,
-					   osinfo_entity_matcher,
-					   self))
-        return FALSE;
-
-    if (OSINFO_IS_OS(self) &&
-	!osinfo_filter_matches_relation_constraints(filter,
-						    osinfo_entity_relation_matcher,
-						    self))
-        return FALSE;
-
-    return TRUE;
-}

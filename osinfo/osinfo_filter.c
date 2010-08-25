@@ -200,53 +200,105 @@ OsinfoOsList *osinfo_filter_get_relationship_constraint_value(OsinfoFilter *self
 
 struct osinfo_filter_match_args {
     OsinfoFilter *self;
-    osinfo_filter_match_func matcher;
-    gpointer data;
+    OsinfoEntity *entity;
     gboolean matched;
 };
 
 static void osinfo_filter_match_iterator(gpointer key, gpointer value, gpointer data)
 {
     struct osinfo_filter_match_args *args = data;
+    OsinfoEntity *entity = args->entity;
+    const gchar *propName = key;
+    GList *propValues = value;
 
-    if (!(args->matcher)(args->self, key, value, args->data))
+    GList *values = osinfo_entity_get_param_value_list(entity, propName);
+
+    if (propValues && !values) {
         args->matched = FALSE;
+        return;
+    }
+
+    while (propValues) {
+        const gchar *propValue = propValues->data;
+	gboolean found = FALSE;
+	GList *tmp = values;
+	while (tmp) {
+	    const gchar *testValue = tmp->data;
+            if (g_strcmp0(propValue, testValue) == 0) {
+                found = TRUE;
+                break;
+            }
+
+	    tmp = tmp->next;
+        }
+        if (!found) {
+	    args->matched = FALSE;
+	    return;
+	}
+
+        propValues = propValues->next;
+    }
 }
 
-gboolean osinfo_filter_matches_constraints(OsinfoFilter *self,
-					   osinfo_filter_match_func matcher,
-					   gpointer data)
-{
-    struct osinfo_filter_match_args args = { self, matcher, data, TRUE };
-    g_hash_table_foreach(self->priv->propertyConstraints,
-			 osinfo_filter_match_iterator,
-			 &args);
-    return args.matched;
-}
-
-
-struct osinfo_filter_match_relation_args {
-    OsinfoFilter *self;
-    osinfo_filter_match_relation_func matcher;
-    gpointer data;
-    gboolean matched;
-};
 
 static void osinfo_filter_match_relation_iterator(gpointer key, gpointer value, gpointer data)
 {
     struct osinfo_filter_match_args *args = data;
+    OsinfoOs *os = OSINFO_OS(args->entity);
+    OsinfoOsRelationship relshp = GPOINTER_TO_INT(key);
+    GList *relOses = value;
+    OsinfoOsList *oslist = osinfo_os_get_related(os, relshp);
+    gboolean ret = TRUE;
 
-    if (!(args->matcher)(args->self, key, value, args->data))
-        args->matched = FALSE;
+    if (relOses && osinfo_list_get_length(OSINFO_LIST(oslist)) == 0) {
+        ret = FALSE;
+	goto cleanup;
+    }
+
+    while (relOses) {
+        OsinfoOs *currOs = relOses->data;
+        int i;
+	gboolean found = FALSE;
+	for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(oslist)) ; i++) {
+	    OsinfoOs *testOs = OSINFO_OS(osinfo_list_get_nth(OSINFO_LIST(oslist), i));
+            if (testOs == currOs) {
+                found = TRUE;
+                break;
+            }
+        }
+        if (!found) {
+	    ret = FALSE;
+	    goto cleanup;
+	}
+
+	relOses = relOses->next;
+    }
+
+ cleanup:
+    g_object_unref(oslist);
+    args->matched = ret;
 }
 
-gboolean osinfo_filter_matches_relation_constraints(OsinfoFilter *self,
-						    osinfo_filter_match_relation_func matcher,
-						    gpointer data)
+gboolean osinfo_filter_matches(OsinfoFilter *self, OsinfoEntity *entity)
 {
-    struct osinfo_filter_match_relation_args args = { self, matcher, data, TRUE };
+    g_return_val_if_fail(OSINFO_IS_FILTER(self), FALSE);
+    g_return_val_if_fail(OSINFO_IS_ENTITY(entity), FALSE);
+
+    struct osinfo_filter_match_args args = { self, entity, TRUE };
     g_hash_table_foreach(self->priv->propertyConstraints,
-			 osinfo_filter_match_relation_iterator,
+			 osinfo_filter_match_iterator,
 			 &args);
-    return args.matched;
+
+    if (!args.matched)
+        return FALSE;
+
+    if (OSINFO_IS_OS(self)) {
+        g_hash_table_foreach(self->priv->relationshipConstraints,
+			     osinfo_filter_match_relation_iterator,
+			     &args);
+	if (!args.matched)
+	    return FALSE;
+    }
+
+    return TRUE;
 }
