@@ -2,6 +2,7 @@
 SUBDIRS = osinfo test
 
 EXTRA_DIST = \
+  COPYING.LIB \
   data/libosinfo-dummy-data.xml \
   libosinfo.spec.in \
   mingw32-libosinfo.spec.in

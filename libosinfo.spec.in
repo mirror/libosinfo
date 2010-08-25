@@ -76,7 +76,7 @@ rm -fr %{buildroot}
 
 %files
 %defattr(-, root, root)
-%doc AUTHORS ChangeLog COPYING NEWS README
+%doc AUTHORS ChangeLog COPYING.LIB NEWS README
 %{_libdir}/%{name}-1.0.so.*
 %if %{with_gir}
 %{_libdir}/girepository-1.0/Libosinfo-1.0.typelib
