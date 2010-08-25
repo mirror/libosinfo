@@ -1,0 +1,11 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: libosinfo
+Version: @VERSION@
+Description: libosinfo library
+Requires: gobject-2.0
+Libs: -L${libdir} -losinfo
+Cflags: -I${includedir}

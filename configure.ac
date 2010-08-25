@@ -60,6 +60,7 @@ AM_CONDITIONAL([USE_VERSION_DEFS], [test "$USE_VERSION_DEFS" = "1"])
 AC_CONFIG_FILES([
 	Makefile
 	osinfo/Makefile
+	osinfo/libosinfo-1.0.pc
 	test/Makefile
 ])
 AC_OUTPUT

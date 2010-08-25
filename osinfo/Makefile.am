@@ -16,6 +16,9 @@ else
 LIBOSINFO_VERSION_FILE = libosinfo.syms
 endif
 
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = libosinfo-1.0.pc
+
 lib_LTLIBRARIES = libosinfo-1.0.la
 
 libosinfo_1_0_la_CFLAGS = \
@@ -31,7 +34,7 @@ libosinfo_1_0_la_LDFLAGS = \
         -version-info $(LIBOSINFO_VERSION_INFO) \
 	$(NO_UNDEFINED_FLAGS)
 
-libosinfo_1_0_includedir = $(includedir)/osinfo-1.0/osinfo
+libosinfo_1_0_includedir = $(includedir)/libosinfo-1.0/osinfo
 
 libosinfo_1_0_include_HEADERS = 		\
   osinfo_db.h		\
