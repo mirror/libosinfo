@@ -1,0 +1,86 @@
+LIBOSINFO_0.0.1 {
+    global:
+	osinfo_db_get_type;
+	osinfo_db_new;
+	osinfo_db_initialize;
+	osinfo_db_get_hypervisor;
+	osinfo_db_get_device;
+	osinfo_db_get_os;
+	osinfo_db_get_os_list;
+	osinfo_db_get_hypervisor_list;
+	osinfo_db_get_device_list;
+	osinfo_db_unique_values_for_property_in_os;
+	osinfo_db_unique_values_for_property_in_hv;
+	osinfo_db_unique_values_for_property_in_dev;
+	osinfo_db_unique_values_for_os_relationship;
+	osinfo_device_get_type;
+	osinfo_device_new;
+	osinfo_devicelist_get_type;
+	osinfo_devicelist_new;
+	osinfo_devicelist_new_filtered;
+	osinfo_devicelist_new_intersection;
+	osinfo_devicelist_new_union;
+	osinfo_entity_get_type;
+	osinfo_entity_get_id;
+	osinfo_entity_get_param_keys;
+	osinfo_entity_get_param_value;
+	osinfo_entity_get_param_value_list;
+	osinfo_entity_add_param;
+	osinfo_entity_clear_param;
+	osinfo_filter_get_type;
+	osinfo_filter_new;
+	osinfo_filter_add_constraint;
+	osinfo_filter_clear_constraint;
+	osinfo_filter_clear_constraints;
+	osinfo_filter_get_constraint_keys;
+	osinfo_filter_get_constraint_values;
+	osinfo_filter_matches;
+	osinfo_hypervisor_get_type;
+	osinfo_hypervisor_new;
+	osinfo_hypervisor_get_devices;
+	osinfo_hypervisor_add_device;
+	osinfo_hypervisorlist_get_type;
+	osinfo_hypervisorlist_new;
+	osinfo_hypervisorlist_new_filtered;
+	osinfo_hypervisorlist_new_intersection;
+	osinfo_hypervisorlist_new_union;
+	osinfo_list_get_type;
+	osinfo_list_get_length;
+	osinfo_list_get_nth;
+	osinfo_list_find_by_id;
+	osinfo_list_add;
+	osinfo_list_add_filtered;
+	osinfo_list_add_intersection;
+	osinfo_list_add_union;
+	osinfo_list_foreach;
+	osinfo_osfilter_get_type;
+	osinfo_osfilter_new;
+	osinfo_osfilter_add_os_constraint;
+	osinfo_osfilter_clear_os_constraint;
+	osinfo_osfilter_clear_os_constraints;
+	osinfo_osfilter_get_os_constraint_values;
+	osinfo_os_get_type;
+	osinfo_os_new;
+	osinfo_os_get_preferred_device;
+	osinfo_os_get_related;
+	osinfo_os_get_devices;
+	osinfo_os_add_device;
+	osinfo_os_add_related_os;
+	osinfo_oslist_get_type;
+	osinfo_oslist_new;
+	osinfo_oslist_new_filtered;
+	osinfo_oslist_new_intersection;
+	osinfo_oslist_new_union;
+
+    local:
+        *;
+};
+
+/* Symbols in next release...
+
+  LIBOSINFO_0.0.2 {
+    global:
+      ...
+  } LIBOSINFO_0.0.1;
+
+*/
