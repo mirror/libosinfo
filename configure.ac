@@ -17,6 +17,7 @@ m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 PKG_CHECK_MODULES([GOBJECT], [gobject-2.0])
 PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= 2.6.0])
+PKG_CHECK_MODULES([CHECK], [check])
 
 LIBOSINFO_MAJOR_VERSION=`echo $VERSION | awk -F. '{print $1}'`
 LIBOSINFO_MINOR_VERSION=`echo $VERSION | awk -F. '{print $2}'`
@@ -81,6 +82,21 @@ if test "x$enable_introspection" != "xno" ; then
         fi
 fi
 AM_CONDITIONAL([WITH_GOBJECT_INTROSPECTION], [test "x$enable_introspection" = "xyes"])
+
+AC_ARG_ENABLE([coverage],
+        AS_HELP_STRING([--enable-coverage], [enable GCC code coverage]),
+        [], [enable_coverage=no])
+
+
+COVERAGE_CFLAGS=
+COVERAGE_LDFLAGS=
+if test "x$enable_coverage" == "xyes" ; then
+  COVERAGE_CFLAGS="-fprofile-arcs -ftest-coverage"
+  COVERAGE_LDFLAGS="$COVERAGE_CFLAGS"
+fi
+AC_SUBST(COVERAGE_CFLAGS)
+AC_SUBST(COVERAGE_LDFLAGS)
+
 
 AC_CONFIG_FILES([
 	Makefile

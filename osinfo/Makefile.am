@@ -23,11 +23,13 @@ lib_LTLIBRARIES = libosinfo-1.0.la
 
 libosinfo_1_0_la_CFLAGS = \
 	$(WARN_CFLAGS) \
+	$(COVERAGE_CFLAGS) \
 	-I$(top_srcdir) \
 	$(LIBXML_CFLAGS) \
 	$(GOBJECT_CFLAGS)
 
 libosinfo_1_0_la_LDFLAGS = \
+	$(COVERAGE_LDFLAGS) \
 	$(LIBXML_LIBS) \
 	$(GOBJECT_LIBS) \
 	$(VERSION_SCRIPT_FLAGS)$(LIBOSINFO_VERSION_FILE) \
@@ -93,6 +95,6 @@ typelibs_DATA = Libosinfo-1.0.typelib
 		--includedir=$(girdir) \
 		-o $@ $<
 
-CLEANFILES = $(gir_DATA) $(typelibs_DATA)
+CLEANFILES = $(gir_DATA) $(typelibs_DATA) $(wildcard *.gcno)
 
 endif # WITH_GOBJECT_INTROSPECTION
