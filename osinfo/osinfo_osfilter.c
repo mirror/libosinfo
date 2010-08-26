@@ -81,6 +81,7 @@ static void
 osinfo_osfilter_os_constraints_free(gpointer relshps)
 {
     g_list_foreach(relshps, osinfo_osfilter_os_constraint_free, NULL);
+    g_list_free(relshps);
 }
 
 static void
@@ -91,8 +92,8 @@ osinfo_osfilter_init (OsinfoOsfilter *self)
     self->priv = priv;
 
     self->priv->osConstraints =
-        g_hash_table_new_full(g_int_hash,
-			      g_int_equal,
+        g_hash_table_new_full(g_direct_hash,
+			      g_direct_equal,
 			      NULL,
 			      osinfo_osfilter_os_constraints_free);
 }

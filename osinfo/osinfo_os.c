@@ -133,13 +133,12 @@ OsinfoOs *osinfo_os_new(const gchar *id)
 }
 
 
-OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *hv, gchar *devType, OsinfoFilter *filter,
+OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *hv, OsinfoFilter *filter,
 					     const gchar **driver)
 {
     g_return_val_if_fail(OSINFO_IS_OS(self), NULL);
-    g_return_val_if_fail(OSINFO_IS_HYPERVISOR(hv), NULL);
+    g_return_val_if_fail(!hv || OSINFO_IS_HYPERVISOR(hv), NULL);
     g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
-    g_return_val_if_fail(devType != NULL, NULL);
     // Check if device type info present for <os,hv>, else return NULL.
 
     GList *tmp;
@@ -153,14 +152,16 @@ OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *self, OsinfoHypervisor *h
     while (tmp) {
         struct _OsinfoOsDeviceLink *link = tmp->data;
 
-        if (osinfo_filter_matches(filter, OSINFO_ENTITY(link->dev))) {
+        if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(link->dev))) {
 	    *driver = link->driver;
 	    return link->dev;
 	}
+
+	tmp = tmp->next;
     }
 
     // If no devices pass filter, return NULL.
-    *driver= NULL;
+    *driver = NULL;
     return NULL;
 }
 
@@ -187,8 +188,8 @@ OsinfoOsList *osinfo_os_get_related(OsinfoOs *self, OsinfoOsRelationship relshp)
 OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, OsinfoFilter *filter)
 {
     g_return_val_if_fail(OSINFO_IS_OS(self), NULL);
-    g_return_val_if_fail(OSINFO_IS_HYPERVISOR(hv), NULL);
-    g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
+    g_return_val_if_fail(!hv || OSINFO_IS_HYPERVISOR(hv), NULL);
+    g_return_val_if_fail(!filter || OSINFO_IS_FILTER(filter), NULL);
 
     OsinfoDeviceList *newList = osinfo_devicelist_new();
     GList *tmp = NULL;
@@ -202,19 +203,20 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *self, OsinfoHypervisor *hv, Os
     while (tmp) {
         struct _OsinfoOsDeviceLink *link = tmp->data;
 
-        if (osinfo_filter_matches(filter, OSINFO_ENTITY(link->dev)))
+        if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(link->dev)))
 	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link->dev));
 
 	tmp = tmp->next;
     }
 
-    return NULL;
+    return newList;
 }
 
 
 void osinfo_os_add_device(OsinfoOs *self, OsinfoHypervisor *hv, OsinfoDevice *dev, const gchar *driver)
 {
-    g_return_if_fail(OSINFO_IS_HYPERVISOR(self));
+    g_return_if_fail(OSINFO_IS_OS(self));
+    g_return_if_fail(!hv || OSINFO_IS_HYPERVISOR(hv));
     g_return_if_fail(OSINFO_IS_DEVICE(dev));
     g_return_if_fail(driver != NULL);
 
@@ -225,15 +227,21 @@ void osinfo_os_add_device(OsinfoOs *self, OsinfoHypervisor *hv, OsinfoDevice *de
     link->driver = g_strdup(driver);
 
     if (hv) {
-        GList *tmp = g_hash_table_lookup(self->priv->hypervisors,
-					 osinfo_entity_get_id(OSINFO_ENTITY(hv)));
-	g_hash_table_steal(self->priv->hypervisors,
-			   osinfo_entity_get_id(OSINFO_ENTITY(hv)));
-	tmp = g_list_prepend(tmp, link);
+        GList *tmp = NULL;
+        gpointer origKey, origValue;
+	if (g_hash_table_lookup_extended(self->priv->hypervisors,
+					 osinfo_entity_get_id(OSINFO_ENTITY(hv)),
+					 &origKey, &origValue)) {
+	    g_hash_table_steal(self->priv->hypervisors,
+			       osinfo_entity_get_id(OSINFO_ENTITY(hv)));
+	    g_free(origKey);
+	    tmp = origValue;
+	}
+	tmp = g_list_append(tmp, link);
 	g_hash_table_insert(self->priv->hypervisors,
-			    osinfo_entity_get_id(OSINFO_ENTITY(hv)), tmp);
+			    g_strdup(osinfo_entity_get_id(OSINFO_ENTITY(hv))), tmp);
     } else {
-        self->priv->deviceLinks = g_list_prepend(self->priv->deviceLinks, link);
+        self->priv->deviceLinks = g_list_append(self->priv->deviceLinks, link);
     }
 }
 

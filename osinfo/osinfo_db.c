@@ -33,7 +33,6 @@ struct _OsinfoDbPrivate
     int ready;
 
     gchar *backing_dir;
-    gchar *libvirt_ver;
 
     OsinfoDeviceList *devices;
     OsinfoHypervisorList *hypervisors;
@@ -53,7 +52,6 @@ enum OSI_DB_PROPERTIES {
     OSI_DB_PROP_0,
 
     OSI_DB_BACKING_DIR,
-    OSI_DB_LIBVIRT_VER,
 };
 
 static void
@@ -62,7 +60,6 @@ osinfo_db_finalize (GObject *object)
     OsinfoDb *self = OSINFO_DB (object);
 
     g_free (self->priv->backing_dir);
-    g_free (self->priv->libvirt_ver);
 
     g_object_unref(self->priv->devices);
     g_object_unref(self->priv->hypervisors);
@@ -87,11 +84,6 @@ osinfo_db_set_property (GObject      *object,
         self->priv->backing_dir = g_value_dup_string (value);
         break;
 
-      case OSI_DB_LIBVIRT_VER:
-        g_free(self->priv->libvirt_ver);
-        self->priv->libvirt_ver = g_value_dup_string (value);
-        break;
-
       default:
         /* We don't have any other property... */
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -111,10 +103,6 @@ osinfo_db_get_property (GObject    *object,
       {
       case OSI_DB_BACKING_DIR:
         g_value_set_string (value, self->priv->backing_dir);
-        break;
-
-      case OSI_DB_LIBVIRT_VER:
-        g_value_set_string (value, self->priv->libvirt_ver);
         break;
 
       default:
@@ -142,15 +130,6 @@ osinfo_db_class_init (OsinfoDbClass *klass)
                                  G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE);
     g_object_class_install_property (g_klass,
                                      OSI_DB_BACKING_DIR,
-                                     pspec);
-
-    pspec = g_param_spec_string ("libvirt-ver",
-                                 "Libvirt version",
-                                 "Libvirt version user is interested in",
-                                 NULL /* default value */,
-                                 G_PARAM_READWRITE);
-    g_object_class_install_property (g_klass,
-                                     OSI_DB_LIBVIRT_VER,
                                      pspec);
 
     g_type_class_add_private (klass, sizeof (OsinfoDbPrivate));
@@ -189,7 +168,7 @@ void osinfo_db_initialize(OsinfoDb *self, GError **err)
         self->priv->ready = 1;
 }
 
-OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *self, gchar *id)
+OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *self, const gchar *id)
 {
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
     g_return_val_if_fail(id != NULL, NULL);
@@ -197,15 +176,15 @@ OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *self, gchar *id)
     return OSINFO_HYPERVISOR(osinfo_list_find_by_id(OSINFO_LIST(self->priv->hypervisors), id));
 }
 
-OsinfoDevice *osinfo_db_get_device(OsinfoDb *self, gchar *id)
+OsinfoDevice *osinfo_db_get_device(OsinfoDb *self, const gchar *id)
 {
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
     g_return_val_if_fail(id != NULL, NULL);
 
-    return OSINFO_DEVICE(osinfo_list_find_by_id(OSINFO_LIST(self->priv->hypervisors), id));
+    return OSINFO_DEVICE(osinfo_list_find_by_id(OSINFO_LIST(self->priv->devices), id));
 }
 
-OsinfoOs *osinfo_db_get_os(OsinfoDb *self, gchar *id)
+OsinfoOs *osinfo_db_get_os(OsinfoDb *self, const gchar *id)
 {
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
     g_return_val_if_fail(id != NULL, NULL);
@@ -237,14 +216,14 @@ OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self)
 
 struct osinfo_db_populate_values_args {
     GHashTable *values;
-    gchar *property;
+    const gchar *property;
 };
 
 static gboolean osinfo_db_get_property_values_in_entity(OsinfoList *list, OsinfoEntity *entity, gpointer data)
 {
     struct osinfo_db_populate_values_args *args = data;
     GHashTable *newValues = args->values;
-    gchar *property = args->property;
+    const gchar *property = args->property;
     GList *values = osinfo_entity_get_param_value_list(entity, property);
 
     while (values) {
@@ -252,7 +231,7 @@ static gboolean osinfo_db_get_property_values_in_entity(OsinfoList *list, Osinfo
 
 	if (!g_hash_table_lookup(newValues, value)) {
 	    g_hash_table_insert(newValues,
-				g_strdup(value),
+				value,
 				GINT_TO_POINTER(1));
 	}
 
@@ -262,12 +241,12 @@ static gboolean osinfo_db_get_property_values_in_entity(OsinfoList *list, Osinfo
     return FALSE; // Continue iterating
 }
 
-static GList *osinfo_db_unique_values_for_property_in_entity(OsinfoList *entities, gchar *propName)
+static GList *osinfo_db_unique_values_for_property_in_entity(OsinfoList *entities, const gchar *propName)
 {
     /* Delibrately no free func for key, since we return those to caller */
     GHashTable *values = g_hash_table_new(g_str_hash, g_str_equal);
     GList *ret;
-    struct osinfo_db_populate_values_args args = { values, propName};
+    struct osinfo_db_populate_values_args args = { values, propName };
 
     osinfo_list_foreach(entities, osinfo_db_get_property_values_in_entity, &args);
 
@@ -277,7 +256,7 @@ static GList *osinfo_db_unique_values_for_property_in_entity(OsinfoList *entitie
 }
 
 // Get me all unique values for property "vendor" among operating systems
-GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, gchar *propName)
+GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, const gchar *propName)
 {
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
     g_return_val_if_fail(propName != NULL, NULL);
@@ -286,7 +265,7 @@ GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, gchar *propNam
 }
 
 // Get me all unique values for property "vendor" among hypervisors
-GList *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, gchar *propName)
+GList *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, const gchar *propName)
 {
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
     g_return_val_if_fail(propName != NULL, NULL);
@@ -295,7 +274,7 @@ GList *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, gchar *propNam
 }
 
 // Get me all unique values for property "vendor" among devices
-GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, gchar *propName)
+GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, const gchar *propName)
 {
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
     g_return_val_if_fail(propName != NULL, NULL);
@@ -321,6 +300,8 @@ static gboolean __osinfoAddOsIfRelationship(OsinfoList *list, OsinfoEntity *enti
         OsinfoEntity *entity = osinfo_list_get_nth(OSINFO_LIST(thisList), i);
 	osinfo_list_add(newList, entity);
     }
+
+    g_object_unref(thisList);
 
     return FALSE;
 }

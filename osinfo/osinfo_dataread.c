@@ -28,6 +28,9 @@
 #include <dirent.h>
 #include <errno.h>
 #include <unistd.h>
+#include <libxml/parser.h>
+#include <libxml/tree.h>
+#include <libxml/xpath.h>
 #include <libxml/xmlreader.h>
 
 #include <osinfo/osinfo.h>
@@ -40,585 +43,355 @@
 
 void osinfo_dataread(OsinfoDb *db, GError **err);
 
-/*
- * TODO:
- * 1. More robust handling of files that are in bad format
- * 2. Error messages for parsing
- */
-
-/*
- * Notes regarding parsing XML Data:
- *
- * The top level tag is <libosinfo>. The next highest level consists of
- * <device>, <hypervisor> and <os>. Each tag may be empty (of the form <tag />)
- * or containing data (of the form <tag>...</tag>). After parsing an object, the
- * cursor will be located at the closing tag for the object (which, for an empty
- * object, is the same as the starting tag for the object).
- */
-
-struct __osinfoDbRet {
-    OsinfoDb *db;
-    GError **err;
-};
-
 #define OSINFO_ERROR(err, msg) \
   g_set_error_literal((err), g_quark_from_static_string("libosinfo"), 0, (msg));
 
-
-static int __osinfoProcessTag(xmlTextReaderPtr reader, char** ptr_to_key, char** ptr_to_val)
+static int
+osinfo_dataread_nodeset(const char *xpath,
+			xmlXPathContextPtr ctxt,
+			xmlNodePtr **list,
+			GError **err)
 {
-    int node_type, ret, err = 0;
-    char* key = NULL;
-    char* val = NULL;
-    const gchar* node_name, * end_node_name, * xml_value;
+    xmlXPathObjectPtr obj;
+    xmlNodePtr relnode;
+    int ret;
 
-    node_name = (const gchar *)xmlTextReaderConstName(reader);
-    if (!node_name)
-        goto error;
+    g_return_val_if_fail(ctxt != NULL, -1);
+    g_return_val_if_fail(xpath != NULL, -1);
 
-    key = g_strdup((const gchar *)node_name);
+    if (list != NULL)
+        *list = NULL;
 
-    /* Advance to next node */
-    ret = xmlTextReaderRead(reader);
-    if (ret != 1)
-        goto error;
+    relnode = ctxt->node;
+    obj = xmlXPathEval(BAD_CAST xpath, ctxt);
+    ctxt->node = relnode;
+    if (obj == NULL)
+        return(0);
+    if (obj->type != XPATH_NODESET) {
+        xmlXPathFreeObject(obj);
+        return (-1);
+    }
+    if ((obj->nodesetval == NULL)  || (obj->nodesetval->nodeNr < 0)) {
+        xmlXPathFreeObject(obj);
+        return (0);
+    }
 
-    /* Ensure node is a text node */
-    node_type = xmlTextReaderNodeType(reader);
-    if (node_type != TEXT_NODE)
-        goto error;
-
-    /* Store the value of the text node */
-    xml_value = (const gchar *)xmlTextReaderConstValue(reader);
-    if (!xml_value)
-        goto error;
-
-    val = g_strdup((const gchar *)xml_value);
-
-    /* Advance to the next node */
-    ret = xmlTextReaderRead(reader);
-    if (ret != 1)
-        goto error;
-
-    /* Ensure the node is an end node for the tracked start node */
-    node_type = xmlTextReaderNodeType(reader);
-    end_node_name = (const gchar *)xmlTextReaderConstName(reader);
-    if (node_type != END_NODE ||
-        !end_node_name ||
-        strcmp((const gchar *)end_node_name,
-	       (const gchar *)node_name) != 0)
-            goto error;
-
-    /* Now we have key and val with no errors so we return with success */
-    *ptr_to_key = key;
-    *ptr_to_val = val;
-    return 0;
-
-error:
-    free(key);
-    free(val);
-    *ptr_to_key = NULL;
-    *ptr_to_val = NULL;
-    if (err == 0)
-        err = -EINVAL;
-    return err;
+    ret = obj->nodesetval->nodeNr;
+    if (list != NULL && ret) {
+        *list = g_new0(xmlNodePtr, ret);
+	memcpy(*list, obj->nodesetval->nodeTab,
+	       ret * sizeof(xmlNodePtr));
+    }
+    xmlXPathFreeObject(obj);
+    return (ret);
 }
 
 
-static int __osinfoProcessOsHvLink(xmlTextReaderPtr reader,
-				   OsinfoDb *db,
-                                   OsinfoOs *os)
+static gchar *
+osinfo_dataread_string(const char *xpath,
+		       xmlXPathContextPtr ctxt,
+		       GError **err)
 {
-    /*
-     * Get id for hypervisor else fail
-     * While true:
-     *   Advance to next node
-     *   If node is end of hypervisor break
-     *   If node is not element type continue
-     *   If node is element type and not section fail
-     *   Else handle section and add to hv_link
-     * If fail delete hv_link so far
-     * On success add hv_link to os
-     */
-    int empty, node_type, err;
-    char *id, *key, *driver;
-    const gchar* name;
-    OsinfoHypervisor *hv;
+    xmlXPathObjectPtr obj;
+    xmlNodePtr relnode;
+    gchar *ret;
 
-    id = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");
-    empty = xmlTextReaderIsEmptyElement(reader);
+    g_return_val_if_fail(ctxt != NULL, NULL);
+    g_return_val_if_fail(xpath != NULL, NULL);
 
-    if (!id)
-        return -EINVAL;
+    relnode = ctxt->node;
+    obj = xmlXPathEval(BAD_CAST xpath, ctxt);
+    ctxt->node = relnode;
+    if ((obj == NULL) || (obj->type != XPATH_STRING) ||
+        (obj->stringval == NULL) || (obj->stringval[0] == 0)) {
+        xmlXPathFreeObject(obj);
+        return NULL;
+    }
+    ret = g_strdup((char *) obj->stringval);
+    xmlXPathFreeObject(obj);
 
-    hv = osinfo_db_get_hypervisor(db, id);
-    if (!hv)
-        return -EINVAL;
+    return ret;
+}
 
-    if (empty)
-        goto finished;
 
-    for (;;) {
-        /* Advance to next node */
-        err = xmlTextReaderRead(reader);
-        if (err != 1) {
-            err = -EINVAL;
-            goto error;
-        }
+static void osinfo_dataread_entity(OsinfoDb *db,
+				   OsinfoEntity *entity,
+				   const gchar *const *keys,
+				   xmlXPathContextPtr ctxt,
+				   xmlNodePtr root,
+				   GError **err)
+{
+    int i = 0;
+    for (i = 0 ; keys[i] != NULL ; i++) {
+        gchar *xpath = g_strdup_printf("string(./%s)", keys[i]);
+	gchar *value = osinfo_dataread_string(xpath, ctxt, err);
+	g_free(xpath);
+	if (*err)
+	    return;
 
-        node_type = xmlTextReaderNodeType(reader);
-        name = (const gchar *)xmlTextReaderConstName(reader);
-        if (node_type == -1 || !name) {
-            err = -EINVAL;
-            goto error;
-        }
+	if (value) {
+	    osinfo_entity_add_param(entity, keys[i], value);
+	    g_free(value);
+	}
+    }
+}
 
-        /* If end of hv link, break */
-        if (node_type == END_NODE && strcmp(name, "hypervisor") == 0)
-            break;
 
-        /* If node is not start of an element, continue */
-        if (node_type != ELEMENT_NODE)
-            continue;
+static OsinfoDevice *osinfo_dataread_get_device(OsinfoDb *db,
+						const gchar *id)
+{
+    OsinfoDevice *dev = osinfo_db_get_device(db, id);
+    if (!dev) {
+        OsinfoDeviceList *list = osinfo_db_get_device_list(db);
+        dev = osinfo_device_new(id);
+	osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(dev));
+	g_object_unref(dev);
+    }
+    return dev;
+}
 
-        /* Ensure it is element node of type 'device' else fail */
-        if (strcmp(name, "device") != 0) {
-            err = -EINVAL;
-            goto error;
-        }
 
-	id = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");
-	empty = xmlTextReaderIsEmptyElement(reader);
+static OsinfoOs *osinfo_dataread_get_os(OsinfoDb *db,
+					const gchar *id)
+{
+    OsinfoOs *os = osinfo_db_get_os(db, id);
+    if (!os) {
+        OsinfoOsList *list = osinfo_db_get_os_list(db);
+        os = osinfo_os_new(id);
+	osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(os));
+	g_object_unref(os);
+    }
+    return os;
+}
 
+
+static OsinfoHypervisor *osinfo_dataread_get_hypervisor(OsinfoDb *db,
+							const gchar *id)
+{
+    OsinfoHypervisor *hv = osinfo_db_get_hypervisor(db, id);
+    if (!hv) {
+        OsinfoHypervisorList *list = osinfo_db_get_hypervisor_list(db);
+        hv = osinfo_hypervisor_new(id);
+	osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(hv));
+	g_object_unref(hv);
+    }
+    return hv;
+}
+
+
+static void osinfo_dataread_device(OsinfoDb *db,
+				   xmlXPathContextPtr ctxt,
+				   xmlNodePtr root,
+				   GError **err)
+{
+    gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
+    const gchar *const keys[] = {
+      "vendor", "product", "bus-type", "class", "name", NULL,
+    };
+    if (!id) {
+        OSINFO_ERROR(err, "Missing device id property");
+	return;
+    }
+
+    OsinfoDevice *device = osinfo_dataread_get_device(db, id);
+    g_free(id);
+
+    osinfo_dataread_entity(db, OSINFO_ENTITY(device), keys, ctxt, root, err);
+}
+
+
+static void osinfo_dataread_device_link(OsinfoDb *db,
+					OsinfoOs *os,
+					OsinfoHypervisor *hv,
+					const gchar *xpath,
+					xmlXPathContextPtr ctxt,
+					xmlNodePtr root,
+					GError **err)
+{
+    xmlNodePtr *related = NULL;
+    int nrelated = osinfo_dataread_nodeset(xpath, ctxt, &related, err);
+    int i;
+    if (*err)
+        return;
+
+    for (i = 0 ; i < nrelated ; i++) {
+	gchar *id = (gchar *)xmlGetProp(related[i], BAD_CAST "id");
 	if (!id) {
-	    fprintf(stderr, "no id\n");
-	    err = -EINVAL;
-	    goto error;
+	    OSINFO_ERROR(err, "Missing device link id property");
+	    goto cleanup;
 	}
+	OsinfoDevice *dev = osinfo_dataread_get_device(db, id);
+	g_free(id);
 
-	if (!empty) {
-	    err = __osinfoProcessTag(reader, &key, &driver);
-	    if (err != 0 || !key || !driver)
-	        goto error;
-	    free(key);
-	    key = NULL; /* In case the next malloc fails, avoid a double free */
+	if (os) {
+	    osinfo_os_add_device(os, hv, dev, "foo");
+	} else if (hv) {
+	    osinfo_hypervisor_add_device(hv, dev, "foo");
 	}
+    }
 
-	// Alright, we have the id and driver
-	OsinfoDevice *dev = osinfo_db_get_device(db, id);
-	if (!dev) {
-	    err = -ENOENT;
-	    goto error;
+ cleanup:
+    g_free(related);
+}
+
+
+static void osinfo_dataread_hypervisor(OsinfoDb *db,
+				       xmlXPathContextPtr ctxt,
+				       xmlNodePtr root,
+				       GError **err)
+{
+    gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
+    const gchar *const keys[] = {
+      "name", "version", NULL,
+    };
+    if (!id) {
+        OSINFO_ERROR(err, "Missing hypervisor id property");
+	return;
+    }
+
+    OsinfoHypervisor *hypervisor = osinfo_dataread_get_hypervisor(db, id);
+    g_free(id);
+
+    osinfo_dataread_entity(db, OSINFO_ENTITY(hypervisor), keys, ctxt, root, err);
+    if (*err)
+        return;
+
+    osinfo_dataread_device_link(db, NULL, hypervisor,
+				"./devices/device", ctxt, root, err);
+    if (*err)
+        return;
+}
+
+
+static void osinfo_dataread_os_relshp(OsinfoDb *db,
+				      OsinfoOs *os,
+				      OsinfoOsRelationship relshp,
+				      const gchar *xpath,
+				      xmlXPathContextPtr ctxt,
+				      xmlNodePtr root,
+				      GError **err)
+{
+    xmlNodePtr *related = NULL;
+    int nrelated = osinfo_dataread_nodeset(xpath, ctxt, &related, err);
+    int i;
+    if (*err)
+        return;
+
+    for (i = 0 ; i < nrelated ; i++) {
+	gchar *id = (gchar *)xmlGetProp(related[i], BAD_CAST "id");
+	if (!id) {
+	    OSINFO_ERROR(err, "Missing os upgrades id property");
+	    goto cleanup;
 	}
-	osinfo_os_add_device(os, hv, dev, driver);
-	free (driver);
-	driver = NULL;
-	free (id);
-	id = NULL;
+	OsinfoOs *relos = osinfo_dataread_get_os(db, id);
+	g_free(id);
+
+	osinfo_os_add_related_os(os, relshp, relos);
     }
 
-finished:
-    return 0;
-
-error:
-    return err;
+ cleanup:
+    g_free(related);
 }
 
-static int __osinfoProcessOsRelationship(xmlTextReaderPtr reader,
-					 OsinfoDb *db,
-                                         OsinfoOs *os,
-                                         OsinfoOsRelationship relationship)
+
+static void osinfo_dataread_os_hypervisor(OsinfoDb *db,
+					  OsinfoOs *os,
+					  xmlXPathContextPtr ctxt,
+					  xmlNodePtr root,
+					  GError **err)
 {
-    int empty;
-    gchar *id;
+    xmlNodePtr *hvs = NULL;
+    int nhvs = osinfo_dataread_nodeset("./hypervisor", ctxt, &hvs, err);
+    int i;
+    if (*err)
+        return;
 
-    id = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");
-    empty = xmlTextReaderIsEmptyElement(reader);
-    if (!empty || !id) {
-        free(id);
-        return -EINVAL;
+    for (i = 0 ; i < nhvs ; i++) {
+	gchar *id = (gchar *)xmlGetProp(hvs[i], BAD_CAST "id");
+	if (!id) {
+	    OSINFO_ERROR(err, "Missing os hypervisor id property");
+	    goto cleanup;
+	}
+	OsinfoHypervisor *hv = osinfo_dataread_get_hypervisor(db, id);
+	g_free(id);
+
+	xmlNodePtr saved = ctxt->node;
+	ctxt->node = hvs[i];
+	osinfo_dataread_device_link(db, os, hv,
+				    "./devices/device", ctxt, hvs[i], err);
+	ctxt->node = saved;
+	if (*err)
+	    goto cleanup;
     }
 
-    OsinfoOs *otheros = osinfo_db_get_os(db, id);
-    if (!otheros) {
-        free(id);
-        return -ENOENT;
-    }
-    osinfo_os_add_related_os(os, relationship, otheros);
-    free(id);
-    return 0;
+ cleanup:
+    g_free(hvs);
 }
 
-static int __osinfoProcessOs(OsinfoDb *db,
-                          xmlTextReaderPtr reader)
+
+static void osinfo_dataread_os(OsinfoDb *db,
+			       xmlXPathContextPtr ctxt,
+			       xmlNodePtr root,
+			       GError **err)
 {
-    /* Cursor is at start of (possibly empty) os node */
-    /*
-     * First, determine if hv has ID or not, and if tag is empty or not.
-     * The following cases can occur:
-     * 1. No ID: Return invalid. Parse fails overall.
-     * 2. Empty, ID: Make hv with given ID and no data and return.
-     * 3. Non-Empty, ID: Make hv, parse data till closing tag, return.
-     */
-
-    int empty, node_type, err, ret;
-    gchar* id, * key = NULL, * val = NULL, *driver;
-    const gchar* name;
-    OsinfoOs *os;
-    OsinfoOsList *oses = osinfo_db_get_os_list(db);
-
-    id = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");
-    empty = xmlTextReaderIsEmptyElement(reader);
-
-    if (!id)
-        return -EINVAL;
-
-    os = osinfo_os_new(id);
-    free(id);
-
-    if (empty)
-        goto finished;
-
-    /* Current node is start of non empty os
-     * While true:
-     *   Advance to next node
-     *   If node == end of os break
-     *   If node is not element, continue
-     *   If node is element and not section or hypervisor:
-     *     Note element name
-     *     Advance to next node, ensure type is text else error
-     *     Store value, advance to next node
-     *     Ensure node is end of current name
-     *     Store <key, val> in params list for object
-     *   If node is start of section handle section and track device driver
-     *   If node is hypervisor handle hypervisor link
-     */
-
-    for (;;) {
-        /* Advance to next node */
-        ret = xmlTextReaderRead(reader);
-        if (ret != 1) {
-            err = -EINVAL;
-            goto cleanup_error;
-        }
-
-        node_type = xmlTextReaderNodeType(reader);
-        name = (const gchar *)xmlTextReaderConstName(reader);
-        if (node_type == -1 || !name) {
-            err = -EINVAL;
-            goto cleanup_error;
-        }
-        /* If end of os, break */
-        if (node_type == END_NODE && strcmp(name, "os") == 0)
-            break;
-
-        /* If node is not start of an element, continue */
-        if (node_type != ELEMENT_NODE)
-            continue;
-
-        if (strcmp(name, "device") == 0) {
-	    id = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");
-	    empty = xmlTextReaderIsEmptyElement(reader);
-
-	    if (!id) {
-	      fprintf(stderr, "no id\n");
-	        err = -EINVAL;
-		goto cleanup_error;
-	    }
-
-	    if (!empty) {
-	        err = __osinfoProcessTag(reader, &key, &driver);
-		if (err != 0 || !key || !driver)
-		    goto cleanup_error;
-		free(key);
-		key = NULL; /* In case the next malloc fails, avoid a double free */
-	    }
-
-	    // Alright, we have the id and driver
-	    OsinfoDevice *dev = osinfo_db_get_device(db, id);
-	    if (!dev) {
-	        err = -ENOENT;
-		goto cleanup_error;
-	    }
-	    osinfo_os_add_device(os, NULL, dev, driver);
-	    free (driver);
-	    driver = NULL;
-	    free (id);
-	    id = NULL;
-        }
-        else if (strcmp(name, "hypervisor") == 0) {
-	    err = __osinfoProcessOsHvLink(reader, db, os);
-            if (err != 0)
-                goto cleanup_error;
-        }
-        else if (strcmp(name, "upgrades") == 0) {
-	    err = __osinfoProcessOsRelationship(reader, db, os,
-						OSINFO_OS_RELATIONSHIP_UPGRADES);
-            if (err != 0)
-                goto cleanup_error;
-        }
-        else if (strcmp(name, "clones") == 0) {
-	    err = __osinfoProcessOsRelationship(reader, db, os,
-						OSINFO_OS_RELATIONSHIP_CLONES);
-            if (err != 0)
-                goto cleanup_error;
-        }
-        else if (strcmp(name, "derives-from") == 0) {
-	    err = __osinfoProcessOsRelationship(reader, db, os,
-						OSINFO_OS_RELATIONSHIP_DERIVES_FROM);
-            if (err != 0)
-                goto cleanup_error;
-        }
-        else {
-            /* Node is start of element of known name */
-            err = __osinfoProcessTag(reader, &key, &val);
-            if (err != 0 || !key || !val)
-                goto cleanup_error;
-
-	    osinfo_entity_add_param(OSINFO_ENTITY(os), key, val);
-
-            free(key);
-            free(val);
-        }
+    gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
+    const gchar *const keys[] = {
+      "name", "version", "short-id", NULL
+    };
+    if (!id) {
+        OSINFO_ERROR(err, "Missing os id property");
+	return;
     }
 
-finished:
-    osinfo_list_add(OSINFO_LIST(oses), OSINFO_ENTITY(os));
-    g_object_unref(os);
-    return 0;
-    /* At end, cursor is at end of os node */
+    OsinfoOs *os = osinfo_dataread_get_os(db, id);
+    g_free(id);
 
-cleanup_error:
-    g_object_unref(os);
-    return err;
+    osinfo_dataread_entity(db, OSINFO_ENTITY(os), keys, ctxt, root, err);
+    if (*err)
+        return;
+
+    osinfo_dataread_os_relshp(db, os,
+			      OSINFO_OS_RELATIONSHIP_DERIVES_FROM,
+			      "./derives-from",
+			      ctxt,
+			      root,
+			      err);
+    if (*err)
+        return;
+
+    osinfo_dataread_os_relshp(db, os,
+			      OSINFO_OS_RELATIONSHIP_CLONES,
+			      "./clones",
+			      ctxt,
+			      root,
+			      err);
+    if (*err)
+        return;
+
+    osinfo_dataread_os_relshp(db, os,
+			      OSINFO_OS_RELATIONSHIP_UPGRADES,
+			      "./upgrades",
+			      ctxt,
+			      root,
+			      err);
+    if (*err)
+        return;
+
+    osinfo_dataread_os_hypervisor(db, os, ctxt, root, err);
+    if (*err)
+        return;
+
+    osinfo_dataread_device_link(db, os, NULL,
+				"./devices/device", ctxt, root, err);
+    if (*err)
+        return;
 }
 
-static int __osinfoProcessHypervisor(OsinfoDb *db,
-                                  xmlTextReaderPtr reader)
-{
-    /* Cursor is at start of (possibly empty) hypervisor node */
 
-    /*
-     * First, determine if hv has ID or not, and if tag is empty or not.
-     * The following cases can occur:
-     * 1. No ID: Return invalid. Parse fails overall.
-     * 2. Empty, ID: Make hv with given ID and no data and return.
-     * 3. Non-Empty, ID: Make hv, parse data till closing tag, return.
-     */
-
-    int empty, node_type, err, ret;
-    gchar *id, *key, *driver;
-    const gchar *name;
-    OsinfoHypervisor *hv;
-    OsinfoHypervisorList *hypervisors = osinfo_db_get_hypervisor_list(db);
-
-    id = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");
-    empty = xmlTextReaderIsEmptyElement(reader);
-
-    if (!id)
-        return -EINVAL;
-
-    hv = osinfo_hypervisor_new(id);
-    free(id);
-
-    if (empty)
-        goto finished;
-
-    /* Current node is start of non empty hv
-     * While true:
-     *   Advance to next node
-     *   If node == end of hv break
-     *   If node is not element, continue
-     *   If node is element and not section:
-     *     Note element name
-     *     Advance to next node, ensure type is text else error
-     *     Store value, advance to next node
-     *     Ensure node is end of current name
-     *     Store <key, val> in params list for object
-     *   If node is start of section:
-     *     Note section type
-     *     While true:
-     *       Advance to next node
-     *       If node is not element continue
-     *       If end of section, break
-     *       If not empty device node, parse error
-     *       If id not defined, parse error
-     *       Store id
-     *     Store all ids for given section in the HV
-     */
-
-    for (;;) {
-        /* Advance to next node */
-        ret = xmlTextReaderRead(reader);
-        if (ret != 1) {
-            err = -EINVAL;
-            goto cleanup_error;
-        }
-
-        node_type = xmlTextReaderNodeType(reader);
-        name = (const gchar *)xmlTextReaderConstName(reader);
-        if (node_type == -1 || !name) {
-            err = -EINVAL;
-            goto cleanup_error;
-        }
-        /* If end of hv, break */
-        if (node_type == END_NODE && strcmp(name, "hypervisor") == 0)
-            break;
-
-        /* If node is not start of an element, continue */
-        if (node_type != ELEMENT_NODE)
-            continue;
-
-        /* Element within section needs to be of type device */
-        if (strcmp(name, "device") == 0) {
-	    id = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");
-	    empty = xmlTextReaderIsEmptyElement(reader);
-
-	    if (!id) {
-	      fprintf(stderr, "no id\n");
-	        err = -EINVAL;
-		goto cleanup_error;
-	    }
-
-	    if (!empty) {
-	        err = __osinfoProcessTag(reader, &key, &driver);
-		if (err != 0 || !key || !driver)
-		    goto cleanup_error;
-		free(key);
-		key = NULL; /* In case the next malloc fails, avoid a double free */
-	    }
-
-	    // Alright, we have the id and driver
-	    OsinfoDevice *dev = osinfo_db_get_device(db, id);
-	    if (!dev) {
-	        err = -ENOENT;
-		goto cleanup_error;
-	    }
-	    osinfo_hypervisor_add_device(hv, dev, driver);
-	    free (driver);
-	    driver = NULL;
-	    free (id);
-	    id = NULL;
-        } else {
-            /* Node is start of element of known name */
-            char *key = NULL, *val = NULL;
-            err = __osinfoProcessTag(reader, &key, &val);
-            if (err != 0)
-                goto cleanup_error;
-
-
-            osinfo_entity_add_param(OSINFO_ENTITY(hv), key, val);
-            free(key);
-            free(val);
-        }
-    }
-
-finished:
-    osinfo_list_add(OSINFO_LIST(hypervisors), OSINFO_ENTITY(hv));
-    g_object_unref(hv);
-    return 0;
-    /* At end, cursor is at end of hv node */
-
-cleanup_error:
-    g_object_unref(hv);
-    return err;
-}
-
-static int __osinfoProcessDevice(OsinfoDb *db,
-                                 xmlTextReaderPtr reader)
-{
-    /* Cursor is at start of (possibly empty) device node */
-
-    /*
-     * First, determine if device has ID or not, and if tag is empty or not.
-     * The following cases can occur:
-     * 1. No ID: Return invalid. Parse fails overall.
-     * 2. Empty, ID: Make device with given ID and no data and return.
-     * 3. Non-Empty, ID: Make device, parse data till closing tag, return.
-     */
-
-    int empty, node_type, err, ret;
-    gchar* id, * key, * val;
-    const gchar* name;
-    OsinfoDevice *dev;
-    OsinfoDeviceList *devices = osinfo_db_get_device_list(db);
-
-    id = (gchar *)xmlTextReaderGetAttribute(reader, BAD_CAST "id");
-    empty = xmlTextReaderIsEmptyElement(reader);
-
-    if (!id)
-        return -EINVAL;
-
-    dev = osinfo_device_new(id);
-    free(id);
-
-    if (empty)
-        goto finished;
-
-    /* Current node is start of non empty device
-     * While true:
-     *   Advance to next node
-     *   If node == end of device break
-     *   If node is not element, continue
-     *   If node is element:
-     *     Note element name
-     *     Advance to next node, ensure type is text else error
-     *     Store value, advance to next node
-     *     Ensure node is end of current name
-     *     Store <key, val> in params list for object
-     */
-
-    for (;;) {
-        /* Advance to next node */
-        ret = xmlTextReaderRead(reader);
-        if (ret != 1) {
-            err = -EINVAL;
-            goto cleanup_error;
-        }
-
-        node_type = xmlTextReaderNodeType(reader);
-        name = (const gchar *)xmlTextReaderConstName(reader);
-
-        if (node_type == -1 || !name) {
-            err = -EINVAL;
-            goto cleanup_error;
-        }
-
-        /* If end of device, break */
-        if (node_type == END_NODE && strcmp(name, "device") == 0)
-            break;
-
-        /* If node is not start of an element, continue */
-        if (node_type != ELEMENT_NODE)
-            continue;
-
-        /* Node is start of element of known name */
-        err = __osinfoProcessTag(reader, &key, &val);
-        if (err != 0 || !key || !val)
-            goto cleanup_error;
-
-        osinfo_entity_add_param(OSINFO_ENTITY(dev), key, val);
-
-        free(key);
-        free(val);
-    }
-
-finished:
-    // Add dev to db
-    osinfo_list_add(OSINFO_LIST(devices), OSINFO_ENTITY(dev));
-    g_object_unref(dev);
-    return 0;
-    /* At end, cursor is at end of device node */
-
-cleanup_error:
-    free(key);
-    free(val);
-    g_object_unref(dev);
-    return err;
-}
-
-static int __osinfoProcessFile(OsinfoDb *db,
-                               xmlTextReaderPtr reader)
+static void osinfo_dataread_root(OsinfoDb *db,
+				 xmlXPathContextPtr ctxt,
+				 xmlNodePtr root,
+				 GError **err)
 {
     /*
      * File assumed to contain data in XML format. All data
@@ -635,104 +408,127 @@ static int __osinfoProcessFile(OsinfoDb *db,
      * After loop, return success if no error
      * If there was an error, clean up lib data acquired so far
      */
+    xmlNodePtr *oss = NULL;
+    xmlNodePtr *devices = NULL;
+    xmlNodePtr *hypervisors = NULL;
 
-    int err, node_type, ret;
-    const gchar* name;
-
-    /* Advance to starting libosinfo tag */
-    for (;;) {
-        err = xmlTextReaderRead(reader);
-        if (err != 1) {
-            err = -EINVAL;
-            goto cleanup_error;
-        }
-
-        node_type = xmlTextReaderNodeType(reader);
-        if (node_type != ELEMENT_NODE)
-            continue;
-
-        name = (const gchar *)xmlTextReaderConstName(reader);
-        if (strcmp(name, "libosinfo") == 0)
-            break;
+    if (!xmlStrEqual(root->name, BAD_CAST "libosinfo")) {
+        OSINFO_ERROR(err, "Incorrect root element");
+	return;
     }
 
-    /* Now read and handle each tag of interest */
-    for (;;) {
-        /* Advance to next node */
-        ret = xmlTextReaderRead(reader);
-        if (ret != 1) {
-            err = -EINVAL;
-            goto cleanup_error;
-        }
+    int ndevice = osinfo_dataread_nodeset("./device", ctxt, &devices, err);
+    if (*err)
+        goto cleanup;
 
-        node_type = xmlTextReaderNodeType(reader);
-        name = (const gchar *)xmlTextReaderConstName(reader);
-
-        if (node_type == -1 || !name) {
-            err = -EINVAL;
-            goto cleanup_error;
-        }
-
-        /* If end of libosinfo, break */
-        if (node_type == END_NODE && strcmp(name, "libosinfo") == 0)
-            break;
-
-        /* If node is not start of an element, continue */
-        if (node_type != ELEMENT_NODE)
-            continue;
-
-        /* Process element node */
-        if (strcmp(name, "device") == 0) {
-            err = __osinfoProcessDevice(db, reader);
-            if (err != 0)
-                goto cleanup_error;
-        }
-        else if (strcmp(name, "hypervisor") == 0) {
-            err = __osinfoProcessHypervisor(db, reader);
-            if (err != 0)
-                goto cleanup_error;
-        }
-        else if (strcmp(name, "os") == 0) {
-            err = __osinfoProcessOs(db, reader);
-            if (err != 0)
-                goto cleanup_error;
-        }
-        else {
-            err = -EINVAL;
-            goto cleanup_error;
-        }
+    int i;
+    for (i = 0 ; i < ndevice ; i++) {
+        xmlNodePtr saved = ctxt->node;
+	ctxt->node = devices[i];
+	osinfo_dataread_device(db, ctxt, devices[i], err);
+	ctxt->node = saved;
+	if (*err)
+	  goto cleanup;
     }
 
-    /* And we are done, successfully */
-    return 0;
+    int nhypervisor = osinfo_dataread_nodeset("./hypervisor", ctxt, &hypervisors, err);
+    if (*err)
+        goto cleanup;
 
-cleanup_error:
-    // Db will be unsatisfactorily initiated, caller will call unref to clean it
-    return err;
+    for (i = 0 ; i < nhypervisor ; i++) {
+        xmlNodePtr saved = ctxt->node;
+	ctxt->node = hypervisors[i];
+	osinfo_dataread_hypervisor(db, ctxt, hypervisors[i], err);
+	ctxt->node = saved;
+	if (*err)
+	    goto cleanup;
+    }
+
+    int nos = osinfo_dataread_nodeset("./os", ctxt, &oss, err);
+    if (*err)
+        goto cleanup;
+
+    for (i = 0 ; i < nos ; i++) {
+        xmlNodePtr saved = ctxt->node;
+	ctxt->node = oss[i];
+	osinfo_dataread_os(db, ctxt, oss[i], err);
+	ctxt->node = saved;
+	if (*err)
+	    goto cleanup;
+    }
+
+ cleanup:
+    g_free(hypervisors);
+    g_free(oss);
+    g_free(devices);
 }
 
-static int osinfo_dataread_file(OsinfoDb *db,
-                                const char *dir,
-                                const char *filename,
-				GError **err)
+
+static void
+catchXMLError(void *ctx, const char *msg ATTRIBUTE_UNUSED, ...)
 {
-    int ret;
-    xmlTextReaderPtr reader;
+    xmlParserCtxtPtr ctxt = (xmlParserCtxtPtr) ctx;
+
+    if (ctxt && ctxt->_private) {
+        gchar *xmlmsg = g_strdup_printf("at line %d: %s",
+					ctxt->lastError.line,
+					ctxt->lastError.message);
+	OSINFO_ERROR(ctxt->_private, xmlmsg);
+	g_free(xmlmsg);
+    }
+}
+
+static void osinfo_dataread_file(OsinfoDb *db,
+				 const char *dir,
+				 const char *filename,
+				 GError **err)
+{
+    xmlParserCtxtPtr pctxt;
+    xmlXPathContextPtr ctxt = NULL;
+    xmlDocPtr xml = NULL;
+    xmlNodePtr root;
     char *rel_name = g_strdup_printf("%s/%s", dir, filename);
 
-    reader = xmlReaderForFile(rel_name, NULL, 0);
-    g_free(rel_name);
-    if (!reader) {
-        return -EINVAL;
+    /* Set up a parser context so we can catch the details of XML errors. */
+    pctxt = xmlNewParserCtxt();
+    if (!pctxt || !pctxt->sax) {
+        OSINFO_ERROR(err, "Unable to construct parser context");
+        goto cleanup;
     }
-    ret = __osinfoProcessFile(db, reader);
-    xmlFreeTextReader(reader);
-    return ret;
+
+    pctxt->_private = err;
+    pctxt->sax->error = catchXMLError;
+
+    xml = xmlCtxtReadFile(pctxt, rel_name, NULL,
+			  XML_PARSE_NOENT | XML_PARSE_NONET |
+			  XML_PARSE_NOWARNING);
+    if (!xml)
+        goto cleanup;
+
+    root = xmlDocGetRootElement(xml);
+
+    if (!root) {
+        OSINFO_ERROR(err, "Missing root element");
+        goto cleanup;
+    }
+
+    ctxt = xmlXPathNewContext(xml);
+    if (!ctxt)
+      goto cleanup;
+
+    ctxt->node = root;
+
+    osinfo_dataread_root(db, ctxt, root, err);
+
+cleanup:
+    xmlXPathFreeContext(ctxt);
+    xmlFreeDoc(xml);
+    xmlFreeParserCtxt(pctxt);
+    g_free(rel_name);
 }
 
 void osinfo_dataread(OsinfoDb *db, GError **err)
 {
-    int ret;
     DIR* dir;
     struct dirent *dp;
 
@@ -757,8 +553,8 @@ void osinfo_dataread(OsinfoDb *db, GError **err)
     while ((dp=readdir(dir)) != NULL) {
         if (dp->d_name[0] == '.')
 	    continue;
-        ret = osinfo_dataread_file(db, backingDir, dp->d_name, err);
-        if (ret != 0)
+        osinfo_dataread_file(db, backingDir, dp->d_name, err);
+        if (*err != NULL)
             break;
     }
     closedir(dir);

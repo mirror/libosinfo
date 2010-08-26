@@ -10,7 +10,7 @@ START_TEST(test_basic)
 
   GError *error = NULL;
   osinfo_db_initialize(db, &error);
-  fail_unless(error == NULL, "Error loading data files");
+  fail_unless(error == NULL, error ? error->message : "none");
 
   g_object_unref(db);
 }

@@ -88,22 +88,22 @@ OsinfoDb *osinfo_db_new(const gchar *backingDir);
 
 void osinfo_db_initialize(OsinfoDb *self, GError **err);
 
-OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *self, gchar *hvId);
-OsinfoDevice *osinfo_db_get_device(OsinfoDb *self, gchar *devId);
-OsinfoOs *osinfo_db_get_os(OsinfoDb *self, gchar *osId);
+OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *self, const gchar *hvId);
+OsinfoDevice *osinfo_db_get_device(OsinfoDb *self, const gchar *devId);
+OsinfoOs *osinfo_db_get_os(OsinfoDb *self, const gchar *osId);
 
 OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self);
 OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self);
 OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self);
 
 // Get me all unique values for property "vendor" among operating systems
-GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, gchar *propName);
+GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, const gchar *propName);
 
 // Get me all unique values for property "vendor" among hypervisors
-GList *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, gchar *propName);
+GList *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, const gchar *propName);
 
 // Get me all unique values for property "vendor" among devices
-GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, gchar *propName);
+GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, const gchar *propName);
 
 // Get me all OSes that 'upgrade' another OS (or whatever relationship is specified)
 OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, OsinfoOsRelationship relshp);

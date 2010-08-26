@@ -79,6 +79,7 @@ static void
 osinfo_filter_prop_constraints_free(gpointer props)
 {
     g_list_foreach(props, osinfo_filter_prop_constraint_free, NULL);
+    g_list_free(props);
 }
 
 
@@ -111,8 +112,9 @@ gint osinfo_filter_add_constraint(OsinfoFilter *self, gchar *propName, gchar *pr
 
     found = g_hash_table_lookup_extended(self->priv->propertyConstraints, propName, &origKey, &foundValue);
     if (found) {
-        values = foundValue;
         g_hash_table_steal(self->priv->propertyConstraints, propName);
+	g_free(origKey);
+        values = foundValue;
     }
     values = g_list_prepend(values, g_strdup(propVal));
     g_hash_table_insert(self->priv->propertyConstraints, g_strdup(propName), values);

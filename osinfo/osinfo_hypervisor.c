@@ -91,7 +91,7 @@ OsinfoHypervisor *osinfo_hypervisor_new(const gchar *id)
 OsinfoDeviceList *osinfo_hypervisor_get_devices(OsinfoHypervisor *self, OsinfoFilter *filter)
 {
     g_return_val_if_fail(OSINFO_IS_HYPERVISOR(self), NULL);
-    g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
+    g_return_val_if_fail(!filter || OSINFO_IS_FILTER(filter), NULL);
 
     OsinfoDeviceList *newList = osinfo_devicelist_new();
     GList *tmp = self->priv->deviceLinks;
@@ -99,7 +99,7 @@ OsinfoDeviceList *osinfo_hypervisor_get_devices(OsinfoHypervisor *self, OsinfoFi
     while (tmp) {
         struct _OsinfoHypervisorDeviceLink *link = tmp->data;
 
-        if (osinfo_filter_matches(filter, OSINFO_ENTITY(link->dev)))
+        if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(link->dev)))
 	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link->dev));
 
 	tmp = tmp->next;

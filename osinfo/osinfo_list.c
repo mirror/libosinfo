@@ -24,7 +24,7 @@
 
 #include <osinfo/osinfo.h>
 
-G_DEFINE_TYPE (OsinfoList, osinfo_list, G_TYPE_OBJECT);
+G_DEFINE_ABSTRACT_TYPE (OsinfoList, osinfo_list, G_TYPE_OBJECT);
 
 #define OSINFO_LIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_LIST, OsinfoListPrivate))
 
@@ -112,14 +112,14 @@ void osinfo_list_add_intersection(OsinfoList *self, OsinfoList *sourceOne, Osinf
     int i, len;
 
     // Make set representation of otherList and newList
-    GHashTable *otherSet = g_hash_table_new(g_str_hash, g_str_equal);
-    GHashTable *newSet = g_hash_table_new(g_str_hash, g_str_equal);
+    GHashTable *otherSet = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
+    GHashTable *newSet = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
 
     // Add all from otherList to otherSet
     len = osinfo_list_get_length(sourceTwo);
     for (i = 0; i < len; i++) {
         OsinfoEntity *entity = osinfo_list_get_nth(sourceTwo, i);
-        g_hash_table_insert(otherSet, osinfo_entity_get_id(entity), entity);
+        g_hash_table_insert(otherSet, g_strdup(osinfo_entity_get_id(entity)), entity);
     }
 
     // If other contains entity, and new list does not, add to new list
@@ -129,7 +129,7 @@ void osinfo_list_add_intersection(OsinfoList *self, OsinfoList *sourceOne, Osinf
 
         if (g_hash_table_lookup(otherSet, osinfo_entity_get_id(entity)) &&
             !g_hash_table_lookup(newSet, osinfo_entity_get_id(entity))) {
-	    g_hash_table_insert(newSet, osinfo_entity_get_id(entity), entity);
+	    g_hash_table_insert(newSet, g_strdup(osinfo_entity_get_id(entity)), entity);
             osinfo_list_add(self, entity);
         }
     }
@@ -142,7 +142,7 @@ void osinfo_list_add_intersection(OsinfoList *self, OsinfoList *sourceOne, Osinf
 void osinfo_list_add_union(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *sourceTwo)
 {
     // Make set version of new list
-    GHashTable *newSet = g_hash_table_new(g_str_hash, g_str_equal);
+    GHashTable *newSet = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
 
     // Add all from other list to new list
     int i, len;
@@ -150,7 +150,7 @@ void osinfo_list_add_union(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *
     for (i = 0; i < len; i++) {
         OsinfoEntity *entity = osinfo_list_get_nth(sourceTwo, i);
         osinfo_list_add(self, entity);
-        g_hash_table_insert(newSet, osinfo_entity_get_id(entity), entity);
+        g_hash_table_insert(newSet, g_strdup(osinfo_entity_get_id(entity)), entity);
     }
 
     // Add remaining elements from this list to new list
@@ -160,7 +160,7 @@ void osinfo_list_add_union(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *
         // If new list does not contain element, add to new list
         if (!g_hash_table_lookup(newSet, osinfo_entity_get_id(entity))) {
 	    osinfo_list_add(self, entity);
-            g_hash_table_insert(newSet, osinfo_entity_get_id(entity), entity);
+            g_hash_table_insert(newSet, g_strdup(osinfo_entity_get_id(entity)), entity);
         }
     }
 

@@ -112,7 +112,11 @@ osinfo_entity_class_init (OsinfoEntityClass *klass)
                                  "ID",
                                  "Contains unique identifier for entity.",
                                  NULL /* default value */,
-                                 G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE);
+                                 G_PARAM_CONSTRUCT_ONLY |
+				 G_PARAM_READWRITE |
+				 G_PARAM_STATIC_NAME |
+				 G_PARAM_STATIC_NICK |
+				 G_PARAM_STATIC_BLURB);
     g_object_class_install_property (g_klass,
                                      OSI_ENTITY_ID,
                                      pspec);
@@ -160,10 +164,11 @@ void osinfo_entity_add_param(OsinfoEntity *self, const gchar *key, const gchar *
     found = g_hash_table_lookup_extended(self->priv->params, key, &origKey, &foundValue);
     if (found) {
         g_hash_table_steal(self->priv->params, key);
+	g_free(origKey);
 	values = foundValue;
     }
 
-    values = g_list_append(values, g_strdup(key));
+    values = g_list_append(values, g_strdup(value));
     g_hash_table_insert(self->priv->params, g_strdup(key), values);
 }
 
@@ -172,13 +177,11 @@ void osinfo_entity_clear_param(OsinfoEntity *self, const gchar *key)
     g_hash_table_remove(self->priv->params, key);
 }
 
-gchar *osinfo_entity_get_id(OsinfoEntity *self)
+const gchar *osinfo_entity_get_id(OsinfoEntity *self)
 {
     g_return_val_if_fail(OSINFO_IS_ENTITY(self), NULL);
 
-    gchar *dupId = g_strdup(self->priv->id);
-
-    return dupId;
+    return self->priv->id;
 }
 
 GList *osinfo_entity_get_param_keys(OsinfoEntity *self)
@@ -188,7 +191,7 @@ GList *osinfo_entity_get_param_keys(OsinfoEntity *self)
     return g_hash_table_get_keys(self->priv->params);
 }
 
-gchar *osinfo_entity_get_param_value(OsinfoEntity *self, const gchar *key)
+const gchar *osinfo_entity_get_param_value(OsinfoEntity *self, const gchar *key)
 {
     g_return_val_if_fail(OSINFO_IS_ENTITY(self), NULL);
     g_return_val_if_fail(key != NULL, NULL);
@@ -198,7 +201,7 @@ gchar *osinfo_entity_get_param_value(OsinfoEntity *self, const gchar *key)
     values = g_hash_table_lookup(self->priv->params, key);
 
     if (values)
-        return g_strdup(values->data);
+        return values->data;
     return NULL;
 }
 
