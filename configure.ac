@@ -57,6 +57,10 @@ AC_SUBST([NO_UNDEFINED_FLAGS])
 AC_SUBST([VERSION_SCRIPT_FLAGS])
 AM_CONDITIONAL([USE_VERSION_DEFS], [test "$USE_VERSION_DEFS" = "1"])
 
+AC_ARG_ENABLE([introspection],
+        AS_HELP_STRING([--enable-introspection], [enable GObject introspection]),
+        [], [enable_introspection=check])
+
 if test "x$enable_introspection" != "xno" ; then
         PKG_CHECK_MODULES([GOBJECT_INTROSPECTION],
                           [gobject-introspection-1.0 >= 0.9.0],
