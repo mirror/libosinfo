@@ -138,9 +138,10 @@ static gboolean osinfo_db_get_property_values_in_entity(OsinfoList *list, Osinfo
     GHashTable *newValues = args->values;
     const gchar *property = args->property;
     GList *values = osinfo_entity_get_param_value_list(entity, property);
+    GList *tmp = values;
 
-    while (values) {
-        gchar *value = values->data;
+    while (tmp) {
+        gchar *value = tmp->data;
 
 	if (!g_hash_table_lookup(newValues, value)) {
 	    g_hash_table_insert(newValues,
@@ -148,8 +149,10 @@ static gboolean osinfo_db_get_property_values_in_entity(OsinfoList *list, Osinfo
 				GINT_TO_POINTER(1));
 	}
 
-	values = values->next;
+	tmp = tmp->next;
     }
+
+    g_list_free(values);
 
     return FALSE; // Continue iterating
 }

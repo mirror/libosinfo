@@ -19,6 +19,7 @@ START_TEST(test_basic)
   fail_unless(tmp != NULL, "Unexpected missing OS");
   fail_unless(tmp->data == os1, "Derived OS is OS 1");
   fail_unless(tmp->next == NULL, "Too many derived OS");
+  g_list_free(tmp);
 
   tmp = osinfo_osfilter_get_os_constraint_values(osfilter,
 						 OSINFO_OS_RELATIONSHIP_CLONES);
@@ -33,6 +34,7 @@ START_TEST(test_basic)
   fail_unless(tmp->next != NULL, "Not enough derived OS");
   fail_unless(tmp->next->data == os1, "Derived OS is OS 1");
   fail_unless(tmp->next->next == NULL, "Too many derived OS");
+  g_list_free(tmp);
 
   osinfo_osfilter_add_os_constraint(osfilter, OSINFO_OS_RELATIONSHIP_UPGRADES, os1);
   tmp = osinfo_osfilter_get_os_constraint_values(osfilter,
@@ -40,6 +42,7 @@ START_TEST(test_basic)
   fail_unless(tmp != NULL, "Unexpected missing OS");
   fail_unless(tmp->data == os1, "Derived OS is OS 1");
   fail_unless(tmp->next == NULL, "Too many derived OS");
+  g_list_free(tmp);
 
   osinfo_osfilter_add_os_constraint(osfilter, OSINFO_OS_RELATIONSHIP_CLONES, os1);
   tmp = osinfo_osfilter_get_os_constraint_values(osfilter,
@@ -47,6 +50,7 @@ START_TEST(test_basic)
   fail_unless(tmp != NULL, "Unexpected missing OS");
   fail_unless(tmp->data == os1, "Derived OS is OS 1");
   fail_unless(tmp->next == NULL, "Too many derived OS");
+  g_list_free(tmp);
 
   g_object_unref(os2);
   g_object_unref(os1);

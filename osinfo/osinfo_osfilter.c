@@ -139,7 +139,9 @@ GList *osinfo_osfilter_get_os_constraint_values(OsinfoOsfilter *self, OsinfoOsRe
 {
     g_return_val_if_fail(OSINFO_IS_OSFILTER(self), NULL);
 
-    return g_hash_table_lookup(self->priv->osConstraints, GINT_TO_POINTER(relshp));
+    GList *values = g_hash_table_lookup(self->priv->osConstraints, GINT_TO_POINTER(relshp));
+
+    return g_list_copy(values);
 }
 
 

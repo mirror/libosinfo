@@ -210,7 +210,9 @@ GList *osinfo_entity_get_param_value_list(OsinfoEntity *self, const gchar *key)
     g_return_val_if_fail(OSINFO_IS_ENTITY(self), NULL);
     g_return_val_if_fail(key != NULL, NULL);
 
-    return g_hash_table_lookup(self->priv->params, key);
+    GList *values = g_hash_table_lookup(self->priv->params, key);
+
+    return g_list_copy(values);
 }
 
 

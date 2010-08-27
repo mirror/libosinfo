@@ -146,7 +146,9 @@ GList *osinfo_filter_get_constraint_values(OsinfoFilter *self, gchar *propName)
     g_return_val_if_fail(OSINFO_IS_FILTER(self), NULL);
     g_return_val_if_fail(propName != NULL, NULL);
 
-    return g_hash_table_lookup(self->priv->propertyConstraints, propName);
+    GList *values = g_hash_table_lookup(self->priv->propertyConstraints, propName);
+
+    return g_list_copy(values);
 }
 
 
@@ -185,11 +187,13 @@ static void osinfo_filter_match_iterator(gpointer key, gpointer value, gpointer 
         }
         if (!found) {
 	    args->matched = FALSE;
+	    g_list_free(values);
 	    return;
 	}
 
         propValues = propValues->next;
     }
+    g_list_free(values);
 }
 
 

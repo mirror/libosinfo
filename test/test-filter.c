@@ -39,6 +39,7 @@ START_TEST(test_basic)
   fail_unless(values != NULL, "missing value");
   fail_unless(g_strcmp0(values->data, "pci") == 0, "missing value");
   fail_unless(values->next == NULL, "too many keys");
+  g_list_free(values);
 
   values = osinfo_filter_get_constraint_values(filter, "class");
   fail_unless(values != NULL, "missing value");
@@ -46,6 +47,7 @@ START_TEST(test_basic)
   fail_unless(g_strcmp0(values->data, "audio") == 0, "missing value");
   fail_unless(g_strcmp0(values->next->data, "network") == 0, "missing value");
   fail_unless(values->next->next == NULL, "too many values");
+  g_list_free(values);
 
   g_object_unref(dev);
   g_object_unref(filter);

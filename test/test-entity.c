@@ -79,6 +79,7 @@ START_TEST(test_single_prop_value)
   fail_unless(values != NULL, "Entity param value list was empty");
   fail_unless(values->next == NULL, "Entity param value list has too many values");
   fail_unless(g_strcmp0(values->data, "world") == 0, "Entity param list value was not 'world'");
+  g_list_free(values);
 
   g_object_unref(ent);
 }
@@ -111,6 +112,7 @@ START_TEST(test_multi_prop_value)
   fail_unless(g_strcmp0(values->data, "world") == 0, "Entity param list first value was not 'world'");
   fail_unless(g_strcmp0(values->next->data, "fred") == 0, "Entity param list second value was not 'fred'");
   fail_unless(g_strcmp0(values->next->next->data, "elephant") == 0, "Entity param list third was not 'elephant'");
+  g_list_free(values);
 
   g_object_unref(ent);
 }
@@ -158,16 +160,19 @@ START_TEST(test_multi_props)
   fail_unless(values != NULL, "Entity param value list was empty");
   fail_unless(values->next == NULL, "Entity param value list has too many values");
   fail_unless(g_strcmp0(values->data, "world") == 0, "Entity param list value was not 'world'");
+  g_list_free(values);
 
   values = osinfo_entity_get_param_value_list(ent, "fish");
   fail_unless(values != NULL, "Entity param value list was empty");
   fail_unless(values->next == NULL, "Entity param value list has too many values");
   fail_unless(g_strcmp0(values->data, "food") == 0, "Entity param list value was not 'food'");
+  g_list_free(values);
 
   values = osinfo_entity_get_param_value_list(ent, "kevin");
   fail_unless(values != NULL, "Entity param value list was empty");
   fail_unless(values->next == NULL, "Entity param value list has too many values");
   fail_unless(g_strcmp0(values->data, "bacon") == 0, "Entity param list value was not 'bacon'");
+  g_list_free(values);
 
   g_object_unref(ent);
 }
