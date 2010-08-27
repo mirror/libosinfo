@@ -33,7 +33,57 @@ static void osinfo_list_finalize (GObject *object);
 struct _OsinfoListPrivate
 {
     GPtrArray *array;
+
+    GType elementType;
 };
+
+enum {
+    PROP_O,
+
+    PROP_ELEMENT_TYPE
+};
+
+
+static void
+osinfo_list_set_property(GObject      *object,
+			 guint         property_id,
+			 const GValue *value,
+			 GParamSpec   *pspec)
+{
+    OsinfoList *self = OSINFO_LIST(object);
+
+    switch (property_id) {
+      case PROP_ELEMENT_TYPE:
+	self->priv->elementType = g_value_get_gtype(value);
+        break;
+
+      default:
+        /* We don't have any other property... */
+        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+        break;
+    }
+}
+
+static void
+osinfo_list_get_property(GObject    *object,
+			 guint       property_id,
+			 GValue     *value,
+			 GParamSpec *pspec)
+{
+    OsinfoList *self = OSINFO_LIST(object);
+
+    switch (property_id) {
+      case PROP_ELEMENT_TYPE:
+        g_value_set_gtype(value, self->priv->elementType);
+        break;
+
+      default:
+        /* We don't have any other property... */
+        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+        break;
+    }
+}
+
 
 static void
 osinfo_list_finalize (GObject *object)
@@ -51,8 +101,26 @@ static void
 osinfo_list_class_init (OsinfoListClass *klass)
 {
     GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GParamSpec *pspec;
 
+    g_klass->set_property = osinfo_list_set_property;
+    g_klass->get_property = osinfo_list_get_property;
     g_klass->finalize = osinfo_list_finalize;
+
+    pspec = g_param_spec_gtype("element-type",
+			       "Element type",
+			       "List element type",
+			       OSINFO_TYPE_ENTITY,
+			       G_PARAM_CONSTRUCT_ONLY |
+			       G_PARAM_READWRITE |
+			       G_PARAM_STATIC_NAME |
+			       G_PARAM_STATIC_BLURB |
+			       G_PARAM_STATIC_NICK);
+
+    g_object_class_install_property(g_klass,
+				    PROP_ELEMENT_TYPE,
+				    pspec);
+
     g_type_class_add_private (klass, sizeof (OsinfoListPrivate));
 }
 
@@ -64,6 +132,12 @@ osinfo_list_init (OsinfoList *self)
 
     self->priv->array = g_ptr_array_new_with_free_func(g_object_unref);
 }
+
+GType osinfo_list_get_element_type(OsinfoList *self)
+{
+    return self->priv->elementType;
+}
+
 
 gint osinfo_list_get_length(OsinfoList *self)
 {
@@ -90,6 +164,8 @@ OsinfoEntity *osinfo_list_find_by_id(OsinfoList *self, const gchar *id)
 
 void osinfo_list_add(OsinfoList *self, OsinfoEntity *entity)
 {
+    g_return_if_fail(G_TYPE_CHECK_INSTANCE_TYPE(entity, self->priv->elementType));
+
     g_object_ref(entity);
     g_ptr_array_add(self->priv->array, entity);
 }
@@ -98,6 +174,8 @@ void osinfo_list_add(OsinfoList *self, OsinfoEntity *entity)
 void osinfo_list_add_filtered(OsinfoList *self, OsinfoList *source, OsinfoFilter *filter)
 {
     int i, len;
+    g_return_if_fail(self->priv->elementType == source->priv->elementType);
+
     len = osinfo_list_get_length(source);
     for (i = 0; i < len; i++) {
         OsinfoEntity *entity = osinfo_list_get_nth(source, i);
@@ -110,6 +188,8 @@ void osinfo_list_add_filtered(OsinfoList *self, OsinfoList *source, OsinfoFilter
 void osinfo_list_add_intersection(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *sourceTwo)
 {
     int i, len;
+    g_return_if_fail(self->priv->elementType == sourceOne->priv->elementType);
+    g_return_if_fail(self->priv->elementType == sourceTwo->priv->elementType);
 
     // Make set representation of otherList and newList
     GHashTable *otherSet = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
@@ -142,7 +222,11 @@ void osinfo_list_add_intersection(OsinfoList *self, OsinfoList *sourceOne, Osinf
 void osinfo_list_add_union(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *sourceTwo)
 {
     // Make set version of new list
-    GHashTable *newSet = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
+    GHashTable *newSet;
+    g_return_if_fail(self->priv->elementType == sourceOne->priv->elementType);
+    g_return_if_fail(self->priv->elementType == sourceTwo->priv->elementType);
+
+    newSet = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
 
     // Add all from other list to new list
     int i, len;

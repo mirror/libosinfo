@@ -63,8 +63,11 @@ osinfo_oslist_init (OsinfoOsList *self)
 
 OsinfoOsList *osinfo_oslist_new(void)
 {
-    return g_object_new(OSINFO_TYPE_OSLIST, NULL);
+    return g_object_new(OSINFO_TYPE_OSLIST,
+			"element-type", OSINFO_TYPE_OS,
+			NULL);
 }
+
 
 OsinfoOsList *osinfo_oslist_new_filtered(OsinfoOsList *source, OsinfoFilter *filter)
 {

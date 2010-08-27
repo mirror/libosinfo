@@ -62,6 +62,7 @@ struct _OsinfoListClass
 
 GType osinfo_list_get_type(void);
 
+GType osinfo_list_get_element_type(OsinfoList *self);
 gint osinfo_list_get_length(OsinfoList *self);
 OsinfoEntity *osinfo_list_get_nth(OsinfoList *self, gint idx);
 OsinfoEntity *osinfo_list_find_by_id(OsinfoList *self, const gchar *id);

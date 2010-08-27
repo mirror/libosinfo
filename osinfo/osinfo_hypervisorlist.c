@@ -63,8 +63,11 @@ osinfo_hypervisorlist_init (OsinfoHypervisorList *self)
 
 OsinfoHypervisorList *osinfo_hypervisorlist_new(void)
 {
-    return g_object_new(OSINFO_TYPE_HYPERVISORLIST, NULL);
+    return g_object_new(OSINFO_TYPE_HYPERVISORLIST,
+			"element-type", OSINFO_TYPE_HYPERVISOR,
+			NULL);
 }
+
 
 OsinfoHypervisorList *osinfo_hypervisorlist_new_filtered(OsinfoHypervisorList *source, OsinfoFilter *filter)
 {

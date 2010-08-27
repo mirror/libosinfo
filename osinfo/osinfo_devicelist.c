@@ -62,7 +62,9 @@ osinfo_devicelist_init (OsinfoDeviceList *self)
 
 OsinfoDeviceList *osinfo_devicelist_new(void)
 {
-    return g_object_new(OSINFO_TYPE_DEVICELIST, NULL);
+    return g_object_new(OSINFO_TYPE_DEVICELIST,
+			"element-type", OSINFO_TYPE_DEVICE,
+			NULL);
 }
 
 OsinfoDeviceList *osinfo_devicelist_new_filtered(OsinfoDeviceList *source, OsinfoFilter *filter)
