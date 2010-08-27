@@ -4,22 +4,22 @@
 
 START_TEST(test_basic)
 {
-  OsinfoDb *db = osinfo_db_new("../data");
+  OsinfoLoader *loader = osinfo_loader_new();
 
-  fail_unless(OSINFO_IS_DB(db), "Db is not a DB");
+  fail_unless(OSINFO_IS_LOADER(loader), "Loader is not a LOADER");
 
   GError *error = NULL;
-  osinfo_db_initialize(db, &error);
+  osinfo_loader_process(loader, "../data", &error);
   fail_unless(error == NULL, error ? error->message : "none");
 
-  g_object_unref(db);
+  g_object_unref(loader);
 }
 END_TEST
 
 static Suite *
-list_suite(void)
+loader_suite(void)
 {
-  Suite *s = suite_create("List");
+  Suite *s = suite_create("Loader");
   TCase *tc = tcase_create("Core");
   tcase_add_test(tc, test_basic);
   suite_add_tcase(s, tc);
@@ -29,7 +29,7 @@ list_suite(void)
 int main(void)
 {
   int number_failed;
-  Suite *s = list_suite ();
+  Suite *s = loader_suite ();
   SRunner *sr = srunner_create (s);
 
   g_type_init();
@@ -45,6 +45,7 @@ int main(void)
   osinfo_hypervisorlist_get_type();
   osinfo_oslist_get_type();
   osinfo_filter_get_type();
+  osinfo_loader_get_type();
 
   srunner_run_all (sr, CK_ENV);
   number_failed = srunner_ntests_failed (sr);

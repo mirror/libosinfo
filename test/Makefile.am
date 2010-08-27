@@ -11,7 +11,7 @@ check_PROGRAMS = \
 	test-hypervisor \
 	test-hypervisorlist \
 	test-db \
-	test-dataread
+	test-loader
 
 COMMON_LDADD = \
 	$(COVERAGE_LDFLAGS) \
@@ -68,9 +68,9 @@ test_db_LDADD = $(COMMON_LDADD)
 test_db_CFLAGS = $(COMMON_CFLAGS)
 test_db_SOURCES = test-db.c
 
-test_dataread_LDADD = $(COMMON_LDADD)
-test_dataread_CFLAGS = $(COMMON_CFLAGS)
-test_dataread_SOURCES = test-dataread.c
+test_loader_LDADD = $(COMMON_LDADD)
+test_loader_CFLAGS = $(COMMON_CFLAGS)
+test_loader_SOURCES = test-loader.c
 
 TESTS = $(check_PROGRAMS)
 

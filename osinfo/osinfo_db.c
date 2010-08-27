@@ -30,36 +30,17 @@ G_DEFINE_TYPE (OsinfoDb, osinfo_db, G_TYPE_OBJECT);
 
 struct _OsinfoDbPrivate
 {
-    int ready;
-
-    gchar *backing_dir;
-
     OsinfoDeviceList *devices;
     OsinfoHypervisorList *hypervisors;
     OsinfoOsList *oses;
 };
 
-
-static void osinfo_db_set_property(GObject * object, guint prop_id,
-                                         const GValue * value,
-                                         GParamSpec * pspec);
-static void osinfo_db_get_property(GObject * object, guint prop_id,
-                                         GValue * value,
-                                         GParamSpec * pspec);
 static void osinfo_db_finalize (GObject *object);
-
-enum OSI_DB_PROPERTIES {
-    OSI_DB_PROP_0,
-
-    OSI_DB_BACKING_DIR,
-};
 
 static void
 osinfo_db_finalize (GObject *object)
 {
     OsinfoDb *self = OSINFO_DB (object);
-
-    g_free (self->priv->backing_dir);
 
     g_object_unref(self->priv->devices);
     g_object_unref(self->priv->hypervisors);
@@ -69,68 +50,14 @@ osinfo_db_finalize (GObject *object)
     G_OBJECT_CLASS (osinfo_db_parent_class)->finalize (object);
 }
 
-static void
-osinfo_db_set_property (GObject      *object,
-                        guint         property_id,
-                        const GValue *value,
-                        GParamSpec   *pspec)
-{
-    OsinfoDb *self = OSINFO_DB (object);
-
-    switch (property_id)
-      {
-      case OSI_DB_BACKING_DIR:
-        g_free(self->priv->backing_dir);
-        self->priv->backing_dir = g_value_dup_string (value);
-        break;
-
-      default:
-        /* We don't have any other property... */
-        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-        break;
-      }
-}
-
-static void
-osinfo_db_get_property (GObject    *object,
-                        guint       property_id,
-                        GValue     *value,
-                        GParamSpec *pspec)
-{
-    OsinfoDb *self = OSINFO_DB (object);
-
-    switch (property_id)
-      {
-      case OSI_DB_BACKING_DIR:
-        g_value_set_string (value, self->priv->backing_dir);
-        break;
-
-      default:
-        /* We don't have any other property... */
-        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-        break;
-      }
-}
 
 /* Init functions */
 static void
 osinfo_db_class_init (OsinfoDbClass *klass)
 {
     GObjectClass *g_klass = G_OBJECT_CLASS (klass);
-    GParamSpec *pspec;
 
-    g_klass->set_property = osinfo_db_set_property;
-    g_klass->get_property = osinfo_db_get_property;
     g_klass->finalize = osinfo_db_finalize;
-
-    pspec = g_param_spec_string ("backing-dir",
-                                 "Backing directory",
-                                 "Contains backing data store.",
-                                 NULL /* default value */,
-                                 G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE);
-    g_object_class_install_property (g_klass,
-                                     OSI_DB_BACKING_DIR,
-                                     pspec);
 
     g_type_class_add_private (klass, sizeof (OsinfoDbPrivate));
 }
@@ -145,27 +72,13 @@ osinfo_db_init (OsinfoDb *self)
     self->priv->devices = osinfo_devicelist_new();
     self->priv->hypervisors = osinfo_hypervisorlist_new();
     self->priv->oses = osinfo_oslist_new();
-
-    self->priv->ready = 0;
 }
 
 /** PUBLIC METHODS */
 
-OsinfoDb *osinfo_db_new(const gchar *backingDir)
+OsinfoDb *osinfo_db_new(void)
 {
-  return g_object_new (OSINFO_TYPE_DB,
-		       "backing-dir", backingDir,
-		       NULL);
-}
-
-
-extern void osinfo_dataread(OsinfoDb *db, GError **err);
-
-void osinfo_db_initialize(OsinfoDb *self, GError **err)
-{
-    osinfo_dataread(self, err);
-    if (!*err)
-        self->priv->ready = 1;
+    return g_object_new(OSINFO_TYPE_DB, NULL);
 }
 
 OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *self, const gchar *id)

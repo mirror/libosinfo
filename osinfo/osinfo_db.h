@@ -84,9 +84,7 @@ struct _OsinfoDbClass
 
 GType osinfo_db_get_type(void);
 
-OsinfoDb *osinfo_db_new(const gchar *backingDir);
-
-void osinfo_db_initialize(OsinfoDb *self, GError **err);
+OsinfoDb *osinfo_db_new(void);
 
 OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *self, const gchar *hvId);
 OsinfoDevice *osinfo_db_get_device(OsinfoDb *self, const gchar *devId);

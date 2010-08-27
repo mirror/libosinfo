@@ -36,5 +36,6 @@
 #include <osinfo/osinfo_os.h>
 #include <osinfo/osinfo_osfilter.h>
 #include <osinfo/osinfo_db.h>
+#include <osinfo/osinfo_loader.h>
 
 #endif

@@ -41,6 +41,7 @@ libosinfo_1_0_includedir = $(includedir)/libosinfo-1.0/osinfo
 libosinfo_1_0_include_HEADERS = 		\
   osinfo.h		\
   osinfo_db.h		\
+  osinfo_loader.h		\
   osinfo_device.h		\
   osinfo_devicelist.h		\
   osinfo_entity.h		\
@@ -63,8 +64,8 @@ libosinfo_1_0_la_SOURCES =		\
   osinfo_osfilter.c		\
   osinfo_oslist.c		\
   osinfo_os.c			\
-  osinfo_dataread.c		\
-  osinfo_db.c
+  osinfo_db.c			\
+  osinfo_loader.c
 
 if WITH_GOBJECT_INTROSPECTION
 

@@ -4,14 +4,9 @@
 
 START_TEST(test_basic)
 {
-  OsinfoDb *db = osinfo_db_new("../data");
+  OsinfoDb *db = osinfo_db_new();
 
   fail_unless(OSINFO_IS_DB(db), "Db is not a DB");
-
-  gchar *dir = NULL;
-  g_object_get(db, "backing-dir", &dir, NULL);
-  fail_unless(g_strcmp0(dir, "../data") == 0, "Backing dir missing");
-  g_free(dir);
 
   g_object_unref(db);
 }
@@ -20,7 +15,7 @@ END_TEST
 
 START_TEST(test_device)
 {
-  OsinfoDb *db = osinfo_db_new("../data");
+  OsinfoDb *db = osinfo_db_new();
   OsinfoDevice *dev1 = osinfo_device_new("dev1");
   OsinfoDevice *dev2 = osinfo_device_new("dev2");
   OsinfoDevice *dev3 = osinfo_device_new("dev3");
@@ -45,7 +40,7 @@ END_TEST
 
 START_TEST(test_hypervisor)
 {
-  OsinfoDb *db = osinfo_db_new("../data");
+  OsinfoDb *db = osinfo_db_new();
   OsinfoHypervisor *dev1 = osinfo_hypervisor_new("dev1");
   OsinfoHypervisor *dev2 = osinfo_hypervisor_new("dev2");
   OsinfoHypervisor *dev3 = osinfo_hypervisor_new("dev3");
@@ -70,7 +65,7 @@ END_TEST
 
 START_TEST(test_os)
 {
-  OsinfoDb *db = osinfo_db_new("../data");
+  OsinfoDb *db = osinfo_db_new();
   OsinfoOs *dev1 = osinfo_os_new("dev1");
   OsinfoOs *dev2 = osinfo_os_new("dev2");
   OsinfoOs *dev3 = osinfo_os_new("dev3");
@@ -96,7 +91,7 @@ END_TEST
 
 START_TEST(test_prop_device)
 {
-  OsinfoDb *db = osinfo_db_new("../data");
+  OsinfoDb *db = osinfo_db_new();
   OsinfoDevice *dev1 = osinfo_device_new("dev1");
   OsinfoDevice *dev2 = osinfo_device_new("dev2");
   OsinfoDevice *dev3 = osinfo_device_new("dev3");
@@ -151,7 +146,7 @@ END_TEST
 
 START_TEST(test_prop_hypervisor)
 {
-  OsinfoDb *db = osinfo_db_new("../data");
+  OsinfoDb *db = osinfo_db_new();
   OsinfoHypervisor *hv1 = osinfo_hypervisor_new("hv1");
   OsinfoHypervisor *hv2 = osinfo_hypervisor_new("hv2");
   OsinfoHypervisor *hv3 = osinfo_hypervisor_new("hv3");
@@ -202,7 +197,7 @@ END_TEST
 
 START_TEST(test_prop_os)
 {
-  OsinfoDb *db = osinfo_db_new("../data");
+  OsinfoDb *db = osinfo_db_new();
   OsinfoOs *os1 = osinfo_os_new("os1");
   OsinfoOs *os2 = osinfo_os_new("os2");
   OsinfoOs *os3 = osinfo_os_new("os3");
@@ -255,7 +250,7 @@ END_TEST
 
 START_TEST(test_rel_os)
 {
-  OsinfoDb *db = osinfo_db_new("../data");
+  OsinfoDb *db = osinfo_db_new();
   OsinfoOs *os1 = osinfo_os_new("os1");
   OsinfoOs *os2 = osinfo_os_new("os2");
   OsinfoOs *os3 = osinfo_os_new("os3");

@@ -22,35 +22,75 @@
  *   Daniel P. Berrange <berrange@redhat.com>
  */
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <osinfo/osinfo.h>
+
 #include <dirent.h>
-#include <errno.h>
-#include <unistd.h>
+#include <string.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
 #include <libxml/xmlreader.h>
 
-#include <osinfo/osinfo.h>
+G_DEFINE_TYPE (OsinfoLoader, osinfo_loader, G_TYPE_OBJECT);
 
-#define TEXT_NODE 3
-#define ELEMENT_NODE 1
-#define END_NODE 15
-#define WHITESPACE_NODE 14
-#define COMMENT_NODE 8
+#define OSINFO_LOADER_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_LOADER, OsinfoLoaderPrivate))
 
-void osinfo_dataread(OsinfoDb *db, GError **err);
+struct _OsinfoLoaderPrivate
+{
+    OsinfoDb *db;
+};
+
+static void osinfo_loader_finalize (GObject *object);
+
+static void
+osinfo_loader_finalize (GObject *object)
+{
+    OsinfoLoader *self = OSINFO_LOADER (object);
+
+    g_object_unref(self->priv->db);
+
+    /* Chain up to the parent class */
+    G_OBJECT_CLASS (osinfo_loader_parent_class)->finalize (object);
+}
+
+
+/* Init functions */
+static void
+osinfo_loader_class_init (OsinfoLoaderClass *klass)
+{
+    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+
+    g_klass->finalize = osinfo_loader_finalize;
+
+    g_type_class_add_private (klass, sizeof (OsinfoLoaderPrivate));
+}
+
+
+static void
+osinfo_loader_init (OsinfoLoader *self)
+{
+    OsinfoLoaderPrivate *priv;
+    self->priv = priv = OSINFO_LOADER_GET_PRIVATE(self);
+
+    self->priv->db = osinfo_db_new();
+}
+
+/** PUBLIC METHODS */
+
+OsinfoLoader *osinfo_loader_new(void)
+{
+    return g_object_new(OSINFO_TYPE_LOADER, NULL);
+}
+
 
 #define OSINFO_ERROR(err, msg) \
   g_set_error_literal((err), g_quark_from_static_string("libosinfo"), 0, (msg));
 
 static int
-osinfo_dataread_nodeset(const char *xpath,
-			xmlXPathContextPtr ctxt,
-			xmlNodePtr **list,
-			GError **err)
+osinfo_loader_nodeset(const char *xpath,
+		      xmlXPathContextPtr ctxt,
+		      xmlNodePtr **list,
+		      GError **err)
 {
     xmlXPathObjectPtr obj;
     xmlNodePtr relnode;
@@ -88,9 +128,9 @@ osinfo_dataread_nodeset(const char *xpath,
 
 
 static gchar *
-osinfo_dataread_string(const char *xpath,
-		       xmlXPathContextPtr ctxt,
-		       GError **err)
+osinfo_loader_string(const char *xpath,
+		     xmlXPathContextPtr ctxt,
+		     GError **err)
 {
     xmlXPathObjectPtr obj;
     xmlNodePtr relnode;
@@ -114,17 +154,17 @@ osinfo_dataread_string(const char *xpath,
 }
 
 
-static void osinfo_dataread_entity(OsinfoDb *db,
-				   OsinfoEntity *entity,
-				   const gchar *const *keys,
-				   xmlXPathContextPtr ctxt,
-				   xmlNodePtr root,
-				   GError **err)
+static void osinfo_loader_entity(OsinfoLoader *loader,
+				 OsinfoEntity *entity,
+				 const gchar *const *keys,
+				 xmlXPathContextPtr ctxt,
+				 xmlNodePtr root,
+				 GError **err)
 {
     int i = 0;
     for (i = 0 ; keys[i] != NULL ; i++) {
         gchar *xpath = g_strdup_printf("string(./%s)", keys[i]);
-	gchar *value = osinfo_dataread_string(xpath, ctxt, err);
+	gchar *value = osinfo_loader_string(xpath, ctxt, err);
 	g_free(xpath);
 	if (*err)
 	    return;
@@ -137,12 +177,12 @@ static void osinfo_dataread_entity(OsinfoDb *db,
 }
 
 
-static OsinfoDevice *osinfo_dataread_get_device(OsinfoDb *db,
-						const gchar *id)
+static OsinfoDevice *osinfo_loader_get_device(OsinfoLoader *loader,
+					      const gchar *id)
 {
-    OsinfoDevice *dev = osinfo_db_get_device(db, id);
+    OsinfoDevice *dev = osinfo_db_get_device(loader->priv->db, id);
     if (!dev) {
-        OsinfoDeviceList *list = osinfo_db_get_device_list(db);
+        OsinfoDeviceList *list = osinfo_db_get_device_list(loader->priv->db);
         dev = osinfo_device_new(id);
 	osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(dev));
 	g_object_unref(dev);
@@ -151,12 +191,12 @@ static OsinfoDevice *osinfo_dataread_get_device(OsinfoDb *db,
 }
 
 
-static OsinfoOs *osinfo_dataread_get_os(OsinfoDb *db,
-					const gchar *id)
+static OsinfoOs *osinfo_loader_get_os(OsinfoLoader *loader,
+				      const gchar *id)
 {
-    OsinfoOs *os = osinfo_db_get_os(db, id);
+    OsinfoOs *os = osinfo_db_get_os(loader->priv->db, id);
     if (!os) {
-        OsinfoOsList *list = osinfo_db_get_os_list(db);
+        OsinfoOsList *list = osinfo_db_get_os_list(loader->priv->db);
         os = osinfo_os_new(id);
 	osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(os));
 	g_object_unref(os);
@@ -165,12 +205,12 @@ static OsinfoOs *osinfo_dataread_get_os(OsinfoDb *db,
 }
 
 
-static OsinfoHypervisor *osinfo_dataread_get_hypervisor(OsinfoDb *db,
-							const gchar *id)
+static OsinfoHypervisor *osinfo_loader_get_hypervisor(OsinfoLoader *loader,
+						      const gchar *id)
 {
-    OsinfoHypervisor *hv = osinfo_db_get_hypervisor(db, id);
+    OsinfoHypervisor *hv = osinfo_db_get_hypervisor(loader->priv->db, id);
     if (!hv) {
-        OsinfoHypervisorList *list = osinfo_db_get_hypervisor_list(db);
+        OsinfoHypervisorList *list = osinfo_db_get_hypervisor_list(loader->priv->db);
         hv = osinfo_hypervisor_new(id);
 	osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(hv));
 	g_object_unref(hv);
@@ -179,10 +219,10 @@ static OsinfoHypervisor *osinfo_dataread_get_hypervisor(OsinfoDb *db,
 }
 
 
-static void osinfo_dataread_device(OsinfoDb *db,
-				   xmlXPathContextPtr ctxt,
-				   xmlNodePtr root,
-				   GError **err)
+static void osinfo_loader_device(OsinfoLoader *loader,
+				 xmlXPathContextPtr ctxt,
+				 xmlNodePtr root,
+				 GError **err)
 {
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
     const gchar *const keys[] = {
@@ -193,23 +233,23 @@ static void osinfo_dataread_device(OsinfoDb *db,
 	return;
     }
 
-    OsinfoDevice *device = osinfo_dataread_get_device(db, id);
+    OsinfoDevice *device = osinfo_loader_get_device(loader, id);
     g_free(id);
 
-    osinfo_dataread_entity(db, OSINFO_ENTITY(device), keys, ctxt, root, err);
+    osinfo_loader_entity(loader, OSINFO_ENTITY(device), keys, ctxt, root, err);
 }
 
 
-static void osinfo_dataread_device_link(OsinfoDb *db,
-					OsinfoOs *os,
-					OsinfoHypervisor *hv,
-					const gchar *xpath,
-					xmlXPathContextPtr ctxt,
-					xmlNodePtr root,
-					GError **err)
+static void osinfo_loader_device_link(OsinfoLoader *loader,
+				      OsinfoOs *os,
+				      OsinfoHypervisor *hv,
+				      const gchar *xpath,
+				      xmlXPathContextPtr ctxt,
+				      xmlNodePtr root,
+				      GError **err)
 {
     xmlNodePtr *related = NULL;
-    int nrelated = osinfo_dataread_nodeset(xpath, ctxt, &related, err);
+    int nrelated = osinfo_loader_nodeset(xpath, ctxt, &related, err);
     int i;
     if (*err)
         return;
@@ -220,7 +260,7 @@ static void osinfo_dataread_device_link(OsinfoDb *db,
 	    OSINFO_ERROR(err, "Missing device link id property");
 	    goto cleanup;
 	}
-	OsinfoDevice *dev = osinfo_dataread_get_device(db, id);
+	OsinfoDevice *dev = osinfo_loader_get_device(loader, id);
 	g_free(id);
 
 	if (os) {
@@ -235,10 +275,10 @@ static void osinfo_dataread_device_link(OsinfoDb *db,
 }
 
 
-static void osinfo_dataread_hypervisor(OsinfoDb *db,
-				       xmlXPathContextPtr ctxt,
-				       xmlNodePtr root,
-				       GError **err)
+static void osinfo_loader_hypervisor(OsinfoLoader *loader,
+				     xmlXPathContextPtr ctxt,
+				     xmlNodePtr root,
+				     GError **err)
 {
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
     const gchar *const keys[] = {
@@ -249,30 +289,30 @@ static void osinfo_dataread_hypervisor(OsinfoDb *db,
 	return;
     }
 
-    OsinfoHypervisor *hypervisor = osinfo_dataread_get_hypervisor(db, id);
+    OsinfoHypervisor *hypervisor = osinfo_loader_get_hypervisor(loader, id);
     g_free(id);
 
-    osinfo_dataread_entity(db, OSINFO_ENTITY(hypervisor), keys, ctxt, root, err);
+    osinfo_loader_entity(loader, OSINFO_ENTITY(hypervisor), keys, ctxt, root, err);
     if (*err)
         return;
 
-    osinfo_dataread_device_link(db, NULL, hypervisor,
-				"./devices/device", ctxt, root, err);
+    osinfo_loader_device_link(loader, NULL, hypervisor,
+			      "./devices/device", ctxt, root, err);
     if (*err)
         return;
 }
 
 
-static void osinfo_dataread_os_relshp(OsinfoDb *db,
-				      OsinfoOs *os,
-				      OsinfoOsRelationship relshp,
-				      const gchar *xpath,
-				      xmlXPathContextPtr ctxt,
-				      xmlNodePtr root,
-				      GError **err)
+static void osinfo_loader_os_relshp(OsinfoLoader *loader,
+				    OsinfoOs *os,
+				    OsinfoOsRelationship relshp,
+				    const gchar *xpath,
+				    xmlXPathContextPtr ctxt,
+				    xmlNodePtr root,
+				    GError **err)
 {
     xmlNodePtr *related = NULL;
-    int nrelated = osinfo_dataread_nodeset(xpath, ctxt, &related, err);
+    int nrelated = osinfo_loader_nodeset(xpath, ctxt, &related, err);
     int i;
     if (*err)
         return;
@@ -283,7 +323,7 @@ static void osinfo_dataread_os_relshp(OsinfoDb *db,
 	    OSINFO_ERROR(err, "Missing os upgrades id property");
 	    goto cleanup;
 	}
-	OsinfoOs *relos = osinfo_dataread_get_os(db, id);
+	OsinfoOs *relos = osinfo_loader_get_os(loader, id);
 	g_free(id);
 
 	osinfo_os_add_related_os(os, relshp, relos);
@@ -294,14 +334,14 @@ static void osinfo_dataread_os_relshp(OsinfoDb *db,
 }
 
 
-static void osinfo_dataread_os_hypervisor(OsinfoDb *db,
-					  OsinfoOs *os,
-					  xmlXPathContextPtr ctxt,
-					  xmlNodePtr root,
-					  GError **err)
+static void osinfo_loader_os_hypervisor(OsinfoLoader *loader,
+					OsinfoOs *os,
+					xmlXPathContextPtr ctxt,
+					xmlNodePtr root,
+					GError **err)
 {
     xmlNodePtr *hvs = NULL;
-    int nhvs = osinfo_dataread_nodeset("./hypervisor", ctxt, &hvs, err);
+    int nhvs = osinfo_loader_nodeset("./hypervisor", ctxt, &hvs, err);
     int i;
     if (*err)
         return;
@@ -312,13 +352,13 @@ static void osinfo_dataread_os_hypervisor(OsinfoDb *db,
 	    OSINFO_ERROR(err, "Missing os hypervisor id property");
 	    goto cleanup;
 	}
-	OsinfoHypervisor *hv = osinfo_dataread_get_hypervisor(db, id);
+	OsinfoHypervisor *hv = osinfo_loader_get_hypervisor(loader, id);
 	g_free(id);
 
 	xmlNodePtr saved = ctxt->node;
 	ctxt->node = hvs[i];
-	osinfo_dataread_device_link(db, os, hv,
-				    "./devices/device", ctxt, hvs[i], err);
+	osinfo_loader_device_link(loader, os, hv,
+				  "./devices/device", ctxt, hvs[i], err);
 	ctxt->node = saved;
 	if (*err)
 	    goto cleanup;
@@ -329,10 +369,10 @@ static void osinfo_dataread_os_hypervisor(OsinfoDb *db,
 }
 
 
-static void osinfo_dataread_os(OsinfoDb *db,
-			       xmlXPathContextPtr ctxt,
-			       xmlNodePtr root,
-			       GError **err)
+static void osinfo_loader_os(OsinfoLoader *loader,
+			     xmlXPathContextPtr ctxt,
+			     xmlNodePtr root,
+			     GError **err)
 {
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
     const gchar *const keys[] = {
@@ -343,52 +383,52 @@ static void osinfo_dataread_os(OsinfoDb *db,
 	return;
     }
 
-    OsinfoOs *os = osinfo_dataread_get_os(db, id);
+    OsinfoOs *os = osinfo_loader_get_os(loader, id);
     g_free(id);
 
-    osinfo_dataread_entity(db, OSINFO_ENTITY(os), keys, ctxt, root, err);
+    osinfo_loader_entity(loader, OSINFO_ENTITY(os), keys, ctxt, root, err);
     if (*err)
         return;
 
-    osinfo_dataread_os_relshp(db, os,
-			      OSINFO_OS_RELATIONSHIP_DERIVES_FROM,
-			      "./derives-from",
-			      ctxt,
-			      root,
-			      err);
+    osinfo_loader_os_relshp(loader, os,
+			    OSINFO_OS_RELATIONSHIP_DERIVES_FROM,
+			    "./derives-from",
+			    ctxt,
+			    root,
+			    err);
     if (*err)
         return;
 
-    osinfo_dataread_os_relshp(db, os,
-			      OSINFO_OS_RELATIONSHIP_CLONES,
-			      "./clones",
-			      ctxt,
-			      root,
-			      err);
+    osinfo_loader_os_relshp(loader, os,
+			    OSINFO_OS_RELATIONSHIP_CLONES,
+			    "./clones",
+			    ctxt,
+			    root,
+			    err);
     if (*err)
         return;
 
-    osinfo_dataread_os_relshp(db, os,
-			      OSINFO_OS_RELATIONSHIP_UPGRADES,
-			      "./upgrades",
-			      ctxt,
-			      root,
-			      err);
+    osinfo_loader_os_relshp(loader, os,
+			    OSINFO_OS_RELATIONSHIP_UPGRADES,
+			    "./upgrades",
+			    ctxt,
+			    root,
+			    err);
     if (*err)
         return;
 
-    osinfo_dataread_os_hypervisor(db, os, ctxt, root, err);
+    osinfo_loader_os_hypervisor(loader, os, ctxt, root, err);
     if (*err)
         return;
 
-    osinfo_dataread_device_link(db, os, NULL,
-				"./devices/device", ctxt, root, err);
+    osinfo_loader_device_link(loader, os, NULL,
+			      "./devices/device", ctxt, root, err);
     if (*err)
         return;
 }
 
 
-static void osinfo_dataread_root(OsinfoDb *db,
+static void osinfo_loader_root(OsinfoLoader *loader,
 				 xmlXPathContextPtr ctxt,
 				 xmlNodePtr root,
 				 GError **err)
@@ -417,7 +457,7 @@ static void osinfo_dataread_root(OsinfoDb *db,
 	return;
     }
 
-    int ndevice = osinfo_dataread_nodeset("./device", ctxt, &devices, err);
+    int ndevice = osinfo_loader_nodeset("./device", ctxt, &devices, err);
     if (*err)
         goto cleanup;
 
@@ -425,33 +465,33 @@ static void osinfo_dataread_root(OsinfoDb *db,
     for (i = 0 ; i < ndevice ; i++) {
         xmlNodePtr saved = ctxt->node;
 	ctxt->node = devices[i];
-	osinfo_dataread_device(db, ctxt, devices[i], err);
+	osinfo_loader_device(loader, ctxt, devices[i], err);
 	ctxt->node = saved;
 	if (*err)
 	  goto cleanup;
     }
 
-    int nhypervisor = osinfo_dataread_nodeset("./hypervisor", ctxt, &hypervisors, err);
+    int nhypervisor = osinfo_loader_nodeset("./hypervisor", ctxt, &hypervisors, err);
     if (*err)
         goto cleanup;
 
     for (i = 0 ; i < nhypervisor ; i++) {
         xmlNodePtr saved = ctxt->node;
 	ctxt->node = hypervisors[i];
-	osinfo_dataread_hypervisor(db, ctxt, hypervisors[i], err);
+	osinfo_loader_hypervisor(loader, ctxt, hypervisors[i], err);
 	ctxt->node = saved;
 	if (*err)
 	    goto cleanup;
     }
 
-    int nos = osinfo_dataread_nodeset("./os", ctxt, &oss, err);
+    int nos = osinfo_loader_nodeset("./os", ctxt, &oss, err);
     if (*err)
         goto cleanup;
 
     for (i = 0 ; i < nos ; i++) {
         xmlNodePtr saved = ctxt->node;
 	ctxt->node = oss[i];
-	osinfo_dataread_os(db, ctxt, oss[i], err);
+	osinfo_loader_os(loader, ctxt, oss[i], err);
 	ctxt->node = saved;
 	if (*err)
 	    goto cleanup;
@@ -478,7 +518,7 @@ catchXMLError(void *ctx, const char *msg ATTRIBUTE_UNUSED, ...)
     }
 }
 
-static void osinfo_dataread_file(OsinfoDb *db,
+static void osinfo_loader_file(OsinfoLoader *loader,
 				 const char *dir,
 				 const char *filename,
 				 GError **err)
@@ -518,7 +558,7 @@ static void osinfo_dataread_file(OsinfoDb *db,
 
     ctxt->node = root;
 
-    osinfo_dataread_root(db, ctxt, root, err);
+    osinfo_loader_root(loader, ctxt, root, err);
 
 cleanup:
     xmlXPathFreeContext(ctxt);
@@ -527,39 +567,32 @@ cleanup:
     g_free(rel_name);
 }
 
-void osinfo_dataread(OsinfoDb *db, GError **err)
+void osinfo_loader_process(OsinfoLoader *loader,
+			   const gchar *dir,
+			   GError **err)
 {
-    DIR* dir;
+    DIR* d;
     struct dirent *dp;
 
-    char *backingDir;
-    g_object_get(G_OBJECT(db), "backing-dir", &backingDir, NULL);
-
-    /* Initialize library and check version */
-    LIBXML_TEST_VERSION
-
     /* Get directory with backing data. Defaults to CWD */
-    if (!backingDir)
-      backingDir = ".";
 
     /* Get XML files in directory */
-    dir = opendir(backingDir);
-    if (!dir) {
+    d = opendir(dir);
+    if (!d) {
         g_set_error_literal(err, g_quark_from_static_string("libosinfo"), 0,
 			    "unable to read backing dir");
         goto cleanup;
     }
 
-    while ((dp=readdir(dir)) != NULL) {
+    while ((dp=readdir(d)) != NULL) {
         if (dp->d_name[0] == '.')
 	    continue;
-        osinfo_dataread_file(db, backingDir, dp->d_name, err);
+        osinfo_loader_file(loader, dir, dp->d_name, err);
         if (*err != NULL)
             break;
     }
-    closedir(dir);
+    closedir(d);
 
 cleanup:
     xmlCleanupParser();
-    g_free(backingDir);
 }

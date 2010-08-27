@@ -23,8 +23,25 @@
    fun:g_type_class_ref
    fun:g_type_create_instance
    fun:g_param_spec_internal
-   fun:g_param_spec_string
-   fun:osinfo_db_class_intern_init
+   fun:g_param_spec_gtype
+   fun:osinfo_list_class_intern_init
+   fun:g_type_class_ref
+   fun:g_type_class_ref
+   fun:g_object_newv
+   fun:g_object_new
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   fun:g_type_class_ref
+   fun:g_type_class_ref
+   fun:g_type_create_instance
+   fun:g_param_spec_internal
+   fun:g_param_spec_gtype
+   fun:osinfo_list_class_intern_init
+   fun:g_type_class_ref
    fun:g_type_class_ref
    fun:g_object_new_valist
    fun:g_object_new
@@ -166,6 +183,17 @@
    fun:g_type_register_static
    fun:g_type_register_static_simple
    fun:osinfo_db_get_type
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:realloc
+   fun:g_realloc
+   fun:type_node_any_new_W
+   fun:g_type_register_static
+   fun:g_type_register_static_simple
+   fun:osinfo_loader_get_type
    fun:main
 }
 {
