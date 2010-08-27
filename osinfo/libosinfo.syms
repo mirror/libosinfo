@@ -72,7 +72,8 @@ LIBOSINFO_0.0.1 {
 	osinfo_oslist_new_union;
 	osinfo_loader_new;
 	osinfo_loader_get_type;
-	osinfo_loader_process;
+	osinfo_loader_process_path;
+	osinfo_loader_process_uri;
 
     local:
         *;

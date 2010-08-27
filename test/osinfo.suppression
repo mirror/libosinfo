@@ -99,6 +99,42 @@
 {
    <insert_a_suppression_name_here>
    Memcheck:Leak
+   fun:realloc
+   fun:g_realloc
+   fun:type_node_any_new_W
+   fun:g_type_register_static
+   fun:g_type_register_static_simple
+   fun:g_input_stream_get_type
+   fun:g_file_input_stream_get_type
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:_g_atomic_array_copy
+   fun:type_node_add_iface_entry_W
+   fun:type_add_interface_Wm
+   fun:g_type_add_interface_static
+   fun:_g_local_file_input_stream_get_type
+   fun:_g_local_file_input_stream_new
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:_g_atomic_array_copy
+   fun:type_node_add_iface_entry_W
+   fun:type_add_interface_Wm
+   fun:g_type_add_interface_static
+   fun:g_io_module_load
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
    fun:malloc
    fun:realloc
    fun:g_realloc
@@ -108,6 +144,193 @@
    fun:osinfo_entity_get_type
    fun:osinfo_dummy_get_type
    fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:realloc
+   fun:g_memdup
+   fun:type_iface_vtable_base_init_Wm
+   fun:g_type_class_ref
+   fun:g_type_class_ref
+   fun:g_object_newv
+   fun:g_object_new
+   fun:_g_local_file_input_stream_new
+   fun:g_local_file_read
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_memdup
+   fun:type_iface_vtable_base_init_Wm
+   fun:g_type_class_ref
+   fun:g_object_newv
+   fun:g_object_new
+   fun:_g_local_file_new
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_memdup
+   fun:type_iface_vtable_base_init_Wm
+   fun:g_type_class_ref
+   fun:g_type_class_ref
+   fun:g_object_newv
+   fun:g_object_new
+   fun:_g_local_file_input_stream_new
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:realloc
+   fun:g_realloc
+   fun:type_node_any_new_W
+   fun:g_type_register_static
+   fun:g_type_register_static_simple
+   fun:g_file_descriptor_based_get_type
+   fun:_g_local_file_input_stream_get_type
+   fun:_g_local_file_input_stream_new
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_memdup
+   fun:type_iface_vtable_base_init_Wm
+   fun:g_type_class_ref
+   fun:g_object_new_valist
+   fun:g_object_new
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_memdup
+   fun:type_iface_vtable_base_init_Wm
+   fun:g_type_class_ref
+   fun:g_type_class_ref
+   fun:g_object_newv
+   fun:g_object_new
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:_g_atomic_array_copy
+   fun:type_node_any_new_W
+   fun:g_type_register_static
+   fun:g_type_register_static_simple
+   fun:_g_local_file_input_stream_get_type
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:_g_atomic_array_copy
+   fun:type_node_add_iface_entry_W
+   fun:type_add_interface_Wm
+   fun:g_type_add_interface_static
+   fun:g_file_input_stream_get_type
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:_g_atomic_array_copy
+   fun:type_node_add_iface_entry_W
+   fun:type_add_interface_Wm
+   fun:g_type_add_interface_static
+   fun:g_themed_icon_get_type
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:_g_atomic_array_copy
+   fun:type_node_add_iface_entry_W
+   fun:type_add_interface_Wm
+   fun:g_type_add_interface_static
+   fun:g_vfs_icon_get_type
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:realloc
+   fun:g_realloc
+   fun:type_node_any_new_W
+   fun:g_type_register_static
+   fun:g_type_register_static_simple
+   fun:g_io_module_get_type
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:_g_atomic_array_copy
+   fun:type_node_any_new_W
+   fun:g_type_register_static
+   fun:g_type_register_static_simple
+   fun:g_io_module_get_type
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:_g_atomic_array_copy
+   fun:type_node_add_iface_entry_W
+   fun:type_add_interface_Wm
+   fun:g_type_add_interface_static
+   fun:g_type_module_get_type
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:_g_atomic_array_copy
+   fun:iface_node_set_offset_L
+   fun:type_node_add_iface_entry_W
+   fun:type_add_interface_Wm
+   fun:g_type_add_interface_static
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:realloc
+   fun:g_realloc
+   fun:type_node_any_new_W
+   fun:g_type_register_static
+   fun:g_boxed_type_register_static
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_memdup
+   fun:type_iface_vtable_base_init_Wm
+   fun:g_type_class_ref
+   fun:g_object_newv
 }
 {
    <insert_a_suppression_name_here>

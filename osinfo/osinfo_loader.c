@@ -24,7 +24,8 @@
 
 #include <osinfo/osinfo.h>
 
-#include <dirent.h>
+#include <gio/gio.h>
+
 #include <string.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
@@ -518,16 +519,15 @@ catchXMLError(void *ctx, const char *msg ATTRIBUTE_UNUSED, ...)
     }
 }
 
-static void osinfo_loader_file(OsinfoLoader *loader,
-				 const char *dir,
-				 const char *filename,
-				 GError **err)
+static void osinfo_loader_process_xml(OsinfoLoader *loader,
+				      const gchar *xmlStr,
+				      const gchar *src,
+				      GError **err)
 {
     xmlParserCtxtPtr pctxt;
     xmlXPathContextPtr ctxt = NULL;
     xmlDocPtr xml = NULL;
     xmlNodePtr root;
-    char *rel_name = g_strdup_printf("%s/%s", dir, filename);
 
     /* Set up a parser context so we can catch the details of XML errors. */
     pctxt = xmlNewParserCtxt();
@@ -539,9 +539,9 @@ static void osinfo_loader_file(OsinfoLoader *loader,
     pctxt->_private = err;
     pctxt->sax->error = catchXMLError;
 
-    xml = xmlCtxtReadFile(pctxt, rel_name, NULL,
-			  XML_PARSE_NOENT | XML_PARSE_NONET |
-			  XML_PARSE_NOWARNING);
+    xml = xmlCtxtReadDoc(pctxt, BAD_CAST xmlStr, src, NULL,
+			 XML_PARSE_NOENT | XML_PARSE_NONET |
+			 XML_PARSE_NOWARNING);
     if (!xml)
         goto cleanup;
 
@@ -564,35 +564,118 @@ cleanup:
     xmlXPathFreeContext(ctxt);
     xmlFreeDoc(xml);
     xmlFreeParserCtxt(pctxt);
-    g_free(rel_name);
 }
 
-void osinfo_loader_process(OsinfoLoader *loader,
-			   const gchar *dir,
+static void
+osinfo_loader_process_file(OsinfoLoader *loader,
+			   GFile *file,
+			   GError **err);
+
+static void
+osinfo_loader_process_file_reg(OsinfoLoader *loader,
+			       GFile *file,
+			       GFileInfo *info,
+			       GError **err)
+{
+    gchar *xml = NULL;
+    gsize xmlLen;
+    g_file_load_contents(file, NULL, &xml, &xmlLen, NULL, err);
+    if (*err)
+        return;
+
+    gchar *uri = g_file_get_uri(file);
+    osinfo_loader_process_xml(loader,
+			      xml,
+			      uri,
+			      err);
+    g_free(uri);
+    g_free(xml);
+}
+
+static void
+osinfo_loader_process_file_dir(OsinfoLoader *loader,
+			       GFile *file,
+			       GFileInfo *info,
+			       GError **err)
+{
+    GFileEnumerator *ents = g_file_enumerate_children(file,
+						      "standard::*",
+						      G_FILE_QUERY_INFO_NONE,
+						      NULL,
+						      err);
+    if (*err)
+        return;
+
+    GFileInfo *child;
+    while ((child = g_file_enumerator_next_file(ents, NULL, err)) != NULL) {
+        const gchar *name = g_file_info_get_name(child);
+	GFile *ent = g_file_get_child(file, name);
+
+	osinfo_loader_process_file(loader, ent, err);
+
+	g_object_unref(ent);
+	g_object_unref(child);
+
+	if (*err)
+	    break;
+    }
+
+    g_object_unref(ents);
+}
+
+
+static void
+osinfo_loader_process_file(OsinfoLoader *loader,
+			   GFile *file,
 			   GError **err)
 {
-    DIR* d;
-    struct dirent *dp;
+    GFileInfo *info = g_file_query_info(file,
+					"standard::*",
+					G_FILE_QUERY_INFO_NONE,
+					NULL,
+					err);
 
-    /* Get directory with backing data. Defaults to CWD */
+    if (*err)
+        return;
 
-    /* Get XML files in directory */
-    d = opendir(dir);
-    if (!d) {
-        g_set_error_literal(err, g_quark_from_static_string("libosinfo"), 0,
-			    "unable to read backing dir");
-        goto cleanup;
+    GFileType type = g_file_info_get_attribute_uint32(info,
+						      G_FILE_ATTRIBUTE_STANDARD_TYPE);
+
+    switch (type) {
+      case G_FILE_TYPE_REGULAR:
+	osinfo_loader_process_file_reg(loader, file, info, err);
+	break;
+
+      case G_FILE_TYPE_DIRECTORY:
+	osinfo_loader_process_file_dir(loader, file, info, err);
+	break;
+
+      default:
+	break;
     }
 
-    while ((dp=readdir(d)) != NULL) {
-        if (dp->d_name[0] == '.')
-	    continue;
-        osinfo_loader_file(loader, dir, dp->d_name, err);
-        if (*err != NULL)
-            break;
-    }
-    closedir(d);
+    g_object_unref(info);
+}
 
-cleanup:
-    xmlCleanupParser();
+
+void osinfo_loader_process_path(OsinfoLoader *loader,
+				const gchar *path,
+				GError **err)
+{
+    GFile *file = g_file_new_for_path(path);
+    osinfo_loader_process_file(loader,
+			       file,
+			       err);
+    g_object_unref(file);
+}
+
+void osinfo_loader_process_uri(OsinfoLoader *loader,
+			       const gchar *uri,
+			       GError **err)
+{
+    GFile *file = g_file_new_for_uri(uri);
+    osinfo_loader_process_file(loader,
+			       file,
+			       err);
+    g_object_unref(file);
 }

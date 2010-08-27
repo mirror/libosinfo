@@ -26,12 +26,14 @@ libosinfo_1_0_la_CFLAGS = \
 	$(COVERAGE_CFLAGS) \
 	-I$(top_srcdir) \
 	$(LIBXML_CFLAGS) \
-	$(GOBJECT_CFLAGS)
+	$(GOBJECT_CFLAGS) \
+	$(GIO_CFLAGS)
 
 libosinfo_1_0_la_LDFLAGS = \
 	$(COVERAGE_LDFLAGS) \
 	$(LIBXML_LIBS) \
 	$(GOBJECT_LIBS) \
+	$(GIO_LIBS) \
 	$(VERSION_SCRIPT_FLAGS)$(LIBOSINFO_VERSION_FILE) \
         -version-info $(LIBOSINFO_VERSION_INFO) \
 	$(NO_UNDEFINED_FLAGS)
