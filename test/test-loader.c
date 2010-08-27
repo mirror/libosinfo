@@ -9,7 +9,7 @@ START_TEST(test_basic)
   fail_unless(OSINFO_IS_LOADER(loader), "Loader is not a LOADER");
 
   GError *error = NULL;
-  osinfo_loader_process_path(loader, "../data", &error);
+  osinfo_loader_process_path(loader, SRCDIR "/data", &error);
   fail_unless(error == NULL, error ? error->message : "none");
 
   g_object_unref(loader);

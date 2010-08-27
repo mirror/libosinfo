@@ -22,6 +22,8 @@ COMMON_CFLAGS = \
 	$(WARN_CFLAGS) \
 	$(COVERAGE_CFLAGS) \
 	$(GOBJECT_CFLAGS) \
+	-I$(top_srcdir) \
+	-DSRCDIR="\"$(top_srcdir)\"" \
 	$(CHECK_CFLAGS)
 
 test_entity_LDADD = $(COMMON_LDADD)

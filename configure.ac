@@ -18,7 +18,14 @@ m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 PKG_CHECK_MODULES([GOBJECT], [gobject-2.0])
 PKG_CHECK_MODULES([GIO], [gio-2.0])
 PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= 2.6.0])
-PKG_CHECK_MODULES([CHECK], [check])
+
+AC_ARG_ENABLE([tests],
+        AS_HELP_STRING([--enable-tests], [enable test suite]),
+        [], [enable_tests=yes])
+
+if test "x$enable_introspection" != "xno" ; then
+  PKG_CHECK_MODULES([CHECK], [check])
+fi
 
 LIBOSINFO_MAJOR_VERSION=`echo $VERSION | awk -F. '{print $1}'`
 LIBOSINFO_MINOR_VERSION=`echo $VERSION | awk -F. '{print $2}'`
