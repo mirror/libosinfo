@@ -37,14 +37,14 @@ struct _OsinfoFilterPrivate
 
 
 static void osinfo_filter_finalize (GObject *object);
-static gboolean osinfo_filter_matches_default(OsinfoFilter *self, OsinfoEntity *entity);
+static gboolean osinfo_filter_matches_default(OsinfoFilter *filter, OsinfoEntity *entity);
 
 static void
 osinfo_filter_finalize (GObject *object)
 {
-    OsinfoFilter *self = OSINFO_FILTER (object);
+    OsinfoFilter *filter = OSINFO_FILTER (object);
 
-    g_hash_table_unref(self->priv->propertyConstraints);
+    g_hash_table_unref(filter->priv->propertyConstraints);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_filter_parent_class)->finalize (object);
@@ -84,13 +84,13 @@ osinfo_filter_prop_constraints_free(gpointer props)
 
 
 static void
-osinfo_filter_init (OsinfoFilter *self)
+osinfo_filter_init (OsinfoFilter *filter)
 {
     OsinfoFilterPrivate *priv;
-    priv = OSINFO_FILTER_GET_PRIVATE(self);
-    self->priv = priv;
+    priv = OSINFO_FILTER_GET_PRIVATE(filter);
+    filter->priv = priv;
 
-    self->priv->propertyConstraints =
+    filter->priv->propertyConstraints =
         g_hash_table_new_full(g_str_hash,
 			      g_str_equal,
 			      g_free,
@@ -98,9 +98,9 @@ osinfo_filter_init (OsinfoFilter *self)
 }
 
 
-gint osinfo_filter_add_constraint(OsinfoFilter *self, gchar *propName, gchar *propVal)
+gint osinfo_filter_add_constraint(OsinfoFilter *filter, gchar *propName, gchar *propVal)
 {
-    g_return_val_if_fail(OSINFO_IS_FILTER(self), -1);
+    g_return_val_if_fail(OSINFO_IS_FILTER(filter), -1);
     g_return_val_if_fail(propName != NULL, -1);
     g_return_val_if_fail(propVal != NULL, -1);
 
@@ -110,50 +110,50 @@ gint osinfo_filter_add_constraint(OsinfoFilter *self, gchar *propName, gchar *pr
     gpointer origKey, foundValue;
     GList *values = NULL;
 
-    found = g_hash_table_lookup_extended(self->priv->propertyConstraints, propName, &origKey, &foundValue);
+    found = g_hash_table_lookup_extended(filter->priv->propertyConstraints, propName, &origKey, &foundValue);
     if (found) {
-        g_hash_table_steal(self->priv->propertyConstraints, propName);
+        g_hash_table_steal(filter->priv->propertyConstraints, propName);
 	g_free(origKey);
         values = foundValue;
     }
     values = g_list_prepend(values, g_strdup(propVal));
-    g_hash_table_insert(self->priv->propertyConstraints, g_strdup(propName), values);
+    g_hash_table_insert(filter->priv->propertyConstraints, g_strdup(propName), values);
 
     return 0;
 }
 
-void osinfo_filter_clear_constraint(OsinfoFilter *self, gchar *propName)
+void osinfo_filter_clear_constraint(OsinfoFilter *filter, gchar *propName)
 {
-    g_hash_table_remove(self->priv->propertyConstraints, propName);
+    g_hash_table_remove(filter->priv->propertyConstraints, propName);
 }
 
-void osinfo_filter_clear_constraints(OsinfoFilter *self)
+void osinfo_filter_clear_constraints(OsinfoFilter *filter)
 {
-    g_hash_table_remove_all(self->priv->propertyConstraints);
+    g_hash_table_remove_all(filter->priv->propertyConstraints);
 }
 
 // get keyset for constraints map
-GList *osinfo_filter_get_constraint_keys(OsinfoFilter *self)
+GList *osinfo_filter_get_constraint_keys(OsinfoFilter *filter)
 {
-    g_return_val_if_fail(OSINFO_IS_FILTER(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
 
-    return g_hash_table_get_keys(self->priv->propertyConstraints);
+    return g_hash_table_get_keys(filter->priv->propertyConstraints);
 }
 
 // get values for given key
-GList *osinfo_filter_get_constraint_values(OsinfoFilter *self, gchar *propName)
+GList *osinfo_filter_get_constraint_values(OsinfoFilter *filter, gchar *propName)
 {
-    g_return_val_if_fail(OSINFO_IS_FILTER(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
     g_return_val_if_fail(propName != NULL, NULL);
 
-    GList *values = g_hash_table_lookup(self->priv->propertyConstraints, propName);
+    GList *values = g_hash_table_lookup(filter->priv->propertyConstraints, propName);
 
     return g_list_copy(values);
 }
 
 
 struct osinfo_filter_match_args {
-    OsinfoFilter *self;
+    OsinfoFilter *filter;
     OsinfoEntity *entity;
     gboolean matched;
 };
@@ -197,25 +197,25 @@ static void osinfo_filter_match_iterator(gpointer key, gpointer value, gpointer 
 }
 
 
-static gboolean osinfo_filter_matches_default(OsinfoFilter *self, OsinfoEntity *entity)
+static gboolean osinfo_filter_matches_default(OsinfoFilter *filter, OsinfoEntity *entity)
 {
-    g_return_val_if_fail(OSINFO_IS_FILTER(self), FALSE);
+    g_return_val_if_fail(OSINFO_IS_FILTER(filter), FALSE);
     g_return_val_if_fail(OSINFO_IS_ENTITY(entity), FALSE);
 
-    struct osinfo_filter_match_args args = { self, entity, TRUE };
-    g_hash_table_foreach(self->priv->propertyConstraints,
+    struct osinfo_filter_match_args args = { filter, entity, TRUE };
+    g_hash_table_foreach(filter->priv->propertyConstraints,
 			 osinfo_filter_match_iterator,
 			 &args);
 
     return args.matched;
 }
 
-gboolean osinfo_filter_matches(OsinfoFilter *self, OsinfoEntity *entity)
+gboolean osinfo_filter_matches(OsinfoFilter *filter, OsinfoEntity *entity)
 {
-    g_return_val_if_fail(OSINFO_IS_FILTER(self), FALSE);
+    g_return_val_if_fail(OSINFO_IS_FILTER(filter), FALSE);
     g_return_val_if_fail(OSINFO_IS_ENTITY(entity), FALSE);
 
-    return OSINFO_FILTER_GET_CLASS(self)->matches(self, entity);
+    return OSINFO_FILTER_GET_CLASS(filter)->matches(filter, entity);
 }
 /*
  * Local variables:

@@ -53,10 +53,10 @@ osinfo_devicelist_class_init (OsinfoDeviceListClass *klass)
 }
 
 static void
-osinfo_devicelist_init (OsinfoDeviceList *self)
+osinfo_devicelist_init (OsinfoDeviceList *list)
 {
     OsinfoDeviceListPrivate *priv;
-    self->priv = priv = OSINFO_DEVICELIST_GET_PRIVATE(self);
+    list->priv = priv = OSINFO_DEVICELIST_GET_PRIVATE(list);
 
 }
 

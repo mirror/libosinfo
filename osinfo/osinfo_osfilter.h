@@ -64,11 +64,11 @@ GType osinfo_osfilter_get_type(void);
 
 OsinfoOsfilter *osinfo_osfilter_new(void);
 
-gint osinfo_osfilter_add_os_constraint(OsinfoOsfilter *self, OsinfoOsRelationship relshp, OsinfoOs *os);
-void osinfo_osfilter_clear_os_constraint(OsinfoOsfilter *self, OsinfoOsRelationship relshp);
-void osinfo_osfilter_clear_os_constraints(OsinfoOsfilter *self);
+gint osinfo_osfilter_add_os_constraint(OsinfoOsfilter *osfilter, OsinfoOsRelationship relshp, OsinfoOs *os);
+void osinfo_osfilter_clear_os_constraint(OsinfoOsfilter *osfilter, OsinfoOsRelationship relshp);
+void osinfo_osfilter_clear_os_constraints(OsinfoOsfilter *osfilter);
 
-GList *osinfo_osfilter_get_os_constraint_values(OsinfoOsfilter *self, OsinfoOsRelationship relshp);
+GList *osinfo_osfilter_get_os_constraint_values(OsinfoOsfilter *osfilter, OsinfoOsRelationship relshp);
 
 #endif /* __OSINFO_OSFILTER_H__ */
 /*

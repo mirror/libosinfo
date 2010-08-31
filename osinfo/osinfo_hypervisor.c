@@ -52,10 +52,10 @@ static void osinfo_device_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED
 static void
 osinfo_hypervisor_finalize (GObject *object)
 {
-    OsinfoHypervisor *self = OSINFO_HYPERVISOR (object);
+    OsinfoHypervisor *hv = OSINFO_HYPERVISOR (object);
 
-    g_list_foreach(self->priv->deviceLinks, osinfo_device_link_free, NULL);
-    g_list_free(self->priv->deviceLinks);
+    g_list_foreach(hv->priv->deviceLinks, osinfo_device_link_free, NULL);
+    g_list_free(hv->priv->deviceLinks);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_hypervisor_parent_class)->finalize (object);
@@ -72,12 +72,12 @@ osinfo_hypervisor_class_init (OsinfoHypervisorClass *klass)
 }
 
 static void
-osinfo_hypervisor_init (OsinfoHypervisor *self)
+osinfo_hypervisor_init (OsinfoHypervisor *hv)
 {
     OsinfoHypervisorPrivate *priv;
-    self->priv = priv = OSINFO_HYPERVISOR_GET_PRIVATE(self);
+    hv->priv = priv = OSINFO_HYPERVISOR_GET_PRIVATE(hv);
 
-    self->priv->deviceLinks = NULL;
+    hv->priv->deviceLinks = NULL;
 }
 
 OsinfoHypervisor *osinfo_hypervisor_new(const gchar *id)
@@ -88,13 +88,13 @@ OsinfoHypervisor *osinfo_hypervisor_new(const gchar *id)
 }
 
 
-OsinfoDeviceList *osinfo_hypervisor_get_devices(OsinfoHypervisor *self, OsinfoFilter *filter)
+OsinfoDeviceList *osinfo_hypervisor_get_devices(OsinfoHypervisor *hv, OsinfoFilter *filter)
 {
-    g_return_val_if_fail(OSINFO_IS_HYPERVISOR(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_HYPERVISOR(hv), NULL);
     g_return_val_if_fail(!filter || OSINFO_IS_FILTER(filter), NULL);
 
     OsinfoDeviceList *newList = osinfo_devicelist_new();
-    GList *tmp = self->priv->deviceLinks;
+    GList *tmp = hv->priv->deviceLinks;
 
     while (tmp) {
         struct _OsinfoHypervisorDeviceLink *link = tmp->data;
@@ -108,9 +108,9 @@ OsinfoDeviceList *osinfo_hypervisor_get_devices(OsinfoHypervisor *self, OsinfoFi
     return newList;
 }
 
-void osinfo_hypervisor_add_device(OsinfoHypervisor *self, OsinfoDevice *dev, const gchar *driver)
+void osinfo_hypervisor_add_device(OsinfoHypervisor *hv, OsinfoDevice *dev, const gchar *driver)
 {
-    g_return_if_fail(OSINFO_IS_HYPERVISOR(self));
+    g_return_if_fail(OSINFO_IS_HYPERVISOR(hv));
     g_return_if_fail(OSINFO_IS_DEVICE(dev));
     g_return_if_fail(driver != NULL);
 
@@ -120,7 +120,7 @@ void osinfo_hypervisor_add_device(OsinfoHypervisor *self, OsinfoDevice *dev, con
     link->dev = dev;
     link->driver = g_strdup(driver);
 
-    self->priv->deviceLinks = g_list_prepend(self->priv->deviceLinks, link);
+    hv->priv->deviceLinks = g_list_prepend(hv->priv->deviceLinks, link);
 }
 /*
  * Local variables:

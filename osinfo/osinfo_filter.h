@@ -62,22 +62,22 @@ struct _OsinfoFilterClass
 
     /* class members */
 
-    gboolean (*matches)(OsinfoFilter *self, OsinfoEntity *entity);
+    gboolean (*matches)(OsinfoFilter *filter, OsinfoEntity *entity);
 };
 
 GType osinfo_filter_get_type(void);
 
 OsinfoFilter *osinfo_filter_new(void);
 
-gint osinfo_filter_add_constraint(OsinfoFilter *self, gchar *propName, gchar *propVal);
+gint osinfo_filter_add_constraint(OsinfoFilter *filter, gchar *propName, gchar *propVal);
 
-void osinfo_filter_clear_constraint(OsinfoFilter *self, gchar *propName);
-void osinfo_filter_clear_constraints(OsinfoFilter *self);
+void osinfo_filter_clear_constraint(OsinfoFilter *filter, gchar *propName);
+void osinfo_filter_clear_constraints(OsinfoFilter *filter);
 
-GList *osinfo_filter_get_constraint_keys(OsinfoFilter *self);
-GList *osinfo_filter_get_constraint_values(OsinfoFilter *self, gchar *propName);
+GList *osinfo_filter_get_constraint_keys(OsinfoFilter *filter);
+GList *osinfo_filter_get_constraint_values(OsinfoFilter *filter, gchar *propName);
 
-gboolean osinfo_filter_matches(OsinfoFilter *self,
+gboolean osinfo_filter_matches(OsinfoFilter *filter,
 			       OsinfoEntity *entity);
 
 #endif /* __OSINFO_FILTER_H__ */

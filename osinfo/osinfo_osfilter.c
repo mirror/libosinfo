@@ -36,16 +36,15 @@ struct _OsinfoOsfilterPrivate
     GHashTable *osConstraints;
 };
 
-
 static void osinfo_osfilter_finalize (GObject *object);
-static gboolean osinfo_osfilter_matches_default(OsinfoFilter *self, OsinfoEntity *entity);
+static gboolean osinfo_osfilter_matches_default(OsinfoFilter *osfilter, OsinfoEntity *entity);
 
 static void
 osinfo_osfilter_finalize (GObject *object)
 {
-    OsinfoOsfilter *self = OSINFO_OSFILTER (object);
+    OsinfoOsfilter *osfilter = OSINFO_OSFILTER (object);
 
-    g_hash_table_unref(self->priv->osConstraints);
+    g_hash_table_unref(osfilter->priv->osConstraints);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_osfilter_parent_class)->finalize (object);
@@ -85,13 +84,13 @@ osinfo_osfilter_os_constraints_free(gpointer relshps)
 }
 
 static void
-osinfo_osfilter_init (OsinfoOsfilter *self)
+osinfo_osfilter_init (OsinfoOsfilter *osfilter)
 {
     OsinfoOsfilterPrivate *priv;
-    priv = OSINFO_OSFILTER_GET_PRIVATE(self);
-    self->priv = priv;
+    priv = OSINFO_OSFILTER_GET_PRIVATE(osfilter);
+    osfilter->priv = priv;
 
-    self->priv->osConstraints =
+    osfilter->priv->osConstraints =
         g_hash_table_new_full(g_direct_hash,
 			      g_direct_equal,
 			      NULL,
@@ -100,9 +99,9 @@ osinfo_osfilter_init (OsinfoOsfilter *self)
 
 
 // Only applicable to OSes, ignored by other types of objects
-gint osinfo_osfilter_add_os_constraint(OsinfoOsfilter *self, OsinfoOsRelationship relshp, OsinfoOs *os)
+gint osinfo_osfilter_add_os_constraint(OsinfoOsfilter *osfilter, OsinfoOsRelationship relshp, OsinfoOs *os)
 {
-    g_return_val_if_fail(OSINFO_IS_OSFILTER(self), -1);
+    g_return_val_if_fail(OSINFO_IS_OSFILTER(osfilter), -1);
     g_return_val_if_fail(OSINFO_IS_OS(os), -1);
 
     // First check if there exists an array of entries for this key
@@ -111,42 +110,42 @@ gint osinfo_osfilter_add_os_constraint(OsinfoOsfilter *self, OsinfoOsRelationshi
     gpointer origKey, foundValue;
     GList *values = NULL;
 
-    found = g_hash_table_lookup_extended(self->priv->osConstraints, GINT_TO_POINTER(relshp), &origKey, &foundValue);
+    found = g_hash_table_lookup_extended(osfilter->priv->osConstraints, GINT_TO_POINTER(relshp), &origKey, &foundValue);
     if (found) {
         values = foundValue;
-        g_hash_table_steal(self->priv->osConstraints, GINT_TO_POINTER(relshp));
+        g_hash_table_steal(osfilter->priv->osConstraints, GINT_TO_POINTER(relshp));
     }
     g_object_ref(os);
     values = g_list_prepend(values, os);
-    g_hash_table_insert(self->priv->osConstraints, GINT_TO_POINTER(relshp), values);
+    g_hash_table_insert(osfilter->priv->osConstraints, GINT_TO_POINTER(relshp), values);
 
     return 0;
 }
 
-void osinfo_osfilter_clear_os_constraint(OsinfoOsfilter *self, OsinfoOsRelationship relshp)
+void osinfo_osfilter_clear_os_constraint(OsinfoOsfilter *osfilter, OsinfoOsRelationship relshp)
 {
-    g_hash_table_remove(self->priv->osConstraints, (gpointer) relshp);
+    g_hash_table_remove(osfilter->priv->osConstraints, (gpointer) relshp);
 }
 
-void osinfo_osfilter_clear_os_constraints(OsinfoOsfilter *self)
+void osinfo_osfilter_clear_os_constraints(OsinfoOsfilter *osfilter)
 {
-    g_hash_table_remove_all(self->priv->osConstraints);
+    g_hash_table_remove_all(osfilter->priv->osConstraints);
 }
 
 
 // get oses for given relshp
-GList *osinfo_osfilter_get_os_constraint_values(OsinfoOsfilter *self, OsinfoOsRelationship relshp)
+GList *osinfo_osfilter_get_os_constraint_values(OsinfoOsfilter *osfilter, OsinfoOsRelationship relshp)
 {
-    g_return_val_if_fail(OSINFO_IS_OSFILTER(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_OSFILTER(osfilter), NULL);
 
-    GList *values = g_hash_table_lookup(self->priv->osConstraints, GINT_TO_POINTER(relshp));
+    GList *values = g_hash_table_lookup(osfilter->priv->osConstraints, GINT_TO_POINTER(relshp));
 
     return g_list_copy(values);
 }
 
 
 struct osinfo_osfilter_match_args {
-    OsinfoOsfilter *self;
+    OsinfoOsfilter *osfilter;
     OsinfoEntity *entity;
     gboolean matched;
 };
@@ -194,13 +193,13 @@ static gboolean osinfo_osfilter_matches_default(OsinfoFilter *filter, OsinfoEnti
 {
     g_return_val_if_fail(OSINFO_IS_OSFILTER(filter), FALSE);
     g_return_val_if_fail(OSINFO_IS_OS(entity), FALSE);
-    OsinfoOsfilter *self = OSINFO_OSFILTER(filter);
-    struct osinfo_osfilter_match_args args = { self, entity, TRUE };
+    OsinfoOsfilter *osfilter = OSINFO_OSFILTER(filter);
+    struct osinfo_osfilter_match_args args = { osfilter, entity, TRUE };
 
     if (!OSINFO_FILTER_CLASS (osinfo_osfilter_parent_class)->matches(filter, entity))
         return FALSE;
 
-    g_hash_table_foreach(self->priv->osConstraints,
+    g_hash_table_foreach(osfilter->priv->osConstraints,
 			 osinfo_osfilter_match_os_iterator,
 			 &args);
 

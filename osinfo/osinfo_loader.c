@@ -46,9 +46,9 @@ static void osinfo_loader_finalize (GObject *object);
 static void
 osinfo_loader_finalize (GObject *object)
 {
-    OsinfoLoader *self = OSINFO_LOADER (object);
+    OsinfoLoader *loader = OSINFO_LOADER (object);
 
-    g_object_unref(self->priv->db);
+    g_object_unref(loader->priv->db);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_loader_parent_class)->finalize (object);
@@ -68,12 +68,12 @@ osinfo_loader_class_init (OsinfoLoaderClass *klass)
 
 
 static void
-osinfo_loader_init (OsinfoLoader *self)
+osinfo_loader_init (OsinfoLoader *loader)
 {
     OsinfoLoaderPrivate *priv;
-    self->priv = priv = OSINFO_LOADER_GET_PRIVATE(self);
+    loader->priv = priv = OSINFO_LOADER_GET_PRIVATE(loader);
 
-    self->priv->db = osinfo_db_new();
+    loader->priv->db = osinfo_db_new();
 }
 
 /** PUBLIC METHODS */

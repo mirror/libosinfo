@@ -40,11 +40,11 @@ static void osinfo_db_finalize (GObject *object);
 static void
 osinfo_db_finalize (GObject *object)
 {
-    OsinfoDb *self = OSINFO_DB (object);
+    OsinfoDb *db = OSINFO_DB (object);
 
-    g_object_unref(self->priv->devices);
-    g_object_unref(self->priv->hypervisors);
-    g_object_unref(self->priv->oses);
+    g_object_unref(db->priv->devices);
+    g_object_unref(db->priv->hypervisors);
+    g_object_unref(db->priv->oses);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_db_parent_class)->finalize (object);
@@ -64,14 +64,14 @@ osinfo_db_class_init (OsinfoDbClass *klass)
 
 
 static void
-osinfo_db_init (OsinfoDb *self)
+osinfo_db_init (OsinfoDb *db)
 {
     OsinfoDbPrivate *priv;
-    self->priv = priv = OSINFO_DB_GET_PRIVATE(self);
+    db->priv = priv = OSINFO_DB_GET_PRIVATE(db);
 
-    self->priv->devices = osinfo_devicelist_new();
-    self->priv->hypervisors = osinfo_hypervisorlist_new();
-    self->priv->oses = osinfo_oslist_new();
+    db->priv->devices = osinfo_devicelist_new();
+    db->priv->hypervisors = osinfo_hypervisorlist_new();
+    db->priv->oses = osinfo_oslist_new();
 }
 
 /** PUBLIC METHODS */
@@ -81,77 +81,77 @@ OsinfoDb *osinfo_db_new(void)
     return g_object_new(OSINFO_TYPE_DB, NULL);
 }
 
-OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *self, const gchar *id)
+OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *db, const gchar *id)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
     g_return_val_if_fail(id != NULL, NULL);
 
-    return OSINFO_HYPERVISOR(osinfo_list_find_by_id(OSINFO_LIST(self->priv->hypervisors), id));
+    return OSINFO_HYPERVISOR(osinfo_list_find_by_id(OSINFO_LIST(db->priv->hypervisors), id));
 }
 
-OsinfoDevice *osinfo_db_get_device(OsinfoDb *self, const gchar *id)
+OsinfoDevice *osinfo_db_get_device(OsinfoDb *db, const gchar *id)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
     g_return_val_if_fail(id != NULL, NULL);
 
-    return OSINFO_DEVICE(osinfo_list_find_by_id(OSINFO_LIST(self->priv->devices), id));
+    return OSINFO_DEVICE(osinfo_list_find_by_id(OSINFO_LIST(db->priv->devices), id));
 }
 
-OsinfoOs *osinfo_db_get_os(OsinfoDb *self, const gchar *id)
+OsinfoOs *osinfo_db_get_os(OsinfoDb *db, const gchar *id)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
     g_return_val_if_fail(id != NULL, NULL);
 
-    return OSINFO_OS(osinfo_list_find_by_id(OSINFO_LIST(self->priv->oses), id));
+    return OSINFO_OS(osinfo_list_find_by_id(OSINFO_LIST(db->priv->oses), id));
 }
 
 
-OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self)
+OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *db)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
 
-    return osinfo_oslist_new_copy(self->priv->oses);
+    return osinfo_oslist_new_copy(db->priv->oses);
 }
 
-OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self)
+OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *db)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
 
-    return osinfo_hypervisorlist_new_copy(self->priv->hypervisors);
+    return osinfo_hypervisorlist_new_copy(db->priv->hypervisors);
 }
 
-OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self)
+OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *db)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
 
-    return osinfo_devicelist_new_copy(self->priv->devices);
+    return osinfo_devicelist_new_copy(db->priv->devices);
 }
 
 
-void osinfo_db_add_os(OsinfoDb *self, OsinfoOs *os)
+void osinfo_db_add_os(OsinfoDb *db, OsinfoOs *os)
 {
-    g_return_if_fail(OSINFO_IS_DB(self));
+    g_return_if_fail(OSINFO_IS_DB(db));
     g_return_if_fail(OSINFO_IS_OS(os));
 
-    osinfo_list_add(OSINFO_LIST(self->priv->oses), OSINFO_ENTITY(os));
+    osinfo_list_add(OSINFO_LIST(db->priv->oses), OSINFO_ENTITY(os));
 }
 
 
-void osinfo_db_add_hypervisor(OsinfoDb *self, OsinfoHypervisor *hv)
+void osinfo_db_add_hypervisor(OsinfoDb *db, OsinfoHypervisor *hv)
 {
-    g_return_if_fail(OSINFO_IS_DB(self));
+    g_return_if_fail(OSINFO_IS_DB(db));
     g_return_if_fail(OSINFO_IS_HYPERVISOR(hv));
 
-    osinfo_list_add(OSINFO_LIST(self->priv->hypervisors), OSINFO_ENTITY(hv));
+    osinfo_list_add(OSINFO_LIST(db->priv->hypervisors), OSINFO_ENTITY(hv));
 }
 
 
-void osinfo_db_add_device(OsinfoDb *self, OsinfoDevice *device)
+void osinfo_db_add_device(OsinfoDb *db, OsinfoDevice *device)
 {
-    g_return_if_fail(OSINFO_IS_DB(self));
+    g_return_if_fail(OSINFO_IS_DB(db));
     g_return_if_fail(OSINFO_IS_DEVICE(device));
 
-    osinfo_list_add(OSINFO_LIST(self->priv->devices), OSINFO_ENTITY(device));
+    osinfo_list_add(OSINFO_LIST(db->priv->devices), OSINFO_ENTITY(device));
 }
 
 
@@ -200,30 +200,30 @@ static GList *osinfo_db_unique_values_for_property_in_entity(OsinfoList *entitie
 }
 
 // Get me all unique values for property "vendor" among operating systems
-GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, const gchar *propName)
+GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *db, const gchar *propName)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
     g_return_val_if_fail(propName != NULL, NULL);
 
-    return osinfo_db_unique_values_for_property_in_entity(OSINFO_LIST(self->priv->oses), propName);
+    return osinfo_db_unique_values_for_property_in_entity(OSINFO_LIST(db->priv->oses), propName);
 }
 
 // Get me all unique values for property "vendor" among hypervisors
-GList *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, const gchar *propName)
+GList *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *db, const gchar *propName)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
     g_return_val_if_fail(propName != NULL, NULL);
 
-    return osinfo_db_unique_values_for_property_in_entity(OSINFO_LIST(self->priv->hypervisors), propName);
+    return osinfo_db_unique_values_for_property_in_entity(OSINFO_LIST(db->priv->hypervisors), propName);
 }
 
 // Get me all unique values for property "vendor" among devices
-GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, const gchar *propName)
+GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *db, const gchar *propName)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
     g_return_val_if_fail(propName != NULL, NULL);
 
-    return osinfo_db_unique_values_for_property_in_entity(OSINFO_LIST(self->priv->devices), propName);
+    return osinfo_db_unique_values_for_property_in_entity(OSINFO_LIST(db->priv->devices), propName);
 }
 
 struct __osinfoOsCheckRelationshipArgs {
@@ -251,16 +251,16 @@ static gboolean __osinfoAddOsIfRelationship(OsinfoList *list, OsinfoEntity *enti
 }
 
 // Get me all OSes that 'upgrade' another OS (or whatever relationship is specified)
-OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, OsinfoOsRelationship relshp)
+OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *db, OsinfoOsRelationship relshp)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
 
     // Create list
     OsinfoOsList *newList = osinfo_oslist_new();
 
     struct __osinfoOsCheckRelationshipArgs args = {OSINFO_LIST (newList), relshp};
 
-    osinfo_list_foreach(OSINFO_LIST(self->priv->oses), __osinfoAddOsIfRelationship, &args);
+    osinfo_list_foreach(OSINFO_LIST(db->priv->oses), __osinfoAddOsIfRelationship, &args);
 
     return newList;
 }

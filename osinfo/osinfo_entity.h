@@ -64,13 +64,13 @@ struct _OsinfoEntityClass
 
 GType osinfo_entity_get_type(void);
 
-const gchar *osinfo_entity_get_id(OsinfoEntity *self);
+const gchar *osinfo_entity_get_id(OsinfoEntity *entity);
 
-GList *osinfo_entity_get_param_keys(OsinfoEntity *self);
-const gchar *osinfo_entity_get_param_value(OsinfoEntity *self, const gchar *key);
-GList *osinfo_entity_get_param_value_list(OsinfoEntity *self, const gchar *key);
-void osinfo_entity_add_param(OsinfoEntity *self, const gchar *key, const gchar *value);
-void osinfo_entity_clear_param(OsinfoEntity *self, const gchar *key);
+GList *osinfo_entity_get_param_keys(OsinfoEntity *entity);
+const gchar *osinfo_entity_get_param_value(OsinfoEntity *entity, const gchar *key);
+GList *osinfo_entity_get_param_value_list(OsinfoEntity *entity, const gchar *key);
+void osinfo_entity_add_param(OsinfoEntity *entity, const gchar *key, const gchar *value);
+void osinfo_entity_clear_param(OsinfoEntity *entity, const gchar *key);
 
 #endif /* __OSINFO_ENTITY_H__ */
 /*

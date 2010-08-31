@@ -86,29 +86,29 @@ GType osinfo_db_get_type(void);
 
 OsinfoDb *osinfo_db_new(void);
 
-OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *self, const gchar *hvId);
-OsinfoDevice *osinfo_db_get_device(OsinfoDb *self, const gchar *devId);
-OsinfoOs *osinfo_db_get_os(OsinfoDb *self, const gchar *osId);
+OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *db, const gchar *hvId);
+OsinfoDevice *osinfo_db_get_device(OsinfoDb *db, const gchar *devId);
+OsinfoOs *osinfo_db_get_os(OsinfoDb *db, const gchar *osId);
 
-OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self);
-OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self);
-OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self);
+OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *db);
+OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *db);
+OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *db);
 
-void osinfo_db_add_os(OsinfoDb *self, OsinfoOs *os);
-void osinfo_db_add_hypervisor(OsinfoDb *self, OsinfoHypervisor *hv);
-void osinfo_db_add_device(OsinfoDb *self, OsinfoDevice *device);
+void osinfo_db_add_os(OsinfoDb *db, OsinfoOs *os);
+void osinfo_db_add_hypervisor(OsinfoDb *db, OsinfoHypervisor *hv);
+void osinfo_db_add_device(OsinfoDb *db, OsinfoDevice *device);
 
 // Get me all unique values for property "vendor" among operating systems
-GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, const gchar *propName);
+GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *db, const gchar *propName);
 
 // Get me all unique values for property "vendor" among hypervisors
-GList *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *self, const gchar *propName);
+GList *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *db, const gchar *propName);
 
 // Get me all unique values for property "vendor" among devices
-GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *self, const gchar *propName);
+GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *db, const gchar *propName);
 
 // Get me all OSes that 'upgrade' another OS (or whatever relationship is specified)
-OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, OsinfoOsRelationship relshp);
+OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *db, OsinfoOsRelationship relshp);
 
 
 #endif /* __OSINFO_DB_H__ */

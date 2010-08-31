@@ -51,13 +51,13 @@ osinfo_entity_set_property (GObject      *object,
                             const GValue *value,
                             GParamSpec   *pspec)
 {
-    OsinfoEntity *self = OSINFO_ENTITY (object);
+    OsinfoEntity *entity = OSINFO_ENTITY (object);
 
     switch (property_id)
         {
         case OSI_ENTITY_ID:
-            g_free(self->priv->id);
-            self->priv->id = g_value_dup_string (value);
+            g_free(entity->priv->id);
+            entity->priv->id = g_value_dup_string (value);
             break;
         default:
             /* We don't have any other property... */
@@ -72,12 +72,12 @@ osinfo_entity_get_property (GObject    *object,
                             GValue     *value,
                             GParamSpec *pspec)
 {
-    OsinfoEntity *self = OSINFO_ENTITY (object);
+    OsinfoEntity *entity = OSINFO_ENTITY (object);
 
     switch (property_id)
         {
         case OSI_ENTITY_ID:
-            g_value_set_string (value, self->priv->id);
+            g_value_set_string (value, entity->priv->id);
             break;
         default:
             /* We don't have any other property... */
@@ -89,10 +89,10 @@ osinfo_entity_get_property (GObject    *object,
 static void
 osinfo_entity_finalize (GObject *object)
 {
-    OsinfoEntity *self = OSINFO_ENTITY (object);
+    OsinfoEntity *entity = OSINFO_ENTITY (object);
 
-    g_free(self->priv->id);
-    g_hash_table_destroy(self->priv->params);
+    g_free(entity->priv->id);
+    g_hash_table_destroy(entity->priv->params);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_entity_parent_class)->finalize (object);
@@ -138,20 +138,20 @@ static void osinfo_entity_param_values_free(gpointer values)
 
 
 static void
-osinfo_entity_init (OsinfoEntity *self)
+osinfo_entity_init (OsinfoEntity *entity)
 {
     OsinfoEntityPrivate *priv;
-    self->priv = priv = OSINFO_ENTITY_GET_PRIVATE(self);
+    entity->priv = priv = OSINFO_ENTITY_GET_PRIVATE(entity);
 
-    self->priv->params = g_hash_table_new_full(g_str_hash,
+    entity->priv->params = g_hash_table_new_full(g_str_hash,
 					       g_str_equal,
 					       g_free,
 					       osinfo_entity_param_values_free);
 }
 
-void osinfo_entity_add_param(OsinfoEntity *self, const gchar *key, const gchar *value)
+void osinfo_entity_add_param(OsinfoEntity *entity, const gchar *key, const gchar *value)
 {
-    g_return_if_fail(OSINFO_IS_ENTITY(self));
+    g_return_if_fail(OSINFO_IS_ENTITY(entity));
     g_return_if_fail(key != NULL);
     g_return_if_fail(value != NULL);
 
@@ -161,56 +161,56 @@ void osinfo_entity_add_param(OsinfoEntity *self, const gchar *key, const gchar *
     gpointer origKey, foundValue;
     GList *values = NULL;
 
-    found = g_hash_table_lookup_extended(self->priv->params, key, &origKey, &foundValue);
+    found = g_hash_table_lookup_extended(entity->priv->params, key, &origKey, &foundValue);
     if (found) {
-        g_hash_table_steal(self->priv->params, key);
+        g_hash_table_steal(entity->priv->params, key);
 	g_free(origKey);
 	values = foundValue;
     }
 
     values = g_list_append(values, g_strdup(value));
-    g_hash_table_insert(self->priv->params, g_strdup(key), values);
+    g_hash_table_insert(entity->priv->params, g_strdup(key), values);
 }
 
-void osinfo_entity_clear_param(OsinfoEntity *self, const gchar *key)
+void osinfo_entity_clear_param(OsinfoEntity *entity, const gchar *key)
 {
-    g_hash_table_remove(self->priv->params, key);
+    g_hash_table_remove(entity->priv->params, key);
 }
 
-const gchar *osinfo_entity_get_id(OsinfoEntity *self)
+const gchar *osinfo_entity_get_id(OsinfoEntity *entity)
 {
-    g_return_val_if_fail(OSINFO_IS_ENTITY(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_ENTITY(entity), NULL);
 
-    return self->priv->id;
+    return entity->priv->id;
 }
 
-GList *osinfo_entity_get_param_keys(OsinfoEntity *self)
+GList *osinfo_entity_get_param_keys(OsinfoEntity *entity)
 {
-    g_return_val_if_fail(OSINFO_IS_ENTITY(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_ENTITY(entity), NULL);
 
-    return g_hash_table_get_keys(self->priv->params);
+    return g_hash_table_get_keys(entity->priv->params);
 }
 
-const gchar *osinfo_entity_get_param_value(OsinfoEntity *self, const gchar *key)
+const gchar *osinfo_entity_get_param_value(OsinfoEntity *entity, const gchar *key)
 {
-    g_return_val_if_fail(OSINFO_IS_ENTITY(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_ENTITY(entity), NULL);
     g_return_val_if_fail(key != NULL, NULL);
 
     GList *values;
 
-    values = g_hash_table_lookup(self->priv->params, key);
+    values = g_hash_table_lookup(entity->priv->params, key);
 
     if (values)
         return values->data;
     return NULL;
 }
 
-GList *osinfo_entity_get_param_value_list(OsinfoEntity *self, const gchar *key)
+GList *osinfo_entity_get_param_value_list(OsinfoEntity *entity, const gchar *key)
 {
-    g_return_val_if_fail(OSINFO_IS_ENTITY(self), NULL);
+    g_return_val_if_fail(OSINFO_IS_ENTITY(entity), NULL);
     g_return_val_if_fail(key != NULL, NULL);
 
-    GList *values = g_hash_table_lookup(self->priv->params, key);
+    GList *values = g_hash_table_lookup(entity->priv->params, key);
 
     return g_list_copy(values);
 }

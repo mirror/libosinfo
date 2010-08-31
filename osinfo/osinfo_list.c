@@ -50,11 +50,11 @@ osinfo_list_set_property(GObject      *object,
 			 const GValue *value,
 			 GParamSpec   *pspec)
 {
-    OsinfoList *self = OSINFO_LIST(object);
+    OsinfoList *list = OSINFO_LIST(object);
 
     switch (property_id) {
     case PROP_ELEMENT_TYPE:
-	self->priv->elementType = g_value_get_gtype(value);
+	list->priv->elementType = g_value_get_gtype(value);
         break;
 
     default:
@@ -70,11 +70,11 @@ osinfo_list_get_property(GObject    *object,
 			 GValue     *value,
 			 GParamSpec *pspec)
 {
-    OsinfoList *self = OSINFO_LIST(object);
+    OsinfoList *list = OSINFO_LIST(object);
 
     switch (property_id) {
     case PROP_ELEMENT_TYPE:
-        g_value_set_gtype(value, self->priv->elementType);
+        g_value_set_gtype(value, list->priv->elementType);
         break;
 
     default:
@@ -88,9 +88,9 @@ osinfo_list_get_property(GObject    *object,
 static void
 osinfo_list_finalize (GObject *object)
 {
-    OsinfoList *self = OSINFO_LIST (object);
+    OsinfoList *list = OSINFO_LIST (object);
 
-    g_ptr_array_free(self->priv->array, TRUE);
+    g_ptr_array_free(list->priv->array, TRUE);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_list_parent_class)->finalize (object);
@@ -125,35 +125,35 @@ osinfo_list_class_init (OsinfoListClass *klass)
 }
 
 static void
-osinfo_list_init (OsinfoList *self)
+osinfo_list_init (OsinfoList *list)
 {
     OsinfoListPrivate *priv;
-    self->priv = priv = OSINFO_LIST_GET_PRIVATE(self);
+    list->priv = priv = OSINFO_LIST_GET_PRIVATE(list);
 
-    self->priv->array = g_ptr_array_new_with_free_func(g_object_unref);
+    list->priv->array = g_ptr_array_new_with_free_func(g_object_unref);
 }
 
-GType osinfo_list_get_element_type(OsinfoList *self)
+GType osinfo_list_get_element_type(OsinfoList *list)
 {
-    return self->priv->elementType;
+    return list->priv->elementType;
 }
 
 
-gint osinfo_list_get_length(OsinfoList *self)
+gint osinfo_list_get_length(OsinfoList *list)
 {
-    return self->priv->array->len;
+    return list->priv->array->len;
 }
 
-OsinfoEntity *osinfo_list_get_nth(OsinfoList *self, gint idx)
+OsinfoEntity *osinfo_list_get_nth(OsinfoList *list, gint idx)
 {
-    return g_ptr_array_index(self->priv->array, idx);
+    return g_ptr_array_index(list->priv->array, idx);
 }
 
-OsinfoEntity *osinfo_list_find_by_id(OsinfoList *self, const gchar *id)
+OsinfoEntity *osinfo_list_find_by_id(OsinfoList *list, const gchar *id)
 {
     int i;
-    for (i = 0 ; i < self->priv->array->len ; i++) {
-        OsinfoEntity *ent = g_ptr_array_index(self->priv->array, i);
+    for (i = 0 ; i < list->priv->array->len ; i++) {
+        OsinfoEntity *ent = g_ptr_array_index(list->priv->array, i);
 	const gchar *thisid = osinfo_entity_get_id(ent);
 	if (g_strcmp0(id, thisid) == 0)
 	    return ent;
@@ -162,34 +162,34 @@ OsinfoEntity *osinfo_list_find_by_id(OsinfoList *self, const gchar *id)
 }
 
 
-void osinfo_list_add(OsinfoList *self, OsinfoEntity *entity)
+void osinfo_list_add(OsinfoList *list, OsinfoEntity *entity)
 {
-    g_return_if_fail(G_TYPE_CHECK_INSTANCE_TYPE(entity, self->priv->elementType));
+    g_return_if_fail(G_TYPE_CHECK_INSTANCE_TYPE(entity, list->priv->elementType));
 
     g_object_ref(entity);
-    g_ptr_array_add(self->priv->array, entity);
+    g_ptr_array_add(list->priv->array, entity);
 }
 
 
-void osinfo_list_add_filtered(OsinfoList *self, OsinfoList *source, OsinfoFilter *filter)
+void osinfo_list_add_filtered(OsinfoList *list, OsinfoList *source, OsinfoFilter *filter)
 {
     int i, len;
-    g_return_if_fail(self->priv->elementType == source->priv->elementType);
+    g_return_if_fail(list->priv->elementType == source->priv->elementType);
 
     len = osinfo_list_get_length(source);
     for (i = 0; i < len; i++) {
         OsinfoEntity *entity = osinfo_list_get_nth(source, i);
         if (osinfo_filter_matches(filter, entity))
-	    osinfo_list_add(self, entity);
+	    osinfo_list_add(list, entity);
     }
 }
 
 
-void osinfo_list_add_intersection(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *sourceTwo)
+void osinfo_list_add_intersection(OsinfoList *list, OsinfoList *sourceOne, OsinfoList *sourceTwo)
 {
     int i, len;
-    g_return_if_fail(self->priv->elementType == sourceOne->priv->elementType);
-    g_return_if_fail(self->priv->elementType == sourceTwo->priv->elementType);
+    g_return_if_fail(list->priv->elementType == sourceOne->priv->elementType);
+    g_return_if_fail(list->priv->elementType == sourceTwo->priv->elementType);
 
     // Make set representation of otherList and newList
     GHashTable *otherSet = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
@@ -210,7 +210,7 @@ void osinfo_list_add_intersection(OsinfoList *self, OsinfoList *sourceOne, Osinf
         if (g_hash_table_lookup(otherSet, osinfo_entity_get_id(entity)) &&
             !g_hash_table_lookup(newSet, osinfo_entity_get_id(entity))) {
 	    g_hash_table_insert(newSet, g_strdup(osinfo_entity_get_id(entity)), entity);
-            osinfo_list_add(self, entity);
+            osinfo_list_add(list, entity);
         }
     }
 
@@ -219,12 +219,12 @@ void osinfo_list_add_intersection(OsinfoList *self, OsinfoList *sourceOne, Osinf
 }
 
 
-void osinfo_list_add_union(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *sourceTwo)
+void osinfo_list_add_union(OsinfoList *list, OsinfoList *sourceOne, OsinfoList *sourceTwo)
 {
     // Make set version of new list
     GHashTable *newSet;
-    g_return_if_fail(self->priv->elementType == sourceOne->priv->elementType);
-    g_return_if_fail(self->priv->elementType == sourceTwo->priv->elementType);
+    g_return_if_fail(list->priv->elementType == sourceOne->priv->elementType);
+    g_return_if_fail(list->priv->elementType == sourceTwo->priv->elementType);
 
     newSet = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
 
@@ -233,7 +233,7 @@ void osinfo_list_add_union(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *
     len = osinfo_list_get_length(sourceTwo);
     for (i = 0; i < len; i++) {
         OsinfoEntity *entity = osinfo_list_get_nth(sourceTwo, i);
-        osinfo_list_add(self, entity);
+        osinfo_list_add(list, entity);
         g_hash_table_insert(newSet, g_strdup(osinfo_entity_get_id(entity)), entity);
     }
 
@@ -243,7 +243,7 @@ void osinfo_list_add_union(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *
         OsinfoEntity *entity = osinfo_list_get_nth(sourceOne, i);
         // If new list does not contain element, add to new list
         if (!g_hash_table_lookup(newSet, osinfo_entity_get_id(entity))) {
-	    osinfo_list_add(self, entity);
+	    osinfo_list_add(list, entity);
             g_hash_table_insert(newSet, g_strdup(osinfo_entity_get_id(entity)), entity);
         }
     }
@@ -251,25 +251,25 @@ void osinfo_list_add_union(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *
     g_hash_table_unref(newSet);
 }
 
-void osinfo_list_add_all(OsinfoList *self, OsinfoList *source)
+void osinfo_list_add_all(OsinfoList *list, OsinfoList *source)
 {
     int i, len;
-    g_return_if_fail(self->priv->elementType == source->priv->elementType);
+    g_return_if_fail(list->priv->elementType == source->priv->elementType);
 
     len = osinfo_list_get_length(source);
     for (i = 0; i < len; i++) {
         OsinfoEntity *entity = osinfo_list_get_nth(source, i);
-	osinfo_list_add(self, entity);
+	osinfo_list_add(list, entity);
     }
 }
 
 
-void osinfo_list_foreach(OsinfoList *self, osinfo_list_iterator iter, gpointer data)
+void osinfo_list_foreach(OsinfoList *list, osinfo_list_iterator iter, gpointer data)
 {
     int i;
-    for (i = 0 ; i < self->priv->array->len ; i++) {
-        OsinfoEntity *ent = g_ptr_array_index(self->priv->array, i);
-	iter(self, ent, data);
+    for (i = 0 ; i < list->priv->array->len ; i++) {
+        OsinfoEntity *ent = g_ptr_array_index(list->priv->array, i);
+	iter(list, ent, data);
     }
 }
 /*

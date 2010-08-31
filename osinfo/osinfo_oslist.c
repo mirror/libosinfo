@@ -53,10 +53,10 @@ osinfo_oslist_class_init (OsinfoOsListClass *klass)
 }
 
 static void
-osinfo_oslist_init (OsinfoOsList *self)
+osinfo_oslist_init (OsinfoOsList *list)
 {
     OsinfoOsListPrivate *priv;
-    self->priv = priv = OSINFO_OSLIST_GET_PRIVATE(self);
+    list->priv = priv = OSINFO_OSLIST_GET_PRIVATE(list);
 
 }
 

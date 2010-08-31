@@ -54,10 +54,10 @@ osinfo_device_class_init (OsinfoDeviceClass *klass)
 }
 
 static void
-osinfo_device_init (OsinfoDevice *self)
+osinfo_device_init (OsinfoDevice *device)
 {
     OsinfoDevicePrivate *priv;
-    self->priv = priv = OSINFO_DEVICE_GET_PRIVATE(self);
+    device->priv = priv = OSINFO_DEVICE_GET_PRIVATE(device);
 }
 
 OsinfoDevice *osinfo_device_new(const gchar *id)

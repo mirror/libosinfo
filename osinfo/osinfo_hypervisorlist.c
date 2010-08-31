@@ -53,10 +53,10 @@ osinfo_hypervisorlist_class_init (OsinfoHypervisorListClass *klass)
 }
 
 static void
-osinfo_hypervisorlist_init (OsinfoHypervisorList *self)
+osinfo_hypervisorlist_init (OsinfoHypervisorList *list)
 {
     OsinfoHypervisorListPrivate *priv;
-    self->priv = priv = OSINFO_HYPERVISORLIST_GET_PRIVATE(self);
+    list->priv = priv = OSINFO_HYPERVISORLIST_GET_PRIVATE(list);
 
 }
 
