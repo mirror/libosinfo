@@ -68,6 +68,13 @@ OsinfoHypervisorList *osinfo_hypervisorlist_new(void)
 			NULL);
 }
 
+OsinfoHypervisorList *osinfo_hypervisorlist_new_copy(OsinfoHypervisorList *source)
+{
+    OsinfoHypervisorList *newList = osinfo_hypervisorlist_new();
+    osinfo_list_add_all(OSINFO_LIST(newList),
+			OSINFO_LIST(source));
+    return newList;
+}
 
 OsinfoHypervisorList *osinfo_hypervisorlist_new_filtered(OsinfoHypervisorList *source, OsinfoFilter *filter)
 {

@@ -69,6 +69,14 @@ OsinfoOsList *osinfo_oslist_new(void)
 }
 
 
+OsinfoOsList *osinfo_oslist_new_copy(OsinfoOsList *source)
+{
+    OsinfoOsList *newList = osinfo_oslist_new();
+    osinfo_list_add_all(OSINFO_LIST(newList),
+			OSINFO_LIST(source));
+    return newList;
+}
+
 OsinfoOsList *osinfo_oslist_new_filtered(OsinfoOsList *source, OsinfoFilter *filter)
 {
     OsinfoOsList *newList = osinfo_oslist_new();

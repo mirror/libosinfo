@@ -94,6 +94,10 @@ OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self);
 OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self);
 OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self);
 
+void osinfo_db_add_os(OsinfoDb *self, OsinfoOs *os);
+void osinfo_db_add_hypervisor(OsinfoDb *self, OsinfoHypervisor *hv);
+void osinfo_db_add_device(OsinfoDb *self, OsinfoDevice *device);
+
 // Get me all unique values for property "vendor" among operating systems
 GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *self, const gchar *propName);
 

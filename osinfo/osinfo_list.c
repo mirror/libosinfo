@@ -251,6 +251,18 @@ void osinfo_list_add_union(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *
     g_hash_table_unref(newSet);
 }
 
+void osinfo_list_add_all(OsinfoList *self, OsinfoList *source)
+{
+    int i, len;
+    g_return_if_fail(self->priv->elementType == source->priv->elementType);
+
+    len = osinfo_list_get_length(source);
+    for (i = 0; i < len; i++) {
+        OsinfoEntity *entity = osinfo_list_get_nth(source, i);
+	osinfo_list_add(self, entity);
+    }
+}
+
 
 void osinfo_list_foreach(OsinfoList *self, osinfo_list_iterator iter, gpointer data)
 {

@@ -67,6 +67,7 @@ struct _OsinfoDeviceListClass
 GType osinfo_devicelist_get_type(void);
 
 OsinfoDeviceList *osinfo_devicelist_new(void);
+OsinfoDeviceList *osinfo_devicelist_new_copy(OsinfoDeviceList *source);
 OsinfoDeviceList *osinfo_devicelist_new_filtered(OsinfoDeviceList *source, OsinfoFilter *filter);
 OsinfoDeviceList *osinfo_devicelist_new_intersection(OsinfoDeviceList *sourceOne, OsinfoDeviceList *sourceTwo);
 OsinfoDeviceList *osinfo_devicelist_new_union(OsinfoDeviceList *sourceOne, OsinfoDeviceList *sourceTwo);

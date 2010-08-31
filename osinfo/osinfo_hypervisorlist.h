@@ -67,6 +67,7 @@ struct _OsinfoHypervisorListClass
 GType osinfo_hypervisorlist_get_type(void);
 
 OsinfoHypervisorList *osinfo_hypervisorlist_new(void);
+OsinfoHypervisorList *osinfo_hypervisorlist_new_copy(OsinfoHypervisorList *source);
 OsinfoHypervisorList *osinfo_hypervisorlist_new_filtered(OsinfoHypervisorList *source, OsinfoFilter *filter);
 OsinfoHypervisorList *osinfo_hypervisorlist_new_intersection(OsinfoHypervisorList *sourceOne, OsinfoHypervisorList *sourceTwo);
 OsinfoHypervisorList *osinfo_hypervisorlist_new_union(OsinfoHypervisorList *sourceOne, OsinfoHypervisorList *sourceTwo);

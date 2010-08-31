@@ -53,6 +53,13 @@ START_TEST(test_basic)
   fail_unless(osinfo_list_get_length(list) == 0, "List was not empty");
   fail_unless(osinfo_list_find_by_id(list, "wibble") == NULL, "List was not empty");
 
+  GType type;
+  g_object_get(list, "element-type", &type, NULL);
+  fail_unless(type == OSINFO_TYPE_ENTITY, "Type is not entity");
+
+  type = osinfo_list_get_element_type(list);
+  fail_unless(type == OSINFO_TYPE_ENTITY, "Type is not entity");
+
   g_object_unref(list);
 }
 END_TEST

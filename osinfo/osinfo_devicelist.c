@@ -67,6 +67,14 @@ OsinfoDeviceList *osinfo_devicelist_new(void)
 			NULL);
 }
 
+OsinfoDeviceList *osinfo_devicelist_new_copy(OsinfoDeviceList *source)
+{
+    OsinfoDeviceList *newList = osinfo_devicelist_new();
+    osinfo_list_add_all(OSINFO_LIST(newList),
+			OSINFO_LIST(source));
+    return newList;
+}
+
 OsinfoDeviceList *osinfo_devicelist_new_filtered(OsinfoDeviceList *source, OsinfoFilter *filter)
 {
     OsinfoDeviceList *newList = osinfo_devicelist_new();

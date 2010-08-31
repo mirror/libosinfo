@@ -71,6 +71,7 @@ void osinfo_list_add(OsinfoList *self, OsinfoEntity *entity);
 void osinfo_list_add_filtered(OsinfoList *self, OsinfoList *source, OsinfoFilter *filter);
 void osinfo_list_add_intersection(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *sourceTwo);
 void osinfo_list_add_union(OsinfoList *self, OsinfoList *sourceOne, OsinfoList *sourceTwo);
+void osinfo_list_add_all(OsinfoList *self, OsinfoList *source);
 
 typedef gboolean (*osinfo_list_iterator)(OsinfoList *self, OsinfoEntity *entity, gpointer data);
 void osinfo_list_foreach(OsinfoList *self, osinfo_list_iterator iter, gpointer data);

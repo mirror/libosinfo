@@ -67,6 +67,7 @@ struct _OsinfoOsListClass
 GType osinfo_oslist_get_type(void);
 
 OsinfoOsList *osinfo_oslist_new(void);
+OsinfoOsList *osinfo_oslist_new_copy(OsinfoOsList *source);
 OsinfoOsList *osinfo_oslist_new_filtered(OsinfoOsList *source, OsinfoFilter *filter);
 OsinfoOsList *osinfo_oslist_new_intersection(OsinfoOsList *sourceOne, OsinfoOsList *sourceTwo);
 OsinfoOsList *osinfo_oslist_new_union(OsinfoOsList *sourceOne, OsinfoOsList *sourceTwo);

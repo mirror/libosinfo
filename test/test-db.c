@@ -20,11 +20,15 @@ START_TEST(test_device)
   OsinfoDevice *dev2 = osinfo_device_new("dev2");
   OsinfoDevice *dev3 = osinfo_device_new("dev3");
 
-  OsinfoDeviceList *list = osinfo_db_get_device_list(db);
+  osinfo_db_add_device(db, dev1);
+  osinfo_db_add_device(db, dev2);
+  osinfo_db_add_device(db, dev3);
 
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(dev1));
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(dev2));
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(dev3));
+  OsinfoDeviceList *list = osinfo_db_get_device_list(db);
+  fail_unless(OSINFO_ENTITY(dev1) == osinfo_list_get_nth(OSINFO_LIST(list), 0), "Dev 1 is missing");
+  fail_unless(OSINFO_ENTITY(dev2) == osinfo_list_get_nth(OSINFO_LIST(list), 1), "Dev 2 is missing");
+  fail_unless(OSINFO_ENTITY(dev3) == osinfo_list_get_nth(OSINFO_LIST(list), 2), "Dev 3 is missing");
+  g_object_unref(list);
 
   OsinfoDevice *dev = osinfo_db_get_device(db, "dev2");
   fail_unless(dev != NULL, "Device is NULL");
@@ -41,23 +45,27 @@ END_TEST
 START_TEST(test_hypervisor)
 {
   OsinfoDb *db = osinfo_db_new();
-  OsinfoHypervisor *dev1 = osinfo_hypervisor_new("dev1");
-  OsinfoHypervisor *dev2 = osinfo_hypervisor_new("dev2");
-  OsinfoHypervisor *dev3 = osinfo_hypervisor_new("dev3");
+  OsinfoHypervisor *hv1 = osinfo_hypervisor_new("hv1");
+  OsinfoHypervisor *hv2 = osinfo_hypervisor_new("hv2");
+  OsinfoHypervisor *hv3 = osinfo_hypervisor_new("hv3");
+
+  osinfo_db_add_hypervisor(db, hv1);
+  osinfo_db_add_hypervisor(db, hv2);
+  osinfo_db_add_hypervisor(db, hv3);
 
   OsinfoHypervisorList *list = osinfo_db_get_hypervisor_list(db);
+  fail_unless(OSINFO_ENTITY(hv1) == osinfo_list_get_nth(OSINFO_LIST(list), 0), "Hv 1 is missing");
+  fail_unless(OSINFO_ENTITY(hv2) == osinfo_list_get_nth(OSINFO_LIST(list), 1), "Hv 2 is missing");
+  fail_unless(OSINFO_ENTITY(hv3) == osinfo_list_get_nth(OSINFO_LIST(list), 2), "Hv 3 is missing");
+  g_object_unref(list);
 
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(dev1));
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(dev2));
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(dev3));
+  OsinfoHypervisor *hv = osinfo_db_get_hypervisor(db, "hv2");
+  fail_unless(hv != NULL, "Hypervisor is NULL");
+  fail_unless(hv == hv2, "Hypervisor was not hv2");
 
-  OsinfoHypervisor *dev = osinfo_db_get_hypervisor(db, "dev2");
-  fail_unless(dev != NULL, "Hypervisor is NULL");
-  fail_unless(dev == dev2, "Hypervisor was not dev2");
-
-  g_object_unref(dev1);
-  g_object_unref(dev2);
-  g_object_unref(dev3);
+  g_object_unref(hv1);
+  g_object_unref(hv2);
+  g_object_unref(hv3);
   g_object_unref(db);
 }
 END_TEST
@@ -66,23 +74,27 @@ END_TEST
 START_TEST(test_os)
 {
   OsinfoDb *db = osinfo_db_new();
-  OsinfoOs *dev1 = osinfo_os_new("dev1");
-  OsinfoOs *dev2 = osinfo_os_new("dev2");
-  OsinfoOs *dev3 = osinfo_os_new("dev3");
+  OsinfoOs *os1 = osinfo_os_new("os1");
+  OsinfoOs *os2 = osinfo_os_new("os2");
+  OsinfoOs *os3 = osinfo_os_new("os3");
+
+  osinfo_db_add_os(db, os1);
+  osinfo_db_add_os(db, os2);
+  osinfo_db_add_os(db, os3);
 
   OsinfoOsList *list = osinfo_db_get_os_list(db);
+  fail_unless(OSINFO_ENTITY(os1) == osinfo_list_get_nth(OSINFO_LIST(list), 0), "Os 1 is missing");
+  fail_unless(OSINFO_ENTITY(os2) == osinfo_list_get_nth(OSINFO_LIST(list), 1), "Os 2 is missing");
+  fail_unless(OSINFO_ENTITY(os3) == osinfo_list_get_nth(OSINFO_LIST(list), 2), "Os 3 is missing");
+  g_object_unref(list);
 
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(dev1));
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(dev2));
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(dev3));
+  OsinfoOs *os = osinfo_db_get_os(db, "os2");
+  fail_unless(os != NULL, "Os is NULL");
+  fail_unless(os == os2, "Os was not os2");
 
-  OsinfoOs *dev = osinfo_db_get_os(db, "dev2");
-  fail_unless(dev != NULL, "Os is NULL");
-  fail_unless(dev == dev2, "Os was not dev2");
-
-  g_object_unref(dev1);
-  g_object_unref(dev2);
-  g_object_unref(dev3);
+  g_object_unref(os1);
+  g_object_unref(os2);
+  g_object_unref(os3);
   g_object_unref(db);
 }
 END_TEST
@@ -102,11 +114,9 @@ START_TEST(test_prop_device)
   osinfo_entity_add_param(OSINFO_ENTITY(dev3), "class", "display");
   osinfo_entity_add_param(OSINFO_ENTITY(dev3), "fruit", "apple");
 
-  OsinfoDeviceList *list = osinfo_db_get_device_list(db);
-
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(dev1));
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(dev2));
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(dev3));
+  osinfo_db_add_device(db, dev1);
+  osinfo_db_add_device(db, dev2);
+  osinfo_db_add_device(db, dev3);
 
   GList *uniq = osinfo_db_unique_values_for_property_in_dev(db, "class");
   GList *tmp = uniq;
@@ -157,11 +167,9 @@ START_TEST(test_prop_hypervisor)
   osinfo_entity_add_param(OSINFO_ENTITY(hv3), "vendor", "dog");
   osinfo_entity_add_param(OSINFO_ENTITY(hv3), "arch", "x86");
 
-  OsinfoHypervisorList *list = osinfo_db_get_hypervisor_list(db);
-
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(hv1));
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(hv2));
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(hv3));
+  osinfo_db_add_hypervisor(db, hv1);
+  osinfo_db_add_hypervisor(db, hv2);
+  osinfo_db_add_hypervisor(db, hv3);
 
   GList *uniq = osinfo_db_unique_values_for_property_in_hv(db, "vendor");
   GList *tmp = uniq;
@@ -208,12 +216,9 @@ START_TEST(test_prop_os)
   osinfo_entity_add_param(OSINFO_ENTITY(os3), "vendor", "dog");
   osinfo_entity_add_param(OSINFO_ENTITY(os3), "arch", "x86");
 
-
-  OsinfoOsList *list = osinfo_db_get_os_list(db);
-
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(os1));
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(os2));
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(os3));
+  osinfo_db_add_os(db, os1);
+  osinfo_db_add_os(db, os2);
+  osinfo_db_add_os(db, os3);
 
   GList *uniq = osinfo_db_unique_values_for_property_in_os(db, "vendor");
   GList *tmp = uniq;
@@ -257,13 +262,11 @@ START_TEST(test_rel_os)
   OsinfoOs *os4 = osinfo_os_new("os4");
   OsinfoOs *os5 = osinfo_os_new("os5");
 
-  OsinfoOsList *list = osinfo_db_get_os_list(db);
-
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(os1));
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(os2));
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(os3));
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(os4));
-  osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(os5));
+  osinfo_db_add_os(db, os1);
+  osinfo_db_add_os(db, os2);
+  osinfo_db_add_os(db, os3);
+  osinfo_db_add_os(db, os4);
+  osinfo_db_add_os(db, os5);
 
   osinfo_os_add_related_os(os1, OSINFO_OS_RELATIONSHIP_DERIVES_FROM, os2);
   osinfo_os_add_related_os(os1, OSINFO_OS_RELATIONSHIP_DERIVES_FROM, os3);

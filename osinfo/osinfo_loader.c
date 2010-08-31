@@ -183,9 +183,8 @@ static OsinfoDevice *osinfo_loader_get_device(OsinfoLoader *loader,
 {
     OsinfoDevice *dev = osinfo_db_get_device(loader->priv->db, id);
     if (!dev) {
-        OsinfoDeviceList *list = osinfo_db_get_device_list(loader->priv->db);
         dev = osinfo_device_new(id);
-	osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(dev));
+	osinfo_db_add_device(loader->priv->db, dev);
 	g_object_unref(dev);
     }
     return dev;
@@ -197,9 +196,8 @@ static OsinfoOs *osinfo_loader_get_os(OsinfoLoader *loader,
 {
     OsinfoOs *os = osinfo_db_get_os(loader->priv->db, id);
     if (!os) {
-        OsinfoOsList *list = osinfo_db_get_os_list(loader->priv->db);
         os = osinfo_os_new(id);
-	osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(os));
+	osinfo_db_add_os(loader->priv->db, os);
 	g_object_unref(os);
     }
     return os;
@@ -211,9 +209,8 @@ static OsinfoHypervisor *osinfo_loader_get_hypervisor(OsinfoLoader *loader,
 {
     OsinfoHypervisor *hv = osinfo_db_get_hypervisor(loader->priv->db, id);
     if (!hv) {
-        OsinfoHypervisorList *list = osinfo_db_get_hypervisor_list(loader->priv->db);
         hv = osinfo_hypervisor_new(id);
-	osinfo_list_add(OSINFO_LIST(list), OSINFO_ENTITY(hv));
+	osinfo_db_add_hypervisor(loader->priv->db, hv);
 	g_object_unref(hv);
     }
     return hv;

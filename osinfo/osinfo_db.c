@@ -110,22 +110,50 @@ OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *self)
 {
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
 
-    return self->priv->oses;
+    return osinfo_oslist_new_copy(self->priv->oses);
 }
 
 OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *self)
 {
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
 
-    return self->priv->hypervisors;
+    return osinfo_hypervisorlist_new_copy(self->priv->hypervisors);
 }
 
 OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *self)
 {
     g_return_val_if_fail(OSINFO_IS_DB(self), NULL);
 
-    return self->priv->devices;
+    return osinfo_devicelist_new_copy(self->priv->devices);
 }
+
+
+void osinfo_db_add_os(OsinfoDb *self, OsinfoOs *os)
+{
+    g_return_if_fail(OSINFO_IS_DB(self));
+    g_return_if_fail(OSINFO_IS_OS(os));
+
+    osinfo_list_add(OSINFO_LIST(self->priv->oses), OSINFO_ENTITY(os));
+}
+
+
+void osinfo_db_add_hypervisor(OsinfoDb *self, OsinfoHypervisor *hv)
+{
+    g_return_if_fail(OSINFO_IS_DB(self));
+    g_return_if_fail(OSINFO_IS_HYPERVISOR(hv));
+
+    osinfo_list_add(OSINFO_LIST(self->priv->hypervisors), OSINFO_ENTITY(hv));
+}
+
+
+void osinfo_db_add_device(OsinfoDb *self, OsinfoDevice *device)
+{
+    g_return_if_fail(OSINFO_IS_DB(self));
+    g_return_if_fail(OSINFO_IS_DEVICE(device));
+
+    osinfo_list_add(OSINFO_LIST(self->priv->devices), OSINFO_ENTITY(device));
+}
+
 
 struct osinfo_db_populate_values_args {
     GHashTable *values;
