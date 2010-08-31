@@ -112,3 +112,10 @@ OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, Osinfo
 
 
 #endif /* __OSINFO_DB_H__ */
+/*
+ * Local variables:
+ *  indent-tabs-mode: nil
+ *  c-indent-level: 4
+ *  c-basic-offset: 4
+ * End:
+ */

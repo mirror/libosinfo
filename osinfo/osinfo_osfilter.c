@@ -207,3 +207,10 @@ static gboolean osinfo_osfilter_matches_default(OsinfoFilter *filter, OsinfoEnti
     return args.matched;
 }
 
+/*
+ * Local variables:
+ *  indent-tabs-mode: nil
+ *  c-indent-level: 4
+ *  c-basic-offset: 4
+ * End:
+ */

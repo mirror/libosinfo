@@ -77,3 +77,10 @@ typedef gboolean (*osinfo_list_iterator)(OsinfoList *self, OsinfoEntity *entity,
 void osinfo_list_foreach(OsinfoList *self, osinfo_list_iterator iter, gpointer data);
 
 #endif /* __OSINFO_LIST_H__ */
+/*
+ * Local variables:
+ *  indent-tabs-mode: nil
+ *  c-indent-level: 4
+ *  c-basic-offset: 4
+ * End:
+ */

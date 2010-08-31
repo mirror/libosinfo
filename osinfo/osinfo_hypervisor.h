@@ -73,3 +73,10 @@ OsinfoDeviceList *osinfo_hypervisor_get_devices(OsinfoHypervisor *hv, OsinfoFilt
 void osinfo_hypervisor_add_device(OsinfoHypervisor *hv, OsinfoDevice *dev, const gchar *driver);
 
 #endif /* __OSINFO_HYPERVISOR_H__ */
+/*
+ * Local variables:
+ *  indent-tabs-mode: nil
+ *  c-indent-level: 4
+ *  c-basic-offset: 4
+ * End:
+ */

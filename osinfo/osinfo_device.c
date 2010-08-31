@@ -66,3 +66,10 @@ OsinfoDevice *osinfo_device_new(const gchar *id)
 			"id", id,
 			NULL);
 }
+/*
+ * Local variables:
+ *  indent-tabs-mode: nil
+ *  c-indent-level: 4
+ *  c-basic-offset: 4
+ * End:
+ */

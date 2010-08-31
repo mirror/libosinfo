@@ -103,3 +103,10 @@ OsinfoHypervisorList *osinfo_hypervisorlist_new_union(OsinfoHypervisorList *sour
     return newList;
 }
 
+/*
+ * Local variables:
+ *  indent-tabs-mode: nil
+ *  c-indent-level: 4
+ *  c-basic-offset: 4
+ * End:
+ */

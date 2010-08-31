@@ -71,3 +71,10 @@ void osinfo_osfilter_clear_os_constraints(OsinfoOsfilter *self);
 GList *osinfo_osfilter_get_os_constraint_values(OsinfoOsfilter *self, OsinfoOsRelationship relshp);
 
 #endif /* __OSINFO_OSFILTER_H__ */
+/*
+ * Local variables:
+ *  indent-tabs-mode: nil
+ *  c-indent-level: 4
+ *  c-basic-offset: 4
+ * End:
+ */

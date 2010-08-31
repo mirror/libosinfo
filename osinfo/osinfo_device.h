@@ -68,3 +68,10 @@ GType osinfo_device_get_type(void);
 OsinfoDevice *osinfo_device_new(const gchar *id);
 
 #endif /* __OSINFO_DEVICE_H__ */
+/*
+ * Local variables:
+ *  indent-tabs-mode: nil
+ *  c-indent-level: 4
+ *  c-basic-offset: 4
+ * End:
+ */

@@ -54,16 +54,16 @@ osinfo_entity_set_property (GObject      *object,
     OsinfoEntity *self = OSINFO_ENTITY (object);
 
     switch (property_id)
-      {
-      case OSI_ENTITY_ID:
-        g_free(self->priv->id);
-        self->priv->id = g_value_dup_string (value);
-        break;
-      default:
-        /* We don't have any other property... */
-        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-        break;
-      }
+        {
+        case OSI_ENTITY_ID:
+            g_free(self->priv->id);
+            self->priv->id = g_value_dup_string (value);
+            break;
+        default:
+            /* We don't have any other property... */
+            G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+            break;
+        }
 }
 
 static void
@@ -75,15 +75,15 @@ osinfo_entity_get_property (GObject    *object,
     OsinfoEntity *self = OSINFO_ENTITY (object);
 
     switch (property_id)
-      {
-      case OSI_ENTITY_ID:
-        g_value_set_string (value, self->priv->id);
-        break;
-      default:
-        /* We don't have any other property... */
-        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-        break;
-      }
+        {
+        case OSI_ENTITY_ID:
+            g_value_set_string (value, self->priv->id);
+            break;
+        default:
+            /* We don't have any other property... */
+            G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+            break;
+        }
 }
 
 static void
@@ -216,3 +216,10 @@ GList *osinfo_entity_get_param_value_list(OsinfoEntity *self, const gchar *key)
 }
 
 
+/*
+ * Local variables:
+ *  indent-tabs-mode: nil
+ *  c-indent-level: 4
+ *  c-basic-offset: 4
+ * End:
+ */

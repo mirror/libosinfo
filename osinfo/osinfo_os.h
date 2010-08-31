@@ -66,9 +66,9 @@ struct _OsinfoOsClass
 };
 
 typedef enum {
-  OSINFO_OS_RELATIONSHIP_DERIVES_FROM,
-  OSINFO_OS_RELATIONSHIP_UPGRADES,
-  OSINFO_OS_RELATIONSHIP_CLONES,
+    OSINFO_OS_RELATIONSHIP_DERIVES_FROM,
+    OSINFO_OS_RELATIONSHIP_UPGRADES,
+    OSINFO_OS_RELATIONSHIP_CLONES,
 } OsinfoOsRelationship;
 
 
@@ -87,3 +87,10 @@ void osinfo_os_add_device(OsinfoOs *self, OsinfoHypervisor *hv, OsinfoDevice *de
 void osinfo_os_add_related_os(OsinfoOs *self, OsinfoOsRelationship relshp, OsinfoOs *otheros);
 
 #endif /* __OSINFO_OS_H__ */
+/*
+ * Local variables:
+ *  indent-tabs-mode: nil
+ *  c-indent-level: 4
+ *  c-basic-offset: 4
+ * End:
+ */

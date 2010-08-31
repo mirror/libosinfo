@@ -122,3 +122,10 @@ void osinfo_hypervisor_add_device(OsinfoHypervisor *self, OsinfoDevice *dev, con
 
     self->priv->deviceLinks = g_list_prepend(self->priv->deviceLinks, link);
 }
+/*
+ * Local variables:
+ *  indent-tabs-mode: nil
+ *  c-indent-level: 4
+ *  c-basic-offset: 4
+ * End:
+ */

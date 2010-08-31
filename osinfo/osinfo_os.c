@@ -259,3 +259,10 @@ void osinfo_os_add_related_os(OsinfoOs *self, OsinfoOsRelationship relshp, Osinf
 
     self->priv->osLinks = g_list_prepend(self->priv->osLinks, osLink);
 }
+/*
+ * Local variables:
+ *  indent-tabs-mode: nil
+ *  c-indent-level: 4
+ *  c-basic-offset: 4
+ * End:
+ */

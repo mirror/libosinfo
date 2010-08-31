@@ -264,3 +264,10 @@ OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *self, Osinfo
 
     return newList;
 }
+/*
+ * Local variables:
+ *  indent-tabs-mode: nil
+ *  c-indent-level: 4
+ *  c-basic-offset: 4
+ * End:
+ */

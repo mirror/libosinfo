@@ -73,3 +73,10 @@ OsinfoDeviceList *osinfo_devicelist_new_intersection(OsinfoDeviceList *sourceOne
 OsinfoDeviceList *osinfo_devicelist_new_union(OsinfoDeviceList *sourceOne, OsinfoDeviceList *sourceTwo);
 
 #endif /* __OSINFO_DEVICELIST_H__ */
+/*
+ * Local variables:
+ *  indent-tabs-mode: nil
+ *  c-indent-level: 4
+ *  c-basic-offset: 4
+ * End:
+ */

@@ -73,3 +73,10 @@ OsinfoHypervisorList *osinfo_hypervisorlist_new_intersection(OsinfoHypervisorLis
 OsinfoHypervisorList *osinfo_hypervisorlist_new_union(OsinfoHypervisorList *sourceOne, OsinfoHypervisorList *sourceTwo);
 
 #endif /* __OSINFO_HYPERVISORLIST_H__ */
+/*
+ * Local variables:
+ *  indent-tabs-mode: nil
+ *  c-indent-level: 4
+ *  c-basic-offset: 4
+ * End:
+ */

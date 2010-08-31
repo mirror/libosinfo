@@ -84,8 +84,8 @@ OsinfoLoader *osinfo_loader_new(void)
 }
 
 
-#define OSINFO_ERROR(err, msg) \
-  g_set_error_literal((err), g_quark_from_static_string("libosinfo"), 0, (msg));
+#define OSINFO_ERROR(err, msg)                                          \
+    g_set_error_literal((err), g_quark_from_static_string("libosinfo"), 0, (msg));
 
 static int
 osinfo_loader_nodeset(const char *xpath,
@@ -224,7 +224,7 @@ static void osinfo_loader_device(OsinfoLoader *loader,
 {
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
     const gchar *const keys[] = {
-      "vendor", "product", "bus-type", "class", "name", NULL,
+        "vendor", "product", "bus-type", "class", "name", NULL,
     };
     if (!id) {
         OSINFO_ERROR(err, "Missing device id property");
@@ -280,7 +280,7 @@ static void osinfo_loader_hypervisor(OsinfoLoader *loader,
 {
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
     const gchar *const keys[] = {
-      "name", "version", NULL,
+        "name", "version", NULL,
     };
     if (!id) {
         OSINFO_ERROR(err, "Missing hypervisor id property");
@@ -374,7 +374,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
 {
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
     const gchar *const keys[] = {
-      "name", "version", "short-id", NULL
+        "name", "version", "short-id", NULL
     };
     if (!id) {
         OSINFO_ERROR(err, "Missing os id property");
@@ -427,9 +427,9 @@ static void osinfo_loader_os(OsinfoLoader *loader,
 
 
 static void osinfo_loader_root(OsinfoLoader *loader,
-				 xmlXPathContextPtr ctxt,
-				 xmlNodePtr root,
-				 GError **err)
+                               xmlXPathContextPtr ctxt,
+                               xmlNodePtr root,
+                               GError **err)
 {
     /*
      * File assumed to contain data in XML format. All data
@@ -466,7 +466,7 @@ static void osinfo_loader_root(OsinfoLoader *loader,
 	osinfo_loader_device(loader, ctxt, devices[i], err);
 	ctxt->node = saved;
 	if (*err)
-	  goto cleanup;
+            goto cleanup;
     }
 
     int nhypervisor = osinfo_loader_nodeset("./hypervisor", ctxt, &hypervisors, err);
@@ -551,13 +551,13 @@ static void osinfo_loader_process_xml(OsinfoLoader *loader,
 
     ctxt = xmlXPathNewContext(xml);
     if (!ctxt)
-      goto cleanup;
+        goto cleanup;
 
     ctxt->node = root;
 
     osinfo_loader_root(loader, ctxt, root, err);
 
-cleanup:
+ cleanup:
     xmlXPathFreeContext(ctxt);
     xmlFreeDoc(xml);
     xmlFreeParserCtxt(pctxt);
@@ -639,15 +639,15 @@ osinfo_loader_process_file(OsinfoLoader *loader,
 						      G_FILE_ATTRIBUTE_STANDARD_TYPE);
 
     switch (type) {
-      case G_FILE_TYPE_REGULAR:
+    case G_FILE_TYPE_REGULAR:
 	osinfo_loader_process_file_reg(loader, file, info, err);
 	break;
 
-      case G_FILE_TYPE_DIRECTORY:
+    case G_FILE_TYPE_DIRECTORY:
 	osinfo_loader_process_file_dir(loader, file, info, err);
 	break;
 
-      default:
+    default:
 	break;
     }
 
@@ -676,3 +676,10 @@ void osinfo_loader_process_uri(OsinfoLoader *loader,
 			       err);
     g_object_unref(file);
 }
+/*
+ * Local variables:
+ *  indent-tabs-mode: nil
+ *  c-indent-level: 4
+ *  c-basic-offset: 4
+ * End:
+ */

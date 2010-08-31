@@ -53,11 +53,11 @@ osinfo_list_set_property(GObject      *object,
     OsinfoList *self = OSINFO_LIST(object);
 
     switch (property_id) {
-      case PROP_ELEMENT_TYPE:
+    case PROP_ELEMENT_TYPE:
 	self->priv->elementType = g_value_get_gtype(value);
         break;
 
-      default:
+    default:
         /* We don't have any other property... */
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
         break;
@@ -73,11 +73,11 @@ osinfo_list_get_property(GObject    *object,
     OsinfoList *self = OSINFO_LIST(object);
 
     switch (property_id) {
-      case PROP_ELEMENT_TYPE:
+    case PROP_ELEMENT_TYPE:
         g_value_set_gtype(value, self->priv->elementType);
         break;
 
-      default:
+    default:
         /* We don't have any other property... */
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
         break;
@@ -272,3 +272,10 @@ void osinfo_list_foreach(OsinfoList *self, osinfo_list_iterator iter, gpointer d
 	iter(self, ent, data);
     }
 }
+/*
+ * Local variables:
+ *  indent-tabs-mode: nil
+ *  c-indent-level: 4
+ *  c-basic-offset: 4
+ * End:
+ */
