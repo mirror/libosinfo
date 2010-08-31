@@ -1,5 +1,5 @@
 
-SUBDIRS = osinfo test
+SUBDIRS = osinfo test docs
 
 EXTRA_DIST = \
   COPYING.LIB \
@@ -7,6 +7,7 @@ EXTRA_DIST = \
   libosinfo.spec.in \
   mingw32-libosinfo.spec.in
 
+DISTCHECK_CONFIGURE_FLAGS=--enable-gtk-doc
 
 ACLOCAL_AMFLAGS = -I m4
 

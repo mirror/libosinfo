@@ -19,6 +19,8 @@ PKG_CHECK_MODULES([GOBJECT], [gobject-2.0])
 PKG_CHECK_MODULES([GIO], [gio-2.0])
 PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= 2.6.0])
 
+GTK_DOC_CHECK([1.10],[--flavour no-tmpl])
+
 AC_ARG_ENABLE([tests],
         AS_HELP_STRING([--enable-tests], [enable test suite]),
         [], [enable_tests=yes])
@@ -113,5 +115,7 @@ AC_CONFIG_FILES([
 	osinfo/Makefile
 	osinfo/libosinfo-1.0.pc
 	test/Makefile
+	docs/Makefile
+	docs/reference/Makefile
 ])
 AC_OUTPUT
