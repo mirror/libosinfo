@@ -232,9 +232,10 @@ struct osinfo_db_populate_values_args {
     const gchar *property;
 };
 
-static gboolean osinfo_db_get_property_values_in_entity(OsinfoList *list, OsinfoEntity *entity, gpointer data)
+static void osinfo_db_get_property_values_in_entity(gpointer data, gpointer opaque)
 {
-    struct osinfo_db_populate_values_args *args = data;
+    OsinfoEntity *entity = OSINFO_ENTITY(data);
+    struct osinfo_db_populate_values_args *args = opaque;
     GHashTable *newValues = args->values;
     const gchar *property = args->property;
     GList *values = osinfo_entity_get_param_value_list(entity, property);
@@ -253,8 +254,6 @@ static gboolean osinfo_db_get_property_values_in_entity(OsinfoList *list, Osinfo
     }
 
     g_list_free(values);
-
-    return FALSE; // Continue iterating
 }
 
 static GList *osinfo_db_unique_values_for_property_in_entity(OsinfoList *entities, const gchar *propName)
@@ -263,8 +262,11 @@ static GList *osinfo_db_unique_values_for_property_in_entity(OsinfoList *entitie
     GHashTable *values = g_hash_table_new(g_str_hash, g_str_equal);
     GList *ret;
     struct osinfo_db_populate_values_args args = { values, propName };
+    GList *elements;
 
-    osinfo_list_foreach(entities, osinfo_db_get_property_values_in_entity, &args);
+    elements = osinfo_list_get_elements(entities);
+    g_list_foreach(elements, osinfo_db_get_property_values_in_entity, &args);
+    g_list_free(elements);
 
     ret = g_hash_table_get_keys(values);
     g_hash_table_unref(values);
@@ -279,7 +281,7 @@ static GList *osinfo_db_unique_values_for_property_in_entity(OsinfoList *entitie
  * Get all unique values for a named property amongst all
  * operating systems in the database
  *
- * Returns: (transfer container): a list of strings
+ * Returns: (transfer container)(element-type utf8): a list of strings
  */
 GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *db, const gchar *propName)
 {
@@ -298,7 +300,7 @@ GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *db, const gchar *pro
  * Get all unique values for a named property amongst all
  * hypervisors in the database
  *
- * Returns: (transfer container): a list of strings
+ * Returns: (transfer container)(element-type utf8): a list of strings
  */
 GList *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *db, const gchar *propName)
 {
@@ -310,14 +312,14 @@ GList *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *db, const gchar *pro
 
 
 /**
- * osinfo_db_unique_values_for_property_in_hv:
+ * osinfo_db_unique_values_for_property_in_dev:
  * @db: the database
  * @propName: a property name
  *
  * Get all unique values for a named property amongst all
  * devices in the database
  *
- * Returns: (transfer container): a list of strings
+ * Returns: (transfer container)(element-type utf8): a list of strings
  */
 GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *db, const gchar *propName)
 {
@@ -333,10 +335,10 @@ struct __osinfoOsCheckRelationshipArgs {
 };
 
 
-static gboolean __osinfoAddOsIfRelationship(OsinfoList *list, OsinfoEntity *entity, gpointer data)
+static void __osinfoAddOsIfRelationship(gpointer data, gpointer opaque)
 {
-    struct __osinfoOsCheckRelationshipArgs *args = data;
-    OsinfoOs *os = OSINFO_OS(entity);
+    struct __osinfoOsCheckRelationshipArgs *args = opaque;
+    OsinfoOs *os = OSINFO_OS(data);
     OsinfoList *newList = args->list;
     OsinfoOsList *thisList = osinfo_os_get_related(os, args->relshp);
     int i;
@@ -347,8 +349,6 @@ static gboolean __osinfoAddOsIfRelationship(OsinfoList *list, OsinfoEntity *enti
     }
 
     g_object_unref(thisList);
-
-    return FALSE;
 }
 
 /**
@@ -365,12 +365,12 @@ OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *db, OsinfoOs
 {
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
 
-    // Create list
     OsinfoOsList *newList = osinfo_oslist_new();
-
     struct __osinfoOsCheckRelationshipArgs args = {OSINFO_LIST (newList), relshp};
+    GList *entities = osinfo_list_get_elements(OSINFO_LIST(db->priv->oses));
 
-    osinfo_list_foreach(OSINFO_LIST(db->priv->oses), __osinfoAddOsIfRelationship, &args);
+    g_list_foreach(entities, __osinfoAddOsIfRelationship, &args);
+    g_list_free(entities);
 
     return newList;
 }

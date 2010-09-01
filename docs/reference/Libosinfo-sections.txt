@@ -43,8 +43,7 @@ osinfo_list_add_filtered
 osinfo_list_add_intersection
 osinfo_list_add_union
 osinfo_list_add_all
-osinfo_list_iterator
-osinfo_list_foreach
+osinfo_list_get_elements
 <SUBSECTION Standard>
 OSINFO_LIST
 OSINFO_IS_LIST

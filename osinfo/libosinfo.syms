@@ -58,7 +58,7 @@ LIBOSINFO_0.0.1 {
 	osinfo_list_add_intersection;
 	osinfo_list_add_union;
 	osinfo_list_add_all;
-	osinfo_list_foreach;
+	osinfo_list_get_elements;
 	osinfo_osfilter_get_type;
 	osinfo_osfilter_new;
 	osinfo_osfilter_add_os_constraint;

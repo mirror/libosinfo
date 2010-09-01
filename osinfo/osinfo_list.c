@@ -194,6 +194,26 @@ OsinfoEntity *osinfo_list_get_nth(OsinfoList *list, gint idx)
 
 
 /**
+ * osinfo_list_get_elements:
+ * @list: the entity list
+ *
+ * Retrieve a linked list of all elements in the list.
+ *
+ * Returns: (transfer container) (element-type OsinfoEntity): the list elements
+ */
+GList *osinfo_list_get_elements(OsinfoList *list)
+{
+    GList *elements = NULL;
+    int i;
+
+    for (i = 0 ; i < list->priv->array->len ; i++) {
+        elements = g_list_prepend(elements,
+                                  g_ptr_array_index(list->priv->array, i));
+    }
+    return g_list_reverse(elements);
+}
+
+/**
  * osinfo_list_find_by_id:
  * @list: the entity list
  * @id: the unique identifier
@@ -366,23 +386,6 @@ void osinfo_list_add_all(OsinfoList *list, OsinfoList *source)
 }
 
 
-/**
- * osinfo_list_foreach:
- * @list: the entity list
- * @iter: the iterator callback
- * @data: opaque data value
- *
- * Iterate over all entities in the list, invoking @iter. The
- * iterator callback will be passed the opaque data value @data
- */
-void osinfo_list_foreach(OsinfoList *list, osinfo_list_iterator iter, gpointer data)
-{
-    int i;
-    for (i = 0 ; i < list->priv->array->len ; i++) {
-        OsinfoEntity *ent = g_ptr_array_index(list->priv->array, i);
-	iter(list, ent, data);
-    }
-}
 /*
  * Local variables:
  *  indent-tabs-mode: nil

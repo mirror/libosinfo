@@ -274,22 +274,21 @@ struct iterateData {
     gboolean hasBad;
 };
 
-static gboolean iterator(OsinfoList *list G_GNUC_UNUSED, OsinfoEntity *ent, gpointer opaque)
+static void iterator(gpointer data, gpointer opaque)
 {
-    struct iterateData *data = opaque;
+    OsinfoEntity *ent = OSINFO_ENTITY(data);
+    struct iterateData *idata = opaque;
 
-    if (data->ent1 == ent)
-        data->has1 = TRUE;
-    else if (data->ent2 == ent)
-        data->has2 = TRUE;
-    else if (data->ent3 == ent)
-        data->has3 = TRUE;
-    else if (data->ent4 == ent)
-        data->has4 = TRUE;
+    if (idata->ent1 == ent)
+        idata->has1 = TRUE;
+    else if (idata->ent2 == ent)
+        idata->has2 = TRUE;
+    else if (idata->ent3 == ent)
+        idata->has3 = TRUE;
+    else if (idata->ent4 == ent)
+        idata->has4 = TRUE;
     else
-        data->hasBad = TRUE;
-
-    return TRUE;
+        idata->hasBad = TRUE;
 }
 
 START_TEST(test_iterate)
@@ -312,7 +311,9 @@ START_TEST(test_iterate)
         ent1, ent2, ent3, ent4,
         FALSE, FALSE, FALSE, FALSE, FALSE
     };
-    osinfo_list_foreach(list1, iterator, &data);
+    GList *elements = osinfo_list_get_elements(list1);
+    g_list_foreach(elements, iterator, &data);
+    g_list_free(elements);
     fail_unless(data.has1, "List was missing entity 1");
     fail_unless(data.has2, "List was missing entity 2");
     fail_unless(data.has3, "List was missing entity 3");
@@ -321,7 +322,9 @@ START_TEST(test_iterate)
 
     data.has1 = data.has2 = data.has3 = data.has4 = data.hasBad = FALSE;
 
-    osinfo_list_foreach(list2, iterator, &data);
+    elements = osinfo_list_get_elements(list2);
+    g_list_foreach(elements, iterator, &data);
+    g_list_free(elements);
     fail_unless(data.has1, "List was missing entity 1");
     fail_unless(!data.has2, "List has unexpected entity 2");
     fail_unless(!data.has3, "List has unexpected entity 3");
