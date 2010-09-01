@@ -69,7 +69,7 @@ GType osinfo_filter_get_type(void);
 
 OsinfoFilter *osinfo_filter_new(void);
 
-gint osinfo_filter_add_constraint(OsinfoFilter *filter, gchar *propName, gchar *propVal);
+void osinfo_filter_add_constraint(OsinfoFilter *filter, gchar *propName, gchar *propVal);
 
 void osinfo_filter_clear_constraint(OsinfoFilter *filter, gchar *propName);
 void osinfo_filter_clear_constraints(OsinfoFilter *filter);

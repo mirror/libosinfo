@@ -36,6 +36,16 @@ G_DEFINE_TYPE (OsinfoLoader, osinfo_loader, G_TYPE_OBJECT);
 
 #define OSINFO_LOADER_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_LOADER, OsinfoLoaderPrivate))
 
+/**
+ * SECTION:osinfo_loader
+ * @short_description: An database loader
+ * @see_also: #OsinfoDb
+ *
+ * #OsinfoLoader provides a way to populate an #OsinfoDb from
+ * a set of XML documents.
+ *
+ */
+
 struct _OsinfoLoaderPrivate
 {
     OsinfoDb *db;
@@ -78,6 +88,13 @@ osinfo_loader_init (OsinfoLoader *loader)
 
 /** PUBLIC METHODS */
 
+/**
+ * osinfo_loader_new:
+ *
+ * Create a new database loader
+ *
+ * Returns: (transfer full): a loader object
+ */
 OsinfoLoader *osinfo_loader_new(void)
 {
     return g_object_new(OSINFO_TYPE_LOADER, NULL);
@@ -655,6 +672,33 @@ osinfo_loader_process_file(OsinfoLoader *loader,
 }
 
 
+/**
+ * osinfo_loader_get_db:
+ * @loader: the loader object
+ *
+ * Retrieves the database being populated
+ *
+ * Returns: (transfer none): the database
+ */
+OsinfoDb *osinfo_loader_get_db(OsinfoLoader *loader)
+{
+    g_return_val_if_fail(OSINFO_IS_LOADER(loader), NULL);
+
+    return loader->priv->db;
+}
+
+
+/**
+ * osinfo_loader_process_path:
+ * @loader: the loader object
+ * @path: the fully qualified path
+ * @err: (out): filled with error information upon failure
+ *
+ * Loaders data from the specified path. If the path
+ * points to a file, that will be loaded as XML
+ * Otherwise it can point to a directory which will
+ * be recursively traversed, loading all files as XML.
+ */
 void osinfo_loader_process_path(OsinfoLoader *loader,
 				const gchar *path,
 				GError **err)
@@ -666,6 +710,18 @@ void osinfo_loader_process_path(OsinfoLoader *loader,
     g_object_unref(file);
 }
 
+
+/**
+ * osinfo_loader_process_uri:
+ * @loader: the loader object
+ * @uri: the data source URI
+ * @err: (out): filled with error information upon failure
+ *
+ * Loaders data from the specified URI. If the URI
+ * points to a file, that will be loaded as XML
+ * Otherwise it can point to a directory which will
+ * be recursively traversed, loading all files as XML.
+ */
 void osinfo_loader_process_uri(OsinfoLoader *loader,
 			       const gchar *uri,
 			       GError **err)

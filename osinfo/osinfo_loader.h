@@ -44,20 +44,6 @@ typedef struct _OsinfoLoaderClass   OsinfoLoaderClass;
 
 typedef struct _OsinfoLoaderPrivate OsinfoLoaderPrivate;
 
-/*
- * To get a loader handle, we construct one with a construct-time only
- * backing data directory. It is already considered to be initialized
- * on return from the constructor, and ready to do work.
- *
- * To close it, we call the destructor on it.
- * Setting parameters on it will work if it's not a construct-time only
- * parameter. Reading will always work. Currently the backing directory and
- * libvirt version are the only parameters.
- *
- * The loader object contains information related to three main classes of
- * objects: hypervisors, operating systems and devices.
- */
-
 /* object */
 struct _OsinfoLoader
 {

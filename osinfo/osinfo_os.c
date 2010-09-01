@@ -28,6 +28,27 @@ G_DEFINE_TYPE (OsinfoOs, osinfo_os, OSINFO_TYPE_ENTITY);
 
 #define OSINFO_OS_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_OS, OsinfoOsPrivate))
 
+/**
+ * SECTION:osinfo_os
+ * @short_description: An operating system
+ * @see_also: #OsinfoOs, #OsinfoHypervisor
+ *
+ * #OsinfoOs is an entity representing an operating system.
+ * Operating systems have a list of supported devices. 
+ * There are relationships amongst operating systems to
+ * declare which are newest releases, which are clones
+ * and which are derived from a common ancestry.
+ */
+
+/**
+ * OsinfoOsRelationship:
+ * @OSINFO_OS_RELATIONSHIP_DERIVES_FROM: a descendent (RHEL-5 derives from Fedora-6)
+ * @OSINFO_OS_RELATIONSHIP_CLONES: a perfect clone (CentOS-5 clones RHEL-5)
+ * @OSINFO_OS_RELATIONSHIP_UPGRADES: a new version release (RHEL-6 upgrades RHEL-4)
+ *
+ * Enum values used to form relationships between operating
+ * systems
+ */
 struct _OsinfoOsPrivate
 {
     // OS-Hypervisor specific information
@@ -125,6 +146,15 @@ osinfo_os_init (OsinfoOs *os)
                                                   osinfo_os_hypervisor_devices_free);
 }
 
+
+/**
+ * osinfo_os_new:
+ * @id: a unique identifier
+ * 
+ * Create a new operating system entity
+ *
+ * Returns: (transfer full): a new operating system entity
+ */
 OsinfoOs *osinfo_os_new(const gchar *id)
 {
     return g_object_new(OSINFO_TYPE_OS,
@@ -133,6 +163,17 @@ OsinfoOs *osinfo_os_new(const gchar *id)
 }
 
 
+/**
+ * osinfo_os_get_preferred_device:
+ * @os: the operating system entity
+ * @hv: (transfer none)(allow-none): an optional hypervisor to restrict to
+ * @filter: (transfer none)(allow-none): a device metadata filter
+ * @driver: (out callee-allocates)
+ *
+ * Get the preferred device matching a given filter and hypervisor
+ *
+ * Returns: (transfer none): a device, or NULL
+ */
 OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *os, OsinfoHypervisor *hv, OsinfoFilter *filter,
 					     const gchar **driver)
 {
@@ -165,6 +206,17 @@ OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *os, OsinfoHypervisor *hv,
     return NULL;
 }
 
+
+/**
+ * osinfo_os_get_related:
+ * @os: an operating system
+ * @relshp: the relationship to query
+ *
+ * Get a list of operating systems satisfying the the requested
+ * relationship
+ *
+ * Returns: (transfer full): a list of related operating systems
+ */
 OsinfoOsList *osinfo_os_get_related(OsinfoOs *os, OsinfoOsRelationship relshp)
 {
     g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
@@ -185,6 +237,17 @@ OsinfoOsList *osinfo_os_get_related(OsinfoOs *os, OsinfoOsRelationship relshp)
     return newList;
 }
 
+
+/**
+ * osinfo_os_get_devices:
+ * @os: an operating system
+ * @hv: (allow-none)(transfer none): an optional hypervisor to restrict to
+ * @filter: (allow-none)(transfer none): an optional device property filter
+ *
+ * Get all devices matching a given filter and hypervisor
+ *
+ * Returns: (transfer full): A list of devices
+ */
 OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoHypervisor *hv, OsinfoFilter *filter)
 {
     g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
@@ -213,6 +276,16 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoHypervisor *hv, Osin
 }
 
 
+/**
+ * osinfo_os_add_device:
+ * @os: an operating system
+ * @hv: (transfer none): an optional hypervisor to associated with
+ * @dev: (transfer none): the device to associated with
+ * @driver: the operating system device driver
+ *
+ * Associated a device with an operating system, and optionally
+ * a hypervisor.
+ */
 void osinfo_os_add_device(OsinfoOs *os, OsinfoHypervisor *hv, OsinfoDevice *dev, const gchar *driver)
 {
     g_return_if_fail(OSINFO_IS_OS(os));
@@ -246,6 +319,14 @@ void osinfo_os_add_device(OsinfoOs *os, OsinfoHypervisor *hv, OsinfoDevice *dev,
 }
 
 
+/**
+ * osinfo_os_add_related_os:
+ * @os: an operating system
+ * @relshp: the relationship
+ * @otheros: (transfer none): the operating system to relate to
+ *
+ * Add an association between two operating systems
+ */
 void osinfo_os_add_related_os(OsinfoOs *os, OsinfoOsRelationship relshp, OsinfoOs *otheros)
 {
     g_return_if_fail(OSINFO_IS_OS(os));

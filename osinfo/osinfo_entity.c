@@ -28,6 +28,18 @@ G_DEFINE_ABSTRACT_TYPE (OsinfoEntity, osinfo_entity, G_TYPE_OBJECT);
 
 #define OSINFO_ENTITY_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_ENTITY, OsinfoEntityPrivate))
 
+/**
+ * SECTION:osinfo_entity
+ * @short_description: Abstract base class for metadata objects
+ * @see_also: #OsinfoList, #OsinfoDb
+ *
+ * #OsinfoEntity is an abstract base class for all objects against which
+ * metadata needs to be recorded. Every object has a unique identifier,
+ * which is recommended to be in URI format. Named, multi-valued data
+ * parameters can be associated with each entity. When filtering lists
+ * of entities, the parameter values can be used for matching.
+ */
+
 struct _OsinfoEntityPrivate
 {
     gchar *id;
@@ -108,9 +120,17 @@ osinfo_entity_class_init (OsinfoEntityClass *klass)
     g_klass->set_property = osinfo_entity_set_property;
     g_klass->get_property = osinfo_entity_get_property;
 
+    /**
+     * OsinfoEntity:id:
+     *
+     * The unique identifier for the entity The format of identifiers
+     * is undefined, but the recommended practice is to use a URI.
+     * This parameter must be set at time of construction as no
+     * default value is provided.
+     */
     pspec = g_param_spec_string ("id",
                                  "ID",
-                                 "Contains unique identifier for entity.",
+                                 "Unique identifier",
                                  NULL /* default value */,
                                  G_PARAM_CONSTRUCT_ONLY |
 				 G_PARAM_READWRITE |
@@ -149,6 +169,17 @@ osinfo_entity_init (OsinfoEntity *entity)
 					       osinfo_entity_param_values_free);
 }
 
+
+/**
+ * osinfo_entity_add_param:
+ * @entity: OsinfoEntity containing the parameters
+ * @key: the name of the key
+ * @value: the data to associated with that key
+ *
+ * Adds a new parameter against the entity. A key can have multiple
+ * values associated. Thus repeated calls with the same key will
+ * build up a list of possible values.
+ */
 void osinfo_entity_add_param(OsinfoEntity *entity, const gchar *key, const gchar *value)
 {
     g_return_if_fail(OSINFO_IS_ENTITY(entity));
@@ -172,11 +203,28 @@ void osinfo_entity_add_param(OsinfoEntity *entity, const gchar *key, const gchar
     g_hash_table_insert(entity->priv->params, g_strdup(key), values);
 }
 
+
+/**
+ * osinfo_entity_clear_param:
+ * @entity: OsinfoEntity containing the parameters
+ * @key: the name of the key
+ *
+ * Remove all values associated with a key
+ */
 void osinfo_entity_clear_param(OsinfoEntity *entity, const gchar *key)
 {
     g_hash_table_remove(entity->priv->params, key);
 }
 
+/**
+ * osinfo_entity_get_id:
+ * @entity: a OsinfoEntity 
+ *
+ * Retrieves the unique key for the entity. The format of identifiers
+ * is undefined, but the recommended practice is to use a URI.
+ *
+ * Returns: (transfer none): the unique key for the entity
+ */
 const gchar *osinfo_entity_get_id(OsinfoEntity *entity)
 {
     g_return_val_if_fail(OSINFO_IS_ENTITY(entity), NULL);
@@ -184,6 +232,16 @@ const gchar *osinfo_entity_get_id(OsinfoEntity *entity)
     return entity->priv->id;
 }
 
+
+/**
+ * osinfo_entity_get_param_keys:
+ * @entity: OsinfoEntity containing the parameters
+ *
+ * Retrieve all the known parameter keys associated with
+ * the entity
+ *
+ * Returns: (transfer container) (element-type utf8): The list of string parameters
+ */
 GList *osinfo_entity_get_param_keys(OsinfoEntity *entity)
 {
     g_return_val_if_fail(OSINFO_IS_ENTITY(entity), NULL);
@@ -191,6 +249,18 @@ GList *osinfo_entity_get_param_keys(OsinfoEntity *entity)
     return g_hash_table_get_keys(entity->priv->params);
 }
 
+
+/**
+ * osinfo_entity_get_param_value:
+ * @entity: OsinfoEntity containing the parameters
+ * @key: the name of the key
+ *
+ * Retrieve the parameter value associated with a named key. If
+ * multiple values are stored against the key, only the first
+ * value is returned. If no value is associated, NULL is returned
+ *
+ * Returns: (transfer none): the value associated with the key, or NULL
+ */
 const gchar *osinfo_entity_get_param_value(OsinfoEntity *entity, const gchar *key)
 {
     g_return_val_if_fail(OSINFO_IS_ENTITY(entity), NULL);
@@ -205,6 +275,17 @@ const gchar *osinfo_entity_get_param_value(OsinfoEntity *entity, const gchar *ke
     return NULL;
 }
 
+
+/**
+ * osinfo_entity_get_param_value_list:
+ * @entity: OsinfoEntity containing the parameters
+ * @key: the name of the key
+ *
+ * Retrieve all the parameter values associated with a named
+ * key. If no values are associated, NULL is returned
+ *
+ * Returns: (transfer container) (element-type utf8): the values associated with the key
+ */
 GList *osinfo_entity_get_param_value_list(OsinfoEntity *entity, const gchar *key)
 {
     g_return_val_if_fail(OSINFO_IS_ENTITY(entity), NULL);

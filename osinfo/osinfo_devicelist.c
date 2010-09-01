@@ -28,7 +28,14 @@ G_DEFINE_TYPE (OsinfoDeviceList, osinfo_devicelist, OSINFO_TYPE_LIST);
 
 #define OSINFO_DEVICELIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_DEVICELIST, OsinfoDeviceListPrivate))
 
-static void osinfo_devicelist_finalize (GObject *object);
+/**
+ * SECTION:osinfo_devicelist
+ * @short_description: A list of hardware device
+ * @see_also: #OsinfoList, #OsinfoDevice
+ *
+ * #OsinfoDeviceList is a list specialization that stores
+ * only #OsinfoDevice objects.
+ */
 
 struct _OsinfoDeviceListPrivate
 {
@@ -60,6 +67,14 @@ osinfo_devicelist_init (OsinfoDeviceList *list)
 
 }
 
+
+/**
+ * osinfo_devicelist_new:
+ *
+ * Construct a new device list that is initially empty.
+ *
+ * Returns: (transfer full): an empty device list
+ */
 OsinfoDeviceList *osinfo_devicelist_new(void)
 {
     return g_object_new(OSINFO_TYPE_DEVICELIST,
@@ -67,6 +82,16 @@ OsinfoDeviceList *osinfo_devicelist_new(void)
 			NULL);
 }
 
+
+/**
+ * osinfo_devicelist_new_copy:
+ * @source: the device list to copy
+ *
+ * Construct a new device list that is filled with devices
+ * from @source
+ *
+ * Returns: (transfer full): a copy of the device list
+ */
 OsinfoDeviceList *osinfo_devicelist_new_copy(OsinfoDeviceList *source)
 {
     OsinfoDeviceList *newList = osinfo_devicelist_new();
@@ -75,6 +100,17 @@ OsinfoDeviceList *osinfo_devicelist_new_copy(OsinfoDeviceList *source)
     return newList;
 }
 
+
+/**
+ * osinfo_devicelist_new_filtered:
+ * @source: the device list to copy
+ * @filter: the filter to apply
+ *
+ * Construct a new device list that is filled with devices
+ * from @source that match @filter
+ *
+ * Returns: (transfer full): a filtered copy of the device list
+ */
 OsinfoDeviceList *osinfo_devicelist_new_filtered(OsinfoDeviceList *source, OsinfoFilter *filter)
 {
     OsinfoDeviceList *newList = osinfo_devicelist_new();
@@ -84,6 +120,16 @@ OsinfoDeviceList *osinfo_devicelist_new_filtered(OsinfoDeviceList *source, Osinf
     return newList;
 }
 
+/**
+ * osinfo_devicelist_new_intersection:
+ * @sourceOne: the first device list to copy
+ * @sourceTwo: the second device list to copy
+ *
+ * Construct a new device list that is filled with only the
+ * devices that are present in both @sourceOne and @sourceTwo.
+ *
+ * Returns: (transfer full): an intersection of the two device lists
+ */
 OsinfoDeviceList *osinfo_devicelist_new_intersection(OsinfoDeviceList *sourceOne, OsinfoDeviceList *sourceTwo)
 {
     OsinfoDeviceList *newList = osinfo_devicelist_new();
@@ -93,6 +139,16 @@ OsinfoDeviceList *osinfo_devicelist_new_intersection(OsinfoDeviceList *sourceOne
     return newList;
 }
 
+/**
+ * osinfo_devicelist_new_union:
+ * @sourceOne: the first device list to copy
+ * @sourceTwo: the second device list to copy
+ *
+ * Construct a new device list that is filled with all the
+ * devices that are present in either @sourceOne and @sourceTwo.
+ *
+ * Returns: (transfer full): a union of the two device lists
+ */
 OsinfoDeviceList *osinfo_devicelist_new_union(OsinfoDeviceList *sourceOne, OsinfoDeviceList *sourceTwo)
 {
     OsinfoDeviceList *newList = osinfo_devicelist_new();

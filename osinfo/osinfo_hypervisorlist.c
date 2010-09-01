@@ -28,7 +28,14 @@ G_DEFINE_TYPE (OsinfoHypervisorList, osinfo_hypervisorlist, OSINFO_TYPE_LIST);
 
 #define OSINFO_HYPERVISORLIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_HYPERVISORLIST, OsinfoHypervisorListPrivate))
 
-static void osinfo_hypervisorlist_finalize (GObject *object);
+/**
+ * SECTION:osinfo_hypervisorlist
+ * @short_description: A list of hypervisor platforms
+ * @see_also: #OsinfoList, #OsinfoHypervisor
+ *
+ * #OsinfoHypervisorList is a list specialization that stores
+ * only #OsinfoHypervisor objects.
+ */
 
 struct _OsinfoHypervisorListPrivate
 {
@@ -61,6 +68,13 @@ osinfo_hypervisorlist_init (OsinfoHypervisorList *list)
 }
 
 
+/**
+ * osinfo_hypervisorlist_new:
+ *
+ * Construct a new hypervisor list that is initially empty.
+ *
+ * Returns: (transfer full): an empty hypervisor list
+ */
 OsinfoHypervisorList *osinfo_hypervisorlist_new(void)
 {
     return g_object_new(OSINFO_TYPE_HYPERVISORLIST,
@@ -68,6 +82,15 @@ OsinfoHypervisorList *osinfo_hypervisorlist_new(void)
 			NULL);
 }
 
+/**
+ * osinfo_hypervisorlist_new_copy:
+ * @source: the hypervisor list to copy
+ *
+ * Construct a new hypervisor list that is filled with hypervisors
+ * from @source
+ *
+ * Returns: (transfer full): a copy of the hypervisor list
+ */
 OsinfoHypervisorList *osinfo_hypervisorlist_new_copy(OsinfoHypervisorList *source)
 {
     OsinfoHypervisorList *newList = osinfo_hypervisorlist_new();
@@ -76,6 +99,16 @@ OsinfoHypervisorList *osinfo_hypervisorlist_new_copy(OsinfoHypervisorList *sourc
     return newList;
 }
 
+/**
+ * osinfo_hypervisorlist_new_filtered:
+ * @source: the hypervisor list to copy
+ * @filter: the filter to apply
+ *
+ * Construct a new hypervisor list that is filled with hypervisors
+ * from @source that match @filter
+ *
+ * Returns: (transfer full): a filtered copy of the hypervisor list
+ */
 OsinfoHypervisorList *osinfo_hypervisorlist_new_filtered(OsinfoHypervisorList *source, OsinfoFilter *filter)
 {
     OsinfoHypervisorList *newList = osinfo_hypervisorlist_new();
@@ -85,6 +118,16 @@ OsinfoHypervisorList *osinfo_hypervisorlist_new_filtered(OsinfoHypervisorList *s
     return newList;
 }
 
+/**
+ * osinfo_hypervisorlist_new_intersection:
+ * @sourceOne: the first hypervisor list to copy
+ * @sourceTwo: the second hypervisor list to copy
+ *
+ * Construct a new hypervisor list that is filled with only the
+ * hypervisors that are present in both @sourceOne and @sourceTwo.
+ *
+ * Returns: (transfer full): an intersection of the two hypervisor lists
+ */
 OsinfoHypervisorList *osinfo_hypervisorlist_new_intersection(OsinfoHypervisorList *sourceOne, OsinfoHypervisorList *sourceTwo)
 {
     OsinfoHypervisorList *newList = osinfo_hypervisorlist_new();
@@ -94,6 +137,16 @@ OsinfoHypervisorList *osinfo_hypervisorlist_new_intersection(OsinfoHypervisorLis
     return newList;
 }
 
+/**
+ * osinfo_hypervisorlist_new_union:
+ * @sourceOne: the first hypervisor list to copy
+ * @sourceTwo: the second hypervisor list to copy
+ *
+ * Construct a new hypervisor list that is filled with all the
+ * hypervisors that are present in either @sourceOne and @sourceTwo.
+ *
+ * Returns: (transfer full): a union of the two hypervisor lists
+ */
 OsinfoHypervisorList *osinfo_hypervisorlist_new_union(OsinfoHypervisorList *sourceOne, OsinfoHypervisorList *sourceTwo)
 {
     OsinfoHypervisorList *newList = osinfo_hypervisorlist_new();

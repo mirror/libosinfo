@@ -28,6 +28,15 @@ G_DEFINE_TYPE (OsinfoFilter, osinfo_filter, G_TYPE_OBJECT);
 
 #define OSINFO_FILTER_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_FILTER, OsinfoFilterPrivate))
 
+/**
+ * SECTION:osinfo_filter
+ * @short_description: An entity filter
+ * @see_also: #OsinfoEntity
+ *
+ * #OsinfoFilter provides a way to filter OsinfoEntity
+ * instances based on their parameter values.
+ */
+
 struct _OsinfoFilterPrivate
 {
     // Key: Constraint name
@@ -63,6 +72,13 @@ osinfo_filter_class_init (OsinfoFilterClass *klass)
 }
 
 
+/**
+ * osinfo_filter_new:
+ * 
+ * Construct a new filter that matches all entities
+ *
+ * Returns: (transfer full): a filter object
+ */
 OsinfoFilter *osinfo_filter_new(void)
 {
     return g_object_new(OSINFO_TYPE_FILTER, NULL);
@@ -98,11 +114,23 @@ osinfo_filter_init (OsinfoFilter *filter)
 }
 
 
-gint osinfo_filter_add_constraint(OsinfoFilter *filter, gchar *propName, gchar *propVal)
+/**
+ * osinfo_filter_add_constraint:
+ * @filter: a filter object
+ * @propName: the name of the parameter key
+ * @propVal: the required property value
+ *
+ * Adds a constraint that requires the entity to have
+ * a property key @propName with a value of @propVal.
+ * If multiple constraints are added for the same
+ * @propName, with different values, the entity have
+ * all property values.
+ */
+void osinfo_filter_add_constraint(OsinfoFilter *filter, gchar *propName, gchar *propVal)
 {
-    g_return_val_if_fail(OSINFO_IS_FILTER(filter), -1);
-    g_return_val_if_fail(propName != NULL, -1);
-    g_return_val_if_fail(propVal != NULL, -1);
+    g_return_if_fail(OSINFO_IS_FILTER(filter));
+    g_return_if_fail(propName != NULL);
+    g_return_if_fail(propVal != NULL);
 
     // First check if there exists an array of entries for this key
     // If not, create a ptrarray of strings for this key and insert into map
@@ -118,21 +146,42 @@ gint osinfo_filter_add_constraint(OsinfoFilter *filter, gchar *propName, gchar *
     }
     values = g_list_prepend(values, g_strdup(propVal));
     g_hash_table_insert(filter->priv->propertyConstraints, g_strdup(propName), values);
-
-    return 0;
 }
 
+
+/**
+ * osinfo_filter_clear_constraint:
+ * @filter: a filter object
+ * @propName: name of the key to remove constraints for
+ *
+ * Remove all filter constraints for the matching property
+ * name.
+ */
 void osinfo_filter_clear_constraint(OsinfoFilter *filter, gchar *propName)
 {
     g_hash_table_remove(filter->priv->propertyConstraints, propName);
 }
 
+
+/**
+ * osinfo_filter_clear_constraints:
+ * @filter: a filter object
+ * 
+ * Remove all filter property constraints
+ */
 void osinfo_filter_clear_constraints(OsinfoFilter *filter)
 {
     g_hash_table_remove_all(filter->priv->propertyConstraints);
 }
 
-// get keyset for constraints map
+/**
+ * osinfo_filter_get_constraint_keys:
+ * @filter: a filter object
+ *
+ * Get a list of all constraint property keys
+ *
+ * Returns: (transfer container)(element-type utf8): List of constraint keys
+ */
 GList *osinfo_filter_get_constraint_keys(OsinfoFilter *filter)
 {
     g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
@@ -140,7 +189,15 @@ GList *osinfo_filter_get_constraint_keys(OsinfoFilter *filter)
     return g_hash_table_get_keys(filter->priv->propertyConstraints);
 }
 
-// get values for given key
+/**
+ * osinfo_filter_get_constraint_values:
+ * @filter: a filter object
+ * @propName: the name of the key
+ *
+ * Get a list values for filter constriants with the named key 
+ *
+ * Returns: (transfer container)(element-type utf8): List of constraint values
+ */
 GList *osinfo_filter_get_constraint_values(OsinfoFilter *filter, gchar *propName)
 {
     g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
@@ -210,6 +267,16 @@ static gboolean osinfo_filter_matches_default(OsinfoFilter *filter, OsinfoEntity
     return args.matched;
 }
 
+
+/**
+ * osinfo_filter_matches:
+ * @filter: a filter object
+ * @entity: a entity to query
+ * 
+ * Determine of an entity matches a filter
+ *
+ * Returns: TRUE if entity passes the filter, FALSE otherwise
+ */
 gboolean osinfo_filter_matches(OsinfoFilter *filter, OsinfoEntity *entity)
 {
     g_return_val_if_fail(OSINFO_IS_FILTER(filter), FALSE);

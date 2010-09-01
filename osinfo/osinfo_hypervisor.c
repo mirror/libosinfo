@@ -28,6 +28,15 @@ G_DEFINE_TYPE (OsinfoHypervisor, osinfo_hypervisor, OSINFO_TYPE_ENTITY);
 
 #define OSINFO_HYPERVISOR_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_HYPERVISOR, OsinfoHypervisorPrivate))
 
+/**
+ * SECTION:osinfo_hypervisor
+ * @short_description: An operating system
+ * @see_also: #OsinfoOs, #OsinfoHypervisor
+ *
+ * #OsinfoHypervisor is an entity representing an virtualization
+ * hypervisor. Hypervisors have a list of supported devices
+ */
+
 struct _OsinfoHypervisorPrivate
 {
     // Value: List of device_link structs
@@ -80,6 +89,15 @@ osinfo_hypervisor_init (OsinfoHypervisor *hv)
     hv->priv->deviceLinks = NULL;
 }
 
+
+/**
+ * osinfo_hypervisor_new:
+ * @id: a unique identifier
+ *
+ * Create a new hypervisor entity
+ *
+ * Returns: (transfer full): A hypervisor entity
+ */
 OsinfoHypervisor *osinfo_hypervisor_new(const gchar *id)
 {
     return g_object_new(OSINFO_TYPE_HYPERVISOR,
@@ -88,6 +106,13 @@ OsinfoHypervisor *osinfo_hypervisor_new(const gchar *id)
 }
 
 
+/**
+ * osinfo_hypervisor_get_devices:
+ * @hv: a hypervisor entity
+ * @filter: (transfer none)(allow-none): an optional filter
+ *
+ * Returns: (transfer full): a list of #OsinfoDevice entities
+ */
 OsinfoDeviceList *osinfo_hypervisor_get_devices(OsinfoHypervisor *hv, OsinfoFilter *filter)
 {
     g_return_val_if_fail(OSINFO_IS_HYPERVISOR(hv), NULL);
@@ -108,6 +133,15 @@ OsinfoDeviceList *osinfo_hypervisor_get_devices(OsinfoHypervisor *hv, OsinfoFilt
     return newList;
 }
 
+
+/**
+ * osinfo_hypervisor_add_device:
+ * @hv: a hypervisor entity
+ * @dev: (transfer none): the device to associated
+ * @driver: the hypervisor driver name
+ *
+ * Associate a device with a hypervisor
+ */
 void osinfo_hypervisor_add_device(OsinfoHypervisor *hv, OsinfoDevice *dev, const gchar *driver)
 {
     g_return_if_fail(OSINFO_IS_HYPERVISOR(hv));

@@ -28,6 +28,16 @@ G_DEFINE_TYPE (OsinfoDevice, osinfo_device, OSINFO_TYPE_ENTITY);
 
 #define OSINFO_DEVICE_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_DEVICE, OsinfoDevicePrivate))
 
+/**
+ * SECTION:osinfo_device
+ * @short_description: A hardware device
+ * @see_also: #OsinfoOs, #OsinfoHypervisor
+ *
+ * #OsinfoDevice is an entity representing some kind of hardware
+ * device. Devices can be associated with operating systems
+ * and hypervisors.
+ */
+
 struct _OsinfoDevicePrivate
 {
     gboolean unused;

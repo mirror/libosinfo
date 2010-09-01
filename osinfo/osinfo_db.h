@@ -49,19 +49,6 @@ typedef struct _OsinfoDbClass   OsinfoDbClass;
 
 typedef struct _OsinfoDbPrivate OsinfoDbPrivate;
 
-/*
- * To get a db handle, we construct one with a construct-time only
- * backing data directory. It is already considered to be initialized
- * on return from the constructor, and ready to do work.
- *
- * To close it, we call the destructor on it.
- * Setting parameters on it will work if it's not a construct-time only
- * parameter. Reading will always work. Currently the backing directory and
- * libvirt version are the only parameters.
- *
- * The db object contains information related to three main classes of
- * objects: hypervisors, operating systems and devices.
- */
 
 /* object */
 struct _OsinfoDb
@@ -86,9 +73,9 @@ GType osinfo_db_get_type(void);
 
 OsinfoDb *osinfo_db_new(void);
 
-OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *db, const gchar *hvId);
-OsinfoDevice *osinfo_db_get_device(OsinfoDb *db, const gchar *devId);
-OsinfoOs *osinfo_db_get_os(OsinfoDb *db, const gchar *osId);
+OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *db, const gchar *id);
+OsinfoDevice *osinfo_db_get_device(OsinfoDb *db, const gchar *id);
+OsinfoOs *osinfo_db_get_os(OsinfoDb *db, const gchar *id);
 
 OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *db);
 OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *db);

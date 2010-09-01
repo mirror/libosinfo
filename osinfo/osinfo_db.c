@@ -28,6 +28,15 @@ G_DEFINE_TYPE (OsinfoDb, osinfo_db, G_TYPE_OBJECT);
 
 #define OSINFO_DB_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_DB, OsinfoDbPrivate))
 
+/**
+ * SECTION:osinfo_db
+ * @short_description: Database of all entities
+ * @see_also: #OsinfoList, #OsinfoEntity
+ *
+ * #OsinfoDb is a database tracking all entity instances against which
+ * metadata is recorded.
+ */
+
 struct _OsinfoDbPrivate
 {
     OsinfoDeviceList *devices;
@@ -76,11 +85,24 @@ osinfo_db_init (OsinfoDb *db)
 
 /** PUBLIC METHODS */
 
+
+/**
+ * osinfo_db_new:
+ *
+ * Returns: (transfer full): the new database
+ */
 OsinfoDb *osinfo_db_new(void)
 {
     return g_object_new(OSINFO_TYPE_DB, NULL);
 }
 
+/**
+ * osinfo_db_get_hypervisor:
+ * @db: the database
+ * @id: the unique hypervisor identifier
+ *
+ * Returns: (transfer none): the hypervisor, or NULL if none is found
+ */
 OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *db, const gchar *id)
 {
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
@@ -89,6 +111,13 @@ OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *db, const gchar *id)
     return OSINFO_HYPERVISOR(osinfo_list_find_by_id(OSINFO_LIST(db->priv->hypervisors), id));
 }
 
+/**
+ * osinfo_db_get_device:
+ * @db: the database
+ * @id: the unique device identifier
+ *
+ * Returns: (transfer none): the device, or NULL if none is found
+ */
 OsinfoDevice *osinfo_db_get_device(OsinfoDb *db, const gchar *id)
 {
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
@@ -97,6 +126,13 @@ OsinfoDevice *osinfo_db_get_device(OsinfoDb *db, const gchar *id)
     return OSINFO_DEVICE(osinfo_list_find_by_id(OSINFO_LIST(db->priv->devices), id));
 }
 
+/**
+ * osinfo_db_get_os:
+ * @db: the database
+ * @id: the unique operating system identifier
+ *
+ * Returns: (transfer none): the operating system, or NULL if none is found
+ */
 OsinfoOs *osinfo_db_get_os(OsinfoDb *db, const gchar *id)
 {
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
@@ -106,6 +142,12 @@ OsinfoOs *osinfo_db_get_os(OsinfoDb *db, const gchar *id)
 }
 
 
+/**
+ * osinfo_db_get_os_list:
+ * @db: the database
+ *
+ * Returns: (transfer full): the list of operating systems
+ */
 OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *db)
 {
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
@@ -113,6 +155,12 @@ OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *db)
     return osinfo_oslist_new_copy(db->priv->oses);
 }
 
+/**
+ * osinfo_db_get_hypervisor_list:
+ * @db: the database
+ *
+ * Returns: (transfer full): the list of hypervisors
+ */
 OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *db)
 {
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
@@ -120,6 +168,12 @@ OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *db)
     return osinfo_hypervisorlist_new_copy(db->priv->hypervisors);
 }
 
+/**
+ * osinfo_db_get_device_list:
+ * @db: the database
+ *
+ * Returns: (transfer full): the list of devices
+ */
 OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *db)
 {
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
@@ -128,6 +182,12 @@ OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *db)
 }
 
 
+/**
+ * osinfo_db_add_os:
+ * @db: the database
+ * @os: (transfer none): an operating system
+ *
+ */
 void osinfo_db_add_os(OsinfoDb *db, OsinfoOs *os)
 {
     g_return_if_fail(OSINFO_IS_DB(db));
@@ -137,6 +197,12 @@ void osinfo_db_add_os(OsinfoDb *db, OsinfoOs *os)
 }
 
 
+/**
+ * osinfo_db_add_hypervisor:
+ * @db: the database
+ * @hv: (transfer none): an hypervisor
+ *
+ */
 void osinfo_db_add_hypervisor(OsinfoDb *db, OsinfoHypervisor *hv)
 {
     g_return_if_fail(OSINFO_IS_DB(db));
@@ -146,6 +212,12 @@ void osinfo_db_add_hypervisor(OsinfoDb *db, OsinfoHypervisor *hv)
 }
 
 
+/**
+ * osinfo_db_add_device:
+ * @db: the database
+ * @device: (transfer none): a device
+ *
+ */
 void osinfo_db_add_device(OsinfoDb *db, OsinfoDevice *device)
 {
     g_return_if_fail(OSINFO_IS_DB(db));
@@ -199,7 +271,16 @@ static GList *osinfo_db_unique_values_for_property_in_entity(OsinfoList *entitie
     return ret;
 }
 
-// Get me all unique values for property "vendor" among operating systems
+/**
+ * osinfo_db_unique_values_for_property_in_os:
+ * @db: the database
+ * @propName: a property name
+ *
+ * Get all unique values for a named property amongst all
+ * operating systems in the database
+ *
+ * Returns: (transfer container): a list of strings
+ */
 GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *db, const gchar *propName)
 {
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
@@ -208,7 +289,17 @@ GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *db, const gchar *pro
     return osinfo_db_unique_values_for_property_in_entity(OSINFO_LIST(db->priv->oses), propName);
 }
 
-// Get me all unique values for property "vendor" among hypervisors
+
+/**
+ * osinfo_db_unique_values_for_property_in_hv:
+ * @db: the database
+ * @propName: a property name
+ *
+ * Get all unique values for a named property amongst all
+ * hypervisors in the database
+ *
+ * Returns: (transfer container): a list of strings
+ */
 GList *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *db, const gchar *propName)
 {
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
@@ -217,7 +308,17 @@ GList *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *db, const gchar *pro
     return osinfo_db_unique_values_for_property_in_entity(OSINFO_LIST(db->priv->hypervisors), propName);
 }
 
-// Get me all unique values for property "vendor" among devices
+
+/**
+ * osinfo_db_unique_values_for_property_in_hv:
+ * @db: the database
+ * @propName: a property name
+ *
+ * Get all unique values for a named property amongst all
+ * devices in the database
+ *
+ * Returns: (transfer container): a list of strings
+ */
 GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *db, const gchar *propName)
 {
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
@@ -250,7 +351,16 @@ static gboolean __osinfoAddOsIfRelationship(OsinfoList *list, OsinfoEntity *enti
     return FALSE;
 }
 
-// Get me all OSes that 'upgrade' another OS (or whatever relationship is specified)
+/**
+ * osinfo_db_unique_values_for_os_relationship
+ * @db: the database
+ * @relshp: the operating system relationship
+ *
+ * Get all operating systems that are the referee
+ * in an operating system relationship.
+ *
+ * Returns: (transfer full): a list of operating systems
+ */
 OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *db, OsinfoOsRelationship relshp)
 {
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);

@@ -28,6 +28,17 @@ G_DEFINE_TYPE (OsinfoOsfilter, osinfo_osfilter, OSINFO_TYPE_FILTER);
 
 #define OSINFO_OSFILTER_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_OSFILTER, OsinfoOsfilterPrivate))
 
+/**
+ * SECTION:osinfo_osfilter
+ * @short_description: an operating system filter
+ * @see_also: #OsinfoFilter, #OsinfoOs
+ *
+ * #OsinfoOsfilter is a specialization of #OsinfoFilter that
+ * can also set constraints against operating system
+ * relationships. It can only be used to filter entities
+ * that are #OsinfoOs objects.
+ */
+
 struct _OsinfoOsfilterPrivate
 {
     // Key: relationship type
@@ -64,6 +75,14 @@ osinfo_osfilter_class_init (OsinfoOsfilterClass *klass)
 }
 
 
+/**
+ * osinfo_osfilter_new:
+ *
+ * Construct a new filter that matches all operating
+ * systems
+ *
+ * Returns: (transfer full): a new filter
+ */
 OsinfoOsfilter *osinfo_osfilter_new(void)
 {
     return g_object_new(OSINFO_TYPE_OSFILTER, NULL);
@@ -98,7 +117,17 @@ osinfo_osfilter_init (OsinfoOsfilter *osfilter)
 }
 
 
-// Only applicable to OSes, ignored by other types of objects
+/**
+ * osinfo_osfilter_add_os_constraint:
+ * @osfilter: a filter object
+ * @relshp: the relationship to filter on
+ * @os: (transfer none): the target os to filter on
+ *
+ * Adds a constraint that matches operating systems which
+ * have a relationship @relshp with @os. Multiple constraints
+ * can be set for the same @relshp or @os, in which case
+ * all must match
+ */
 gint osinfo_osfilter_add_os_constraint(OsinfoOsfilter *osfilter, OsinfoOsRelationship relshp, OsinfoOs *os)
 {
     g_return_val_if_fail(OSINFO_IS_OSFILTER(osfilter), -1);
@@ -122,18 +151,42 @@ gint osinfo_osfilter_add_os_constraint(OsinfoOsfilter *osfilter, OsinfoOsRelatio
     return 0;
 }
 
+/**
+ * osinfo_osfilter_clear_os_constraint:
+ * @osfilter: a filter object
+ * @relshp: the relationship to clear
+ *
+ * Remove all constraints for the relationship @relshp
+ */
 void osinfo_osfilter_clear_os_constraint(OsinfoOsfilter *osfilter, OsinfoOsRelationship relshp)
 {
     g_hash_table_remove(osfilter->priv->osConstraints, (gpointer) relshp);
 }
 
+
+/**
+ * osinfo_osfilter_clear_os_constraints:
+ * @osfilter: a filter object
+ * 
+ * Remove all relationship constraints
+ */
 void osinfo_osfilter_clear_os_constraints(OsinfoOsfilter *osfilter)
 {
     g_hash_table_remove_all(osfilter->priv->osConstraints);
 }
 
 
-// get oses for given relshp
+/**
+ * osinfo_osfilter_get_os_constraint_values:
+ * @osfilter: a filter object
+ * @relshp: a relationship to query
+ *
+ * Retrieve a list of all operating systems that are
+ * the target of constraint for the  relationship
+ * @relshp.
+ *
+ * Returns: (transfer container) (element-type OsinfoOs): a list of operating systems
+ */
 GList *osinfo_osfilter_get_os_constraint_values(OsinfoOsfilter *osfilter, OsinfoOsRelationship relshp)
 {
     g_return_val_if_fail(OSINFO_IS_OSFILTER(osfilter), NULL);
