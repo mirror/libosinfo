@@ -300,14 +300,90 @@ static void osinfo_loader_device_link(OsinfoLoader *loader,
 }
 
 
+static void osinfo_loader_product_relshp(OsinfoLoader *loader,
+                                         OsinfoProduct *product,
+                                         OsinfoProductRelationship relshp,
+                                         const gchar *xpath,
+                                         xmlXPathContextPtr ctxt,
+                                         xmlNodePtr root,
+                                         GError **err)
+{
+    xmlNodePtr *related = NULL;
+    int nrelated = osinfo_loader_nodeset(xpath, ctxt, &related, err);
+    int i;
+    if (*err)
+        return;
+
+    for (i = 0 ; i < nrelated ; i++) {
+	gchar *id = (gchar *)xmlGetProp(related[i], BAD_CAST "id");
+	if (!id) {
+	    OSINFO_ERROR(err, "Missing product upgrades id property");
+	    goto cleanup;
+	}
+	OsinfoProduct *relproduct;
+        if (OSINFO_IS_PLATFORM(product))
+            relproduct = OSINFO_PRODUCT(osinfo_loader_get_platform(loader, id));
+        else
+            relproduct = OSINFO_PRODUCT(osinfo_loader_get_os(loader, id));
+	g_free(id);
+
+	osinfo_product_add_related(product, relshp, relproduct);
+    }
+
+ cleanup:
+    g_free(related);
+}
+
+
+static void osinfo_loader_product(OsinfoLoader *loader,
+                                  OsinfoProduct *product,
+                                  xmlXPathContextPtr ctxt,
+                                  xmlNodePtr root,
+                                  GError **err)
+{
+    const gchar *const keys[] = {
+        "name", "vendor", "version", "short-id", NULL
+    };
+
+    osinfo_loader_entity(loader, OSINFO_ENTITY(product), keys, ctxt, root, err);
+    if (*err)
+        return;
+
+
+    osinfo_loader_product_relshp(loader, product,
+                                 OSINFO_PRODUCT_RELATIONSHIP_DERIVES_FROM,
+                                 "./derives-from",
+                                 ctxt,
+                                 root,
+                                 err);
+    if (*err)
+        return;
+
+    osinfo_loader_product_relshp(loader, product,
+                                 OSINFO_PRODUCT_RELATIONSHIP_CLONES,
+                                 "./clones",
+                                 ctxt,
+                                 root,
+                                 err);
+    if (*err)
+        return;
+
+    osinfo_loader_product_relshp(loader, product,
+                                 OSINFO_PRODUCT_RELATIONSHIP_UPGRADES,
+                                 "./upgrades",
+                                 ctxt,
+                                 root,
+                                 err);
+}
+
 static void osinfo_loader_platform(OsinfoLoader *loader,
-				     xmlXPathContextPtr ctxt,
-				     xmlNodePtr root,
-				     GError **err)
+                                   xmlXPathContextPtr ctxt,
+                                   xmlNodePtr root,
+                                   GError **err)
 {
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
     const gchar *const keys[] = {
-        "name", "version", NULL,
+        NULL,
     };
     if (!id) {
         OSINFO_ERROR(err, "Missing platform id property");
@@ -321,6 +397,10 @@ static void osinfo_loader_platform(OsinfoLoader *loader,
     if (*err)
         return;
 
+    osinfo_loader_product(loader, OSINFO_PRODUCT(platform), ctxt, root, err);
+    if (*err)
+        return;
+
     osinfo_loader_device_link(loader, NULL, platform,
 			      "./devices/device", ctxt, root, err);
     if (*err)
@@ -328,42 +408,11 @@ static void osinfo_loader_platform(OsinfoLoader *loader,
 }
 
 
-static void osinfo_loader_os_relshp(OsinfoLoader *loader,
-				    OsinfoOs *os,
-				    OsinfoOsRelationship relshp,
-				    const gchar *xpath,
-				    xmlXPathContextPtr ctxt,
-				    xmlNodePtr root,
-				    GError **err)
-{
-    xmlNodePtr *related = NULL;
-    int nrelated = osinfo_loader_nodeset(xpath, ctxt, &related, err);
-    int i;
-    if (*err)
-        return;
-
-    for (i = 0 ; i < nrelated ; i++) {
-	gchar *id = (gchar *)xmlGetProp(related[i], BAD_CAST "id");
-	if (!id) {
-	    OSINFO_ERROR(err, "Missing os upgrades id property");
-	    goto cleanup;
-	}
-	OsinfoOs *relos = osinfo_loader_get_os(loader, id);
-	g_free(id);
-
-	osinfo_os_add_related_os(os, relshp, relos);
-    }
-
- cleanup:
-    g_free(related);
-}
-
-
 static void osinfo_loader_os_platform(OsinfoLoader *loader,
-					OsinfoOs *os,
-					xmlXPathContextPtr ctxt,
-					xmlNodePtr root,
-					GError **err)
+                                      OsinfoOs *os,
+                                      xmlXPathContextPtr ctxt,
+                                      xmlNodePtr root,
+                                      GError **err)
 {
     xmlNodePtr *platforms = NULL;
     int nplatforms = osinfo_loader_nodeset("./platform", ctxt, &platforms, err);
@@ -401,7 +450,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
 {
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
     const gchar *const keys[] = {
-        "name", "version", "short-id", NULL
+        NULL
     };
     if (!id) {
         OSINFO_ERROR(err, "Missing os id property");
@@ -415,30 +464,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
     if (*err)
         return;
 
-    osinfo_loader_os_relshp(loader, os,
-			    OSINFO_OS_RELATIONSHIP_DERIVES_FROM,
-			    "./derives-from",
-			    ctxt,
-			    root,
-			    err);
-    if (*err)
-        return;
-
-    osinfo_loader_os_relshp(loader, os,
-			    OSINFO_OS_RELATIONSHIP_CLONES,
-			    "./clones",
-			    ctxt,
-			    root,
-			    err);
-    if (*err)
-        return;
-
-    osinfo_loader_os_relshp(loader, os,
-			    OSINFO_OS_RELATIONSHIP_UPGRADES,
-			    "./upgrades",
-			    ctxt,
-			    root,
-			    err);
+    osinfo_loader_product(loader, OSINFO_PRODUCT(os), ctxt, root, err);
     if (*err)
         return;
 

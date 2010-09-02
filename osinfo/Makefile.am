@@ -40,34 +40,38 @@ libosinfo_1_0_la_LDFLAGS = \
 
 libosinfo_1_0_includedir = $(includedir)/libosinfo-1.0/osinfo
 
-libosinfo_1_0_include_HEADERS = 		\
-  osinfo.h		\
-  osinfo_db.h		\
+libosinfo_1_0_include_HEADERS = \
+  osinfo.h			\
+  osinfo_db.h			\
   osinfo_loader.h		\
   osinfo_device.h		\
   osinfo_devicelink.h		\
   osinfo_devicelist.h		\
-  osinfo_devicelinklist.h		\
+  osinfo_devicelinklist.h	\
   osinfo_entity.h		\
   osinfo_filter.h		\
+  osinfo_product.h		\
+  osinfo_productfilter.h	\
+  osinfo_productlist.h		\
   osinfo_platform.h		\
   osinfo_platformlist.h		\
-  osinfo_list.h		\
-  osinfo_os.h		\
-  osinfo_osfilter.h     \
+  osinfo_list.h			\
+  osinfo_os.h			\
   osinfo_oslist.h
 
-libosinfo_1_0_la_SOURCES =		\
+libosinfo_1_0_la_SOURCES =	\
   osinfo_entity.c		\
   osinfo_filter.c		\
   osinfo_list.c			\
   osinfo_device.c		\
   osinfo_devicelink.c		\
   osinfo_devicelist.c		\
-  osinfo_devicelinklist.c		\
+  osinfo_devicelinklist.c	\
+  osinfo_product.c		\
+  osinfo_productfilter.c	\
+  osinfo_productlist.c		\
   osinfo_platform.c		\
-  osinfo_platformlist.c	\
-  osinfo_osfilter.c		\
+  osinfo_platformlist.c		\
   osinfo_oslist.c		\
   osinfo_os.c			\
   osinfo_db.c			\

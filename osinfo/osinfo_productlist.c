@@ -24,67 +24,67 @@
 
 #include <osinfo/osinfo.h>
 
-G_DEFINE_TYPE (OsinfoOsList, osinfo_oslist, OSINFO_TYPE_PRODUCTLIST);
+G_DEFINE_TYPE (OsinfoProductList, osinfo_productlist, OSINFO_TYPE_LIST);
 
-#define OSINFO_OSLIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_OSLIST, OsinfoOsListPrivate))
+#define OSINFO_PRODUCTLIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_PRODUCTLIST, OsinfoProductListPrivate))
 
 /**
- * SECTION:osinfo_oslist
- * @short_description: A list of os platforms
- * @see_also: #OsinfoList, #OsinfoOs
+ * SECTION:osinfo_productlist
+ * @short_description: A list of software products
+ * @see_also: #OsinfoList, #OsinfoProduct
  *
- * #OsinfoOsList is a list specialization that stores
- * only #OsinfoOs objects.
+ * #OsinfoProductList is a list specialization that stores
+ * only #OsinfoProduct objects.
  */
 
-struct _OsinfoOsListPrivate
+struct _OsinfoProductListPrivate
 {
     gboolean unused;
 };
 
 static void
-osinfo_oslist_finalize (GObject *object)
+osinfo_productlist_finalize (GObject *object)
 {
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_oslist_parent_class)->finalize (object);
+    G_OBJECT_CLASS (osinfo_productlist_parent_class)->finalize (object);
 }
 
 /* Init functions */
 static void
-osinfo_oslist_class_init (OsinfoOsListClass *klass)
+osinfo_productlist_class_init (OsinfoProductListClass *klass)
 {
     GObjectClass *g_klass = G_OBJECT_CLASS (klass);
 
-    g_klass->finalize = osinfo_oslist_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoOsListPrivate));
+    g_klass->finalize = osinfo_productlist_finalize;
+    g_type_class_add_private (klass, sizeof (OsinfoProductListPrivate));
 }
 
 static void
-osinfo_oslist_init (OsinfoOsList *list)
+osinfo_productlist_init (OsinfoProductList *list)
 {
-    OsinfoOsListPrivate *priv;
-    list->priv = priv = OSINFO_OSLIST_GET_PRIVATE(list);
+    OsinfoProductListPrivate *priv;
+    list->priv = priv = OSINFO_PRODUCTLIST_GET_PRIVATE(list);
 
 }
 
 
 /**
- * osinfo_oslist_new:
+ * osinfo_productlist_new:
  *
  * Construct a new os list that is initially empty.
  *
  * Returns: (transfer full): an empty os list
  */
-OsinfoOsList *osinfo_oslist_new(void)
+OsinfoProductList *osinfo_productlist_new(void)
 {
-    return g_object_new(OSINFO_TYPE_OSLIST,
-			"element-type", OSINFO_TYPE_OS,
+    return g_object_new(OSINFO_TYPE_PRODUCTLIST,
+			"element-type", OSINFO_TYPE_PRODUCT,
 			NULL);
 }
 
 
 /**
- * osinfo_oslist_new_copy:
+ * osinfo_productlist_new_copy:
  * @source: the os list to copy
  *
  * Construct a new os list that is filled with oss
@@ -92,16 +92,16 @@ OsinfoOsList *osinfo_oslist_new(void)
  *
  * Returns: (transfer full): a copy of the os list
  */
-OsinfoOsList *osinfo_oslist_new_copy(OsinfoOsList *source)
+OsinfoProductList *osinfo_productlist_new_copy(OsinfoProductList *source)
 {
-    OsinfoOsList *newList = osinfo_oslist_new();
+    OsinfoProductList *newList = osinfo_productlist_new();
     osinfo_list_add_all(OSINFO_LIST(newList),
 			OSINFO_LIST(source));
     return newList;
 }
 
 /**
- * osinfo_oslist_new_filtered:
+ * osinfo_productlist_new_filtered:
  * @source: the os list to copy
  * @filter: the filter to apply
  *
@@ -110,9 +110,9 @@ OsinfoOsList *osinfo_oslist_new_copy(OsinfoOsList *source)
  *
  * Returns: (transfer full): a filtered copy of the os list
  */
-OsinfoOsList *osinfo_oslist_new_filtered(OsinfoOsList *source, OsinfoFilter *filter)
+OsinfoProductList *osinfo_productlist_new_filtered(OsinfoProductList *source, OsinfoFilter *filter)
 {
-    OsinfoOsList *newList = osinfo_oslist_new();
+    OsinfoProductList *newList = osinfo_productlist_new();
     osinfo_list_add_filtered(OSINFO_LIST(newList),
 			     OSINFO_LIST(source),
 			     filter);
@@ -120,7 +120,7 @@ OsinfoOsList *osinfo_oslist_new_filtered(OsinfoOsList *source, OsinfoFilter *fil
 }
 
 /**
- * osinfo_oslist_new_intersection:
+ * osinfo_productlist_new_intersection:
  * @sourceOne: the first os list to copy
  * @sourceTwo: the second os list to copy
  *
@@ -129,9 +129,9 @@ OsinfoOsList *osinfo_oslist_new_filtered(OsinfoOsList *source, OsinfoFilter *fil
  *
  * Returns: (transfer full): an intersection of the two os lists
  */
-OsinfoOsList *osinfo_oslist_new_intersection(OsinfoOsList *sourceOne, OsinfoOsList *sourceTwo)
+OsinfoProductList *osinfo_productlist_new_intersection(OsinfoProductList *sourceOne, OsinfoProductList *sourceTwo)
 {
-    OsinfoOsList *newList = osinfo_oslist_new();
+    OsinfoProductList *newList = osinfo_productlist_new();
     osinfo_list_add_intersection(OSINFO_LIST(newList),
 				 OSINFO_LIST(sourceOne),
 				 OSINFO_LIST(sourceTwo));
@@ -139,7 +139,7 @@ OsinfoOsList *osinfo_oslist_new_intersection(OsinfoOsList *sourceOne, OsinfoOsLi
 }
 
 /**
- * osinfo_oslist_new_union:
+ * osinfo_productlist_new_union:
  * @sourceOne: the first os list to copy
  * @sourceTwo: the second os list to copy
  *
@@ -148,9 +148,9 @@ OsinfoOsList *osinfo_oslist_new_intersection(OsinfoOsList *sourceOne, OsinfoOsLi
  *
  * Returns: (transfer full): a union of the two os lists
  */
-OsinfoOsList *osinfo_oslist_new_union(OsinfoOsList *sourceOne, OsinfoOsList *sourceTwo)
+OsinfoProductList *osinfo_productlist_new_union(OsinfoProductList *sourceOne, OsinfoProductList *sourceTwo)
 {
-    OsinfoOsList *newList = osinfo_oslist_new();
+    OsinfoProductList *newList = osinfo_productlist_new();
     osinfo_list_add_union(OSINFO_LIST(newList),
 			  OSINFO_LIST(sourceOne),
 			  OSINFO_LIST(sourceTwo));

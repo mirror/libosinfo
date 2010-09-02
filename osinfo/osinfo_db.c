@@ -329,18 +329,18 @@ GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *db, const gchar *pr
     return osinfo_db_unique_values_for_property_in_entity(OSINFO_LIST(db->priv->devices), propName);
 }
 
-struct __osinfoOsCheckRelationshipArgs {
+struct __osinfoProductCheckRelationshipArgs {
     OsinfoList *list;
-    OsinfoOsRelationship relshp;
+    OsinfoProductRelationship relshp;
 };
 
 
-static void __osinfoAddOsIfRelationship(gpointer data, gpointer opaque)
+static void __osinfoAddProductIfRelationship(gpointer data, gpointer opaque)
 {
-    struct __osinfoOsCheckRelationshipArgs *args = opaque;
-    OsinfoOs *os = OSINFO_OS(data);
+    struct __osinfoProductCheckRelationshipArgs *args = opaque;
+    OsinfoProduct *product = OSINFO_PRODUCT(data);
     OsinfoList *newList = args->list;
-    OsinfoOsList *thisList = osinfo_os_get_related(os, args->relshp);
+    OsinfoProductList *thisList = osinfo_product_get_related(product, args->relshp);
     int i;
 
     for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(thisList)) ; i++) {
@@ -354,22 +354,47 @@ static void __osinfoAddOsIfRelationship(gpointer data, gpointer opaque)
 /**
  * osinfo_db_unique_values_for_os_relationship
  * @db: the database
- * @relshp: the operating system relationship
+ * @relshp: the product relationship
  *
  * Get all operating systems that are the referee
  * in an operating system relationship.
  *
  * Returns: (transfer full): a list of operating systems
  */
-OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *db, OsinfoOsRelationship relshp)
+OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *db, OsinfoProductRelationship relshp)
 {
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
 
     OsinfoOsList *newList = osinfo_oslist_new();
-    struct __osinfoOsCheckRelationshipArgs args = {OSINFO_LIST (newList), relshp};
+    struct __osinfoProductCheckRelationshipArgs args = {OSINFO_LIST (newList), relshp};
     GList *entities = osinfo_list_get_elements(OSINFO_LIST(db->priv->oses));
 
-    g_list_foreach(entities, __osinfoAddOsIfRelationship, &args);
+    g_list_foreach(entities, __osinfoAddProductIfRelationship, &args);
+    g_list_free(entities);
+
+    return newList;
+}
+
+
+/**
+ * osinfo_db_unique_values_for_platform_relationship
+ * @db: the database
+ * @relshp: the product relationship
+ *
+ * Get all platforms that are the referee
+ * in an platform relationship.
+ *
+ * Returns: (transfer full): a list of virtualization platforms
+ */
+OsinfoPlatformList *osinfo_db_unique_values_for_platform_relationship(OsinfoDb *db, OsinfoProductRelationship relshp)
+{
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+
+    OsinfoPlatformList *newList = osinfo_platformlist_new();
+    struct __osinfoProductCheckRelationshipArgs args = {OSINFO_LIST (newList), relshp};
+    GList *entities = osinfo_list_get_elements(OSINFO_LIST(db->priv->platforms));
+
+    g_list_foreach(entities, __osinfoAddProductIfRelationship, &args);
     g_list_free(entities);
 
     return newList;

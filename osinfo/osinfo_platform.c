@@ -24,7 +24,7 @@
 
 #include <osinfo/osinfo.h>
 
-G_DEFINE_TYPE (OsinfoPlatform, osinfo_platform, OSINFO_TYPE_ENTITY);
+G_DEFINE_TYPE (OsinfoPlatform, osinfo_platform, OSINFO_TYPE_PRODUCT);
 
 #define OSINFO_PLATFORM_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_PLATFORM, OsinfoPlatformPrivate))
 

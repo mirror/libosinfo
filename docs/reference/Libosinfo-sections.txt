@@ -15,9 +15,10 @@ osinfo_db_add_os
 osinfo_db_add_platform
 osinfo_db_add_device
 osinfo_db_unique_values_for_property_in_os
-osinfo_db_unique_values_for_property_in_hv
+osinfo_db_unique_values_for_property_in_platform
 osinfo_db_unique_values_for_property_in_dev
 osinfo_db_unique_values_for_os_relationship
+osinfo_db_unique_values_for_platform_relationship
 <SUBSECTION Standard>
 OSINFO_DB
 OSINFO_IS_DB
@@ -75,20 +76,36 @@ OSINFO_LOADER_GET_CLASS
 </SECTION>
 
 <SECTION>
+<FILE>osinfo_product</FILE>
+<TITLE>OsinfoProduct</TITLE>
+OsinfoProduct
+OsinfoProductClass
+OsinfoProductPrivate
+OsinfoProductRelationship
+osinfo_product_get_related
+osinfo_product_add_related
+<SUBSECTION Standard>
+OSINFO_PRODUCT
+OSINFO_IS_PRODUCT
+OSINFO_TYPE_PRODUCT
+osinfo_product_get_type
+OSINFO_PRODUCT_CLASS
+OSINFO_IS_PRODUCT_CLASS
+OSINFO_PRODUCT_GET_CLASS
+</SECTION>
+
+<SECTION>
 <FILE>osinfo_os</FILE>
 <TITLE>OsinfoOs</TITLE>
 OsinfoOs
 OsinfoOsClass
 OsinfoOsPrivate
-OsinfoOsRelationship
 osinfo_os_new
 osinfo_os_get_preferred_device
 osinfo_os_get_preferred_device_link
-osinfo_os_get_related
 osinfo_os_get_devices
 osinfo_os_get_device_links
 osinfo_os_add_device
-osinfo_os_add_related_os
 <SUBSECTION Standard>
 OSINFO_OS
 OSINFO_IS_OS
@@ -208,24 +225,45 @@ OSINFO_DEVICELINKLIST_GET_CLASS
 </SECTION>
 
 <SECTION>
-<FILE>osinfo_osfilter</FILE>
-<TITLE>OsinfoOsfilter</TITLE>
-OsinfoOsfilter
-OsinfoOsfilterClass
-OsinfoOsfilterPrivate
-osinfo_osfilter_new
-osinfo_osfilter_add_os_constraint
-osinfo_osfilter_clear_os_constraint
-osinfo_osfilter_clear_os_constraints
-osinfo_osfilter_get_os_constraint_values
+<FILE>osinfo_productfilter</FILE>
+<TITLE>OsinfoProductFilter</TITLE>
+OsinfoProductFilter
+OsinfoProductFilterClass
+OsinfoProductFilterPrivate
+osinfo_productfilter_new
+osinfo_productfilter_add_product_constraint
+osinfo_productfilter_clear_product_constraint
+osinfo_productfilter_clear_product_constraints
+osinfo_productfilter_get_product_constraint_values
 <SUBSECTION Standard>
-OSINFO_OSFILTER
-OSINFO_IS_OSFILTER
-OSINFO_TYPE_OSFILTER
-osinfo_osfilter_get_type
-OSINFO_OSFILTER_CLASS
-OSINFO_IS_OSFILTER_CLASS
-OSINFO_OSFILTER_GET_CLASS
+OSINFO_PRODUCTFILTER
+OSINFO_IS_PRODUCTFILTER
+OSINFO_TYPE_PRODUCTFILTER
+osinfo_productfilter_get_type
+OSINFO_PRODUCTFILTER_CLASS
+OSINFO_IS_PRODUCTFILTER_CLASS
+OSINFO_PRODUCTFILTER_GET_CLASS
+</SECTION>
+
+<SECTION>
+<FILE>osinfo_productlist</FILE>
+<TITLE>OsinfoProductList</TITLE>
+OsinfoProductList
+OsinfoProductListClass
+OsinfoProductListPrivate
+osinfo_productlist_new
+osinfo_productlist_new_copy
+osinfo_productlist_new_filtered
+osinfo_productlist_new_intersection
+osinfo_productlist_new_union
+<SUBSECTION Standard>
+OSINFO_PRODUCTLIST
+OSINFO_IS_PRODUCTLIST
+OSINFO_TYPE_PRODUCTLIST
+osinfo_productlist_get_type
+OSINFO_PRODUCTLIST_CLASS
+OSINFO_IS_PRODUCTLIST_CLASS
+OSINFO_PRODUCTLIST_GET_CLASS
 </SECTION>
 
 <SECTION>

@@ -24,7 +24,7 @@
 
 #include <osinfo/osinfo.h>
 
-G_DEFINE_TYPE (OsinfoPlatformList, osinfo_platformlist, OSINFO_TYPE_LIST);
+G_DEFINE_TYPE (OsinfoPlatformList, osinfo_platformlist, OSINFO_TYPE_PRODUCTLIST);
 
 #define OSINFO_PLATFORMLIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_PLATFORMLIST, OsinfoPlatformListPrivate))
 

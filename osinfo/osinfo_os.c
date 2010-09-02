@@ -24,7 +24,7 @@
 
 #include <osinfo/osinfo.h>
 
-G_DEFINE_TYPE (OsinfoOs, osinfo_os, OSINFO_TYPE_ENTITY);
+G_DEFINE_TYPE (OsinfoOs, osinfo_os, OSINFO_TYPE_PRODUCT);
 
 #define OSINFO_OS_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_OS, OsinfoOsPrivate))
 
@@ -40,15 +40,6 @@ G_DEFINE_TYPE (OsinfoOs, osinfo_os, OSINFO_TYPE_ENTITY);
  * and which are derived from a common ancestry.
  */
 
-/**
- * OsinfoOsRelationship:
- * @OSINFO_OS_RELATIONSHIP_DERIVES_FROM: a descendent (RHEL-5 derives from Fedora-6)
- * @OSINFO_OS_RELATIONSHIP_CLONES: a perfect clone (CentOS-5 clones RHEL-5)
- * @OSINFO_OS_RELATIONSHIP_UPGRADES: a new version release (RHEL-6 upgrades RHEL-4)
- *
- * Enum values used to form relationships between operating
- * systems
- */
 struct _OsinfoOsPrivate
 {
     // OS-Platform specific information
@@ -58,19 +49,6 @@ struct _OsinfoOsPrivate
 
     // Value: List of device_link structs
     GList *deviceLinks;
-
-    // Value: Array of os_link structs
-    GList *osLinks;
-};
-
-struct _OsinfoOsOsLink {
-    /* <os> 'verbs' <other_os>
-     * fedora11 upgrades fedora10
-     * centos clones rhel
-     * scientificlinux derives from rhel
-     */
-    OsinfoOsRelationship relshp;
-    OsinfoOs *otherOs;
 };
 
 struct _OsinfoOsDeviceLink {
@@ -86,13 +64,6 @@ static void osinfo_device_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED
     g_object_unref(OSINFO_DEVICELINK(data));
 }
 
-static void osinfo_os_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED)
-{
-    struct _OsinfoOsOsLink *link = data;
-    g_object_unref(link->otherOs);
-    g_free(link);
-}
-
 
 static void
 osinfo_os_finalize (GObject *object)
@@ -102,9 +73,6 @@ osinfo_os_finalize (GObject *object)
     g_list_foreach(os->priv->deviceLinks, osinfo_device_link_free, NULL);
     g_list_free(os->priv->deviceLinks);
     g_hash_table_unref(os->priv->platforms);
-
-    g_list_foreach(os->priv->osLinks, osinfo_os_link_free, NULL);
-    g_list_free(os->priv->osLinks);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_os_parent_class)->finalize (object);
@@ -136,7 +104,6 @@ osinfo_os_init (OsinfoOs *os)
     os->priv = priv = OSINFO_OS_GET_PRIVATE(os);
 
     os->priv->deviceLinks = NULL;
-    os->priv->osLinks = NULL;
     os->priv->platforms = g_hash_table_new_full(g_str_hash,
                                                   g_str_equal,
                                                   g_free,
@@ -222,37 +189,6 @@ OsinfoDeviceLink *osinfo_os_get_preferred_device_link(OsinfoOs *os, OsinfoPlatfo
 
     // If no devices pass filter, return NULL.
     return NULL;
-}
-
-
-/**
- * osinfo_os_get_related:
- * @os: an operating system
- * @relshp: the relationship to query
- *
- * Get a list of operating systems satisfying the the requested
- * relationship
- *
- * Returns: (transfer full): a list of related operating systems
- */
-OsinfoOsList *osinfo_os_get_related(OsinfoOs *os, OsinfoOsRelationship relshp)
-{
-    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
-
-    // Create our list
-    OsinfoOsList *newList = osinfo_oslist_new();
-    GList *tmp = os->priv->osLinks;
-
-    while (tmp) {
-        struct _OsinfoOsOsLink *link = tmp->data;
-
-	if (link->relshp == relshp)
-	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link->otherOs));
-
-        tmp = tmp->next;
-    }
-
-    return newList;
 }
 
 
@@ -373,29 +309,6 @@ OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoPlatform *platform, O
     }
 
     return link;
-}
-
-
-/**
- * osinfo_os_add_related_os:
- * @os: an operating system
- * @relshp: the relationship
- * @otheros: (transfer none): the operating system to relate to
- *
- * Add an association between two operating systems
- */
-void osinfo_os_add_related_os(OsinfoOs *os, OsinfoOsRelationship relshp, OsinfoOs *otheros)
-{
-    g_return_if_fail(OSINFO_IS_OS(os));
-    g_return_if_fail(OSINFO_IS_OS(otheros));
-
-    struct _OsinfoOsOsLink *osLink = g_new0(struct _OsinfoOsOsLink, 1);
-
-    g_object_ref(otheros);
-    osLink->otherOs = otheros;
-    osLink->relshp = relshp;
-
-    os->priv->osLinks = g_list_prepend(os->priv->osLinks, osLink);
 }
 /*
  * Local variables:

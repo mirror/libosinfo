@@ -171,7 +171,7 @@ START_TEST(test_prop_platform)
     osinfo_db_add_platform(db, hv2);
     osinfo_db_add_platform(db, hv3);
 
-    GList *uniq = osinfo_db_unique_values_for_property_in_hv(db, "vendor");
+    GList *uniq = osinfo_db_unique_values_for_property_in_platform(db, "vendor");
     GList *tmp = uniq;
     gboolean hasAcme = FALSE;
     gboolean hasFrog = FALSE;
@@ -268,12 +268,12 @@ START_TEST(test_rel_os)
     osinfo_db_add_os(db, os4);
     osinfo_db_add_os(db, os5);
 
-    osinfo_os_add_related_os(os1, OSINFO_OS_RELATIONSHIP_DERIVES_FROM, os2);
-    osinfo_os_add_related_os(os1, OSINFO_OS_RELATIONSHIP_DERIVES_FROM, os3);
-    osinfo_os_add_related_os(os2, OSINFO_OS_RELATIONSHIP_CLONES, os4);
-    osinfo_os_add_related_os(os3, OSINFO_OS_RELATIONSHIP_UPGRADES, os5);
+    osinfo_product_add_related(OSINFO_PRODUCT(os1), OSINFO_PRODUCT_RELATIONSHIP_DERIVES_FROM, OSINFO_PRODUCT(os2));
+    osinfo_product_add_related(OSINFO_PRODUCT(os1), OSINFO_PRODUCT_RELATIONSHIP_DERIVES_FROM, OSINFO_PRODUCT(os3));
+    osinfo_product_add_related(OSINFO_PRODUCT(os2), OSINFO_PRODUCT_RELATIONSHIP_CLONES, OSINFO_PRODUCT(os4));
+    osinfo_product_add_related(OSINFO_PRODUCT(os3), OSINFO_PRODUCT_RELATIONSHIP_UPGRADES, OSINFO_PRODUCT(os5));
 
-    OsinfoOsList *sublist = osinfo_db_unique_values_for_os_relationship(db, OSINFO_OS_RELATIONSHIP_DERIVES_FROM);
+    OsinfoOsList *sublist = osinfo_db_unique_values_for_os_relationship(db, OSINFO_PRODUCT_RELATIONSHIP_DERIVES_FROM);
     gboolean hasOs1 = FALSE;
     gboolean hasOs2 = FALSE;
     gboolean hasOs3 = FALSE;
@@ -307,7 +307,7 @@ START_TEST(test_rel_os)
 
     g_object_unref(sublist);
 
-    sublist = osinfo_db_unique_values_for_os_relationship(db, OSINFO_OS_RELATIONSHIP_UPGRADES);
+    sublist = osinfo_db_unique_values_for_os_relationship(db, OSINFO_PRODUCT_RELATIONSHIP_UPGRADES);
     hasOs1 = hasOs2 = hasOs3 = hasOs4 = hasOs5 = hasBad = FALSE;
     for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(sublist)) ; i++) {
         OsinfoOs *ent = OSINFO_OS(osinfo_list_get_nth(OSINFO_LIST(sublist), i));
@@ -335,7 +335,7 @@ START_TEST(test_rel_os)
 
     g_object_unref(sublist);
 
-    sublist = osinfo_db_unique_values_for_os_relationship(db, OSINFO_OS_RELATIONSHIP_CLONES);
+    sublist = osinfo_db_unique_values_for_os_relationship(db, OSINFO_PRODUCT_RELATIONSHIP_CLONES);
     hasOs1 = hasOs2 = hasOs3 = hasOs4 = hasOs5 = hasBad = FALSE;
     for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(sublist)) ; i++) {
         OsinfoOs *ent = OSINFO_OS(osinfo_list_get_nth(OSINFO_LIST(sublist), i));

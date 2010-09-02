@@ -5,9 +5,10 @@ check_PROGRAMS = \
 	test-list \
 	test-devicelist \
 	test-filter \
+	test-product \
 	test-os \
 	test-oslist \
-	test-osfilter \
+	test-productfilter \
 	test-platform \
 	test-platformlist \
 	test-db \
@@ -38,13 +39,17 @@ test_filter_LDADD = $(COMMON_LDADD)
 test_filter_CFLAGS = $(COMMON_CFLAGS)
 test_filter_SOURCES = test-filter.c
 
+test_product_LDADD = $(COMMON_LDADD)
+test_product_CFLAGS = $(COMMON_CFLAGS)
+test_product_SOURCES = test-product.c
+
 test_os_LDADD = $(COMMON_LDADD)
 test_os_CFLAGS = $(COMMON_CFLAGS)
 test_os_SOURCES = test-os.c
 
-test_osfilter_LDADD = $(COMMON_LDADD)
-test_osfilter_CFLAGS = $(COMMON_CFLAGS)
-test_osfilter_SOURCES = test-osfilter.c
+test_productfilter_LDADD = $(COMMON_LDADD)
+test_productfilter_CFLAGS = $(COMMON_CFLAGS)
+test_productfilter_SOURCES = test-productfilter.c
 
 test_platform_LDADD = $(COMMON_LDADD)
 test_platform_CFLAGS = $(COMMON_CFLAGS)

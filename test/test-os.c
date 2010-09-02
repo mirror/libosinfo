@@ -165,53 +165,6 @@ START_TEST(test_hv_devices_filter)
 END_TEST
 
 
-START_TEST(test_relos)
-{
-    OsinfoOs *os1 = osinfo_os_new("pony");
-    OsinfoOs *os2 = osinfo_os_new("donkey");
-    OsinfoOs *os3 = osinfo_os_new("wathog");
-    OsinfoOs *os4 = osinfo_os_new("aardvark");
-    OsinfoOs *os5 = osinfo_os_new("unicorn");
-
-    osinfo_os_add_related_os(os1, OSINFO_OS_RELATIONSHIP_DERIVES_FROM, os2);
-    osinfo_os_add_related_os(os1, OSINFO_OS_RELATIONSHIP_UPGRADES, os3);
-    osinfo_os_add_related_os(os1, OSINFO_OS_RELATIONSHIP_UPGRADES, os4);
-    osinfo_os_add_related_os(os3, OSINFO_OS_RELATIONSHIP_UPGRADES, os4);
-    osinfo_os_add_related_os(os1, OSINFO_OS_RELATIONSHIP_CLONES, os5);
-
-    OsinfoOsList *os1rel = osinfo_os_get_related(os1, OSINFO_OS_RELATIONSHIP_DERIVES_FROM);
-    fail_unless(osinfo_list_get_length(OSINFO_LIST(os1rel)) == 1, "Os has 1 derived os");
-    fail_unless(osinfo_list_get_nth(OSINFO_LIST(os1rel), 0) == OSINFO_ENTITY(os2), "derived os is os2");
-    g_object_unref(os1rel);
-
-    os1rel = osinfo_os_get_related(os1, OSINFO_OS_RELATIONSHIP_UPGRADES);
-    fail_unless(osinfo_list_get_length(OSINFO_LIST(os1rel)) == 2, "Os has 2 upgraded os");
-    fail_unless((osinfo_list_get_nth(OSINFO_LIST(os1rel), 0) == OSINFO_ENTITY(os3) ||
-                 osinfo_list_get_nth(OSINFO_LIST(os1rel), 0) == OSINFO_ENTITY(os4)) &&
-                (osinfo_list_get_nth(OSINFO_LIST(os1rel), 1) == OSINFO_ENTITY(os3) ||
-                 osinfo_list_get_nth(OSINFO_LIST(os1rel), 1) == OSINFO_ENTITY(os4)),
-                "upgraded oses are os3 + os4");
-    g_object_unref(os1rel);
-
-    os1rel = osinfo_os_get_related(os3, OSINFO_OS_RELATIONSHIP_UPGRADES);
-    fail_unless(osinfo_list_get_length(OSINFO_LIST(os1rel)) == 1, "Os has 1 upgraded os");
-    fail_unless(osinfo_list_get_nth(OSINFO_LIST(os1rel), 0) == OSINFO_ENTITY(os4), "upgraded os is os4");
-    g_object_unref(os1rel);
-
-    os1rel = osinfo_os_get_related(os1, OSINFO_OS_RELATIONSHIP_CLONES);
-    fail_unless(osinfo_list_get_length(OSINFO_LIST(os1rel)) == 1, "Os has 1 upgraded os");
-    fail_unless(osinfo_list_get_nth(OSINFO_LIST(os1rel), 0) == OSINFO_ENTITY(os5), "cloned os is os5");
-    g_object_unref(os1rel);
-
-    g_object_unref(os1);
-    g_object_unref(os2);
-    g_object_unref(os3);
-    g_object_unref(os4);
-    g_object_unref(os5);
-}
-END_TEST
-
-
 START_TEST(test_device_driver)
 {
     OsinfoOs *os = osinfo_os_new("awesome");
@@ -323,7 +276,6 @@ os_suite(void)
     tcase_add_test(tc, test_hv_devices);
     tcase_add_test(tc, test_hv_devices_filter);
     tcase_add_test(tc, test_hv_device_driver);
-    tcase_add_test(tc, test_relos);
     suite_add_tcase(s, tc);
     return s;
 }

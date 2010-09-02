@@ -23,6 +23,7 @@
  */
 
 #include <glib-object.h>
+#include <osinfo/osinfo_product.h>
 #include <osinfo/osinfo_device.h>
 #include <osinfo/osinfo_devicelist.h>
 
@@ -48,7 +49,7 @@ typedef struct _OsinfoPlatformPrivate OsinfoPlatformPrivate;
 /* object */
 struct _OsinfoPlatform
 {
-    OsinfoEntity parent_instance;
+    OsinfoProduct parent_instance;
 
     /* public */
 
@@ -59,7 +60,7 @@ struct _OsinfoPlatform
 /* class */
 struct _OsinfoPlatformClass
 {
-    OsinfoEntityClass parent_class;
+    OsinfoProductClass parent_class;
 
     /* class members */
 };

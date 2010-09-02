@@ -23,9 +23,9 @@
  */
 
 #include <glib-object.h>
+#include <osinfo/osinfo_product.h>
 #include <osinfo/osinfo_device.h>
 #include <osinfo/osinfo_devicelist.h>
-#include <osinfo/osinfo_oslist.h>
 
 #ifndef __OSINFO_OS_H__
 #define __OSINFO_OS_H__
@@ -49,7 +49,7 @@ typedef struct _OsinfoOsPrivate OsinfoOsPrivate;
 /* object */
 struct _OsinfoOs
 {
-    OsinfoEntity parent_instance;
+    OsinfoProduct parent_instance;
 
     /* public */
 
@@ -60,17 +60,10 @@ struct _OsinfoOs
 /* class */
 struct _OsinfoOsClass
 {
-    OsinfoEntityClass parent_class;
+    OsinfoProductClass parent_class;
 
     /* class members */
 };
-
-typedef enum {
-    OSINFO_OS_RELATIONSHIP_DERIVES_FROM,
-    OSINFO_OS_RELATIONSHIP_UPGRADES,
-    OSINFO_OS_RELATIONSHIP_CLONES,
-} OsinfoOsRelationship;
-
 
 GType osinfo_os_get_type(void);
 
@@ -78,14 +71,11 @@ OsinfoOs *osinfo_os_new(const gchar *id);
 
 OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *os, OsinfoPlatform *platform, OsinfoFilter *filter);
 OsinfoDeviceLink *osinfo_os_get_preferred_device_link(OsinfoOs *os, OsinfoPlatform *platform, OsinfoFilter *filter);
-OsinfoOsList *osinfo_os_get_related(OsinfoOs *os, OsinfoOsRelationship relshp);
 
 OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoPlatform *platform, OsinfoFilter *filter);
 OsinfoDeviceLinkList *osinfo_os_get_device_links(OsinfoOs *os, OsinfoPlatform *platform, OsinfoFilter *filter);
 
 OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoPlatform *platform, OsinfoDevice *dev);
-
-void osinfo_os_add_related_os(OsinfoOs *os, OsinfoOsRelationship relshp, OsinfoOs *otheros);
 
 #endif /* __OSINFO_OS_H__ */
 /*

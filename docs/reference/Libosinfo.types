@@ -7,6 +7,8 @@ osinfo_platform_get_type
 osinfo_platformlist_get_type
 osinfo_list_get_type
 osinfo_loader_get_type
+osinfo_product_get_type
+osinfo_productfilter_get_type
+osinfo_productlist_get_type
 osinfo_os_get_type
-osinfo_osfilter_get_type
 osinfo_oslist_get_type

@@ -24,7 +24,7 @@
 
 #include <glib-object.h>
 #include <osinfo/osinfo_filter.h>
-#include <osinfo/osinfo_list.h>
+#include <osinfo/osinfo_productlist.h>
 
 #ifndef __OSINFO_PLATFORMLIST_H__
 #define __OSINFO_PLATFORMLIST_H__
@@ -48,7 +48,7 @@ typedef struct _OsinfoPlatformListPrivate OsinfoPlatformListPrivate;
 /* object */
 struct _OsinfoPlatformList
 {
-    OsinfoList parent_instance;
+    OsinfoProductList parent_instance;
 
     /* public */
 
@@ -59,7 +59,7 @@ struct _OsinfoPlatformList
 /* class */
 struct _OsinfoPlatformListClass
 {
-    OsinfoListClass parent_class;
+    OsinfoProductListClass parent_class;
 
     /* class members */
 };

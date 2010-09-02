@@ -95,7 +95,10 @@ GList *osinfo_db_unique_values_for_property_in_platform(OsinfoDb *db, const gcha
 GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *db, const gchar *propName);
 
 // Get me all OSes that 'upgrade' another OS (or whatever relationship is specified)
-OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *db, OsinfoOsRelationship relshp);
+OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *db, OsinfoProductRelationship relshp);
+
+// Get me all Platforms that 'upgrade' another Platform (or whatever relationship is specified)
+OsinfoPlatformList *osinfo_db_unique_values_for_platform_relationship(OsinfoDb *db, OsinfoProductRelationship relshp);
 
 
 #endif /* __OSINFO_DB_H__ */
