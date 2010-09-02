@@ -50,8 +50,8 @@ libosinfo_1_0_include_HEADERS = 		\
   osinfo_devicelinklist.h		\
   osinfo_entity.h		\
   osinfo_filter.h		\
-  osinfo_hypervisor.h		\
-  osinfo_hypervisorlist.h		\
+  osinfo_platform.h		\
+  osinfo_platformlist.h		\
   osinfo_list.h		\
   osinfo_os.h		\
   osinfo_osfilter.h     \
@@ -65,8 +65,8 @@ libosinfo_1_0_la_SOURCES =		\
   osinfo_devicelink.c		\
   osinfo_devicelist.c		\
   osinfo_devicelinklist.c		\
-  osinfo_hypervisor.c		\
-  osinfo_hypervisorlist.c	\
+  osinfo_platform.c		\
+  osinfo_platformlist.c	\
   osinfo_osfilter.c		\
   osinfo_oslist.c		\
   osinfo_os.c			\

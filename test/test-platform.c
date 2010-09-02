@@ -6,29 +6,29 @@
 
 START_TEST(test_basic)
 {
-    OsinfoHypervisor *hypervisor = osinfo_hypervisor_new("awesome");
+    OsinfoPlatform *platform = osinfo_platform_new("awesome");
 
-    fail_unless(OSINFO_IS_HYPERVISOR(hypervisor), "Hypervisor is a hypervisor object");
-    fail_unless(g_strcmp0(osinfo_entity_get_id(OSINFO_ENTITY(hypervisor)), "awesome") == 0, "Hypervisor ID was awesome");
+    fail_unless(OSINFO_IS_PLATFORM(platform), "Platform is a platform object");
+    fail_unless(g_strcmp0(osinfo_entity_get_id(OSINFO_ENTITY(platform)), "awesome") == 0, "Platform ID was awesome");
 
-    g_object_unref(hypervisor);
+    g_object_unref(platform);
 }
 END_TEST
 
 START_TEST(test_devices)
 {
-    OsinfoHypervisor *hv = osinfo_hypervisor_new("awesome");
+    OsinfoPlatform *hv = osinfo_platform_new("awesome");
     OsinfoDevice *dev1 = osinfo_device_new("e1000");
     OsinfoDevice *dev2 = osinfo_device_new("rtl8139");
 
-    OsinfoDeviceLink *link1 = osinfo_hypervisor_add_device(hv, dev1);
+    OsinfoDeviceLink *link1 = osinfo_platform_add_device(hv, dev1);
     osinfo_entity_add_param(OSINFO_ENTITY(link1), "device", "pci-e1000");
-    OsinfoDeviceLink *link2 = osinfo_hypervisor_add_device(hv, dev2);
+    OsinfoDeviceLink *link2 = osinfo_platform_add_device(hv, dev2);
     osinfo_entity_add_param(OSINFO_ENTITY(link2), "device", "pci-8139");
 
-    OsinfoDeviceList *devices = osinfo_hypervisor_get_devices(hv, NULL);
+    OsinfoDeviceList *devices = osinfo_platform_get_devices(hv, NULL);
 
-    fail_unless(osinfo_list_get_length(OSINFO_LIST(devices)) == 2, "Hypervisor has two devices");
+    fail_unless(osinfo_list_get_length(OSINFO_LIST(devices)) == 2, "Platform has two devices");
 
     gboolean hasDev1 = FALSE;
     gboolean hasDev2 = FALSE;
@@ -58,7 +58,7 @@ END_TEST
 
 START_TEST(test_devices_filter)
 {
-    OsinfoHypervisor *hv = osinfo_hypervisor_new("awesome");
+    OsinfoPlatform *hv = osinfo_platform_new("awesome");
     OsinfoDevice *dev1 = osinfo_device_new("e1000");
     OsinfoDevice *dev2 = osinfo_device_new("sb16");
     OsinfoFilter *filter = osinfo_filter_new();
@@ -66,16 +66,16 @@ START_TEST(test_devices_filter)
     osinfo_entity_add_param(OSINFO_ENTITY(dev1), "class", "network");
     osinfo_entity_add_param(OSINFO_ENTITY(dev2), "class", "audio");
 
-    OsinfoDeviceLink *link1 = osinfo_hypervisor_add_device(hv, dev1);
+    OsinfoDeviceLink *link1 = osinfo_platform_add_device(hv, dev1);
     osinfo_entity_add_param(OSINFO_ENTITY(link1), "device", "pci-e1000");
-    OsinfoDeviceLink *link2 = osinfo_hypervisor_add_device(hv, dev2);
+    OsinfoDeviceLink *link2 = osinfo_platform_add_device(hv, dev2);
     osinfo_entity_add_param(OSINFO_ENTITY(link2), "device", "isa-sb16");
 
     osinfo_filter_add_constraint(filter, "class", "network");
 
-    OsinfoDeviceList *devices = osinfo_hypervisor_get_devices(hv, filter);
+    OsinfoDeviceList *devices = osinfo_platform_get_devices(hv, filter);
 
-    fail_unless(osinfo_list_get_length(OSINFO_LIST(devices)) == 1, "Hypervisor has one devices");
+    fail_unless(osinfo_list_get_length(OSINFO_LIST(devices)) == 1, "Platform has one devices");
     OsinfoEntity *ent = osinfo_list_get_nth(OSINFO_LIST(devices), 0);
     fail_unless(OSINFO_IS_DEVICE(ent), "entity is a device");
     fail_unless(OSINFO_DEVICE(ent) == dev1, "device is e1000");
@@ -91,9 +91,9 @@ END_TEST
 
 
 static Suite *
-hypervisor_suite(void)
+platform_suite(void)
 {
-    Suite *s = suite_create("Hypervisor");
+    Suite *s = suite_create("Platform");
     TCase *tc = tcase_create("Core");
     tcase_add_test(tc, test_basic);
     tcase_add_test(tc, test_devices);
@@ -105,13 +105,13 @@ hypervisor_suite(void)
 int main(void)
 {
     int number_failed;
-    Suite *s = hypervisor_suite ();
+    Suite *s = platform_suite ();
     SRunner *sr = srunner_create (s);
 
     g_type_init();
 
     /* Upfront so we don't confuse valgrind */
-    osinfo_hypervisor_get_type();
+    osinfo_platform_get_type();
     osinfo_device_get_type();
     osinfo_devicelist_get_type();
     osinfo_filter_get_type();

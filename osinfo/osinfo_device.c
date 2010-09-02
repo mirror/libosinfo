@@ -31,11 +31,11 @@ G_DEFINE_TYPE (OsinfoDevice, osinfo_device, OSINFO_TYPE_ENTITY);
 /**
  * SECTION:osinfo_device
  * @short_description: A hardware device
- * @see_also: #OsinfoOs, #OsinfoHypervisor
+ * @see_also: #OsinfoOs, #OsinfoPlatform
  *
  * #OsinfoDevice is an entity representing some kind of hardware
  * device. Devices can be associated with operating systems
- * and hypervisors.
+ * and platforms.
  */
 
 struct _OsinfoDevicePrivate

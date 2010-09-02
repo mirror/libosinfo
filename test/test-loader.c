@@ -38,11 +38,11 @@ int main(void)
     osinfo_entity_get_type();
     osinfo_db_get_type();
     osinfo_device_get_type();
-    osinfo_hypervisor_get_type();
+    osinfo_platform_get_type();
     osinfo_os_get_type();
     osinfo_list_get_type();
     osinfo_devicelist_get_type();
-    osinfo_hypervisorlist_get_type();
+    osinfo_platformlist_get_type();
     osinfo_oslist_get_type();
     osinfo_filter_get_type();
     osinfo_loader_get_type();

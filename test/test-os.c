@@ -76,7 +76,7 @@ END_TEST
 START_TEST(test_hv_devices)
 {
     OsinfoOs *os = osinfo_os_new("awesome");
-    OsinfoHypervisor *hv = osinfo_hypervisor_new("magical");
+    OsinfoPlatform *hv = osinfo_platform_new("magical");
     OsinfoDevice *dev1 = osinfo_device_new("e1000");
     OsinfoDevice *dev2 = osinfo_device_new("rtl8139");
     OsinfoDevice *dev3 = osinfo_device_new("virtio");
@@ -115,7 +115,7 @@ END_TEST
 START_TEST(test_hv_devices_filter)
 {
     OsinfoOs *os = osinfo_os_new("awesome");
-    OsinfoHypervisor *hv = osinfo_hypervisor_new("magical");
+    OsinfoPlatform *hv = osinfo_platform_new("magical");
     OsinfoDevice *dev1 = osinfo_device_new("e1000");
     OsinfoDevice *dev2 = osinfo_device_new("sb16");
     OsinfoDevice *dev3 = osinfo_device_new("virtio");
@@ -259,7 +259,7 @@ END_TEST
 START_TEST(test_hv_device_driver)
 {
     OsinfoOs *os = osinfo_os_new("awesome");
-    OsinfoHypervisor *hv = osinfo_hypervisor_new("special");
+    OsinfoPlatform *hv = osinfo_platform_new("special");
     OsinfoDevice *dev1 = osinfo_device_new("e1000");
     OsinfoDevice *dev2 = osinfo_device_new("rtl8139");
     OsinfoDevice *dev3 = osinfo_device_new("sb16");
@@ -337,7 +337,7 @@ int main(void)
     g_type_init();
 
     /* Upfront so we don't confuse valgrind */
-    osinfo_hypervisor_get_type();
+    osinfo_platform_get_type();
     osinfo_device_get_type();
     osinfo_os_get_type();
     osinfo_oslist_get_type();

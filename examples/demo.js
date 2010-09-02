@@ -38,7 +38,7 @@ var drvclass = "network"
 //var drvclass = "audio"
 
 var os = db.get_os(osid)
-var hv = db.get_hypervisor(hvid)
+var hv = db.get_platform(hvid)
 
 var filter = new osinfo.Filter()
 filter.add_constraint("class", drvclass)

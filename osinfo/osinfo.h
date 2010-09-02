@@ -32,8 +32,8 @@
 #include <osinfo/osinfo_devicelink.h>
 #include <osinfo/osinfo_devicelist.h>
 #include <osinfo/osinfo_devicelinklist.h>
-#include <osinfo/osinfo_hypervisorlist.h>
-#include <osinfo/osinfo_hypervisor.h>
+#include <osinfo/osinfo_platformlist.h>
+#include <osinfo/osinfo_platform.h>
 #include <osinfo/osinfo_oslist.h>
 #include <osinfo/osinfo_os.h>
 #include <osinfo/osinfo_osfilter.h>

@@ -22,8 +22,8 @@
     <xi:include href="xml/osinfo_devicelinklist.xml"/>
     <xi:include href="xml/osinfo_entity.xml"/>
     <xi:include href="xml/osinfo_filter.xml"/>
-    <xi:include href="xml/osinfo_hypervisor.xml"/>
-    <xi:include href="xml/osinfo_hypervisorlist.xml"/>
+    <xi:include href="xml/osinfo_platform.xml"/>
+    <xi:include href="xml/osinfo_platformlist.xml"/>
     <xi:include href="xml/osinfo_list.xml"/>
     <xi:include href="xml/osinfo_loader.xml"/>
     <xi:include href="xml/osinfo_os.xml"/>

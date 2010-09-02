@@ -31,11 +31,11 @@ G_DEFINE_TYPE (OsinfoDeviceLink, osinfo_devicelink, OSINFO_TYPE_ENTITY);
 /**
  * SECTION:osinfo_devicelink
  * @short_description: A hardware devicelink
- * @see_also: #OsinfoOs, #OsinfoHypervisor
+ * @see_also: #OsinfoOs, #OsinfoPlatform
  *
  * #OsinfoDeviceLink is an entity representing some kind of hardware
  * devicelink. DeviceLinks can be associated with operating systems
- * and hypervisors.
+ * and platforms.
  */
 
 struct _OsinfoDeviceLinkPrivate

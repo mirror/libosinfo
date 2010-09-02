@@ -34,7 +34,7 @@ drvclass = "network"
 #drvclass = "audio"
 
 os = db.get_os(osid)
-hv = db.get_hypervisor(hvid)
+hv = db.get_platform(hvid)
 
 fltr = osinfo.Filter()
 fltr.add_constraint("class", drvclass)

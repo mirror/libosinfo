@@ -8,8 +8,8 @@ check_PROGRAMS = \
 	test-os \
 	test-oslist \
 	test-osfilter \
-	test-hypervisor \
-	test-hypervisorlist \
+	test-platform \
+	test-platformlist \
 	test-db \
 	test-loader
 
@@ -46,9 +46,9 @@ test_osfilter_LDADD = $(COMMON_LDADD)
 test_osfilter_CFLAGS = $(COMMON_CFLAGS)
 test_osfilter_SOURCES = test-osfilter.c
 
-test_hypervisor_LDADD = $(COMMON_LDADD)
-test_hypervisor_CFLAGS = $(COMMON_CFLAGS)
-test_hypervisor_SOURCES = test-hypervisor.c
+test_platform_LDADD = $(COMMON_LDADD)
+test_platform_CFLAGS = $(COMMON_CFLAGS)
+test_platform_SOURCES = test-platform.c
 
 test_list_LDADD = $(COMMON_LDADD)
 test_list_CFLAGS = $(COMMON_CFLAGS)
@@ -58,9 +58,9 @@ test_devicelist_LDADD = $(COMMON_LDADD)
 test_devicelist_CFLAGS = $(COMMON_CFLAGS)
 test_devicelist_SOURCES = test-devicelist.c
 
-test_hypervisorlist_LDADD = $(COMMON_LDADD)
-test_hypervisorlist_CFLAGS = $(COMMON_CFLAGS)
-test_hypervisorlist_SOURCES = test-hypervisorlist.c
+test_platformlist_LDADD = $(COMMON_LDADD)
+test_platformlist_CFLAGS = $(COMMON_CFLAGS)
+test_platformlist_SOURCES = test-platformlist.c
 
 test_oslist_LDADD = $(COMMON_LDADD)
 test_oslist_CFLAGS = $(COMMON_CFLAGS)

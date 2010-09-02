@@ -42,26 +42,26 @@ START_TEST(test_device)
 END_TEST
 
 
-START_TEST(test_hypervisor)
+START_TEST(test_platform)
 {
     OsinfoDb *db = osinfo_db_new();
-    OsinfoHypervisor *hv1 = osinfo_hypervisor_new("hv1");
-    OsinfoHypervisor *hv2 = osinfo_hypervisor_new("hv2");
-    OsinfoHypervisor *hv3 = osinfo_hypervisor_new("hv3");
+    OsinfoPlatform *hv1 = osinfo_platform_new("hv1");
+    OsinfoPlatform *hv2 = osinfo_platform_new("hv2");
+    OsinfoPlatform *hv3 = osinfo_platform_new("hv3");
 
-    osinfo_db_add_hypervisor(db, hv1);
-    osinfo_db_add_hypervisor(db, hv2);
-    osinfo_db_add_hypervisor(db, hv3);
+    osinfo_db_add_platform(db, hv1);
+    osinfo_db_add_platform(db, hv2);
+    osinfo_db_add_platform(db, hv3);
 
-    OsinfoHypervisorList *list = osinfo_db_get_hypervisor_list(db);
+    OsinfoPlatformList *list = osinfo_db_get_platform_list(db);
     fail_unless(OSINFO_ENTITY(hv1) == osinfo_list_get_nth(OSINFO_LIST(list), 0), "Hv 1 is missing");
     fail_unless(OSINFO_ENTITY(hv2) == osinfo_list_get_nth(OSINFO_LIST(list), 1), "Hv 2 is missing");
     fail_unless(OSINFO_ENTITY(hv3) == osinfo_list_get_nth(OSINFO_LIST(list), 2), "Hv 3 is missing");
     g_object_unref(list);
 
-    OsinfoHypervisor *hv = osinfo_db_get_hypervisor(db, "hv2");
-    fail_unless(hv != NULL, "Hypervisor is NULL");
-    fail_unless(hv == hv2, "Hypervisor was not hv2");
+    OsinfoPlatform *hv = osinfo_db_get_platform(db, "hv2");
+    fail_unless(hv != NULL, "Platform is NULL");
+    fail_unless(hv == hv2, "Platform was not hv2");
 
     g_object_unref(hv1);
     g_object_unref(hv2);
@@ -154,12 +154,12 @@ START_TEST(test_prop_device)
 END_TEST
 
 
-START_TEST(test_prop_hypervisor)
+START_TEST(test_prop_platform)
 {
     OsinfoDb *db = osinfo_db_new();
-    OsinfoHypervisor *hv1 = osinfo_hypervisor_new("hv1");
-    OsinfoHypervisor *hv2 = osinfo_hypervisor_new("hv2");
-    OsinfoHypervisor *hv3 = osinfo_hypervisor_new("hv3");
+    OsinfoPlatform *hv1 = osinfo_platform_new("hv1");
+    OsinfoPlatform *hv2 = osinfo_platform_new("hv2");
+    OsinfoPlatform *hv3 = osinfo_platform_new("hv3");
 
     osinfo_entity_add_param(OSINFO_ENTITY(hv1), "vendor", "acme");
     osinfo_entity_add_param(OSINFO_ENTITY(hv1), "vendor", "frog");
@@ -167,9 +167,9 @@ START_TEST(test_prop_hypervisor)
     osinfo_entity_add_param(OSINFO_ENTITY(hv3), "vendor", "dog");
     osinfo_entity_add_param(OSINFO_ENTITY(hv3), "arch", "x86");
 
-    osinfo_db_add_hypervisor(db, hv1);
-    osinfo_db_add_hypervisor(db, hv2);
-    osinfo_db_add_hypervisor(db, hv3);
+    osinfo_db_add_platform(db, hv1);
+    osinfo_db_add_platform(db, hv2);
+    osinfo_db_add_platform(db, hv3);
 
     GList *uniq = osinfo_db_unique_values_for_property_in_hv(db, "vendor");
     GList *tmp = uniq;
@@ -383,10 +383,10 @@ list_suite(void)
     TCase *tc = tcase_create("Core");
     tcase_add_test(tc, test_basic);
     tcase_add_test(tc, test_device);
-    tcase_add_test(tc, test_hypervisor);
+    tcase_add_test(tc, test_platform);
     tcase_add_test(tc, test_os);
     tcase_add_test(tc, test_prop_device);
-    tcase_add_test(tc, test_prop_hypervisor);
+    tcase_add_test(tc, test_prop_platform);
     tcase_add_test(tc, test_prop_os);
     tcase_add_test(tc, test_rel_os);
     suite_add_tcase(s, tc);
@@ -405,11 +405,11 @@ int main(void)
     osinfo_entity_get_type();
     osinfo_db_get_type();
     osinfo_device_get_type();
-    osinfo_hypervisor_get_type();
+    osinfo_platform_get_type();
     osinfo_os_get_type();
     osinfo_list_get_type();
     osinfo_devicelist_get_type();
-    osinfo_hypervisorlist_get_type();
+    osinfo_platformlist_get_type();
     osinfo_oslist_get_type();
     osinfo_filter_get_type();
 

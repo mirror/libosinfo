@@ -5,13 +5,13 @@
 
 START_TEST(test_union)
 {
-    OsinfoHypervisorList *list1 = osinfo_hypervisorlist_new();
-    OsinfoHypervisorList *list2 = osinfo_hypervisorlist_new();
-    OsinfoHypervisorList *list3;
-    OsinfoHypervisor *ent1 = osinfo_hypervisor_new("wibble1");
-    OsinfoHypervisor *ent2 = osinfo_hypervisor_new("wibble2");
-    OsinfoHypervisor *ent3 = osinfo_hypervisor_new("wibble3");
-    OsinfoHypervisor *ent4 = osinfo_hypervisor_new("wibble4");
+    OsinfoPlatformList *list1 = osinfo_platformlist_new();
+    OsinfoPlatformList *list2 = osinfo_platformlist_new();
+    OsinfoPlatformList *list3;
+    OsinfoPlatform *ent1 = osinfo_platform_new("wibble1");
+    OsinfoPlatform *ent2 = osinfo_platform_new("wibble2");
+    OsinfoPlatform *ent3 = osinfo_platform_new("wibble3");
+    OsinfoPlatform *ent4 = osinfo_platform_new("wibble4");
 
     osinfo_list_add(OSINFO_LIST(list1), OSINFO_ENTITY(ent1));
     osinfo_list_add(OSINFO_LIST(list1), OSINFO_ENTITY(ent2));
@@ -20,7 +20,7 @@ START_TEST(test_union)
     osinfo_list_add(OSINFO_LIST(list2), OSINFO_ENTITY(ent1));
     osinfo_list_add(OSINFO_LIST(list2), OSINFO_ENTITY(ent4));
 
-    list3 = osinfo_hypervisorlist_new_union(list1, list2);
+    list3 = osinfo_platformlist_new_union(list1, list2);
 
     fail_unless(osinfo_list_get_length(OSINFO_LIST(list3)) == 4, "List did not have 4 elements");
 
@@ -31,7 +31,7 @@ START_TEST(test_union)
     gboolean hasBad = FALSE;
     int i;
     for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(list3)) ; i++) {
-        OsinfoHypervisor *ent = OSINFO_HYPERVISOR(osinfo_list_get_nth(OSINFO_LIST(list3), i));
+        OsinfoPlatform *ent = OSINFO_PLATFORM(osinfo_list_get_nth(OSINFO_LIST(list3), i));
         if (ent == ent1)
             has1 = TRUE;
         else if (ent == ent2)
@@ -62,13 +62,13 @@ END_TEST
 
 START_TEST(test_intersect)
 {
-    OsinfoHypervisorList *list1 = osinfo_hypervisorlist_new();
-    OsinfoHypervisorList *list2 = osinfo_hypervisorlist_new();
-    OsinfoHypervisorList *list3;
-    OsinfoHypervisor *ent1 = osinfo_hypervisor_new("wibble1");
-    OsinfoHypervisor *ent2 = osinfo_hypervisor_new("wibble2");
-    OsinfoHypervisor *ent3 = osinfo_hypervisor_new("wibble3");
-    OsinfoHypervisor *ent4 = osinfo_hypervisor_new("wibble4");
+    OsinfoPlatformList *list1 = osinfo_platformlist_new();
+    OsinfoPlatformList *list2 = osinfo_platformlist_new();
+    OsinfoPlatformList *list3;
+    OsinfoPlatform *ent1 = osinfo_platform_new("wibble1");
+    OsinfoPlatform *ent2 = osinfo_platform_new("wibble2");
+    OsinfoPlatform *ent3 = osinfo_platform_new("wibble3");
+    OsinfoPlatform *ent4 = osinfo_platform_new("wibble4");
 
 
     osinfo_list_add(OSINFO_LIST(list1), OSINFO_ENTITY(ent1));
@@ -79,7 +79,7 @@ START_TEST(test_intersect)
     osinfo_list_add(OSINFO_LIST(list2), OSINFO_ENTITY(ent3));
     osinfo_list_add(OSINFO_LIST(list2), OSINFO_ENTITY(ent4));
 
-    list3 = osinfo_hypervisorlist_new_intersection(list1, list2);
+    list3 = osinfo_platformlist_new_intersection(list1, list2);
 
     fail_unless(osinfo_list_get_length(OSINFO_LIST(list3)) == 2, "List did not have 2 elements");
 
@@ -90,7 +90,7 @@ START_TEST(test_intersect)
     gboolean hasBad = FALSE;
     int i;
     for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(list3)) ; i++) {
-        OsinfoHypervisor *ent = OSINFO_HYPERVISOR(osinfo_list_get_nth(OSINFO_LIST(list3), i));
+        OsinfoPlatform *ent = OSINFO_PLATFORM(osinfo_list_get_nth(OSINFO_LIST(list3), i));
         if (ent == ent1)
             has1 = TRUE;
         else if (ent == ent2)
@@ -121,13 +121,13 @@ END_TEST
 
 START_TEST(test_filter)
 {
-    OsinfoHypervisorList *list1 = osinfo_hypervisorlist_new();
-    OsinfoHypervisorList *list2;
+    OsinfoPlatformList *list1 = osinfo_platformlist_new();
+    OsinfoPlatformList *list2;
     OsinfoFilter *filter = osinfo_filter_new();
-    OsinfoHypervisor *ent1 = osinfo_hypervisor_new("wibble1");
-    OsinfoHypervisor *ent2 = osinfo_hypervisor_new("wibble2");
-    OsinfoHypervisor *ent3 = osinfo_hypervisor_new("wibble3");
-    OsinfoHypervisor *ent4 = osinfo_hypervisor_new("wibble4");
+    OsinfoPlatform *ent1 = osinfo_platform_new("wibble1");
+    OsinfoPlatform *ent2 = osinfo_platform_new("wibble2");
+    OsinfoPlatform *ent3 = osinfo_platform_new("wibble3");
+    OsinfoPlatform *ent4 = osinfo_platform_new("wibble4");
 
     osinfo_entity_add_param(OSINFO_ENTITY(ent1), "class", "network");
     osinfo_entity_add_param(OSINFO_ENTITY(ent1), "class", "wilma");
@@ -143,7 +143,7 @@ START_TEST(test_filter)
     osinfo_list_add(OSINFO_LIST(list1), OSINFO_ENTITY(ent3));
     osinfo_list_add(OSINFO_LIST(list1), OSINFO_ENTITY(ent4));
 
-    list2 = osinfo_hypervisorlist_new_filtered(list1, filter);
+    list2 = osinfo_platformlist_new_filtered(list1, filter);
 
     fail_unless(osinfo_list_get_length(OSINFO_LIST(list2)) == 3, "List did not have 3 elements");
 
@@ -154,7 +154,7 @@ START_TEST(test_filter)
     gboolean hasBad = FALSE;
     int i;
     for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(list2)) ; i++) {
-        OsinfoHypervisor *ent = OSINFO_HYPERVISOR(osinfo_list_get_nth(OSINFO_LIST(list2), i));
+        OsinfoPlatform *ent = OSINFO_PLATFORM(osinfo_list_get_nth(OSINFO_LIST(list2), i));
         if (ent == ent1)
             has1 = TRUE;
         else if (ent == ent2)
@@ -204,8 +204,8 @@ int main(void)
     g_type_init();
 
     /* Upfront so we don't confuse valgrind */
-    osinfo_hypervisor_get_type();
-    osinfo_hypervisorlist_get_type();
+    osinfo_platform_get_type();
+    osinfo_platformlist_get_type();
     osinfo_filter_get_type();
 
     srunner_run_all (sr, CK_ENV);

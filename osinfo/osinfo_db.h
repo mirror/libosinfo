@@ -23,10 +23,10 @@
  */
 
 #include <glib-object.h>
-#include <osinfo/osinfo_hypervisor.h>
+#include <osinfo/osinfo_platform.h>
 #include <osinfo/osinfo_os.h>
 #include <osinfo/osinfo_device.h>
-#include <osinfo/osinfo_hypervisorlist.h>
+#include <osinfo/osinfo_platformlist.h>
 #include <osinfo/osinfo_oslist.h>
 #include <osinfo/osinfo_devicelist.h>
 
@@ -73,23 +73,23 @@ GType osinfo_db_get_type(void);
 
 OsinfoDb *osinfo_db_new(void);
 
-OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *db, const gchar *id);
+OsinfoPlatform *osinfo_db_get_platform(OsinfoDb *db, const gchar *id);
 OsinfoDevice *osinfo_db_get_device(OsinfoDb *db, const gchar *id);
 OsinfoOs *osinfo_db_get_os(OsinfoDb *db, const gchar *id);
 
 OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *db);
-OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *db);
+OsinfoPlatformList *osinfo_db_get_platform_list(OsinfoDb *db);
 OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *db);
 
 void osinfo_db_add_os(OsinfoDb *db, OsinfoOs *os);
-void osinfo_db_add_hypervisor(OsinfoDb *db, OsinfoHypervisor *hv);
+void osinfo_db_add_platform(OsinfoDb *db, OsinfoPlatform *platform);
 void osinfo_db_add_device(OsinfoDb *db, OsinfoDevice *device);
 
 // Get me all unique values for property "vendor" among operating systems
 GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *db, const gchar *propName);
 
-// Get me all unique values for property "vendor" among hypervisors
-GList *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *db, const gchar *propName);
+// Get me all unique values for property "vendor" among platforms
+GList *osinfo_db_unique_values_for_property_in_platform(OsinfoDb *db, const gchar *propName);
 
 // Get me all unique values for property "vendor" among devices
 GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *db, const gchar *propName);

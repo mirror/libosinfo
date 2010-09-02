@@ -24,26 +24,26 @@
 
 #include <osinfo/osinfo.h>
 
-G_DEFINE_TYPE (OsinfoHypervisor, osinfo_hypervisor, OSINFO_TYPE_ENTITY);
+G_DEFINE_TYPE (OsinfoPlatform, osinfo_platform, OSINFO_TYPE_ENTITY);
 
-#define OSINFO_HYPERVISOR_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_HYPERVISOR, OsinfoHypervisorPrivate))
+#define OSINFO_PLATFORM_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_PLATFORM, OsinfoPlatformPrivate))
 
 /**
- * SECTION:osinfo_hypervisor
- * @short_description: An operating system
- * @see_also: #OsinfoOs, #OsinfoHypervisor
+ * SECTION:osinfo_platform
+ * @short_description: An virtualization platform
+ * @see_also: #OsinfoOs, #OsinfoPlatform
  *
- * #OsinfoHypervisor is an entity representing an virtualization
- * hypervisor. Hypervisors have a list of supported devices
+ * #OsinfoPlatform is an entity representing an virtualization
+ * platform. Platforms have a list of supported devices
  */
 
-struct _OsinfoHypervisorPrivate
+struct _OsinfoPlatformPrivate
 {
     // Value: List of device_link structs
     GList *deviceLinks;
 };
 
-struct _OsinfoHypervisorDeviceLink {
+struct _OsinfoPlatformDeviceLink {
     OsinfoDevice *dev;
     gchar *driver;
 };
@@ -54,56 +54,56 @@ static void osinfo_device_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED
 }
 
 static void
-osinfo_hypervisor_finalize (GObject *object)
+osinfo_platform_finalize (GObject *object)
 {
-    OsinfoHypervisor *hv = OSINFO_HYPERVISOR (object);
+    OsinfoPlatform *platform = OSINFO_PLATFORM (object);
 
-    g_list_foreach(hv->priv->deviceLinks, osinfo_device_link_free, NULL);
-    g_list_free(hv->priv->deviceLinks);
+    g_list_foreach(platform->priv->deviceLinks, osinfo_device_link_free, NULL);
+    g_list_free(platform->priv->deviceLinks);
 
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_hypervisor_parent_class)->finalize (object);
+    G_OBJECT_CLASS (osinfo_platform_parent_class)->finalize (object);
 }
 
 /* Init functions */
 static void
-osinfo_hypervisor_class_init (OsinfoHypervisorClass *klass)
+osinfo_platform_class_init (OsinfoPlatformClass *klass)
 {
     GObjectClass *g_klass = G_OBJECT_CLASS (klass);
 
-    g_klass->finalize = osinfo_hypervisor_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoHypervisorPrivate));
+    g_klass->finalize = osinfo_platform_finalize;
+    g_type_class_add_private (klass, sizeof (OsinfoPlatformPrivate));
 }
 
 static void
-osinfo_hypervisor_init (OsinfoHypervisor *hv)
+osinfo_platform_init (OsinfoPlatform *platform)
 {
-    OsinfoHypervisorPrivate *priv;
-    hv->priv = priv = OSINFO_HYPERVISOR_GET_PRIVATE(hv);
+    OsinfoPlatformPrivate *priv;
+    platform->priv = priv = OSINFO_PLATFORM_GET_PRIVATE(platform);
 
-    hv->priv->deviceLinks = NULL;
+    platform->priv->deviceLinks = NULL;
 }
 
 
 /**
- * osinfo_hypervisor_new:
+ * osinfo_platform_new:
  * @id: a unique identifier
  *
- * Create a new hypervisor entity
+ * Create a new platform entity
  *
- * Returns: (transfer full): A hypervisor entity
+ * Returns: (transfer full): A platform entity
  */
-OsinfoHypervisor *osinfo_hypervisor_new(const gchar *id)
+OsinfoPlatform *osinfo_platform_new(const gchar *id)
 {
-    return g_object_new(OSINFO_TYPE_HYPERVISOR,
+    return g_object_new(OSINFO_TYPE_PLATFORM,
 			"id", id,
 			NULL);
 }
 
 
 /**
- * osinfo_hypervisor_get_devices:
- * @hv: a hypervisor entity
+ * osinfo_platform_get_devices:
+ * @platform: a platform entity
  * @filter: (transfer none)(allow-none): an optional filter
  *
  * Retrieve all the associated devices matching the filter.
@@ -111,13 +111,13 @@ OsinfoHypervisor *osinfo_hypervisor_new(const gchar *id)
  *
  * Returns: (transfer full): a list of #OsinfoDevice entities
  */
-OsinfoDeviceList *osinfo_hypervisor_get_devices(OsinfoHypervisor *hv, OsinfoFilter *filter)
+OsinfoDeviceList *osinfo_platform_get_devices(OsinfoPlatform *platform, OsinfoFilter *filter)
 {
-    g_return_val_if_fail(OSINFO_IS_HYPERVISOR(hv), NULL);
+    g_return_val_if_fail(OSINFO_IS_PLATFORM(platform), NULL);
     g_return_val_if_fail(!filter || OSINFO_IS_FILTER(filter), NULL);
 
     OsinfoDeviceList *newList = osinfo_devicelist_new();
-    GList *tmp = hv->priv->deviceLinks;
+    GList *tmp = platform->priv->deviceLinks;
 
     while (tmp) {
         OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
@@ -133,8 +133,8 @@ OsinfoDeviceList *osinfo_hypervisor_get_devices(OsinfoHypervisor *hv, OsinfoFilt
 
 
 /**
- * osinfo_hypervisor_get_devices:
- * @hv: a hypervisor entity
+ * osinfo_platform_get_devices:
+ * @platform: a platform entity
  * @filter: (transfer none)(allow-none): an optional filter
  *
  * Retrieve all the associated devices matching the filter.
@@ -142,13 +142,13 @@ OsinfoDeviceList *osinfo_hypervisor_get_devices(OsinfoHypervisor *hv, OsinfoFilt
  *
  * Returns: (transfer full): a list of #OsinfoDevice entities
  */
-OsinfoDeviceLinkList *osinfo_hypervisor_get_device_links(OsinfoHypervisor *hv, OsinfoFilter *filter)
+OsinfoDeviceLinkList *osinfo_platform_get_device_links(OsinfoPlatform *platform, OsinfoFilter *filter)
 {
-    g_return_val_if_fail(OSINFO_IS_HYPERVISOR(hv), NULL);
+    g_return_val_if_fail(OSINFO_IS_PLATFORM(platform), NULL);
     g_return_val_if_fail(!filter || OSINFO_IS_FILTER(filter), NULL);
 
     OsinfoDeviceLinkList *newList = osinfo_devicelinklist_new();
-    GList *tmp = hv->priv->deviceLinks;
+    GList *tmp = platform->priv->deviceLinks;
 
     while (tmp) {
         OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
@@ -164,23 +164,23 @@ OsinfoDeviceLinkList *osinfo_hypervisor_get_device_links(OsinfoHypervisor *hv, O
 
 
 /**
- * osinfo_hypervisor_add_device:
- * @hv: a hypervisor entity
+ * osinfo_platform_add_device:
+ * @platform: a platform entity
  * @dev: (transfer none): the device to associate
  *
- * Associate a device with a hypervisor. The returned #OsinfoDeviceLink
+ * Associate a device with a platform. The returned #OsinfoDeviceLink
  * can be used to record extra metadata against the link
  *
  * Returns: (transfer none): the device association
  */
-OsinfoDeviceLink *osinfo_hypervisor_add_device(OsinfoHypervisor *hv, OsinfoDevice *dev)
+OsinfoDeviceLink *osinfo_platform_add_device(OsinfoPlatform *platform, OsinfoDevice *dev)
 {
-    g_return_val_if_fail(OSINFO_IS_HYPERVISOR(hv), NULL);
+    g_return_val_if_fail(OSINFO_IS_PLATFORM(platform), NULL);
     g_return_val_if_fail(OSINFO_IS_DEVICE(dev), NULL);
 
     OsinfoDeviceLink *link = osinfo_devicelink_new(dev);
 
-    hv->priv->deviceLinks = g_list_prepend(hv->priv->deviceLinks, link);
+    platform->priv->deviceLinks = g_list_prepend(platform->priv->deviceLinks, link);
 
     return link;
 }

@@ -221,16 +221,16 @@ static OsinfoOs *osinfo_loader_get_os(OsinfoLoader *loader,
 }
 
 
-static OsinfoHypervisor *osinfo_loader_get_hypervisor(OsinfoLoader *loader,
+static OsinfoPlatform *osinfo_loader_get_platform(OsinfoLoader *loader,
 						      const gchar *id)
 {
-    OsinfoHypervisor *hv = osinfo_db_get_hypervisor(loader->priv->db, id);
-    if (!hv) {
-        hv = osinfo_hypervisor_new(id);
-	osinfo_db_add_hypervisor(loader->priv->db, hv);
-	g_object_unref(hv);
+    OsinfoPlatform *platform = osinfo_db_get_platform(loader->priv->db, id);
+    if (!platform) {
+        platform = osinfo_platform_new(id);
+	osinfo_db_add_platform(loader->priv->db, platform);
+	g_object_unref(platform);
     }
-    return hv;
+    return platform;
 }
 
 
@@ -257,7 +257,7 @@ static void osinfo_loader_device(OsinfoLoader *loader,
 
 static void osinfo_loader_device_link(OsinfoLoader *loader,
 				      OsinfoOs *os,
-				      OsinfoHypervisor *hv,
+				      OsinfoPlatform *platform,
 				      const gchar *xpath,
 				      xmlXPathContextPtr ctxt,
 				      xmlNodePtr root,
@@ -283,9 +283,9 @@ static void osinfo_loader_device_link(OsinfoLoader *loader,
 
         OsinfoDeviceLink *link = NULL;
 	if (os) {
-	    link = osinfo_os_add_device(os, hv, dev);
-	} else if (hv) {
-	    link = osinfo_hypervisor_add_device(hv, dev);
+	    link = osinfo_os_add_device(os, platform, dev);
+	} else if (platform) {
+	    link = osinfo_platform_add_device(platform, dev);
 	}
 
         xmlNodePtr saved = ctxt->node;
@@ -300,7 +300,7 @@ static void osinfo_loader_device_link(OsinfoLoader *loader,
 }
 
 
-static void osinfo_loader_hypervisor(OsinfoLoader *loader,
+static void osinfo_loader_platform(OsinfoLoader *loader,
 				     xmlXPathContextPtr ctxt,
 				     xmlNodePtr root,
 				     GError **err)
@@ -310,18 +310,18 @@ static void osinfo_loader_hypervisor(OsinfoLoader *loader,
         "name", "version", NULL,
     };
     if (!id) {
-        OSINFO_ERROR(err, "Missing hypervisor id property");
+        OSINFO_ERROR(err, "Missing platform id property");
 	return;
     }
 
-    OsinfoHypervisor *hypervisor = osinfo_loader_get_hypervisor(loader, id);
+    OsinfoPlatform *platform = osinfo_loader_get_platform(loader, id);
     g_free(id);
 
-    osinfo_loader_entity(loader, OSINFO_ENTITY(hypervisor), keys, ctxt, root, err);
+    osinfo_loader_entity(loader, OSINFO_ENTITY(platform), keys, ctxt, root, err);
     if (*err)
         return;
 
-    osinfo_loader_device_link(loader, NULL, hypervisor,
+    osinfo_loader_device_link(loader, NULL, platform,
 			      "./devices/device", ctxt, root, err);
     if (*err)
         return;
@@ -359,38 +359,38 @@ static void osinfo_loader_os_relshp(OsinfoLoader *loader,
 }
 
 
-static void osinfo_loader_os_hypervisor(OsinfoLoader *loader,
+static void osinfo_loader_os_platform(OsinfoLoader *loader,
 					OsinfoOs *os,
 					xmlXPathContextPtr ctxt,
 					xmlNodePtr root,
 					GError **err)
 {
-    xmlNodePtr *hvs = NULL;
-    int nhvs = osinfo_loader_nodeset("./hypervisor", ctxt, &hvs, err);
+    xmlNodePtr *platforms = NULL;
+    int nplatforms = osinfo_loader_nodeset("./platform", ctxt, &platforms, err);
     int i;
     if (*err)
         return;
 
-    for (i = 0 ; i < nhvs ; i++) {
-	gchar *id = (gchar *)xmlGetProp(hvs[i], BAD_CAST "id");
+    for (i = 0 ; i < nplatforms ; i++) {
+	gchar *id = (gchar *)xmlGetProp(platforms[i], BAD_CAST "id");
 	if (!id) {
-	    OSINFO_ERROR(err, "Missing os hypervisor id property");
+	    OSINFO_ERROR(err, "Missing os platform id property");
 	    goto cleanup;
 	}
-	OsinfoHypervisor *hv = osinfo_loader_get_hypervisor(loader, id);
+	OsinfoPlatform *platform = osinfo_loader_get_platform(loader, id);
 	g_free(id);
 
 	xmlNodePtr saved = ctxt->node;
-	ctxt->node = hvs[i];
-	osinfo_loader_device_link(loader, os, hv,
-				  "./devices/device", ctxt, hvs[i], err);
+	ctxt->node = platforms[i];
+	osinfo_loader_device_link(loader, os, platform,
+				  "./devices/device", ctxt, platforms[i], err);
 	ctxt->node = saved;
 	if (*err)
 	    goto cleanup;
     }
 
  cleanup:
-    g_free(hvs);
+    g_free(platforms);
 }
 
 
@@ -442,7 +442,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
     if (*err)
         return;
 
-    osinfo_loader_os_hypervisor(loader, os, ctxt, root, err);
+    osinfo_loader_os_platform(loader, os, ctxt, root, err);
     if (*err)
         return;
 
@@ -468,14 +468,14 @@ static void osinfo_loader_root(OsinfoLoader *loader,
      *   Advance tag
      *   If closing libosinfo tag, break
      *   If non element tag, continue
-     *   If element tag, and element is not os, hypervisor or device, error
+     *   If element tag, and element is not os, platform or device, error
      *   Else, switch on tag type and handle reading in data
      * After loop, return success if no error
      * If there was an error, clean up lib data acquired so far
      */
     xmlNodePtr *oss = NULL;
     xmlNodePtr *devices = NULL;
-    xmlNodePtr *hypervisors = NULL;
+    xmlNodePtr *platforms = NULL;
 
     if (!xmlStrEqual(root->name, BAD_CAST "libosinfo")) {
         OSINFO_ERROR(err, "Incorrect root element");
@@ -496,14 +496,14 @@ static void osinfo_loader_root(OsinfoLoader *loader,
             goto cleanup;
     }
 
-    int nhypervisor = osinfo_loader_nodeset("./hypervisor", ctxt, &hypervisors, err);
+    int nplatform = osinfo_loader_nodeset("./platform", ctxt, &platforms, err);
     if (*err)
         goto cleanup;
 
-    for (i = 0 ; i < nhypervisor ; i++) {
+    for (i = 0 ; i < nplatform ; i++) {
         xmlNodePtr saved = ctxt->node;
-	ctxt->node = hypervisors[i];
-	osinfo_loader_hypervisor(loader, ctxt, hypervisors[i], err);
+	ctxt->node = platforms[i];
+	osinfo_loader_platform(loader, ctxt, platforms[i], err);
 	ctxt->node = saved;
 	if (*err)
 	    goto cleanup;
@@ -523,7 +523,7 @@ static void osinfo_loader_root(OsinfoLoader *loader,
     }
 
  cleanup:
-    g_free(hypervisors);
+    g_free(platforms);
     g_free(oss);
     g_free(devices);
 }

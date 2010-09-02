@@ -367,7 +367,7 @@
    fun:g_type_register_static
    fun:g_type_register_static_simple
    fun:osinfo_entity_get_type
-   fun:osinfo_hypervisor_get_type
+   fun:osinfo_platform_get_type
    fun:main
 }
 {
@@ -393,7 +393,7 @@
    fun:g_type_register_static
    fun:g_type_register_static_simple
    fun:osinfo_list_get_type
-   fun:osinfo_hypervisorlist_get_type
+   fun:osinfo_platformlist_get_type
    fun:main
 }
 {

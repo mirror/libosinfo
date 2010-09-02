@@ -40,7 +40,7 @@ G_DEFINE_TYPE (OsinfoDb, osinfo_db, G_TYPE_OBJECT);
 struct _OsinfoDbPrivate
 {
     OsinfoDeviceList *devices;
-    OsinfoHypervisorList *hypervisors;
+    OsinfoPlatformList *platforms;
     OsinfoOsList *oses;
 };
 
@@ -52,7 +52,7 @@ osinfo_db_finalize (GObject *object)
     OsinfoDb *db = OSINFO_DB (object);
 
     g_object_unref(db->priv->devices);
-    g_object_unref(db->priv->hypervisors);
+    g_object_unref(db->priv->platforms);
     g_object_unref(db->priv->oses);
 
     /* Chain up to the parent class */
@@ -79,7 +79,7 @@ osinfo_db_init (OsinfoDb *db)
     db->priv = priv = OSINFO_DB_GET_PRIVATE(db);
 
     db->priv->devices = osinfo_devicelist_new();
-    db->priv->hypervisors = osinfo_hypervisorlist_new();
+    db->priv->platforms = osinfo_platformlist_new();
     db->priv->oses = osinfo_oslist_new();
 }
 
@@ -97,18 +97,18 @@ OsinfoDb *osinfo_db_new(void)
 }
 
 /**
- * osinfo_db_get_hypervisor:
+ * osinfo_db_get_platform:
  * @db: the database
- * @id: the unique hypervisor identifier
+ * @id: the unique platform identifier
  *
- * Returns: (transfer none): the hypervisor, or NULL if none is found
+ * Returns: (transfer none): the platform, or NULL if none is found
  */
-OsinfoHypervisor *osinfo_db_get_hypervisor(OsinfoDb *db, const gchar *id)
+OsinfoPlatform *osinfo_db_get_platform(OsinfoDb *db, const gchar *id)
 {
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
     g_return_val_if_fail(id != NULL, NULL);
 
-    return OSINFO_HYPERVISOR(osinfo_list_find_by_id(OSINFO_LIST(db->priv->hypervisors), id));
+    return OSINFO_PLATFORM(osinfo_list_find_by_id(OSINFO_LIST(db->priv->platforms), id));
 }
 
 /**
@@ -156,16 +156,16 @@ OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *db)
 }
 
 /**
- * osinfo_db_get_hypervisor_list:
+ * osinfo_db_get_platform_list:
  * @db: the database
  *
- * Returns: (transfer full): the list of hypervisors
+ * Returns: (transfer full): the list of platforms
  */
-OsinfoHypervisorList *osinfo_db_get_hypervisor_list(OsinfoDb *db)
+OsinfoPlatformList *osinfo_db_get_platform_list(OsinfoDb *db)
 {
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
 
-    return osinfo_hypervisorlist_new_copy(db->priv->hypervisors);
+    return osinfo_platformlist_new_copy(db->priv->platforms);
 }
 
 /**
@@ -198,17 +198,17 @@ void osinfo_db_add_os(OsinfoDb *db, OsinfoOs *os)
 
 
 /**
- * osinfo_db_add_hypervisor:
+ * osinfo_db_add_platform:
  * @db: the database
- * @hv: (transfer none): an hypervisor
+ * @platform: (transfer none): an platform
  *
  */
-void osinfo_db_add_hypervisor(OsinfoDb *db, OsinfoHypervisor *hv)
+void osinfo_db_add_platform(OsinfoDb *db, OsinfoPlatform *platform)
 {
     g_return_if_fail(OSINFO_IS_DB(db));
-    g_return_if_fail(OSINFO_IS_HYPERVISOR(hv));
+    g_return_if_fail(OSINFO_IS_PLATFORM(platform));
 
-    osinfo_list_add(OSINFO_LIST(db->priv->hypervisors), OSINFO_ENTITY(hv));
+    osinfo_list_add(OSINFO_LIST(db->priv->platforms), OSINFO_ENTITY(platform));
 }
 
 
@@ -293,21 +293,21 @@ GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *db, const gchar *pro
 
 
 /**
- * osinfo_db_unique_values_for_property_in_hv:
+ * osinfo_db_unique_values_for_property_in_platform:
  * @db: the database
  * @propName: a property name
  *
  * Get all unique values for a named property amongst all
- * hypervisors in the database
+ * platforms in the database
  *
  * Returns: (transfer container)(element-type utf8): a list of strings
  */
-GList *osinfo_db_unique_values_for_property_in_hv(OsinfoDb *db, const gchar *propName)
+GList *osinfo_db_unique_values_for_property_in_platform(OsinfoDb *db, const gchar *propName)
 {
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
     g_return_val_if_fail(propName != NULL, NULL);
 
-    return osinfo_db_unique_values_for_property_in_entity(OSINFO_LIST(db->priv->hypervisors), propName);
+    return osinfo_db_unique_values_for_property_in_entity(OSINFO_LIST(db->priv->platforms), propName);
 }
 
 
