@@ -48,14 +48,9 @@ struct _OsinfoHypervisorDeviceLink {
     gchar *driver;
 };
 
-static void osinfo_hypervisor_finalize (GObject *object);
-
 static void osinfo_device_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED)
 {
-    struct _OsinfoHypervisorDeviceLink *link = data;
-    g_object_unref(link->dev);
-    g_free(link->driver);
-    g_free(link);
+    g_object_unref(OSINFO_DEVICELINK(data));
 }
 
 static void
@@ -111,6 +106,9 @@ OsinfoHypervisor *osinfo_hypervisor_new(const gchar *id)
  * @hv: a hypervisor entity
  * @filter: (transfer none)(allow-none): an optional filter
  *
+ * Retrieve all the associated devices matching the filter.
+ * The filter matches against the device, not the link.
+ *
  * Returns: (transfer full): a list of #OsinfoDevice entities
  */
 OsinfoDeviceList *osinfo_hypervisor_get_devices(OsinfoHypervisor *hv, OsinfoFilter *filter)
@@ -122,10 +120,41 @@ OsinfoDeviceList *osinfo_hypervisor_get_devices(OsinfoHypervisor *hv, OsinfoFilt
     GList *tmp = hv->priv->deviceLinks;
 
     while (tmp) {
-        struct _OsinfoHypervisorDeviceLink *link = tmp->data;
+        OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
+        OsinfoDevice *dev = osinfo_devicelink_get_target(link);
+        if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(dev)))
+	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(dev));
 
-        if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(link->dev)))
-	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link->dev));
+	tmp = tmp->next;
+    }
+
+    return newList;
+}
+
+
+/**
+ * osinfo_hypervisor_get_devices:
+ * @hv: a hypervisor entity
+ * @filter: (transfer none)(allow-none): an optional filter
+ *
+ * Retrieve all the associated devices matching the filter.
+ * The filter matches against the link, not the device.
+ *
+ * Returns: (transfer full): a list of #OsinfoDevice entities
+ */
+OsinfoDeviceLinkList *osinfo_hypervisor_get_device_links(OsinfoHypervisor *hv, OsinfoFilter *filter)
+{
+    g_return_val_if_fail(OSINFO_IS_HYPERVISOR(hv), NULL);
+    g_return_val_if_fail(!filter || OSINFO_IS_FILTER(filter), NULL);
+
+    OsinfoDeviceLinkList *newList = osinfo_devicelinklist_new();
+    GList *tmp = hv->priv->deviceLinks;
+
+    while (tmp) {
+        OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
+
+        if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(link)))
+	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link));
 
 	tmp = tmp->next;
     }
@@ -137,24 +166,23 @@ OsinfoDeviceList *osinfo_hypervisor_get_devices(OsinfoHypervisor *hv, OsinfoFilt
 /**
  * osinfo_hypervisor_add_device:
  * @hv: a hypervisor entity
- * @dev: (transfer none): the device to associated
- * @driver: the hypervisor driver name
+ * @dev: (transfer none): the device to associate
  *
- * Associate a device with a hypervisor
+ * Associate a device with a hypervisor. The returned #OsinfoDeviceLink
+ * can be used to record extra metadata against the link
+ *
+ * Returns: (transfer none): the device association
  */
-void osinfo_hypervisor_add_device(OsinfoHypervisor *hv, OsinfoDevice *dev, const gchar *driver)
+OsinfoDeviceLink *osinfo_hypervisor_add_device(OsinfoHypervisor *hv, OsinfoDevice *dev)
 {
-    g_return_if_fail(OSINFO_IS_HYPERVISOR(hv));
-    g_return_if_fail(OSINFO_IS_DEVICE(dev));
-    g_return_if_fail(driver != NULL);
+    g_return_val_if_fail(OSINFO_IS_HYPERVISOR(hv), NULL);
+    g_return_val_if_fail(OSINFO_IS_DEVICE(dev), NULL);
 
-    struct _OsinfoHypervisorDeviceLink *link = g_new0(struct _OsinfoHypervisorDeviceLink, 1);
-
-    g_object_ref(dev);
-    link->dev = dev;
-    link->driver = g_strdup(driver);
+    OsinfoDeviceLink *link = osinfo_devicelink_new(dev);
 
     hv->priv->deviceLinks = g_list_prepend(hv->priv->deviceLinks, link);
+
+    return link;
 }
 /*
  * Local variables:

@@ -29,7 +29,9 @@
 #include <osinfo/osinfo_filter.h>
 #include <osinfo/osinfo_list.h>
 #include <osinfo/osinfo_device.h>
+#include <osinfo/osinfo_devicelink.h>
 #include <osinfo/osinfo_devicelist.h>
+#include <osinfo/osinfo_devicelinklist.h>
 #include <osinfo/osinfo_hypervisorlist.h>
 #include <osinfo/osinfo_hypervisor.h>
 #include <osinfo/osinfo_oslist.h>

@@ -69,8 +69,9 @@ GType osinfo_hypervisor_get_type(void);
 OsinfoHypervisor *osinfo_hypervisor_new(const gchar *id);
 
 OsinfoDeviceList *osinfo_hypervisor_get_devices(OsinfoHypervisor *hv, OsinfoFilter *filter);
+OsinfoDeviceLinkList *osinfo_hypervisor_get_device_links(OsinfoHypervisor *hv, OsinfoFilter *filter);
 
-void osinfo_hypervisor_add_device(OsinfoHypervisor *hv, OsinfoDevice *dev, const gchar *driver);
+OsinfoDeviceLink *osinfo_hypervisor_add_device(OsinfoHypervisor *hv, OsinfoDevice *dev);
 
 #endif /* __OSINFO_HYPERVISOR_H__ */
 /*

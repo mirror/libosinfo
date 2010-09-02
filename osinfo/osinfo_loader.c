@@ -270,6 +270,9 @@ static void osinfo_loader_device_link(OsinfoLoader *loader,
         return;
 
     for (i = 0 ; i < nrelated ; i++) {
+        const gchar *keys[] = {
+            "driver", NULL,
+        };
 	gchar *id = (gchar *)xmlGetProp(related[i], BAD_CAST "id");
 	if (!id) {
 	    OSINFO_ERROR(err, "Missing device link id property");
@@ -278,11 +281,18 @@ static void osinfo_loader_device_link(OsinfoLoader *loader,
 	OsinfoDevice *dev = osinfo_loader_get_device(loader, id);
 	g_free(id);
 
+        OsinfoDeviceLink *link = NULL;
 	if (os) {
-	    osinfo_os_add_device(os, hv, dev, "foo");
+	    link = osinfo_os_add_device(os, hv, dev);
 	} else if (hv) {
-	    osinfo_hypervisor_add_device(hv, dev, "foo");
+	    link = osinfo_hypervisor_add_device(hv, dev);
 	}
+
+        xmlNodePtr saved = ctxt->node;
+        ctxt->node = related[i];
+        osinfo_loader_entity(loader, OSINFO_ENTITY(link), keys, ctxt, root, err);
+        ctxt->node = saved;
+
     }
 
  cleanup:

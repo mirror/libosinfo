@@ -23,6 +23,16 @@ LIBOSINFO_0.0.1 {
 	osinfo_devicelist_new_filtered;
 	osinfo_devicelist_new_intersection;
 	osinfo_devicelist_new_union;
+	osinfo_devicelink_get_type;
+	osinfo_devicelink_new;
+	osinfo_devicelink_get_target;
+	osinfo_devicelinklist_get_type;
+	osinfo_devicelinklist_new;
+	osinfo_devicelinklist_new_copy;
+	osinfo_devicelinklist_new_filtered;
+	osinfo_devicelinklist_new_intersection;
+	osinfo_devicelinklist_new_union;
+	osinfo_devicelinklist_get_devices;
 	osinfo_entity_get_type;
 	osinfo_entity_get_id;
 	osinfo_entity_get_param_keys;
@@ -41,6 +51,7 @@ LIBOSINFO_0.0.1 {
 	osinfo_hypervisor_get_type;
 	osinfo_hypervisor_new;
 	osinfo_hypervisor_get_devices;
+	osinfo_hypervisor_get_device_links;
 	osinfo_hypervisor_add_device;
 	osinfo_hypervisorlist_get_type;
 	osinfo_hypervisorlist_new;
@@ -68,8 +79,10 @@ LIBOSINFO_0.0.1 {
 	osinfo_os_get_type;
 	osinfo_os_new;
 	osinfo_os_get_preferred_device;
+	osinfo_os_get_preferred_device_link;
 	osinfo_os_get_related;
 	osinfo_os_get_devices;
+	osinfo_os_get_device_links;
 	osinfo_os_add_device;
 	osinfo_os_add_related_os;
 	osinfo_oslist_get_type;

@@ -21,8 +21,10 @@ START_TEST(test_devices)
     OsinfoDevice *dev1 = osinfo_device_new("e1000");
     OsinfoDevice *dev2 = osinfo_device_new("rtl8139");
 
-    osinfo_hypervisor_add_device(hv, dev1, "pci-e1000");
-    osinfo_hypervisor_add_device(hv, dev2, "pci-8139");
+    OsinfoDeviceLink *link1 = osinfo_hypervisor_add_device(hv, dev1);
+    osinfo_entity_add_param(OSINFO_ENTITY(link1), "device", "pci-e1000");
+    OsinfoDeviceLink *link2 = osinfo_hypervisor_add_device(hv, dev2);
+    osinfo_entity_add_param(OSINFO_ENTITY(link2), "device", "pci-8139");
 
     OsinfoDeviceList *devices = osinfo_hypervisor_get_devices(hv, NULL);
 
@@ -64,8 +66,10 @@ START_TEST(test_devices_filter)
     osinfo_entity_add_param(OSINFO_ENTITY(dev1), "class", "network");
     osinfo_entity_add_param(OSINFO_ENTITY(dev2), "class", "audio");
 
-    osinfo_hypervisor_add_device(hv, dev1, "pci-e1000");
-    osinfo_hypervisor_add_device(hv, dev2, "isa-sb16");
+    OsinfoDeviceLink *link1 = osinfo_hypervisor_add_device(hv, dev1);
+    osinfo_entity_add_param(OSINFO_ENTITY(link1), "device", "pci-e1000");
+    OsinfoDeviceLink *link2 = osinfo_hypervisor_add_device(hv, dev2);
+    osinfo_entity_add_param(OSINFO_ENTITY(link2), "device", "isa-sb16");
 
     osinfo_filter_add_constraint(filter, "class", "network");
 

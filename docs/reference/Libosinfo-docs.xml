@@ -18,6 +18,8 @@
     <xi:include href="xml/osinfo_db.xml"/>
     <xi:include href="xml/osinfo_device.xml"/>
     <xi:include href="xml/osinfo_devicelist.xml"/>
+    <xi:include href="xml/osinfo_devicelink.xml"/>
+    <xi:include href="xml/osinfo_devicelinklist.xml"/>
     <xi:include href="xml/osinfo_entity.xml"/>
     <xi:include href="xml/osinfo_filter.xml"/>
     <xi:include href="xml/osinfo_hypervisor.xml"/>

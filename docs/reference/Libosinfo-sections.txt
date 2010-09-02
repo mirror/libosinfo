@@ -83,8 +83,10 @@ OsinfoOsPrivate
 OsinfoOsRelationship
 osinfo_os_new
 osinfo_os_get_preferred_device
+osinfo_os_get_preferred_device_link
 osinfo_os_get_related
 osinfo_os_get_devices
+osinfo_os_get_device_links
 osinfo_os_add_device
 osinfo_os_add_related_os
 <SUBSECTION Standard>
@@ -105,6 +107,7 @@ OsinfoHypervisorClass
 OsinfoHypervisorPrivate
 osinfo_hypervisor_new
 osinfo_hypervisor_get_devices
+osinfo_hypervisor_get_device_links
 osinfo_hypervisor_add_device
 <SUBSECTION Standard>
 OSINFO_HYPERVISOR
@@ -180,6 +183,28 @@ osinfo_devicelist_get_type
 OSINFO_DEVICELIST_CLASS
 OSINFO_IS_DEVICELIST_CLASS
 OSINFO_DEVICELIST_GET_CLASS
+</SECTION>
+
+<SECTION>
+<FILE>osinfo_devicelinklist</FILE>
+<TITLE>OsinfoDeviceLinkList</TITLE>
+OsinfoDeviceLinkList
+OsinfoDeviceLinkListClass
+OsinfoDeviceLinkListPrivate
+osinfo_devicelinklist_new
+osinfo_devicelinklist_new_copy
+osinfo_devicelinklist_new_filtered
+osinfo_devicelinklist_new_intersection
+osinfo_devicelinklist_new_union
+osinfo_devicelinklist_get_devices
+<SUBSECTION Standard>
+OSINFO_DEVICELINKLIST
+OSINFO_IS_DEVICELINKLIST
+OSINFO_TYPE_DEVICELINKLIST
+osinfo_devicelinklist_get_type
+OSINFO_DEVICELINKLIST_CLASS
+OSINFO_IS_DEVICELINKLIST_CLASS
+OSINFO_DEVICELINKLIST_GET_CLASS
 </SECTION>
 
 <SECTION>
@@ -260,5 +285,23 @@ osinfo_device_get_type
 OSINFO_DEVICE_CLASS
 OSINFO_IS_DEVICE_CLASS
 OSINFO_DEVICE_GET_CLASS
+</SECTION>
+
+<SECTION>
+<FILE>osinfo_devicelink</FILE>
+<TITLE>OsinfoDeviceLink</TITLE>
+OsinfoDeviceLink
+OsinfoDeviceLinkClass
+OsinfoDeviceLinkPrivate
+osinfo_devicelink_new
+osinfo_devicelink_get_target
+<SUBSECTION Standard>
+OSINFO_DEVICELINK
+OSINFO_IS_DEVICELINK
+OSINFO_TYPE_DEVICELINK
+osinfo_devicelink_get_type
+OSINFO_DEVICELINK_CLASS
+OSINFO_IS_DEVICELINK_CLASS
+OSINFO_DEVICELINK_GET_CLASS
 </SECTION>
 
