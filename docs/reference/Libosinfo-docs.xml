@@ -16,21 +16,24 @@
   <chapter>
     <title>Libosinfo</title>
     <xi:include href="xml/osinfo_db.xml"/>
+    <xi:include href="xml/osinfo_deployment.xml"/>
+    <xi:include href="xml/osinfo_deploymentlist.xml"/>
     <xi:include href="xml/osinfo_device.xml"/>
     <xi:include href="xml/osinfo_devicelist.xml"/>
     <xi:include href="xml/osinfo_devicelink.xml"/>
+    <xi:include href="xml/osinfo_devicelinkfilter.xml"/>
     <xi:include href="xml/osinfo_devicelinklist.xml"/>
     <xi:include href="xml/osinfo_entity.xml"/>
     <xi:include href="xml/osinfo_filter.xml"/>
+    <xi:include href="xml/osinfo_list.xml"/>
+    <xi:include href="xml/osinfo_loader.xml"/>
+    <xi:include href="xml/osinfo_os.xml"/>
+    <xi:include href="xml/osinfo_oslist.xml"/>
     <xi:include href="xml/osinfo_product.xml"/>
     <xi:include href="xml/osinfo_productfilter.xml"/>
     <xi:include href="xml/osinfo_productlist.xml"/>
     <xi:include href="xml/osinfo_platform.xml"/>
     <xi:include href="xml/osinfo_platformlist.xml"/>
-    <xi:include href="xml/osinfo_list.xml"/>
-    <xi:include href="xml/osinfo_loader.xml"/>
-    <xi:include href="xml/osinfo_os.xml"/>
-    <xi:include href="xml/osinfo_oslist.xml"/>
   </chapter>
   <chapter id="object-tree">
     <title>Object Hierarchy</title>

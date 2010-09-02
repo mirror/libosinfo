@@ -118,7 +118,7 @@ START_TEST(test_prop_device)
     osinfo_db_add_device(db, dev2);
     osinfo_db_add_device(db, dev3);
 
-    GList *uniq = osinfo_db_unique_values_for_property_in_dev(db, "class");
+    GList *uniq = osinfo_db_unique_values_for_property_in_device(db, "class");
     GList *tmp = uniq;
     gboolean hasNetwork = FALSE;
     gboolean hasAudio = FALSE;

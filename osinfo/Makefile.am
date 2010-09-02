@@ -48,6 +48,7 @@ libosinfo_1_0_include_HEADERS = \
   osinfo_devicelink.h		\
   osinfo_devicelist.h		\
   osinfo_devicelinklist.h	\
+  osinfo_devicelinkfilter.h	\
   osinfo_entity.h		\
   osinfo_filter.h		\
   osinfo_product.h		\
@@ -57,7 +58,9 @@ libosinfo_1_0_include_HEADERS = \
   osinfo_platformlist.h		\
   osinfo_list.h			\
   osinfo_os.h			\
-  osinfo_oslist.h
+  osinfo_oslist.h		\
+  osinfo_deployment.h		\
+  osinfo_deploymentlist.h
 
 libosinfo_1_0_la_SOURCES =	\
   osinfo_entity.c		\
@@ -67,6 +70,7 @@ libosinfo_1_0_la_SOURCES =	\
   osinfo_devicelink.c		\
   osinfo_devicelist.c		\
   osinfo_devicelinklist.c	\
+  osinfo_devicelinkfilter.c	\
   osinfo_product.c		\
   osinfo_productfilter.c	\
   osinfo_productlist.c		\
@@ -74,6 +78,8 @@ libosinfo_1_0_la_SOURCES =	\
   osinfo_platformlist.c		\
   osinfo_oslist.c		\
   osinfo_os.c			\
+  osinfo_deployment.c		\
+  osinfo_deploymentlist.c	\
   osinfo_db.c			\
   osinfo_loader.c
 

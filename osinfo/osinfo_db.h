@@ -76,14 +76,21 @@ OsinfoDb *osinfo_db_new(void);
 OsinfoPlatform *osinfo_db_get_platform(OsinfoDb *db, const gchar *id);
 OsinfoDevice *osinfo_db_get_device(OsinfoDb *db, const gchar *id);
 OsinfoOs *osinfo_db_get_os(OsinfoDb *db, const gchar *id);
+OsinfoDeployment *osinfo_db_get_deployment(OsinfoDb *db, const gchar *id);
+
+OsinfoDeployment *osinfo_db_find_deployment(OsinfoDb *db,
+                                            OsinfoOs *os,
+                                            OsinfoPlatform *platform);
 
 OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *db);
 OsinfoPlatformList *osinfo_db_get_platform_list(OsinfoDb *db);
 OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *db);
+OsinfoDeploymentList *osinfo_db_get_deployment_list(OsinfoDb *db);
 
 void osinfo_db_add_os(OsinfoDb *db, OsinfoOs *os);
 void osinfo_db_add_platform(OsinfoDb *db, OsinfoPlatform *platform);
 void osinfo_db_add_device(OsinfoDb *db, OsinfoDevice *device);
+void osinfo_db_add_deployment(OsinfoDb *db, OsinfoDeployment *deployment);
 
 // Get me all unique values for property "vendor" among operating systems
 GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *db, const gchar *propName);
@@ -92,7 +99,10 @@ GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *db, const gchar *pro
 GList *osinfo_db_unique_values_for_property_in_platform(OsinfoDb *db, const gchar *propName);
 
 // Get me all unique values for property "vendor" among devices
-GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *db, const gchar *propName);
+GList *osinfo_db_unique_values_for_property_in_device(OsinfoDb *db, const gchar *propName);
+
+// Get me all unique values for property "vendor" among deployments
+GList *osinfo_db_unique_values_for_property_in_deployment(OsinfoDb *db, const gchar *propName);
 
 // Get me all OSes that 'upgrade' another OS (or whatever relationship is specified)
 OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *db, OsinfoProductRelationship relshp);

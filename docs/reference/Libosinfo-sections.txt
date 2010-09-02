@@ -8,15 +8,20 @@ osinfo_db_new
 osinfo_db_get_platform
 osinfo_db_get_device
 osinfo_db_get_os
+osinfo_db_get_deployment
 osinfo_db_get_os_list
 osinfo_db_get_platform_list
 osinfo_db_get_device_list
+osinfo_db_get_deployment_list
+osinfo_db_find_deployment
 osinfo_db_add_os
 osinfo_db_add_platform
 osinfo_db_add_device
+osinfo_db_add_deployment
 osinfo_db_unique_values_for_property_in_os
 osinfo_db_unique_values_for_property_in_platform
-osinfo_db_unique_values_for_property_in_dev
+osinfo_db_unique_values_for_property_in_device
+osinfo_db_unique_values_for_property_in_deployment
 osinfo_db_unique_values_for_os_relationship
 osinfo_db_unique_values_for_platform_relationship
 <SUBSECTION Standard>
@@ -101,8 +106,6 @@ OsinfoOs
 OsinfoOsClass
 OsinfoOsPrivate
 osinfo_os_new
-osinfo_os_get_preferred_device
-osinfo_os_get_preferred_device_link
 osinfo_os_get_devices
 osinfo_os_get_device_links
 osinfo_os_add_device
@@ -134,6 +137,30 @@ osinfo_platform_get_type
 OSINFO_PLATFORM_CLASS
 OSINFO_IS_PLATFORM_CLASS
 OSINFO_PLATFORM_GET_CLASS
+</SECTION>
+
+<SECTION>
+<FILE>osinfo_deployment</FILE>
+<TITLE>OsinfoDeployment</TITLE>
+OsinfoDeployment
+OsinfoDeploymentClass
+OsinfoDeploymentPrivate
+osinfo_deployment_new
+osinfo_deployment_get_devices
+osinfo_deployment_get_device_links
+osinfo_deployment_add_device
+osinfo_deployment_get_os
+osinfo_deployment_get_platform
+osinfo_deployment_get_preferred_device
+osinfo_deployment_get_preferred_device_link
+<SUBSECTION Standard>
+OSINFO_DEPLOYMENT
+OSINFO_IS_DEPLOYMENT
+OSINFO_TYPE_DEPLOYMENT
+osinfo_deployment_get_type
+OSINFO_DEPLOYMENT_CLASS
+OSINFO_IS_DEPLOYMENT_CLASS
+OSINFO_DEPLOYMENT_GET_CLASS
 </SECTION>
 
 <SECTION>
@@ -246,6 +273,24 @@ OSINFO_PRODUCTFILTER_GET_CLASS
 </SECTION>
 
 <SECTION>
+<FILE>osinfo_devicelinkfilter</FILE>
+<TITLE>OsinfoDeviceLinkFilter</TITLE>
+OsinfoDeviceLinkFilter
+OsinfoDeviceLinkFilterClass
+OsinfoDeviceLinkFilterPrivate
+osinfo_devicelinkfilter_new
+osinfo_devicelinkfilter_get_target_filter
+<SUBSECTION Standard>
+OSINFO_DEVICELINKFILTER
+OSINFO_IS_DEVICELINKFILTER
+OSINFO_TYPE_DEVICELINKFILTER
+osinfo_devicelinkfilter_get_type
+OSINFO_DEVICELINKFILTER_CLASS
+OSINFO_IS_DEVICELINKFILTER_CLASS
+OSINFO_DEVICELINKFILTER_GET_CLASS
+</SECTION>
+
+<SECTION>
 <FILE>osinfo_productlist</FILE>
 <TITLE>OsinfoProductList</TITLE>
 OsinfoProductList
@@ -306,6 +351,27 @@ osinfo_platformlist_get_type
 OSINFO_PLATFORMLIST_CLASS
 OSINFO_IS_PLATFORMLIST_CLASS
 OSINFO_PLATFORMLIST_GET_CLASS
+</SECTION>
+
+<SECTION>
+<FILE>osinfo_deploymentlist</FILE>
+<TITLE>OsinfoDeploymentList</TITLE>
+OsinfoDeploymentList
+OsinfoDeploymentListClass
+OsinfoDeploymentListPrivate
+osinfo_deploymentlist_new
+osinfo_deploymentlist_new_copy
+osinfo_deploymentlist_new_filtered
+osinfo_deploymentlist_new_intersection
+osinfo_deploymentlist_new_union
+<SUBSECTION Standard>
+OSINFO_DEPLOYMENTLIST
+OSINFO_IS_DEPLOYMENTLIST
+OSINFO_TYPE_DEPLOYMENTLIST
+osinfo_deploymentlist_get_type
+OSINFO_DEPLOYMENTLIST_CLASS
+OSINFO_IS_DEPLOYMENTLIST_CLASS
+OSINFO_DEPLOYMENTLIST_GET_CLASS
 </SECTION>
 
 <SECTION>

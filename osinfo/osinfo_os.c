@@ -31,7 +31,7 @@ G_DEFINE_TYPE (OsinfoOs, osinfo_os, OSINFO_TYPE_PRODUCT);
 /**
  * SECTION:osinfo_os
  * @short_description: An operating system
- * @see_also: #OsinfoOs, #OsinfoPlatform
+ * @see_also: #OsinfoOs, #OsinfoDeployment
  *
  * #OsinfoOs is an entity representing an operating system.
  * Operating systems have a list of supported devices. 
@@ -42,11 +42,6 @@ G_DEFINE_TYPE (OsinfoOs, osinfo_os, OSINFO_TYPE_PRODUCT);
 
 struct _OsinfoOsPrivate
 {
-    // OS-Platform specific information
-    // Key: gchar* (platform id)
-    // Value: GList: Element Value: List of device_link structs
-    GHashTable *platforms;
-
     // Value: List of device_link structs
     GList *deviceLinks;
 };
@@ -72,7 +67,6 @@ osinfo_os_finalize (GObject *object)
 
     g_list_foreach(os->priv->deviceLinks, osinfo_device_link_free, NULL);
     g_list_free(os->priv->deviceLinks);
-    g_hash_table_unref(os->priv->platforms);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_os_parent_class)->finalize (object);
@@ -88,14 +82,6 @@ osinfo_os_class_init (OsinfoOsClass *klass)
     g_type_class_add_private (klass, sizeof (OsinfoOsPrivate));
 }
 
-static void
-osinfo_os_platform_devices_free(gpointer opaque)
-{
-    GList *deviceLinks = opaque;
-
-    g_list_foreach(deviceLinks, osinfo_device_link_free, NULL);
-    g_list_free(deviceLinks);
-}
 
 static void
 osinfo_os_init (OsinfoOs *os)
@@ -104,10 +90,6 @@ osinfo_os_init (OsinfoOs *os)
     os->priv = priv = OSINFO_OS_GET_PRIVATE(os);
 
     os->priv->deviceLinks = NULL;
-    os->priv->platforms = g_hash_table_new_full(g_str_hash,
-                                                  g_str_equal,
-                                                  g_free,
-                                                  osinfo_os_platform_devices_free);
 }
 
 
@@ -128,94 +110,23 @@ OsinfoOs *osinfo_os_new(const gchar *id)
 
 
 /**
- * osinfo_os_get_preferred_device:
- * @os: the operating system entity
- * @platform: (transfer none)(allow-none): an optional platform to restrict to
- * @filter: (transfer none)(allow-none): a device metadata filter
- *
- * Get the preferred device matching a given filter and platform
- *
- * Returns: (transfer none): a device, or NULL
- */
-OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *os, OsinfoPlatform *platform, OsinfoFilter *filter)
-{
-    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
-    g_return_val_if_fail(!platform || OSINFO_IS_PLATFORM(platform), NULL);
-    g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
-
-    OsinfoDeviceLink *link = osinfo_os_get_preferred_device_link(os, platform, filter);
-    if (link)
-        return osinfo_devicelink_get_target(link);
-    return NULL;
-}
-
-
-/**
- * osinfo_os_get_preferred_device_link:
- * @os: the operating system entity
- * @platform: (transfer none)(allow-none): an optional platform to restrict to
- * @filter: (transfer none)(allow-none): a device metadata filter
- *
- * Get the preferred device link matching a given filter and platform.
- * The filter matches against attributes on the device, not the link.
- *
- * Returns: (transfer none): a device, or NULL
- */
-OsinfoDeviceLink *osinfo_os_get_preferred_device_link(OsinfoOs *os, OsinfoPlatform *platform, OsinfoFilter *filter)
-{
-    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
-    g_return_val_if_fail(!platform || OSINFO_IS_PLATFORM(platform), NULL);
-    g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
-    // Check if device type info present for <os,platform>, else return NULL.
-
-    GList *tmp;
-    if (platform)
-        tmp = g_hash_table_lookup(os->priv->platforms,
-				  osinfo_entity_get_id(OSINFO_ENTITY(platform)));
-    else
-        tmp = os->priv->deviceLinks;
-
-    // For each device in section list, apply filter. If filter passes, return device.
-    while (tmp) {
-        OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
-        OsinfoDevice *dev = osinfo_devicelink_get_target(link);
-
-        if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(dev))) {
-	    return link;
-	}
-
-	tmp = tmp->next;
-    }
-
-    // If no devices pass filter, return NULL.
-    return NULL;
-}
-
-
-/**
  * osinfo_os_get_devices:
  * @os: an operating system
- * @platform: (allow-none)(transfer none): an optional platform to restrict to
  * @filter: (allow-none)(transfer none): an optional device property filter
  *
- * Get all devices matching a given filter and platform
+ * Get all devices matching a given filter
  *
  * Returns: (transfer full): A list of devices
  */
-OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoPlatform *platform, OsinfoFilter *filter)
+OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoFilter *filter)
 {
     g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
-    g_return_val_if_fail(!platform || OSINFO_IS_PLATFORM(platform), NULL);
     g_return_val_if_fail(!filter || OSINFO_IS_FILTER(filter), NULL);
 
     OsinfoDeviceList *newList = osinfo_devicelist_new();
     GList *tmp = NULL;
 
-    if (platform)
-        tmp = g_hash_table_lookup(os->priv->platforms,
-				  osinfo_entity_get_id(OSINFO_ENTITY(platform)));
-    else
-        tmp = os->priv->deviceLinks;
+    tmp = os->priv->deviceLinks;
 
     while (tmp) {
         OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
@@ -234,28 +145,22 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoPlatform *platform, 
 /**
  * osinfo_os_get_device_links:
  * @os: an operating system
- * @platform: (allow-none)(transfer none): an optional platform to restrict to
  * @filter: (allow-none)(transfer none): an optional device property filter
  *
- * Get all devices matching a given filter and platform. The filter
+ * Get all devices matching a given filter. The filter
  * matches against the links, not the devices.
  *
  * Returns: (transfer full): A list of device links
  */
-OsinfoDeviceLinkList *osinfo_os_get_device_links(OsinfoOs *os, OsinfoPlatform *platform, OsinfoFilter *filter)
+OsinfoDeviceLinkList *osinfo_os_get_device_links(OsinfoOs *os, OsinfoFilter *filter)
 {
     g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
-    g_return_val_if_fail(!platform || OSINFO_IS_PLATFORM(platform), NULL);
     g_return_val_if_fail(!filter || OSINFO_IS_FILTER(filter), NULL);
 
     OsinfoDeviceLinkList *newList = osinfo_devicelinklist_new();
     GList *tmp = NULL;
 
-    if (platform)
-        tmp = g_hash_table_lookup(os->priv->platforms,
-				  osinfo_entity_get_id(OSINFO_ENTITY(platform)));
-    else
-        tmp = os->priv->deviceLinks;
+    tmp = os->priv->deviceLinks;
 
     while (tmp) {
         OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
@@ -273,40 +178,22 @@ OsinfoDeviceLinkList *osinfo_os_get_device_links(OsinfoOs *os, OsinfoPlatform *p
 /**
  * osinfo_os_add_device:
  * @os: an operating system
- * @platform: (transfer none): an optional platform to associated with
  * @dev: (transfer none): the device to associate with
  *
- * Associated a device with an operating system, and optionally
- * a platform.  The returned #OsinfoDeviceLink
- * can be used to record extra metadata against the link
+ * Associated a device with an operating system.  The
+ * returned #OsinfoDeviceLink can be used to record
+ * extra metadata against the link
  *
  * Returns: (transfer none): the device association
  */
-OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoPlatform *platform, OsinfoDevice *dev)
+OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoDevice *dev)
 {
     g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
-    g_return_val_if_fail(!platform || OSINFO_IS_PLATFORM(platform), NULL);
     g_return_val_if_fail(OSINFO_IS_DEVICE(dev), NULL);
 
     OsinfoDeviceLink *link = osinfo_devicelink_new(dev);
 
-    if (platform) {
-        GList *tmp = NULL;
-        gpointer origKey, origValue;
-	if (g_hash_table_lookup_extended(os->priv->platforms,
-					 osinfo_entity_get_id(OSINFO_ENTITY(platform)),
-					 &origKey, &origValue)) {
-	    g_hash_table_steal(os->priv->platforms,
-			       osinfo_entity_get_id(OSINFO_ENTITY(platform)));
-	    g_free(origKey);
-	    tmp = origValue;
-	}
-	tmp = g_list_append(tmp, link);
-	g_hash_table_insert(os->priv->platforms,
-			    g_strdup(osinfo_entity_get_id(OSINFO_ENTITY(platform))), tmp);
-    } else {
-        os->priv->deviceLinks = g_list_append(os->priv->deviceLinks, link);
-    }
+    os->priv->deviceLinks = g_list_append(os->priv->deviceLinks, link);
 
     return link;
 }

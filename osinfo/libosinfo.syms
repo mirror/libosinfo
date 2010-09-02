@@ -5,16 +5,22 @@ LIBOSINFO_0.0.1 {
 	osinfo_db_get_platform;
 	osinfo_db_get_device;
 	osinfo_db_get_os;
+	osinfo_db_get_deployment;
+	osinfo_db_find_deployment;
 	osinfo_db_get_os_list;
 	osinfo_db_get_platform_list;
 	osinfo_db_get_device_list;
+	osinfo_db_get_deployment_list;
 	osinfo_db_add_os;
 	osinfo_db_add_platform;
 	osinfo_db_add_device;
+	osinfo_db_add_deployment;
 	osinfo_db_unique_values_for_property_in_os;
 	osinfo_db_unique_values_for_property_in_platform;
-	osinfo_db_unique_values_for_property_in_dev;
+	osinfo_db_unique_values_for_property_in_device;
+	osinfo_db_unique_values_for_property_in_deployment;
 	osinfo_db_unique_values_for_os_relationship;
+	osinfo_db_unique_values_for_platform_relationship;
 	osinfo_device_get_type;
 	osinfo_device_new;
 	osinfo_devicelist_get_type;
@@ -33,6 +39,9 @@ LIBOSINFO_0.0.1 {
 	osinfo_devicelinklist_new_intersection;
 	osinfo_devicelinklist_new_union;
 	osinfo_devicelinklist_get_devices;
+	osinfo_devicelinkfilter_get_type;
+	osinfo_devicelinkfilter_new;
+	osinfo_devicelinkfilter_get_target_filter;
 	osinfo_entity_get_type;
 	osinfo_entity_get_id;
 	osinfo_entity_get_param_keys;
@@ -104,6 +113,21 @@ LIBOSINFO_0.0.1 {
 	osinfo_loader_process_path;
 	osinfo_loader_process_uri;
 	osinfo_loader_get_db;
+	osinfo_deployment_new;
+	osinfo_deployment_get_type;
+	osinfo_deployment_get_platform;
+	osinfo_deployment_get_os;
+	osinfo_deployment_get_devices;
+	osinfo_deployment_get_device_links;
+	osinfo_deployment_add_device;
+	osinfo_deployment_get_preferred_device;
+	osinfo_deployment_get_preferred_device_link;
+	osinfo_deploymentlist_get_type;
+	osinfo_deploymentlist_new;
+	osinfo_deploymentlist_new_copy;
+	osinfo_deploymentlist_new_filtered;
+	osinfo_deploymentlist_new_intersection;
+	osinfo_deploymentlist_new_union;
 
     local:
         *;

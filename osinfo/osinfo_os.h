@@ -69,13 +69,10 @@ GType osinfo_os_get_type(void);
 
 OsinfoOs *osinfo_os_new(const gchar *id);
 
-OsinfoDevice *osinfo_os_get_preferred_device(OsinfoOs *os, OsinfoPlatform *platform, OsinfoFilter *filter);
-OsinfoDeviceLink *osinfo_os_get_preferred_device_link(OsinfoOs *os, OsinfoPlatform *platform, OsinfoFilter *filter);
+OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoFilter *filter);
+OsinfoDeviceLinkList *osinfo_os_get_device_links(OsinfoOs *os, OsinfoFilter *filter);
 
-OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoPlatform *platform, OsinfoFilter *filter);
-OsinfoDeviceLinkList *osinfo_os_get_device_links(OsinfoOs *os, OsinfoPlatform *platform, OsinfoFilter *filter);
-
-OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoPlatform *platform, OsinfoDevice *dev);
+OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoDevice *dev);
 
 #endif /* __OSINFO_OS_H__ */
 /*

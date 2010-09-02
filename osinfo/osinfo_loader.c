@@ -222,7 +222,7 @@ static OsinfoOs *osinfo_loader_get_os(OsinfoLoader *loader,
 
 
 static OsinfoPlatform *osinfo_loader_get_platform(OsinfoLoader *loader,
-						      const gchar *id)
+                                                  const gchar *id)
 {
     OsinfoPlatform *platform = osinfo_db_get_platform(loader->priv->db, id);
     if (!platform) {
@@ -256,8 +256,7 @@ static void osinfo_loader_device(OsinfoLoader *loader,
 
 
 static void osinfo_loader_device_link(OsinfoLoader *loader,
-				      OsinfoOs *os,
-				      OsinfoPlatform *platform,
+				      OsinfoEntity *entity,
 				      const gchar *xpath,
 				      xmlXPathContextPtr ctxt,
 				      xmlNodePtr root,
@@ -282,10 +281,12 @@ static void osinfo_loader_device_link(OsinfoLoader *loader,
 	g_free(id);
 
         OsinfoDeviceLink *link = NULL;
-	if (os) {
-	    link = osinfo_os_add_device(os, platform, dev);
-	} else if (platform) {
-	    link = osinfo_platform_add_device(platform, dev);
+	if (OSINFO_IS_PLATFORM(entity)) {
+	    link = osinfo_platform_add_device(OSINFO_PLATFORM(entity), dev);
+        } else if (OSINFO_IS_OS(entity)) {
+	    link = osinfo_os_add_device(OSINFO_OS(entity), dev);
+        } else if (OSINFO_IS_DEPLOYMENT(entity)) {
+	    link = osinfo_deployment_add_device(OSINFO_DEPLOYMENT(entity), dev);
 	}
 
         xmlNodePtr saved = ctxt->node;
@@ -401,45 +402,58 @@ static void osinfo_loader_platform(OsinfoLoader *loader,
     if (*err)
         return;
 
-    osinfo_loader_device_link(loader, NULL, platform,
+    osinfo_loader_device_link(loader, OSINFO_ENTITY(platform),
 			      "./devices/device", ctxt, root, err);
     if (*err)
         return;
 }
 
 
-static void osinfo_loader_os_platform(OsinfoLoader *loader,
-                                      OsinfoOs *os,
-                                      xmlXPathContextPtr ctxt,
-                                      xmlNodePtr root,
-                                      GError **err)
+static void osinfo_loader_deployment(OsinfoLoader *loader,
+                                     xmlXPathContextPtr ctxt,
+                                     xmlNodePtr root,
+                                     GError **err)
 {
-    xmlNodePtr *platforms = NULL;
-    int nplatforms = osinfo_loader_nodeset("./platform", ctxt, &platforms, err);
-    int i;
+    gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
+    const gchar *const keys[] = {
+        NULL
+    };
+    if (!id) {
+        OSINFO_ERROR(err, "Missing deployment id property");
+	return;
+    }
+
+    gchar *osid = osinfo_loader_string("string(./os/@id)", ctxt, err);
+    if (!osid && 0) {
+        OSINFO_ERROR(err, "Missing deployment os id property");
+        g_free(id);
+	return;
+    }
+    OsinfoOs *os = osinfo_loader_get_os(loader, osid);
+    g_free(osid);
+
+    gchar *platformid = osinfo_loader_string("string(./platform/@id)", ctxt, err);
+    if (!platformid) {
+        OSINFO_ERROR(err, "Missing deployment platform id property");
+        g_free(id);
+	return;
+    }
+    OsinfoPlatform *platform = osinfo_loader_get_platform(loader, platformid);
+    g_free(platformid);
+
+    OsinfoDeployment *deployment = osinfo_deployment_new(id, os, platform);
+    g_free(id);
+
+    osinfo_loader_entity(loader, OSINFO_ENTITY(deployment), keys, ctxt, root, err);
     if (*err)
         return;
 
-    for (i = 0 ; i < nplatforms ; i++) {
-	gchar *id = (gchar *)xmlGetProp(platforms[i], BAD_CAST "id");
-	if (!id) {
-	    OSINFO_ERROR(err, "Missing os platform id property");
-	    goto cleanup;
-	}
-	OsinfoPlatform *platform = osinfo_loader_get_platform(loader, id);
-	g_free(id);
+    osinfo_loader_device_link(loader, OSINFO_ENTITY(deployment),
+			      "./devices/device", ctxt, root, err);
+    if (*err)
+        return;
 
-	xmlNodePtr saved = ctxt->node;
-	ctxt->node = platforms[i];
-	osinfo_loader_device_link(loader, os, platform,
-				  "./devices/device", ctxt, platforms[i], err);
-	ctxt->node = saved;
-	if (*err)
-	    goto cleanup;
-    }
-
- cleanup:
-    g_free(platforms);
+    osinfo_db_add_deployment(loader->priv->db, deployment);
 }
 
 
@@ -468,11 +482,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
     if (*err)
         return;
 
-    osinfo_loader_os_platform(loader, os, ctxt, root, err);
-    if (*err)
-        return;
-
-    osinfo_loader_device_link(loader, os, NULL,
+    osinfo_loader_device_link(loader, OSINFO_ENTITY(os),
 			      "./devices/device", ctxt, root, err);
     if (*err)
         return;
@@ -502,6 +512,7 @@ static void osinfo_loader_root(OsinfoLoader *loader,
     xmlNodePtr *oss = NULL;
     xmlNodePtr *devices = NULL;
     xmlNodePtr *platforms = NULL;
+    xmlNodePtr *deployments = NULL;
 
     if (!xmlStrEqual(root->name, BAD_CAST "libosinfo")) {
         OSINFO_ERROR(err, "Incorrect root element");
@@ -548,7 +559,22 @@ static void osinfo_loader_root(OsinfoLoader *loader,
 	    goto cleanup;
     }
 
+    int ndeployment = osinfo_loader_nodeset("./deployment", ctxt, &deployments, err);
+    if (*err)
+        goto cleanup;
+
+    for (i = 0 ; i < ndeployment ; i++) {
+        xmlNodePtr saved = ctxt->node;
+	ctxt->node = deployments[i];
+	osinfo_loader_deployment(loader, ctxt, deployments[i], err);
+	ctxt->node = saved;
+	if (*err)
+	    goto cleanup;
+    }
+
+
  cleanup:
+    g_free(deployments);
     g_free(platforms);
     g_free(oss);
     g_free(devices);

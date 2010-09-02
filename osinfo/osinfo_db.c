@@ -42,6 +42,7 @@ struct _OsinfoDbPrivate
     OsinfoDeviceList *devices;
     OsinfoPlatformList *platforms;
     OsinfoOsList *oses;
+    OsinfoDeploymentList *deployments;
 };
 
 static void osinfo_db_finalize (GObject *object);
@@ -54,6 +55,7 @@ osinfo_db_finalize (GObject *object)
     g_object_unref(db->priv->devices);
     g_object_unref(db->priv->platforms);
     g_object_unref(db->priv->oses);
+    g_object_unref(db->priv->deployments);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_db_parent_class)->finalize (object);
@@ -81,6 +83,7 @@ osinfo_db_init (OsinfoDb *db)
     db->priv->devices = osinfo_devicelist_new();
     db->priv->platforms = osinfo_platformlist_new();
     db->priv->oses = osinfo_oslist_new();
+    db->priv->deployments = osinfo_deploymentlist_new();
 }
 
 /** PUBLIC METHODS */
@@ -143,6 +146,64 @@ OsinfoOs *osinfo_db_get_os(OsinfoDb *db, const gchar *id)
 
 
 /**
+ * osinfo_db_get_deployment:
+ * @db: the database
+ * @id: the unique operating system identifier
+ *
+ * Returns: (transfer none): the operating system, or NULL if none is found
+ */
+OsinfoDeployment *osinfo_db_get_deployment(OsinfoDb *db, const gchar *id)
+{
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    g_return_val_if_fail(id != NULL, NULL);
+
+    return OSINFO_DEPLOYMENT(osinfo_list_find_by_id(OSINFO_LIST(db->priv->deployments), id));
+}
+
+
+/**
+ * osinfo_db_find_deployment:
+ * @db: the database
+ * @os: the operating system to find
+ * @platform: the virtualization platform
+ *
+ * Find the deployment for @os on @platform, if any.
+ *
+ * Returns: (transfer none): the deployment, or NULL
+ */
+OsinfoDeployment *osinfo_db_find_deployment(OsinfoDb *db,
+                                            OsinfoOs *os,
+                                            OsinfoPlatform *platform)
+{
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+    g_return_val_if_fail(OSINFO_IS_PLATFORM(platform), NULL);
+
+    GList *deployments = osinfo_list_get_elements(OSINFO_LIST(db->priv->deployments));
+    GList *tmp = deployments;
+
+    while (tmp) {
+        OsinfoDeployment *deployment = OSINFO_DEPLOYMENT(tmp->data);
+        OsinfoOs *otheros = osinfo_deployment_get_os(deployment);
+        OsinfoPlatform *otherplatform = osinfo_deployment_get_platform(deployment);
+
+        if (g_strcmp0(osinfo_entity_get_id(OSINFO_ENTITY(os)),
+                      osinfo_entity_get_id(OSINFO_ENTITY(otheros))) == 0 &&
+            g_strcmp0(osinfo_entity_get_id(OSINFO_ENTITY(platform)),
+                      osinfo_entity_get_id(OSINFO_ENTITY(otherplatform))) == 0) {
+            g_list_free(deployments);
+            return deployment;
+        }
+
+        tmp = tmp->next;
+    }
+
+    g_list_free(deployments);
+    return NULL;
+}
+
+
+/**
  * osinfo_db_get_os_list:
  * @db: the database
  *
@@ -179,6 +240,20 @@ OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *db)
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
 
     return osinfo_devicelist_new_copy(db->priv->devices);
+}
+
+
+/**
+ * osinfo_db_get_deployment_list:
+ * @db: the database
+ *
+ * Returns: (transfer full): the list of deployments
+ */
+OsinfoDeploymentList *osinfo_db_get_deployment_list(OsinfoDb *db)
+{
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+
+    return osinfo_deploymentlist_new_copy(db->priv->deployments);
 }
 
 
@@ -224,6 +299,21 @@ void osinfo_db_add_device(OsinfoDb *db, OsinfoDevice *device)
     g_return_if_fail(OSINFO_IS_DEVICE(device));
 
     osinfo_list_add(OSINFO_LIST(db->priv->devices), OSINFO_ENTITY(device));
+}
+
+
+/**
+ * osinfo_db_add_deployment:
+ * @db: the database
+ * @deployment: (transfer none): a deployment
+ *
+ */
+void osinfo_db_add_deployment(OsinfoDb *db, OsinfoDeployment *deployment)
+{
+    g_return_if_fail(OSINFO_IS_DB(db));
+    g_return_if_fail(OSINFO_IS_DEPLOYMENT(deployment));
+
+    osinfo_list_add(OSINFO_LIST(db->priv->deployments), OSINFO_ENTITY(deployment));
 }
 
 
@@ -312,7 +402,7 @@ GList *osinfo_db_unique_values_for_property_in_platform(OsinfoDb *db, const gcha
 
 
 /**
- * osinfo_db_unique_values_for_property_in_dev:
+ * osinfo_db_unique_values_for_property_in_device:
  * @db: the database
  * @propName: a property name
  *
@@ -321,12 +411,30 @@ GList *osinfo_db_unique_values_for_property_in_platform(OsinfoDb *db, const gcha
  *
  * Returns: (transfer container)(element-type utf8): a list of strings
  */
-GList *osinfo_db_unique_values_for_property_in_dev(OsinfoDb *db, const gchar *propName)
+GList *osinfo_db_unique_values_for_property_in_device(OsinfoDb *db, const gchar *propName)
 {
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
     g_return_val_if_fail(propName != NULL, NULL);
 
     return osinfo_db_unique_values_for_property_in_entity(OSINFO_LIST(db->priv->devices), propName);
+}
+
+/**
+ * osinfo_db_unique_values_for_property_in_deployment:
+ * @db: the database
+ * @propName: a property name
+ *
+ * Get all unique values for a named property amongst all
+ * deployments in the database
+ *
+ * Returns: (transfer container)(element-type utf8): a list of strings
+ */
+GList *osinfo_db_unique_values_for_property_in_deployment(OsinfoDb *db, const gchar *propName)
+{
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    g_return_val_if_fail(propName != NULL, NULL);
+
+    return osinfo_db_unique_values_for_property_in_entity(OSINFO_LIST(db->priv->deployments), propName);
 }
 
 struct __osinfoProductCheckRelationshipArgs {

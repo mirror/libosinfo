@@ -15,7 +15,7 @@ for (idx in devs.get_elements()) {
     print ("  Device " + dev.get_id())
 }
 
-var names = db.unique_values_for_property_in_dev("name")
+var names = db.unique_values_for_property_in_device("name")
 
 print ("All device names")
 for (idx in names) {
@@ -40,12 +40,16 @@ var drvclass = "network"
 var os = db.get_os(osid)
 var hv = db.get_platform(hvid)
 
+var dep = db.find_deployment(os, hv)
+
 var filter = new osinfo.Filter()
 filter.add_constraint("class", drvclass)
-var drvlink = os.get_preferred_device_link(hv, filter)
-var drv = drvlink.get_target()
+var link = dep.get_preferred_device_link(new osinfo.DeviceLinkFilter({target_filter: filter}))
+var dev = link.get_target()
+var drv = link.get_param_value("driver")
 print ("For OS '" + os.get_param_value("name") + "' " +
        "with HV '" + hv.get_param_value("name") + "' " +
        "for class '" + drvclass + "' " +
-       "use device '" + drv.get_param_value("name") + "' " +
-       "with HV driver '" + drvlink.get_param_value("driver") + "'")
+       "use device '" + dev.get_param_value("name") + "' " +
+       "with HV driver '" + drv + "'")
+

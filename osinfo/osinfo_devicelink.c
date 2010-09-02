@@ -117,7 +117,7 @@ osinfo_devicelink_class_init (OsinfoDeviceLinkClass *klass)
     g_klass->get_property = osinfo_devicelink_get_property;
 
     /**
-     * OsinfoDevice:target:
+     * OsinfoDeviceLink:target:
      *
      * The target of the device link.
      */

@@ -32,6 +32,7 @@
 #include <osinfo/osinfo_devicelink.h>
 #include <osinfo/osinfo_devicelist.h>
 #include <osinfo/osinfo_devicelinklist.h>
+#include <osinfo/osinfo_devicelinkfilter.h>
 #include <osinfo/osinfo_productlist.h>
 #include <osinfo/osinfo_product.h>
 #include <osinfo/osinfo_productfilter.h>
@@ -39,6 +40,8 @@
 #include <osinfo/osinfo_platform.h>
 #include <osinfo/osinfo_oslist.h>
 #include <osinfo/osinfo_os.h>
+#include <osinfo/osinfo_deploymentlist.h>
+#include <osinfo/osinfo_deployment.h>
 #include <osinfo/osinfo_db.h>
 #include <osinfo/osinfo_loader.h>
 

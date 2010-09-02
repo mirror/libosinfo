@@ -16,7 +16,7 @@ print "All device IDs"
 for dev in devs.get_elements():
     print ("  Device " + dev.get_id())
 
-names = db.unique_values_for_property_in_dev("name")
+names = db.unique_values_for_property_in_device("name")
 
 print "All device names"
 for name in names:
@@ -36,12 +36,15 @@ drvclass = "network"
 os = db.get_os(osid)
 hv = db.get_platform(hvid)
 
+dep = db.find_deployment(os, hv)
+
 fltr = osinfo.Filter()
 fltr.add_constraint("class", drvclass)
-drvlink = os.get_preferred_device_link(hv, fltr)
-drv = drvlink.get_target()
+link = dep.get_preferred_device_link(osinfo.DeviceLinkFilter(target_filter = fltr))
+dev = link.get_target()
+drv = link.get_param_value("driver")
 print ("For OS '" + os.get_param_value("name") + "' " +
        "with HV '" + hv.get_param_value("name") + "' " +
        "for class '" + drvclass + "' " +
-       "use device '" + drv.get_param_value("name") + "' " +
-       "with HV driver '" + drvlink.get_param_value("driver") + "'")
+       "use device '" + dev.get_param_value("name") + "' " +
+       "with HV driver '" + drv + "'")
