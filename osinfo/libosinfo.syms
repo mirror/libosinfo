@@ -86,7 +86,6 @@ LIBOSINFO_0.0.1 {
 	osinfo_productfilter_clear_product_constraints;
 	osinfo_productfilter_get_product_constraint_values;
 	osinfo_product_get_type;
-	osinfo_product_new;
 	osinfo_product_get_related;
 	osinfo_product_add_related;
 	osinfo_productlist_get_type;
@@ -97,8 +96,6 @@ LIBOSINFO_0.0.1 {
 	osinfo_productlist_new_union;
 	osinfo_os_get_type;
 	osinfo_os_new;
-	osinfo_os_get_preferred_device;
-	osinfo_os_get_preferred_device_link;
 	osinfo_os_get_devices;
 	osinfo_os_get_device_links;
 	osinfo_os_add_device;
