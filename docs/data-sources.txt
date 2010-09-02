@@ -1,0 +1,99 @@
+ Data Sources for libosinfo metadata
+ ===================================
+
+libosinfo is only as good as the data it is given.
+Identifying data sources is thus a key component.
+
+Website databases
+-----------------
+
+A list of all known PCI vendor + product IDs is available
+from
+
+  http://pciids.sourceforge.net/v2.2/pci.ids
+
+A list of all known USB vendor + product IDs is available
+from
+
+  http://www.linux-usb.org/usb.ids
+
+These can be used to populate the master list of devices.
+This leaves non-USB/PCI devices to be populated manually
+eg legacy ISA, PS/2, serial etc.
+
+Linux kernels
+-------------
+
+ - modinfo against a kmod shows aliases
+
+   # modinfo e1000.ko  | grep alias
+      alias:          pci:v00008086d000010B5sv*sd*bc*sc*i*
+      alias:          pci:v00008086d00001099sv*sd*bc*sc*i*
+      alias:          pci:v00008086d0000108Asv*sd*bc*sc*i*
+      alias:          pci:v00008086d0000107Csv*sd*bc*sc*i*
+      alias:          pci:v00008086d0000107Bsv*sd*bc*sc*i*
+      alias:          pci:v00008086d0000107Asv*sd*bc*sc*i*
+      alias:          pci:v00008086d00001079sv*sd*bc*sc*i*
+      alias:          pci:v00008086d00001078sv*sd*bc*sc*i*
+      alias:          pci:v00008086d00001077sv*sd*bc*sc*i*
+      ...
+
+   These lines can be parsed to identify the PCI/USB/etc product +
+   vendor IDs, and thus populate device link objects.
+
+Linux distros
+-------------
+
+Identify the kernel used by the installer for each architecture,
+and extract device links from there
+
+Windows
+-------
+
+XXX fill in how to find supported devices
+
+Solaris
+-------
+
+XXX fill in how to find supported devices
+
+{Open/Net/Free}BSD
+------------------
+
+XXX fill in how to find supported devices
+
+KVM/QEMU hypervisor
+-------------------
+
+0.12 or later has a '-device ?' to print all known devices, but
+this lacks vendor/product IDs. Get this fixed upstream, or manually
+match them up to devices
+
+Prior to 0.12 requires fully manual effort to identify supported
+devices
+
+Xen hypervisor
+--------------
+
+A tiny set of paravirt devices + whatever the QEMU-DM build will
+support. Make sure that -device ? doesn't get broken for the latter
+
+VMware
+------
+
+XXX fill in how to find supported devices
+
+Hyper-V
+-------
+
+XXX fill in how to find supported devices
+
+Virtualbox
+----------
+
+XXX fill in how to find supported devices
+
+LXC
+---
+
+No real choice of hardware models
