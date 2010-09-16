@@ -124,8 +124,8 @@ OsinfoProductList *osinfo_product_get_related(OsinfoProduct *product, OsinfoProd
     while (tmp) {
         struct _OsinfoProductProductLink *link = tmp->data;
 
-	if (link->relshp == relshp)
-	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link->otherProduct));
+        if (link->relshp == relshp)
+            osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link->otherProduct));
 
         tmp = tmp->next;
     }

@@ -208,7 +208,7 @@ OsinfoDeployment *osinfo_deployment_new(const gchar *id,
                         "id", id,
                         "os", os,
                         "platform", platform,
-			NULL);
+                        NULL);
 }
 
 
@@ -305,9 +305,9 @@ OsinfoDeviceList *osinfo_deployment_get_devices(OsinfoDeployment *deployment, Os
         OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
         OsinfoDevice *dev = osinfo_devicelink_get_target(link);
         if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(dev)))
-	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(dev));
+            osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(dev));
 
-	tmp = tmp->next;
+        tmp = tmp->next;
     }
 
     return newList;
@@ -336,9 +336,9 @@ OsinfoDeviceLinkList *osinfo_deployment_get_device_links(OsinfoDeployment *deplo
         OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
 
         if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(link)))
-	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link));
+            osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link));
 
-	tmp = tmp->next;
+        tmp = tmp->next;
     }
 
     return newList;

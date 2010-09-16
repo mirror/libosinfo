@@ -111,9 +111,9 @@ osinfo_productfilter_init (OsinfoProductFilter *productfilter)
 
     productfilter->priv->productConstraints =
         g_hash_table_new_full(g_direct_hash,
-			      g_direct_equal,
-			      NULL,
-			      osinfo_productfilter_product_constraints_free);
+                              g_direct_equal,
+                              NULL,
+                              osinfo_productfilter_product_constraints_free);
 }
 
 
@@ -215,26 +215,26 @@ static void osinfo_productfilter_match_product_iterator(gpointer key, gpointer v
 
     if (relProducts && osinfo_list_get_length(OSINFO_LIST(productlist)) == 0) {
         ret = FALSE;
-	goto cleanup;
+        goto cleanup;
     }
 
     while (relProducts) {
         OsinfoProduct *currProduct = relProducts->data;
         int i;
-	gboolean found = FALSE;
-	for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(productlist)) ; i++) {
-	    OsinfoProduct *testProduct = OSINFO_PRODUCT(osinfo_list_get_nth(OSINFO_LIST(productlist), i));
+        gboolean found = FALSE;
+        for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(productlist)) ; i++) {
+            OsinfoProduct *testProduct = OSINFO_PRODUCT(osinfo_list_get_nth(OSINFO_LIST(productlist), i));
             if (testProduct == currProduct) {
                 found = TRUE;
                 break;
             }
         }
         if (!found) {
-	    ret = FALSE;
-	    goto cleanup;
-	}
+            ret = FALSE;
+            goto cleanup;
+        }
 
-	relProducts = relProducts->next;
+        relProducts = relProducts->next;
     }
 
  cleanup:
@@ -253,8 +253,8 @@ static gboolean osinfo_productfilter_matches_default(OsinfoFilter *filter, Osinf
         return FALSE;
 
     g_hash_table_foreach(productfilter->priv->productConstraints,
-			 osinfo_productfilter_match_product_iterator,
-			 &args);
+                         osinfo_productfilter_match_product_iterator,
+                         &args);
 
     return args.matched;
 }

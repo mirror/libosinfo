@@ -96,8 +96,8 @@ osinfo_platform_init (OsinfoPlatform *platform)
 OsinfoPlatform *osinfo_platform_new(const gchar *id)
 {
     return g_object_new(OSINFO_TYPE_PLATFORM,
-			"id", id,
-			NULL);
+                        "id", id,
+                        NULL);
 }
 
 
@@ -123,9 +123,9 @@ OsinfoDeviceList *osinfo_platform_get_devices(OsinfoPlatform *platform, OsinfoFi
         OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
         OsinfoDevice *dev = osinfo_devicelink_get_target(link);
         if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(dev)))
-	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(dev));
+            osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(dev));
 
-	tmp = tmp->next;
+        tmp = tmp->next;
     }
 
     return newList;
@@ -154,9 +154,9 @@ OsinfoDeviceLinkList *osinfo_platform_get_device_links(OsinfoPlatform *platform,
         OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
 
         if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(link)))
-	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link));
+            osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link));
 
-	tmp = tmp->next;
+        tmp = tmp->next;
     }
 
     return newList;

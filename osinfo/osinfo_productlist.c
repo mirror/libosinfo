@@ -78,8 +78,8 @@ osinfo_productlist_init (OsinfoProductList *list)
 OsinfoProductList *osinfo_productlist_new(void)
 {
     return g_object_new(OSINFO_TYPE_PRODUCTLIST,
-			"element-type", OSINFO_TYPE_PRODUCT,
-			NULL);
+                        "element-type", OSINFO_TYPE_PRODUCT,
+                        NULL);
 }
 
 
@@ -96,7 +96,7 @@ OsinfoProductList *osinfo_productlist_new_copy(OsinfoProductList *source)
 {
     OsinfoProductList *newList = osinfo_productlist_new();
     osinfo_list_add_all(OSINFO_LIST(newList),
-			OSINFO_LIST(source));
+                        OSINFO_LIST(source));
     return newList;
 }
 
@@ -114,8 +114,8 @@ OsinfoProductList *osinfo_productlist_new_filtered(OsinfoProductList *source, Os
 {
     OsinfoProductList *newList = osinfo_productlist_new();
     osinfo_list_add_filtered(OSINFO_LIST(newList),
-			     OSINFO_LIST(source),
-			     filter);
+                             OSINFO_LIST(source),
+                             filter);
     return newList;
 }
 
@@ -133,8 +133,8 @@ OsinfoProductList *osinfo_productlist_new_intersection(OsinfoProductList *source
 {
     OsinfoProductList *newList = osinfo_productlist_new();
     osinfo_list_add_intersection(OSINFO_LIST(newList),
-				 OSINFO_LIST(sourceOne),
-				 OSINFO_LIST(sourceTwo));
+                                 OSINFO_LIST(sourceOne),
+                                 OSINFO_LIST(sourceTwo));
     return newList;
 }
 
@@ -152,8 +152,8 @@ OsinfoProductList *osinfo_productlist_new_union(OsinfoProductList *sourceOne, Os
 {
     OsinfoProductList *newList = osinfo_productlist_new();
     osinfo_list_add_union(OSINFO_LIST(newList),
-			  OSINFO_LIST(sourceOne),
-			  OSINFO_LIST(sourceTwo));
+                          OSINFO_LIST(sourceOne),
+                          OSINFO_LIST(sourceTwo));
     return newList;
 }
 

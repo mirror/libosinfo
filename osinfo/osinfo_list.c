@@ -53,15 +53,15 @@ enum {
 
 static void
 osinfo_list_set_property(GObject      *object,
-			 guint         property_id,
-			 const GValue *value,
-			 GParamSpec   *pspec)
+                         guint         property_id,
+                         const GValue *value,
+                         GParamSpec   *pspec)
 {
     OsinfoList *list = OSINFO_LIST(object);
 
     switch (property_id) {
     case PROP_ELEMENT_TYPE:
-	list->priv->elementType = g_value_get_gtype(value);
+        list->priv->elementType = g_value_get_gtype(value);
         break;
 
     default:
@@ -73,9 +73,9 @@ osinfo_list_set_property(GObject      *object,
 
 static void
 osinfo_list_get_property(GObject    *object,
-			 guint       property_id,
-			 GValue     *value,
-			 GParamSpec *pspec)
+                         guint       property_id,
+                         GValue     *value,
+                         GParamSpec *pspec)
 {
     OsinfoList *list = OSINFO_LIST(object);
 
@@ -122,18 +122,18 @@ osinfo_list_class_init (OsinfoListClass *klass)
      * the specified type.
      */
     pspec = g_param_spec_gtype("element-type",
-			       "Element type",
-			       "List element type",
-			       OSINFO_TYPE_ENTITY,
-			       G_PARAM_CONSTRUCT_ONLY |
-			       G_PARAM_READWRITE |
-			       G_PARAM_STATIC_NAME |
-			       G_PARAM_STATIC_BLURB |
-			       G_PARAM_STATIC_NICK);
+                               "Element type",
+                               "List element type",
+                               OSINFO_TYPE_ENTITY,
+                               G_PARAM_CONSTRUCT_ONLY |
+                               G_PARAM_READWRITE |
+                               G_PARAM_STATIC_NAME |
+                               G_PARAM_STATIC_BLURB |
+                               G_PARAM_STATIC_NICK);
 
     g_object_class_install_property(g_klass,
-				    PROP_ELEMENT_TYPE,
-				    pspec);
+                                    PROP_ELEMENT_TYPE,
+                                    pspec);
 
     g_type_class_add_private (klass, sizeof (OsinfoListPrivate));
 }
@@ -228,9 +228,9 @@ OsinfoEntity *osinfo_list_find_by_id(OsinfoList *list, const gchar *id)
     int i;
     for (i = 0 ; i < list->priv->array->len ; i++) {
         OsinfoEntity *ent = g_ptr_array_index(list->priv->array, i);
-	const gchar *thisid = osinfo_entity_get_id(ent);
-	if (g_strcmp0(id, thisid) == 0)
-	    return ent;
+        const gchar *thisid = osinfo_entity_get_id(ent);
+        if (g_strcmp0(id, thisid) == 0)
+            return ent;
     }
     return NULL;
 }
@@ -271,7 +271,7 @@ void osinfo_list_add_filtered(OsinfoList *list, OsinfoList *source, OsinfoFilter
     for (i = 0; i < len; i++) {
         OsinfoEntity *entity = osinfo_list_get_nth(source, i);
         if (osinfo_filter_matches(filter, entity))
-	    osinfo_list_add(list, entity);
+            osinfo_list_add(list, entity);
     }
 }
 
@@ -311,7 +311,7 @@ void osinfo_list_add_intersection(OsinfoList *list, OsinfoList *sourceOne, Osinf
 
         if (g_hash_table_lookup(otherSet, osinfo_entity_get_id(entity)) &&
             !g_hash_table_lookup(newSet, osinfo_entity_get_id(entity))) {
-	    g_hash_table_insert(newSet, g_strdup(osinfo_entity_get_id(entity)), entity);
+            g_hash_table_insert(newSet, g_strdup(osinfo_entity_get_id(entity)), entity);
             osinfo_list_add(list, entity);
         }
     }
@@ -356,7 +356,7 @@ void osinfo_list_add_union(OsinfoList *list, OsinfoList *sourceOne, OsinfoList *
         OsinfoEntity *entity = osinfo_list_get_nth(sourceOne, i);
         // If new list does not contain element, add to new list
         if (!g_hash_table_lookup(newSet, osinfo_entity_get_id(entity))) {
-	    osinfo_list_add(list, entity);
+            osinfo_list_add(list, entity);
             g_hash_table_insert(newSet, g_strdup(osinfo_entity_get_id(entity)), entity);
         }
     }
@@ -381,7 +381,7 @@ void osinfo_list_add_all(OsinfoList *list, OsinfoList *source)
     len = osinfo_list_get_length(source);
     for (i = 0; i < len; i++) {
         OsinfoEntity *entity = osinfo_list_get_nth(source, i);
-	osinfo_list_add(list, entity);
+        osinfo_list_add(list, entity);
     }
 }
 

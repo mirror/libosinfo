@@ -159,9 +159,9 @@ osinfo_devicelink_init (OsinfoDeviceLink *devicelink)
 OsinfoDeviceLink *osinfo_devicelink_new(OsinfoDevice *target)
 {
     return g_object_new(OSINFO_TYPE_DEVICELINK,
-			"id", osinfo_entity_get_id(OSINFO_ENTITY(target)),
+                        "id", osinfo_entity_get_id(OSINFO_ENTITY(target)),
                         "target", target,
-			NULL);
+                        NULL);
 }
 
 /**

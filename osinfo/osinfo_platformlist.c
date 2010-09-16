@@ -78,8 +78,8 @@ osinfo_platformlist_init (OsinfoPlatformList *list)
 OsinfoPlatformList *osinfo_platformlist_new(void)
 {
     return g_object_new(OSINFO_TYPE_PLATFORMLIST,
-			"element-type", OSINFO_TYPE_PLATFORM,
-			NULL);
+                        "element-type", OSINFO_TYPE_PLATFORM,
+                        NULL);
 }
 
 /**
@@ -95,7 +95,7 @@ OsinfoPlatformList *osinfo_platformlist_new_copy(OsinfoPlatformList *source)
 {
     OsinfoPlatformList *newList = osinfo_platformlist_new();
     osinfo_list_add_all(OSINFO_LIST(newList),
-			OSINFO_LIST(source));
+                        OSINFO_LIST(source));
     return newList;
 }
 
@@ -113,8 +113,8 @@ OsinfoPlatformList *osinfo_platformlist_new_filtered(OsinfoPlatformList *source,
 {
     OsinfoPlatformList *newList = osinfo_platformlist_new();
     osinfo_list_add_filtered(OSINFO_LIST(newList),
-			     OSINFO_LIST(source),
-			     filter);
+                             OSINFO_LIST(source),
+                             filter);
     return newList;
 }
 
@@ -132,8 +132,8 @@ OsinfoPlatformList *osinfo_platformlist_new_intersection(OsinfoPlatformList *sou
 {
     OsinfoPlatformList *newList = osinfo_platformlist_new();
     osinfo_list_add_intersection(OSINFO_LIST(newList),
-				 OSINFO_LIST(sourceOne),
-				 OSINFO_LIST(sourceTwo));
+                                 OSINFO_LIST(sourceOne),
+                                 OSINFO_LIST(sourceTwo));
     return newList;
 }
 
@@ -151,8 +151,8 @@ OsinfoPlatformList *osinfo_platformlist_new_union(OsinfoPlatformList *sourceOne,
 {
     OsinfoPlatformList *newList = osinfo_platformlist_new();
     osinfo_list_add_union(OSINFO_LIST(newList),
-			  OSINFO_LIST(sourceOne),
-			  OSINFO_LIST(sourceTwo));
+                          OSINFO_LIST(sourceOne),
+                          OSINFO_LIST(sourceTwo));
     return newList;
 }
 

@@ -73,8 +73,8 @@ osinfo_device_init (OsinfoDevice *device)
 OsinfoDevice *osinfo_device_new(const gchar *id)
 {
     return g_object_new(OSINFO_TYPE_DEVICE,
-			"id", id,
-			NULL);
+                        "id", id,
+                        NULL);
 }
 
 

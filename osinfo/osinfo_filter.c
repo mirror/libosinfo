@@ -108,9 +108,9 @@ osinfo_filter_init (OsinfoFilter *filter)
 
     filter->priv->propertyConstraints =
         g_hash_table_new_full(g_str_hash,
-			      g_str_equal,
-			      g_free,
-			      osinfo_filter_prop_constraints_free);
+                              g_str_equal,
+                              g_free,
+                              osinfo_filter_prop_constraints_free);
 }
 
 
@@ -141,7 +141,7 @@ void osinfo_filter_add_constraint(OsinfoFilter *filter, gchar *propName, gchar *
     found = g_hash_table_lookup_extended(filter->priv->propertyConstraints, propName, &origKey, &foundValue);
     if (found) {
         g_hash_table_steal(filter->priv->propertyConstraints, propName);
-	g_free(origKey);
+        g_free(origKey);
         values = foundValue;
     }
     values = g_list_prepend(values, g_strdup(propVal));
@@ -231,22 +231,22 @@ static void osinfo_filter_match_iterator(gpointer key, gpointer value, gpointer 
 
     while (propValues) {
         const gchar *propValue = propValues->data;
-	gboolean found = FALSE;
-	GList *tmp = values;
-	while (tmp) {
-	    const gchar *testValue = tmp->data;
+        gboolean found = FALSE;
+        GList *tmp = values;
+        while (tmp) {
+            const gchar *testValue = tmp->data;
             if (g_strcmp0(propValue, testValue) == 0) {
                 found = TRUE;
                 break;
             }
 
-	    tmp = tmp->next;
+            tmp = tmp->next;
         }
         if (!found) {
-	    args->matched = FALSE;
-	    g_list_free(values);
-	    return;
-	}
+            args->matched = FALSE;
+            g_list_free(values);
+            return;
+        }
 
         propValues = propValues->next;
     }
@@ -261,8 +261,8 @@ static gboolean osinfo_filter_matches_default(OsinfoFilter *filter, OsinfoEntity
 
     struct osinfo_filter_match_args args = { filter, entity, TRUE };
     g_hash_table_foreach(filter->priv->propertyConstraints,
-			 osinfo_filter_match_iterator,
-			 &args);
+                         osinfo_filter_match_iterator,
+                         &args);
 
     return args.matched;
 }

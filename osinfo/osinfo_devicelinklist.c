@@ -78,8 +78,8 @@ osinfo_devicelinklist_init (OsinfoDeviceLinkList *list)
 OsinfoDeviceLinkList *osinfo_devicelinklist_new(void)
 {
     return g_object_new(OSINFO_TYPE_DEVICELINKLIST,
-			"element-type", OSINFO_TYPE_DEVICELINK,
-			NULL);
+                        "element-type", OSINFO_TYPE_DEVICELINK,
+                        NULL);
 }
 
 
@@ -96,7 +96,7 @@ OsinfoDeviceLinkList *osinfo_devicelinklist_new_copy(OsinfoDeviceLinkList *sourc
 {
     OsinfoDeviceLinkList *newList = osinfo_devicelinklist_new();
     osinfo_list_add_all(OSINFO_LIST(newList),
-			OSINFO_LIST(source));
+                        OSINFO_LIST(source));
     return newList;
 }
 
@@ -115,8 +115,8 @@ OsinfoDeviceLinkList *osinfo_devicelinklist_new_filtered(OsinfoDeviceLinkList *s
 {
     OsinfoDeviceLinkList *newList = osinfo_devicelinklist_new();
     osinfo_list_add_filtered(OSINFO_LIST(newList),
-			     OSINFO_LIST(source),
-			     filter);
+                             OSINFO_LIST(source),
+                             filter);
     return newList;
 }
 
@@ -134,8 +134,8 @@ OsinfoDeviceLinkList *osinfo_devicelinklist_new_intersection(OsinfoDeviceLinkLis
 {
     OsinfoDeviceLinkList *newList = osinfo_devicelinklist_new();
     osinfo_list_add_intersection(OSINFO_LIST(newList),
-				 OSINFO_LIST(sourceOne),
-				 OSINFO_LIST(sourceTwo));
+                                 OSINFO_LIST(sourceOne),
+                                 OSINFO_LIST(sourceTwo));
     return newList;
 }
 
@@ -153,8 +153,8 @@ OsinfoDeviceLinkList *osinfo_devicelinklist_new_union(OsinfoDeviceLinkList *sour
 {
     OsinfoDeviceLinkList *newList = osinfo_devicelinklist_new();
     osinfo_list_add_union(OSINFO_LIST(newList),
-			  OSINFO_LIST(sourceOne),
-			  OSINFO_LIST(sourceTwo));
+                          OSINFO_LIST(sourceOne),
+                          OSINFO_LIST(sourceTwo));
     return newList;
 }
 

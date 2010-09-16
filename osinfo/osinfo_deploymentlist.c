@@ -78,8 +78,8 @@ osinfo_deploymentlist_init (OsinfoDeploymentList *list)
 OsinfoDeploymentList *osinfo_deploymentlist_new(void)
 {
     return g_object_new(OSINFO_TYPE_DEPLOYMENTLIST,
-			"element-type", OSINFO_TYPE_DEPLOYMENT,
-			NULL);
+                        "element-type", OSINFO_TYPE_DEPLOYMENT,
+                        NULL);
 }
 
 
@@ -96,7 +96,7 @@ OsinfoDeploymentList *osinfo_deploymentlist_new_copy(OsinfoDeploymentList *sourc
 {
     OsinfoDeploymentList *newList = osinfo_deploymentlist_new();
     osinfo_list_add_all(OSINFO_LIST(newList),
-			OSINFO_LIST(source));
+                        OSINFO_LIST(source));
     return newList;
 }
 
@@ -115,8 +115,8 @@ OsinfoDeploymentList *osinfo_deploymentlist_new_filtered(OsinfoDeploymentList *s
 {
     OsinfoDeploymentList *newList = osinfo_deploymentlist_new();
     osinfo_list_add_filtered(OSINFO_LIST(newList),
-			     OSINFO_LIST(source),
-			     filter);
+                             OSINFO_LIST(source),
+                             filter);
     return newList;
 }
 
@@ -134,8 +134,8 @@ OsinfoDeploymentList *osinfo_deploymentlist_new_intersection(OsinfoDeploymentLis
 {
     OsinfoDeploymentList *newList = osinfo_deploymentlist_new();
     osinfo_list_add_intersection(OSINFO_LIST(newList),
-				 OSINFO_LIST(sourceOne),
-				 OSINFO_LIST(sourceTwo));
+                                 OSINFO_LIST(sourceOne),
+                                 OSINFO_LIST(sourceTwo));
     return newList;
 }
 
@@ -153,8 +153,8 @@ OsinfoDeploymentList *osinfo_deploymentlist_new_union(OsinfoDeploymentList *sour
 {
     OsinfoDeploymentList *newList = osinfo_deploymentlist_new();
     osinfo_list_add_union(OSINFO_LIST(newList),
-			  OSINFO_LIST(sourceOne),
-			  OSINFO_LIST(sourceTwo));
+                          OSINFO_LIST(sourceOne),
+                          OSINFO_LIST(sourceTwo));
     return newList;
 }
 

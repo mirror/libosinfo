@@ -133,10 +133,10 @@ osinfo_entity_class_init (OsinfoEntityClass *klass)
                                  "Unique identifier",
                                  NULL /* default value */,
                                  G_PARAM_CONSTRUCT_ONLY |
-				 G_PARAM_READWRITE |
-				 G_PARAM_STATIC_NAME |
-				 G_PARAM_STATIC_NICK |
-				 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_READWRITE |
+                                 G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK |
+                                 G_PARAM_STATIC_BLURB);
     g_object_class_install_property (g_klass,
                                      OSI_ENTITY_ID,
                                      pspec);
@@ -164,9 +164,9 @@ osinfo_entity_init (OsinfoEntity *entity)
     entity->priv = priv = OSINFO_ENTITY_GET_PRIVATE(entity);
 
     entity->priv->params = g_hash_table_new_full(g_str_hash,
-					       g_str_equal,
-					       g_free,
-					       osinfo_entity_param_values_free);
+                                               g_str_equal,
+                                               g_free,
+                                               osinfo_entity_param_values_free);
 }
 
 
@@ -219,8 +219,8 @@ void osinfo_entity_add_param(OsinfoEntity *entity, const gchar *key, const gchar
     found = g_hash_table_lookup_extended(entity->priv->params, key, &origKey, &foundValue);
     if (found) {
         g_hash_table_steal(entity->priv->params, key);
-	g_free(origKey);
-	values = foundValue;
+        g_free(origKey);
+        values = foundValue;
     }
 
     values = g_list_append(values, g_strdup(value));

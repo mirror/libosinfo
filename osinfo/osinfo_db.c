@@ -334,13 +334,13 @@ static void osinfo_db_get_property_values_in_entity(gpointer data, gpointer opaq
     while (tmp) {
         gchar *value = tmp->data;
 
-	if (!g_hash_table_lookup(newValues, value)) {
-	    g_hash_table_insert(newValues,
-				value,
-				GINT_TO_POINTER(1));
-	}
+        if (!g_hash_table_lookup(newValues, value)) {
+            g_hash_table_insert(newValues,
+                                value,
+                                GINT_TO_POINTER(1));
+        }
 
-	tmp = tmp->next;
+        tmp = tmp->next;
     }
 
     g_list_free(values);
@@ -453,7 +453,7 @@ static void __osinfoAddProductIfRelationship(gpointer data, gpointer opaque)
 
     for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(thisList)) ; i++) {
         OsinfoEntity *entity = osinfo_list_get_nth(OSINFO_LIST(thisList), i);
-	osinfo_list_add(newList, entity);
+        osinfo_list_add(newList, entity);
     }
 
     g_object_unref(thisList);

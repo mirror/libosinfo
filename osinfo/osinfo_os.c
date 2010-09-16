@@ -104,8 +104,8 @@ osinfo_os_init (OsinfoOs *os)
 OsinfoOs *osinfo_os_new(const gchar *id)
 {
     return g_object_new(OSINFO_TYPE_OS,
-			"id", id,
-			NULL);
+                        "id", id,
+                        NULL);
 }
 
 
@@ -132,9 +132,9 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoFilter *filter)
         OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
         OsinfoDevice *dev = osinfo_devicelink_get_target(link);
         if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(dev)))
-	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(dev));
+            osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(dev));
 
-	tmp = tmp->next;
+        tmp = tmp->next;
     }
 
     return newList;
@@ -166,9 +166,9 @@ OsinfoDeviceLinkList *osinfo_os_get_device_links(OsinfoOs *os, OsinfoFilter *fil
         OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
 
         if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(link)))
-	    osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link));
+            osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link));
 
-	tmp = tmp->next;
+        tmp = tmp->next;
     }
 
     return newList;
