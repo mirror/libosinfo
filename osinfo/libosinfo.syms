@@ -23,6 +23,11 @@ LIBOSINFO_0.0.1 {
 	osinfo_db_unique_values_for_platform_relationship;
 	osinfo_device_get_type;
 	osinfo_device_new;
+	osinfo_device_get_vendor;
+	osinfo_device_get_product;
+	osinfo_device_get_class;
+	osinfo_device_get_bus_type;
+	osinfo_device_get_name;
 	osinfo_devicelist_get_type;
 	osinfo_devicelist_new;
 	osinfo_devicelist_new_copy;
@@ -32,6 +37,7 @@ LIBOSINFO_0.0.1 {
 	osinfo_devicelink_get_type;
 	osinfo_devicelink_new;
 	osinfo_devicelink_get_target;
+	osinfo_devicelink_get_driver;
 	osinfo_devicelinklist_get_type;
 	osinfo_devicelinklist_new;
 	osinfo_devicelinklist_new_copy;
@@ -88,6 +94,10 @@ LIBOSINFO_0.0.1 {
 	osinfo_product_get_type;
 	osinfo_product_get_related;
 	osinfo_product_add_related;
+	osinfo_product_get_name;
+	osinfo_product_get_short_id;
+	osinfo_product_get_version;
+	osinfo_product_get_vendor;
 	osinfo_productlist_get_type;
 	osinfo_productlist_new;
 	osinfo_productlist_new_copy;

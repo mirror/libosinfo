@@ -44,6 +44,11 @@ typedef struct _OsinfoProductClass   OsinfoProductClass;
 
 typedef struct _OsinfoProductPrivate OsinfoProductPrivate;
 
+#define OSINFO_PRODUCT_PROP_VENDOR   "vendor"
+#define OSINFO_PRODUCT_PROP_VERSION  "version"
+#define OSINFO_PRODUCT_PROP_SHORT_ID "short-id"
+#define OSINFO_PRODUCT_PROP_NAME     "name"
+
 /* object */
 struct _OsinfoProduct
 {
@@ -75,6 +80,11 @@ GType osinfo_product_get_type(void);
 OsinfoProductList *osinfo_product_get_related(OsinfoProduct *product, OsinfoProductRelationship relshp);
 
 void osinfo_product_add_related(OsinfoProduct *product, OsinfoProductRelationship relshp, OsinfoProduct *otherproduct);
+
+const gchar *osinfo_product_get_vendor(OsinfoProduct *prod);
+const gchar *osinfo_product_get_version(OsinfoProduct *prod);
+const gchar *osinfo_product_get_short_id(OsinfoProduct *prod);
+const gchar *osinfo_product_get_name(OsinfoProduct *prod);
 
 #endif /* __OSINFO_PRODUCT_H__ */
 /*

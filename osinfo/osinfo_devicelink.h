@@ -44,6 +44,8 @@ typedef struct _OsinfoDeviceLinkClass   OsinfoDeviceLinkClass;
 
 typedef struct _OsinfoDeviceLinkPrivate OsinfoDeviceLinkPrivate;
 
+#define OSINFO_DEVICELINK_PROP_DRIVER   "driver"
+
 /* object */
 struct _OsinfoDeviceLink
 {
@@ -68,6 +70,8 @@ GType osinfo_devicelink_get_type(void);
 OsinfoDeviceLink *osinfo_devicelink_new(OsinfoDevice *target);
 
 OsinfoDevice *osinfo_devicelink_get_target(OsinfoDeviceLink *link);
+
+const gchar *osinfo_devicelink_get_driver(OsinfoDeviceLink *link);
 
 #endif /* __OSINFO_DEVICELINK_H__ */
 /*

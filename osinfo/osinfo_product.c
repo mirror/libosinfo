@@ -155,6 +155,24 @@ void osinfo_product_add_related(OsinfoProduct *product, OsinfoProductRelationshi
 
     product->priv->productLinks = g_list_prepend(product->priv->productLinks, productLink);
 }
+
+const gchar *osinfo_product_get_vendor(OsinfoProduct *prod)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(prod), OSINFO_PRODUCT_PROP_NAME);
+}
+const gchar *osinfo_product_get_version(OsinfoProduct *prod)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(prod), OSINFO_PRODUCT_PROP_NAME);
+}
+const gchar *osinfo_product_get_short_id(OsinfoProduct *prod)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(prod), OSINFO_PRODUCT_PROP_NAME);
+}
+const gchar *osinfo_product_get_name(OsinfoProduct *prod)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(prod), OSINFO_PRODUCT_PROP_NAME);
+}
+
 /*
  * Local variables:
  *  indent-tabs-mode: nil

@@ -76,6 +76,33 @@ OsinfoDevice *osinfo_device_new(const gchar *id)
 			"id", id,
 			NULL);
 }
+
+
+const gchar *osinfo_device_get_vendor(OsinfoDevice *dev)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(dev), OSINFO_DEVICE_PROP_VENDOR);
+}
+
+const gchar *osinfo_device_get_product(OsinfoDevice *dev)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(dev), OSINFO_DEVICE_PROP_PRODUCT);
+}
+
+const gchar *osinfo_device_get_bus_type(OsinfoDevice *dev)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(dev), OSINFO_DEVICE_PROP_BUS_TYPE);
+}
+
+const gchar *osinfo_device_get_class(OsinfoDevice *dev)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(dev), OSINFO_DEVICE_PROP_CLASS);
+}
+
+const gchar *osinfo_device_get_name(OsinfoDevice *dev)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(dev), OSINFO_DEVICE_PROP_NAME);
+}
+
 /*
  * Local variables:
  *  indent-tabs-mode: nil

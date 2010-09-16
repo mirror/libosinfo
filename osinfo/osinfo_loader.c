@@ -241,7 +241,12 @@ static void osinfo_loader_device(OsinfoLoader *loader,
 {
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
     const gchar *const keys[] = {
-        "vendor", "product", "bus-type", "class", "name", NULL,
+        OSINFO_DEVICE_PROP_VENDOR,
+        OSINFO_DEVICE_PROP_PRODUCT,
+        OSINFO_DEVICE_PROP_BUS_TYPE,
+        OSINFO_DEVICE_PROP_CLASS,
+        OSINFO_DEVICE_PROP_NAME,
+        NULL,
     };
     if (!id) {
         OSINFO_ERROR(err, "Missing device id property");
@@ -270,7 +275,8 @@ static void osinfo_loader_device_link(OsinfoLoader *loader,
 
     for (i = 0 ; i < nrelated ; i++) {
         const gchar *keys[] = {
-            "driver", NULL,
+            OSINFO_DEVICELINK_PROP_DRIVER,
+            NULL,
         };
 	gchar *id = (gchar *)xmlGetProp(related[i], BAD_CAST "id");
 	if (!id) {
@@ -343,7 +349,11 @@ static void osinfo_loader_product(OsinfoLoader *loader,
                                   GError **err)
 {
     const gchar *const keys[] = {
-        "name", "vendor", "version", "short-id", NULL
+        OSINFO_PRODUCT_PROP_NAME,
+        OSINFO_PRODUCT_PROP_VENDOR,
+        OSINFO_PRODUCT_PROP_VERSION,
+        OSINFO_PRODUCT_PROP_SHORT_ID,
+        NULL,
     };
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(product), keys, ctxt, root, err);

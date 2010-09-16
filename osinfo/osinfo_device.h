@@ -44,6 +44,12 @@ typedef struct _OsinfoDeviceClass   OsinfoDeviceClass;
 
 typedef struct _OsinfoDevicePrivate OsinfoDevicePrivate;
 
+#define OSINFO_DEVICE_PROP_VENDOR   "vendor"
+#define OSINFO_DEVICE_PROP_PRODUCT  "product"
+#define OSINFO_DEVICE_PROP_NAME     "name"
+#define OSINFO_DEVICE_PROP_CLASS    "class"
+#define OSINFO_DEVICE_PROP_BUS_TYPE "bus-type"
+
 /* object */
 struct _OsinfoDevice
 {
@@ -66,6 +72,13 @@ struct _OsinfoDeviceClass
 GType osinfo_device_get_type(void);
 
 OsinfoDevice *osinfo_device_new(const gchar *id);
+
+
+const gchar *osinfo_device_get_vendor(OsinfoDevice *dev);
+const gchar *osinfo_device_get_product(OsinfoDevice *dev);
+const gchar *osinfo_device_get_bus_type(OsinfoDevice *dev);
+const gchar *osinfo_device_get_class(OsinfoDevice *dev);
+const gchar *osinfo_device_get_name(OsinfoDevice *dev);
 
 #endif /* __OSINFO_DEVICE_H__ */
 /*

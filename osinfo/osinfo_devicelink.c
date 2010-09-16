@@ -177,6 +177,10 @@ OsinfoDevice *osinfo_devicelink_get_target(OsinfoDeviceLink *link)
     return link->priv->target;
 }
 
+const gchar *osinfo_devicelink_get_driver(OsinfoDeviceLink *link)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(link), OSINFO_DEVICELINK_PROP_DRIVER);
+}
 
 /*
  * Local variables:
