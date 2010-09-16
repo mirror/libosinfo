@@ -180,6 +180,8 @@ static void osinfo_loader_entity(OsinfoLoader *loader,
 				 GError **err)
 {
     int i = 0;
+
+    /* Standard well-known keys first, allow single value only */
     for (i = 0 ; keys[i] != NULL ; i++) {
         gchar *xpath = g_strdup_printf("string(./%s)", keys[i]);
 	gchar *value = osinfo_loader_string(xpath, ctxt, err);
@@ -188,10 +190,33 @@ static void osinfo_loader_entity(OsinfoLoader *loader,
 	    return;
 
 	if (value) {
-	    osinfo_entity_add_param(entity, keys[i], value);
+	    osinfo_entity_set_param(entity, keys[i], value);
 	    g_free(value);
 	}
     }
+
+    /* Then any site specific custom keys. x-... Can be repeated */
+    xmlNodePtr *custom = NULL;
+    int ncustom = osinfo_loader_nodeset("./*[substring(name(),1,2)='x-']", ctxt, &custom, err);
+    if (*err)
+        return;
+
+    for (i = 0 ; i < ncustom ; i++) {
+        xmlNodePtr param = custom[i];
+
+        if (!param->children ||
+            param->children->type != XML_TEXT_NODE) {
+            OSINFO_ERROR(err, "Expected a text node attribute value");
+            goto cleanup;
+        }
+
+        osinfo_entity_add_param(entity,
+                                (const char *)custom[i]->name,
+                                (const char *)custom[i]->children->content);
+    }
+
+ cleanup:
+    g_free(custom);
 }
 
 
@@ -299,7 +324,8 @@ static void osinfo_loader_device_link(OsinfoLoader *loader,
         ctxt->node = related[i];
         osinfo_loader_entity(loader, OSINFO_ENTITY(link), keys, ctxt, root, err);
         ctxt->node = saved;
-
+        if (*err)
+            goto cleanup;
     }
 
  cleanup:
@@ -597,11 +623,14 @@ catchXMLError(void *ctx, const char *msg ATTRIBUTE_UNUSED, ...)
     xmlParserCtxtPtr ctxt = (xmlParserCtxtPtr) ctx;
 
     if (ctxt && ctxt->_private) {
-        gchar *xmlmsg = g_strdup_printf("at line %d: %s",
-					ctxt->lastError.line,
-					ctxt->lastError.message);
-	OSINFO_ERROR(ctxt->_private, xmlmsg);
-	g_free(xmlmsg);
+        GError **err = ctxt->_private;
+        if (*err == NULL) {
+            gchar *xmlmsg = g_strdup_printf("at line %d: %s",
+                                            ctxt->lastError.line,
+                                            ctxt->lastError.message);
+            OSINFO_ERROR(ctxt->_private, xmlmsg);
+            g_free(xmlmsg);
+        }
     }
 }
 
@@ -697,7 +726,8 @@ osinfo_loader_process_file_dir(OsinfoLoader *loader,
         const gchar *name = g_file_info_get_name(child);
 	GFile *ent = g_file_get_child(file, name);
 
-	osinfo_loader_process_file(loader, ent, err);
+        if (strstr(name, ".xml") != NULL)
+            osinfo_loader_process_file(loader, ent, err);
 
 	g_object_unref(ent);
 	g_object_unref(child);

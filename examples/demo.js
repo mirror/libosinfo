@@ -47,9 +47,11 @@ filter.add_constraint("class", drvclass)
 var link = dep.get_preferred_device_link(new osinfo.DeviceLinkFilter({target_filter: filter}))
 var dev = link.get_target()
 var drv = link.get_param_value("driver")
-print ("For OS '" + os.get_param_value("name") + "' " +
-       "with HV '" + hv.get_param_value("name") + "' " +
+print ("For OS '" + os.get_name() + "' " +
+       "fruit '" + os.get_param_value("x-fruit") + "' " +
+       "zoo '" + os.get_param_values("x-animal") + "' " +
+       "with HV '" + hv.get_name() + "' " +
        "for class '" + drvclass + "' " +
-       "use device '" + dev.get_param_value("name") + "' " +
-       "with HV driver '" + drv + "'")
+       "use device '" + dev.get_name() + "' " +
+       "with HV driver '" + link.get_driver() + "'")
 

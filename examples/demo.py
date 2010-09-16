@@ -42,9 +42,12 @@ fltr = osinfo.Filter()
 fltr.add_constraint("class", drvclass)
 link = dep.get_preferred_device_link(osinfo.DeviceLinkFilter(target_filter = fltr))
 dev = link.get_target()
-drv = link.get_param_value("driver")
-print ("For OS '" + os.get_param_value("name") + "' " +
-       "with HV '" + hv.get_param_value("name") + "' " +
+animals = os.get_param_value_list("x-animal")
+zoo = str.join(",", animals)
+print ("For OS '" + os.get_name() + "' " +
+       "fruit '" + os.get_param_value("x-fruit") + "' " +
+       "zoo '" + zoo + "' " +
+       "with HV '" + hv.get_name() + "' " +
        "for class '" + drvclass + "' " +
-       "use device '" + dev.get_param_value("name") + "' " +
-       "with HV driver '" + drv + "'")
+       "use device '" + dev.get_name() + "' " +
+       "with HV driver '" + link.get_driver() + "'")

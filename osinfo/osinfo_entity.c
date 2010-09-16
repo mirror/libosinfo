@@ -171,6 +171,30 @@ osinfo_entity_init (OsinfoEntity *entity)
 
 
 /**
+ * osinfo_entity_set_param:
+ * @entity: OsinfoEntity containing the parameters
+ * @key: the name of the key
+ * @value: the data to associated with that key
+ *
+ * Sets a new parameter against the entity. If the key already
+ * has a value associated with it, the existing value will be
+ * cleared.
+ */
+void osinfo_entity_set_param(OsinfoEntity *entity, const gchar *key, const gchar *value)
+{
+    g_return_if_fail(OSINFO_IS_ENTITY(entity));
+    g_return_if_fail(key != NULL);
+    g_return_if_fail(value != NULL);
+
+    GList *values = NULL;
+
+    g_hash_table_remove(entity->priv->params, key);
+    values = g_list_append(values, g_strdup(value));
+    g_hash_table_insert(entity->priv->params, g_strdup(key), values);
+}
+
+
+/**
  * osinfo_entity_add_param:
  * @entity: OsinfoEntity containing the parameters
  * @key: the name of the key
