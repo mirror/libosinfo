@@ -4,7 +4,7 @@ import gobject
 from gi.repository import Libosinfo as osinfo;
 
 loader = osinfo.Loader()
-loader.process_path("../data/libosinfo-dummy-data.xml")
+loader.process_path("../data/")
 
 db = loader.get_db()
 
