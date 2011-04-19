@@ -115,6 +115,7 @@ AC_CONFIG_FILES([
 	osinfo/Makefile
 	osinfo/libosinfo-1.0.pc
 	data/Makefile
+	scripts/Makefile
 	test/Makefile
 	docs/Makefile
 	docs/reference/Makefile

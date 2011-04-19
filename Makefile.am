@@ -1,5 +1,5 @@
 
-SUBDIRS = osinfo test data docs examples
+SUBDIRS = osinfo test data docs examples scripts
 
 EXTRA_DIST = \
   COPYING.LIB \
