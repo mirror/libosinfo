@@ -682,15 +682,156 @@ static void osinfo_loader_process_xml(OsinfoLoader *loader,
 }
 
 static void
+osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
+                                   GFile *file,
+                                   GFileInfo *info,
+                                   gboolean withSubsys,
+                                   const char *baseURI,
+                                   const char *busType,
+                                   GError **err)
+{
+    GFileInputStream *is = g_file_read(file, NULL, err);
+    if (*err)
+        return;
+
+    GDataInputStream *dis = g_data_input_stream_new(G_INPUT_STREAM(is));
+
+    gchar *data;
+    gsize datalen;
+
+    gchar *vendor_buf = NULL;
+    gchar *vendor = NULL;
+    gchar *vendor_id = NULL;
+    gchar *device_buf = NULL;
+    gchar *device = NULL;
+    gchar *device_id = NULL;
+    gchar *subsystem = NULL;
+    gchar *subvendor_id = NULL;
+    gchar *subdevice_id = NULL;
+
+    while ((data = g_data_input_stream_read_line(dis, &datalen, NULL, err)) != NULL) {
+        char *tmp = data;
+        gsize offset = 0;
+
+        if (data[0] == '#')
+            goto done;
+
+#define GOT_TAB() \
+        (offset < datalen && tmp[offset] == '\t')
+
+#define GOT_ID()                             \
+        (((offset + 5) < datalen) &&         \
+         g_ascii_isxdigit(tmp[offset])    && \
+         g_ascii_isxdigit(tmp[offset+1])  && \
+         g_ascii_isxdigit(tmp[offset+2])  && \
+         g_ascii_isxdigit(tmp[offset+3])  && \
+         g_ascii_isspace(tmp[offset+4]))
+
+#define FREE_BUF(var) \
+        g_free(var);  \
+        (var) = NULL
+
+#define SAVE_BUF(var) \
+        (var) = data; \
+        data = NULL
+
+#define WANT_ID(var)                            \
+        if (GOT_ID()) {                         \
+            (var) = tmp+offset;                 \
+            offset += 4;                        \
+            tmp[offset] = '\0';                 \
+            offset += 1;                        \
+        } else {                                \
+            goto done;                          \
+        }
+#define WANT_REST(var)                          \
+        (var) = tmp+offset
+
+        if (GOT_TAB()) {
+            offset++;
+            if (!vendor_id)
+                goto done;
+            if (GOT_TAB()) {
+                offset++;
+                WANT_ID(subvendor_id);
+                WANT_ID(subdevice_id);
+                WANT_REST(subsystem);
+            } else {
+                FREE_BUF(device_buf);
+                WANT_ID(device_id);
+                WANT_REST(device);
+                SAVE_BUF(device_buf);
+
+                gchar *id = g_strdup_printf("%s/%s/%s",
+                                            baseURI, vendor_id, device_id);
+
+                OsinfoDevice *dev = osinfo_loader_get_device(loader, id);
+                osinfo_entity_set_param(OSINFO_ENTITY(dev),
+                                        OSINFO_DEVICE_PROP_VENDOR,
+                                        vendor_id);
+                osinfo_entity_set_param(OSINFO_ENTITY(dev),
+                                        OSINFO_DEVICE_PROP_PRODUCT,
+                                        device_id);
+                g_free(id);
+            }
+        } else {
+            FREE_BUF(vendor_buf);
+            WANT_ID(vendor_id);
+            WANT_REST(vendor);
+            SAVE_BUF(vendor_buf);
+        }
+
+    done:
+        g_free(data);
+        if (*err)
+            break;
+    }
+
+    FREE_BUF(device_buf);
+    FREE_BUF(vendor_buf);
+    g_object_unref(dis);
+    g_object_unref(is);
+}
+
+static void
+osinfo_loader_process_file_reg_usb(OsinfoLoader *loader,
+                                   GFile *file,
+                                   GFileInfo *info,
+                                   GError **err)
+{
+    osinfo_loader_process_file_reg_ids(loader,
+                                       file,
+                                       info,
+                                       FALSE,
+                                       "http://www.linux-usb.org/usb.ids",
+                                       "usb",
+                                       err);
+}
+static void
+osinfo_loader_process_file_reg_pci(OsinfoLoader *loader,
+                                   GFile *file,
+                                   GFileInfo *info,
+                                   GError **err)
+{
+    osinfo_loader_process_file_reg_ids(loader,
+                                       file,
+                                       info,
+                                       TRUE,
+                                       "http://pciids.sourceforge.net/v2.2/pci.ids",
+                                       "pci",
+                                       err);
+}
+
+static void
 osinfo_loader_process_file(OsinfoLoader *loader,
                            GFile *file,
                            GError **err);
 
 static void
-osinfo_loader_process_file_reg(OsinfoLoader *loader,
-                               GFile *file,
-                               GFileInfo *info,
-                               GError **err)
+osinfo_loader_process_file_reg_xml(OsinfoLoader *loader,
+                                   GFile *file,
+                                   GFileInfo *info,
+                                   GError **err)
 {
     gchar *xml = NULL;
     gsize xmlLen;
@@ -726,8 +867,7 @@ osinfo_loader_process_file_dir(OsinfoLoader *loader,
         const gchar *name = g_file_info_get_name(child);
         GFile *ent = g_file_get_child(file, name);
 
-        if (strstr(name, ".xml") != NULL)
-            osinfo_loader_process_file(loader, ent, err);
+        osinfo_loader_process_file(loader, ent, err);
 
         g_object_unref(ent);
         g_object_unref(child);
@@ -750,6 +890,7 @@ osinfo_loader_process_file(OsinfoLoader *loader,
                                         G_FILE_QUERY_INFO_NONE,
                                         NULL,
                                         err);
+    const char *name = g_file_info_get_name(info);
 
     if (*err)
         return;
@@ -759,7 +900,12 @@ osinfo_loader_process_file(OsinfoLoader *loader,
 
     switch (type) {
     case G_FILE_TYPE_REGULAR:
-        osinfo_loader_process_file_reg(loader, file, info, err);
+        if (strstr(name, ".xml"))
+            osinfo_loader_process_file_reg_xml(loader, file, info, err);
+        else if (strcmp(name, "usb.ids") == 0)
+            osinfo_loader_process_file_reg_usb(loader, file, info, err);
+        else if (strcmp(name, "pci.ids") == 0)
+            osinfo_loader_process_file_reg_pci(loader, file, info, err);
         break;
 
     case G_FILE_TYPE_DIRECTORY:
