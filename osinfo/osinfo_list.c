@@ -40,6 +40,7 @@ G_DEFINE_ABSTRACT_TYPE (OsinfoList, osinfo_list, G_TYPE_OBJECT);
 struct _OsinfoListPrivate
 {
     GPtrArray *array;
+    GHashTable *entities;
 
     GType elementType;
 };
@@ -98,6 +99,7 @@ osinfo_list_finalize (GObject *object)
     OsinfoList *list = OSINFO_LIST (object);
 
     g_ptr_array_free(list->priv->array, TRUE);
+    g_hash_table_unref(list->priv->entities);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_list_parent_class)->finalize (object);
@@ -144,7 +146,11 @@ osinfo_list_init (OsinfoList *list)
     OsinfoListPrivate *priv;
     list->priv = priv = OSINFO_LIST_GET_PRIVATE(list);
 
-    list->priv->array = g_ptr_array_new_with_free_func(g_object_unref);
+    list->priv->array = g_ptr_array_new_with_free_func(NULL);
+    list->priv->entities = g_hash_table_new_full(g_str_hash,
+                                                 g_str_equal,
+                                                 NULL,
+                                                 g_object_unref);
 }
 
 /**
@@ -203,14 +209,7 @@ OsinfoEntity *osinfo_list_get_nth(OsinfoList *list, gint idx)
  */
 GList *osinfo_list_get_elements(OsinfoList *list)
 {
-    GList *elements = NULL;
-    int i;
-
-    for (i = 0 ; i < list->priv->array->len ; i++) {
-        elements = g_list_prepend(elements,
-                                  g_ptr_array_index(list->priv->array, i));
-    }
-    return g_list_reverse(elements);
+    return g_hash_table_get_values(list->priv->entities);
 }
 
 /**
@@ -225,14 +224,7 @@ GList *osinfo_list_get_elements(OsinfoList *list)
  */
 OsinfoEntity *osinfo_list_find_by_id(OsinfoList *list, const gchar *id)
 {
-    int i;
-    for (i = 0 ; i < list->priv->array->len ; i++) {
-        OsinfoEntity *ent = g_ptr_array_index(list->priv->array, i);
-        const gchar *thisid = osinfo_entity_get_id(ent);
-        if (g_strcmp0(id, thisid) == 0)
-            return ent;
-    }
-    return NULL;
+    return g_hash_table_lookup(list->priv->entities, id);
 }
 
 
@@ -249,6 +241,8 @@ void osinfo_list_add(OsinfoList *list, OsinfoEntity *entity)
 
     g_object_ref(entity);
     g_ptr_array_add(list->priv->array, entity);
+    g_hash_table_insert(list->priv->entities,
+                        (gchar *)osinfo_entity_get_id(entity), entity);
 }
 
 
