@@ -114,6 +114,7 @@ AC_CONFIG_FILES([
 	mingw32-libosinfo.spec
 	osinfo/Makefile
 	osinfo/libosinfo-1.0.pc
+	data/Makefile
 	test/Makefile
 	docs/Makefile
 	docs/reference/Makefile
