@@ -90,7 +90,7 @@ Libosinfo-1.0.gir: libosinfo-1.0.la $(G_IR_SCANNER) Makefile.am
 		--namespace Libosinfo \
 		--nsversion 1.0 \
 		--include GObject-2.0 \
-		--strip-prefix=osinfo \
+		--strip-prefix=Osinfo \
 		--library=$(builddir)/libosinfo-1.0.la \
 		--output $@ \
 		-I$(top_srcdir) \
