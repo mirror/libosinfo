@@ -133,7 +133,7 @@ OsinfoDeviceList *osinfo_platform_get_devices(OsinfoPlatform *platform, OsinfoFi
 
 
 /**
- * osinfo_platform_get_devices:
+ * osinfo_platform_get_device_links:
  * @platform: a platform entity
  * @filter: (transfer none)(allow-none): an optional filter
  *

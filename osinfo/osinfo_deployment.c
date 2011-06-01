@@ -212,6 +212,14 @@ OsinfoDeployment *osinfo_deployment_new(const gchar *id,
 }
 
 
+/**
+ * osinfo_deployment_get_os:
+ * @deployment: the deployment entity
+ *
+ * Get the operating system for the deployment
+ *
+ * Returns: (transfer none): an OS, or NULL
+ */
 OsinfoOs *osinfo_deployment_get_os(OsinfoDeployment *deployment)
 {
     g_return_val_if_fail(OSINFO_IS_DEPLOYMENT(deployment), NULL);
@@ -220,6 +228,14 @@ OsinfoOs *osinfo_deployment_get_os(OsinfoDeployment *deployment)
 }
 
 
+/**
+ * osinfo_deployment_get_platform:
+ * @deployment: the deployment entity
+ *
+ * Get the platform for the deployment
+ *
+ * Returns: (transfer none): a platform, or NULL
+ */
 OsinfoPlatform *osinfo_deployment_get_platform(OsinfoDeployment *deployment)
 {
     g_return_val_if_fail(OSINFO_IS_DEPLOYMENT(deployment), NULL);
@@ -251,7 +267,7 @@ OsinfoDevice *osinfo_deployment_get_preferred_device(OsinfoDeployment *deploymen
 
 
 /**
- * osinfo_os_get_preferred_device_link:
+ * osinfo_deployment_get_preferred_device_link:
  * @deployment: the deployment entity
  * @filter: (transfer none)(allow-none): a device metadata filter
  *
@@ -315,7 +331,7 @@ OsinfoDeviceList *osinfo_deployment_get_devices(OsinfoDeployment *deployment, Os
 
 
 /**
- * osinfo_deployment_get_devices:
+ * osinfo_deployment_get_device_links:
  * @deployment: a deployment entity
  * @filter: (transfer none)(allow-none): an optional filter
  *

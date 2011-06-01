@@ -159,6 +159,15 @@ OsinfoDeviceLinkList *osinfo_devicelinklist_new_union(OsinfoDeviceLinkList *sour
 }
 
 
+/**
+ * osinfo_devicelinklist_get_devices:
+ * @list: an device link list
+ * @filter: (allow-none)(transfer none): an optional device property filter
+ *
+ * Get all devices matching a given filter
+ *
+ * Returns: (transfer full): A list of devices
+ */
 OsinfoDeviceList *osinfo_devicelinklist_get_devices(OsinfoDeviceLinkList *list,
                                                     OsinfoFilter *filter)
 {
