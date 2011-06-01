@@ -4,13 +4,11 @@ import gobject
 from gi.repository import Libosinfo as osinfo;
 
 loader = osinfo.Loader()
-loader.process_path("../data/")
+loader.process_path("./")
 
 db = loader.get_db()
 
 devs = db.get_device_list()
-
-print devs
 
 print "All device IDs"
 for dev in devs.get_elements():
@@ -23,10 +21,18 @@ for name in names:
     print ("  Name " + name)
 
 osnames = db.unique_values_for_property_in_os("short-id")
+osnames.sort()
 
 print "All OS short IDs"
 for name in osnames:
     print ("  OS short id " + name)
+
+hvnames = db.unique_values_for_property_in_platform("short-id")
+hvnames.sort()
+
+print "All HV short IDs"
+for name in hvnames:
+    print ("  HV short id " + name)
 
 osid = "http://fedoraproject.org/fedora-11"
 hvid = "http://qemu.org/qemu-kvm-0.11.0"

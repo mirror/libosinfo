@@ -3,7 +3,7 @@
 const osinfo = imports.gi.Libosinfo;
 
 var loader = new osinfo.Loader()
-loader.process_path("../data/")
+loader.process_path("./")
 
 var db = loader.get_db()
 

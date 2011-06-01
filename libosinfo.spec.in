@@ -89,6 +89,9 @@ rm -fr %{buildroot}
 %dir %{_datadir}/libosinfo/data/
 %{_datadir}/libosinfo/data/usb.ids
 %{_datadir}/libosinfo/data/pci.ids
+%{_datadir}/libosinfo/data/devices
+%{_datadir}/libosinfo/data/oses
+%{_datadir}/libosinfo/data/hypervisors
 %{_libdir}/%{name}-1.0.so.*
 %if %{with_gir}
 %{_libdir}/girepository-1.0/Libosinfo-1.0.typelib
