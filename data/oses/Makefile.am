@@ -8,6 +8,7 @@ database_DATA =     \
   mandriva.xml      \
   debian.xml        \
   ubuntu.xml        \
-  generic-linux.xml
+  generic-linux.xml \
+  windows.xml
 
 EXTRA_DIST = $(database_DATA)
