@@ -926,7 +926,7 @@ OsinfoDb *osinfo_loader_get_db(OsinfoLoader *loader)
  * @path: the fully qualified path
  * @err: (out): filled with error information upon failure
  *
- * Loaders data from the specified path. If the path
+ * Loads data from the specified path. If the path
  * points to a file, that will be loaded as XML
  * Otherwise it can point to a directory which will
  * be recursively traversed, loading all files as XML.
@@ -948,7 +948,7 @@ void osinfo_loader_process_path(OsinfoLoader *loader,
  * @uri: the data source URI
  * @err: (out): filled with error information upon failure
  *
- * Loaders data from the specified URI. If the URI
+ * Loads data from the specified URI. If the URI
  * points to a file, that will be loaded as XML
  * Otherwise it can point to a directory which will
  * be recursively traversed, loading all files as XML.
