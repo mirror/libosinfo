@@ -11,6 +11,7 @@ database_DATA =     \
   generic-linux.xml \
   windows.xml 	    \
   solaris.xml	    \
-  bsd.xml
+  bsd.xml	    \
+  others.xml
 
 EXTRA_DIST = $(database_DATA)
