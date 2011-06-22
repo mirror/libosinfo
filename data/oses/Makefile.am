@@ -9,6 +9,7 @@ database_DATA =     \
   debian.xml        \
   ubuntu.xml        \
   generic-linux.xml \
-  windows.xml
+  windows.xml 	    \
+  solaris.xml
 
 EXTRA_DIST = $(database_DATA)
