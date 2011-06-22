@@ -27,7 +27,8 @@ libosinfo_1_0_la_CFLAGS = \
 	-I$(top_srcdir) \
 	$(LIBXML_CFLAGS) \
 	$(GOBJECT_CFLAGS) \
-	$(GIO_CFLAGS)
+	$(GIO_CFLAGS) \
+	-DDATA_DIR='"$(pkgdatadir)/data/oses"'
 
 libosinfo_1_0_la_LDFLAGS = \
 	$(COVERAGE_LDFLAGS) \

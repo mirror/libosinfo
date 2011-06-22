@@ -964,6 +964,23 @@ void osinfo_loader_process_uri(OsinfoLoader *loader,
     g_object_unref(file);
 }
 
+/**
+ * osinfo_loader_process_default_path:
+ * @loader: the loader object
+ * @err: (out): filled with error information upon failure
+ *
+ * Loads data from the default path.
+ */
+void osinfo_loader_process_default_path(OsinfoLoader *loader,
+                                        GError **err)
+{
+    GFile *file = g_file_new_for_path(DATA_DIR);
+    osinfo_loader_process_file(loader,
+                               file,
+                               err);
+    g_object_unref(file);
+}
+
 /*
  * Local variables:
  *  indent-tabs-mode: nil

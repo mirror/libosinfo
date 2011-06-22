@@ -119,6 +119,7 @@ LIBOSINFO_0.0.1 {
 	osinfo_loader_get_type;
 	osinfo_loader_process_path;
 	osinfo_loader_process_uri;
+	osinfo_loader_process_default_path;
 	osinfo_loader_get_db;
 	osinfo_deployment_new;
 	osinfo_deployment_get_type;

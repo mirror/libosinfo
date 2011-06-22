@@ -70,6 +70,7 @@ osinfo_loader_new
 osinfo_loader_get_db
 osinfo_loader_process_path
 osinfo_loader_process_uri
+osinfo_loader_process_default_path
 <SUBSECTION Standard>
 OSINFO_LOADER
 OSINFO_IS_LOADER
