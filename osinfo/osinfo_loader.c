@@ -64,7 +64,6 @@ osinfo_loader_finalize (GObject *object)
     G_OBJECT_CLASS (osinfo_loader_parent_class)->finalize (object);
 }
 
-
 /* Init functions */
 static void
 osinfo_loader_class_init (OsinfoLoaderClass *klass)
@@ -75,7 +74,6 @@ osinfo_loader_class_init (OsinfoLoaderClass *klass)
 
     g_type_class_add_private (klass, sizeof (OsinfoLoaderPrivate));
 }
-
 
 static void
 osinfo_loader_init (OsinfoLoader *loader)
@@ -99,7 +97,6 @@ OsinfoLoader *osinfo_loader_new(void)
 {
     return g_object_new(OSINFO_TYPE_LOADER, NULL);
 }
-
 
 #define OSINFO_ERROR(err, msg)                                          \
     g_set_error_literal((err), g_quark_from_static_string("libosinfo"), 0, (msg));
@@ -144,7 +141,6 @@ osinfo_loader_nodeset(const char *xpath,
     return (ret);
 }
 
-
 static gchar *
 osinfo_loader_string(const char *xpath,
                      xmlXPathContextPtr ctxt,
@@ -170,7 +166,6 @@ osinfo_loader_string(const char *xpath,
 
     return ret;
 }
-
 
 static void osinfo_loader_entity(OsinfoLoader *loader,
                                  OsinfoEntity *entity,
@@ -219,7 +214,6 @@ static void osinfo_loader_entity(OsinfoLoader *loader,
     g_free(custom);
 }
 
-
 static OsinfoDevice *osinfo_loader_get_device(OsinfoLoader *loader,
                                               const gchar *id)
 {
@@ -231,7 +225,6 @@ static OsinfoDevice *osinfo_loader_get_device(OsinfoLoader *loader,
     }
     return dev;
 }
-
 
 static OsinfoOs *osinfo_loader_get_os(OsinfoLoader *loader,
                                       const gchar *id)
@@ -245,7 +238,6 @@ static OsinfoOs *osinfo_loader_get_os(OsinfoLoader *loader,
     return os;
 }
 
-
 static OsinfoPlatform *osinfo_loader_get_platform(OsinfoLoader *loader,
                                                   const gchar *id)
 {
@@ -257,7 +249,6 @@ static OsinfoPlatform *osinfo_loader_get_platform(OsinfoLoader *loader,
     }
     return platform;
 }
-
 
 static void osinfo_loader_device(OsinfoLoader *loader,
                                  xmlXPathContextPtr ctxt,
@@ -283,7 +274,6 @@ static void osinfo_loader_device(OsinfoLoader *loader,
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(device), keys, ctxt, root, err);
 }
-
 
 static void osinfo_loader_device_link(OsinfoLoader *loader,
                                       OsinfoEntity *entity,
@@ -332,7 +322,6 @@ static void osinfo_loader_device_link(OsinfoLoader *loader,
     g_free(related);
 }
 
-
 static void osinfo_loader_product_relshp(OsinfoLoader *loader,
                                          OsinfoProduct *product,
                                          OsinfoProductRelationship relshp,
@@ -366,7 +355,6 @@ static void osinfo_loader_product_relshp(OsinfoLoader *loader,
  cleanup:
     g_free(related);
 }
-
 
 static void osinfo_loader_product(OsinfoLoader *loader,
                                   OsinfoProduct *product,
@@ -444,7 +432,6 @@ static void osinfo_loader_platform(OsinfoLoader *loader,
         return;
 }
 
-
 static void osinfo_loader_deployment(OsinfoLoader *loader,
                                      xmlXPathContextPtr ctxt,
                                      xmlNodePtr root,
@@ -492,7 +479,6 @@ static void osinfo_loader_deployment(OsinfoLoader *loader,
     osinfo_db_add_deployment(loader->priv->db, deployment);
 }
 
-
 static void osinfo_loader_os(OsinfoLoader *loader,
                              xmlXPathContextPtr ctxt,
                              xmlNodePtr root,
@@ -523,7 +509,6 @@ static void osinfo_loader_os(OsinfoLoader *loader,
     if (*err)
         return;
 }
-
 
 static void osinfo_loader_root(OsinfoLoader *loader,
                                xmlXPathContextPtr ctxt,
@@ -615,7 +600,6 @@ static void osinfo_loader_root(OsinfoLoader *loader,
     g_free(oss);
     g_free(devices);
 }
-
 
 static void
 catchXMLError(void *ctx, const char *msg ATTRIBUTE_UNUSED, ...)
@@ -807,6 +791,7 @@ osinfo_loader_process_file_reg_usb(OsinfoLoader *loader,
                                        "usb",
                                        err);
 }
+
 static void
 osinfo_loader_process_file_reg_pci(OsinfoLoader *loader,
                                    GFile *file,
@@ -879,7 +864,6 @@ osinfo_loader_process_file_dir(OsinfoLoader *loader,
     g_object_unref(ents);
 }
 
-
 static void
 osinfo_loader_process_file(OsinfoLoader *loader,
                            GFile *file,
@@ -921,7 +905,6 @@ osinfo_loader_process_file(OsinfoLoader *loader,
     g_object_unref(info);
 }
 
-
 /**
  * osinfo_loader_get_db:
  * @loader: the loader object
@@ -936,7 +919,6 @@ OsinfoDb *osinfo_loader_get_db(OsinfoLoader *loader)
 
     return loader->priv->db;
 }
-
 
 /**
  * osinfo_loader_process_path:
@@ -960,7 +942,6 @@ void osinfo_loader_process_path(OsinfoLoader *loader,
     g_object_unref(file);
 }
 
-
 /**
  * osinfo_loader_process_uri:
  * @loader: the loader object
@@ -982,6 +963,7 @@ void osinfo_loader_process_uri(OsinfoLoader *loader,
                                err);
     g_object_unref(file);
 }
+
 /*
  * Local variables:
  *  indent-tabs-mode: nil
