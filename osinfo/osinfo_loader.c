@@ -740,11 +740,20 @@ osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
                 WANT_ID(subvendor_id);
                 WANT_ID(subdevice_id);
                 WANT_REST(subsystem);
+
+                /* Pretend we 'use' these variables to get around
+                 * 'gcc' warnings about set-but-not-read vars */
+                if (subvendor_id || subdevice_id || subsystem)
+                    subsystem = subsystem;
             } else {
                 FREE_BUF(device_buf);
                 WANT_ID(device_id);
                 WANT_REST(device);
                 SAVE_BUF(device_buf);
+
+                /* Trick gcc set-by-not-read-vars warning */
+                if (device)
+                    device = device;
 
                 gchar *id = g_strdup_printf("%s/%s/%s",
                                             baseURI, vendor_id, device_id);
@@ -763,6 +772,10 @@ osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
             WANT_ID(vendor_id);
             WANT_REST(vendor);
             SAVE_BUF(vendor_buf);
+
+            /* Trick gcc set-by-not-read-vars warning */
+            if (vendor)
+                vendor = vendor;
         }
 
     done:
