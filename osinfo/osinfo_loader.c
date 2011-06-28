@@ -486,6 +486,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
 {
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
     const gchar *const keys[] = {
+        OSINFO_OS_PROP_FAMILY,
         NULL
     };
     if (!id) {

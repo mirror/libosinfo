@@ -51,6 +51,11 @@ struct _OsinfoOsDeviceLink {
     gchar *driver;
 };
 
+enum OSI_OS_PROPERTIES {
+    OSI_OS_PROP_0,
+
+    OSI_OS_FAMILY,
+};
 
 static void osinfo_os_finalize (GObject *object);
 
@@ -59,6 +64,27 @@ static void osinfo_device_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED
     g_object_unref(OSINFO_DEVICELINK(data));
 }
 
+static void
+osinfo_os_get_property (GObject    *object,
+                        guint       property_id,
+                        GValue     *value,
+                        GParamSpec *pspec)
+{
+    OsinfoEntity *entity = OSINFO_ENTITY (object);
+
+    switch (property_id)
+        {
+        case OSI_OS_FAMILY:
+            g_value_set_string (value,
+                                osinfo_entity_get_param_value (entity,
+                                                               "family"));
+            break;
+        default:
+            /* We don't have any other property... */
+            G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+            break;
+        }
+}
 
 static void
 osinfo_os_finalize (GObject *object)
@@ -77,11 +103,31 @@ static void
 osinfo_os_class_init (OsinfoOsClass *klass)
 {
     GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GParamSpec *pspec;
 
+    g_klass->get_property = osinfo_os_get_property;
     g_klass->finalize = osinfo_os_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoOsPrivate));
-}
 
+    g_type_class_add_private (klass, sizeof (OsinfoOsPrivate));
+
+    /**
+     * OsinfoOs:family:
+     *
+     * The generic family this OS belongs to, for example Linux, Windows,
+     * Solaris, UNIX etc.
+     */
+    pspec = g_param_spec_string ("family",
+                                 "FAMILY",
+                                 "Generic Family",
+                                 NULL /* default value */,
+                                 G_PARAM_READABLE |
+                                 G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK |
+                                 G_PARAM_STATIC_BLURB);
+    g_object_class_install_property (g_klass,
+                                     OSI_OS_FAMILY,
+                                     pspec);
+}
 
 static void
 osinfo_os_init (OsinfoOs *os)
@@ -91,7 +137,6 @@ osinfo_os_init (OsinfoOs *os)
 
     os->priv->deviceLinks = NULL;
 }
-
 
 /**
  * osinfo_os_new:
@@ -197,6 +242,23 @@ OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoDevice *dev)
 
     return link;
 }
+
+/**
+ * osinfo_os_get_id:
+ * @os: a OsinfoOs
+ *
+ * Retrieves the generic family the OS @os belongs to, for example Linux,
+ * Windows, Solaris, UNIX etc.
+ *
+ * Returns: (transfer none): the family of this os
+ */
+const gchar *osinfo_os_get_family(OsinfoOs *os)
+{
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(os), "family");
+}
+
 /*
  * Local variables:
  *  indent-tabs-mode: nil

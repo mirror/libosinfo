@@ -109,6 +109,7 @@ LIBOSINFO_0.0.1 {
 	osinfo_os_get_devices;
 	osinfo_os_get_device_links;
 	osinfo_os_add_device;
+	osinfo_os_get_family;
 	osinfo_oslist_get_type;
 	osinfo_oslist_new;
 	osinfo_oslist_new_copy;

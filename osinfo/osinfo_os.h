@@ -46,6 +46,8 @@ typedef struct _OsinfoOsClass   OsinfoOsClass;
 
 typedef struct _OsinfoOsPrivate OsinfoOsPrivate;
 
+#define OSINFO_OS_PROP_FAMILY    "family"
+
 /* object */
 struct _OsinfoOs
 {
@@ -73,6 +75,7 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoFilter *filter);
 OsinfoDeviceLinkList *osinfo_os_get_device_links(OsinfoOs *os, OsinfoFilter *filter);
 
 OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoDevice *dev);
+const gchar *osinfo_os_get_family(OsinfoOs *os);
 
 #endif /* __OSINFO_OS_H__ */
 /*

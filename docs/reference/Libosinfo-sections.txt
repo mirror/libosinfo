@@ -110,6 +110,7 @@ osinfo_os_new
 osinfo_os_get_devices
 osinfo_os_get_device_links
 osinfo_os_add_device
+osinfo_os_get_family
 <SUBSECTION Standard>
 OSINFO_OS
 OSINFO_IS_OS
