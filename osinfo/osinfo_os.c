@@ -44,6 +44,8 @@ struct _OsinfoOsPrivate
 {
     // Value: List of device_link structs
     GList *deviceLinks;
+
+    OsinfoMediaList *medias;
 };
 
 struct _OsinfoOsDeviceLink {
@@ -136,6 +138,7 @@ osinfo_os_init (OsinfoOs *os)
     os->priv = priv = OSINFO_OS_GET_PRIVATE(os);
 
     os->priv->deviceLinks = NULL;
+    os->priv->medias = osinfo_medialist_new ();
 }
 
 /**
@@ -257,6 +260,40 @@ const gchar *osinfo_os_get_family(OsinfoOs *os)
     g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
 
     return osinfo_entity_get_param_value(OSINFO_ENTITY(os), "family");
+}
+
+/**
+ * osinfo_os_get_media_list:
+ * @os: an operating system
+ *
+ * Get all installation medias associated with operating system @os.
+ *
+ * Returns: (transfer full): A list of medias
+ */
+OsinfoMediaList *osinfo_os_get_media_list(OsinfoOs *os)
+{
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+
+    OsinfoMediaList *newList = osinfo_medialist_new();
+
+    osinfo_list_add_all(OSINFO_LIST(newList), OSINFO_LIST(os->priv->medias));
+
+    return newList;
+}
+
+/**
+ * osinfo_os_add_media:
+ * @os: an operating system
+ * @media: (transfer none): the media to add
+ *
+ * Adds installation media @media to operating system @os.
+ */
+void osinfo_os_add_media(OsinfoOs *os, OsinfoMedia *media)
+{
+    g_return_if_fail(OSINFO_IS_OS(os));
+    g_return_if_fail(OSINFO_IS_MEDIA(media));
+
+    osinfo_list_add(OSINFO_LIST(os->priv->medias), OSINFO_ENTITY(media));
 }
 
 /*

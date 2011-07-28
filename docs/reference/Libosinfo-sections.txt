@@ -111,6 +111,8 @@ osinfo_os_get_devices
 osinfo_os_get_device_links
 osinfo_os_add_device
 osinfo_os_get_family
+osinfo_os_get_media_list
+osinfo_os_add_media
 <SUBSECTION Standard>
 OSINFO_OS
 OSINFO_IS_OS
