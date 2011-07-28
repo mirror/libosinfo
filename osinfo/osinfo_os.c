@@ -244,7 +244,7 @@ OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoDevice *dev)
 }
 
 /**
- * osinfo_os_get_id:
+ * osinfo_os_get_family:
  * @os: a OsinfoOs
  *
  * Retrieves the generic family the OS @os belongs to, for example Linux,
