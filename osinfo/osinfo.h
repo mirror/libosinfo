@@ -42,6 +42,7 @@
 #include <osinfo/osinfo_os.h>
 #include <osinfo/osinfo_deploymentlist.h>
 #include <osinfo/osinfo_deployment.h>
+#include <osinfo/osinfo_media.h>
 #include <osinfo/osinfo_db.h>
 #include <osinfo/osinfo_loader.h>
 

@@ -137,6 +137,19 @@ LIBOSINFO_0.0.1 {
 	osinfo_deploymentlist_new_filtered;
 	osinfo_deploymentlist_new_intersection;
 	osinfo_deploymentlist_new_union;
+	osinfo_media_get_type;
+	osinfo_media_new;
+	osinfo_media_get_architecture;
+	osinfo_media_get_url;
+	osinfo_media_get_volume_id;
+	osinfo_media_get_system_id;
+	osinfo_media_get_publisher_id;
+	osinfo_medialist_get_type;
+	osinfo_medialist_new;
+	osinfo_medialist_new_copy;
+	osinfo_medialist_new_filtered;
+	osinfo_medialist_new_intersection;
+	osinfo_medialist_new_union;
 
     local:
         *;

@@ -17,3 +17,4 @@ osinfo_oslist_get_type
 osinfo_devicelink_get_type
 osinfo_devicelinklist_get_type
 osinfo_devicelinkfilter_get_type
+osinfo_media_get_type

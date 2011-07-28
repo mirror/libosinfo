@@ -394,6 +394,28 @@ OSINFO_DEVICE_GET_CLASS
 </SECTION>
 
 <SECTION>
+<FILE>osinfo_media</FILE>
+<TITLE>OsinfoMedia</TITLE>
+OsinfoMedia
+OsinfMediaoClass
+OsinfMediaoPrivate
+osinfo_media_new
+osinfo_media_get_architecture
+osinfo_media_get_url
+osinfo_media_get_volume_id
+osinfo_media_get_system_id
+osinfo_media_get_publisher_id
+<SUBSECTION Standard>
+OSINFO_MEDIA
+OSINFO_IS_MEDIA
+OSINFO_TYPE_MEDIA
+osinfo_media_get_type
+OSINFO_MEDIA_CLASS
+OSINFO_IS_MEDIA_CLASS
+OSINFO_MEDIA_GET_CLASS
+</SECTION>
+
+<SECTION>
 <FILE>osinfo_devicelink</FILE>
 <TITLE>OsinfoDeviceLink</TITLE>
 OsinfoDeviceLink
