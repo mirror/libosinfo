@@ -62,7 +62,8 @@ libosinfo_1_0_include_HEADERS = \
   osinfo_oslist.h		\
   osinfo_deployment.h		\
   osinfo_deploymentlist.h	\
-  osinfo_media.h
+  osinfo_media.h		\
+  osinfo_medialist.h
 
 libosinfo_1_0_la_SOURCES =	\
   osinfo_entity.c		\
@@ -83,6 +84,7 @@ libosinfo_1_0_la_SOURCES =	\
   osinfo_deployment.c		\
   osinfo_deploymentlist.c	\
   osinfo_media.c		\
+  osinfo_medialist.c		\
   osinfo_db.c			\
   osinfo_loader.c
 

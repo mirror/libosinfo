@@ -416,6 +416,27 @@ OSINFO_MEDIA_GET_CLASS
 </SECTION>
 
 <SECTION>
+<FILE>osinfo_medialist</FILE>
+<TITLE>OsinfoMediaList</TITLE>
+OsinfoMediaList
+OsinfMediaListoClass
+OsinfMediaListoPrivate
+osinfo_medialist_new
+osinfo_medialist_new_copy
+osinfo_medialist_new_filtered
+osinfo_medialist_new_intersection
+osinfo_medialist_new_union
+<SUBSECTION Standard>
+OSINFO_MEDIALIST
+OSINFO_IS_MEDIALIST
+OSINFO_TYPE_MEDIALIST
+osinfo_medialist_get_type
+OSINFO_MEDIALIST_CLASS
+OSINFO_IS_MEDIALIST_CLASS
+OSINFO_MEDIALIST_GET_CLASS
+</SECTION>
+
+<SECTION>
 <FILE>osinfo_devicelink</FILE>
 <TITLE>OsinfoDeviceLink</TITLE>
 OsinfoDeviceLink
