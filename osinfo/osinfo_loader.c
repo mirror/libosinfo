@@ -479,11 +479,58 @@ static void osinfo_loader_deployment(OsinfoLoader *loader,
     osinfo_db_add_deployment(loader->priv->db, deployment);
 }
 
+static OsinfoMedia * osinfo_loader_media (OsinfoLoader *loader,
+                                          xmlXPathContextPtr ctxt,
+                                          xmlNodePtr root,
+                                          const char *id,
+                                          GError **err)
+{
+    xmlNodePtr *isonodes = NULL;
+    guint i;
+
+    gchar *arch = (gchar *)xmlGetProp(root, BAD_CAST "arch");
+    const gchar *const keys[] = {
+        OSINFO_MEDIA_PROP_URL,
+        NULL
+    };
+
+    OsinfoMedia *media = osinfo_media_new(id, arch);
+
+    osinfo_loader_entity(loader, OSINFO_ENTITY(media), keys, ctxt, root, err);
+
+    int nisonodes = osinfo_loader_nodeset("./iso/*", ctxt, &isonodes, err);
+    if (*err)
+        return NULL;
+
+    for (i = 0 ; i < nisonodes ; i++) {
+        if (!isonodes[i]->children ||
+            isonodes[i]->children->type != XML_TEXT_NODE ||
+            (strcmp((const gchar *)isonodes[i]->name,
+                    OSINFO_MEDIA_PROP_VOLUME_ID) != 0 &&
+             strcmp((const gchar *)isonodes[i]->name,
+                    OSINFO_MEDIA_PROP_SYSTEM_ID) != 0 &&
+             strcmp((const gchar *)isonodes[i]->name,
+                    OSINFO_MEDIA_PROP_PUBLISHER_ID) != 0))
+            continue;
+
+        osinfo_entity_set_param(OSINFO_ENTITY(media),
+                                (const char *)isonodes[i]->name,
+                                (const char *)isonodes[i]->children->content);
+    }
+
+    g_free(isonodes);
+
+    return media;
+}
+
 static void osinfo_loader_os(OsinfoLoader *loader,
                              xmlXPathContextPtr ctxt,
                              xmlNodePtr root,
                              GError **err)
 {
+    xmlNodePtr *medias = NULL;
+    guint i;
+
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
     const gchar *const keys[] = {
         OSINFO_OS_PROP_FAMILY,
@@ -495,20 +542,40 @@ static void osinfo_loader_os(OsinfoLoader *loader,
     }
 
     OsinfoOs *os = osinfo_loader_get_os(loader, id);
-    g_free(id);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(os), keys, ctxt, root, err);
     if (*err)
-        return;
+        goto cleanup;
 
     osinfo_loader_product(loader, OSINFO_PRODUCT(os), ctxt, root, err);
     if (*err)
-        return;
+        goto cleanup;
 
     osinfo_loader_device_link(loader, OSINFO_ENTITY(os),
                               "./devices/device", ctxt, root, err);
     if (*err)
-        return;
+        goto cleanup;
+
+    int nmedias = osinfo_loader_nodeset("./media", ctxt, &medias, err);
+    if (*err)
+        goto cleanup;
+
+    for (i = 0 ; i < nmedias ; i++) {
+        xmlNodePtr saved = ctxt->node;
+        ctxt->node = medias[i];
+        gchar *media_id = g_strdup_printf ("%s:%u", id, i);
+        OsinfoMedia *media = osinfo_loader_media(loader, ctxt, medias[i], media_id, err);
+        g_free (media_id);
+        ctxt->node = saved;
+        if (*err)
+            goto cleanup;
+
+        osinfo_os_add_media (os, media);
+    }
+
+cleanup:
+    g_free(id);
+    g_free(medias);
 }
 
 static void osinfo_loader_root(OsinfoLoader *loader,
