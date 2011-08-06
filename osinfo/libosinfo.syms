@@ -1,6 +1,7 @@
 LIBOSINFO_0.0.1 {
     global:
 	osinfo_db_get_type;
+	osinfo_install_media_error_quark;
 	osinfo_db_new;
 	osinfo_db_get_platform;
 	osinfo_db_get_device;
@@ -15,6 +16,7 @@ LIBOSINFO_0.0.1 {
 	osinfo_db_add_platform;
 	osinfo_db_add_device;
 	osinfo_db_add_deployment;
+	osinfo_db_guess_os_from_location;
 	osinfo_db_unique_values_for_property_in_os;
 	osinfo_db_unique_values_for_property_in_platform;
 	osinfo_db_unique_values_for_property_in_device;

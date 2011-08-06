@@ -23,10 +23,53 @@
  */
 
 #include <osinfo/osinfo.h>
+#include <gio/gio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define MAX_VOLUME 32
+#define MAX_SYSTEM 32
+#define MAX_PUBLISHER 128
+
+#define PVD_OFFSET 0x00008000
+#define BOOTABLE_TAG "EL TORITO SPECIFICATION"
+
+typedef struct _PrimaryVolumeDescriptor PrimaryVolumeDescriptor;
+
+struct _PrimaryVolumeDescriptor {
+    guint8 ignored[8];
+    gchar  system[MAX_SYSTEM];       /* System ID */
+    gchar  volume[MAX_VOLUME];       /* Volume ID */
+    guint8 ignored2[246];
+    gchar  publisher[MAX_PUBLISHER]; /* Publisher ID */
+    guint8 ignored3[1602];
+};
+
+typedef struct _SupplementaryVolumeDescriptor SupplementaryVolumeDescriptor;
+
+struct _SupplementaryVolumeDescriptor {
+    guint8 ignored[7];
+    gchar  system[MAX_SYSTEM]; /* System ID */
+};
+
+GQuark
+osinfo_install_media_error_quark (void)
+{
+    static GQuark quark = 0;
+
+    if (!quark)
+        quark = g_quark_from_static_string ("osinfo-install-media-error");
+
+    return quark;
+}
 
 G_DEFINE_TYPE (OsinfoDb, osinfo_db, G_TYPE_OBJECT);
 
 #define OSINFO_DB_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_DB, OsinfoDbPrivate))
+
+#define str_contains(str, substr) ((str) && \
+                                   (substr) && \
+                                   strstr((str), (substr)) != NULL)
 
 /**
  * SECTION:osinfo_db
@@ -143,7 +186,6 @@ OsinfoOs *osinfo_db_get_os(OsinfoDb *db, const gchar *id)
 
     return OSINFO_OS(osinfo_list_find_by_id(OSINFO_LIST(db->priv->oses), id));
 }
-
 
 /**
  * osinfo_db_get_deployment:
@@ -316,6 +358,153 @@ void osinfo_db_add_deployment(OsinfoDb *db, OsinfoDeployment *deployment)
     osinfo_list_add(OSINFO_LIST(db->priv->deployments), OSINFO_ENTITY(deployment));
 }
 
+/**
+ * osinfo_db_guess_os_from_location:
+ * @db: the database
+ * @location: the location of an installation media
+ * @cancellable (allow-none): a #GCancellable, or %NULL
+ * @error: The location where to store any error, or %NULL
+ *
+ * The @location could be any URI that GIO can handle or a local path.
+ *
+ * NOTE: Currently this only works for ISO images/devices.
+ *
+ * Returns: (transfer none): the operating system, or NULL if guessing failed
+ */
+OsinfoOs *osinfo_db_guess_os_from_location(OsinfoDb *db,
+                                           const gchar *location,
+                                           GCancellable *cancellable,
+                                           GError **error)
+{
+    OsinfoOs *ret = NULL;
+    PrimaryVolumeDescriptor pvd;
+    SupplementaryVolumeDescriptor svd;
+    GFile *file;
+    GFileInputStream *stream;
+    GList *oss = NULL;
+    GList *os_iter;
+
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    g_return_val_if_fail(location != NULL, NULL);
+    g_return_val_if_fail(error == NULL || *error == NULL, NULL);
+
+    file = g_file_new_for_commandline_arg(location);
+    stream = g_file_read(file, NULL, error);
+    if (error != NULL && *error != NULL) {
+        g_prefix_error(error, "Failed to open file");
+
+        goto EXIT;
+    }
+
+    memset(&pvd, 0, sizeof(pvd));
+    if (g_input_stream_skip(G_INPUT_STREAM(stream),
+                            PVD_OFFSET,
+                            cancellable,
+                            error) < sizeof(pvd)) {
+        if (*error)
+            g_prefix_error(error, "Failed to skip %d bytes", PVD_OFFSET);
+        else
+            g_set_error(error,
+                         OSINFO_INSTALL_MEDIA_ERROR,
+                         OSINFO_INSTALL_MEDIA_ERROR_NO_DESCRIPTORS,
+                         "No volume descriptors");
+
+        goto EXIT;
+    }
+
+    if (g_input_stream_read(G_INPUT_STREAM(stream),
+                            &pvd,
+                            sizeof(pvd),
+                            cancellable,
+                            error) < sizeof(pvd)) {
+        if (*error)
+            g_prefix_error(error, "Failed to read primary volume descriptor");
+        else
+            g_set_error(error,
+                        OSINFO_INSTALL_MEDIA_ERROR,
+                        OSINFO_INSTALL_MEDIA_ERROR_NO_PVD,
+                        "Primary volume descriptor unavailable");
+
+        goto EXIT;
+    }
+
+    pvd.volume[MAX_VOLUME - 1] = 0;
+    pvd.system[MAX_SYSTEM - 1] = 0;
+    pvd.publisher[MAX_PUBLISHER - 1] = 0;
+
+    if (pvd.volume[0] && (pvd.system[0] == 0 && pvd.publisher[0] == 0)) {
+        g_set_error(error,
+                    OSINFO_INSTALL_MEDIA_ERROR,
+                    OSINFO_INSTALL_MEDIA_ERROR_INSUFFIENT_METADATA,
+                    "Insufficient metadata on installation media");
+
+        goto EXIT;
+    }
+
+    memset(&svd, 0, sizeof(svd));
+    if (g_input_stream_read(G_INPUT_STREAM(stream),
+                            &svd,
+                            sizeof(svd),
+                            cancellable,
+                            error) < sizeof(svd)) {
+        if (*error)
+            g_prefix_error(error,
+                           "Failed to read supplementary volume descriptor");
+        else
+            g_set_error(error,
+                        OSINFO_INSTALL_MEDIA_ERROR,
+                        OSINFO_INSTALL_MEDIA_ERROR_NO_SVD,
+                        "Supplementary volume descriptor unavailable");
+
+        goto EXIT;
+    }
+
+    svd.system[MAX_SYSTEM - 1] = 0;
+
+    if (strncmp(BOOTABLE_TAG, svd.system, sizeof(BOOTABLE_TAG) != 0)) {
+        g_set_error(error,
+                    OSINFO_INSTALL_MEDIA_ERROR,
+                    OSINFO_INSTALL_MEDIA_ERROR_NOT_BOOTABLE,
+                    "Install media is not bootable");
+
+        goto EXIT;
+    }
+
+    oss = osinfo_list_get_elements(OSINFO_LIST(db->priv->oses));
+    for (os_iter = oss; os_iter; os_iter = os_iter->next) {
+        OsinfoOs *os = OSINFO_OS(os_iter->data);
+        OsinfoMediaList *media_list = osinfo_os_get_media_list(os);
+        GList *medias = osinfo_list_get_elements(OSINFO_LIST(media_list));
+        GList *media_iter;
+
+        for (media_iter = medias; media_iter; media_iter = media_iter->next) {
+            OsinfoMedia *media = OSINFO_MEDIA(media_iter->data);
+            const gchar *media_volume = osinfo_media_get_volume_id(media);
+            const gchar *media_system = osinfo_media_get_system_id(media);
+            const gchar *media_publisher = osinfo_media_get_publisher_id(media);
+
+            if (str_contains(pvd.volume, media_volume) &&
+                (str_contains(pvd.system, media_system) ||
+                 str_contains(pvd.publisher, media_publisher))) {
+                ret = os;
+                break;
+            }
+        }
+
+        g_list_free(medias);
+        g_object_unref(media_list);
+
+        if (ret)
+            break;
+    }
+
+EXIT:
+    g_list_free(oss);
+    g_object_unref(stream);
+    g_object_unref(file);
+
+    return ret;
+}
 
 struct osinfo_db_populate_values_args {
     GHashTable *values;

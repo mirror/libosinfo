@@ -23,6 +23,7 @@
  */
 
 #include <glib-object.h>
+#include <gio/gio.h>
 #include <osinfo/osinfo_platform.h>
 #include <osinfo/osinfo_os.h>
 #include <osinfo/osinfo_device.h>
@@ -32,6 +33,30 @@
 
 #ifndef __OSINFO_DB_H__
 #define __OSINFO_DB_H__
+
+GQuark
+osinfo_install_media_error_quark (void) G_GNUC_CONST;
+
+#define OSINFO_INSTALL_MEDIA_ERROR (osinfo_install_media_error_quark ())
+
+/**
+ * OsinfoInstallMediaError:
+ * @OSINFO_INSTALL_MEDIA_ERROR_NO_DESCRIPTORS: No descriptors.
+ * @OSINFO_INSTALL_MEDIA_ERROR_INSUFFIENT_METADATA: Not enough metadata.
+ * @OSINFO_INSTALL_MEDIA_ERROR_NOT_BOOTABLE: Install media not bootable.
+ * @OSINFO_INSTALL_MEDIA_ERROR_NO_PVD: No Primary volume descriptor.
+ * @OSINFO_INSTALL_MEDIA_ERROR_NO_SVD: No supplementary volume descriptor.
+ *
+ * #GError codes used for errors in the #OSINFO_INSTALL_MEDIA_ERROR domain, during
+ * reading of data from install media for detection of OS.
+ */
+typedef enum {
+    OSINFO_INSTALL_MEDIA_ERROR_NO_DESCRIPTORS,
+    OSINFO_INSTALL_MEDIA_ERROR_NO_PVD,
+    OSINFO_INSTALL_MEDIA_ERROR_NO_SVD,
+    OSINFO_INSTALL_MEDIA_ERROR_INSUFFIENT_METADATA,
+    OSINFO_INSTALL_MEDIA_ERROR_NOT_BOOTABLE
+} OsinfoInstallMediaError;
 
 /*
  * Type macros.
@@ -91,6 +116,11 @@ void osinfo_db_add_os(OsinfoDb *db, OsinfoOs *os);
 void osinfo_db_add_platform(OsinfoDb *db, OsinfoPlatform *platform);
 void osinfo_db_add_device(OsinfoDb *db, OsinfoDevice *device);
 void osinfo_db_add_deployment(OsinfoDb *db, OsinfoDeployment *deployment);
+
+OsinfoOs *osinfo_db_guess_os_from_location(OsinfoDb *db,
+                                           const gchar *location,
+                                           GCancellable *cancellable,
+                                           GError **error);
 
 // Get me all unique values for property "vendor" among operating systems
 GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *db, const gchar *propName);
