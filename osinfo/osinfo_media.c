@@ -53,6 +53,44 @@ struct _SupplementaryVolumeDescriptor {
     gchar  system[MAX_SYSTEM]; /* System ID */
 };
 
+typedef struct _CreateFromLocationAsyncData CreateFromLocationAsyncData;
+struct _CreateFromLocationAsyncData {
+    GFile *file;
+
+    gint priority;
+    GCancellable *cancellable;
+
+    GSimpleAsyncResult *res;
+
+    PrimaryVolumeDescriptor pvd;
+    SupplementaryVolumeDescriptor svd;
+};
+
+static void create_from_location_async_data_free
+                                (CreateFromLocationAsyncData *data)
+{
+   g_object_unref(data->file);
+   g_clear_object(&data->cancellable);
+   g_object_unref(data->res);
+
+   g_slice_free(CreateFromLocationAsyncData, data);
+}
+
+typedef struct _CreateFromLocationData CreateFromLocationData;
+struct _CreateFromLocationData {
+    GMainLoop *main_loop;
+
+    GAsyncResult *res;
+};
+
+static void create_from_location_data_free(CreateFromLocationData *data)
+{
+   g_object_unref(data->res);
+   g_main_loop_unref(data->main_loop);
+
+   g_slice_free(CreateFromLocationData, data);
+}
+
 GQuark
 osinfo_media_error_quark (void)
 {
@@ -114,7 +152,7 @@ OsinfoMedia *osinfo_media_new(const gchar *id,
                               const gchar *architecture)
 {
     OsinfoMedia *media;
-  
+
     media = g_object_new(OSINFO_TYPE_MEDIA,
                          "id", id,
                          NULL);
@@ -124,6 +162,17 @@ OsinfoMedia *osinfo_media_new(const gchar *id,
                             architecture);
 
     return media;
+}
+
+static void on_media_create_from_location_ready (GObject *source_object,
+                                                 GAsyncResult *res,
+                                                 gpointer user_data)
+{
+    CreateFromLocationData *data = (CreateFromLocationData *)user_data;
+
+    data->res = g_object_ref(res);
+
+    g_main_loop_quit(data->main_loop);
 }
 
 /**
@@ -143,91 +192,61 @@ OsinfoMedia *osinfo_media_create_from_location(const gchar *location,
                                                GCancellable *cancellable,
                                                GError **error)
 {
+    CreateFromLocationData *data;
+    OsinfoMedia *ret;
+
+    data = g_slice_new0(CreateFromLocationData);
+    data->main_loop = g_main_loop_new (g_main_context_get_thread_default (),
+                                       TRUE);
+
+    osinfo_media_create_from_location_async(location,
+                                            G_PRIORITY_DEFAULT,
+                                            cancellable,
+                                            on_media_create_from_location_ready,
+                                            data);
+
+    /* Loop till we get a reply (or time out) */
+    if (g_main_loop_is_running (data->main_loop))
+        g_main_loop_run (data->main_loop);
+
+    ret = osinfo_media_create_from_location_finish(data->res, error);
+    create_from_location_data_free(data);
+
+    return ret;
+}
+
+static void on_svd_read (GObject *source,
+                         GAsyncResult *res,
+                         gpointer user_data)
+{
     OsinfoMedia *ret = NULL;
-    PrimaryVolumeDescriptor pvd;
-    SupplementaryVolumeDescriptor svd;
-    GFile *file;
-    GFileInputStream *stream;
+    GInputStream *stream = G_INPUT_STREAM(source);
     gchar *uri;
+    GError *error = NULL;
+    CreateFromLocationAsyncData *data;
 
-    g_return_val_if_fail(location != NULL, NULL);
-    g_return_val_if_fail(error == NULL || *error == NULL, NULL);
+    data = (CreateFromLocationAsyncData *)user_data;
 
-    file = g_file_new_for_commandline_arg(location);
-    stream = g_file_read(file, cancellable, error);
-    if (error != NULL && *error != NULL) {
-        g_prefix_error(error, "Failed to open file");
-
-        goto EXIT;
-    }
-
-    memset(&pvd, 0, sizeof(pvd));
-    if (g_input_stream_skip(G_INPUT_STREAM(stream),
-                            PVD_OFFSET,
-                            cancellable,
-                            error) < sizeof(pvd)) {
-        if (*error)
-            g_prefix_error(error, "Failed to skip %d bytes", PVD_OFFSET);
-        else
-            g_set_error(error,
-                         OSINFO_MEDIA_ERROR,
-                         OSINFO_MEDIA_ERROR_NO_DESCRIPTORS,
-                         "No volume descriptors");
-
-        goto EXIT;
-    }
-
-    if (g_input_stream_read(G_INPUT_STREAM(stream),
-                            &pvd,
-                            sizeof(pvd),
-                            cancellable,
-                            error) < sizeof(pvd)) {
-        if (*error)
-            g_prefix_error(error, "Failed to read primary volume descriptor");
-        else
-            g_set_error(error,
-                        OSINFO_MEDIA_ERROR,
-                        OSINFO_MEDIA_ERROR_NO_PVD,
-                        "Primary volume descriptor unavailable");
-
-        goto EXIT;
-    }
-
-    pvd.volume[MAX_VOLUME - 1] = 0;
-    pvd.system[MAX_SYSTEM - 1] = 0;
-    pvd.publisher[MAX_PUBLISHER - 1] = 0;
-
-    if (pvd.volume[0] && (pvd.system[0] == 0 && pvd.publisher[0] == 0)) {
-        g_set_error(error,
-                    OSINFO_MEDIA_ERROR,
-                    OSINFO_MEDIA_ERROR_INSUFFIENT_METADATA,
-                    "Insufficient metadata on installation media");
-
-        goto EXIT;
-    }
-
-    memset(&svd, 0, sizeof(svd));
-    if (g_input_stream_read(G_INPUT_STREAM(stream),
-                            &svd,
-                            sizeof(svd),
-                            cancellable,
-                            error) < sizeof(svd)) {
-        if (*error)
-            g_prefix_error(error,
+    if (g_input_stream_read_finish(stream,
+                                   res,
+                                   &error) < sizeof(data->svd)) {
+        if (error)
+            g_prefix_error(&error,
                            "Failed to read supplementary volume descriptor");
         else
-            g_set_error(error,
+            g_set_error(&error,
                         OSINFO_MEDIA_ERROR,
                         OSINFO_MEDIA_ERROR_NO_SVD,
                         "Supplementary volume descriptor unavailable");
 
+
         goto EXIT;
     }
 
-    svd.system[MAX_SYSTEM - 1] = 0;
+    data->svd.system[MAX_SYSTEM - 1] = 0;
 
-    if (strncmp(BOOTABLE_TAG, svd.system, sizeof(BOOTABLE_TAG) != 0)) {
-        g_set_error(error,
+    if (strncmp(BOOTABLE_TAG, data->svd.system, sizeof(BOOTABLE_TAG) != 0)) {
+        g_set_error(&error,
                     OSINFO_MEDIA_ERROR,
                     OSINFO_MEDIA_ERROR_NOT_BOOTABLE,
                     "Install media is not bootable");
@@ -235,7 +254,7 @@ OsinfoMedia *osinfo_media_create_from_location(const gchar *location,
         goto EXIT;
     }
 
-    uri = g_file_get_uri(file);
+    uri = g_file_get_uri(data->file);
     ret = g_object_new(OSINFO_TYPE_MEDIA,
                        "id", uri,
                        NULL);
@@ -243,24 +262,202 @@ OsinfoMedia *osinfo_media_create_from_location(const gchar *location,
                             OSINFO_MEDIA_PROP_URL,
                             uri);
     g_free(uri);
-    if (pvd.volume[0] != 0)
+    if (data->pvd.volume[0] != 0)
         osinfo_entity_set_param(OSINFO_ENTITY(ret),
                                 OSINFO_MEDIA_PROP_VOLUME_ID,
-                                pvd.volume);
-    if (pvd.system[0] != 0)
+                                data->pvd.volume);
+    if (data->pvd.system[0] != 0)
         osinfo_entity_set_param(OSINFO_ENTITY(ret),
                                 OSINFO_MEDIA_PROP_SYSTEM_ID,
-                                pvd.system);
-    if (pvd.publisher[0] != 0)
+                                data->pvd.system);
+    if (data->pvd.publisher[0] != 0)
         osinfo_entity_set_param(OSINFO_ENTITY(ret),
                                 OSINFO_MEDIA_PROP_PUBLISHER_ID,
-                                pvd.publisher);
+                                data->pvd.publisher);
 
 EXIT:
-    g_object_unref(stream);
-    g_object_unref(file);
+    if (error != NULL)
+        g_simple_async_result_take_error(data->res, error);
+    else
+        g_simple_async_result_set_op_res_gpointer(data->res, ret, NULL);
+    g_simple_async_result_complete (data->res);
 
-    return ret;
+    g_object_unref(stream);
+    create_from_location_async_data_free(data);
+}
+
+static void on_pvd_read (GObject *source,
+                         GAsyncResult *res,
+                         gpointer user_data)
+{
+    GInputStream *stream = G_INPUT_STREAM(source);
+    CreateFromLocationAsyncData *data;
+    GError *error = NULL;
+
+    data = (CreateFromLocationAsyncData *)user_data;
+
+    if (g_input_stream_read_finish(stream,
+                                   res,
+                                   &error) < sizeof(data->pvd)) {
+        if (error)
+            g_prefix_error(&error, "Failed to read primary volume descriptor");
+        else
+            g_set_error(&error,
+                        OSINFO_MEDIA_ERROR,
+                        OSINFO_MEDIA_ERROR_NO_PVD,
+                        "Primary volume descriptor unavailable");
+
+        goto ON_ERROR;
+    }
+
+    data->pvd.volume[MAX_VOLUME - 1] = 0;
+    data->pvd.system[MAX_SYSTEM - 1] = 0;
+    data->pvd.publisher[MAX_PUBLISHER - 1] = 0;
+
+    if (data->pvd.volume[0] &&
+        (data->pvd.system[0] == 0 && data->pvd.publisher[0] == 0)) {
+        g_set_error(&error,
+                    OSINFO_MEDIA_ERROR,
+                    OSINFO_MEDIA_ERROR_INSUFFIENT_METADATA,
+                    "Insufficient metadata on installation media");
+
+        goto ON_ERROR;
+    }
+
+    g_input_stream_read_async(stream,
+                              &data->svd,
+                              sizeof(data->svd),
+                              data->priority,
+                              data->cancellable,
+                              on_svd_read,
+                              data);
+    return;
+
+ON_ERROR:
+    g_simple_async_result_take_error(data->res, error);
+    g_simple_async_result_complete (data->res);
+    create_from_location_async_data_free(data);
+}
+
+static void on_location_skipped(GObject *source,
+                                GAsyncResult *res,
+                                gpointer user_data)
+{
+    GInputStream *stream = G_INPUT_STREAM(source);
+    CreateFromLocationAsyncData *data;
+    GError *error = NULL;
+
+    data = (CreateFromLocationAsyncData *)user_data;
+
+    if (g_input_stream_skip_finish(stream, res, &error) < PVD_OFFSET) {
+        if (error)
+            g_prefix_error(&error, "Failed to skip %d bytes", PVD_OFFSET);
+        else
+            g_set_error(&error,
+                         OSINFO_MEDIA_ERROR,
+                         OSINFO_MEDIA_ERROR_NO_DESCRIPTORS,
+                         "No volume descriptors");
+        g_simple_async_result_take_error(data->res, error);
+        g_simple_async_result_complete (data->res);
+        create_from_location_async_data_free(data);
+
+        return;
+    }
+
+    g_input_stream_read_async(stream,
+                              &data->pvd,
+                              sizeof(data->pvd),
+                              data->priority,
+                              data->cancellable,
+                              on_pvd_read,
+                              data);
+}
+
+static void on_location_read(GObject *source,
+                             GAsyncResult *res,
+                             gpointer user_data)
+{
+    GFileInputStream *stream;
+    CreateFromLocationAsyncData *data;
+    GError *error = NULL;
+
+    data = (CreateFromLocationAsyncData *)user_data;
+
+    stream = g_file_read_finish(G_FILE(source), res, &error);
+    if (error != NULL) {
+        g_prefix_error(&error, "Failed to open file");
+        g_simple_async_result_take_error(data->res, error);
+        g_simple_async_result_complete (data->res);
+        create_from_location_async_data_free(data);
+
+        return;
+    }
+
+    g_input_stream_skip_async(G_INPUT_STREAM(stream),
+                              PVD_OFFSET,
+                              data->priority,
+                              data->cancellable,
+                              on_location_skipped,
+                              data);
+}
+
+/**
+ * osinfo_media_create_from_location_async:
+ * @location: the location of an installation media
+ * @priority: the I/O priority of the request
+ * @cancellable (allow-none): a #GCancellable, or %NULL
+ * @callback: Function to call when result of this call is ready
+ * @user_data: The user data to pass to @callback, or %NULL
+ *
+ * Asynchronous variant of #osinfo_media_create_from_location.
+ */
+void osinfo_media_create_from_location_async(const gchar *location,
+                                             gint priority,
+                                             GCancellable *cancellable,
+                                             GAsyncReadyCallback callback,
+                                             gpointer user_data)
+{
+    CreateFromLocationAsyncData *data;
+
+    g_return_if_fail(location != NULL);
+
+    data = g_slice_new0(CreateFromLocationAsyncData);
+    data->res = g_simple_async_result_new
+                                (NULL,
+                                 callback,
+                                 user_data,
+                                 osinfo_media_create_from_location_async);
+    data->file = g_file_new_for_commandline_arg(location);
+    data->priority = priority;
+    data->cancellable = cancellable;
+    g_file_read_async(data->file,
+                      priority,
+                      cancellable,
+                      on_location_read,
+                      data);
+}
+
+/**
+ * osinfo_media_create_from_location_finish:
+ * @res: a #GAsyncResult
+ * @error: The location where to store any error, or %NULL
+ *
+ * Finishes an asynchronous media object creation process started with
+ * #osinfo_media_create_from_location_async.
+ *
+ * Returns: (transfer full): a new #OsinfoMedia , or NULL on error
+ */
+OsinfoMedia *osinfo_media_create_from_location_finish(GAsyncResult *res,
+                                                      GError **error)
+{
+    GSimpleAsyncResult *simple = G_SIMPLE_ASYNC_RESULT(res);
+
+    g_return_val_if_fail(error == NULL || *error == NULL, NULL);
+
+    if (g_simple_async_result_propagate_error(simple, error))
+        return NULL;
+
+    return g_simple_async_result_get_op_res_gpointer(simple);
 }
 
 /**

@@ -101,6 +101,13 @@ OsinfoMedia *osinfo_media_new(const gchar *id, const gchar *architecture);
 OsinfoMedia *osinfo_media_create_from_location(const gchar *location,
                                                GCancellable *cancellable,
                                                GError **error);
+void osinfo_media_create_from_location_async(const gchar *location,
+                                             gint priority,
+                                             GCancellable *cancellable,
+                                             GAsyncReadyCallback callback,
+                                             gpointer user_data);
+OsinfoMedia *osinfo_media_create_from_location_finish(GAsyncResult *res,
+                                                      GError **error);
 
 const gchar *osinfo_media_get_architecture(OsinfoMedia *media);
 const gchar *osinfo_media_get_url(OsinfoMedia *media);

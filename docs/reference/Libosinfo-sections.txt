@@ -404,6 +404,8 @@ OsinfMediaoClass
 OsinfMediaoPrivate
 osinfo_media_new
 osinfo_media_create_from_location
+osinfo_media_create_from_location_async
+osinfo_media_create_from_location_finish
 osinfo_media_get_architecture
 osinfo_media_get_url
 osinfo_media_get_volume_id
