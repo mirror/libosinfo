@@ -95,6 +95,7 @@ Libosinfo-1.0.gir: libosinfo-1.0.la $(G_IR_SCANNER) Makefile.am
 		--namespace Libosinfo \
 		--nsversion 1.0 \
 		--include GObject-2.0 \
+		--include Gio-2.0 \
 		--strip-prefix=Osinfo \
 		--library=$(builddir)/libosinfo-1.0.la \
 		--output $@ \
@@ -102,6 +103,7 @@ Libosinfo-1.0.gir: libosinfo-1.0.la $(G_IR_SCANNER) Makefile.am
 		-I$(srcdir) \
 		--verbose \
 		--pkg=gobject-2.0 \
+		--pkg=gio-2.0 \
 		$(libosinfo_1_0_include_HEADERS:%=$(srcdir)/%) \
 		$(libosinfo_1_0_la_SOURCES:%=$(srcdir)/%)
 
