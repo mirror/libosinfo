@@ -322,25 +322,17 @@ void osinfo_db_add_deployment(OsinfoDb *db, OsinfoDeployment *deployment)
 }
 
 /**
- * osinfo_db_guess_os_from_location:
+ * osinfo_db_guess_os_from_media:
  * @db: the database
- * @location: the location of an installation media
- * @cancellable (allow-none): a #GCancellable, or %NULL
- * @error: The location where to store any error, or %NULL
+ * @media: the installation media
  *
- * The @location could be any URI that GIO can handle or a local path.
- *
- * NOTE: Currently this only works for ISO images/devices.
+ * Guess operating system given a #OsinfoMedia object.
  *
  * Returns: (transfer none): the operating system, or NULL if guessing failed
  */
-OsinfoOs *osinfo_db_guess_os_from_location(OsinfoDb *db,
-                                           const gchar *location,
-                                           GCancellable *cancellable,
-                                           GError **error)
+OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db, OsinfoMedia *media)
 {
     OsinfoOs *ret = NULL;
-    OsinfoMedia *media;
     GList *oss = NULL;
     GList *os_iter;
     const gchar *media_volume;
@@ -348,12 +340,7 @@ OsinfoOs *osinfo_db_guess_os_from_location(OsinfoDb *db,
     const gchar *media_publisher;
 
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
-    g_return_val_if_fail(location != NULL, NULL);
-    g_return_val_if_fail(error == NULL || *error == NULL, NULL);
-
-    media = osinfo_media_new_from_location (location, cancellable, error);
-    if (*error != NULL)
-        goto EXIT;
+    g_return_val_if_fail(media != NULL, NULL);
 
     media_volume = osinfo_media_get_volume_id(media);
     media_system = osinfo_media_get_system_id(media);
@@ -387,9 +374,7 @@ OsinfoOs *osinfo_db_guess_os_from_location(OsinfoDb *db,
             break;
     }
 
-EXIT:
     g_list_free(oss);
-    g_clear_object(&media);
 
     return ret;
 }
