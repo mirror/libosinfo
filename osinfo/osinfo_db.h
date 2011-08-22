@@ -34,30 +34,6 @@
 #ifndef __OSINFO_DB_H__
 #define __OSINFO_DB_H__
 
-GQuark
-osinfo_install_media_error_quark (void) G_GNUC_CONST;
-
-#define OSINFO_INSTALL_MEDIA_ERROR (osinfo_install_media_error_quark ())
-
-/**
- * OsinfoInstallMediaError:
- * @OSINFO_INSTALL_MEDIA_ERROR_NO_DESCRIPTORS: No descriptors.
- * @OSINFO_INSTALL_MEDIA_ERROR_INSUFFIENT_METADATA: Not enough metadata.
- * @OSINFO_INSTALL_MEDIA_ERROR_NOT_BOOTABLE: Install media not bootable.
- * @OSINFO_INSTALL_MEDIA_ERROR_NO_PVD: No Primary volume descriptor.
- * @OSINFO_INSTALL_MEDIA_ERROR_NO_SVD: No supplementary volume descriptor.
- *
- * #GError codes used for errors in the #OSINFO_INSTALL_MEDIA_ERROR domain, during
- * reading of data from install media for detection of OS.
- */
-typedef enum {
-    OSINFO_INSTALL_MEDIA_ERROR_NO_DESCRIPTORS,
-    OSINFO_INSTALL_MEDIA_ERROR_NO_PVD,
-    OSINFO_INSTALL_MEDIA_ERROR_NO_SVD,
-    OSINFO_INSTALL_MEDIA_ERROR_INSUFFIENT_METADATA,
-    OSINFO_INSTALL_MEDIA_ERROR_NOT_BOOTABLE
-} OsinfoInstallMediaError;
-
 /*
  * Type macros.
  */

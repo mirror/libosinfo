@@ -24,10 +24,35 @@
  */
 
 #include <glib-object.h>
+#include <gio/gio.h>
 #include <osinfo/osinfo_entity.h>
 
 #ifndef __OSINFO_MEDIA_H__
 #define __OSINFO_MEDIA_H__
+
+GQuark
+osinfo_media_error_quark (void) G_GNUC_CONST;
+
+#define OSINFO_MEDIA_ERROR (osinfo_media_error_quark ())
+
+/**
+ * OsinfoMediaError:
+ * @OSINFO_MEDIA_ERROR_NO_DESCRIPTORS: No descriptors.
+ * @OSINFO_MEDIA_ERROR_INSUFFIENT_METADATA: Not enough metadata.
+ * @OSINFO_MEDIA_ERROR_NOT_BOOTABLE: Install media not bootable.
+ * @OSINFO_MEDIA_ERROR_NO_PVD: No Primary volume descriptor.
+ * @OSINFO_MEDIA_ERROR_NO_SVD: No supplementary volume descriptor.
+ *
+ * #GError codes used for errors in the #OSINFO_MEDIA_ERROR domain, during
+ * reading of data from install media location.
+ */
+typedef enum {
+    OSINFO_MEDIA_ERROR_NO_DESCRIPTORS,
+    OSINFO_MEDIA_ERROR_NO_PVD,
+    OSINFO_MEDIA_ERROR_NO_SVD,
+    OSINFO_MEDIA_ERROR_INSUFFIENT_METADATA,
+    OSINFO_MEDIA_ERROR_NOT_BOOTABLE
+} OsinfoMediaError;
 
 /*
  * Type macros.
@@ -73,6 +98,9 @@ struct _OsinfoMediaClass
 GType osinfo_media_get_type(void);
 
 OsinfoMedia *osinfo_media_new(const gchar *id, const gchar *architecture);
+OsinfoMedia *osinfo_media_new_from_location(const gchar *location,
+                                            GCancellable *cancellable,
+                                            GError **error);
 
 const gchar *osinfo_media_get_architecture(OsinfoMedia *media);
 const gchar *osinfo_media_get_url(OsinfoMedia *media);

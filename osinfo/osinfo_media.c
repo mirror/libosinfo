@@ -24,6 +24,45 @@
  */
 
 #include <osinfo/osinfo.h>
+#include <gio/gio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_VOLUME 32
+#define MAX_SYSTEM 32
+#define MAX_PUBLISHER 128
+
+#define PVD_OFFSET 0x00008000
+#define BOOTABLE_TAG "EL TORITO SPECIFICATION"
+
+typedef struct _PrimaryVolumeDescriptor PrimaryVolumeDescriptor;
+
+struct _PrimaryVolumeDescriptor {
+    guint8 ignored[8];
+    gchar  system[MAX_SYSTEM];       /* System ID */
+    gchar  volume[MAX_VOLUME];       /* Volume ID */
+    guint8 ignored2[246];
+    gchar  publisher[MAX_PUBLISHER]; /* Publisher ID */
+    guint8 ignored3[1602];
+};
+
+typedef struct _SupplementaryVolumeDescriptor SupplementaryVolumeDescriptor;
+
+struct _SupplementaryVolumeDescriptor {
+    guint8 ignored[7];
+    gchar  system[MAX_SYSTEM]; /* System ID */
+};
+
+GQuark
+osinfo_media_error_quark (void)
+{
+    static GQuark quark = 0;
+
+    if (!quark)
+        quark = g_quark_from_static_string ("osinfo-media-error");
+
+    return quark;
+}
 
 G_DEFINE_TYPE (OsinfoMedia, osinfo_media, OSINFO_TYPE_ENTITY);
 
@@ -85,6 +124,143 @@ OsinfoMedia *osinfo_media_new(const gchar *id,
                             architecture);
 
     return media;
+}
+
+/**
+ * osinfo_media_new_from_location:
+ * @location: the location of an installation media
+ * @cancellable (allow-none): a #GCancellable, or %NULL
+ * @error: The location where to store any error, or %NULL
+ *
+ * Creates a new #OsinfoMedia for installation media at @location. The @location
+ * could be any URI that GIO can handle or a local path.
+ *
+ * NOTE: Currently this only works for ISO images/devices.
+ *
+ * Returns: (transfer full): a new #OsinfoMedia , or NULL on error
+ */
+OsinfoMedia *osinfo_media_new_from_location(const gchar *location,
+                                            GCancellable *cancellable,
+                                            GError **error)
+{
+    OsinfoMedia *ret = NULL;
+    PrimaryVolumeDescriptor pvd;
+    SupplementaryVolumeDescriptor svd;
+    GFile *file;
+    GFileInputStream *stream;
+    gchar *uri;
+
+    g_return_val_if_fail(location != NULL, NULL);
+    g_return_val_if_fail(error == NULL || *error == NULL, NULL);
+
+    file = g_file_new_for_commandline_arg(location);
+    stream = g_file_read(file, cancellable, error);
+    if (error != NULL && *error != NULL) {
+        g_prefix_error(error, "Failed to open file");
+
+        goto EXIT;
+    }
+
+    memset(&pvd, 0, sizeof(pvd));
+    if (g_input_stream_skip(G_INPUT_STREAM(stream),
+                            PVD_OFFSET,
+                            cancellable,
+                            error) < sizeof(pvd)) {
+        if (*error)
+            g_prefix_error(error, "Failed to skip %d bytes", PVD_OFFSET);
+        else
+            g_set_error(error,
+                         OSINFO_MEDIA_ERROR,
+                         OSINFO_MEDIA_ERROR_NO_DESCRIPTORS,
+                         "No volume descriptors");
+
+        goto EXIT;
+    }
+
+    if (g_input_stream_read(G_INPUT_STREAM(stream),
+                            &pvd,
+                            sizeof(pvd),
+                            cancellable,
+                            error) < sizeof(pvd)) {
+        if (*error)
+            g_prefix_error(error, "Failed to read primary volume descriptor");
+        else
+            g_set_error(error,
+                        OSINFO_MEDIA_ERROR,
+                        OSINFO_MEDIA_ERROR_NO_PVD,
+                        "Primary volume descriptor unavailable");
+
+        goto EXIT;
+    }
+
+    pvd.volume[MAX_VOLUME - 1] = 0;
+    pvd.system[MAX_SYSTEM - 1] = 0;
+    pvd.publisher[MAX_PUBLISHER - 1] = 0;
+
+    if (pvd.volume[0] && (pvd.system[0] == 0 && pvd.publisher[0] == 0)) {
+        g_set_error(error,
+                    OSINFO_MEDIA_ERROR,
+                    OSINFO_MEDIA_ERROR_INSUFFIENT_METADATA,
+                    "Insufficient metadata on installation media");
+
+        goto EXIT;
+    }
+
+    memset(&svd, 0, sizeof(svd));
+    if (g_input_stream_read(G_INPUT_STREAM(stream),
+                            &svd,
+                            sizeof(svd),
+                            cancellable,
+                            error) < sizeof(svd)) {
+        if (*error)
+            g_prefix_error(error,
+                           "Failed to read supplementary volume descriptor");
+        else
+            g_set_error(error,
+                        OSINFO_MEDIA_ERROR,
+                        OSINFO_MEDIA_ERROR_NO_SVD,
+                        "Supplementary volume descriptor unavailable");
+
+        goto EXIT;
+    }
+
+    svd.system[MAX_SYSTEM - 1] = 0;
+
+    if (strncmp(BOOTABLE_TAG, svd.system, sizeof(BOOTABLE_TAG) != 0)) {
+        g_set_error(error,
+                    OSINFO_MEDIA_ERROR,
+                    OSINFO_MEDIA_ERROR_NOT_BOOTABLE,
+                    "Install media is not bootable");
+
+        goto EXIT;
+    }
+
+    uri = g_file_get_uri(file);
+    ret = g_object_new(OSINFO_TYPE_MEDIA,
+                       "id", uri,
+                       NULL);
+    osinfo_entity_set_param(OSINFO_ENTITY(ret),
+                            OSINFO_MEDIA_PROP_URL,
+                            uri);
+    g_free(uri);
+    if (pvd.volume[0] != 0)
+        osinfo_entity_set_param(OSINFO_ENTITY(ret),
+                                OSINFO_MEDIA_PROP_VOLUME_ID,
+                                pvd.volume);
+    if (pvd.system[0] != 0)
+        osinfo_entity_set_param(OSINFO_ENTITY(ret),
+                                OSINFO_MEDIA_PROP_SYSTEM_ID,
+                                pvd.system);
+    if (pvd.publisher[0] != 0)
+        osinfo_entity_set_param(OSINFO_ENTITY(ret),
+                                OSINFO_MEDIA_PROP_PUBLISHER_ID,
+                                pvd.publisher);
+
+EXIT:
+    g_object_unref(stream);
+    g_object_unref(file);
+
+    return ret;
 }
 
 /**

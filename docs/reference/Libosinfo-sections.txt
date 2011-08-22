@@ -403,6 +403,7 @@ OsinfoMedia
 OsinfMediaoClass
 OsinfMediaoPrivate
 osinfo_media_new
+osinfo_media_new_from_location
 osinfo_media_get_architecture
 osinfo_media_get_url
 osinfo_media_get_volume_id
