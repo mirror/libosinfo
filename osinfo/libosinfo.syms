@@ -143,7 +143,7 @@ LIBOSINFO_0.0.1 {
 	osinfo_media_get_type;
 	osinfo_media_error_quark;
 	osinfo_media_new;
-	osinfo_media_new_from_location;
+	osinfo_media_create_from_location;
 	osinfo_media_get_architecture;
 	osinfo_media_get_url;
 	osinfo_media_get_volume_id;

@@ -98,9 +98,9 @@ struct _OsinfoMediaClass
 GType osinfo_media_get_type(void);
 
 OsinfoMedia *osinfo_media_new(const gchar *id, const gchar *architecture);
-OsinfoMedia *osinfo_media_new_from_location(const gchar *location,
-                                            GCancellable *cancellable,
-                                            GError **error);
+OsinfoMedia *osinfo_media_create_from_location(const gchar *location,
+                                               GCancellable *cancellable,
+                                               GError **error);
 
 const gchar *osinfo_media_get_architecture(OsinfoMedia *media);
 const gchar *osinfo_media_get_url(OsinfoMedia *media);

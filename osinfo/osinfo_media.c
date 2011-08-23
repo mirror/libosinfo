@@ -127,7 +127,7 @@ OsinfoMedia *osinfo_media_new(const gchar *id,
 }
 
 /**
- * osinfo_media_new_from_location:
+ * osinfo_media_create_from_location:
  * @location: the location of an installation media
  * @cancellable (allow-none): a #GCancellable, or %NULL
  * @error: The location where to store any error, or %NULL
@@ -139,9 +139,9 @@ OsinfoMedia *osinfo_media_new(const gchar *id,
  *
  * Returns: (transfer full): a new #OsinfoMedia , or NULL on error
  */
-OsinfoMedia *osinfo_media_new_from_location(const gchar *location,
-                                            GCancellable *cancellable,
-                                            GError **error)
+OsinfoMedia *osinfo_media_create_from_location(const gchar *location,
+                                               GCancellable *cancellable,
+                                               GError **error)
 {
     OsinfoMedia *ret = NULL;
     PrimaryVolumeDescriptor pvd;
