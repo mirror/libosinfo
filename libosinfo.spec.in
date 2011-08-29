@@ -85,6 +85,7 @@ rm -fr %{buildroot}
 %doc AUTHORS ChangeLog COPYING.LIB NEWS README
 %{_bindir}/osinfo-pciids-convert
 %{_bindir}/osinfo-usbids-convert
+%{_bindir}/osinfo-detect
 %dir %{_datadir}/libosinfo/
 %dir %{_datadir}/libosinfo/data/
 %{_datadir}/libosinfo/data/usb.ids
