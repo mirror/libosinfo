@@ -93,6 +93,11 @@ if test "x$enable_introspection" != "xno" ; then
 fi
 AM_CONDITIONAL([WITH_GOBJECT_INTROSPECTION], [test "x$enable_introspection" = "xyes"])
 
+AC_ARG_ENABLE([udev],
+        AS_HELP_STRING([--enable-udev], [enable Udev support]),
+        [], [enable_udev=no])
+AM_CONDITIONAL([WITH_UDEV], [test "x$enable_udev" = "xyes"])
+
 AC_ARG_ENABLE([coverage],
         AS_HELP_STRING([--enable-coverage], [enable GCC code coverage]),
         [], [enable_coverage=no])

@@ -28,6 +28,7 @@ BuildRequires: gobject-introspection-devel
 BuildRequires: gir-repository-devel
 %endif
 %endif
+Requires: udev
 
 %description
 libosinfo is a library that allows virtualization provisioning tools to
