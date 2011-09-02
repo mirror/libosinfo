@@ -956,10 +956,12 @@ osinfo_loader_process_file(OsinfoLoader *loader,
                                         G_FILE_QUERY_INFO_NONE,
                                         NULL,
                                         err);
-    const char *name = g_file_info_get_name(info);
+    const char *name;
 
     if (*err)
         return;
+
+    name = g_file_info_get_name(info);
 
     GFileType type = g_file_info_get_attribute_uint32(info,
                                                       G_FILE_ATTRIBUTE_STANDARD_TYPE);
