@@ -1057,7 +1057,12 @@ void osinfo_loader_process_uri(OsinfoLoader *loader,
 void osinfo_loader_process_default_path(OsinfoLoader *loader,
                                         GError **err)
 {
-    GFile *file = g_file_new_for_path(DATA_DIR);
+    GFile *file;
+    const gchar *path = getenv("OSINFO_DATA_DIR");
+    if (!path)
+        path = DATA_DIR;
+
+    file = g_file_new_for_path(path);
     osinfo_loader_process_file(loader,
                                file,
                                err);
