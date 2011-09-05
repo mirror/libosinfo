@@ -443,6 +443,28 @@ OSINFO_MEDIALIST_GET_CLASS
 </SECTION>
 
 <SECTION>
+<FILE>osinfo_resources</FILE>
+<TITLE>OsinfoResources</TITLE>
+OsinfoResources
+OsinfResourcesoClass
+OsinfResourcesoPrivate
+<SUBSECTION Standard>
+osinfo_resources_new
+osinfo_resources_get_architecture
+osinfo_resources_get_cpu
+osinfo_resources_get_n_cpus
+osinfo_resources_get_ram
+osinfo_resources_get_storage
+OSINFO_RESOURCES
+OSINFO_IS_RESOURCES
+OSINFO_TYPE_RESOURCES
+osinfo_resources_get_type
+OSINFO_RESOURCES_CLASS
+OSINFO_IS_RESOURCES_CLASS
+OSINFO_RESOURCES_GET_CLASS
+</SECTION>
+
+<SECTION>
 <FILE>osinfo_devicelink</FILE>
 <TITLE>OsinfoDeviceLink</TITLE>
 OsinfoDeviceLink

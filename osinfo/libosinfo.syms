@@ -157,6 +157,13 @@ LIBOSINFO_0.0.1 {
 	osinfo_medialist_new_filtered;
 	osinfo_medialist_new_intersection;
 	osinfo_medialist_new_union;
+	osinfo_resources_get_type;
+	osinfo_resources_new;
+	osinfo_resources_get_architecture;
+	osinfo_resources_get_cpu;
+	osinfo_resources_get_n_cpus;
+	osinfo_resources_get_ram;
+	osinfo_resources_get_storage;
 
     local:
         *;
