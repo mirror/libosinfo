@@ -461,7 +461,7 @@ OsinfoMedia *osinfo_media_create_from_location_finish(GAsyncResult *res,
 }
 
 /**
- * osinfo_entity_get_architecture:
+ * osinfo_media_get_architecture:
  * @media: a #OsinfoMedia instance
  *
  * Retrieves the target hardware architecture of the OS @media provides.
@@ -475,7 +475,7 @@ const gchar *osinfo_media_get_architecture(OsinfoMedia *media)
 }
 
 /**
- * osinfo_entity_get_url:
+ * osinfo_media_get_url:
  * @media: a #OsinfoMedia instance
  *
  * The URL to the @media
@@ -489,7 +489,7 @@ const gchar *osinfo_media_get_url(OsinfoMedia *media)
 }
 
 /**
- * osinfo_entity_get_volume_id:
+ * osinfo_media_get_volume_id:
  * @media: a #OsinfoMedia instance
  *
  * If @media is an ISO9660 image/device, this function retrieves the expected
@@ -507,7 +507,7 @@ const gchar *osinfo_media_get_volume_id(OsinfoMedia *media)
 }
 
 /**
- * osinfo_entity_get_system_id:
+ * osinfo_media_get_system_id:
  * @media: a #OsinfoMedia instance
  *
  * If @media is an ISO9660 image/device, this function retrieves the expected
@@ -525,7 +525,7 @@ const gchar *osinfo_media_get_system_id(OsinfoMedia *media)
 }
 
 /**
- * osinfo_entity_get_publisher_id:
+ * osinfo_media_get_publisher_id:
  * @media: a #OsinfoMedia instance
  *
  * If @media is an ISO9660 image/device, this function retrieves the expected
