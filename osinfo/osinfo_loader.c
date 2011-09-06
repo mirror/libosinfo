@@ -479,13 +479,13 @@ static void osinfo_loader_deployment(OsinfoLoader *loader,
     osinfo_db_add_deployment(loader->priv->db, deployment);
 }
 
-static OsinfoMedia * osinfo_loader_media (OsinfoLoader *loader,
-                                          xmlXPathContextPtr ctxt,
-                                          xmlNodePtr root,
-                                          const char *id,
-                                          GError **err)
+static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
+                                         xmlXPathContextPtr ctxt,
+                                         xmlNodePtr root,
+                                         const gchar *id,
+                                         GError **err)
 {
-    xmlNodePtr *isonodes = NULL;
+    xmlNodePtr *nodes = NULL;
     guint i;
 
     gchar *arch = (gchar *)xmlGetProp(root, BAD_CAST "arch");
@@ -498,27 +498,27 @@ static OsinfoMedia * osinfo_loader_media (OsinfoLoader *loader,
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(media), keys, ctxt, root, err);
 
-    int nisonodes = osinfo_loader_nodeset("./iso/*", ctxt, &isonodes, err);
+    gint nnodes = osinfo_loader_nodeset("./iso/*", ctxt, &nodes, err);
     if (*err)
         return NULL;
 
-    for (i = 0 ; i < nisonodes ; i++) {
-        if (!isonodes[i]->children ||
-            isonodes[i]->children->type != XML_TEXT_NODE ||
-            (strcmp((const gchar *)isonodes[i]->name,
+    for (i = 0 ; i < nnodes ; i++) {
+        if (!nodes[i]->children ||
+            nodes[i]->children->type != XML_TEXT_NODE ||
+            (strcmp((const gchar *)nodes[i]->name,
                     OSINFO_MEDIA_PROP_VOLUME_ID) != 0 &&
-             strcmp((const gchar *)isonodes[i]->name,
+             strcmp((const gchar *)nodes[i]->name,
                     OSINFO_MEDIA_PROP_SYSTEM_ID) != 0 &&
-             strcmp((const gchar *)isonodes[i]->name,
+             strcmp((const gchar *)nodes[i]->name,
                     OSINFO_MEDIA_PROP_PUBLISHER_ID) != 0))
             continue;
 
         osinfo_entity_set_param(OSINFO_ENTITY(media),
-                                (const char *)isonodes[i]->name,
-                                (const char *)isonodes[i]->children->content);
+                                (const gchar *)nodes[i]->name,
+                                (const gchar *)nodes[i]->children->content);
     }
 
-    g_free(isonodes);
+    g_free(nodes);
 
     return media;
 }
@@ -528,7 +528,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
                              xmlNodePtr root,
                              GError **err)
 {
-    xmlNodePtr *medias = NULL;
+    xmlNodePtr *nodes = NULL;
     guint i;
 
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
@@ -556,26 +556,26 @@ static void osinfo_loader_os(OsinfoLoader *loader,
     if (*err)
         goto cleanup;
 
-    int nmedias = osinfo_loader_nodeset("./media", ctxt, &medias, err);
+    int nnodes = osinfo_loader_nodeset("./media", ctxt, &nodes, err);
     if (*err)
         goto cleanup;
 
-    for (i = 0 ; i < nmedias ; i++) {
+    for (i = 0 ; i < nnodes ; i++) {
         xmlNodePtr saved = ctxt->node;
-        ctxt->node = medias[i];
+        ctxt->node = nodes[i];
         gchar *media_id = g_strdup_printf ("%s:%u", id, i);
-        OsinfoMedia *media = osinfo_loader_media(loader, ctxt, medias[i], media_id, err);
+        OsinfoMedia *media = osinfo_loader_media(loader, ctxt, nodes[i], media_id, err);
         g_free (media_id);
         ctxt->node = saved;
         if (*err)
-            goto cleanup;
+            break;
 
         osinfo_os_add_media (os, media);
     }
 
 cleanup:
     g_free(id);
-    g_free(medias);
+    g_free(nodes);
 }
 
 static void osinfo_loader_root(OsinfoLoader *loader,
