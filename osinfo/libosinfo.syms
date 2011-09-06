@@ -113,6 +113,10 @@ LIBOSINFO_0.0.1 {
 	osinfo_os_get_family;
 	osinfo_os_get_media_list;
 	osinfo_os_add_media;
+        osinfo_os_get_minimum_resources;
+        osinfo_os_get_recommended_resources;
+        osinfo_os_set_minimum_resources;
+        osinfo_os_set_recommended_resources;
 	osinfo_oslist_get_type;
 	osinfo_oslist_new;
 	osinfo_oslist_new_copy;

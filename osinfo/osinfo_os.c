@@ -46,6 +46,8 @@ struct _OsinfoOsPrivate
     GList *deviceLinks;
 
     OsinfoMediaList *medias;
+    OsinfoResourcesList *minimum;
+    OsinfoResourcesList *recommended;
 };
 
 struct _OsinfoOsDeviceLink {
@@ -139,6 +141,8 @@ osinfo_os_init (OsinfoOs *os)
 
     os->priv->deviceLinks = NULL;
     os->priv->medias = osinfo_medialist_new ();
+    os->priv->minimum = osinfo_resourceslist_new ();
+    os->priv->recommended = osinfo_resourceslist_new ();
 }
 
 /**
@@ -294,6 +298,77 @@ void osinfo_os_add_media(OsinfoOs *os, OsinfoMedia *media)
     g_return_if_fail(OSINFO_IS_MEDIA(media));
 
     osinfo_list_add(OSINFO_LIST(os->priv->medias), OSINFO_ENTITY(media));
+}
+
+/**
+ * osinfo_os_get_minimum_resources:
+ * @os: an operating system
+ *
+ * Get the list of minimum required resources for the operating system @os.
+ *
+ * Returns: (transfer full): A list of resources
+ */
+OsinfoResourcesList *osinfo_os_get_minimum_resources(OsinfoOs *os)
+{
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+
+    OsinfoResourcesList *newList = osinfo_resourceslist_new();
+
+    osinfo_list_add_all(OSINFO_LIST(newList), OSINFO_LIST(os->priv->minimum));
+
+    return newList;
+}
+
+/**
+ * osinfo_os_get_recommended_resources:
+ * @os: an operating system
+ *
+ * Get the list of recommended resources for the operating system @os.
+ *
+ * Returns: (transfer full): A list of resources
+ */
+OsinfoResourcesList *osinfo_os_get_recommended_resources(OsinfoOs *os)
+{
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+
+    OsinfoResourcesList *newList = osinfo_resourceslist_new();
+
+    osinfo_list_add_all(OSINFO_LIST(newList),
+                        OSINFO_LIST(os->priv->recommended));
+
+    return newList;
+}
+
+/**
+ * osinfo_os_add_minimum_resources:
+ * @os: an operating system
+ * @resources: (transfer none): the resources to add
+ *
+ * Adds @resources to list of minimum resources of operating system @os.
+ */
+void osinfo_os_add_minimum_resources(OsinfoOs *os, OsinfoResources *resources)
+{
+    g_return_if_fail(OSINFO_IS_OS(os));
+    g_return_if_fail(OSINFO_IS_RESOURCES(resources));
+
+    osinfo_list_add(OSINFO_LIST(os->priv->minimum), OSINFO_ENTITY(resources));
+}
+
+/**
+ * osinfo_os_add_recommended_resources:
+ * @os: an operating system
+ * @resources: (transfer none): the resources to add
+ *
+ * Adds @resources to list of recommended resources of operating system @os.
+ */
+void osinfo_os_add_recommended_resources(OsinfoOs *os,
+                                         OsinfoResources *resources)
+{
+    g_return_if_fail(OSINFO_IS_OS(os));
+    g_return_if_fail(OSINFO_IS_RESOURCES(resources));
+
+    osinfo_list_add(OSINFO_LIST(os->priv->recommended),
+                    OSINFO_ENTITY(resources));
 }
 
 /*

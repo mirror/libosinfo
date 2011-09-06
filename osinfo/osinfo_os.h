@@ -28,6 +28,8 @@
 #include <osinfo/osinfo_devicelist.h>
 #include <osinfo/osinfo_medialist.h>
 #include <osinfo/osinfo_media.h>
+#include <osinfo/osinfo_resources.h>
+#include <osinfo/osinfo_resourceslist.h>
 
 #ifndef __OSINFO_OS_H__
 #define __OSINFO_OS_H__
@@ -80,6 +82,10 @@ OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoDevice *dev);
 const gchar *osinfo_os_get_family(OsinfoOs *os);
 OsinfoMediaList *osinfo_os_get_media_list(OsinfoOs *os);
 void osinfo_os_add_media(OsinfoOs *os, OsinfoMedia *media);
+OsinfoResourcesList *osinfo_os_get_minimum_resources(OsinfoOs *os);
+OsinfoResourcesList *osinfo_os_get_recommended_resources(OsinfoOs *os);
+void osinfo_os_add_minimum_resources(OsinfoOs *os, OsinfoResources *resources);
+void osinfo_os_add_recommended_resources(OsinfoOs *os, OsinfoResources *resources);
 
 #endif /* __OSINFO_OS_H__ */
 /*
