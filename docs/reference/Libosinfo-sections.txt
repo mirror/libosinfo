@@ -465,6 +465,27 @@ OSINFO_RESOURCES_GET_CLASS
 </SECTION>
 
 <SECTION>
+<FILE>osinfo_resourceslist</FILE>
+<TITLE>OsinfoResourcesList</TITLE>
+OsinfoResourcesList
+OsinfResourcesListoClass
+OsinfResourcesListoPrivate
+osinfo_resourceslist_new
+osinfo_resourceslist_new_copy
+osinfo_resourceslist_new_filtered
+osinfo_resourceslist_new_intersection
+osinfo_resourceslist_new_union
+<SUBSECTION Standard>
+OSINFO_RESOURCESLIST
+OSINFO_IS_RESOURCESLIST
+OSINFO_TYPE_RESOURCESLIST
+osinfo_resourceslist_get_type
+OSINFO_RESOURCESLIST_CLASS
+OSINFO_IS_RESOURCESLIST_CLASS
+OSINFO_RESOURCESLIST_GET_CLASS
+</SECTION>
+
+<SECTION>
 <FILE>osinfo_devicelink</FILE>
 <TITLE>OsinfoDeviceLink</TITLE>
 OsinfoDeviceLink

@@ -45,6 +45,7 @@
 #include <osinfo/osinfo_media.h>
 #include <osinfo/osinfo_medialist.h>
 #include <osinfo/osinfo_resources.h>
+#include <osinfo/osinfo_resourceslist.h>
 #include <osinfo/osinfo_db.h>
 #include <osinfo/osinfo_loader.h>
 

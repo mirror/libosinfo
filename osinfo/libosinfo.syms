@@ -164,6 +164,12 @@ LIBOSINFO_0.0.1 {
 	osinfo_resources_get_n_cpus;
 	osinfo_resources_get_ram;
 	osinfo_resources_get_storage;
+	osinfo_resourceslist_get_type;
+	osinfo_resourceslist_new;
+	osinfo_resourceslist_new_copy;
+	osinfo_resourceslist_new_filtered;
+	osinfo_resourceslist_new_intersection;
+	osinfo_resourceslist_new_union;
 
     local:
         *;
