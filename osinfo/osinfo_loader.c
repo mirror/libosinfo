@@ -523,6 +523,78 @@ static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
     return media;
 }
 
+static OsinfoResources *osinfo_loader_resources(OsinfoLoader *loader,
+                                                xmlXPathContextPtr ctxt,
+                                                xmlNodePtr root,
+                                                const gchar *id,
+                                                const gchar *name,
+                                                GError **err)
+{
+    xmlNodePtr *nodes = NULL;
+    OsinfoResources *resources = NULL;
+    guint i;
+
+    gchar *arch = (gchar *)xmlGetProp(root, BAD_CAST "arch");
+    gchar *node_path = g_strjoin("/", ".", name, "*", NULL);
+    gint nnodes = osinfo_loader_nodeset(node_path, ctxt, &nodes, err);
+    g_free(node_path);
+    if (*err || nnodes < 1)
+        goto EXIT;
+
+    resources = osinfo_resources_new(id, arch);
+
+    for (i = 0 ; i < nnodes ; i++) {
+        if (!nodes[i]->children ||
+            nodes[i]->children->type != XML_TEXT_NODE ||
+            (strcmp((const gchar *)nodes[i]->name,
+                    OSINFO_RESOURCES_PROP_CPU) != 0 &&
+             strcmp((const gchar *)nodes[i]->name,
+                    OSINFO_RESOURCES_PROP_N_CPUS) != 0 &&
+             strcmp((const gchar *)nodes[i]->name,
+                    OSINFO_RESOURCES_PROP_RAM) != 0 &&
+             strcmp((const gchar *)nodes[i]->name,
+                    OSINFO_RESOURCES_PROP_STORAGE) != 0))
+            continue;
+
+        osinfo_entity_set_param(OSINFO_ENTITY(resources),
+                                (const gchar *)nodes[i]->name,
+                                (const gchar *)nodes[i]->children->content);
+    }
+
+EXIT:
+    g_free(nodes);
+
+    return resources;
+}
+
+static void osinfo_loader_resources_list(OsinfoLoader *loader,
+                                         xmlXPathContextPtr ctxt,
+                                         xmlNodePtr root,
+                                         const gchar *id,
+                                         OsinfoOs *os,
+                                         GError **err)
+{
+    OsinfoResources *resources;
+
+    resources = osinfo_loader_resources(loader, ctxt, root, id, "minimum", err);
+    if (*err)
+        goto EXIT;
+
+    if (resources != NULL)
+        osinfo_os_add_minimum_resources(os, resources);
+
+    g_clear_object(&resources);
+    resources = osinfo_loader_resources(loader, ctxt, root, id, "recommended", err);
+    if (*err)
+        goto EXIT;
+
+    if (resources != NULL)
+        osinfo_os_add_recommended_resources(os, resources);
+
+EXIT:
+    g_clear_object(&resources);
+}
+
 static void osinfo_loader_os(OsinfoLoader *loader,
                              xmlXPathContextPtr ctxt,
                              xmlNodePtr root,
@@ -573,9 +645,31 @@ static void osinfo_loader_os(OsinfoLoader *loader,
         osinfo_os_add_media (os, media);
     }
 
+    g_free(nodes);
+
+    nnodes = osinfo_loader_nodeset("./resources", ctxt, &nodes, err);
+    if (*err)
+        goto cleanup;
+
+    for (i = 0 ; i < nnodes ; i++) {
+        xmlNodePtr saved = ctxt->node;
+        ctxt->node = nodes[i];
+        gchar *resources_id = g_strdup_printf ("%s:%u", id, i);
+
+        osinfo_loader_resources_list(loader,
+                                     ctxt,
+                                     nodes[i],
+                                     resources_id,
+                                     os,
+                                     err);
+        g_free (resources_id);
+        ctxt->node = saved;
+    }
+
+    g_free(nodes);
+
 cleanup:
     g_free(id);
-    g_free(nodes);
 }
 
 static void osinfo_loader_root(OsinfoLoader *loader,
