@@ -33,7 +33,7 @@
 #define OSINFO_ARCHITECTURE_ALL "all"
 #define OSINFO_MEGAHERTZ        1000000
 #define OSINFO_MEBIBYTES        1048576
-#define OSINFO_GIBIBYTES        1024 * OSINFO_MEBIBYTES
+#define OSINFO_GIBIBYTES        1073741824
 
 /*
  * Type macros.
