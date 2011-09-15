@@ -59,7 +59,7 @@ Libraries, includes, etc. to compile with the libosinfo library
 %define gir_arg --enable-introspection=no
 %endif
 
-%configure %{gir_arg}
+%configure %{gir_arg} --enable-udev=yes
 %__make %{?_smp_mflags} V=1
 
 chmod a-x examples/*.js examples/*.py
@@ -95,6 +95,7 @@ rm -fr %{buildroot}
 %{_datadir}/libosinfo/data/oses
 %{_datadir}/libosinfo/data/hypervisors
 %{_libdir}/%{name}-1.0.so.*
+/lib/udev/rules.d/95-osinfo.rules
 %if %{with_gir}
 %{_libdir}/girepository-1.0/Libosinfo-1.0.typelib
 %endif
