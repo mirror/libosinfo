@@ -12,11 +12,9 @@ BUILT_SOURCES = 95-osinfo.rules
 95-osinfo.rules: 95-osinfo.rules.in
 	sed 's,\@bindir\@,$(exec_prefix)/bin,' $< > $@
 
-# Now copy the rules file to where it needs to be but don't worry if it fails
-# since it can easily fail (e.g if `make install` is run unprivileged) and its
-# not a big deal if it does.
 install-data-hook: 95-osinfo.rules
-	-cp 95-osinfo.rules $(DESTDIR)/lib/udev/rules.d/
+	mkdir -p $(DESTDIR)$(UDEV_RULESDIR)
+	$(INSTALL) -m 0644 95-osinfo.rules $(DESTDIR)$(UDEV_RULESDIR)
 
 endif
 
