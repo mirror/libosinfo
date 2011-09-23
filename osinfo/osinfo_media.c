@@ -495,8 +495,9 @@ const gchar *osinfo_media_get_url(OsinfoMedia *media)
  * If @media is an ISO9660 image/device, this function retrieves the expected
  * volume ID.
  *
- * Note: In practice, this will usually not be an exact match to the volume ID
- * on the ISO image/device but rather a substring of it.
+ * Note: In practice, this will usually not be the exact copy of the volume ID
+ * string on the ISO image/device but rather a regular expression that matches
+ * it.
  *
  * Returns: (transfer none): the volume id, or NULL
  */
@@ -513,8 +514,9 @@ const gchar *osinfo_media_get_volume_id(OsinfoMedia *media)
  * If @media is an ISO9660 image/device, this function retrieves the expected
  * system ID.
  *
- * Note: In practice, this will usually not be an exact match to the system ID
- * on the ISO image/device but rather a substring of it.
+ * Note: In practice, this will usually not be the exact copy of the system ID
+ * string on the ISO image/device but rather a regular expression that matches
+ * it.
  *
  * Returns: (transfer none): the system id, or NULL
  */
@@ -531,8 +533,9 @@ const gchar *osinfo_media_get_system_id(OsinfoMedia *media)
  * If @media is an ISO9660 image/device, this function retrieves the expected
  * publisher ID.
  *
- * Note: In practice, this will usually not be an exact match to the system ID
- * on the ISO image/device but rather a substring of it.
+ * Note: In practice, this will usually not be the exact copy of the publisher
+ * ID string on the ISO image/device but rather a regular expression that
+ * matches it.
  *
  * Returns: (transfer none): the publisher id, or NULL
  */

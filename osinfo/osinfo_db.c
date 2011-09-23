@@ -30,9 +30,8 @@ G_DEFINE_TYPE (OsinfoDb, osinfo_db, G_TYPE_OBJECT);
 
 #define OSINFO_DB_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_DB, OsinfoDbPrivate))
 
-#define str_contains(str, substr) ((str) && \
-                                   (substr) && \
-                                   strstr((str), (substr)) != NULL)
+#define match_regex(pattern, str) ((pattern) && (str) && \
+                                   g_regex_match_simple((pattern), (str), 0, 0))
 
 /**
  * SECTION:osinfo_db
@@ -359,9 +358,9 @@ OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db, OsinfoMedia *media)
             const gchar *os_system = osinfo_media_get_system_id(os_media);
             const gchar *os_publisher = osinfo_media_get_publisher_id(os_media);
 
-            if (str_contains(media_volume, os_volume) &&
-                (str_contains(media_system, os_system) ||
-                 str_contains(media_publisher, os_publisher))) {
+            if (match_regex (os_volume, media_volume) &&
+                (match_regex (os_system, media_system) ||
+                 match_regex (os_publisher, media_publisher))) {
                 ret = os;
                 break;
             }
