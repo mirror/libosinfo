@@ -116,8 +116,8 @@ osinfo_os_get_media_list
 osinfo_os_add_media
 osinfo_os_get_minimum_resources
 osinfo_os_get_recommended_resources
-osinfo_os_set_minimum_resources
-osinfo_os_set_recommended_resources
+osinfo_os_add_minimum_resources
+osinfo_os_add_recommended_resources
 <SUBSECTION Standard>
 OSINFO_OS
 OSINFO_IS_OS
