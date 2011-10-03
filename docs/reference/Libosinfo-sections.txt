@@ -459,6 +459,10 @@ osinfo_resources_get_cpu
 osinfo_resources_get_n_cpus
 osinfo_resources_get_ram
 osinfo_resources_get_storage
+osinfo_resources_set_n_cpus
+osinfo_resources_set_cpu
+osinfo_resources_set_ram
+osinfo_resources_set_storage
 OSINFO_RESOURCES
 OSINFO_IS_RESOURCES
 OSINFO_TYPE_RESOURCES

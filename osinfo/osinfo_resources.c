@@ -62,6 +62,16 @@ static gint64 get_param_as_int64(OsinfoResources *resources,
     return (gint64) g_ascii_strtod(str, NULL);
 }
 
+static void set_param_from_int64(OsinfoResources *resources,
+                                 const gchar *key,
+                                 gint64 value)
+{
+    gchar *str;
+
+    str = g_strdup_printf("%"G_GUINT64_FORMAT, value);
+    osinfo_entity_set_param(OSINFO_ENTITY(resources), key, str);
+}
+
 static void
 osinfo_resources_finalize (GObject *object)
 {
@@ -173,6 +183,54 @@ gint64 osinfo_resources_get_ram(OsinfoResources *resources)
 gint64 osinfo_resources_get_storage(OsinfoResources *resources)
 {
     return get_param_as_int64(resources, OSINFO_RESOURCES_PROP_STORAGE);
+}
+
+/**
+ * osinfo_resources_set_n_cpus:
+ * @resources: a #OsinfoResources instance
+ * @n_cpus: the number of CPUs
+ *
+ * Sets the number of CPUs.
+ */
+void osinfo_resources_set_n_cpus(OsinfoResources *resources, gint n_cpus)
+{
+    set_param_from_int64 (resources, OSINFO_RESOURCES_PROP_N_CPUS, n_cpus);
+}
+
+/**
+ * osinfo_resources_set_cpu:
+ * @resources: a #OsinfoResources instance
+ * @cpu: the CPU frequency in hertz (Hz)
+ *
+ * Sets the CPU frequency.
+ */
+void osinfo_resources_set_cpu(OsinfoResources *resources, gint64 cpu)
+{
+    set_param_from_int64 (resources, OSINFO_RESOURCES_PROP_CPU, cpu);
+}
+
+/**
+ * osinfo_resources_set_ram:
+ * @resources: a #OsinfoResources instance
+ * @ram: the amount of ram in bytes
+ *
+ * Sets the amount of RAM in bytes.
+ */
+void osinfo_resources_set_ram(OsinfoResources *resources, gint64 ram)
+{
+    set_param_from_int64 (resources, OSINFO_RESOURCES_PROP_RAM, ram);
+}
+
+/**
+ * osinfo_resources_set_storage:
+ * @resources: a #OsinfoResources instance
+ * @storage: the amount of storage in bytes
+ *
+ * Sets the amount of storage space.
+ */
+void osinfo_resources_set_storage(OsinfoResources *resources, gint64 storage)
+{
+    set_param_from_int64 (resources, OSINFO_RESOURCES_PROP_STORAGE, storage);
 }
 
 /*

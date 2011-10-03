@@ -92,6 +92,11 @@ gint64 osinfo_resources_get_cpu(OsinfoResources *resources);
 gint64 osinfo_resources_get_ram(OsinfoResources *resources);
 gint64 osinfo_resources_get_storage(OsinfoResources *resources);
 
+void osinfo_resources_set_n_cpus(OsinfoResources *resources, gint n_cpus);
+void osinfo_resources_set_cpu(OsinfoResources *resources, gint64 cpu);
+void osinfo_resources_set_ram(OsinfoResources *resources, gint64 ram);
+void osinfo_resources_set_storage(OsinfoResources *resources, gint64 storage);
+
 #endif /* __OSINFO_RESOURCES_H__ */
 /*
  * Local variables:
