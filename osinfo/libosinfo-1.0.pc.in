@@ -7,5 +7,5 @@ Name: libosinfo
 Version: @VERSION@
 Description: libosinfo library
 Requires: gobject-2.0
-Libs: -L${libdir} -losinfo
-Cflags: -I${includedir}
+Libs: -L${libdir} -losinfo-1.0
+Cflags: -I${includedir}/libosinfo-1.0
