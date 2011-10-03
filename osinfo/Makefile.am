@@ -128,6 +128,20 @@ typelibs_DATA = Libosinfo-1.0.typelib
 		--includedir=$(girdir) \
 		-o $@ $<
 
-CLEANFILES = $(gir_DATA) $(typelibs_DATA) $(wildcard *.gcno)
+if WITH_VALA
+vapidir = $(datadir)/vala/vapi
+vapi_DATA = libosinfo-1.0.vapi
+
+libosinfo-1.0.vapi: Libosinfo-1.0.gir Libosinfo-1.0.typelib
+	$(AM_V_GEN)$(VAPIGEN) \
+		--vapidir=. \
+		--pkg gobject-2.0 \
+		--pkg gio-2.0 \
+		--library libosinfo-1.0 \
+		Libosinfo-1.0.gir
+
+endif # WITH_VALA
+
+CLEANFILES = $(gir_DATA) $(typelibs_DATA) $(vapi_DATA) $(wildcard *.gcno)
 
 endif # WITH_GOBJECT_INTROSPECTION

@@ -22,6 +22,8 @@ URL: https://fedorahosted.org/libosinfo/
 BuildRequires: glib2-devel
 BuildRequires: check-devel
 BuildRequires: libxml2-devel >= 2.6.0
+BuildRequires: vala
+BuildRequires: vala-tools
 %if %{with_gir}
 BuildRequires: gobject-introspection-devel
 %if 0%{?fedora} < 14
@@ -49,6 +51,18 @@ combination.
 
 Libraries, includes, etc. to compile with the libosinfo library
 
+%package vala
+Summary: Vala bindings
+Group: Development/Libraries
+Requires: %{name}-devel = %{version}-%{release}
+
+%description vala
+libosinfo is a library that allows virtualization provisioning tools to
+determine the optimal device settings for a hypervisor/operating system
+combination.
+
+This package provides the Vala bindings for libosinfo library.
+
 %prep
 %setup -q
 
@@ -59,7 +73,7 @@ Libraries, includes, etc. to compile with the libosinfo library
 %define gir_arg --enable-introspection=no
 %endif
 
-%configure %{gir_arg} --enable-udev=yes
+%configure %{gir_arg} --enable-vala=yes --enable-udev=yes
 %__make %{?_smp_mflags} V=1
 
 chmod a-x examples/*.js examples/*.py
@@ -113,6 +127,10 @@ rm -fr %{buildroot}
 %{_datadir}/gir-1.0/Libosinfo-1.0.gir
 %endif
 %{_datadir}/gtk-doc/html/Libosinfo
+
+%files vala
+%defattr(-, root, root)
+%{_datadir}/vala/vapi/libosinfo-1.0.vapi
 
 %changelog
 * Wed Aug 25 2010 Daniel P. Berrange <berrange@redhat.com> - 0.2.0-1

@@ -93,6 +93,24 @@ if test "x$enable_introspection" != "xno" ; then
 fi
 AM_CONDITIONAL([WITH_GOBJECT_INTROSPECTION], [test "x$enable_introspection" = "xyes"])
 
+AC_ARG_ENABLE([vala],
+              AS_HELP_STRING([--enable-vala], [enable Vala binding generation]),
+              [], [enable_vala=check])
+if test "x$enable_introspection" = "xyes" ; then
+        if test "x$enable_vala" != "xno" ; then
+                AC_PATH_PROG(VAPIGEN, vapigen, no)
+                if test "x$VAPIGEN" != "xno"; then
+                        if test "x$enable_vala" == "xcheck" ; then
+                                enable_vala=yes
+                                AC_SUBST(VAPIGEN)
+                        fi
+                else
+                        AC_MSG_ERROR([Cannot find the "vapigen" binary in your PATH])
+                fi
+        fi
+fi
+AM_CONDITIONAL([WITH_VALA], [test "x$enable_vala" = "xyes"])
+
 AC_ARG_ENABLE([udev],
         AS_HELP_STRING([--enable-udev], [enable Udev support]),
         [], [enable_udev=no])
