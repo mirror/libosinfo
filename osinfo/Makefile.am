@@ -100,7 +100,10 @@ Libosinfo-1.0.gir: libosinfo-1.0.la $(G_IR_SCANNER) Makefile.am
 		--nsversion 1.0 \
 		--include GObject-2.0 \
 		--include Gio-2.0 \
-		--strip-prefix=Osinfo \
+		--c-include="osinfo/osinfo.h" \
+		--pkg-export=libosinfo-1.0 \
+		--identifier-prefix=Osinfo \
+		--symbol-prefix=osinfo \
 		--library=$(builddir)/libosinfo-1.0.la \
 		--output $@ \
 		-I$(top_srcdir) \
