@@ -178,7 +178,7 @@ static void on_media_create_from_location_ready (GObject *source_object,
 /**
  * osinfo_media_create_from_location:
  * @location: the location of an installation media
- * @cancellable (allow-none): a #GCancellable, or %NULL
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
  * @error: The location where to store any error, or %NULL
  *
  * Creates a new #OsinfoMedia for installation media at @location. The @location
@@ -405,7 +405,7 @@ static void on_location_read(GObject *source,
  * osinfo_media_create_from_location_async:
  * @location: the location of an installation media
  * @priority: the I/O priority of the request
- * @cancellable (allow-none): a #GCancellable, or %NULL
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
  * @callback: Function to call when result of this call is ready
  * @user_data: The user data to pass to @callback, or %NULL
  *
