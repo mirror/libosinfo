@@ -491,6 +491,8 @@ static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
     gchar *arch = (gchar *)xmlGetProp(root, BAD_CAST "arch");
     const gchar *const keys[] = {
         OSINFO_MEDIA_PROP_URL,
+        OSINFO_MEDIA_PROP_KERNEL,
+        OSINFO_MEDIA_PROP_INITRD,
         NULL
     };
 

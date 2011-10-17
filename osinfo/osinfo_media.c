@@ -545,6 +545,38 @@ const gchar *osinfo_media_get_publisher_id(OsinfoMedia *media)
                                          OSINFO_MEDIA_PROP_PUBLISHER_ID);
 }
 
+/**
+ * osinfo_media_get_kernel_path:
+ * @media: a #OsinfoMedia instance
+ *
+ * Retrieves the path to the kernel image in the install tree.
+ *
+ * Note: This only applies to installer medias of 'Linux' OS family.
+ *
+ * Returns: (transfer none): the path to kernel image, or NULL
+ */
+const gchar *osinfo_media_get_kernel_path(OsinfoMedia *media)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(media),
+                                         OSINFO_MEDIA_PROP_KERNEL);
+}
+
+/**
+ * osinfo_media_get_initrd_path:
+ * @media: a #OsinfoMedia instance
+ *
+ * Retrieves the path to the initrd image in the install tree.
+ *
+ * Note: This only applies to installer medias of 'Linux' OS family.
+ *
+ * Returns: (transfer none): the path to initrd image, or NULL
+ */
+const gchar *osinfo_media_get_initrd_path(OsinfoMedia *media)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(media),
+                                         OSINFO_MEDIA_PROP_INITRD);
+}
+
 /*
  * Local variables:
  *  indent-tabs-mode: nil

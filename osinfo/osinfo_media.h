@@ -75,6 +75,8 @@ typedef struct _OsinfoMediaPrivate OsinfoMediaPrivate;
 #define OSINFO_MEDIA_PROP_VOLUME_ID    "volume-id"
 #define OSINFO_MEDIA_PROP_SYSTEM_ID    "system-id"
 #define OSINFO_MEDIA_PROP_PUBLISHER_ID "publisher-id"
+#define OSINFO_MEDIA_PROP_KERNEL       "kernel"
+#define OSINFO_MEDIA_PROP_INITRD       "initrd"
 
 /* object */
 struct _OsinfoMedia
@@ -114,6 +116,8 @@ const gchar *osinfo_media_get_url(OsinfoMedia *media);
 const gchar *osinfo_media_get_volume_id(OsinfoMedia *media);
 const gchar *osinfo_media_get_system_id(OsinfoMedia *media);
 const gchar *osinfo_media_get_publisher_id(OsinfoMedia *media);
+const gchar *osinfo_media_get_kernel_path(OsinfoMedia *media);
+const gchar *osinfo_media_get_initrd_path(OsinfoMedia *media);
 
 #endif /* __OSINFO_MEDIA_H__ */
 /*
