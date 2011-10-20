@@ -63,6 +63,15 @@ struct _OsinfoProductProductLink {
     OsinfoProduct *otherProduct;
 };
 
+enum {
+    PROP_0,
+
+    PROP_NAME,
+    PROP_SHORT_ID,
+    PROP_VENDOR,
+    PROP_VERSION,
+};
+
 static void osinfo_product_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED)
 {
     struct _OsinfoProductProductLink *link = data;
@@ -83,14 +92,112 @@ osinfo_product_finalize (GObject *object)
     G_OBJECT_CLASS (osinfo_product_parent_class)->finalize (object);
 }
 
+static void
+osinfo_product_get_property (GObject    *object,
+                             guint       property_id,
+                             GValue     *value,
+                             GParamSpec *pspec)
+{
+    OsinfoProduct *product = OSINFO_PRODUCT (object);
+
+    switch (property_id) {
+    case PROP_NAME:
+        g_value_set_string (value,
+                            osinfo_product_get_name (product));
+        break;
+
+    case PROP_SHORT_ID:
+        g_value_set_string (value,
+                            osinfo_product_get_short_id (product));
+        break;
+
+    case PROP_VENDOR:
+        g_value_set_string (value,
+                            osinfo_product_get_vendor (product));
+        break;
+
+    case PROP_VERSION:
+        g_value_set_string (value,
+                            osinfo_product_get_version (product));
+        break;
+
+    default:
+        /* We don't have any other property... */
+        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+        break;
+    }
+}
+
 /* Init functions */
 static void
 osinfo_product_class_init (OsinfoProductClass *klass)
 {
     GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GParamSpec *pspec;
 
+    g_klass->get_property = osinfo_product_get_property;
     g_klass->finalize = osinfo_product_finalize;
     g_type_class_add_private (klass, sizeof (OsinfoProductPrivate));
+
+    /**
+     * OsinfoProduct::name:
+     *
+     * The name of this product.
+     */
+    pspec = g_param_spec_string ("name",
+                                 "Name",
+                                 "Name",
+                                 NULL /* default value */,
+                                 G_PARAM_READABLE |
+                                 G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK |
+                                 G_PARAM_STATIC_BLURB);
+    g_object_class_install_property (g_klass, PROP_NAME, pspec);
+
+    /**
+     * OsinfoProduct::short-id:
+     *
+     * The short ID of this product.
+     */
+    pspec = g_param_spec_string ("short-id",
+                                 "ShortID",
+                                 "Short ID",
+                                 NULL /* default value */,
+                                 G_PARAM_READABLE |
+                                 G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK |
+                                 G_PARAM_STATIC_BLURB);
+    g_object_class_install_property (g_klass, PROP_SHORT_ID, pspec);
+
+    /**
+     * OsinfoProduct::vendor:
+     *
+     * The Vendor of this product.
+     */
+    pspec = g_param_spec_string ("vendor",
+                                 "Vendor",
+                                 "Vendor",
+                                 NULL /* default value */,
+                                 G_PARAM_READABLE |
+                                 G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK |
+                                 G_PARAM_STATIC_BLURB);
+    g_object_class_install_property (g_klass, PROP_VENDOR, pspec);
+
+    /**
+     * OsinfoProduct::version:
+     *
+     * The version of the product.
+     */
+    pspec = g_param_spec_string ("version",
+                                 "Version",
+                                 "Version",
+                                 NULL /* default value */,
+                                 G_PARAM_READABLE |
+                                 G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK |
+                                 G_PARAM_STATIC_BLURB);
+    g_object_class_install_property (g_klass, PROP_VERSION, pspec);
 }
 
 static void
