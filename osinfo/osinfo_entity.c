@@ -51,10 +51,10 @@ struct _OsinfoEntityPrivate
 
 static void osinfo_entity_finalize (GObject *object);
 
-enum OSI_ENTITY_PROPERTIES {
-    OSI_ENTITY_PROP_0,
+enum {
+    PROP_0,
 
-    OSI_ENTITY_ID,
+    PROP_ID,
 };
 
 static void
@@ -67,7 +67,7 @@ osinfo_entity_set_property (GObject      *object,
 
     switch (property_id)
         {
-        case OSI_ENTITY_ID:
+        case PROP_ID:
             g_free(entity->priv->id);
             entity->priv->id = g_value_dup_string (value);
             break;
@@ -88,7 +88,7 @@ osinfo_entity_get_property (GObject    *object,
 
     switch (property_id)
         {
-        case OSI_ENTITY_ID:
+        case PROP_ID:
             g_value_set_string (value, entity->priv->id);
             break;
         default:
@@ -138,7 +138,7 @@ osinfo_entity_class_init (OsinfoEntityClass *klass)
                                  G_PARAM_STATIC_NICK |
                                  G_PARAM_STATIC_BLURB);
     g_object_class_install_property (g_klass,
-                                     OSI_ENTITY_ID,
+                                     PROP_ID,
                                      pspec);
 
     g_klass->finalize = osinfo_entity_finalize;

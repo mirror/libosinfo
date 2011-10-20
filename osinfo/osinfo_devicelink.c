@@ -43,7 +43,7 @@ struct _OsinfoDeviceLinkPrivate
     OsinfoDevice *target;
 };
 
-enum OSI_ENTITY_PROPERTIES {
+enum {
     PROP_0,
 
     PROP_TARGET

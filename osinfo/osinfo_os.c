@@ -55,10 +55,10 @@ struct _OsinfoOsDeviceLink {
     gchar *driver;
 };
 
-enum OSI_OS_PROPERTIES {
-    OSI_OS_PROP_0,
+enum {
+    PROP_0,
 
-    OSI_OS_FAMILY,
+    PROP_FAMILY,
 };
 
 static void osinfo_os_finalize (GObject *object);
@@ -78,7 +78,7 @@ osinfo_os_get_property (GObject    *object,
 
     switch (property_id)
         {
-        case OSI_OS_FAMILY:
+        case PROP_FAMILY:
             g_value_set_string (value,
                                 osinfo_entity_get_param_value (entity,
                                                                "family"));
@@ -129,7 +129,7 @@ osinfo_os_class_init (OsinfoOsClass *klass)
                                  G_PARAM_STATIC_NICK |
                                  G_PARAM_STATIC_BLURB);
     g_object_class_install_property (g_klass,
-                                     OSI_OS_FAMILY,
+                                     PROP_FAMILY,
                                      pspec);
 }
 
