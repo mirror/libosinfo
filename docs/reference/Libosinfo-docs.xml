@@ -34,6 +34,10 @@
     <xi:include href="xml/osinfo_productlist.xml"/>
     <xi:include href="xml/osinfo_platform.xml"/>
     <xi:include href="xml/osinfo_platformlist.xml"/>
+    <xi:include href="xml/osinfo_media.xml"/>
+    <xi:include href="xml/osinfo_medialist.xml"/>
+    <xi:include href="xml/osinfo_resources.xml"/>
+    <xi:include href="xml/osinfo_resourceslist.xml"/>
   </chapter>
   <chapter id="object-tree">
     <title>Object Hierarchy</title>
