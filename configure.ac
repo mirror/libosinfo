@@ -25,7 +25,7 @@ AC_ARG_ENABLE([tests],
         AS_HELP_STRING([--enable-tests], [enable test suite]),
         [], [enable_tests=yes])
 
-if test "x$enable_introspection" != "xno" ; then
+if test "x$enable_tests" != "xno" ; then
   PKG_CHECK_MODULES([CHECK], [check])
 fi
 
