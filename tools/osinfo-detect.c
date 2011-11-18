@@ -23,6 +23,7 @@
  */
 
 #include <osinfo/osinfo.h>
+#include <string.h>
 
 #define FORMAT_STR_PLAIN "plain"
 #define FORMAT_STR_ENV "env"
