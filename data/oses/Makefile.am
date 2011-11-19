@@ -4,6 +4,7 @@ database_DATA =     \
   fedora.xml        \
   rhel.xml          \
   centos.xml        \
+  opensuse.xml      \
   suse.xml          \
   mandriva.xml      \
   debian.xml        \
