@@ -1,3 +1,25 @@
+0.0.2 - Nov 22, 2011
+====================
+
+Changes since 0.0.1:
+
+- Improve media detection for Fedora, RHEL and Windows 7.
+- More complete documentation.
+- Fix configure script to not require 'check' when tests are disabled.
+- More automated documentation generation.
+- Add Fedora 16 metadata.
+- Recommend 9 GiB storage for Fedora 14-16.
+- Add openSUSE data.
+- Fix some copy&paste mistakes in OS database.
+- Add media information for 2011 Ubuntu releases and CentOS 6.0.
+- Improve README file.
+
+All contributors:
+
+Christophe Fergeau <cfergeau@redhat.com>
+Zeeshan Ali (Khattak) <zeeshanak@gnome.org>
+Daniel P. Berrange <berrange@redhat.com>
+
 0.0.1
 =====
 

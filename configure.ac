@@ -1,4 +1,4 @@
-AC_INIT([libosinfo], [0.0.1], [virt-tools-list@redhat.com])
+AC_INIT([libosinfo], [0.0.2], [virt-tools-list@redhat.com])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.11.1 foreign color-tests])
