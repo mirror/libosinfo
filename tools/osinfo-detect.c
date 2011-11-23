@@ -79,17 +79,26 @@ static void print_bootable(gboolean bootable)
             g_print("Media is not bootable.\n");
 }
 
-static void print_os(OsinfoOs *os)
+static void print_os(OsinfoOs *os, OsinfoMedia *media)
 {
     if (os == NULL)
         return;
 
-    if (format == OUTPUT_FORMAT_ENV)
-        g_print("OSINFO_INSTALLER=%s\n",
-                osinfo_entity_get_id(OSINFO_ENTITY(os)));
-    else
-        g_print("Media is an installer for OS '%s'\n",
-                osinfo_product_get_name(OSINFO_PRODUCT(os)));
+    if (format == OUTPUT_FORMAT_ENV) {
+        const gchar *id = osinfo_entity_get_id(OSINFO_ENTITY(os));
+
+        if (osinfo_media_get_installer (media))
+            g_print("OSINFO_INSTALLER=%s\n", id);
+        if (osinfo_media_get_live (media))
+            g_print("OSINFO_LIVE=%s\n", id);
+    } else {
+        const gchar *name = osinfo_product_get_name(OSINFO_PRODUCT(os));
+
+        if (osinfo_media_get_installer (media))
+            g_print("Media is an installer for OS '%s'\n", name);
+        if (osinfo_media_get_live (media))
+            g_print("Media is live media for OS '%s'\n", name);
+    }
 }
 
 gint main(gint argc, gchar **argv)
@@ -148,7 +157,7 @@ gint main(gint argc, gchar **argv)
     db = osinfo_loader_get_db(loader);
     os = osinfo_db_guess_os_from_media(db, media, &matched_media);
 
-    print_os(os);
+    print_os(os, matched_media);
 
 EXIT:
     g_clear_error(&error);

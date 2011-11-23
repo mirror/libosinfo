@@ -489,6 +489,8 @@ static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
     guint i;
 
     gchar *arch = (gchar *)xmlGetProp(root, BAD_CAST "arch");
+    xmlChar *live = xmlGetProp(root, BAD_CAST OSINFO_MEDIA_PROP_LIVE);
+    xmlChar *installer = xmlGetProp(root, BAD_CAST OSINFO_MEDIA_PROP_INSTALLER);
     const gchar *const keys[] = {
         OSINFO_MEDIA_PROP_URL,
         OSINFO_MEDIA_PROP_KERNEL,
@@ -499,6 +501,19 @@ static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
     OsinfoMedia *media = osinfo_media_new(id, arch);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(media), keys, ctxt, root, err);
+    if (live) {
+        osinfo_entity_set_param(OSINFO_ENTITY(media),
+                                OSINFO_MEDIA_PROP_LIVE,
+                                (gchar *)live);
+        xmlFree(live);
+    }
+
+    if (installer) {
+        osinfo_entity_set_param(OSINFO_ENTITY(media),
+                                OSINFO_MEDIA_PROP_INSTALLER,
+                                (gchar *)installer);
+        xmlFree(installer);
+    }
 
     gint nnodes = osinfo_loader_nodeset("./iso/*", ctxt, &nodes, err);
     if (*err)
