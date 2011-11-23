@@ -324,12 +324,16 @@ void osinfo_db_add_deployment(OsinfoDb *db, OsinfoDeployment *deployment)
  * osinfo_db_guess_os_from_media:
  * @db: the database
  * @media: the installation media
+ * @matched_media: (out) (transfer none) (allow-none): the matched operating
+ * system media
  *
  * Guess operating system given a #OsinfoMedia object.
  *
  * Returns: (transfer none): the operating system, or NULL if guessing failed
  */
-OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db, OsinfoMedia *media)
+OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
+                                        OsinfoMedia *media,
+                                        OsinfoMedia **matched_media)
 {
     OsinfoOs *ret = NULL;
     GList *oss = NULL;
@@ -362,6 +366,8 @@ OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db, OsinfoMedia *media)
                 (match_regex (os_system, media_system) ||
                  match_regex (os_publisher, media_publisher))) {
                 ret = os;
+                if (matched_media != NULL)
+                    *matched_media = os_media;
                 break;
             }
         }

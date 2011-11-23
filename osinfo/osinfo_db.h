@@ -93,7 +93,9 @@ void osinfo_db_add_platform(OsinfoDb *db, OsinfoPlatform *platform);
 void osinfo_db_add_device(OsinfoDb *db, OsinfoDevice *device);
 void osinfo_db_add_deployment(OsinfoDb *db, OsinfoDeployment *deployment);
 
-OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db, OsinfoMedia *media);
+OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
+                                        OsinfoMedia *media,
+                                        OsinfoMedia **matched_media);
 
 // Get me all unique values for property "vendor" among operating systems
 GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *db, const gchar *propName);

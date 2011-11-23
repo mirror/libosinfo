@@ -97,6 +97,7 @@ gint main(gint argc, gchar **argv)
     GOptionContext *context;
     GError *error = NULL;
     OsinfoMedia *media = NULL;
+    OsinfoMedia *matched_media = NULL;
     OsinfoLoader *loader = NULL;
     OsinfoDb *db = NULL;
     OsinfoOs *os = NULL;
@@ -145,7 +146,7 @@ gint main(gint argc, gchar **argv)
     }
 
     db = osinfo_loader_get_db(loader);
-    os = osinfo_db_guess_os_from_media(db, media);
+    os = osinfo_db_guess_os_from_media(db, media, &matched_media);
 
     print_os(os);
 
