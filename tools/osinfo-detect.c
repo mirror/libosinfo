@@ -91,6 +91,8 @@ static void print_os(OsinfoOs *os, OsinfoMedia *media)
             g_print("OSINFO_INSTALLER=%s\n", id);
         if (osinfo_media_get_live (media))
             g_print("OSINFO_LIVE=%s\n", id);
+        g_print("OSINFO_MEDIA=%s\n",
+                osinfo_entity_get_id(OSINFO_ENTITY(media)));
     } else {
         const gchar *name = osinfo_product_get_name(OSINFO_PRODUCT(os));
 
