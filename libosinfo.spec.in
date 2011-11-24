@@ -6,7 +6,7 @@
 
 %define with_gir 0
 
-%if 0%{fedora} >= 12
+%if 0%{fedora} >= 15
 %define with_gir 1
 %endif
 
@@ -16,7 +16,7 @@ Version: @VERSION@
 Release: 1%{?dist}%{?extra_release}
 License: LGPLv2+
 Group: Development/Libraries
-Source: %{name}-%{version}.tar.gz
+Source: https://fedorahosted.org/releases/l/i/%{name}/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 URL: https://fedorahosted.org/libosinfo/
 BuildRequires: glib2-devel
@@ -26,9 +26,6 @@ BuildRequires: vala
 BuildRequires: vala-tools
 %if %{with_gir}
 BuildRequires: gobject-introspection-devel
-%if 0%{?fedora} < 14
-BuildRequires: gir-repository-devel
-%endif
 %endif
 Requires: udev
 
@@ -54,7 +51,7 @@ Libraries, includes, etc. to compile with the libosinfo library
 %package vala
 Summary: Vala bindings
 Group: Development/Libraries
-Requires: %{name}-devel = %{version}-%{release}
+Requires: %{name} = %{version}-%{release}
 
 %description vala
 libosinfo is a library that allows virtualization provisioning tools to
@@ -83,7 +80,6 @@ rm -fr %{buildroot}
 %__make install DESTDIR=%{buildroot}
 rm -f %{buildroot}%{_libdir}/*.a
 rm -f %{buildroot}%{_libdir}/*.la
-#find_lang %{name}
 
 %check
 make check
@@ -133,5 +129,3 @@ rm -fr %{buildroot}
 %{_datadir}/vala/vapi/libosinfo-1.0.vapi
 
 %changelog
-* Wed Aug 25 2010 Daniel P. Berrange <berrange@redhat.com> - 0.2.0-1
-- Initial package
