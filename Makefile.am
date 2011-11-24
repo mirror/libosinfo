@@ -3,6 +3,7 @@ SUBDIRS = osinfo test data tools docs examples scripts
 
 EXTRA_DIST = \
   COPYING.LIB \
+  libosinfo.spec \
   libosinfo.spec.in \
   mingw32-libosinfo.spec.in
 
