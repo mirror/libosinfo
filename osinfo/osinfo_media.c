@@ -325,7 +325,6 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                  "CPU Architecture",
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_CONSTRUCT_ONLY |
                                  G_PARAM_STATIC_NAME |
                                  G_PARAM_STATIC_NICK |
                                  G_PARAM_STATIC_BLURB);
@@ -341,7 +340,6 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                  "The URL to this media",
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_CONSTRUCT_ONLY |
                                  G_PARAM_STATIC_NAME |
                                  G_PARAM_STATIC_NICK |
                                  G_PARAM_STATIC_BLURB);
@@ -357,7 +355,6 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                  "Expected ISO9660 volume ID",
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_CONSTRUCT_ONLY |
                                  G_PARAM_STATIC_NAME |
                                  G_PARAM_STATIC_NICK |
                                  G_PARAM_STATIC_BLURB);
@@ -373,7 +370,6 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                  "Expected ISO9660 publisher ID",
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_CONSTRUCT_ONLY |
                                  G_PARAM_STATIC_NAME |
                                  G_PARAM_STATIC_NICK |
                                  G_PARAM_STATIC_BLURB);
@@ -389,7 +385,6 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                  "Expected ISO9660 system ID",
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_CONSTRUCT_ONLY |
                                  G_PARAM_STATIC_NAME |
                                  G_PARAM_STATIC_NICK |
                                  G_PARAM_STATIC_BLURB);
@@ -405,7 +400,6 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                  "The path to the kernel image",
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_CONSTRUCT_ONLY |
                                  G_PARAM_STATIC_NAME |
                                  G_PARAM_STATIC_NICK |
                                  G_PARAM_STATIC_BLURB);
@@ -421,7 +415,6 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                  "The path to the inirtd image",
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_CONSTRUCT_ONLY |
                                  G_PARAM_STATIC_NAME |
                                  G_PARAM_STATIC_NICK |
                                  G_PARAM_STATIC_BLURB);
@@ -437,7 +430,6 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                   "Media provides a installer",
                                   TRUE /* default value */,
                                   G_PARAM_READWRITE |
-                                  G_PARAM_CONSTRUCT_ONLY |
                                   G_PARAM_STATIC_NAME |
                                   G_PARAM_STATIC_NICK |
                                   G_PARAM_STATIC_BLURB);
@@ -453,7 +445,6 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                   "Media can boot directly w/o installation",
                                   FALSE /* default value */,
                                   G_PARAM_READWRITE |
-                                  G_PARAM_CONSTRUCT_ONLY |
                                   G_PARAM_STATIC_NAME |
                                   G_PARAM_STATIC_NICK |
                                   G_PARAM_STATIC_BLURB);
