@@ -30,8 +30,9 @@ G_DEFINE_TYPE (OsinfoDb, osinfo_db, G_TYPE_OBJECT);
 
 #define OSINFO_DB_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_DB, OsinfoDbPrivate))
 
-#define match_regex(pattern, str) ((pattern) && (str) && \
-                                   g_regex_match_simple((pattern), (str), 0, 0))
+#define match_regex(pattern, str) (((pattern) == NULL && (str) == NULL) || \
+                                   ((pattern) != NULL && (str) != NULL && \
+                                    g_regex_match_simple((pattern), (str), 0, 0)))
 
 /**
  * SECTION:osinfo_db
