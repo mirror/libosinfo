@@ -286,6 +286,22 @@ osinfo_media_finalize (GObject *object)
     G_OBJECT_CLASS (osinfo_media_parent_class)->finalize (object);
 }
 
+static void
+osinfo_media_constructed (GObject *object)
+{
+    OsinfoMedia *media;
+    GObjectClass *object_class;
+
+    media = OSINFO_MEDIA (object);
+
+    set_param_from_boolean (media, OSINFO_MEDIA_PROP_INSTALLER, TRUE);
+
+    /* Call super */
+    object_class = G_OBJECT_CLASS (osinfo_media_parent_class);
+    if (object_class->constructed != NULL)
+        object_class->constructed (object);
+}
+
 /* Init functions */
 static void
 osinfo_media_class_init (OsinfoMediaClass *klass)
@@ -293,6 +309,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     GObjectClass *g_klass = G_OBJECT_CLASS (klass);
     GParamSpec *pspec;
 
+    g_klass->constructed = osinfo_media_constructed;
     g_klass->finalize = osinfo_media_finalize;
     g_klass->get_property = osinfo_media_get_property;
     g_klass->set_property = osinfo_media_set_property;
