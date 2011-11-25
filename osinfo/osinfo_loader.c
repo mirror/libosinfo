@@ -51,8 +51,6 @@ struct _OsinfoLoaderPrivate
     OsinfoDb *db;
 };
 
-static void osinfo_loader_finalize (GObject *object);
-
 static void
 osinfo_loader_finalize (GObject *object)
 {
