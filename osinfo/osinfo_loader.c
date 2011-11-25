@@ -99,6 +99,11 @@ OsinfoLoader *osinfo_loader_new(void)
 #define OSINFO_ERROR(err, msg)                                          \
     g_set_error_literal((err), g_quark_from_static_string("libosinfo"), 0, (msg));
 
+static gboolean error_is_set(GError **error)
+{
+    return ((error != NULL) && (*error != NULL));
+}
+
 static int
 osinfo_loader_nodeset(const char *xpath,
                       xmlXPathContextPtr ctxt,
@@ -179,7 +184,7 @@ static void osinfo_loader_entity(OsinfoLoader *loader,
         gchar *xpath = g_strdup_printf("string(./%s)", keys[i]);
         gchar *value = osinfo_loader_string(xpath, ctxt, err);
         g_free(xpath);
-        if (*err)
+        if (error_is_set(err))
             return;
 
         if (value) {
@@ -191,7 +196,7 @@ static void osinfo_loader_entity(OsinfoLoader *loader,
     /* Then any site specific custom keys. x-... Can be repeated */
     xmlNodePtr *custom = NULL;
     int ncustom = osinfo_loader_nodeset("./*[substring(name(),1,2)='x-']", ctxt, &custom, err);
-    if (*err)
+    if (error_is_set(err))
         return;
 
     for (i = 0 ; i < ncustom ; i++) {
@@ -283,7 +288,7 @@ static void osinfo_loader_device_link(OsinfoLoader *loader,
     xmlNodePtr *related = NULL;
     int nrelated = osinfo_loader_nodeset(xpath, ctxt, &related, err);
     int i;
-    if (*err)
+    if (error_is_set(err))
         return;
 
     for (i = 0 ; i < nrelated ; i++) {
@@ -312,7 +317,7 @@ static void osinfo_loader_device_link(OsinfoLoader *loader,
         ctxt->node = related[i];
         osinfo_loader_entity(loader, OSINFO_ENTITY(link), keys, ctxt, root, err);
         ctxt->node = saved;
-        if (*err)
+        if (error_is_set(err))
             goto cleanup;
     }
 
@@ -331,7 +336,7 @@ static void osinfo_loader_product_relshp(OsinfoLoader *loader,
     xmlNodePtr *related = NULL;
     int nrelated = osinfo_loader_nodeset(xpath, ctxt, &related, err);
     int i;
-    if (*err)
+    if (error_is_set(err))
         return;
 
     for (i = 0 ; i < nrelated ; i++) {
@@ -369,7 +374,7 @@ static void osinfo_loader_product(OsinfoLoader *loader,
     };
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(product), keys, ctxt, root, err);
-    if (*err)
+    if (error_is_set(err))
         return;
 
 
@@ -379,7 +384,7 @@ static void osinfo_loader_product(OsinfoLoader *loader,
                                  ctxt,
                                  root,
                                  err);
-    if (*err)
+    if (error_is_set(err))
         return;
 
     osinfo_loader_product_relshp(loader, product,
@@ -388,7 +393,7 @@ static void osinfo_loader_product(OsinfoLoader *loader,
                                  ctxt,
                                  root,
                                  err);
-    if (*err)
+    if (error_is_set(err))
         return;
 
     osinfo_loader_product_relshp(loader, product,
@@ -417,16 +422,16 @@ static void osinfo_loader_platform(OsinfoLoader *loader,
     g_free(id);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(platform), keys, ctxt, root, err);
-    if (*err)
+    if (error_is_set(err))
         return;
 
     osinfo_loader_product(loader, OSINFO_PRODUCT(platform), ctxt, root, err);
-    if (*err)
+    if (error_is_set(err))
         return;
 
     osinfo_loader_device_link(loader, OSINFO_ENTITY(platform),
                               "./devices/device", ctxt, root, err);
-    if (*err)
+    if (error_is_set(err))
         return;
 }
 
@@ -466,12 +471,12 @@ static void osinfo_loader_deployment(OsinfoLoader *loader,
     g_free(id);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(deployment), keys, ctxt, root, err);
-    if (*err)
+    if (error_is_set(err))
         return;
 
     osinfo_loader_device_link(loader, OSINFO_ENTITY(deployment),
                               "./devices/device", ctxt, root, err);
-    if (*err)
+    if (error_is_set(err))
         return;
 
     osinfo_db_add_deployment(loader->priv->db, deployment);
@@ -514,7 +519,7 @@ static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
     }
 
     gint nnodes = osinfo_loader_nodeset("./iso/*", ctxt, &nodes, err);
-    if (*err)
+    if (error_is_set(err))
         return NULL;
 
     for (i = 0 ; i < nnodes ; i++) {
@@ -553,7 +558,7 @@ static OsinfoResources *osinfo_loader_resources(OsinfoLoader *loader,
     gchar *node_path = g_strjoin("/", ".", name, "*", NULL);
     gint nnodes = osinfo_loader_nodeset(node_path, ctxt, &nodes, err);
     g_free(node_path);
-    if (*err || nnodes < 1)
+    if (error_is_set(err) || nnodes < 1)
         goto EXIT;
 
     resources = osinfo_resources_new(id, arch);
@@ -592,7 +597,7 @@ static void osinfo_loader_resources_list(OsinfoLoader *loader,
     OsinfoResources *resources;
 
     resources = osinfo_loader_resources(loader, ctxt, root, id, "minimum", err);
-    if (*err)
+    if (error_is_set(err))
         goto EXIT;
 
     if (resources != NULL)
@@ -600,7 +605,7 @@ static void osinfo_loader_resources_list(OsinfoLoader *loader,
 
     g_clear_object(&resources);
     resources = osinfo_loader_resources(loader, ctxt, root, id, "recommended", err);
-    if (*err)
+    if (error_is_set(err))
         goto EXIT;
 
     if (resources != NULL)
@@ -631,20 +636,20 @@ static void osinfo_loader_os(OsinfoLoader *loader,
     OsinfoOs *os = osinfo_loader_get_os(loader, id);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(os), keys, ctxt, root, err);
-    if (*err)
+    if (error_is_set(err))
         goto cleanup;
 
     osinfo_loader_product(loader, OSINFO_PRODUCT(os), ctxt, root, err);
-    if (*err)
+    if (error_is_set(err))
         goto cleanup;
 
     osinfo_loader_device_link(loader, OSINFO_ENTITY(os),
                               "./devices/device", ctxt, root, err);
-    if (*err)
+    if (error_is_set(err))
         goto cleanup;
 
     int nnodes = osinfo_loader_nodeset("./media", ctxt, &nodes, err);
-    if (*err)
+    if (error_is_set(err))
         goto cleanup;
 
     for (i = 0 ; i < nnodes ; i++) {
@@ -654,7 +659,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
         OsinfoMedia *media = osinfo_loader_media(loader, ctxt, nodes[i], media_id, err);
         g_free (media_id);
         ctxt->node = saved;
-        if (*err)
+        if (error_is_set(err))
             break;
 
         osinfo_os_add_media (os, media);
@@ -663,7 +668,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
     g_free(nodes);
 
     nnodes = osinfo_loader_nodeset("./resources", ctxt, &nodes, err);
-    if (*err)
+    if (error_is_set(err))
         goto cleanup;
 
     for (i = 0 ; i < nnodes ; i++) {
@@ -718,7 +723,7 @@ static void osinfo_loader_root(OsinfoLoader *loader,
     }
 
     int ndevice = osinfo_loader_nodeset("./device", ctxt, &devices, err);
-    if (*err)
+    if (error_is_set(err))
         goto cleanup;
 
     int i;
@@ -727,12 +732,12 @@ static void osinfo_loader_root(OsinfoLoader *loader,
         ctxt->node = devices[i];
         osinfo_loader_device(loader, ctxt, devices[i], err);
         ctxt->node = saved;
-        if (*err)
+        if (error_is_set(err))
             goto cleanup;
     }
 
     int nplatform = osinfo_loader_nodeset("./platform", ctxt, &platforms, err);
-    if (*err)
+    if (error_is_set(err))
         goto cleanup;
 
     for (i = 0 ; i < nplatform ; i++) {
@@ -740,12 +745,12 @@ static void osinfo_loader_root(OsinfoLoader *loader,
         ctxt->node = platforms[i];
         osinfo_loader_platform(loader, ctxt, platforms[i], err);
         ctxt->node = saved;
-        if (*err)
+        if (error_is_set(err))
             goto cleanup;
     }
 
     int nos = osinfo_loader_nodeset("./os", ctxt, &oss, err);
-    if (*err)
+    if (error_is_set(err))
         goto cleanup;
 
     for (i = 0 ; i < nos ; i++) {
@@ -753,12 +758,12 @@ static void osinfo_loader_root(OsinfoLoader *loader,
         ctxt->node = oss[i];
         osinfo_loader_os(loader, ctxt, oss[i], err);
         ctxt->node = saved;
-        if (*err)
+        if (error_is_set(err))
             goto cleanup;
     }
 
     int ndeployment = osinfo_loader_nodeset("./deployment", ctxt, &deployments, err);
-    if (*err)
+    if (error_is_set(err))
         goto cleanup;
 
     for (i = 0 ; i < ndeployment ; i++) {
@@ -766,7 +771,7 @@ static void osinfo_loader_root(OsinfoLoader *loader,
         ctxt->node = deployments[i];
         osinfo_loader_deployment(loader, ctxt, deployments[i], err);
         ctxt->node = saved;
-        if (*err)
+        if (error_is_set(err))
             goto cleanup;
     }
 
@@ -785,7 +790,7 @@ catchXMLError(void *ctx, const char *msg ATTRIBUTE_UNUSED, ...)
 
     if (ctxt && ctxt->_private) {
         GError **err = ctxt->_private;
-        if (*err == NULL) {
+        if (!error_is_set(err)) {
             gchar *xmlmsg = g_strdup_printf("at line %d: %s",
                                             ctxt->lastError.line,
                                             ctxt->lastError.message);
@@ -858,7 +863,7 @@ osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
                                    GError **err)
 {
     GFileInputStream *is = g_file_read(file, NULL, err);
-    if (*err)
+    if (error_is_set(err))
         return;
 
     GDataInputStream *dis = g_data_input_stream_new(G_INPUT_STREAM(is));
@@ -963,7 +968,7 @@ osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
 
     done:
         g_free(data);
-        if (*err)
+        if (error_is_set(err))
             break;
     }
 
@@ -1017,7 +1022,7 @@ osinfo_loader_process_file_reg_xml(OsinfoLoader *loader,
     gchar *xml = NULL;
     gsize xmlLen;
     g_file_load_contents(file, NULL, &xml, &xmlLen, NULL, err);
-    if (*err)
+    if (error_is_set(err))
         return;
 
     gchar *uri = g_file_get_uri(file);
@@ -1040,7 +1045,7 @@ osinfo_loader_process_file_dir(OsinfoLoader *loader,
                                                       G_FILE_QUERY_INFO_NONE,
                                                       NULL,
                                                       err);
-    if (*err)
+    if (error_is_set(err))
         return;
 
     GFileInfo *child;
@@ -1053,7 +1058,7 @@ osinfo_loader_process_file_dir(OsinfoLoader *loader,
         g_object_unref(ent);
         g_object_unref(child);
 
-        if (*err)
+        if (error_is_set(err))
             break;
     }
 
@@ -1073,7 +1078,7 @@ osinfo_loader_process_file(OsinfoLoader *loader,
                                         err);
     const char *name;
 
-    if (*err)
+    if (error_is_set(err))
         return;
 
     name = g_file_info_get_name(info);
