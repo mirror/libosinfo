@@ -823,6 +823,12 @@ static void osinfo_loader_process_xml(OsinfoLoader *loader,
     if (!xml)
         goto cleanup;
 
+    /* catchXMLError may be called for non-fatal errors. If that happens,
+     * xml will be non-NULL but err may be set. This will cause warnings if
+     * we try to set err later on, so clear it first.
+     */
+    g_clear_error(err);
+
     root = xmlDocGetRootElement(xml);
 
     if (!root) {
