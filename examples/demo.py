@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-import gobject
 from gi.repository import Libosinfo as osinfo;
 
 loader = osinfo.Loader()
