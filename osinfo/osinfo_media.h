@@ -38,7 +38,7 @@ osinfo_media_error_quark (void) G_GNUC_CONST;
 /**
  * OsinfoMediaError:
  * @OSINFO_MEDIA_ERROR_NO_DESCRIPTORS: No descriptors.
- * @OSINFO_MEDIA_ERROR_INSUFFIENT_METADATA: Not enough metadata.
+ * @OSINFO_MEDIA_ERROR_INSUFFICIENT_METADATA: Not enough metadata.
  * @OSINFO_MEDIA_ERROR_NOT_BOOTABLE: Install media not bootable.
  * @OSINFO_MEDIA_ERROR_NO_PVD: No Primary volume descriptor.
  * @OSINFO_MEDIA_ERROR_NO_SVD: No supplementary volume descriptor.
@@ -50,7 +50,7 @@ typedef enum {
     OSINFO_MEDIA_ERROR_NO_DESCRIPTORS,
     OSINFO_MEDIA_ERROR_NO_PVD,
     OSINFO_MEDIA_ERROR_NO_SVD,
-    OSINFO_MEDIA_ERROR_INSUFFIENT_METADATA,
+    OSINFO_MEDIA_ERROR_INSUFFICIENT_METADATA,
     OSINFO_MEDIA_ERROR_NOT_BOOTABLE
 } OsinfoMediaError;
 

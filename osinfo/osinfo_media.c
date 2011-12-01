@@ -629,7 +629,7 @@ static void on_pvd_read (GObject *source,
     if (is_str_empty(data->pvd.volume)) {
         g_set_error(&error,
                     OSINFO_MEDIA_ERROR,
-                    OSINFO_MEDIA_ERROR_INSUFFIENT_METADATA,
+                    OSINFO_MEDIA_ERROR_INSUFFICIENT_METADATA,
                     "Insufficient metadata on installation media");
 
         goto ON_ERROR;
