@@ -626,8 +626,7 @@ static void on_pvd_read (GObject *source,
     data->pvd.system[MAX_SYSTEM - 1] = 0;
     data->pvd.publisher[MAX_PUBLISHER - 1] = 0;
 
-    if (data->pvd.volume[0] &&
-        (data->pvd.system[0] == 0 && data->pvd.publisher[0] == 0)) {
+    if (is_str_empty(data->pvd.volume)) {
         g_set_error(&error,
                     OSINFO_MEDIA_ERROR,
                     OSINFO_MEDIA_ERROR_INSUFFIENT_METADATA,
