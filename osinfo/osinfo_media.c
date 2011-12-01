@@ -514,6 +514,9 @@ static gboolean is_str_empty(const gchar *str) {
     guint8 i;
     gboolean ret = TRUE;
 
+    if ((str == NULL) || (*str == 0))
+        return TRUE;
+
     for (i = 0; i < strlen (str); i++)
         if (!g_ascii_isspace (str[i])) {
            ret = FALSE;
@@ -571,15 +574,15 @@ static void on_svd_read (GObject *source,
                             OSINFO_MEDIA_PROP_URL,
                             uri);
     g_free(uri);
-    if (data->pvd.volume[0] != 0 && !is_str_empty (data->pvd.volume))
+    if (!is_str_empty (data->pvd.volume))
         osinfo_entity_set_param(OSINFO_ENTITY(ret),
                                 OSINFO_MEDIA_PROP_VOLUME_ID,
                                 data->pvd.volume);
-    if (data->pvd.system[0] != 0 && !is_str_empty (data->pvd.system))
+    if (!is_str_empty (data->pvd.system))
         osinfo_entity_set_param(OSINFO_ENTITY(ret),
                                 OSINFO_MEDIA_PROP_SYSTEM_ID,
                                 data->pvd.system);
-    if (data->pvd.publisher[0] != 0 && !is_str_empty (data->pvd.publisher))
+    if (!is_str_empty (data->pvd.publisher))
         osinfo_entity_set_param(OSINFO_ENTITY(ret),
                                 OSINFO_MEDIA_PROP_PUBLISHER_ID,
                                 data->pvd.publisher);
