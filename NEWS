@@ -1,3 +1,26 @@
+0.0.3 - Dec 16, 2011
+====================
+
+Changes since 0.0.2:
+
+- Add lots of more data on various different OSs out there. Now we also support
+  some Apple OSs.
+- On successful OS detection, inform the application which known media of the OS
+  the given media matched against. osinfo-detect tool and udev rule updated to
+  make us of this.
+- Support applications' right to not be interested in error details.
+- Minor fixes/improvements to OS detection logic.
+- API to indicate media is live and/or installer.
+- Don't match non-live Fedora ISOs against live ones.
+- Fixes to Python demo to make it work.
+- Fix some potential crashes.
+- Fixes to RPM spec file.
+- Distribute RPM spec file.
+- Complement some getters with corresponding gobject properties.
+- Few other random minor fixes.
+
+WARNING: This release (slightly) breaks API with the last one.
+
 0.0.2 - Nov 22, 2011
 ====================
 
