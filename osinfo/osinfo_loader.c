@@ -1070,7 +1070,6 @@ osinfo_loader_process_file(OsinfoLoader *loader,
                            GFile *file,
                            GError **err)
 {
-    size_t len;
     GFileInfo *info = g_file_query_info(file,
                                         "standard::*",
                                         G_FILE_QUERY_INFO_NONE,
@@ -1088,8 +1087,7 @@ osinfo_loader_process_file(OsinfoLoader *loader,
 
     switch (type) {
     case G_FILE_TYPE_REGULAR:
-        len = strlen(name);
-        if (strcmp(name + len - 4, ".xml") == 0)
+        if (g_str_has_suffix(name, ".xml"))
             osinfo_loader_process_file_reg_xml(loader, file, info, err);
         else if (strcmp(name, "usb.ids") == 0)
             osinfo_loader_process_file_reg_usb(loader, file, info, err);
