@@ -46,6 +46,13 @@ struct _PrimaryVolumeDescriptor {
     guint8 ignored3[1602];
 } __attribute__ ((packed));
 
+/* the PrimaryVolumeDescriptor struct must exactly 2048 bytes long
+ * since we expect the supplementary volume descriptor to be right
+ * after it. The magic declaration below ensures we get a compilatin
+ * error if its size is not correct
+ */
+char dummy[sizeof(struct _PrimaryVolumeDescriptor) == 2048 ? 1 : -1];
+
 typedef struct _SupplementaryVolumeDescriptor SupplementaryVolumeDescriptor;
 
 struct _SupplementaryVolumeDescriptor {
