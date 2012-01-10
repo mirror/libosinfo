@@ -192,7 +192,50 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoFilter *filter)
     return newList;
 }
 
+/**
+ * osinfo_os_get_all_devices:
+ * @os: an operating system
+ * @filter: (allow-none)(transfer none): an optional device property filter
+ *
+ * Get all devices matching a given filter but unlike osinfo_os_get_devices
+ * this function also retreives devices from all derived and cloned operating
+ * systems.
+ *
+ * Returns: (transfer full): A list of devices
+ */
+OsinfoDeviceList *osinfo_os_get_all_devices(OsinfoOs *os, OsinfoFilter *filter)
+{
+    OsinfoProductList *derived, *cloned, *related_list;
+    OsinfoDeviceList *devices;
+    guint i;
 
+    devices = osinfo_os_get_devices(os, filter);
+
+    derived = osinfo_product_get_related
+                (OSINFO_PRODUCT(os), OSINFO_PRODUCT_RELATIONSHIP_DERIVES_FROM);
+    cloned = osinfo_product_get_related(OSINFO_PRODUCT(os),
+                                        OSINFO_PRODUCT_RELATIONSHIP_CLONES);
+    related_list = osinfo_productlist_new_union(derived, cloned);
+    g_object_unref(derived);
+    g_object_unref(cloned);
+
+    for (i = 0; i < osinfo_list_get_length(OSINFO_LIST(related_list)); i++) {
+        OsinfoEntity *related;
+        OsinfoDeviceList *related_devices;
+
+        related = osinfo_list_get_nth(OSINFO_LIST(related_list), i);
+        related_devices = osinfo_os_get_all_devices(OSINFO_OS(related), filter);
+        if (osinfo_list_get_length(OSINFO_LIST(related_devices)) > 0) {
+            OsinfoDeviceList *tmp_list = devices;
+            devices = osinfo_devicelist_new_union(devices, related_devices);
+            g_object_unref(tmp_list);
+        }
+    }
+
+    g_object_unref (related_list);
+
+    return devices;
+}
 
 /**
  * osinfo_os_get_device_links:
