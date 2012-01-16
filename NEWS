@@ -1,3 +1,16 @@
+0.0.5 - Jan 16, 2012
+====================
+
+Changes since 0.0.4:
+
+- Add QXL to supported devices of windows and Fedora.
+- Distribute and install forgotten device XML files.
+- Add all metadata from default path, not just OS.
+- List supported audio devices for Windows and Fedora.
+- Specify 'derives-from' relationship for Fedora OSs.
+- Add API to retreive all supported devices for an OS.
+- Fix some potential issues related to memory allocation/alignment.
+
 0.0.4 - Dec 19, 2011
 ====================
 
