@@ -108,8 +108,6 @@ LIBOSINFO_0.0.1 {
 	osinfo_os_get_type;
 	osinfo_os_new;
 	osinfo_os_get_devices;
-	osinfo_os_get_all_devices;
-	osinfo_os_get_devices_by_property;
 	osinfo_os_get_device_links;
 	osinfo_os_add_device;
 	osinfo_os_get_family;
@@ -159,8 +157,6 @@ LIBOSINFO_0.0.1 {
 	osinfo_media_get_publisher_id;
         osinfo_media_get_kernel_path;
         osinfo_media_get_initrd_path;
-	osinfo_media_get_installer;
-	osinfo_media_get_live;
 	osinfo_medialist_get_type;
 	osinfo_medialist_new;
 	osinfo_medialist_new_copy;
@@ -188,6 +184,22 @@ LIBOSINFO_0.0.1 {
     local:
         *;
 };
+
+LIBOSINFO_0.0.3 {
+    global:
+	osinfo_media_get_installer;
+	osinfo_media_get_live;
+} LIBOSINFO_0.0.1;
+
+LIBOSINFO_0.0.5 {
+    global:
+	osinfo_os_get_all_devices;
+} LIBOSINFO_0.0.3;
+
+LIBOSINFO_0.0.6 {
+    global:
+	osinfo_os_get_devices_by_property;
+} LIBOSINFO_0.0.5;
 
 /* Symbols in next release...
 
