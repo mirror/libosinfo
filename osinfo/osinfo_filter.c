@@ -126,7 +126,9 @@ osinfo_filter_init (OsinfoFilter *filter)
  * @propName, with different values, the entity have
  * all property values.
  */
-void osinfo_filter_add_constraint(OsinfoFilter *filter, gchar *propName, gchar *propVal)
+void osinfo_filter_add_constraint(OsinfoFilter *filter,
+                                  const gchar *propName,
+                                  const gchar *propVal)
 {
     g_return_if_fail(OSINFO_IS_FILTER(filter));
     g_return_if_fail(propName != NULL);
@@ -157,7 +159,7 @@ void osinfo_filter_add_constraint(OsinfoFilter *filter, gchar *propName, gchar *
  * Remove all filter constraints for the matching property
  * name.
  */
-void osinfo_filter_clear_constraint(OsinfoFilter *filter, gchar *propName)
+void osinfo_filter_clear_constraint(OsinfoFilter *filter, const gchar *propName)
 {
     g_hash_table_remove(filter->priv->propertyConstraints, propName);
 }
@@ -198,7 +200,7 @@ GList *osinfo_filter_get_constraint_keys(OsinfoFilter *filter)
  *
  * Returns: (transfer container)(element-type utf8): List of constraint values
  */
-GList *osinfo_filter_get_constraint_values(OsinfoFilter *filter, gchar *propName)
+GList *osinfo_filter_get_constraint_values(OsinfoFilter *filter, const gchar *propName)
 {
     g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
     g_return_val_if_fail(propName != NULL, NULL);
