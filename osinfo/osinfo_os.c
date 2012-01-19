@@ -238,6 +238,39 @@ OsinfoDeviceList *osinfo_os_get_all_devices(OsinfoOs *os, OsinfoFilter *filter)
 }
 
 /**
+ * osinfo_os_get_devices_by_property:
+ * @os: an operating system
+ * @property: the property of interest
+ * @value: the required value of property @property
+ * @inherited: Should devices from inherited and cloned OSs be included in the
+ * search.
+ *
+ * A utility function that gets devices found from the list of devices
+ * @os supports, for which the value of @property is @value.
+ *
+ * Returns: (transfer full): The found devices
+ */
+OsinfoDeviceList *osinfo_os_get_devices_by_property(OsinfoOs *os,
+                                                    const gchar *property,
+                                                    const gchar *value,
+                                                    gboolean inherited)
+{
+    OsinfoDeviceList *devices;
+    OsinfoFilter *filter;
+
+    filter = osinfo_filter_new();
+    osinfo_filter_add_constraint(filter, property, value);
+
+    if (inherited)
+        devices = osinfo_os_get_all_devices(os, filter);
+    else
+        devices = osinfo_os_get_devices(os, filter);
+    g_object_unref (filter);
+
+    return devices;
+}
+
+/**
  * osinfo_os_get_device_links:
  * @os: an operating system
  * @filter: (allow-none)(transfer none): an optional device property filter
