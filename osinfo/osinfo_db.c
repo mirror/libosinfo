@@ -321,6 +321,24 @@ void osinfo_db_add_deployment(OsinfoDb *db, OsinfoDeployment *deployment)
     osinfo_list_add(OSINFO_LIST(db->priv->deployments), OSINFO_ENTITY(deployment));
 }
 
+static gint media_volume_compare (gconstpointer a, gconstpointer b)
+{
+    OsinfoMedia *media_a = OSINFO_MEDIA(a);
+    OsinfoMedia *media_b = OSINFO_MEDIA(b);
+    const gchar *volume_a = osinfo_media_get_volume_id(media_a);
+    const gchar *volume_b = osinfo_media_get_volume_id(media_b);
+
+    if (volume_a == NULL || volume_b == NULL)
+        /* Order doesn't matter then */
+        return 0;
+
+    if (strstr(volume_a, volume_b) != NULL)
+        return -1;
+    else
+        /* Sub-string comes later */
+        return 1;
+}
+
 /**
  * osinfo_db_guess_os_from_media:
  * @db: the database
@@ -356,6 +374,8 @@ OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
         OsinfoMediaList *media_list = osinfo_os_get_media_list(os);
         GList *medias = osinfo_list_get_elements(OSINFO_LIST(media_list));
         GList *media_iter;
+
+        medias = g_list_sort(medias, media_volume_compare);
 
         for (media_iter = medias; media_iter; media_iter = media_iter->next) {
             OsinfoMedia *os_media = OSINFO_MEDIA(media_iter->data);
