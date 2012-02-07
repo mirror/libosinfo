@@ -1,3 +1,19 @@
+0.1.0 - Feb 7, 2012
+===================
+
+This release marks the start of the API/ABI stability promise. While some APIs
+may become deprecated in the future, no APIs will be removed/changed in an
+incompatible manner. In the unlikely event that an incompatible API change
+becomes necessary, the library soname will be incremented to allow parallel
+installation of both old & new libraries.
+
+Changes since 0.0.5:
+
+- Add Utility function to retrieve OS devices by property.
+- Improved OS media detection.
+- Add missing 'const' OsinfoList function params.
+- Use ENV{} in udev rule.
+
 0.0.5 - Jan 16, 2012
 ====================
 
