@@ -235,6 +235,11 @@ LIBOSINFO_0.1.0 {
 	osinfo_treelist_new_union;
 } LIBOSINFO_0.0.6;
 
+LIBOSINFO_0.1.3 {
+    global:
+	osinfo_product_get_logo;
+} LIBOSINFO_0.1.0;
+
 /* Symbols in next release...
 
   LIBOSINFO_0.0.2 {

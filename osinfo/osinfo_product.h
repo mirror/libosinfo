@@ -51,6 +51,7 @@ typedef struct _OsinfoProductPrivate OsinfoProductPrivate;
 #define OSINFO_PRODUCT_PROP_RELEASE_DATE "release-date"
 #define OSINFO_PRODUCT_PROP_EOL_DATE     "eol-date"
 #define OSINFO_PRODUCT_PROP_CODENAME     "codename"
+#define OSINFO_PRODUCT_PROP_LOGO         "logo"
 
 /* object */
 struct _OsinfoProduct
@@ -94,6 +95,7 @@ const gchar *osinfo_product_get_release_date_string(OsinfoProduct *prod);
 const gchar *osinfo_product_get_eol_date_string(OsinfoProduct *prod);
 GDate *osinfo_product_get_release_date(OsinfoProduct *prod);
 GDate *osinfo_product_get_eol_date(OsinfoProduct *prod);
+const gchar *osinfo_product_get_logo(OsinfoProduct *prod);
 
 
 #endif /* __OSINFO_PRODUCT_H__ */

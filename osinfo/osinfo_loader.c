@@ -373,6 +373,7 @@ static void osinfo_loader_product(OsinfoLoader *loader,
         OSINFO_PRODUCT_PROP_NAME,
         OSINFO_PRODUCT_PROP_VENDOR,
         OSINFO_PRODUCT_PROP_VERSION,
+        OSINFO_PRODUCT_PROP_LOGO,
         OSINFO_PRODUCT_PROP_SHORT_ID,
         OSINFO_PRODUCT_PROP_RELEASE_DATE,
         OSINFO_PRODUCT_PROP_EOL_DATE,
@@ -383,7 +384,6 @@ static void osinfo_loader_product(OsinfoLoader *loader,
     osinfo_loader_entity(loader, OSINFO_ENTITY(product), keys, ctxt, root, err);
     if (error_is_set(err))
         return;
-
 
     osinfo_loader_product_relshp(loader, product,
                                  OSINFO_PRODUCT_RELATIONSHIP_DERIVES_FROM,
