@@ -56,6 +56,7 @@ LIBOSINFO_0.0.1 {
 	osinfo_entity_get_param_value_list;
 	osinfo_entity_add_param;
 	osinfo_entity_clear_param;
+	osinfo_entity_set_param;
 	osinfo_filter_get_type;
 	osinfo_filter_new;
 	osinfo_filter_add_constraint;
