@@ -45,8 +45,15 @@ static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *
              strstr(name, "i686") ||
              strstr(name, "x86"))
         arch = "i386";
-    else if (strstr(name, "ppc"))
+    else if (strstr(name, "ppc") ||
+             strstr(name, "powerpc"))
         arch = "ppc";
+    else if (strstr(name, "hppa"))
+        arch = "hppa";
+    else if (strstr(name, "sparc"))
+        arch = "sparc";
+    else if (strstr(name, "ia64"))
+        arch = "ia64";
     else {
         g_warning("Unknown arch in %s", name);
         arch = "i386";
@@ -200,7 +207,7 @@ static GList *load_isos(const gchar *vendor, GError **error)
 }
 
 
-START_TEST(test_fedora)
+static void test_one(const gchar *vendor)
 {
     OsinfoLoader *loader = osinfo_loader_new();
     OsinfoDb *db = osinfo_loader_get_db(loader);
@@ -214,7 +221,7 @@ START_TEST(test_fedora)
     osinfo_loader_process_path(loader, SRCDIR "/data", &error);
     fail_unless(error == NULL, error ? error->message : "none");
 
-    isos = load_isos("fedora", &error);
+    isos = load_isos(vendor, &error);
 
     fail_unless(isos != NULL, "ISOs must not be NULL");
 
@@ -240,53 +247,26 @@ START_TEST(test_fedora)
     g_list_foreach(isos, (GFunc)free_iso, NULL);
     g_list_free(isos);
 
-    g_object_unref(db);
+    g_object_unref(loader);
+}
+
+START_TEST(test_fedora)
+{
+    test_one("fedora");
 }
 END_TEST
 
 
+START_TEST(test_ubuntu)
+{
+    test_one("ubuntu");
+}
+END_TEST
+
 
 START_TEST(test_windows)
 {
-    OsinfoLoader *loader = osinfo_loader_new();
-    OsinfoDb *db = osinfo_loader_get_db(loader);
-    GList *isos = NULL;
-    GList *tmp;
-    GError *error = NULL;
-
-    fail_unless(OSINFO_IS_LOADER(loader), "Loader is not a LOADER");
-    fail_unless(OSINFO_IS_DB(db), "Db is not a DB");
-
-    osinfo_loader_process_path(loader, SRCDIR "/data", &error);
-    fail_unless(error == NULL, error ? error->message : "none");
-
-    isos = load_isos("windows", &error);
-
-    fail_unless(isos != NULL, "ISOs must not be NULL %s", error ? error->message : "unknown");
-
-    tmp = isos;
-    while (tmp) {
-        struct ISOInfo *info  = tmp->data;
-        OsinfoMedia *media = NULL;
-        OsinfoOs *os = osinfo_db_guess_os_from_media(db,
-                                                     info->media,
-                                                     &media);
-
-        fail_unless(os != NULL, "ISO %s matched OS %s",
-                    info->filename, info->shortid);
-
-        const gchar *shortid = osinfo_product_get_short_id(OSINFO_PRODUCT(os));
-        fail_unless(g_str_equal(shortid, info->shortid),
-                    "ISO %s matched OS %s, not %s",
-                    info->filename, info->shortid, shortid);
-
-        tmp = tmp->next;
-    }
-
-    g_list_foreach(isos, (GFunc)free_iso, NULL);
-    g_list_free(isos);
-
-    g_object_unref(db);
+    test_one("windows");
 }
 END_TEST
 
@@ -300,6 +280,7 @@ list_suite(void)
     tcase_set_timeout(tc, 20);
 
     tcase_add_test(tc, test_fedora);
+    tcase_add_test(tc, test_ubuntu);
     tcase_add_test(tc, test_windows);
     suite_add_tcase(s, tc);
     return s;
