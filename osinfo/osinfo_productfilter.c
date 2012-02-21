@@ -45,6 +45,8 @@ struct _OsinfoProductFilterPrivate
     // Value: GList of OsinfoProduct *
     // Note: Only used when productfiltering OsinfoProduct objects
     GHashTable *productConstraints;
+
+    GDate *supportDate;
 };
 
 static void osinfo_productfilter_finalize (GObject *object);
@@ -197,6 +199,22 @@ GList *osinfo_productfilter_get_product_constraint_values(OsinfoProductFilter *p
 }
 
 
+void osinfo_productfilter_add_support_date_constraint(OsinfoProductFilter *productfilter, GDate *when)
+{
+    g_return_if_fail(OSINFO_IS_PRODUCTFILTER(productfilter));
+
+    if (productfilter->priv->supportDate)
+        g_date_free(productfilter->priv->supportDate);
+    productfilter->priv->supportDate = NULL;
+    if (when) {
+        productfilter->priv->supportDate = g_date_new_dmy(g_date_get_day(when),
+                                                          g_date_get_month(when),
+                                                          g_date_get_year(when));
+    }
+}
+
+
+
 struct osinfo_productfilter_match_args {
     OsinfoProductFilter *productfilter;
     OsinfoEntity *entity;
@@ -255,6 +273,20 @@ static gboolean osinfo_productfilter_matches_default(OsinfoFilter *filter, Osinf
     g_hash_table_foreach(productfilter->priv->productConstraints,
                          osinfo_productfilter_match_product_iterator,
                          &args);
+
+    if (productfilter->priv->supportDate) {
+        GDate *when = productfilter->priv->supportDate;
+        GDate *release = osinfo_product_get_release_date(OSINFO_PRODUCT(entity));
+        GDate *eol = osinfo_product_get_eol_date(OSINFO_PRODUCT(entity));
+
+        if (release &&
+            (g_date_compare(release, when) > 0))
+            return FALSE;
+
+        if (eol &&
+            (g_date_compare(eol, when) < 0))
+            return FALSE;
+    }
 
     return args.matched;
 }

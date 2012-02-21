@@ -88,6 +88,82 @@ END_TEST
 
 
 
+START_TEST(test_supportdate)
+{
+    OsinfoProductList *products = osinfo_productlist_new();
+    OsinfoProduct *product1 = osinfo_dummy_new("pony");
+    OsinfoProduct *product2 = osinfo_dummy_new("donkey");
+    OsinfoProduct *product3 = osinfo_dummy_new("wathog");
+    OsinfoProduct *product4 = osinfo_dummy_new("aardvark");
+    OsinfoProductFilter *filter = osinfo_productfilter_new();
+    OsinfoProductList *tmp;
+    GDate *date;
+
+    osinfo_list_add(OSINFO_LIST(products), OSINFO_ENTITY(product1));
+    osinfo_list_add(OSINFO_LIST(products), OSINFO_ENTITY(product2));
+    osinfo_list_add(OSINFO_LIST(products), OSINFO_ENTITY(product3));
+    osinfo_list_add(OSINFO_LIST(products), OSINFO_ENTITY(product4));
+
+    osinfo_entity_set_param(OSINFO_ENTITY(product2), OSINFO_PRODUCT_PROP_RELEASE_DATE, "2000-01-01");
+
+    osinfo_entity_set_param(OSINFO_ENTITY(product3), OSINFO_PRODUCT_PROP_EOL_DATE, "2010-01-01");
+
+    osinfo_entity_set_param(OSINFO_ENTITY(product4), OSINFO_PRODUCT_PROP_RELEASE_DATE, "2005-01-01");
+    osinfo_entity_set_param(OSINFO_ENTITY(product4), OSINFO_PRODUCT_PROP_EOL_DATE, "2006-01-01");
+
+    /* Product 1 & 3 */
+    date = g_date_new_dmy(31, 12, 1999);
+    osinfo_productfilter_add_support_date_constraint(filter, date);
+    tmp = osinfo_productlist_new_filtered(products, OSINFO_FILTER(filter));
+    fail_unless(osinfo_list_get_length(OSINFO_LIST(tmp)) == 2, "2 products");
+    fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 0) == (OsinfoEntity*)product1, "Got product 1");
+    fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 1) == (OsinfoEntity*)product3, "Got product 3");
+    g_object_unref(tmp);
+    g_date_free(date);
+
+    /* Product 1, 2 & 3 */
+    date = g_date_new_dmy(01, 01, 2000);
+    osinfo_productfilter_add_support_date_constraint(filter, date);
+    tmp = osinfo_productlist_new_filtered(products, OSINFO_FILTER(filter));
+    fail_unless(osinfo_list_get_length(OSINFO_LIST(tmp)) == 3, "3 products");
+    fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 0) == (OsinfoEntity*)product1, "Got product 1");
+    fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 1) == (OsinfoEntity*)product2, "Got product 2");
+    fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 2) == (OsinfoEntity*)product3, "Got product 3");
+    g_object_unref(tmp);
+    g_date_free(date);
+
+    /* Product 1, 2 & 3 */
+    date = g_date_new_dmy(01, 01, 2010);
+    osinfo_productfilter_add_support_date_constraint(filter, date);
+    tmp = osinfo_productlist_new_filtered(products, OSINFO_FILTER(filter));
+    fail_unless(osinfo_list_get_length(OSINFO_LIST(tmp)) == 3, "3 products");
+    fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 0) == (OsinfoEntity*)product1, "Got product 1");
+    fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 1) == (OsinfoEntity*)product2, "Got product 2");
+    fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 2) == (OsinfoEntity*)product3, "Got product 3");
+    g_object_unref(tmp);
+    g_date_free(date);
+
+    /* Product 1, 2 & 3 */
+    date = g_date_new_dmy(01, 05, 2005);
+    osinfo_productfilter_add_support_date_constraint(filter, date);
+    tmp = osinfo_productlist_new_filtered(products, OSINFO_FILTER(filter));
+    fail_unless(osinfo_list_get_length(OSINFO_LIST(tmp)) == 4, "4 products");
+    fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 0) == (OsinfoEntity*)product1, "Got product 1");
+    fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 1) == (OsinfoEntity*)product2, "Got product 2");
+    fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 2) == (OsinfoEntity*)product3, "Got product 3");
+    fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 3) == (OsinfoEntity*)product4, "Got product 4");
+    g_object_unref(tmp);
+    g_date_free(date);
+
+    g_object_unref(product1);
+    g_object_unref(product2);
+    g_object_unref(product3);
+    g_object_unref(product4);
+}
+END_TEST
+
+
+
 static Suite *
 product_suite(void)
 {
@@ -95,6 +171,7 @@ product_suite(void)
     TCase *tc = tcase_create("Core");
     tcase_add_test(tc, test_basic);
     tcase_add_test(tc, test_relproduct);
+    tcase_add_test(tc, test_supportdate);
     suite_add_tcase(s, tc);
     return s;
 }

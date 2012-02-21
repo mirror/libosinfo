@@ -24,6 +24,9 @@
 
 #include <osinfo/osinfo.h>
 
+#include <stdlib.h>
+#include <string.h>
+
 G_DEFINE_ABSTRACT_TYPE (OsinfoProduct, osinfo_product, OSINFO_TYPE_ENTITY);
 
 #define OSINFO_PRODUCT_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_PRODUCT, OsinfoProductPrivate))
@@ -279,6 +282,51 @@ const gchar *osinfo_product_get_name(OsinfoProduct *prod)
 {
     return osinfo_entity_get_param_value(OSINFO_ENTITY(prod), OSINFO_PRODUCT_PROP_NAME);
 }
+
+const gchar *osinfo_product_get_release_date_string(OsinfoProduct *prod)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(prod), OSINFO_PRODUCT_PROP_RELEASE_DATE);
+}
+
+const gchar *osinfo_product_get_eol_date_string(OsinfoProduct *prod)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(prod), OSINFO_PRODUCT_PROP_EOL_DATE);
+}
+
+
+static GDate *date_from_string(const gchar *str)
+{
+    int y, m, d;
+    const gchar *tmp;
+
+    y = strtoll(str, NULL, 10);
+    tmp = strchr(str, '-');
+    m = strtoll(tmp+1, NULL, 10);
+    tmp = strchr(tmp+1, '-');
+    d = strtoll(tmp+1, NULL, 10);
+    return g_date_new_dmy(d,m,y);
+}
+
+GDate *osinfo_product_get_release_date(OsinfoProduct *prod)
+{
+    const gchar *str = osinfo_product_get_release_date_string(prod);
+    if (!str)
+        return NULL;
+
+    return date_from_string(str);
+}
+
+
+GDate *osinfo_product_get_eol_date(OsinfoProduct *prod)
+{
+    const gchar *str = osinfo_product_get_eol_date_string(prod);
+    if (!str)
+        return NULL;
+
+    return date_from_string(str);
+}
+
+
 
 /*
  * Local variables:

@@ -370,6 +370,8 @@ static void osinfo_loader_product(OsinfoLoader *loader,
         OSINFO_PRODUCT_PROP_VENDOR,
         OSINFO_PRODUCT_PROP_VERSION,
         OSINFO_PRODUCT_PROP_SHORT_ID,
+        OSINFO_PRODUCT_PROP_RELEASE_DATE,
+        OSINFO_PRODUCT_PROP_EOL_DATE,
         NULL,
     };
 

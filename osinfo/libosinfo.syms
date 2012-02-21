@@ -93,6 +93,7 @@ LIBOSINFO_0.0.1 {
 	osinfo_productfilter_clear_product_constraint;
 	osinfo_productfilter_clear_product_constraints;
 	osinfo_productfilter_get_product_constraint_values;
+	osinfo_productfilter_add_support_date_constraint;
 	osinfo_product_get_type;
 	osinfo_product_get_related;
 	osinfo_product_add_related;
