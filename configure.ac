@@ -17,6 +17,8 @@ m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 PKG_CHECK_MODULES([GOBJECT], [gobject-2.0])
 PKG_CHECK_MODULES([GIO], [gio-2.0])
+PKG_CHECK_MODULES([SOUP], [libsoup-2.4])
+PKG_CHECK_MODULES([SOUP_GNOME], [libsoup-gnome-2.4])
 PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= 2.6.0])
 
 GTK_DOC_CHECK([1.10],[--flavour no-tmpl])

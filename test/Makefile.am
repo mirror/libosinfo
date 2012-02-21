@@ -13,17 +13,22 @@ check_PROGRAMS = \
 	test-platformlist \
 	test-db \
 	test-loader \
-	test-isodetect
+	test-isodetect \
+	test-mediauris
 
 COMMON_LDADD = \
 	$(COVERAGE_LDFLAGS) \
 	$(GOBJECT_LIBS) \
+	$(SOUP_LIBS) \
+	$(SOUP_GNOME_LIBS) \
 	$(CHECK_LIBS) \
 	../osinfo/libosinfo-1.0.la
 COMMON_CFLAGS = \
 	$(WARN_CFLAGS) \
 	$(COVERAGE_CFLAGS) \
 	$(GOBJECT_CFLAGS) \
+	$(SOUP_CFLAGS) \
+	$(SOUP_GNOME_CFLAGS) \
 	-I$(top_srcdir) \
 	-DSRCDIR="\"$(top_srcdir)\"" \
 	$(CHECK_CFLAGS)
@@ -83,6 +88,10 @@ test_loader_SOURCES = test-loader.c
 test_isodetect_LDADD = $(COMMON_LDADD)
 test_isodetect_CFLAGS = $(COMMON_CFLAGS)
 test_isodetect_SOURCES = test-isodetect.c
+
+test_mediauris_LDADD = $(COMMON_LDADD)
+test_mediauris_CFLAGS = $(COMMON_CFLAGS)
+test_mediauris_SOURCES = test-mediauris.c
 
 TESTS = $(check_PROGRAMS)
 

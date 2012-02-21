@@ -24,6 +24,8 @@ BuildRequires: check-devel
 BuildRequires: libxml2-devel >= 2.6.0
 BuildRequires: vala
 BuildRequires: vala-tools
+BuildRequires: libsoup-devel
+BuildRequires: libsoup-gnome-devel
 %if %{with_gir}
 BuildRequires: gobject-introspection-devel
 %endif
