@@ -12,7 +12,8 @@ check_PROGRAMS = \
 	test-platform \
 	test-platformlist \
 	test-db \
-	test-loader
+	test-loader \
+	test-isodetect
 
 COMMON_LDADD = \
 	$(COVERAGE_LDFLAGS) \
@@ -78,6 +79,10 @@ test_db_SOURCES = test-db.c
 test_loader_LDADD = $(COMMON_LDADD)
 test_loader_CFLAGS = $(COMMON_CFLAGS)
 test_loader_SOURCES = test-loader.c
+
+test_isodetect_LDADD = $(COMMON_LDADD)
+test_isodetect_CFLAGS = $(COMMON_CFLAGS)
+test_isodetect_SOURCES = test-isodetect.c
 
 TESTS = $(check_PROGRAMS)
 
