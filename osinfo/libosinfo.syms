@@ -156,6 +156,7 @@ LIBOSINFO_0.0.1 {
 	osinfo_media_get_volume_id;
 	osinfo_media_get_system_id;
 	osinfo_media_get_publisher_id;
+	osinfo_media_get_application_id;
         osinfo_media_get_kernel_path;
         osinfo_media_get_initrd_path;
 	osinfo_medialist_get_type;

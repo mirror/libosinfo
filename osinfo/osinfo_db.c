@@ -360,6 +360,7 @@ OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
     const gchar *media_volume;
     const gchar *media_system;
     const gchar *media_publisher;
+    const gchar *media_application;
 
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
     g_return_val_if_fail(media != NULL, NULL);
@@ -367,6 +368,7 @@ OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
     media_volume = osinfo_media_get_volume_id(media);
     media_system = osinfo_media_get_system_id(media);
     media_publisher = osinfo_media_get_publisher_id(media);
+    media_application = osinfo_media_get_application_id(media);
 
     oss = osinfo_list_get_elements(OSINFO_LIST(db->priv->oses));
     for (os_iter = oss; os_iter; os_iter = os_iter->next) {
@@ -382,8 +384,11 @@ OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
             const gchar *os_volume = osinfo_media_get_volume_id(os_media);
             const gchar *os_system = osinfo_media_get_system_id(os_media);
             const gchar *os_publisher = osinfo_media_get_publisher_id(os_media);
+            const gchar *os_application = osinfo_media_get_application_id(os_media);
 
-            if (match_regex (os_volume, media_volume) &&
+            if ((match_regex (os_volume, media_volume) ||
+                 match_regex (os_application, media_application))
+                 &&
                 (match_regex (os_system, media_system) ||
                  match_regex (os_publisher, media_publisher))) {
                 ret = os;

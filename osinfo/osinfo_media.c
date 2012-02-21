@@ -31,6 +31,7 @@
 #define MAX_VOLUME 32
 #define MAX_SYSTEM 32
 #define MAX_PUBLISHER 128
+#define MAX_APPLICATION 128
 
 #define PVD_OFFSET 0x00008000
 #define BOOTABLE_TAG "EL TORITO SPECIFICATION"
@@ -43,7 +44,9 @@ struct _PrimaryVolumeDescriptor {
     gchar  volume[MAX_VOLUME];       /* Volume ID */
     guint8 ignored2[246];
     gchar  publisher[MAX_PUBLISHER]; /* Publisher ID */
-    guint8 ignored3[1602];
+    guint8 ignored3[128];
+    gchar  application[MAX_APPLICATION]; /* Application ID */
+    guint8 ignored4[1346];
 } __attribute__ ((packed));
 
 /* the PrimaryVolumeDescriptor struct must exactly 2048 bytes long
@@ -137,6 +140,7 @@ enum {
     PROP_URL,
     PROP_VOLUME_ID,
     PROP_PUBLISHER_ID,
+    PROP_APPLICATION_ID,
     PROP_SYSTEM_ID,
     PROP_KERNEL_PATH,
     PROP_INITRD_PATH,
@@ -171,6 +175,11 @@ osinfo_media_get_property (GObject    *object,
     case PROP_PUBLISHER_ID:
         g_value_set_string (value,
                             osinfo_media_get_publisher_id (media));
+        break;
+
+    case PROP_APPLICATION_ID:
+        g_value_set_string (value,
+                            osinfo_media_get_application_id (media));
         break;
 
     case PROP_SYSTEM_ID:
@@ -246,6 +255,12 @@ osinfo_media_set_property(GObject      *object,
     case PROP_PUBLISHER_ID:
         osinfo_entity_set_param (OSINFO_ENTITY(media),
                                  OSINFO_MEDIA_PROP_PUBLISHER_ID,
+                                 g_value_get_string (value));
+        break;
+
+    case PROP_APPLICATION_ID:
+        osinfo_entity_set_param (OSINFO_ENTITY(media),
+                                 OSINFO_MEDIA_PROP_APPLICATION_ID,
                                  g_value_get_string (value));
         break;
 
@@ -364,6 +379,21 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                  G_PARAM_STATIC_NICK |
                                  G_PARAM_STATIC_BLURB);
     g_object_class_install_property (g_klass, PROP_PUBLISHER_ID, pspec);
+
+    /**
+     * OsinfoMedia::application-id
+     *
+     * Expected application ID (regular expression) for ISO9660 image/device.
+     */
+    pspec = g_param_spec_string ("application-id",
+                                 "ApplicationID",
+                                 "Expected ISO9660 application ID",
+                                 NULL /* default value */,
+                                 G_PARAM_READWRITE |
+                                 G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK |
+                                 G_PARAM_STATIC_BLURB);
+    g_object_class_install_property (g_klass, PROP_APPLICATION_ID, pspec);
 
     /**
      * OsinfoMedia::system-id
@@ -593,6 +623,10 @@ static void on_svd_read (GObject *source,
         osinfo_entity_set_param(OSINFO_ENTITY(ret),
                                 OSINFO_MEDIA_PROP_PUBLISHER_ID,
                                 data->pvd.publisher);
+    if (!is_str_empty (data->pvd.application))
+        osinfo_entity_set_param(OSINFO_ENTITY(ret),
+                                OSINFO_MEDIA_PROP_APPLICATION_ID,
+                                data->pvd.application);
 
 EXIT:
     if (error != NULL)
@@ -632,6 +666,7 @@ static void on_pvd_read (GObject *source,
     data->pvd.volume[MAX_VOLUME - 1] = 0;
     data->pvd.system[MAX_SYSTEM - 1] = 0;
     data->pvd.publisher[MAX_PUBLISHER - 1] = 0;
+    data->pvd.application[MAX_APPLICATION - 1] = 0;
 
     if (is_str_empty(data->pvd.volume)) {
         g_set_error(&error,
@@ -861,6 +896,25 @@ const gchar *osinfo_media_get_publisher_id(OsinfoMedia *media)
 {
     return osinfo_entity_get_param_value(OSINFO_ENTITY(media),
                                          OSINFO_MEDIA_PROP_PUBLISHER_ID);
+}
+
+/**
+ * osinfo_media_get_application_id:
+ * @media: a #OsinfoMedia instance
+ *
+ * If @media is an ISO9660 image/device, this function retrieves the expected
+ * application ID.
+ *
+ * Note: In practice, this will usually not be the exact copy of the application
+ * ID string on the ISO image/device but rather a regular expression that
+ * matches it.
+ *
+ * Returns: (transfer none): the application id, or NULL
+ */
+const gchar *osinfo_media_get_application_id(OsinfoMedia *media)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(media),
+                                         OSINFO_MEDIA_PROP_APPLICATION_ID);
 }
 
 /**

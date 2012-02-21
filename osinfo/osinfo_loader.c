@@ -530,7 +530,9 @@ static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
              strcmp((const gchar *)nodes[i]->name,
                     OSINFO_MEDIA_PROP_SYSTEM_ID) != 0 &&
              strcmp((const gchar *)nodes[i]->name,
-                    OSINFO_MEDIA_PROP_PUBLISHER_ID) != 0))
+                    OSINFO_MEDIA_PROP_PUBLISHER_ID) != 0 &&
+             strcmp((const gchar *)nodes[i]->name,
+                    OSINFO_MEDIA_PROP_APPLICATION_ID) != 0))
             continue;
 
         osinfo_entity_set_param(OSINFO_ENTITY(media),
