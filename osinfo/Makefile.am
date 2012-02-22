@@ -65,7 +65,10 @@ libosinfo_1_0_include_HEADERS = \
   osinfo_media.h		\
   osinfo_medialist.h		\
   osinfo_resources.h		\
-  osinfo_resourceslist.h
+  osinfo_resourceslist.h	\
+  osinfo_tree.h			\
+  osinfo_treelist.h		\
+  $(NULL)
 
 libosinfo_1_0_la_SOURCES =	\
   osinfo_entity.c		\
@@ -89,8 +92,11 @@ libosinfo_1_0_la_SOURCES =	\
   osinfo_medialist.c		\
   osinfo_resources.c		\
   osinfo_resourceslist.c	\
+  osinfo_tree.c			\
+  osinfo_treelist.c		\
   osinfo_db.c			\
-  osinfo_loader.c
+  osinfo_loader.c		\
+  $(NULL)
 
 if WITH_GOBJECT_INTROSPECTION
 

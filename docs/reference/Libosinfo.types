@@ -21,3 +21,5 @@ osinfo_productfilter_get_type
 osinfo_productlist_get_type
 osinfo_resources_get_type
 osinfo_resourceslist_get_type
+osinfo_tree_get_type
+osinfo_treelist_get_type

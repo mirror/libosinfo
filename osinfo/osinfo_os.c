@@ -46,6 +46,7 @@ struct _OsinfoOsPrivate
     GList *deviceLinks;
 
     OsinfoMediaList *medias;
+    OsinfoTreeList *trees;
     OsinfoResourcesList *minimum;
     OsinfoResourcesList *recommended;
 };
@@ -97,6 +98,8 @@ osinfo_os_finalize (GObject *object)
 
     g_list_foreach(os->priv->deviceLinks, osinfo_device_link_free, NULL);
     g_list_free(os->priv->deviceLinks);
+    g_object_unref(os->priv->medias);
+    g_object_unref(os->priv->trees);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_os_parent_class)->finalize (object);
@@ -141,6 +144,7 @@ osinfo_os_init (OsinfoOs *os)
 
     os->priv->deviceLinks = NULL;
     os->priv->medias = osinfo_medialist_new ();
+    os->priv->trees = osinfo_treelist_new ();
     os->priv->minimum = osinfo_resourceslist_new ();
     os->priv->recommended = osinfo_resourceslist_new ();
 }
@@ -374,6 +378,40 @@ void osinfo_os_add_media(OsinfoOs *os, OsinfoMedia *media)
     g_return_if_fail(OSINFO_IS_MEDIA(media));
 
     osinfo_list_add(OSINFO_LIST(os->priv->medias), OSINFO_ENTITY(media));
+}
+
+/**
+ * osinfo_os_get_tree_list:
+ * @os: an operating system
+ *
+ * Get all installation trees associated with operating system @os.
+ *
+ * Returns: (transfer full): A list of trees
+ */
+OsinfoTreeList *osinfo_os_get_tree_list(OsinfoOs *os)
+{
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+
+    OsinfoTreeList *newList = osinfo_treelist_new();
+
+    osinfo_list_add_all(OSINFO_LIST(newList), OSINFO_LIST(os->priv->trees));
+
+    return newList;
+}
+
+/**
+ * osinfo_os_add_tree:
+ * @os: an operating system
+ * @tree: (transfer none): the tree to add
+ *
+ * Adds installation tree @tree to operating system @os.
+ */
+void osinfo_os_add_tree(OsinfoOs *os, OsinfoTree *tree)
+{
+    g_return_if_fail(OSINFO_IS_OS(os));
+    g_return_if_fail(OSINFO_IS_TREE(tree));
+
+    osinfo_list_add(OSINFO_LIST(os->priv->trees), OSINFO_ENTITY(tree));
 }
 
 /**

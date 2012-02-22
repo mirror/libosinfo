@@ -410,6 +410,77 @@ OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
     return ret;
 }
 
+
+/**
+ * osinfo_db_guess_os_from_tree:
+ * @db: the database
+ * @tree: the installation tree
+ * @matched_tree: (out) (transfer none) (allow-none): the matched operating
+ * system tree
+ *
+ * Guess operating system given a #OsinfoTree object.
+ *
+ * Returns: (transfer none): the operating system, or NULL if guessing failed
+ */
+OsinfoOs *osinfo_db_guess_os_from_tree(OsinfoDb *db,
+                                       OsinfoTree *tree,
+                                       OsinfoTree **matched_tree)
+{
+    OsinfoOs *ret = NULL;
+    GList *oss = NULL;
+    GList *os_iter;
+    const gchar *tree_family;
+    const gchar *tree_variant;
+    const gchar *tree_version;
+    const gchar *tree_arch;
+
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    g_return_val_if_fail(tree != NULL, NULL);
+
+    tree_family = osinfo_tree_get_treeinfo_family(tree);
+    tree_variant = osinfo_tree_get_treeinfo_variant(tree);
+    tree_version = osinfo_tree_get_treeinfo_version(tree);
+    tree_arch = osinfo_tree_get_treeinfo_arch(tree);
+
+    oss = osinfo_list_get_elements(OSINFO_LIST(db->priv->oses));
+    for (os_iter = oss; os_iter; os_iter = os_iter->next) {
+        OsinfoOs *os = OSINFO_OS(os_iter->data);
+        OsinfoTreeList *tree_list = osinfo_os_get_tree_list(os);
+        GList *trees = osinfo_list_get_elements(OSINFO_LIST(tree_list));
+        GList *tree_iter;
+
+        //trees = g_list_sort(trees, tree_family_compare);
+
+        for (tree_iter = trees; tree_iter; tree_iter = tree_iter->next) {
+            OsinfoTree *os_tree = OSINFO_TREE(tree_iter->data);
+            const gchar *os_family = osinfo_tree_get_treeinfo_family(os_tree);
+            const gchar *os_variant = osinfo_tree_get_treeinfo_variant(os_tree);
+            const gchar *os_version = osinfo_tree_get_treeinfo_version(os_tree);
+            const gchar *os_arch = osinfo_tree_get_treeinfo_arch(os_tree);
+
+            if (match_regex (os_family, tree_family) &&
+                match_regex (os_variant, tree_variant) &&
+                match_regex (os_version, tree_version) &&
+                match_regex (os_arch, tree_arch)) {
+                ret = os;
+                if (matched_tree != NULL)
+                    *matched_tree = os_tree;
+                break;
+            }
+        }
+
+        g_list_free(trees);
+        g_object_unref(tree_list);
+
+        if (ret)
+            break;
+    }
+
+    g_list_free(oss);
+
+    return ret;
+}
+
 struct osinfo_db_populate_values_args {
     GHashTable *values;
     const gchar *property;

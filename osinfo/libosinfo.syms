@@ -16,6 +16,7 @@ LIBOSINFO_0.0.1 {
 	osinfo_db_add_device;
 	osinfo_db_add_deployment;
 	osinfo_db_guess_os_from_media;
+	osinfo_db_guess_os_from_tree;
 	osinfo_db_unique_values_for_property_in_os;
 	osinfo_db_unique_values_for_property_in_platform;
 	osinfo_db_unique_values_for_property_in_device;
@@ -115,6 +116,8 @@ LIBOSINFO_0.0.1 {
 	osinfo_os_get_family;
 	osinfo_os_get_media_list;
 	osinfo_os_add_media;
+	osinfo_os_get_tree_list;
+	osinfo_os_add_tree;
         osinfo_os_get_minimum_resources;
         osinfo_os_get_recommended_resources;
         osinfo_os_add_minimum_resources;
@@ -203,6 +206,31 @@ LIBOSINFO_0.0.6 {
     global:
 	osinfo_os_get_devices_by_property;
 } LIBOSINFO_0.0.5;
+
+LIBOSINFO_0.1.0 {
+    global:
+	osinfo_tree_new;
+	osinfo_tree_create_from_location;
+	osinfo_tree_create_from_location_async;
+	osinfo_tree_create_from_location_finish;
+	osinfo_tree_error_quark;
+	osinfo_tree_get_architecture;
+	osinfo_tree_get_boot_iso_path;
+	osinfo_tree_get_initrd_path;
+	osinfo_tree_get_kernel_path;
+	osinfo_tree_get_treeinfo_family;
+	osinfo_tree_get_treeinfo_variant;
+	osinfo_tree_get_treeinfo_version;
+	osinfo_tree_get_treeinfo_arch;
+	osinfo_tree_get_type;
+	osinfo_tree_get_url;
+	osinfo_treelist_get_type;
+	osinfo_treelist_new;
+	osinfo_treelist_new_copy;
+	osinfo_treelist_new_filtered;
+	osinfo_treelist_new_intersection;
+	osinfo_treelist_new_union;
+} LIBOSINFO_0.0.6;
 
 /* Symbols in next release...
 

@@ -548,6 +548,64 @@ static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
     return media;
 }
 
+static OsinfoTree *osinfo_loader_tree (OsinfoLoader *loader,
+                                         xmlXPathContextPtr ctxt,
+                                         xmlNodePtr root,
+                                         const gchar *id,
+                                         GError **err)
+{
+    xmlNodePtr *nodes = NULL;
+    guint i;
+
+    gchar *arch = (gchar *)xmlGetProp(root, BAD_CAST "arch");
+    const gchar *const keys[] = {
+        OSINFO_TREE_PROP_URL,
+        OSINFO_TREE_PROP_KERNEL,
+        OSINFO_TREE_PROP_INITRD,
+        OSINFO_TREE_PROP_BOOT_ISO,
+        NULL
+    };
+
+    OsinfoTree *tree = osinfo_tree_new(id, arch);
+
+    osinfo_loader_entity(loader, OSINFO_ENTITY(tree), keys, ctxt, root, err);
+
+    gint nnodes = osinfo_loader_nodeset("./treeinfo/*", ctxt, &nodes, err);
+    if (error_is_set(err))
+        return NULL;
+
+    for (i = 0 ; i < nnodes ; i++) {
+        if (!nodes[i]->children ||
+            nodes[i]->children->type != XML_TEXT_NODE)
+            continue;
+
+        if (strcmp((const gchar *)nodes[i]->name,
+                   OSINFO_TREE_PROP_TREEINFO_FAMILY + 9) == 0)
+            osinfo_entity_set_param(OSINFO_ENTITY(tree),
+                                    OSINFO_TREE_PROP_TREEINFO_FAMILY,
+                                    (const gchar *)nodes[i]->children->content);
+        else if (strcmp((const gchar *)nodes[i]->name,
+                        OSINFO_TREE_PROP_TREEINFO_VARIANT + 9) == 0)
+            osinfo_entity_set_param(OSINFO_ENTITY(tree),
+                                    OSINFO_TREE_PROP_TREEINFO_VARIANT,
+                                    (const gchar *)nodes[i]->children->content);
+        else if (strcmp((const gchar *)nodes[i]->name,
+                        OSINFO_TREE_PROP_TREEINFO_VERSION + 9) == 0)
+            osinfo_entity_set_param(OSINFO_ENTITY(tree),
+                                    OSINFO_TREE_PROP_TREEINFO_VERSION,
+                                    (const gchar *)nodes[i]->children->content);
+        else if (strcmp((const gchar *)nodes[i]->name,
+                        OSINFO_TREE_PROP_TREEINFO_ARCH + 9) == 0)
+            osinfo_entity_set_param(OSINFO_ENTITY(tree),
+                                    OSINFO_TREE_PROP_TREEINFO_ARCH,
+                                    (const gchar *)nodes[i]->children->content);
+    }
+
+    g_free(nodes);
+
+    return tree;
+}
+
 static OsinfoResources *osinfo_loader_resources(OsinfoLoader *loader,
                                                 xmlXPathContextPtr ctxt,
                                                 xmlNodePtr root,
@@ -668,6 +726,25 @@ static void osinfo_loader_os(OsinfoLoader *loader,
             break;
 
         osinfo_os_add_media (os, media);
+    }
+
+    g_free(nodes);
+
+    nnodes = osinfo_loader_nodeset("./tree", ctxt, &nodes, err);
+    if (error_is_set(err))
+        goto cleanup;
+
+    for (i = 0 ; i < nnodes ; i++) {
+        xmlNodePtr saved = ctxt->node;
+        ctxt->node = nodes[i];
+        gchar *tree_id = g_strdup_printf ("%s:%u", id, i);
+        OsinfoTree *tree = osinfo_loader_tree(loader, ctxt, nodes[i], tree_id, err);
+        g_free (tree_id);
+        ctxt->node = saved;
+        if (error_is_set(err))
+            break;
+
+        osinfo_os_add_tree (os, tree);
     }
 
     g_free(nodes);

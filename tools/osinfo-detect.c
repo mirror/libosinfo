@@ -35,6 +35,16 @@ typedef enum {
 
 static OutputFormat format = OUTPUT_FORMAT_PLAIN;
 
+#define TYPE_STR_MEDIA "media"
+#define TYPE_STR_TREE "tree"
+
+typedef enum {
+    URL_TYPE_MEDIA,
+    URL_TYPE_TREE
+} OutputType;
+
+static OutputType type = URL_TYPE_MEDIA;
+
 static gboolean parse_format_str(const gchar *option_name,
                                  const gchar *value,
                                  gpointer data,
@@ -56,12 +66,37 @@ static gboolean parse_format_str(const gchar *option_name,
     return TRUE;
 }
 
+static gboolean parse_type_str(const gchar *option_name,
+				const gchar *value,
+				gpointer data,
+				GError **error)
+{
+    if (strcmp(value, TYPE_STR_MEDIA) == 0)
+        type = URL_TYPE_MEDIA;
+    else if (strcmp(value, TYPE_STR_TREE) == 0)
+        type = URL_TYPE_TREE;
+    else {
+        g_set_error(error,
+                    G_OPTION_ERROR,
+                    G_OPTION_ERROR_FAILED,
+                    "Invalid value '%s'", value);
+
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
 static GOptionEntry entries[] =
 {
     { "format", 'f', 0,
       G_OPTION_ARG_CALLBACK, parse_format_str,
       "Output format. Default: plain",
       "plain|env." },
+    { "type", 't', 0,
+      G_OPTION_ARG_CALLBACK, parse_type_str,
+      "URL type. Default: media",
+      "media|tree." },
     { NULL }
 };
 
@@ -79,7 +114,7 @@ static void print_bootable(gboolean bootable)
             g_print("Media is not bootable.\n");
 }
 
-static void print_os(OsinfoOs *os, OsinfoMedia *media)
+static void print_os_media(OsinfoOs *os, OsinfoMedia *media)
 {
     if (os == NULL)
         return;
@@ -103,12 +138,44 @@ static void print_os(OsinfoOs *os, OsinfoMedia *media)
     }
 }
 
+static void print_os_tree(OsinfoOs *os, OsinfoTree *tree, OsinfoTree *matched_tree)
+{
+    if (os == NULL)
+        return;
+
+    if (format == OUTPUT_FORMAT_ENV) {
+        const gchar *id = osinfo_entity_get_id(OSINFO_ENTITY(os));
+        const gchar *kernel = osinfo_tree_get_kernel_path(tree);
+        const gchar *initrd = osinfo_tree_get_initrd_path(tree);
+        const gchar *bootiso = osinfo_tree_get_boot_iso_path(tree);
+
+        if (!kernel)
+            kernel = osinfo_tree_get_kernel_path(matched_tree);
+        if (!initrd)
+            initrd = osinfo_tree_get_initrd_path(matched_tree);
+        if (!bootiso)
+            bootiso = osinfo_tree_get_boot_iso_path(matched_tree);
+
+        g_print("OSINFO_INSTALLER=%s\n", id);
+        g_print("OSINFO_TREE=%s\n",
+                osinfo_entity_get_id(OSINFO_ENTITY(matched_tree)));
+        if (kernel)
+            g_print("OSINFO_TREE_KERNEL=%s\n", kernel);
+        if (initrd)
+            g_print("OSINFO_TREE_INITRD=%s\n", initrd);
+        if (bootiso)
+            g_print("OSINFO_TREE_BOOT_ISO=%s\n", bootiso);
+    } else {
+        const gchar *name = osinfo_product_get_name(OSINFO_PRODUCT(os));
+
+        g_print("Tree is an installer for OS '%s'\n", name);
+    }
+}
+
 gint main(gint argc, gchar **argv)
 {
     GOptionContext *context;
     GError *error = NULL;
-    OsinfoMedia *media = NULL;
-    OsinfoMedia *matched_media = NULL;
     OsinfoLoader *loader = NULL;
     OsinfoDb *db = NULL;
     OsinfoOs *os = NULL;
@@ -135,18 +202,6 @@ gint main(gint argc, gchar **argv)
 
     g_type_init();
 
-    media = osinfo_media_create_from_location(argv[1], NULL, &error);
-    if (error != NULL) {
-        if (error->code != OSINFO_MEDIA_ERROR_NOT_BOOTABLE) {
-            g_printerr("Error parsing media: %s\n", error->message);
-
-            ret = -3;
-            goto EXIT;
-        } else
-            print_bootable(FALSE);
-    } else
-        print_bootable(TRUE);
-
     loader = osinfo_loader_new();
     osinfo_loader_process_default_path(loader, &error);
     if (error != NULL) {
@@ -157,9 +212,39 @@ gint main(gint argc, gchar **argv)
     }
 
     db = osinfo_loader_get_db(loader);
-    os = osinfo_db_guess_os_from_media(db, media, &matched_media);
 
-    print_os(os, matched_media);
+    if (type == URL_TYPE_MEDIA) {
+        OsinfoMedia *media = NULL;
+        OsinfoMedia *matched_media = NULL;
+        media = osinfo_media_create_from_location(argv[1], NULL, &error);
+        if (error != NULL) {
+            if (error->code != OSINFO_MEDIA_ERROR_NOT_BOOTABLE) {
+                g_printerr("Error parsing media: %s\n", error->message);
+
+                ret = -3;
+                goto EXIT;
+            } else {
+                print_bootable(FALSE);
+            }
+        } else {
+            print_bootable(TRUE);
+        }
+        os = osinfo_db_guess_os_from_media(db, media, &matched_media);
+        print_os_media(os, matched_media);
+    } else if (type == URL_TYPE_TREE) {
+        OsinfoTree *tree = NULL;
+        OsinfoTree *matched_tree = NULL;
+        tree = osinfo_tree_create_from_location(argv[1], NULL, &error);
+        if (error != NULL) {
+            g_printerr("Error parsing tree: %s\n", error->message);
+
+            ret = -3;
+            goto EXIT;
+        }
+        os = osinfo_db_guess_os_from_tree(db, tree, &matched_tree);
+        print_os_tree(os, tree, matched_tree);
+    }
+
 
 EXIT:
     g_clear_error(&error);
@@ -168,3 +253,11 @@ EXIT:
 
     return ret;
 }
+
+/*
+ * Local variables:
+ *  indent-tabs-mode: nil
+ *  c-indent-level: 4
+ *  c-basic-offset: 4
+ * End:
+ */
