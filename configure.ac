@@ -1,7 +1,7 @@
 AC_INIT([libosinfo], [0.1.1], [virt-tools-list@redhat.com])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([1.11.1 foreign color-tests])
+AM_INIT_AUTOMAKE([1.11.1 foreign color-tests tar-ustar])
 AC_PREREQ([2.61])
 AC_CONFIG_SRCDIR([osinfo/osinfo_db.c])
 AC_CONFIG_HEADERS([config.h])

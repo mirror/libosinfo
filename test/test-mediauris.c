@@ -108,6 +108,9 @@ int main(void)
     Suite *s = list_suite ();
     SRunner *sr = srunner_create (s);
 
+    if (!getenv("LIBOSINFO_NETWORK_TESTS"))
+        return 77; /* Skip */
+
     g_type_init();
 
     /* Upfront so we don't confuse valgrind */

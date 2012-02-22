@@ -1,4 +1,6 @@
 
+EXTRA_DIST = isodata
+
 check_PROGRAMS = \
 	test-entity \
 	test-device \
@@ -30,7 +32,7 @@ COMMON_CFLAGS = \
 	$(SOUP_CFLAGS) \
 	$(SOUP_GNOME_CFLAGS) \
 	-I$(top_srcdir) \
-	-DSRCDIR="\"$(top_srcdir)\"" \
+	-DSRCDIR="\"$(abs_top_srcdir)\"" \
 	$(CHECK_CFLAGS)
 
 test_entity_LDADD = $(COMMON_LDADD)

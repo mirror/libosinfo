@@ -192,16 +192,13 @@ static GList *load_distros(GFile *dir, GError **error)
 
 static GList *load_isos(const gchar *vendor, GError **error)
 {
-    gchar *cwd = g_get_current_dir();
-    gchar *path = g_strdup_printf("%s/isodata/%s", cwd, vendor);
+    gchar *path = g_strdup_printf(SRCDIR "/test/isodata/%s", vendor);
     GList *ret = NULL;
     GFile *f = g_file_new_for_path(path);
-
 
     ret = load_distros(f, error);
 
     g_object_unref(f);
-    g_free(cwd);
     g_free(path);
     return ret;
 }
