@@ -50,6 +50,7 @@ typedef struct _OsinfoProductPrivate OsinfoProductPrivate;
 #define OSINFO_PRODUCT_PROP_NAME         "name"
 #define OSINFO_PRODUCT_PROP_RELEASE_DATE "release-date"
 #define OSINFO_PRODUCT_PROP_EOL_DATE     "eol-date"
+#define OSINFO_PRODUCT_PROP_CODENAME     "codename"
 
 /* object */
 struct _OsinfoProduct
@@ -87,6 +88,7 @@ const gchar *osinfo_product_get_vendor(OsinfoProduct *prod);
 const gchar *osinfo_product_get_version(OsinfoProduct *prod);
 const gchar *osinfo_product_get_short_id(OsinfoProduct *prod);
 const gchar *osinfo_product_get_name(OsinfoProduct *prod);
+const gchar *osinfo_product_get_codename(OsinfoProduct *prod);
 
 const gchar *osinfo_product_get_release_date_string(OsinfoProduct *prod);
 const gchar *osinfo_product_get_eol_date_string(OsinfoProduct *prod);

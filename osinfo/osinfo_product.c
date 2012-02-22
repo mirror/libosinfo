@@ -73,6 +73,7 @@ enum {
     PROP_SHORT_ID,
     PROP_VENDOR,
     PROP_VERSION,
+    PROP_CODENAME,
 };
 
 static void osinfo_product_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED)
@@ -122,6 +123,11 @@ osinfo_product_get_property (GObject    *object,
     case PROP_VERSION:
         g_value_set_string (value,
                             osinfo_product_get_version (product));
+        break;
+
+    case PROP_CODENAME:
+        g_value_set_string (value,
+                            osinfo_product_get_codename (product));
         break;
 
     default:
@@ -201,6 +207,21 @@ osinfo_product_class_init (OsinfoProductClass *klass)
                                  G_PARAM_STATIC_NICK |
                                  G_PARAM_STATIC_BLURB);
     g_object_class_install_property (g_klass, PROP_VERSION, pspec);
+
+    /**
+     * OsinfoProduct::codename:
+     *
+     * The codename of this product.
+     */
+    pspec = g_param_spec_string ("codename",
+                                 "Codename",
+                                 "Codename",
+                                 NULL /* default value */,
+                                 G_PARAM_READABLE |
+                                 G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK |
+                                 G_PARAM_STATIC_BLURB);
+    g_object_class_install_property (g_klass, PROP_NAME, pspec);
 }
 
 static void
@@ -281,6 +302,11 @@ const gchar *osinfo_product_get_short_id(OsinfoProduct *prod)
 const gchar *osinfo_product_get_name(OsinfoProduct *prod)
 {
     return osinfo_entity_get_param_value(OSINFO_ENTITY(prod), OSINFO_PRODUCT_PROP_NAME);
+}
+
+const gchar *osinfo_product_get_codename(OsinfoProduct *prod)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(prod), OSINFO_PRODUCT_PROP_CODENAME);
 }
 
 const gchar *osinfo_product_get_release_date_string(OsinfoProduct *prod)
