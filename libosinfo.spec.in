@@ -99,6 +99,7 @@ rm -fr %{buildroot}
 %{_bindir}/osinfo-pciids-convert
 %{_bindir}/osinfo-usbids-convert
 %{_bindir}/osinfo-detect
+%{_bindir}/osinfo-db-validate
 %dir %{_datadir}/libosinfo/
 %dir %{_datadir}/libosinfo/data/
 %dir %{_datadir}/libosinfo/schemas/
@@ -108,6 +109,7 @@ rm -fr %{buildroot}
 %{_datadir}/libosinfo/data/oses
 %{_datadir}/libosinfo/data/hypervisors
 %{_datadir}/libosinfo/schemas/libosinfo.rng
+%{_mandir}/man1/osinfo-db-validate.1*
 %{_libdir}/%{name}-1.0.so.*
 /lib/udev/rules.d/95-osinfo.rules
 %if %{with_gir}
