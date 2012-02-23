@@ -5,7 +5,9 @@ EXTRA_DIST = \
   COPYING.LIB \
   libosinfo.spec \
   libosinfo.spec.in \
-  mingw32-libosinfo.spec.in
+  mingw32-libosinfo.spec.in \
+  build-aux/mktempd \
+  $(NULL)
 
 DISTCHECK_CONFIGURE_FLAGS=--enable-gtk-doc
 

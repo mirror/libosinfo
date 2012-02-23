@@ -101,12 +101,30 @@ test_treeuris_LDADD = $(COMMON_LDADD)
 test_treeuris_CFLAGS = $(COMMON_CFLAGS)
 test_treeuris_SOURCES = test-treeuris.c
 
-TESTS = $(check_PROGRAMS)
+TEST_SCRIPT_FILES = \
+	test-xml-validate
 
-TESTS_ENVIRONMENT = \
-	LC_ALL=C \
-	G_SLICE=always-malloc G_DEBUG=gc-friendly \
+TESTS = $(check_PROGRAMS) \
+	$(TEST_SCRIPT_FILES)
+	$(NULL)
+
+EXTRA_DIST += \
+	$(TEST_SCRIPT_FILES) \
+	test-lib.sh \
+	$(NULL)
+
+TESTS_ENVIRONMENT =						\
+	abs_top_builddir=$(lv_abs_top_builddir)			\
+	abs_top_srcdir=`cd '$(top_srcdir)'; pwd`		\
+	abs_builddir=`pwd`					\
+	abs_srcdir=`cd '$(srcdir)'; pwd`			\
+	CONFIG_HEADER="`cd '$(top_builddir)'; pwd`/config.h"	\
+	PATH="$(path_add)$(PATH_SEPARATOR)$$PATH"		\
+	SHELL="$(SHELL)"					\
+	LIBVIRT_DRIVER_DIR="$(abs_top_builddir)/src/.libs"	\
+	LC_ALL=C						\
+	G_SLICE=always-malloc G_DEBUG=gc-friendly		\
 	$(VG)
 
 valgrind:
-	$(MAKE) check VG="libtool --mode=execute valgrind --quiet --tool=memcheck --leak-check=full --leak-resolution=high --num-callers=20  --suppressions=osinfo.suppression"
+	$(MAKE) check VG="libtool --mode=execute valgrind --quiet --tool=memcheck --leak-check=full --leak-resolution=high --num-callers=20 --suppressions=osinfo.suppression"
