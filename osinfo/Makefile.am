@@ -28,7 +28,9 @@ libosinfo_1_0_la_CFLAGS = \
 	$(LIBXML_CFLAGS) \
 	$(GOBJECT_CFLAGS) \
 	$(GIO_CFLAGS) \
-	-DPKG_DATA_DIR='"$(pkgdatadir)"'
+	-DPKG_DATA_DIR='"$(pkgdatadir)"' \
+	-DSYS_CONF_DIR='"$(sysconfdir)"' \
+	$(NULL)
 
 libosinfo_1_0_la_LDFLAGS = \
 	$(COVERAGE_LDFLAGS) \

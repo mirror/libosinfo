@@ -1106,6 +1106,7 @@ osinfo_loader_process_file_reg_pci(OsinfoLoader *loader,
 static void
 osinfo_loader_process_file(OsinfoLoader *loader,
                            GFile *file,
+                           gboolean ignoreMissing,
                            GError **err);
 
 static void
@@ -1148,7 +1149,7 @@ osinfo_loader_process_file_dir(OsinfoLoader *loader,
         const gchar *name = g_file_info_get_name(child);
         GFile *ent = g_file_get_child(file, name);
 
-        osinfo_loader_process_file(loader, ent, err);
+        osinfo_loader_process_file(loader, ent, FALSE, err);
 
         g_object_unref(ent);
         g_object_unref(child);
@@ -1163,17 +1164,26 @@ osinfo_loader_process_file_dir(OsinfoLoader *loader,
 static void
 osinfo_loader_process_file(OsinfoLoader *loader,
                            GFile *file,
+                           gboolean ignoreMissing,
                            GError **err)
 {
+    GError *error = NULL;
     GFileInfo *info = g_file_query_info(file,
                                         "standard::*",
                                         G_FILE_QUERY_INFO_NONE,
                                         NULL,
-                                        err);
+                                        &error);
     const char *name;
 
-    if (error_is_set(err))
+    if (error) {
+        if (ignoreMissing &&
+            (error->code == G_IO_ERROR_NOT_FOUND)) {
+            g_error_free(error);
+            return;
+        }
+        g_propagate_error(err, error);
         return;
+    }
 
     name = g_file_info_get_name(info);
 
@@ -1183,15 +1193,15 @@ osinfo_loader_process_file(OsinfoLoader *loader,
     switch (type) {
     case G_FILE_TYPE_REGULAR:
         if (g_str_has_suffix(name, ".xml"))
-            osinfo_loader_process_file_reg_xml(loader, file, info, err);
+            osinfo_loader_process_file_reg_xml(loader, file, info, &error);
         else if (strcmp(name, "usb.ids") == 0)
-            osinfo_loader_process_file_reg_usb(loader, file, info, err);
+            osinfo_loader_process_file_reg_usb(loader, file, info, &error);
         else if (strcmp(name, "pci.ids") == 0)
-            osinfo_loader_process_file_reg_pci(loader, file, info, err);
+            osinfo_loader_process_file_reg_pci(loader, file, info, &error);
         break;
 
     case G_FILE_TYPE_DIRECTORY:
-        osinfo_loader_process_file_dir(loader, file, info, err);
+        osinfo_loader_process_file_dir(loader, file, info, &error);
         break;
 
     default:
@@ -1199,6 +1209,9 @@ osinfo_loader_process_file(OsinfoLoader *loader,
     }
 
     g_object_unref(info);
+
+    if (error)
+        g_propagate_error(err, error);
 }
 
 /**
@@ -1234,6 +1247,7 @@ void osinfo_loader_process_path(OsinfoLoader *loader,
     GFile *file = g_file_new_for_path(path);
     osinfo_loader_process_file(loader,
                                file,
+                               FALSE,
                                err);
     g_object_unref(file);
 }
@@ -1256,19 +1270,45 @@ void osinfo_loader_process_uri(OsinfoLoader *loader,
     GFile *file = g_file_new_for_uri(uri);
     osinfo_loader_process_file(loader,
                                file,
+                               FALSE,
                                err);
     g_object_unref(file);
 }
 
+
+void osinfo_loader_process_default_path(OsinfoLoader *loader, GError **err)
+{
+    GError *error = NULL;
+
+    osinfo_loader_process_system_path(loader, &error);
+    if (error)
+        goto error;
+
+    osinfo_loader_process_local_path(loader, &error);
+    if (error)
+        goto error;
+
+    osinfo_loader_process_user_path(loader, &error);
+    if (error)
+        goto error;
+
+    return;
+
+ error:
+    g_print("Fail\n");
+    g_propagate_error(err, error);
+    return;
+}
+
 /**
- * osinfo_loader_process_default_path:
+ * osinfo_loader_process_system_path:
  * @loader: the loader object
  * @err: (out): filled with error information upon failure
  *
- * Loads data from the default path.
+ * Loads data from the default paths.
  */
-void osinfo_loader_process_default_path(OsinfoLoader *loader,
-                                        GError **err)
+void osinfo_loader_process_system_path(OsinfoLoader *loader,
+                                       GError **err)
 {
     GFile *file;
     gchar *dbdir;
@@ -1281,8 +1321,42 @@ void osinfo_loader_process_default_path(OsinfoLoader *loader,
     file = g_file_new_for_path(dbdir);
     osinfo_loader_process_file(loader,
                                file,
+                               FALSE,
                                err);
     g_object_unref(file);
+}
+
+void osinfo_loader_process_local_path(OsinfoLoader *loader, GError **err)
+{
+    GFile *file;
+    gchar *dbdir;
+    gchar *path = SYS_CONF_DIR;
+
+    dbdir = g_strdup_printf("%s/libosinfo/db", path);
+
+    file = g_file_new_for_path(dbdir);
+    osinfo_loader_process_file(loader,
+                               file,
+                               TRUE,
+                               err);
+    g_object_unref(file);
+    g_free(dbdir);
+}
+
+void osinfo_loader_process_user_path(OsinfoLoader *loader, GError **err)
+{
+    GFile *file;
+    gchar *dbdir;
+    const gchar *configdir = g_get_user_config_dir();
+
+    dbdir = g_strdup_printf("%s/libosinfo/db", configdir);
+    file = g_file_new_for_path(dbdir);
+    osinfo_loader_process_file(loader,
+                               file,
+                               TRUE,
+                               err);
+    g_object_unref(file);
+    g_free(dbdir);
 }
 
 /*
