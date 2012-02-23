@@ -230,12 +230,12 @@ static void test_one(const gchar *vendor)
                                                      info->media,
                                                      &media);
 
-        fail_unless(os != NULL, "ISO %s matched OS %s",
+        fail_unless(os != NULL, "ISO %s was not matched by OS %s",
                     info->filename, info->shortid);
 
         const gchar *shortid = osinfo_product_get_short_id(OSINFO_PRODUCT(os));
         fail_unless(g_str_equal(shortid, info->shortid),
-                    "ISO %s matched OS %s, not %s",
+                    "ISO %s matched OS %s instead of expected %s",
                     info->filename, info->shortid, shortid);
 
         tmp = tmp->next;
@@ -260,6 +260,11 @@ START_TEST(test_ubuntu)
 }
 END_TEST
 
+START_TEST(test_debian)
+{
+    test_one("debian");
+}
+END_TEST
 
 START_TEST(test_windows)
 {
@@ -278,6 +283,7 @@ list_suite(void)
 
     tcase_add_test(tc, test_fedora);
     tcase_add_test(tc, test_ubuntu);
+    tcase_add_test(tc, test_debian);
     tcase_add_test(tc, test_windows);
     suite_add_tcase(s, tc);
     return s;
