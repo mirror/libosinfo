@@ -255,6 +255,68 @@ EXIT:
 }
 
 /*
+=pod
+
+=head1 NAME
+
+osinfo-detect - Detect the operating system on installable media or trees
+
+=head1 SYNOPSIS
+
+osinfo-detect [OPTIONS...] PATH|URI
+
+=head1 DESCRIPTION
+
+Examine the C<PATH> or C<URI> to determine what (if any) operating
+system it is for, and whether it is installable or is a Live image.
+By default C<PATH> or C<URI> will be interpreted as pointing to
+ISO media. To request examination of an install tree instead, the
+option C<--type=tree> should be given.
+
+The output information is formatted for humans; to obtain machine
+readable output, the option C<--format=env> should be given to
+produce shell-like key/value pairs.
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<--format=plain|env>
+
+Switch between human readable output (B<plain>, the default) or machine
+readable output (B<env>).
+
+=item B<--type=media|tree>
+
+Switch between looking for CD/DVD ISO media (B<media>, the default) or
+install trees (B<tree>)
+
+=back
+
+=head1 EXIT STATUS
+
+The exit status will be 0 if an operating system was detected,
+or 1 if none was found.
+
+=head1 AUTHORS
+
+Zeeshan Ali (Khattak) <zeeshanak@gnome.org>, Daniel P. Berrange <berrange@redhat.com>
+
+=head1 COPYRIGHT
+
+Copyright (C) 2011-2012 Red Hat, Inc.
+
+=head1 LICENSE
+
+C<osinfo-detect> is distributed under the termsof the GNU LGPL v2
+license. This is free software; see the source for copying conditions.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE
+
+=cut
+*/
+
+/*
  * Local variables:
  *  indent-tabs-mode: nil
  *  c-indent-level: 4

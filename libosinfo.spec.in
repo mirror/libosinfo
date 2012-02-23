@@ -110,6 +110,7 @@ rm -fr %{buildroot}
 %{_datadir}/libosinfo/data/hypervisors
 %{_datadir}/libosinfo/schemas/libosinfo.rng
 %{_mandir}/man1/osinfo-db-validate.1*
+%{_mandir}/man1/osinfo-detect.1*
 %{_libdir}/%{name}-1.0.so.*
 /lib/udev/rules.d/95-osinfo.rules
 %if %{with_gir}

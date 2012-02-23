@@ -8,7 +8,7 @@ AM_CFLAGS = $(GOBJECT_CFLAGS) \
 
 bin_PROGRAMS = osinfo-detect osinfo-db-validate
 
-man1_MANS = osinfo-db-validate.1
+man1_MANS = osinfo-db-validate.1 osinfo-detect.1
 
 POD2MAN = pod2man -c "Virtualization Support" -r "$(PACKAGE)-$(VERSION)"
 
