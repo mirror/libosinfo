@@ -1,6 +1,7 @@
 html-build.stamp
 html.stamp
 scan-build.stamp
+setup-build.stamp
 sgml-build.stamp
 sgml.stamp
 tmpl-build.stamp
@@ -16,6 +17,8 @@ tmpl/
 Libosinfo-decl.txt
 Libosinfo-decl.txt.bak
 Libosinfo-decl-list.txt
+Libosinfo-decl-list.txt.bak
+Libosinfo-sections.txt
 Libosinfo-undeclared.txt
 Libosinfo-undocumented.txt
 Libosinfo-unused.txt
