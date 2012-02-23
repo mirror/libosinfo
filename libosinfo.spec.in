@@ -101,11 +101,13 @@ rm -fr %{buildroot}
 %{_bindir}/osinfo-detect
 %dir %{_datadir}/libosinfo/
 %dir %{_datadir}/libosinfo/data/
+%dir %{_datadir}/libosinfo/schemas/
 %{_datadir}/libosinfo/data/usb.ids
 %{_datadir}/libosinfo/data/pci.ids
 %{_datadir}/libosinfo/data/devices
 %{_datadir}/libosinfo/data/oses
 %{_datadir}/libosinfo/data/hypervisors
+%{_datadir}/libosinfo/schemas/libosinfo.rng
 %{_libdir}/%{name}-1.0.so.*
 /lib/udev/rules.d/95-osinfo.rules
 %if %{with_gir}
