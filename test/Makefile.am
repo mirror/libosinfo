@@ -16,7 +16,9 @@ check_PROGRAMS = \
 	test-db \
 	test-loader \
 	test-isodetect \
-	test-mediauris
+	test-mediauris \
+	test-treeuris \
+        $(NULL)
 
 COMMON_LDADD = \
 	$(COVERAGE_LDFLAGS) \
@@ -94,6 +96,10 @@ test_isodetect_SOURCES = test-isodetect.c
 test_mediauris_LDADD = $(COMMON_LDADD)
 test_mediauris_CFLAGS = $(COMMON_CFLAGS)
 test_mediauris_SOURCES = test-mediauris.c
+
+test_treeuris_LDADD = $(COMMON_LDADD)
+test_treeuris_CFLAGS = $(COMMON_CFLAGS)
+test_treeuris_SOURCES = test-treeuris.c
 
 TESTS = $(check_PROGRAMS)
 
