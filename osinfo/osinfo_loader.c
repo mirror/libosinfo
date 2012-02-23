@@ -1271,11 +1271,14 @@ void osinfo_loader_process_default_path(OsinfoLoader *loader,
                                         GError **err)
 {
     GFile *file;
+    gchar *dbdir;
     const gchar *path = getenv("OSINFO_DATA_DIR");
     if (!path)
-        path = DATA_DIR;
+        path = PKG_DATA_DIR;
 
-    file = g_file_new_for_path(path);
+    dbdir = g_strdup_printf("%s/db", path);
+
+    file = g_file_new_for_path(dbdir);
     osinfo_loader_process_file(loader,
                                file,
                                err);

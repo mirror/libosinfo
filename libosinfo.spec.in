@@ -100,13 +100,13 @@ rm -fr %{buildroot}
 %{_bindir}/osinfo-db-validate
 %{_bindir}/osinfo-query
 %dir %{_datadir}/libosinfo/
-%dir %{_datadir}/libosinfo/data/
+%dir %{_datadir}/libosinfo/db/
 %dir %{_datadir}/libosinfo/schemas/
-%{_datadir}/libosinfo/data/usb.ids
-%{_datadir}/libosinfo/data/pci.ids
-%{_datadir}/libosinfo/data/devices
-%{_datadir}/libosinfo/data/oses
-%{_datadir}/libosinfo/data/hypervisors
+%{_datadir}/libosinfo/db/usb.ids
+%{_datadir}/libosinfo/db/pci.ids
+%{_datadir}/libosinfo/db/devices
+%{_datadir}/libosinfo/db/oses
+%{_datadir}/libosinfo/db/hypervisors
 %{_datadir}/libosinfo/schemas/libosinfo.rng
 %{_mandir}/man1/osinfo-db-validate.1*
 %{_mandir}/man1/osinfo-detect.1*

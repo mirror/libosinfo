@@ -1,5 +1,5 @@
 
-databasedir = $(pkgdatadir)/data/oses/
+databasedir = $(pkgdatadir)/db/oses/
 database_DATA =     \
   centos.xml        \
   debian.xml        \

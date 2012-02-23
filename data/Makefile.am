@@ -3,7 +3,7 @@ SUBDIRS = devices oses hypervisors schemas
 
 EXTRA_DIST = usb.ids pci.ids 95-osinfo.rules.in
 
-databasedir = $(pkgdatadir)/data/
+databasedir = $(pkgdatadir)/db/
 database_DATA = usb.ids pci.ids
 
 if WITH_UDEV
