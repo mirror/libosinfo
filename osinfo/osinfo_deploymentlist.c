@@ -22,6 +22,8 @@
  *   Daniel P. Berrange <berrange@redhat.com>
  */
 
+#include <config.h>
+
 #include <osinfo/osinfo.h>
 
 G_DEFINE_TYPE (OsinfoDeploymentList, osinfo_deploymentlist, OSINFO_TYPE_LIST);

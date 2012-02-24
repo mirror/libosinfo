@@ -22,6 +22,8 @@
  *   Daniel P. Berrange <berrange@redhat.com>
  */
 
+#include <config.h>
+
 #include <osinfo/osinfo.h>
 
 G_DEFINE_TYPE (OsinfoDeployment, osinfo_deployment, OSINFO_TYPE_ENTITY);

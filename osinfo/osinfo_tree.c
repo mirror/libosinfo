@@ -23,6 +23,8 @@
  *   Daniel P. Berrange <berrange@redhat.com>
  */
 
+#include <config.h>
+
 #include <osinfo/osinfo.h>
 #include <gio/gio.h>
 #include <stdlib.h>

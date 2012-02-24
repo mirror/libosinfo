@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Red Hat, Inc
+ * Copyright (C) 2011 Red Hat, Inc.
  *
  * osinfo-detect: Given a path to a ISO9660 image/device, detects if media is
  *                bootable and the relavent OS if media is an installer for it.
@@ -21,6 +21,8 @@
  * Authors:
  *   Zeeshan Ali <zeenix@redhat.com>
  */
+
+#include <config.h>
 
 #include <osinfo/osinfo.h>
 #include <string.h>

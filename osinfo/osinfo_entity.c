@@ -22,6 +22,8 @@
  *   Daniel P. Berrange <berrange@redhat.com>
  */
 
+#include <config.h>
+
 #include <osinfo/osinfo.h>
 
 G_DEFINE_ABSTRACT_TYPE (OsinfoEntity, osinfo_entity, G_TYPE_OBJECT);
@@ -242,7 +244,7 @@ void osinfo_entity_clear_param(OsinfoEntity *entity, const gchar *key)
 
 /**
  * osinfo_entity_get_id:
- * @entity: a OsinfoEntity 
+ * @entity: a OsinfoEntity
  *
  * Retrieves the unique key for the entity. The format of identifiers
  * is undefined, but the recommended practice is to use a URI.

@@ -22,6 +22,8 @@
  *   Daniel P. Berrange <berrange@redhat.com>
  */
 
+#include <config.h>
+
 #include <osinfo/osinfo.h>
 
 G_DEFINE_TYPE (OsinfoOs, osinfo_os, OSINFO_TYPE_PRODUCT);
@@ -34,7 +36,7 @@ G_DEFINE_TYPE (OsinfoOs, osinfo_os, OSINFO_TYPE_PRODUCT);
  * @see_also: #OsinfoOs, #OsinfoDeployment
  *
  * #OsinfoOs is an entity representing an operating system.
- * Operating systems have a list of supported devices. 
+ * Operating systems have a list of supported devices.
  * There are relationships amongst operating systems to
  * declare which are newest releases, which are clones
  * and which are derived from a common ancestry.
@@ -152,7 +154,7 @@ osinfo_os_init (OsinfoOs *os)
 /**
  * osinfo_os_new:
  * @id: a unique identifier
- * 
+ *
  * Create a new operating system entity
  *
  * Returns: (transfer full): a new operating system entity

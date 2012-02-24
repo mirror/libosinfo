@@ -22,6 +22,8 @@
  *   Daniel P. Berrange <berrange@redhat.com>
  */
 
+#include <config.h>
+
 #include <osinfo/osinfo.h>
 
 G_DEFINE_ABSTRACT_TYPE (OsinfoList, osinfo_list, G_TYPE_OBJECT);
@@ -118,7 +120,7 @@ osinfo_list_class_init (OsinfoListClass *klass)
 
     /**
      * OsinfoList:element-type:
-     * 
+     *
      * The specialization of the list. The list will be
      * restricted to storing #OsinfoEntity objects of
      * the specified type.
@@ -157,7 +159,7 @@ osinfo_list_init (OsinfoList *list)
  * osinfo_list_get_element_type:
  * @list: the entity list
  *
- * Retrieves the type of the subclass of #OsinfoEntity 
+ * Retrieves the type of the subclass of #OsinfoEntity
  * that may be stored in the list
  *
  * Returns: the type of entity stored

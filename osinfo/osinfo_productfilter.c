@@ -22,6 +22,8 @@
  *   Daniel P. Berrange <berrange@redhat.com>
  */
 
+#include <config.h>
+
 #include <osinfo/osinfo.h>
 
 G_DEFINE_TYPE (OsinfoProductFilter, osinfo_productfilter, OSINFO_TYPE_FILTER);
@@ -169,7 +171,7 @@ void osinfo_productfilter_clear_product_constraint(OsinfoProductFilter *productf
 /**
  * osinfo_productfilter_clear_product_constraints:
  * @productfilter: a filter object
- * 
+ *
  * Remove all relationship constraints
  */
 void osinfo_productfilter_clear_product_constraints(OsinfoProductFilter *productfilter)

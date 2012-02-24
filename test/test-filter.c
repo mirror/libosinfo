@@ -1,3 +1,26 @@
+/*
+ * Copyright (C) 2009-2012 Red Hat, Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ *
+ * Authors:
+ *   Daniel P. Berrange <berrange@redhat.com>
+ */
+
+#include <config.h>
+
 #include <stdlib.h>
 #include <osinfo/osinfo.h>
 #include <check.h>
@@ -87,7 +110,7 @@ START_TEST(test_filter_multi)
     fail_unless(!osinfo_filter_matches(filter, OSINFO_ENTITY(dev)), "Filter does not match device");
 
     osinfo_filter_add_constraint(filter, "bus", "pci");
-    /* XXX is this right ?  Multiple values for a filter constraint 
+    /* XXX is this right ?  Multiple values for a filter constraint
      * is treated as requiring all constraint values to match, not
      * required any to match */
     //fail_unless(osinfo_filter_matches(filter, OSINFO_ENTITY(dev)), "Filter matches device");
