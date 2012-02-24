@@ -82,7 +82,7 @@ GList *osinfo_filter_get_constraint_values(OsinfoFilter *filter,
                                            const gchar *propName);
 
 gboolean osinfo_filter_matches(OsinfoFilter *filter,
-			       OsinfoEntity *entity);
+                               OsinfoEntity *entity);
 
 #endif /* __OSINFO_FILTER_H__ */
 /*

@@ -257,7 +257,7 @@ gint main(gint argc, gchar **argv)
     if (!g_option_context_parse(context, &argc, &argv, &error)) {
         g_printerr("Error while parsing options: %s\n", error->message);
         g_printerr("%s\n", g_option_context_get_help(context, FALSE, NULL));
-	goto error;
+        goto error;
     }
 
     if (!validate_files(argc - 1, argv + 1, &error)) {

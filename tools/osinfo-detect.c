@@ -67,9 +67,9 @@ static gboolean parse_format_str(const gchar *option_name,
 }
 
 static gboolean parse_type_str(const gchar *option_name,
-				const gchar *value,
-				gpointer data,
-				GError **error)
+                               const gchar *value,
+                               gpointer data,
+                               GError **error)
 {
     if (strcmp(value, TYPE_STR_MEDIA) == 0)
         type = URL_TYPE_MEDIA;

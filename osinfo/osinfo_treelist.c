@@ -149,7 +149,7 @@ OsinfoTreeList *osinfo_treelist_new_intersection(OsinfoTreeList *sourceOne,
  * Returns: (transfer full): a union of the two tree lists
  */
 OsinfoTreeList *osinfo_treelist_new_union(OsinfoTreeList *sourceOne,
-					  OsinfoTreeList *sourceTwo)
+                                          OsinfoTreeList *sourceTwo)
 {
     OsinfoTreeList *newList = osinfo_treelist_new();
     osinfo_list_add_union(OSINFO_LIST(newList),
