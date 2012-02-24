@@ -185,8 +185,8 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoFilter *filter)
     tmp = os->priv->deviceLinks;
 
     while (tmp) {
-        OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
-        OsinfoDevice *dev = osinfo_devicelink_get_target(link);
+        OsinfoDeviceLink *devlink = OSINFO_DEVICELINK(tmp->data);
+        OsinfoDevice *dev = osinfo_devicelink_get_target(devlink);
         if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(dev)))
             osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(dev));
 
@@ -295,10 +295,10 @@ OsinfoDeviceLinkList *osinfo_os_get_device_links(OsinfoOs *os, OsinfoFilter *fil
     tmp = os->priv->deviceLinks;
 
     while (tmp) {
-        OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
+        OsinfoDeviceLink *devlink = OSINFO_DEVICELINK(tmp->data);
 
-        if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(link)))
-            osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link));
+        if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(devlink)))
+            osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(devlink));
 
         tmp = tmp->next;
     }
@@ -323,11 +323,11 @@ OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoDevice *dev)
     g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
     g_return_val_if_fail(OSINFO_IS_DEVICE(dev), NULL);
 
-    OsinfoDeviceLink *link = osinfo_devicelink_new(dev);
+    OsinfoDeviceLink *devlink = osinfo_devicelink_new(dev);
 
-    os->priv->deviceLinks = g_list_append(os->priv->deviceLinks, link);
+    os->priv->deviceLinks = g_list_append(os->priv->deviceLinks, devlink);
 
-    return link;
+    return devlink;
 }
 
 /**

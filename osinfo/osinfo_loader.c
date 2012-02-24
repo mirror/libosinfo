@@ -304,18 +304,18 @@ static void osinfo_loader_device_link(OsinfoLoader *loader,
         OsinfoDevice *dev = osinfo_loader_get_device(loader, id);
         g_free(id);
 
-        OsinfoDeviceLink *link = NULL;
+        OsinfoDeviceLink *devlink = NULL;
         if (OSINFO_IS_PLATFORM(entity)) {
-            link = osinfo_platform_add_device(OSINFO_PLATFORM(entity), dev);
+            devlink = osinfo_platform_add_device(OSINFO_PLATFORM(entity), dev);
         } else if (OSINFO_IS_OS(entity)) {
-            link = osinfo_os_add_device(OSINFO_OS(entity), dev);
+            devlink = osinfo_os_add_device(OSINFO_OS(entity), dev);
         } else if (OSINFO_IS_DEPLOYMENT(entity)) {
-            link = osinfo_deployment_add_device(OSINFO_DEPLOYMENT(entity), dev);
+            devlink = osinfo_deployment_add_device(OSINFO_DEPLOYMENT(entity), dev);
         }
 
         xmlNodePtr saved = ctxt->node;
         ctxt->node = related[i];
-        osinfo_loader_entity(loader, OSINFO_ENTITY(link), keys, ctxt, root, err);
+        osinfo_loader_entity(loader, OSINFO_ENTITY(devlink), keys, ctxt, root, err);
         ctxt->node = saved;
         if (error_is_set(err))
             goto cleanup;

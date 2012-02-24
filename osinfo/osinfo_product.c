@@ -78,9 +78,9 @@ enum {
 
 static void osinfo_product_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED)
 {
-    struct _OsinfoProductProductLink *link = data;
-    g_object_unref(link->otherProduct);
-    g_free(link);
+    struct _OsinfoProductProductLink *prodlink = data;
+    g_object_unref(prodlink->otherProduct);
+    g_free(prodlink);
 }
 
 
@@ -253,10 +253,10 @@ OsinfoProductList *osinfo_product_get_related(OsinfoProduct *product, OsinfoProd
     GList *tmp = product->priv->productLinks;
 
     while (tmp) {
-        struct _OsinfoProductProductLink *link = tmp->data;
+        struct _OsinfoProductProductLink *prodlink = tmp->data;
 
-        if (link->relshp == relshp)
-            osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link->otherProduct));
+        if (prodlink->relshp == relshp)
+            osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(prodlink->otherProduct));
 
         tmp = tmp->next;
     }

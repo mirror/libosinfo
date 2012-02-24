@@ -61,23 +61,23 @@ osinfo_deployment_set_property(GObject *object,
                                const GValue *value,
                                GParamSpec *pspec)
 {
-    OsinfoDeployment *link = OSINFO_DEPLOYMENT (object);
+    OsinfoDeployment *deployment = OSINFO_DEPLOYMENT (object);
 
     switch (property_id)
         {
         case PROP_OS:
-            if (link->priv->os)
-                g_object_unref(link->priv->os);
-            link->priv->os = g_value_get_object(value);
-            if (link->priv->os)
-                g_object_ref(link->priv->os);
+            if (deployment->priv->os)
+                g_object_unref(deployment->priv->os);
+            deployment->priv->os = g_value_get_object(value);
+            if (deployment->priv->os)
+                g_object_ref(deployment->priv->os);
             break;
         case PROP_PLATFORM:
-            if (link->priv->platform)
-                g_object_unref(link->priv->platform);
-            link->priv->platform = g_value_get_object(value);
-            if (link->priv->platform)
-                g_object_ref(link->priv->platform);
+            if (deployment->priv->platform)
+                g_object_unref(deployment->priv->platform);
+            deployment->priv->platform = g_value_get_object(value);
+            if (deployment->priv->platform)
+                g_object_ref(deployment->priv->platform);
             break;
         default:
             /* We don't have any other property... */
@@ -92,15 +92,15 @@ osinfo_deployment_get_property(GObject *object,
                                GValue *value,
                                GParamSpec *pspec)
 {
-    OsinfoDeployment *link = OSINFO_DEPLOYMENT (object);
+    OsinfoDeployment *deployment = OSINFO_DEPLOYMENT (object);
 
     switch (property_id)
         {
         case PROP_OS:
-            g_value_set_object(value, link->priv->os);
+            g_value_set_object(value, deployment->priv->os);
             break;
         case PROP_PLATFORM:
-            g_value_set_object(value, link->priv->platform);
+            g_value_set_object(value, deployment->priv->platform);
             break;
         default:
             /* We don't have any other property... */
@@ -259,9 +259,9 @@ OsinfoDevice *osinfo_deployment_get_preferred_device(OsinfoDeployment *deploymen
     g_return_val_if_fail(OSINFO_IS_FILTER(filter), NULL);
 
     OsinfoDeviceLinkFilter *linkfilter = osinfo_devicelinkfilter_new(filter);
-    OsinfoDeviceLink *link = osinfo_deployment_get_preferred_device_link(deployment, OSINFO_FILTER(linkfilter));
-    if (link)
-        return osinfo_devicelink_get_target(link);
+    OsinfoDeviceLink *devlink = osinfo_deployment_get_preferred_device_link(deployment, OSINFO_FILTER(linkfilter));
+    if (devlink)
+        return osinfo_devicelink_get_target(devlink);
     return NULL;
 }
 
@@ -285,10 +285,10 @@ OsinfoDeviceLink *osinfo_deployment_get_preferred_device_link(OsinfoDeployment *
 
     // For each device in section list, apply filter. If filter passes, return device.
     while (tmp) {
-        OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
+        OsinfoDeviceLink *devlink = OSINFO_DEVICELINK(tmp->data);
 
-        if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(link))) {
-           return link;
+        if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(devlink))) {
+           return devlink;
         }
 
        tmp = tmp->next;
@@ -318,8 +318,8 @@ OsinfoDeviceList *osinfo_deployment_get_devices(OsinfoDeployment *deployment, Os
     GList *tmp = deployment->priv->deviceLinks;
 
     while (tmp) {
-        OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
-        OsinfoDevice *dev = osinfo_devicelink_get_target(link);
+        OsinfoDeviceLink *devlink = OSINFO_DEVICELINK(tmp->data);
+        OsinfoDevice *dev = osinfo_devicelink_get_target(devlink);
         if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(dev)))
             osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(dev));
 
@@ -349,10 +349,10 @@ OsinfoDeviceLinkList *osinfo_deployment_get_device_links(OsinfoDeployment *deplo
     GList *tmp = deployment->priv->deviceLinks;
 
     while (tmp) {
-        OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
+        OsinfoDeviceLink *devlink = OSINFO_DEVICELINK(tmp->data);
 
-        if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(link)))
-            osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link));
+        if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(devlink)))
+            osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(devlink));
 
         tmp = tmp->next;
     }
@@ -376,11 +376,11 @@ OsinfoDeviceLink *osinfo_deployment_add_device(OsinfoDeployment *deployment, Osi
     g_return_val_if_fail(OSINFO_IS_DEPLOYMENT(deployment), NULL);
     g_return_val_if_fail(OSINFO_IS_DEVICE(dev), NULL);
 
-    OsinfoDeviceLink *link = osinfo_devicelink_new(dev);
+    OsinfoDeviceLink *devlink = osinfo_devicelink_new(dev);
 
-    deployment->priv->deviceLinks = g_list_prepend(deployment->priv->deviceLinks, link);
+    deployment->priv->deviceLinks = g_list_prepend(deployment->priv->deviceLinks, devlink);
 
-    return link;
+    return devlink;
 }
 /*
  * Local variables:

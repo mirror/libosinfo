@@ -55,16 +55,16 @@ osinfo_devicelink_set_property(GObject *object,
                                const GValue *value,
                                GParamSpec *pspec)
 {
-    OsinfoDeviceLink *link = OSINFO_DEVICELINK (object);
+    OsinfoDeviceLink *devlink = OSINFO_DEVICELINK (object);
 
     switch (property_id)
         {
         case PROP_TARGET:
-            if (link->priv->target)
-                g_object_unref(link->priv->target);
-            link->priv->target = g_value_get_object(value);
-            if (link->priv->target)
-                g_object_ref(link->priv->target);
+            if (devlink->priv->target)
+                g_object_unref(devlink->priv->target);
+            devlink->priv->target = g_value_get_object(value);
+            if (devlink->priv->target)
+                g_object_ref(devlink->priv->target);
             break;
         default:
             /* We don't have any other property... */
@@ -79,12 +79,12 @@ osinfo_devicelink_get_property(GObject *object,
                                GValue *value,
                                GParamSpec *pspec)
 {
-    OsinfoDeviceLink *link = OSINFO_DEVICELINK (object);
+    OsinfoDeviceLink *devlink = OSINFO_DEVICELINK (object);
 
     switch (property_id)
         {
         case PROP_TARGET:
-            g_value_set_object(value, link->priv->target);
+            g_value_set_object(value, devlink->priv->target);
             break;
         default:
             /* We don't have any other property... */
@@ -97,10 +97,10 @@ osinfo_devicelink_get_property(GObject *object,
 static void
 osinfo_devicelink_finalize(GObject *object)
 {
-    OsinfoDeviceLink *link = OSINFO_DEVICELINK(object);
+    OsinfoDeviceLink *devlink = OSINFO_DEVICELINK(object);
 
-    if (link->priv->target)
-        g_object_unref(link->priv->target);
+    if (devlink->priv->target)
+        g_object_unref(devlink->priv->target);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_devicelink_parent_class)->finalize (object);
@@ -140,10 +140,10 @@ osinfo_devicelink_class_init (OsinfoDeviceLinkClass *klass)
 }
 
 static void
-osinfo_devicelink_init (OsinfoDeviceLink *devicelink)
+osinfo_devicelink_init (OsinfoDeviceLink *devlink)
 {
     OsinfoDeviceLinkPrivate *priv;
-    devicelink->priv = priv = OSINFO_DEVICELINK_GET_PRIVATE(devicelink);
+    devlink->priv = priv = OSINFO_DEVICELINK_GET_PRIVATE(devlink);
 }
 
 
@@ -172,14 +172,14 @@ OsinfoDeviceLink *osinfo_devicelink_new(OsinfoDevice *target)
  *
  * Returns: (transfer none): the target of the device link
  */
-OsinfoDevice *osinfo_devicelink_get_target(OsinfoDeviceLink *link)
+OsinfoDevice *osinfo_devicelink_get_target(OsinfoDeviceLink *devlink)
 {
-    return link->priv->target;
+    return devlink->priv->target;
 }
 
-const gchar *osinfo_devicelink_get_driver(OsinfoDeviceLink *link)
+const gchar *osinfo_devicelink_get_driver(OsinfoDeviceLink *devlink)
 {
-    return osinfo_entity_get_param_value(OSINFO_ENTITY(link), OSINFO_DEVICELINK_PROP_DRIVER);
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(devlink), OSINFO_DEVICELINK_PROP_DRIVER);
 }
 
 /*
