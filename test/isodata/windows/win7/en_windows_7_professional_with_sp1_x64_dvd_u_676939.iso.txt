@@ -27,4 +27,3 @@ Eltorito validation header:
         Sys type 0
         Nsect 8
         Bootoff 2DE 734
-

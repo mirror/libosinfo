@@ -27,4 +27,3 @@ Eltorito validation header:
         Sys type 0
         Nsect 4
         Bootoff 159 345
-

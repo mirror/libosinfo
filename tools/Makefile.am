@@ -26,4 +26,3 @@ osinfo_db_validate_LDADD = $(GOBJECT_LIBS)   \
 		      $(GIO_LIBS)     	     \
 		      $(LIBXML_LIBS)  	     \
 		      $(top_builddir)/osinfo/libosinfo-1.0.la
-

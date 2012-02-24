@@ -41,4 +41,3 @@ GTKDOC_LIBS = \
 	$(top_builddir)/osinfo/libosinfo-1.0.la
 
 include $(top_srcdir)/gtk-doc.make
-

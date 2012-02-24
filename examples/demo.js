@@ -54,4 +54,3 @@ print ("For OS '" + os.get_name() + "' " +
        "for class '" + drvclass + "' " +
        "use device '" + dev.get_name() + "' " +
        "with HV driver '" + link.get_driver() + "'")
-
