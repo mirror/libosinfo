@@ -1,7 +1,7 @@
 /*
  * libosinfo: Required or recommended resources for an (guest) OS
  *
- * Copyright (C) 2009-2011 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
