@@ -685,6 +685,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
 {
     xmlNodePtr *nodes = NULL;
     guint i;
+    int nnodes;
 
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
     const gchar *const keys[] = {
@@ -711,7 +712,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
     if (error_is_set(err))
         goto cleanup;
 
-    int nnodes = osinfo_loader_nodeset("./media", ctxt, &nodes, err);
+    nnodes = osinfo_loader_nodeset("./media", ctxt, &nodes, err);
     if (error_is_set(err))
         goto cleanup;
 
@@ -798,17 +799,21 @@ static void osinfo_loader_root(OsinfoLoader *loader,
     xmlNodePtr *devices = NULL;
     xmlNodePtr *platforms = NULL;
     xmlNodePtr *deployments = NULL;
+    int i;
+    int ndeployment;
+    int nos;
+    int ndevice;
+    int nplatform;
 
     if (!xmlStrEqual(root->name, BAD_CAST "libosinfo")) {
         OSINFO_ERROR(err, "Incorrect root element");
         return;
     }
 
-    int ndevice = osinfo_loader_nodeset("./device", ctxt, &devices, err);
+    ndevice = osinfo_loader_nodeset("./device", ctxt, &devices, err);
     if (error_is_set(err))
         goto cleanup;
 
-    int i;
     for (i = 0 ; i < ndevice ; i++) {
         xmlNodePtr saved = ctxt->node;
         ctxt->node = devices[i];
@@ -818,7 +823,7 @@ static void osinfo_loader_root(OsinfoLoader *loader,
             goto cleanup;
     }
 
-    int nplatform = osinfo_loader_nodeset("./platform", ctxt, &platforms, err);
+    nplatform = osinfo_loader_nodeset("./platform", ctxt, &platforms, err);
     if (error_is_set(err))
         goto cleanup;
 
@@ -831,7 +836,7 @@ static void osinfo_loader_root(OsinfoLoader *loader,
             goto cleanup;
     }
 
-    int nos = osinfo_loader_nodeset("./os", ctxt, &oss, err);
+    nos = osinfo_loader_nodeset("./os", ctxt, &oss, err);
     if (error_is_set(err))
         goto cleanup;
 
@@ -844,7 +849,7 @@ static void osinfo_loader_root(OsinfoLoader *loader,
             goto cleanup;
     }
 
-    int ndeployment = osinfo_loader_nodeset("./deployment", ctxt, &deployments, err);
+    ndeployment = osinfo_loader_nodeset("./deployment", ctxt, &deployments, err);
     if (error_is_set(err))
         goto cleanup;
 
