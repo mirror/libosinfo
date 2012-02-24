@@ -47,7 +47,7 @@ struct _PrimaryVolumeDescriptor {
     guint8 ignored3[128];
     gchar  application[MAX_APPLICATION]; /* Application ID */
     guint8 ignored4[1346];
-} __attribute__ ((packed));
+};
 
 /* the PrimaryVolumeDescriptor struct must exactly 2048 bytes long
  * since we expect the supplementary volume descriptor to be right
@@ -61,7 +61,7 @@ typedef struct _SupplementaryVolumeDescriptor SupplementaryVolumeDescriptor;
 struct _SupplementaryVolumeDescriptor {
     guint8 ignored[7];
     gchar  system[MAX_SYSTEM]; /* System ID */
-} __attribute__ ((packed));
+};
 
 typedef struct _CreateFromLocationAsyncData CreateFromLocationAsyncData;
 struct _CreateFromLocationAsyncData {
