@@ -239,7 +239,7 @@ osinfo_product_init (OsinfoProduct *product)
  * @product: an product
  * @relshp: the relationship to query
  *
- * Get a list of products satisfying the the requested
+ * Get a list of products satisfying the requested
  * relationship
  *
  * Returns: (transfer full): a list of related products
