@@ -259,7 +259,7 @@ static void test_one(const gchar *vendor)
         const gchar *shortid = osinfo_product_get_short_id(OSINFO_PRODUCT(os));
         fail_unless(g_str_equal(shortid, info->shortid),
                     "ISO %s matched OS %s instead of expected %s",
-                    info->filename, info->shortid, shortid);
+                    info->filename, shortid, info->shortid);
 
         tmp = tmp->next;
     }
@@ -295,6 +295,12 @@ START_TEST(test_windows)
 }
 END_TEST
 
+START_TEST(test_openbsd)
+{
+    test_one("openbsd");
+}
+END_TEST
+
 
 
 static Suite *
@@ -308,6 +314,7 @@ list_suite(void)
     tcase_add_test(tc, test_ubuntu);
     tcase_add_test(tc, test_debian);
     tcase_add_test(tc, test_windows);
+    tcase_add_test(tc, test_openbsd);
     suite_add_tcase(s, tc);
     return s;
 }
