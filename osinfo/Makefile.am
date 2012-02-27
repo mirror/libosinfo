@@ -26,6 +26,7 @@ libosinfo_1_0_la_CFLAGS = \
 	$(COVERAGE_CFLAGS) \
 	-I$(top_srcdir) \
 	$(LIBXML_CFLAGS) \
+	$(LIBXSLT_CFLAGS) \
 	$(GOBJECT_CFLAGS) \
 	$(GIO_CFLAGS) \
 	-DPKG_DATA_DIR='"$(pkgdatadir)"' \
@@ -35,11 +36,14 @@ libosinfo_1_0_la_CFLAGS = \
 libosinfo_1_0_la_LDFLAGS = \
 	$(COVERAGE_LDFLAGS) \
 	$(LIBXML_LIBS) \
+	$(LIBXSLT_LIBS) \
 	$(GOBJECT_LIBS) \
 	$(GIO_LIBS) \
 	$(VERSION_SCRIPT_FLAGS)$(LIBOSINFO_VERSION_FILE) \
         -version-info $(LIBOSINFO_VERSION_INFO) \
 	$(NO_UNDEFINED_FLAGS)
+
+libosinfo_1_0_la_DEPENDENCIES = libosinfo.syms
 
 libosinfo_1_0_includedir = $(includedir)/libosinfo-1.0/osinfo
 
@@ -54,6 +58,9 @@ libosinfo_1_0_include_HEADERS = \
   osinfo_devicelinkfilter.h	\
   osinfo_entity.h		\
   osinfo_filter.h		\
+  osinfo_install_config.h       \
+  osinfo_install_script.h       \
+  osinfo_install_scriptlist.h   \
   osinfo_product.h		\
   osinfo_productfilter.h	\
   osinfo_productlist.h		\
@@ -81,6 +88,9 @@ libosinfo_1_0_la_SOURCES =	\
   osinfo_devicelist.c		\
   osinfo_devicelinklist.c	\
   osinfo_devicelinkfilter.c	\
+  osinfo_install_config.c       \
+  osinfo_install_script.c       \
+  osinfo_install_scriptlist.c   \
   osinfo_product.c		\
   osinfo_productfilter.c	\
   osinfo_productlist.c		\
@@ -121,6 +131,7 @@ Libosinfo-1.0.gir: libosinfo-1.0.la $(G_IR_SCANNER) Makefile.am
 		--pkg=gobject-2.0 \
 		--pkg=gio-2.0 \
 		--pkg=libxml-2.0 \
+		--pkg=libxslt \
 		$(libosinfo_1_0_include_HEADERS:%=$(srcdir)/%) \
 		$(libosinfo_1_0_la_SOURCES:%=$(srcdir)/%)
 

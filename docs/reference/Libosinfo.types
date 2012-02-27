@@ -8,6 +8,9 @@ osinfo_devicelinklist_get_type
 osinfo_devicelist_get_type
 osinfo_entity_get_type
 osinfo_filter_get_type
+osinfo_install_config_get_type
+osinfo_install_script_get_type
+osinfo_install_scriptlist_get_type
 osinfo_list_get_type
 osinfo_loader_get_type
 osinfo_media_get_type

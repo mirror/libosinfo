@@ -22,6 +22,7 @@ URL: https://fedorahosted.org/libosinfo/
 BuildRequires: glib2-devel
 BuildRequires: check-devel
 BuildRequires: libxml2-devel >= 2.6.0
+BuildRequires: libxslt-devel >= 1.0.0
 BuildRequires: vala
 BuildRequires: vala-tools
 BuildRequires: libsoup-devel

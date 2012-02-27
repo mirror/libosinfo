@@ -33,6 +33,9 @@
 #include <osinfo/osinfo_devicelist.h>
 #include <osinfo/osinfo_devicelinklist.h>
 #include <osinfo/osinfo_devicelinkfilter.h>
+#include <osinfo/osinfo_install_config.h>
+#include <osinfo/osinfo_install_script.h>
+#include <osinfo/osinfo_install_scriptlist.h>
 #include <osinfo/osinfo_productlist.h>
 #include <osinfo/osinfo_product.h>
 #include <osinfo/osinfo_productfilter.h>
