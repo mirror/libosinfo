@@ -46,8 +46,11 @@
 #define OSINFO_IS_OS_CLASS(klass)       (G_TYPE_CHECK_CLASS_TYPE ((klass), OSINFO_TYPE_OS))
 #define OSINFO_OS_GET_CLASS(obj)        (G_TYPE_INSTANCE_GET_CLASS ((obj), OSINFO_TYPE_OS, OsinfoOsClass))
 
-typedef struct _OsinfoOs        OsinfoOs;
-
+/*
+ * Forward declared in osinfo_install_script.h
+ *
+ * typedef struct _OsinfoOs        OsinfoOs;
+ */
 typedef struct _OsinfoOsClass   OsinfoOsClass;
 
 typedef struct _OsinfoOsPrivate OsinfoOsPrivate;
@@ -97,6 +100,10 @@ OsinfoResourcesList *osinfo_os_get_minimum_resources(OsinfoOs *os);
 OsinfoResourcesList *osinfo_os_get_recommended_resources(OsinfoOs *os);
 void osinfo_os_add_minimum_resources(OsinfoOs *os, OsinfoResources *resources);
 void osinfo_os_add_recommended_resources(OsinfoOs *os, OsinfoResources *resources);
+
+OsinfoInstallScript *osinfo_os_find_install_script(OsinfoOs *os, const gchar *profile);
+OsinfoInstallScriptList *osinfo_os_get_install_scripts(OsinfoOs *os);
+void osinfo_os_add_install_script(OsinfoOs *os, OsinfoInstallScript *script);
 
 #endif /* __OSINFO_OS_H__ */
 /*

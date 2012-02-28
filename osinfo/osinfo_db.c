@@ -52,6 +52,7 @@ struct _OsinfoDbPrivate
     OsinfoPlatformList *platforms;
     OsinfoOsList *oses;
     OsinfoDeploymentList *deployments;
+    OsinfoInstallScriptList *scripts;
 };
 
 static void osinfo_db_finalize (GObject *object);
@@ -65,6 +66,7 @@ osinfo_db_finalize (GObject *object)
     g_object_unref(db->priv->platforms);
     g_object_unref(db->priv->oses);
     g_object_unref(db->priv->deployments);
+    g_object_unref(db->priv->scripts);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_db_parent_class)->finalize (object);
@@ -93,6 +95,7 @@ osinfo_db_init (OsinfoDb *db)
     db->priv->platforms = osinfo_platformlist_new();
     db->priv->oses = osinfo_oslist_new();
     db->priv->deployments = osinfo_deploymentlist_new();
+    db->priv->scripts = osinfo_install_scriptlist_new();
 }
 
 /** PUBLIC METHODS */
@@ -166,6 +169,21 @@ OsinfoDeployment *osinfo_db_get_deployment(OsinfoDb *db, const gchar *id)
     g_return_val_if_fail(id != NULL, NULL);
 
     return OSINFO_DEPLOYMENT(osinfo_list_find_by_id(OSINFO_LIST(db->priv->deployments), id));
+}
+
+/**
+ * osinfo_db_get_install_script:
+ * @db: the database
+ * @id: the unique operating system identifier
+ *
+ * Returns: (transfer none): the install script, or NULL if none is found
+ */
+OsinfoInstallScript *osinfo_db_get_install_script(OsinfoDb *db, const gchar *id)
+{
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    g_return_val_if_fail(id != NULL, NULL);
+
+    return OSINFO_INSTALL_SCRIPT(osinfo_list_find_by_id(OSINFO_LIST(db->priv->scripts), id));
 }
 
 
@@ -266,6 +284,20 @@ OsinfoDeploymentList *osinfo_db_get_deployment_list(OsinfoDb *db)
 
 
 /**
+ * osinfo_db_get_install_script_list:
+ * @db: the database
+ *
+ * Returns: (transfer full): the list of install scripts
+ */
+OsinfoInstallScriptList *osinfo_db_get_install_script_list(OsinfoDb *db)
+{
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+
+    return osinfo_install_scriptlist_new_copy(db->priv->scripts);
+}
+
+
+/**
  * osinfo_db_add_os:
  * @db: the database
  * @os: (transfer none): an operating system
@@ -323,6 +355,22 @@ void osinfo_db_add_deployment(OsinfoDb *db, OsinfoDeployment *deployment)
 
     osinfo_list_add(OSINFO_LIST(db->priv->deployments), OSINFO_ENTITY(deployment));
 }
+
+
+/**
+ * osinfo_db_add_install_script:
+ * @db: the database
+ * @script: (transfer none): a install script
+ *
+ */
+void osinfo_db_add_install_script(OsinfoDb *db, OsinfoInstallScript *script)
+{
+    g_return_if_fail(OSINFO_IS_DB(db));
+    g_return_if_fail(OSINFO_IS_INSTALL_SCRIPT(script));
+
+    osinfo_list_add(OSINFO_LIST(db->priv->scripts), OSINFO_ENTITY(script));
+}
+
 
 static gint media_volume_compare (gconstpointer a, gconstpointer b)
 {

@@ -51,6 +51,8 @@ struct _OsinfoOsPrivate
     OsinfoTreeList *trees;
     OsinfoResourcesList *minimum;
     OsinfoResourcesList *recommended;
+
+    OsinfoInstallScriptList *scripts;
 };
 
 struct _OsinfoOsDeviceLink {
@@ -108,6 +110,8 @@ osinfo_os_finalize (GObject *object)
     g_list_free(os->priv->deviceLinks);
     g_object_unref(os->priv->medias);
     g_object_unref(os->priv->trees);
+
+    g_object_unref(os->priv->scripts);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_os_parent_class)->finalize (object);
@@ -173,6 +177,7 @@ osinfo_os_init (OsinfoOs *os)
     os->priv->trees = osinfo_treelist_new ();
     os->priv->minimum = osinfo_resourceslist_new ();
     os->priv->recommended = osinfo_resourceslist_new ();
+    os->priv->scripts = osinfo_install_scriptlist_new ();
 }
 
 /**
@@ -525,6 +530,45 @@ void osinfo_os_add_recommended_resources(OsinfoOs *os,
 
     osinfo_list_add(OSINFO_LIST(os->priv->recommended),
                     OSINFO_ENTITY(resources));
+}
+
+
+OsinfoInstallScript *osinfo_os_find_install_script(OsinfoOs *os, const gchar *profile)
+{
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+    GList *scripts = osinfo_list_get_elements(OSINFO_LIST(os));
+    GList *tmp = scripts;
+
+    while (tmp) {
+        OsinfoInstallScript *script = tmp->data;
+        if (g_str_equal(profile, osinfo_install_script_get_profile(script)))
+            return script;
+
+        tmp = tmp->next;
+    }
+
+    return NULL;
+}
+
+
+/**
+ * osinfo_os_get_install_scripts:
+ *
+ * Returns: (transfer full): a list of the install scripts for the specified os
+ */
+OsinfoInstallScriptList *osinfo_os_get_install_scripts(OsinfoOs *os)
+{
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+
+    return osinfo_install_scriptlist_new_copy(os->priv->scripts);
+}
+
+
+void osinfo_os_add_install_script(OsinfoOs *os, OsinfoInstallScript *script)
+{
+    g_return_if_fail(OSINFO_IS_OS(os));
+
+    osinfo_list_add(OSINFO_LIST(os->priv->scripts), OSINFO_ENTITY(script));
 }
 
 /*

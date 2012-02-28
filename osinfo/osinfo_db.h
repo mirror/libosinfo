@@ -78,6 +78,7 @@ OsinfoPlatform *osinfo_db_get_platform(OsinfoDb *db, const gchar *id);
 OsinfoDevice *osinfo_db_get_device(OsinfoDb *db, const gchar *id);
 OsinfoOs *osinfo_db_get_os(OsinfoDb *db, const gchar *id);
 OsinfoDeployment *osinfo_db_get_deployment(OsinfoDb *db, const gchar *id);
+OsinfoInstallScript *osinfo_db_get_install_script(OsinfoDb *db, const gchar *id);
 
 OsinfoDeployment *osinfo_db_find_deployment(OsinfoDb *db,
                                             OsinfoOs *os,
@@ -87,11 +88,13 @@ OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *db);
 OsinfoPlatformList *osinfo_db_get_platform_list(OsinfoDb *db);
 OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *db);
 OsinfoDeploymentList *osinfo_db_get_deployment_list(OsinfoDb *db);
+OsinfoInstallScriptList *osinfo_db_get_install_script_list(OsinfoDb *db);
 
 void osinfo_db_add_os(OsinfoDb *db, OsinfoOs *os);
 void osinfo_db_add_platform(OsinfoDb *db, OsinfoPlatform *platform);
 void osinfo_db_add_device(OsinfoDb *db, OsinfoDevice *device);
 void osinfo_db_add_deployment(OsinfoDb *db, OsinfoDeployment *deployment);
+void osinfo_db_add_install_script(OsinfoDb *db, OsinfoInstallScript *script);
 
 OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
                                         OsinfoMedia *media,
