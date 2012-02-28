@@ -1,5 +1,5 @@
 
-SUBDIRS = devices oses hypervisors schemas
+SUBDIRS = devices oses hypervisors schemas install-scripts
 
 EXTRA_DIST = usb.ids pci.ids 95-osinfo.rules.in
 

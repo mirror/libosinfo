@@ -173,6 +173,7 @@ AC_CONFIG_FILES([
 	data/devices/Makefile
 	data/hypervisors/Makefile
 	data/oses/Makefile
+	data/install-scripts/Makefile
 	data/schemas/Makefile
 	tools/Makefile
 	test/Makefile
