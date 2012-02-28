@@ -196,6 +196,11 @@ void osinfo_entity_set_param(OsinfoEntity *entity, const gchar *key, const gchar
 }
 
 
+void osinfo_entity_set_param_boolean(OsinfoEntity *entity, const gchar *key, gboolean value)
+{
+    osinfo_entity_set_param(entity, key, value ? "true" : "false");
+}
+
 /**
  * osinfo_entity_add_param:
  * @entity: OsinfoEntity containing the parameters
@@ -304,6 +309,14 @@ const gchar *osinfo_entity_get_param_value(OsinfoEntity *entity, const gchar *ke
     if (values)
         return values->data;
     return NULL;
+}
+
+
+gboolean osinfo_entity_get_param_value_boolean(OsinfoEntity *entity, const gchar *key)
+{
+    const gchar *value = osinfo_entity_get_param_value(entity, key);
+
+    return value && g_str_equal(value, "true");
 }
 
 

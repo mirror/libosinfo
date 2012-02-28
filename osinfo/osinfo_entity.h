@@ -70,8 +70,10 @@ const gchar *osinfo_entity_get_id(OsinfoEntity *entity);
 
 GList *osinfo_entity_get_param_keys(OsinfoEntity *entity);
 const gchar *osinfo_entity_get_param_value(OsinfoEntity *entity, const gchar *key);
+gboolean osinfo_entity_get_param_value_boolean(OsinfoEntity *entity, const gchar *key);
 GList *osinfo_entity_get_param_value_list(OsinfoEntity *entity, const gchar *key);
 void osinfo_entity_set_param(OsinfoEntity *entity, const gchar *key, const gchar *value);
+void osinfo_entity_set_param_boolean(OsinfoEntity *entity, const gchar *key, gboolean value);
 void osinfo_entity_add_param(OsinfoEntity *entity, const gchar *key, const gchar *value);
 void osinfo_entity_clear_param(OsinfoEntity *entity, const gchar *key);
 
