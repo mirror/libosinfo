@@ -99,6 +99,7 @@ rm -fr %{buildroot}
 %{_bindir}/osinfo-detect
 %{_bindir}/osinfo-db-validate
 %{_bindir}/osinfo-query
+%{_bindir}/osinfo-install-script
 %dir %{_datadir}/libosinfo/
 %dir %{_datadir}/libosinfo/db/
 %dir %{_datadir}/libosinfo/schemas/
@@ -111,6 +112,7 @@ rm -fr %{buildroot}
 %{_mandir}/man1/osinfo-db-validate.1*
 %{_mandir}/man1/osinfo-detect.1*
 %{_mandir}/man1/osinfo-query.1*
+%{_mandir}/man1/osinfo-install-script.1*
 %{_libdir}/%{name}-1.0.so.*
 /lib/udev/rules.d/95-osinfo.rules
 %if %{with_gir}
