@@ -18,6 +18,7 @@ check_PROGRAMS = \
 	test-isodetect \
 	test-mediauris \
 	test-treeuris \
+	test-install-script \
         $(NULL)
 
 COMMON_LDADD = \
@@ -35,6 +36,7 @@ COMMON_CFLAGS = \
 	$(SOUP_GNOME_CFLAGS) \
 	-I$(top_srcdir) \
 	-DSRCDIR="\"$(abs_top_srcdir)\"" \
+	-DBUILDDIR="\"$(abs_top_builddir)\"" \
 	$(CHECK_CFLAGS)
 
 test_entity_LDADD = $(COMMON_LDADD)
@@ -101,6 +103,10 @@ test_treeuris_LDADD = $(COMMON_LDADD)
 test_treeuris_CFLAGS = $(COMMON_CFLAGS)
 test_treeuris_SOURCES = test-treeuris.c
 
+test_install_script_LDADD = $(COMMON_LDADD)
+test_install_script_CFLAGS = $(COMMON_CFLAGS)
+test_install_script_SOURCES = test-install-script.c
+
 TEST_SCRIPT_FILES = \
 	test-xml-validate
 
@@ -111,6 +117,7 @@ TESTS = $(check_PROGRAMS) \
 EXTRA_DIST += \
 	$(TEST_SCRIPT_FILES) \
 	test-lib.sh \
+	install-script.xsl \
 	$(NULL)
 
 TESTS_ENVIRONMENT =						\
