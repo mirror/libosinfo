@@ -62,11 +62,15 @@ static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *
     info->shortid = g_strdup(shortid);
     if (strstr(name, "amd64") ||
              strstr(name, "x64") ||
-             strstr(name, "x86_64"))
+             strstr(name, "x86_64") ||
+             strstr(name, "64bit") ||
+             strstr(name, "64-bit"))
         arch = "x86_64";
     else if (strstr(name, "i386") ||
              strstr(name, "i686") ||
-             strstr(name, "x86"))
+             strstr(name, "x86") ||
+             strstr(name, "32bit") ||
+             strstr(name, "32-bit"))
         arch = "i386";
     else if (strstr(name, "ppc") ||
              strstr(name, "powerpc"))
