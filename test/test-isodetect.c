@@ -78,7 +78,7 @@ static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *
     else if (strstr(name, "ia64"))
         arch = "ia64";
     else {
-        g_warning("Unknown arch in %s", name);
+        g_debug("Unknown arch in %s", name);
         arch = "i386";
     }
 
