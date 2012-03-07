@@ -3,9 +3,7 @@ DOC_MODULE=Libosinfo
 
 DOC_MAIN_SGML_FILE=$(DOC_MODULE)-docs.xml
 
-# Must not use $(top_srcdir) since gtkdoc-scan runs
-# from the srcdir already, not the builddir
-DOC_SOURCE_DIR=../../osinfo
+DOC_SOURCE_DIR=$(top_srcdir)/osinfo
 
 SCANGOBJ_OPTIONS=
 
