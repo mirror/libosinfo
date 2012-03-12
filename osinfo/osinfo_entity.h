@@ -43,6 +43,8 @@ typedef struct _OsinfoEntityClass   OsinfoEntityClass;
 
 typedef struct _OsinfoEntityPrivate OsinfoEntityPrivate;
 
+#define OSINFO_ENTITY_PROP_ID "id"
+
 /* object */
 struct _OsinfoEntity
 {
