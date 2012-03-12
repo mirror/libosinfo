@@ -26,7 +26,9 @@ LIBOSINFO_0.0.1 {
 	osinfo_device_get_type;
 	osinfo_device_new;
 	osinfo_device_get_vendor;
+	osinfo_device_get_vendor_id;
 	osinfo_device_get_product;
+	osinfo_device_get_product_id;
 	osinfo_device_get_class;
 	osinfo_device_get_bus_type;
 	osinfo_device_get_name;

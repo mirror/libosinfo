@@ -263,7 +263,9 @@ static void osinfo_loader_device(OsinfoLoader *loader,
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
     const gchar *const keys[] = {
         OSINFO_DEVICE_PROP_VENDOR,
+        OSINFO_DEVICE_PROP_VENDOR_ID,
         OSINFO_DEVICE_PROP_PRODUCT,
+        OSINFO_DEVICE_PROP_PRODUCT_ID,
         OSINFO_DEVICE_PROP_BUS_TYPE,
         OSINFO_DEVICE_PROP_CLASS,
         OSINFO_DEVICE_PROP_NAME,
@@ -1038,11 +1040,14 @@ osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
 
                 OsinfoDevice *dev = osinfo_loader_get_device(loader, id);
                 osinfo_entity_set_param(OSINFO_ENTITY(dev),
-                                        OSINFO_DEVICE_PROP_VENDOR,
+                                        OSINFO_DEVICE_PROP_VENDOR_ID,
                                         vendor_id);
                 osinfo_entity_set_param(OSINFO_ENTITY(dev),
-                                        OSINFO_DEVICE_PROP_PRODUCT,
+                                        OSINFO_DEVICE_PROP_PRODUCT_ID,
                                         device_id);
+                osinfo_entity_set_param(OSINFO_ENTITY(dev),
+                                        OSINFO_DEVICE_PROP_BUS_TYPE,
+                                        busType);
                 g_free(id);
             }
         } else {
