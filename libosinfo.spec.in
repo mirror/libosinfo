@@ -100,6 +100,7 @@ rm -fr %{buildroot}
 %{_bindir}/osinfo-usbids-convert
 %{_bindir}/osinfo-detect
 %{_bindir}/osinfo-db-validate
+%{_bindir}/osinfo-query
 %dir %{_datadir}/libosinfo/
 %dir %{_datadir}/libosinfo/data/
 %dir %{_datadir}/libosinfo/schemas/
