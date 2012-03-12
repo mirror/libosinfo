@@ -53,6 +53,7 @@ typedef struct _OsinfoOsClass   OsinfoOsClass;
 typedef struct _OsinfoOsPrivate OsinfoOsPrivate;
 
 #define OSINFO_OS_PROP_FAMILY    "family"
+#define OSINFO_OS_PROP_DISTRO    "distro"
 
 /* object */
 struct _OsinfoOs
@@ -87,6 +88,7 @@ OsinfoDeviceLinkList *osinfo_os_get_device_links(OsinfoOs *os, OsinfoFilter *fil
 
 OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoDevice *dev);
 const gchar *osinfo_os_get_family(OsinfoOs *os);
+const gchar *osinfo_os_get_distro(OsinfoOs *os);
 OsinfoMediaList *osinfo_os_get_media_list(OsinfoOs *os);
 void osinfo_os_add_media(OsinfoOs *os, OsinfoMedia *media);
 OsinfoTreeList *osinfo_os_get_tree_list(OsinfoOs *os);

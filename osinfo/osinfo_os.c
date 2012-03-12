@@ -62,6 +62,7 @@ enum {
     PROP_0,
 
     PROP_FAMILY,
+    PROP_DISTRO,
 };
 
 static void osinfo_os_finalize (GObject *object);
@@ -85,6 +86,11 @@ osinfo_os_get_property (GObject    *object,
             g_value_set_string (value,
                                 osinfo_entity_get_param_value (entity,
                                                                "family"));
+            break;
+        case PROP_DISTRO:
+            g_value_set_string (value,
+                                osinfo_entity_get_param_value (entity,
+                                                               "distro"));
             break;
         default:
             /* We don't have any other property... */
@@ -122,11 +128,11 @@ osinfo_os_class_init (OsinfoOsClass *klass)
     /**
      * OsinfoOs:family:
      *
-     * The generic family this OS belongs to, for example Linux, Windows,
-     * Solaris, UNIX etc.
+     * The generic family this OS belongs to, based upon its kernel,
+     * for example Linux, Windows, Solaris, FreeBSD etc.
      */
     pspec = g_param_spec_string ("family",
-                                 "FAMILY",
+                                 "Family",
                                  "Generic Family",
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
@@ -135,6 +141,24 @@ osinfo_os_class_init (OsinfoOsClass *klass)
                                  G_PARAM_STATIC_BLURB);
     g_object_class_install_property (g_klass,
                                      PROP_FAMILY,
+                                     pspec);
+
+    /**
+     * OsinfoOs:distro:
+     *
+     * The generic distro this OS belongs to, for example Fedora, Windows,
+     * Solaris, FreeBSD etc.
+     */
+    pspec = g_param_spec_string ("distro",
+                                 "Distro",
+                                 "Generic Distro",
+                                 NULL /* default value */,
+                                 G_PARAM_READABLE |
+                                 G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK |
+                                 G_PARAM_STATIC_BLURB);
+    g_object_class_install_property (g_klass,
+                                     PROP_DISTRO,
                                      pspec);
 }
 
@@ -336,8 +360,8 @@ OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoDevice *dev)
  * osinfo_os_get_family:
  * @os: a OsinfoOs
  *
- * Retrieves the generic family the OS @os belongs to, for example Linux,
- * Windows, Solaris, UNIX etc.
+ * Retrieves the generic family the OS @os belongs to, based upon its kernel,
+ * for example Linux, Windows, Solaris, FreeBSD etc.
  *
  * Returns: (transfer none): the family of this os
  */
@@ -346,6 +370,22 @@ const gchar *osinfo_os_get_family(OsinfoOs *os)
     g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
 
     return osinfo_entity_get_param_value(OSINFO_ENTITY(os), "family");
+}
+
+/**
+ * osinfo_os_get_distro:
+ * @os: a OsinfoOs
+ *
+ * Retrieves the generic family the OS @os belongs to, for example Fedora,
+ * Ubuntu, Windows, Solaris, FreeBSD etc.
+ *
+ * Returns: (transfer none): the distro of this os
+ */
+const gchar *osinfo_os_get_distro(OsinfoOs *os)
+{
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(os), "distro");
 }
 
 /**
