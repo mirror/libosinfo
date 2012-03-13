@@ -1,15 +1,18 @@
 
 databasedir = $(pkgdatadir)/data/oses/
 database_DATA =     \
-  bsd.xml	    \
   centos.xml        \
   debian.xml        \
   fedora.xml        \
+  freebsd.xml	    \
   generic-linux.xml \
   mandriva.xml      \
+  mandrake.xml      \
+  netbsd.xml	    \
   openbsd.xml	    \
   opensuse.xml      \
   others.xml	    \
+  rhl.xml           \
   rhel.xml          \
   solaris.xml	    \
   suse.xml          \
