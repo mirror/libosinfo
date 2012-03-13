@@ -69,7 +69,8 @@ START_TEST(test_empty_props)
     OsinfoEntity *ent = g_object_new(osinfo_dummy_get_type(), "id", "myentity", NULL);
 
     GList *keys = osinfo_entity_get_param_keys(ent);
-    fail_unless(keys == NULL, "Entity param key list was not empty");
+    fail_unless(keys != NULL, "Entity param key list was not empty");
+    fail_unless(keys->next == NULL, "Entity param key list was not empty");
 
     const gchar *value = osinfo_entity_get_param_value(ent, "wibble");
     fail_unless(value == NULL, "Entity param value was not NULL");
@@ -89,7 +90,7 @@ START_TEST(test_single_prop_value)
 
     GList *keys = osinfo_entity_get_param_keys(ent);
     fail_unless(keys != NULL, "Entity param key list was empty");
-    fail_unless(keys->next == NULL, "Entity param key list has too many values");
+    fail_unless(keys->next->next == NULL, "Entity param key list has too many values");
     fail_unless(g_strcmp0(keys->data, "hello") == 0, "Entity param key was not 'hello'");
     g_list_free(keys);
 
@@ -118,7 +119,7 @@ START_TEST(test_multi_prop_value)
 
     GList *keys = osinfo_entity_get_param_keys(ent);
     fail_unless(keys != NULL, "Entity param key list was empty");
-    fail_unless(keys->next == NULL, "Entity param key list has too many values");
+    fail_unless(keys->next->next == NULL, "Entity param key list has too many values");
     fail_unless(g_strcmp0(keys->data, "hello") == 0, "Entity param key was not 'hello'");
     g_list_free(keys);
 
@@ -162,7 +163,7 @@ START_TEST(test_multi_props)
             foundFish = TRUE;
         else if (g_strcmp0(tmp->data, "kevin") == 0)
             foundKevin = TRUE;
-        else
+        else if (g_strcmp0(tmp->data, "id") != 0)
             foundBad = TRUE;
         tmp = tmp->next;
     }
@@ -219,7 +220,7 @@ START_TEST(test_multi_props_clear)
             foundHello = TRUE;
         else if (g_strcmp0(tmp->data, "fish") == 0)
             foundFish = TRUE;
-        else
+        else if (g_strcmp0(tmp->data, "id") != 0)
             foundBad = TRUE;
         tmp = tmp->next;
     }
@@ -245,7 +246,7 @@ START_TEST(test_multi_props_clear)
             foundHello = TRUE;
         else if (g_strcmp0(tmp->data, "fish") == 0)
             foundFish = TRUE;
-        else
+        else if (g_strcmp0(tmp->data, "id") != 0)
             foundBad = TRUE;
         tmp = tmp->next;
     }
@@ -272,7 +273,7 @@ START_TEST(test_multi_props_clear)
             foundHello = TRUE;
         else if (g_strcmp0(tmp->data, "fish") == 0)
             foundFish = TRUE;
-        else
+        else if (g_strcmp0(tmp->data, "id") != 0)
             foundBad = TRUE;
         tmp = tmp->next;
     }
