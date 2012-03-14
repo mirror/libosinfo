@@ -96,8 +96,6 @@ rm -fr %{buildroot}
 %files
 %defattr(-, root, root)
 %doc AUTHORS ChangeLog COPYING.LIB NEWS README
-%{_bindir}/osinfo-pciids-convert
-%{_bindir}/osinfo-usbids-convert
 %{_bindir}/osinfo-detect
 %{_bindir}/osinfo-db-validate
 %{_bindir}/osinfo-query
