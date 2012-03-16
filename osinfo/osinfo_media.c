@@ -76,6 +76,9 @@ struct _CreateFromLocationAsyncData {
 
     PrimaryVolumeDescriptor pvd;
     SupplementaryVolumeDescriptor svd;
+
+    gsize offset;
+    gsize length;
 };
 
 static void create_from_location_async_data_free
@@ -570,29 +573,43 @@ static void on_svd_read (GObject *source,
                          GAsyncResult *res,
                          gpointer user_data)
 {
-    OsinfoMedia *ret = NULL;
+    OsinfoMedia *media = NULL;
     GInputStream *stream = G_INPUT_STREAM(source);
     gchar *uri;
     GError *error = NULL;
     CreateFromLocationAsyncData *data;
+    gssize ret;
 
     data = (CreateFromLocationAsyncData *)user_data;
 
-    if (g_input_stream_read_finish(stream,
-                                   res,
-                                   &error) < sizeof(data->svd)) {
-        if (error)
-            g_prefix_error(&error,
-                           "Failed to read supplementary volume descriptor");
-        else
-            g_set_error(&error,
-                        OSINFO_MEDIA_ERROR,
-                        OSINFO_MEDIA_ERROR_NO_SVD,
-                        "Supplementary volume descriptor unavailable");
-
-
+    ret = g_input_stream_read_finish(stream,
+                                     res,
+                                     &error);
+    if (ret < 0) {
+        g_prefix_error(&error,
+                       "Failed to read supplementary volume descriptor: ");
         goto EXIT;
     }
+    if (ret == 0) {
+        g_set_error(&error,
+                    OSINFO_MEDIA_ERROR,
+                    OSINFO_MEDIA_ERROR_NO_SVD,
+                    "Supplementary volume descriptor was truncated");
+        goto EXIT;
+    }
+
+    data->offset += ret;
+    if (data->offset < data->length) {
+        g_input_stream_read_async(stream,
+                                  ((gchar *)&data->svd + data->offset),
+                                  data->length - data->offset,
+                                  data->priority,
+                                  data->cancellable,
+                                  on_svd_read,
+                                  data);
+        return;
+    }
+
 
     data->svd.system[MAX_SYSTEM - 1] = 0;
 
@@ -606,27 +623,27 @@ static void on_svd_read (GObject *source,
     }
 
     uri = g_file_get_uri(data->file);
-    ret = g_object_new(OSINFO_TYPE_MEDIA,
-                       "id", uri,
-                       NULL);
-    osinfo_entity_set_param(OSINFO_ENTITY(ret),
+    media = g_object_new(OSINFO_TYPE_MEDIA,
+                         "id", uri,
+                         NULL);
+    osinfo_entity_set_param(OSINFO_ENTITY(media),
                             OSINFO_MEDIA_PROP_URL,
                             uri);
     g_free(uri);
     if (!is_str_empty (data->pvd.volume))
-        osinfo_entity_set_param(OSINFO_ENTITY(ret),
+        osinfo_entity_set_param(OSINFO_ENTITY(media),
                                 OSINFO_MEDIA_PROP_VOLUME_ID,
                                 data->pvd.volume);
     if (!is_str_empty (data->pvd.system))
-        osinfo_entity_set_param(OSINFO_ENTITY(ret),
+        osinfo_entity_set_param(OSINFO_ENTITY(media),
                                 OSINFO_MEDIA_PROP_SYSTEM_ID,
                                 data->pvd.system);
     if (!is_str_empty (data->pvd.publisher))
-        osinfo_entity_set_param(OSINFO_ENTITY(ret),
+        osinfo_entity_set_param(OSINFO_ENTITY(media),
                                 OSINFO_MEDIA_PROP_PUBLISHER_ID,
                                 data->pvd.publisher);
     if (!is_str_empty (data->pvd.application))
-        osinfo_entity_set_param(OSINFO_ENTITY(ret),
+        osinfo_entity_set_param(OSINFO_ENTITY(media),
                                 OSINFO_MEDIA_PROP_APPLICATION_ID,
                                 data->pvd.application);
 
@@ -634,7 +651,7 @@ EXIT:
     if (error != NULL)
         g_simple_async_result_take_error(data->res, error);
     else
-        g_simple_async_result_set_op_res_gpointer(data->res, ret, NULL);
+        g_simple_async_result_set_op_res_gpointer(data->res, media, NULL);
     g_simple_async_result_complete (data->res);
 
     g_object_unref(stream);
@@ -648,21 +665,35 @@ static void on_pvd_read (GObject *source,
     GInputStream *stream = G_INPUT_STREAM(source);
     CreateFromLocationAsyncData *data;
     GError *error = NULL;
+    gssize ret;
 
     data = (CreateFromLocationAsyncData *)user_data;
 
-    if (g_input_stream_read_finish(stream,
-                                   res,
-                                   &error) < sizeof(data->pvd)) {
-        if (error)
-            g_prefix_error(&error, "Failed to read primary volume descriptor");
-        else
-            g_set_error(&error,
-                        OSINFO_MEDIA_ERROR,
-                        OSINFO_MEDIA_ERROR_NO_PVD,
-                        "Primary volume descriptor unavailable");
-
+    ret = g_input_stream_read_finish(stream,
+                                     res,
+                                     &error);
+    if (ret < 0) {
+        g_prefix_error(&error, "Failed to read primary volume descriptor: ");
         goto ON_ERROR;
+    }
+    if (ret == 0) {
+        g_set_error(&error,
+                    OSINFO_MEDIA_ERROR,
+                    OSINFO_MEDIA_ERROR_NO_PVD,
+                    "Primary volume descriptor was truncated");
+        goto ON_ERROR;
+    }
+
+    data->offset += ret;
+    if (data->offset < data->length) {
+        g_input_stream_read_async(stream,
+                                  ((gchar*)&data->pvd) + data->offset,
+                                  data->length - data->offset,
+                                  data->priority,
+                                  data->cancellable,
+                                  on_pvd_read,
+                                  data);
+        return;
     }
 
     data->pvd.volume[MAX_VOLUME - 1] = 0;
@@ -679,9 +710,12 @@ static void on_pvd_read (GObject *source,
         goto ON_ERROR;
     }
 
+    data->offset = 0;
+    data->length = sizeof(data->svd);
+
     g_input_stream_read_async(stream,
-                              &data->svd,
-                              sizeof(data->svd),
+                              (gchar *)&data->svd,
+                              data->length,
                               data->priority,
                               data->cancellable,
                               on_svd_read,
@@ -719,9 +753,12 @@ static void on_location_skipped(GObject *source,
         return;
     }
 
+    data->offset = 0;
+    data->length = sizeof(data->pvd);
+
     g_input_stream_read_async(stream,
-                              &data->pvd,
-                              sizeof(data->pvd),
+                              (gchar *)&data->pvd,
+                              data->length,
                               data->priority,
                               data->cancellable,
                               on_pvd_read,
