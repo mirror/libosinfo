@@ -1329,10 +1329,7 @@ void osinfo_loader_process_system_path(OsinfoLoader *loader,
 void osinfo_loader_process_local_path(OsinfoLoader *loader, GError **err)
 {
     GFile *file;
-    gchar *dbdir;
-    gchar *path = SYS_CONF_DIR;
-
-    dbdir = g_strdup_printf("%s/libosinfo/db", path);
+    const gchar *dbdir = SYS_CONF_DIR "/libosinfo/db";
 
     file = g_file_new_for_path(dbdir);
     osinfo_loader_process_file(loader,
@@ -1340,7 +1337,6 @@ void osinfo_loader_process_local_path(OsinfoLoader *loader, GError **err)
                                TRUE,
                                err);
     g_object_unref(file);
-    g_free(dbdir);
 }
 
 void osinfo_loader_process_user_path(OsinfoLoader *loader, GError **err)
