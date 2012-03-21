@@ -129,7 +129,7 @@ osinfo_os_class_init (OsinfoOsClass *klass)
      * OsinfoOs:family:
      *
      * The generic family this OS belongs to, based upon its kernel,
-     * for example Linux, Windows, Solaris, FreeBSD etc.
+     * for example linux, winnt, solaris, freebsd etc.
      */
     pspec = g_param_spec_string ("family",
                                  "Family",
@@ -361,7 +361,7 @@ OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoDevice *dev)
  * @os: a OsinfoOs
  *
  * Retrieves the generic family the OS @os belongs to, based upon its kernel,
- * for example Linux, Windows, Solaris, FreeBSD etc.
+ * for example linux, winnt, solaris, freebsd etc.
  *
  * Returns: (transfer none): the family of this os
  */

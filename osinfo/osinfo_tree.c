@@ -837,7 +837,7 @@ const gchar *osinfo_tree_get_boot_iso_path(OsinfoTree *tree)
  *
  * Retrieves the path to the kernel image in the install tree.
  *
- * Note: This only applies to installer trees of 'Linux' OS family.
+ * Note: This only applies to installer trees of 'linux' OS family.
  *
  * Returns: (transfer none): the path to kernel image, or NULL
  */
@@ -853,7 +853,7 @@ const gchar *osinfo_tree_get_kernel_path(OsinfoTree *tree)
  *
  * Retrieves the path to the initrd image in the install tree.
  *
- * Note: This only applies to installer trees of 'Linux' OS family.
+ * Note: This only applies to installer trees of 'linux' OS family.
  *
  * Returns: (transfer none): the path to initrd image, or NULL
  */

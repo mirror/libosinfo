@@ -962,7 +962,7 @@ const gchar *osinfo_media_get_application_id(OsinfoMedia *media)
  *
  * Retrieves the path to the kernel image in the install tree.
  *
- * Note: This only applies to installer medias of 'Linux' OS family.
+ * Note: This only applies to installer medias of 'linux' OS family.
  *
  * Returns: (transfer none): the path to kernel image, or NULL
  */
@@ -978,7 +978,7 @@ const gchar *osinfo_media_get_kernel_path(OsinfoMedia *media)
  *
  * Retrieves the path to the initrd image in the install tree.
  *
- * Note: This only applies to installer medias of 'Linux' OS family.
+ * Note: This only applies to installer medias of 'linux' OS family.
  *
  * Returns: (transfer none): the path to initrd image, or NULL
  */
