@@ -146,8 +146,8 @@ osinfo_os_class_init (OsinfoOsClass *klass)
     /**
      * OsinfoOs:distro:
      *
-     * The generic distro this OS belongs to, for example Fedora, Windows,
-     * Solaris, FreeBSD etc.
+     * The generic distro this OS belongs to, for example fedora, windows,
+     * solaris, freebsd etc.
      */
     pspec = g_param_spec_string ("distro",
                                  "Distro",
@@ -376,8 +376,8 @@ const gchar *osinfo_os_get_family(OsinfoOs *os)
  * osinfo_os_get_distro:
  * @os: a OsinfoOs
  *
- * Retrieves the generic family the OS @os belongs to, for example Fedora,
- * Ubuntu, Windows, Solaris, FreeBSD etc.
+ * Retrieves the generic family the OS @os belongs to, for example fedora,
+ * ubuntu, windows, solaris, freebsd etc.
  *
  * Returns: (transfer none): the distro of this os
  */
