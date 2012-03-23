@@ -251,8 +251,10 @@ static gboolean print_entity_text(OsinfoEntity *entity,
             pad = labels[i].width - (val ? strlen(val) : 0);
 
         padstr = g_new0(gchar, pad+1);
-        memset(padstr, ' ', pad);
         padstr[pad] = '\0';
+
+        if (pad)
+            memset(padstr, ' ', pad);
 
         g_print("%s%s",
                 val ? val : "", padstr);
@@ -295,8 +297,10 @@ static gboolean print_results_text(OsinfoList *list,
             pad = labels[i].width - strlen(labels[i].label);
 
         padstr = g_new0(gchar, pad+1);
-        memset(padstr, ' ', pad);
         padstr[pad] = '\0';
+
+        if (pad)
+            memset(padstr, ' ', pad);
 
         g_print("%s%s",
                 labels[i].label, padstr);
