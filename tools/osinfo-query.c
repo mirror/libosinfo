@@ -71,7 +71,7 @@ static struct OsinfoLabel os_labels[] = {
       "Code name", FALSE, 10 },
     { OSINFO_ENTITY_PROP_ID,
       "ID", TRUE, 40 },
-    { NULL, NULL, 0 },
+    { NULL, NULL, 0, 0},
 };
 
 static struct OsinfoLabel platform_labels[] = {
@@ -91,7 +91,7 @@ static struct OsinfoLabel platform_labels[] = {
       "Code name", FALSE, 10 },
     { OSINFO_ENTITY_PROP_ID,
       "ID", TRUE, 40 },
-    { NULL, NULL, 0 },
+    { NULL, NULL, 0, 0 },
 };
 
 static struct OsinfoLabel device_labels[] = {
@@ -111,13 +111,13 @@ static struct OsinfoLabel device_labels[] = {
       "Bus", TRUE, 8 },
     { OSINFO_ENTITY_PROP_ID,
       "ID", TRUE, 40 },
-    { NULL, NULL, 0 },
+    { NULL, NULL, 0, 0 },
 };
 
 static struct OsinfoLabel deployment_labels[] = {
     { OSINFO_ENTITY_PROP_ID,
       "ID", TRUE, 40 },
-    { NULL, NULL, 0 },
+    { NULL, NULL, 0, 0 },
 };
 
 
