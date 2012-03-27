@@ -116,8 +116,8 @@ if test "x$enable_introspection" = "xyes" ; then
                 if test "x$VAPIGEN" != "xno"; then
                         if test "x$enable_vala" == "xcheck" ; then
                                 enable_vala=yes
-                                AC_SUBST(VAPIGEN)
                         fi
+                        AC_SUBST(VAPIGEN)
                 else
                         AC_MSG_ERROR([Cannot find the "vapigen" binary in your PATH])
                 fi
