@@ -10,10 +10,12 @@ bin_PROGRAMS = osinfo-detect osinfo-db-validate osinfo-query
 
 man1_MANS = osinfo-db-validate.1 osinfo-detect.1 osinfo-query.1
 
+CLEANFILES = $(man1_MANS)
+
 POD2MAN = pod2man -c "Virtualization Support" -r "$(PACKAGE)-$(VERSION)"
 
 %.1: %.c Makefile
-	$(AM_V_GEN)$(POD2MAN) $< $(srcdir)/$@
+	$(AM_V_GEN)$(POD2MAN) $< $@
 
 osinfo_detect_SOURCES = osinfo-detect.c
 osinfo_detect_LDADD = $(GOBJECT_LIBS) 	     \
