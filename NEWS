@@ -1,3 +1,52 @@
+0.1.1 - Apr 12, 2012
+====================
+
+Changes since 0.1.0:
+
+- Fixes to OS media detection.
+- Add support for more OSs:
+  - NetBSD
+  - Mandrake
+- More complete data for:
+  - Debian
+  - Fedora
+  - RHEL
+  - Ubuntu
+  - Windows
+  - OpenBSD
+  - FreeBSD
+  - Mandriva
+- Fix data for:
+  - Fedora
+  - openSUSE
+  - Ubuntu
+  - Windows
+- Add support for install tree metadata.
+- Add support for filtering products based on release/EOL dates.
+- Add support for product codenames.
+- Add support for 'distro'.
+- Also extract application ID from ISO9660 media.
+- Add test cases for validating ISO9660 data.
+- Disable obsolete media URLs.
+- Standardize OS family names as all lowercase.
+- Standardize format for OS id, short-id, distro, version.
+- Add RNG schema for database files.
+- Add a 'osinfo-db-validate' command for verifying database files.
+- Add a 'osinfo-query' command for searching/listing information from database.
+- Add a man page for the osinfo-detect command.
+- Add support for loading extra local database files. By default, libosinfo will
+  expect them to be in /etc/libosinfo/db and $HOME/.local/config/libosinfo/db
+  but new API is provided to change this behavior.
+- Fix generation of docs in a VPATH builder.
+- Fix loading of vendor and product names of USB and PCI devices.
+- Remove obsolete scripts for PCI/USB id conversion.
+- Remove redundant generic linux entries from database.
+- Fixes for 'make dist'.
+- Actually handle '--enable-vala' configure option and don't mandate vapigen if
+  this option is not specified.
+- Add missing export of osinfo_entity_set_param.
+- Various other fixes and improvements.
+
 0.1.0 - Feb 7, 2012
 ===================
 
