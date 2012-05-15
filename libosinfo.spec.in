@@ -6,7 +6,7 @@
 
 %define with_gir 0
 
-%if 0%{?fedora} >= 15 || 0{?rhel} >= 7
+%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 %define with_gir 1
 %endif
 
