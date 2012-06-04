@@ -337,19 +337,19 @@ void osinfo_list_add_union(OsinfoList *list, OsinfoList *sourceOne, OsinfoList *
 
     newSet = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
 
-    // Add all from other list to new list
+    // Add all from first list to new list
     int i, len;
-    len = osinfo_list_get_length(sourceTwo);
+    len = osinfo_list_get_length(sourceOne);
     for (i = 0; i < len; i++) {
-        OsinfoEntity *entity = osinfo_list_get_nth(sourceTwo, i);
+        OsinfoEntity *entity = osinfo_list_get_nth(sourceOne, i);
         osinfo_list_add(list, entity);
         g_hash_table_insert(newSet, g_strdup(osinfo_entity_get_id(entity)), entity);
     }
 
     // Add remaining elements from this list to new list
-    len = osinfo_list_get_length(sourceOne);
+    len = osinfo_list_get_length(sourceTwo);
     for (i = 0; i < len; i++) {
-        OsinfoEntity *entity = osinfo_list_get_nth(sourceOne, i);
+        OsinfoEntity *entity = osinfo_list_get_nth(sourceTwo, i);
         // If new list does not contain element, add to new list
         if (!g_hash_table_lookup(newSet, osinfo_entity_get_id(entity))) {
             osinfo_list_add(list, entity);
