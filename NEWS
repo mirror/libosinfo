@@ -1,3 +1,18 @@
+0.1.2 - Jun 11, 2012
+====================
+
+Changes since 0.1.1:
+
+- Fix udev rules for CDROM media.
+- Fix build against newer glibc-headers when building with -O0.
+- More complete/up2date data for:
+  - Fedora 17
+  - Ubuntu
+  - Windows
+- Fix data for:
+  - Ubuntu
+- Correct order of elements returned by list union functions.
+
 0.1.1 - Apr 12, 2012
 ====================
 
