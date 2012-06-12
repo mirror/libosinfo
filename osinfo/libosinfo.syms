@@ -282,7 +282,7 @@ LIBOSINFO_0.1.3 {
 	osinfo_install_scriptlist_get_type;
 	osinfo_db_get_install_script;
 	osinfo_db_add_install_script;
-	osinfo_db_get_install_scripts;
+	osinfo_db_get_install_script_list;
 	osinfo_os_get_install_scripts;
 	osinfo_os_add_install_script;
 	osinfo_os_find_install_script;
