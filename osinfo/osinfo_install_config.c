@@ -314,6 +314,19 @@ const gchar *osinfo_install_config_get_reg_product_key(OsinfoInstallConfig *conf
                                          OSINFO_INSTALL_CONFIG_PROP_REG_PRODUCTKEY);
 }
 
+void osinfo_install_config_set_hostname(OsinfoInstallConfig *config,
+                                        const gchar *hostname)
+{
+    osinfo_entity_set_param(OSINFO_ENTITY(config),
+                            OSINFO_INSTALL_CONFIG_PROP_HOSTNAME,
+                            hostname);
+}
+
+const gchar *osinfo_install_config_get_hostname(OsinfoInstallConfig *config)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(config),
+                                         OSINFO_INSTALL_CONFIG_PROP_HOSTNAME);
+}
 
 
 /*

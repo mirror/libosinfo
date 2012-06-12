@@ -54,6 +54,8 @@
 #define OSINFO_INSTALL_CONFIG_PROP_REG_PASSWORD   "reg-password"
 #define OSINFO_INSTALL_CONFIG_PROP_REG_PRODUCTKEY "reg-product-key"
 
+#define OSINFO_INSTALL_CONFIG_PROP_HOSTNAME "hostname"
+
 
 typedef struct _OsinfoInstallConfig        OsinfoInstallConfig;
 typedef struct _OsinfoInstallConfigClass   OsinfoInstallConfigClass;
@@ -145,6 +147,10 @@ const gchar *osinfo_install_config_get_reg_password(OsinfoInstallConfig *config)
 void osinfo_install_config_set_reg_product_key(OsinfoInstallConfig *config,
                                                const gchar *key);
 const gchar *osinfo_install_config_get_reg_product_key(OsinfoInstallConfig *config);
+
+void osinfo_install_config_set_hostname(OsinfoInstallConfig *config,
+                                        const gchar *hostname);
+const gchar *osinfo_install_config_get_hostname(OsinfoInstallConfig *config);
 
 
 #endif /* __OSINFO_INSTALL_CONFIG_H__ */

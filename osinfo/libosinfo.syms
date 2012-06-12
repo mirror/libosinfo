@@ -264,6 +264,7 @@ LIBOSINFO_0.1.3 {
 	osinfo_install_config_set_user_realname;
 	osinfo_install_config_set_user_administrator;
 	osinfo_install_config_set_user_autologin;
+	osinfo_install_config_set_hostname;
 	osinfo_install_script_get_type;
 	osinfo_install_script_new;
 	osinfo_install_script_new_data;
