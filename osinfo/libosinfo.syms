@@ -255,6 +255,10 @@ LIBOSINFO_0.1.3 {
 	osinfo_install_config_set_l10n_language;
 	osinfo_install_config_set_l10n_timezone;
 	osinfo_install_config_set_admin_password;
+	osinfo_install_config_set_hardware_arch;
+	osinfo_install_config_set_reg_login;
+	osinfo_install_config_set_reg_password;
+	osinfo_install_config_set_reg_product_key;
 	osinfo_install_config_set_user_login;
 	osinfo_install_config_set_user_password;
 	osinfo_install_config_set_user_realname;
