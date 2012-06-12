@@ -552,11 +552,11 @@ OsinfoInstallScript *osinfo_os_find_install_script(OsinfoOs *os, const gchar *pr
 
 
 /**
- * osinfo_os_get_install_scripts:
+ * osinfo_os_get_install_script_list:
  *
  * Returns: (transfer full): a list of the install scripts for the specified os
  */
-OsinfoInstallScriptList *osinfo_os_get_install_scripts(OsinfoOs *os)
+OsinfoInstallScriptList *osinfo_os_get_install_script_list(OsinfoOs *os)
 {
     g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
 

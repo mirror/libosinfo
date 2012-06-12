@@ -102,7 +102,7 @@ static OsinfoOs *find_os(OsinfoDb *db,
 
 static gboolean generate_script(OsinfoOs *os)
 {
-    OsinfoInstallScriptList *scripts = osinfo_os_get_install_scripts(os);
+    OsinfoInstallScriptList *scripts = osinfo_os_get_install_script_list(os);
     OsinfoInstallScriptList *jeosScripts;
     OsinfoFilter *filter;
     OsinfoInstallScript *script;
