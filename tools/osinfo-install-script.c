@@ -26,7 +26,9 @@
 #include <osinfo/osinfo.h>
 #include <string.h>
 
-static gchar *profile;
+static const gchar *profile;
+static const gchar *output_dir;
+static const gchar *prefix;
 
 static OsinfoInstallConfig *config;
 
@@ -60,6 +62,10 @@ static GOptionEntry entries[] =
 {
     { "profile", 'p', 0, G_OPTION_ARG_STRING, (void*)&profile,
       "Install script profile", NULL, },
+    { "output-dir", 'd', 0, G_OPTION_ARG_STRING, (void*)&output_dir,
+      "Install script output directory", NULL, },
+    { "prefix", 'P', 0, G_OPTION_ARG_STRING, (void*)&prefix,
+      "The output filename prefix", NULL, },
     { "config", 'c', 0, G_OPTION_ARG_CALLBACK,
       handle_config,
       "Set configuration parameter", "key=value" },
@@ -103,48 +109,52 @@ static OsinfoOs *find_os(OsinfoDb *db,
 static gboolean generate_script(OsinfoOs *os)
 {
     OsinfoInstallScriptList *scripts = osinfo_os_get_install_script_list(os);
-    OsinfoInstallScriptList *jeosScripts;
+    OsinfoInstallScriptList *profile_scripts;
     OsinfoFilter *filter;
     OsinfoInstallScript *script;
     gboolean ret = FALSE;
     GError *error = NULL;
-    gchar *data;
+    GFile *dir = g_file_new_for_commandline_arg(output_dir ? output_dir : ".");
 
     filter = osinfo_filter_new();
     osinfo_filter_add_constraint(filter,
                                  OSINFO_INSTALL_SCRIPT_PROP_PROFILE,
                                  profile ? profile :
                                  OSINFO_INSTALL_SCRIPT_PROFILE_JEOS);
+    profile_scripts = osinfo_install_scriptlist_new_filtered(scripts,
+                                                            filter);
 
-    jeosScripts = osinfo_install_scriptlist_new_filtered(scripts,
-                                                         filter);
-    if (osinfo_list_get_length(OSINFO_LIST(jeosScripts)) != 1) {
+    if (osinfo_list_get_length(OSINFO_LIST(profile_scripts)) != 1) {
         g_printerr("Cannot find any install script for profile '%s'\n",
                    profile ? profile :
                    OSINFO_INSTALL_SCRIPT_PROFILE_JEOS);
         goto cleanup;
     }
 
-    script = OSINFO_INSTALL_SCRIPT(osinfo_list_get_nth(OSINFO_LIST(jeosScripts), 0));
-    if (!(data = osinfo_install_script_generate(script,
-                                                os,
-                                                config,
-                                                NULL,
-                                                &error))) {
+    script = OSINFO_INSTALL_SCRIPT(osinfo_list_get_nth(OSINFO_LIST(profile_scripts), 0));
+
+    if (prefix)
+        osinfo_install_script_set_output_prefix(script, prefix);
+
+    osinfo_install_script_generate_output(script,
+                                          os,
+                                          config,
+                                          dir,
+                                          NULL,
+                                          &error);
+
+    if (error != NULL) {
         g_printerr("Unable to generate install script: %s\n",
-                   error ? error->message : "unknown");
+                   error->message ? error->message : "unknown");
         goto cleanup;
     }
-
-    g_print("%s\n", data);
 
     ret = TRUE;
 
  cleanup:
-    g_free(data);
     g_object_unref(scripts);
-    g_object_unref(jeosScripts);
     g_object_unref(filter);
+    g_object_unref(profile_scripts);
     return ret;
 }
 
@@ -196,7 +206,6 @@ gint main(gint argc, gchar **argv)
         ret = -4;
         goto EXIT;
     }
-
 
     if (!generate_script(os)) {
         ret = -5;

@@ -46,7 +46,7 @@ G_DEFINE_TYPE (OsinfoInstallScript, osinfo_install_script, OSINFO_TYPE_ENTITY);
 
 struct _OsinfoInstallScriptPrivate
 {
-    gboolean unused;
+    gchar *output_prefix;
 };
 
 enum {
@@ -59,6 +59,7 @@ enum {
 };
 
 typedef struct _OsinfoInstallScriptGenerateData OsinfoInstallScriptGenerateData;
+typedef struct _OsinfoInstallScriptGenerateOutputData OsinfoInstallScriptGenerateOutputData;
 typedef struct _OsinfoInstallScriptGenerateSyncData OsinfoInstallScriptGenerateSyncData;
 
 
@@ -144,6 +145,9 @@ osinfo_os_get_property(GObject    *object,
 static void
 osinfo_install_script_finalize (GObject *object)
 {
+    OsinfoInstallScript *script = OSINFO_INSTALL_SCRIPT (object);
+    g_free(script->priv->output_prefix);
+
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_install_script_parent_class)->finalize (object);
 }
@@ -221,7 +225,6 @@ osinfo_install_script_init (OsinfoInstallScript *list)
 {
     OsinfoInstallScriptPrivate *priv;
     list->priv = priv = OSINFO_INSTALL_SCRIPT_GET_PRIVATE(list);
-
 }
 
 
@@ -294,6 +297,24 @@ const gchar *osinfo_install_script_get_product_key_format(OsinfoInstallScript *s
                                          OSINFO_INSTALL_SCRIPT_PROP_PRODUCT_KEY_FORMAT);
 }
 
+void osinfo_install_script_set_output_prefix(OsinfoInstallScript *script,
+                                             const gchar *prefix)
+{
+    g_free(script->priv->output_prefix);
+    script->priv->output_prefix = g_strdup(prefix);
+}
+
+const gchar *osinfo_install_script_get_output_prefix(OsinfoInstallScript *script)
+{
+    return script->priv->output_prefix;
+}
+
+static const gchar *osinfo_install_script_get_output_filename(OsinfoInstallScript *script)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(script),
+                                         OSINFO_INSTALL_SCRIPT_PROP_OUTPUT_FILENAME);
+}
+
 struct _OsinfoInstallScriptGenerateData {
     GSimpleAsyncResult *res;
     OsinfoOs *os;
@@ -307,6 +328,24 @@ static void osinfo_install_script_generate_data_free(OsinfoInstallScriptGenerate
     g_object_unref(data->os);
     g_object_unref(data->config);
     g_object_unref(data->script);
+    g_object_unref(data->res);
+    g_free(data);
+}
+
+struct _OsinfoInstallScriptGenerateOutputData {
+    GSimpleAsyncResult *res;
+    GCancellable *cancellable;
+    GError *error;
+    GFile *file;
+    GFileOutputStream *stream;
+    gchar *output;
+    gssize output_len;
+    gssize output_pos;
+};
+
+static void osinfo_install_script_generate_output_data_free(OsinfoInstallScriptGenerateOutputData *data)
+{
+    g_object_unref(data->stream);
     g_object_unref(data->res);
     g_free(data);
 }
@@ -624,9 +663,9 @@ void osinfo_install_script_generate_async(OsinfoInstallScript *script,
     }
 }
 
-gchar *osinfo_install_script_generate_finish(OsinfoInstallScript *script,
-                                             GAsyncResult *res,
-                                             GError **error)
+static gpointer osinfo_install_script_generate_finish_common(OsinfoInstallScript *script,
+                                                             GAsyncResult *res,
+                                                             GError **error)
 {
     GSimpleAsyncResult *simple = G_SIMPLE_ASYNC_RESULT(res);
 
@@ -638,12 +677,60 @@ gchar *osinfo_install_script_generate_finish(OsinfoInstallScript *script,
     return g_simple_async_result_get_op_res_gpointer(simple);
 }
 
+gchar *osinfo_install_script_generate_finish(OsinfoInstallScript *script,
+                                             GAsyncResult *res,
+                                             GError **error)
+{
+    return osinfo_install_script_generate_finish_common(script,
+                                                        res,
+                                                        error);
+}
+
+GFile *osinfo_install_script_generate_output_finish(OsinfoInstallScript *script,
+                                                    GAsyncResult *res,
+                                                    GError **error)
+{
+    return osinfo_install_script_generate_finish_common(script,
+                                                        res,
+                                                        error);
+}
 
 struct _OsinfoInstallScriptGenerateSyncData {
     GMainLoop *loop;
     GError *error;
     gchar *output;
+    GFile *file;
 };
+
+static void osinfo_install_script_generate_output_done(GObject *src,
+                                                       GAsyncResult *res,
+                                                       gpointer user_data)
+{
+    OsinfoInstallScriptGenerateSyncData *data = user_data;
+
+    data->file =
+        osinfo_install_script_generate_output_finish(OSINFO_INSTALL_SCRIPT(src),
+                                                     res,
+                                                     &data->error);
+    g_main_loop_quit(data->loop);
+}
+
+static void osinfo_install_script_generate_output_close_file(GObject *src,
+                                                            GAsyncResult *res,
+                                                            gpointer user_data)
+{
+    OsinfoInstallScriptGenerateOutputData *data = user_data;
+
+    g_output_stream_close_finish(G_OUTPUT_STREAM(src),
+                                 res,
+                                 &data->error);
+
+    g_simple_async_result_set_op_res_gpointer(data->res,
+                                              data->file, NULL);
+    g_simple_async_result_complete_in_idle(data->res);
+
+    osinfo_install_script_generate_output_data_free(data);
+}
 
 static void osinfo_install_script_generate_done(GObject *src,
                                                 GAsyncResult *res,
@@ -658,7 +745,6 @@ static void osinfo_install_script_generate_done(GObject *src,
     g_main_loop_quit(data->loop);
 }
 
-
 gchar *osinfo_install_script_generate(OsinfoInstallScript *script,
                                       OsinfoOs *os,
                                       OsinfoInstallConfig *config,
@@ -668,7 +754,7 @@ gchar *osinfo_install_script_generate(OsinfoInstallScript *script,
     GMainLoop *loop = g_main_loop_new(g_main_context_get_thread_default(),
                                       TRUE);
     OsinfoInstallScriptGenerateSyncData data = {
-        loop, NULL, NULL
+        loop, NULL, NULL, NULL
     };
 
     osinfo_install_script_generate_async(script,
@@ -689,6 +775,133 @@ gchar *osinfo_install_script_generate(OsinfoInstallScript *script,
     return data.output;
 }
 
+static void osinfo_install_script_generate_output_write_file(GObject *src,
+                                                             GAsyncResult *res,
+                                                             gpointer user_data)
+{
+    OsinfoInstallScriptGenerateOutputData *data = user_data;
+
+    if (data->stream == NULL)
+        data->stream = g_file_replace_finish(G_FILE (src), res, &data->error);
+    else
+        data->output_pos += g_output_stream_write_finish(G_OUTPUT_STREAM(data->stream),
+                                                                         res,
+                                                                         &data->error);
+
+    if (data->output_pos < data->output_len) {
+        g_output_stream_write_async(G_OUTPUT_STREAM (data->stream),
+                                    data->output + data->output_pos,
+                                    data->output_len - data->output_pos,
+                                    G_PRIORITY_DEFAULT,
+                                    data->cancellable,
+                                    osinfo_install_script_generate_output_write_file,
+                                    data);
+
+    } else {
+        g_output_stream_close_async(G_OUTPUT_STREAM (data->stream),
+                                    G_PRIORITY_DEFAULT,
+                                    data->cancellable,
+                                    osinfo_install_script_generate_output_close_file,
+                                    data);
+    }
+}
+
+void osinfo_install_script_generate_output_async(OsinfoInstallScript *script,
+                                                 OsinfoOs *os,
+                                                 OsinfoInstallConfig *config,
+                                                 GFile *output_dir,
+                                                 GCancellable *cancellable,
+                                                 GAsyncReadyCallback callback,
+                                                 gpointer user_data)
+{
+    const gchar *filename;
+    const gchar *prefix;
+    OsinfoInstallScriptGenerateOutputData *data =
+        g_new0(OsinfoInstallScriptGenerateOutputData, 1);
+
+    OsinfoInstallScriptGenerateSyncData *data_sync = user_data;
+
+    data->res = g_simple_async_result_new(G_OBJECT(script),
+                                          callback,
+                                          user_data,
+                                          osinfo_install_script_generate_output_async);
+
+    data->cancellable = cancellable;
+    data->error = data_sync->error;
+    data->output = osinfo_install_script_generate(script,
+                                                  os,
+                                                  config,
+                                                  cancellable,
+                                                  &data->error);
+    data->output_pos = 0;
+    data->output_len = strlen(data->output);
+
+    prefix =
+        osinfo_install_script_get_output_prefix(script);
+    filename =
+        osinfo_install_script_get_output_filename(script);
+
+    if (prefix) {
+        gchar *output_filename  = g_strdup_printf("%s-%s", prefix, filename);
+        data->file = g_file_get_child(output_dir, output_filename);
+        g_free(output_filename);
+    } else {
+        data->file = g_file_get_child(output_dir, filename);
+    }
+
+    g_file_replace_async(data->file,
+                         NULL,
+                         TRUE,
+                         G_FILE_CREATE_NONE,
+                         G_PRIORITY_DEFAULT,
+                         cancellable,
+                         osinfo_install_script_generate_output_write_file,
+                         data);
+}
+
+/**
+ * osinfo_install_script_generate_output
+ * @script:     the install script
+ * @os:         the os entity
+ * @config:     the install script config
+ * @output_dir: the directory where file containing the output script
+ *              will be written
+ *
+ * Creates a install script written in a file
+ *
+ * Returns: (transfer full): a file containing the script
+ */
+GFile *osinfo_install_script_generate_output(OsinfoInstallScript *script,
+                                             OsinfoOs *os,
+                                             OsinfoInstallConfig *config,
+                                             GFile *output_dir,
+                                             GCancellable *cancellable,
+                                             GError **error)
+{
+    GMainLoop *loop = g_main_loop_new(g_main_context_get_thread_default(),
+                                      TRUE);
+    OsinfoInstallScriptGenerateSyncData data = {
+        loop, NULL, NULL, NULL
+    };
+
+    osinfo_install_script_generate_output_async(script,
+                                                os,
+                                                config,
+                                                output_dir,
+                                                cancellable,
+                                                osinfo_install_script_generate_output_done,
+                                                &data);
+
+    if (g_main_loop_is_running(loop))
+        g_main_loop_run(loop);
+
+    if (data.error)
+        g_propagate_error(error, data.error);
+
+    g_main_loop_unref(loop);
+
+    return data.file;
+}
 
 /*
  * Local variables:

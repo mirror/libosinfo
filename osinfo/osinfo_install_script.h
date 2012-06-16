@@ -49,6 +49,8 @@ typedef struct _OsinfoInstallScriptPrivate OsinfoInstallScriptPrivate;
 #define OSINFO_INSTALL_SCRIPT_PROP_TEMPLATE_DATA      "template-data"
 #define OSINFO_INSTALL_SCRIPT_PROP_PROFILE            "profile"
 #define OSINFO_INSTALL_SCRIPT_PROP_PRODUCT_KEY_FORMAT "product-key-format"
+#define OSINFO_INSTALL_SCRIPT_PROP_OUTPUT_FILENAME    "output-filename"
+
 
 /* object */
 struct _OsinfoInstallScript
@@ -85,6 +87,10 @@ const gchar *osinfo_install_script_get_profile(OsinfoInstallScript *script);
 
 const gchar *osinfo_install_script_get_product_key_format(OsinfoInstallScript *script);
 
+void osinfo_install_script_set_output_prefix(OsinfoInstallScript *script, const gchar *prefix);
+
+const gchar *osinfo_install_script_get_output_prefix(OsinfoInstallScript *script);
+
 void osinfo_install_script_generate_async(OsinfoInstallScript *script,
                                           OsinfoOs *os,
                                           OsinfoInstallConfig *config,
@@ -102,6 +108,24 @@ gchar *osinfo_install_script_generate(OsinfoInstallScript *script,
                                       GCancellable *cancellable,
                                       GError **error);
 
+void osinfo_install_script_generate_output_async(OsinfoInstallScript *script,
+                                                 OsinfoOs *os,
+                                                 OsinfoInstallConfig *config,
+                                                 GFile *output_dir,
+                                                 GCancellable *cancellable,
+                                                 GAsyncReadyCallback callback,
+                                                 gpointer user_data);
+
+GFile *osinfo_install_script_generate_output_finish(OsinfoInstallScript *script,
+                                                    GAsyncResult *res,
+                                                    GError **error);
+
+GFile *osinfo_install_script_generate_output(OsinfoInstallScript *script,
+                                             OsinfoOs *os,
+                                             OsinfoInstallConfig *config,
+                                             GFile *output_dir,
+                                             GCancellable *cancellable,
+                                             GError **error);
 
 #endif /* __OSINFO_INSTALL_SCRIPT_H__ */
 /*

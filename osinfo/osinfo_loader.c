@@ -585,6 +585,15 @@ static void osinfo_loader_install_script(OsinfoLoader *loader,
                                 value);
     g_free(value);
 
+    value = osinfo_loader_string("string(./template/@filename)", ctxt, err);
+    if (error_is_set(err))
+        goto error;
+    if (value)
+        osinfo_entity_set_param(OSINFO_ENTITY(installScript),
+                                OSINFO_INSTALL_SCRIPT_PROP_OUTPUT_FILENAME,
+                                value);
+    g_free(value);
+
     osinfo_db_add_install_script(loader->priv->db, installScript);
 
     return;
