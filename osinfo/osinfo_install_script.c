@@ -353,7 +353,7 @@ const gchar *osinfo_install_script_get_output_prefix(OsinfoInstallScript *script
     return script->priv->output_prefix;
 }
 
-static const gchar *osinfo_install_script_get_output_filename(OsinfoInstallScript *script)
+const gchar *osinfo_install_script_get_output_filename(OsinfoInstallScript *script)
 {
     return osinfo_entity_get_param_value(OSINFO_ENTITY(script),
                                          OSINFO_INSTALL_SCRIPT_PROP_OUTPUT_FILENAME);

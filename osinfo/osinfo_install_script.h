@@ -93,6 +93,8 @@ void osinfo_install_script_set_output_prefix(OsinfoInstallScript *script, const 
 
 const gchar *osinfo_install_script_get_output_prefix(OsinfoInstallScript *script);
 
+const gchar *osinfo_install_script_get_output_filename(OsinfoInstallScript *script);
+
 void osinfo_install_script_generate_async(OsinfoInstallScript *script,
                                           OsinfoOs *os,
                                           OsinfoInstallConfig *config,
