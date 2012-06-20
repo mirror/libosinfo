@@ -1,0 +1,129 @@
+%{?mingw_package_header}
+
+Name: mingw-libosinfo
+Version: @VERSION@
+Release: 1%{?dist}%{?extra_release}
+Summary: MinGW Windows port of a library for managing OS information for virtualization
+License: LGPLv2+
+Group: Development/Libraries
+Source: libosinfo-%{version}.tar.gz
+URL: https://fedorahosted.org/libosinfo/
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+BuildArch: noarch
+
+BuildRequires: mingw32-filesystem >= 95
+BuildRequires: mingw64-filesystem >= 95
+BuildRequires: mingw32-gcc
+BuildRequires: mingw64-gcc
+BuildRequires: mingw32-binutils
+BuildRequires: mingw64-binutils
+
+BuildRequires: mingw32-glib2
+BuildRequires: mingw64-glib2
+BuildRequires: mingw32-libxml2
+BuildRequires: mingw64-libxml2
+BuildRequires: mingw32-libsoup
+BuildRequires: mingw64-libsoup
+
+BuildRequires: pkgconfig
+
+Requires: pkgconfig
+
+%description
+libosinfo is a library that allows virtualization provisioning tools to
+determine the optimal device settings for a hypervisor/operating system
+combination.
+
+%package -n mingw32-libosinfo
+Summary: %{summary}
+
+%description -n mingw32-libosinfo
+libosinfo is a library that allows virtualization provisioning tools to
+determine the optimal device settings for a hypervisor/operating system
+combination.
+
+%package -n mingw64-libosinfo
+Summary: %{summary}
+
+%description -n mingw64-libosinfo
+libosinfo is a library that allows virtualization provisioning tools to
+determine the optimal device settings for a hypervisor/operating system
+combination.
+
+%{?mingw_debug_package}
+
+%prep
+%setup -q -n libosinfo-%{version}
+
+%build
+%mingw_configure \
+    --enable-introspection=no \
+    --enable-tests=no
+
+%mingw_make %{?_smp_mflags}
+
+
+%install
+%mingw_make_install "DESTDIR=$RPM_BUILD_ROOT"
+
+# Remove static libraries but DON'T remove *.dll.a files.
+rm -f $RPM_BUILD_ROOT%{mingw32_libdir}/libosinfo-1.0.a
+rm -f $RPM_BUILD_ROOT%{mingw64_libdir}/libosinfo-1.0.a
+
+rm -rf $RPM_BUILD_ROOT%{mingw32_datadir}/gtk-doc
+rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
+
+%files -n mingw32-libosinfo
+%defattr(-,root,root)
+%doc AUTHORS ChangeLog COPYING.LIB NEWS README
+%{mingw32_bindir}/osinfo-detect.exe
+%{mingw32_bindir}/osinfo-db-validate.exe
+%{mingw32_bindir}/osinfo-query.exe
+%{mingw32_bindir}/libosinfo-1.0-0.dll
+%{mingw32_libdir}/libosinfo-1.0.dll.a
+%{mingw32_libdir}/libosinfo-1.0.la
+%{mingw32_libdir}/pkgconfig/libosinfo-1.0.pc
+%dir %{mingw32_includedir}/libosinfo-1.0/
+%dir %{mingw32_includedir}/libosinfo-1.0/osinfo
+%{mingw32_includedir}/libosinfo-1.0/osinfo/*.h
+%dir %{mingw32_datadir}/libosinfo
+%dir %{mingw32_datadir}/libosinfo/db
+%dir %{mingw32_datadir}/libosinfo/schemas
+%{mingw32_datadir}/libosinfo/db/usb.ids
+%{mingw32_datadir}/libosinfo/db/pci.ids
+%{mingw32_datadir}/libosinfo/db/devices
+%{mingw32_datadir}/libosinfo/db/oses
+%{mingw32_datadir}/libosinfo/db/hypervisors
+%{mingw32_datadir}/libosinfo/schemas/libosinfo.rng
+%{mingw32_mandir}/man1/osinfo-db-validate.1*
+%{mingw32_mandir}/man1/osinfo-detect.1*
+%{mingw32_mandir}/man1/osinfo-query.1*
+
+%files -n mingw64-libosinfo
+%defattr(-,root,root)
+%doc AUTHORS ChangeLog COPYING.LIB NEWS README
+%{mingw64_bindir}/osinfo-detect.exe
+%{mingw64_bindir}/osinfo-db-validate.exe
+%{mingw64_bindir}/osinfo-query.exe
+%{mingw64_bindir}/libosinfo-1.0-0.dll
+%{mingw64_libdir}/libosinfo-1.0.dll.a
+%{mingw64_libdir}/libosinfo-1.0.la
+%{mingw64_libdir}/pkgconfig/libosinfo-1.0.pc
+%dir %{mingw64_includedir}/libosinfo-1.0/
+%dir %{mingw64_includedir}/libosinfo-1.0/osinfo
+%{mingw64_includedir}/libosinfo-1.0/osinfo/*.h
+%dir %{mingw64_datadir}/libosinfo
+%dir %{mingw64_datadir}/libosinfo/db
+%dir %{mingw64_datadir}/libosinfo/schemas
+%{mingw64_datadir}/libosinfo/db/usb.ids
+%{mingw64_datadir}/libosinfo/db/pci.ids
+%{mingw64_datadir}/libosinfo/db/devices
+%{mingw64_datadir}/libosinfo/db/oses
+%{mingw64_datadir}/libosinfo/db/hypervisors
+%{mingw64_datadir}/libosinfo/schemas/libosinfo.rng
+%{mingw64_mandir}/man1/osinfo-db-validate.1*
+%{mingw64_mandir}/man1/osinfo-detect.1*
+%{mingw64_mandir}/man1/osinfo-query.1*
+
+%changelog

@@ -5,7 +5,7 @@ EXTRA_DIST = \
   COPYING.LIB \
   libosinfo.spec \
   libosinfo.spec.in \
-  mingw32-libosinfo.spec.in \
+  mingw-libosinfo.spec.in \
   build-aux/mktempd \
   cfg.mk \
   GNUmakefile \

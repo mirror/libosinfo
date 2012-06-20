@@ -165,7 +165,7 @@ AC_SUBST(COVERAGE_LDFLAGS)
 AC_CONFIG_FILES([
 	Makefile
 	libosinfo.spec
-	mingw32-libosinfo.spec
+	mingw-libosinfo.spec
 	osinfo/Makefile
 	osinfo/libosinfo-1.0.pc
 	data/Makefile
