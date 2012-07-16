@@ -59,6 +59,7 @@ libosinfo_1_0_include_HEADERS = \
   osinfo_entity.h		\
   osinfo_filter.h		\
   osinfo_install_config.h       \
+  osinfo_install_config_param.h \
   osinfo_install_script.h       \
   osinfo_install_scriptlist.h   \
   osinfo_product.h		\
@@ -89,6 +90,7 @@ libosinfo_1_0_la_SOURCES =	\
   osinfo_devicelinklist.c	\
   osinfo_devicelinkfilter.c	\
   osinfo_install_config.c       \
+  osinfo_install_config_param.c \
   osinfo_install_script.c       \
   osinfo_install_scriptlist.c   \
   osinfo_product.c		\

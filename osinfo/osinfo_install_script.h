@@ -23,6 +23,7 @@
 
 #include <glib-object.h>
 #include <gio/gio.h>
+#include <osinfo/osinfo_install_config_param.h>
 
 #ifndef __OSINFO_INSTALL_SCRIPT_H__
 #define __OSINFO_INSTALL_SCRIPT_H__
@@ -50,7 +51,8 @@ typedef struct _OsinfoInstallScriptPrivate OsinfoInstallScriptPrivate;
 #define OSINFO_INSTALL_SCRIPT_PROP_PROFILE            "profile"
 #define OSINFO_INSTALL_SCRIPT_PROP_PRODUCT_KEY_FORMAT "product-key-format"
 #define OSINFO_INSTALL_SCRIPT_PROP_OUTPUT_FILENAME    "output-filename"
-
+#define OSINFO_INSTALL_SCRIPT_PROP_CONFIG_REQUIRED    "required"
+#define OSINFO_INSTALL_SCRIPT_PROP_CONFIG_OPTIONAL    "optional"
 
 /* object */
 struct _OsinfoInstallScript
@@ -126,6 +128,14 @@ GFile *osinfo_install_script_generate_output(OsinfoInstallScript *script,
                                              GFile *output_dir,
                                              GCancellable *cancellable,
                                              GError **error);
+
+gboolean osinfo_install_script_has_config_param(const OsinfoInstallScript *script, const OsinfoInstallConfigParam *config_param);
+
+gboolean osinfo_install_script_has_config_param_name(const OsinfoInstallScript *script, const gchar *name);
+
+void osinfo_install_script_add_config_param(OsinfoInstallScript *script, OsinfoInstallConfigParam *param);
+
+GList *osinfo_install_script_get_config_param_list(const OsinfoInstallScript *script);
 
 #endif /* __OSINFO_INSTALL_SCRIPT_H__ */
 /*

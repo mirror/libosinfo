@@ -540,6 +540,35 @@ static void osinfo_loader_deployment(OsinfoLoader *loader,
     osinfo_db_add_deployment(loader->priv->db, deployment);
 }
 
+static void osinfo_loader_install_config_param(OsinfoLoader *loader,
+                                               OsinfoEntity *entity,
+                                               const gchar *xpath,
+                                               xmlXPathContextPtr ctxt,
+                                               xmlNodePtr root,
+                                               GError **err)
+{
+    xmlNodePtr *nodes = NULL;
+    int nnodes = osinfo_loader_nodeset(xpath, ctxt, &nodes, err);
+    int i;
+    if (error_is_set(err))
+        return;
+
+    for (i = 0 ; i < nnodes ; i++) {
+        gchar *name = (gchar *)xmlGetProp(nodes[i], BAD_CAST "name");
+        gchar *policy = (gchar *)xmlGetProp(nodes[i], BAD_CAST "policy");
+        OsinfoInstallConfigParam *param =
+            osinfo_install_config_param_new(name, policy);
+        osinfo_install_script_add_config_param(OSINFO_INSTALL_SCRIPT(entity),
+                                               param);
+
+        g_free(name);
+        g_free(policy);
+    };
+
+    g_free(nodes);
+}
+
+
 
 static void osinfo_loader_install_script(OsinfoLoader *loader,
                                          xmlXPathContextPtr ctxt,
@@ -593,6 +622,13 @@ static void osinfo_loader_install_script(OsinfoLoader *loader,
                                 OSINFO_INSTALL_SCRIPT_PROP_OUTPUT_FILENAME,
                                 value);
     g_free(value);
+
+    osinfo_loader_install_config_param(loader,
+                                       OSINFO_ENTITY(installScript),
+                                       "./config/*",
+                                       ctxt,
+                                       root,
+                                       err);
 
     osinfo_db_add_install_script(loader->priv->db, installScript);
 
