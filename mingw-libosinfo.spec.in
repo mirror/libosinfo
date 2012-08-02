@@ -8,7 +8,6 @@ License: LGPLv2+
 Group: Development/Libraries
 Source: https://fedorahosted.org/releases/l/i/libosinfo/libosinfo-%{version}.tar.gz
 URL: https://fedorahosted.org/libosinfo/
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch: noarch
 
@@ -28,8 +27,6 @@ BuildRequires: mingw64-libsoup
 
 BuildRequires: pkgconfig
 
-Requires: pkgconfig
-
 %description
 libosinfo is a library that allows virtualization provisioning tools to
 determine the optimal device settings for a hypervisor/operating system
@@ -38,6 +35,8 @@ combination.
 %package -n mingw32-libosinfo
 Summary: %{summary}
 
+Requires: pkgconfig
+
 %description -n mingw32-libosinfo
 libosinfo is a library that allows virtualization provisioning tools to
 determine the optimal device settings for a hypervisor/operating system
@@ -45,6 +44,8 @@ combination.
 
 %package -n mingw64-libosinfo
 Summary: %{summary}
+
+Requires: pkgconfig
 
 %description -n mingw64-libosinfo
 libosinfo is a library that allows virtualization provisioning tools to
@@ -65,7 +66,7 @@ combination.
 
 
 %install
-%mingw_make_install "DESTDIR=$RPM_BUILD_ROOT"
+%mingw_make_install DESTDIR=$RPM_BUILD_ROOT
 
 # Remove static libraries but DON'T remove *.dll.a files.
 rm -f $RPM_BUILD_ROOT%{mingw32_libdir}/libosinfo-1.0.a
@@ -75,7 +76,6 @@ rm -rf $RPM_BUILD_ROOT%{mingw32_datadir}/gtk-doc
 rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 
 %files -n mingw32-libosinfo
-%defattr(-,root,root)
 %doc AUTHORS ChangeLog COPYING.LIB NEWS README
 %{mingw32_bindir}/osinfo-detect.exe
 %{mingw32_bindir}/osinfo-db-validate.exe
@@ -101,7 +101,6 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 %{mingw32_mandir}/man1/osinfo-query.1*
 
 %files -n mingw64-libosinfo
-%defattr(-,root,root)
 %doc AUTHORS ChangeLog COPYING.LIB NEWS README
 %{mingw64_bindir}/osinfo-detect.exe
 %{mingw64_bindir}/osinfo-db-validate.exe
