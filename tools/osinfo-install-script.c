@@ -111,10 +111,9 @@ static gboolean generate_script(OsinfoOs *os)
     OsinfoInstallScriptList *scripts = osinfo_os_get_install_script_list(os);
     OsinfoInstallScriptList *profile_scripts;
     OsinfoFilter *filter;
-    OsinfoInstallScript *script;
+    GList *l, *tmp;
     gboolean ret = FALSE;
     GError *error = NULL;
-    GFile *dir = g_file_new_for_commandline_arg(output_dir ? output_dir : ".");
 
     filter = osinfo_filter_new();
     osinfo_filter_add_constraint(filter,
@@ -123,35 +122,31 @@ static gboolean generate_script(OsinfoOs *os)
                                  OSINFO_INSTALL_SCRIPT_PROFILE_JEOS);
     profile_scripts = osinfo_install_scriptlist_new_filtered(scripts,
                                                             filter);
+    l = osinfo_list_get_elements(OSINFO_LIST(profile_scripts));
+    for (tmp = l; tmp != NULL; tmp = tmp->next) {
+        OsinfoInstallScript *script = tmp->data;
+        GFile *dir = g_file_new_for_commandline_arg(output_dir ?
+                                                    output_dir : ".");
 
-    if (osinfo_list_get_length(OSINFO_LIST(profile_scripts)) != 1) {
-        g_printerr("Cannot find any install script for profile '%s'\n",
-                   profile ? profile :
-                   OSINFO_INSTALL_SCRIPT_PROFILE_JEOS);
-        goto cleanup;
+        if (prefix)
+            osinfo_install_script_set_output_prefix(script, prefix);
+
+        osinfo_install_script_generate_output(script,
+                                              os,
+                                              config,
+                                              dir,
+                                              NULL,
+                                              &error);
+        if (error != NULL) {
+            g_printerr("Unable to generate install script: %s\n",
+                    error->message ? error->message : "unknown");
+            goto cleanup;
+        }
     }
-
-    script = OSINFO_INSTALL_SCRIPT(osinfo_list_get_nth(OSINFO_LIST(profile_scripts), 0));
-
-    if (prefix)
-        osinfo_install_script_set_output_prefix(script, prefix);
-
-    osinfo_install_script_generate_output(script,
-                                          os,
-                                          config,
-                                          dir,
-                                          NULL,
-                                          &error);
-
-    if (error != NULL) {
-        g_printerr("Unable to generate install script: %s\n",
-                   error->message ? error->message : "unknown");
-        goto cleanup;
-    }
-
     ret = TRUE;
 
  cleanup:
+    g_list_free(l);
     g_object_unref(scripts);
     g_object_unref(filter);
     g_object_unref(profile_scripts);
