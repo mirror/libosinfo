@@ -674,7 +674,7 @@ static void __osinfoAddProductIfRelationship(gpointer data, gpointer opaque)
 }
 
 /**
- * osinfo_db_unique_values_for_os_relationship
+ * osinfo_db_unique_values_for_os_relationship:
  * @db: the database
  * @relshp: the product relationship
  *
@@ -699,7 +699,7 @@ OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *db, OsinfoPr
 
 
 /**
- * osinfo_db_unique_values_for_platform_relationship
+ * osinfo_db_unique_values_for_platform_relationship:
  * @db: the database
  * @relshp: the product relationship
  *

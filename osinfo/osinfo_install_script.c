@@ -904,7 +904,7 @@ void osinfo_install_script_generate_output_async(OsinfoInstallScript *script,
 }
 
 /**
- * osinfo_install_script_generate_output
+ * osinfo_install_script_generate_output:
  * @script:     the install script
  * @os:         the os entity
  * @config:     the install script config

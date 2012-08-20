@@ -201,7 +201,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
                                      pspec);
 
     /**
-     * OsinfoResources::cpu
+     * OsinfoResources::cpu:
      *
      * The CPU frequency in hertz (Hz).
      */
@@ -220,7 +220,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
                                      pspec);
 
     /**
-     * OsinfoResources::n-cpus
+     * OsinfoResources::n-cpus:
      *
      * The number of CPUs.
      */
@@ -239,7 +239,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
                                      pspec);
 
     /**
-     * OsinfoResources::ram
+     * OsinfoResources::ram:
      *
      * The amount of Random Access Memory (RAM) in bytes.
      */
@@ -258,7 +258,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
                                      pspec);
 
     /**
-     * OsinfoResources::storage
+     * OsinfoResources::storage:
      *
      * The amount of storage space in bytes.
      */
