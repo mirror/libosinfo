@@ -3,6 +3,9 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
+system_db_dir=@datarootdir@/libosinfo/db
+local_db_dir=@sysconfdir@/libosinfo/db
+
 Name: libosinfo
 Version: @VERSION@
 Description: libosinfo library
