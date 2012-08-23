@@ -235,7 +235,7 @@ LIBOSINFO_0.1.0 {
 	osinfo_treelist_new_union;
 } LIBOSINFO_0.0.6;
 
-LIBOSINFO_0.1.3 {
+LIBOSINFO_0.2.0 {
     global:
 	osinfo_product_get_logo;
 	osinfo_entity_set_param_boolean;
