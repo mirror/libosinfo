@@ -1,5 +1,5 @@
 /*
- * libosinfo: OS installation configuration
+ * libosinfo: OS installation configuration parameter
  *
  * Copyright (C) 2009-2012 Red Hat, Inc.
  *
