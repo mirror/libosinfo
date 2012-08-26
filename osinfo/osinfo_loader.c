@@ -34,6 +34,7 @@
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
 #include <libxml/xmlreader.h>
+#include "osinfo_install_script_private.h"
 
 G_DEFINE_TYPE (OsinfoLoader, osinfo_loader, G_TYPE_OBJECT);
 
@@ -596,7 +597,31 @@ static void osinfo_loader_install_config_params(OsinfoLoader *loader,
     g_free(nodes);
 }
 
+static OsinfoAvatarFormat *osinfo_loader_avatar_format(OsinfoLoader *loader,
+                                                       xmlXPathContextPtr ctxt,
+                                                       xmlNodePtr root,
+                                                       GError **err)
+{
+    OsinfoAvatarFormat *avatar_format;
+    const gchar *const keys[] = {
+        OSINFO_AVATAR_FORMAT_PROP_MIME_TYPE,
+        OSINFO_AVATAR_FORMAT_PROP_WIDTH,
+        OSINFO_AVATAR_FORMAT_PROP_HEIGHT,
+        OSINFO_AVATAR_FORMAT_PROP_ALPHA,
+        NULL
+    };
 
+    avatar_format = osinfo_avatar_format_new();
+
+    osinfo_loader_entity(loader, OSINFO_ENTITY(avatar_format), keys, ctxt, root, err);
+    if (error_is_set(err)) {
+        g_object_unref (avatar_format);
+
+        return NULL;
+    }
+
+    return avatar_format;
+}
 
 static void osinfo_loader_install_script(OsinfoLoader *loader,
                                          xmlXPathContextPtr ctxt,
@@ -612,6 +637,8 @@ static void osinfo_loader_install_script(OsinfoLoader *loader,
         NULL
     };
     gchar *value = NULL;
+    xmlNodePtr *nodes = NULL;
+    int nnodes;
 
     if (!id) {
         OSINFO_ERROR(err, _("Missing install script id property"));
@@ -650,6 +677,24 @@ static void osinfo_loader_install_script(OsinfoLoader *loader,
                                         ctxt,
                                         root,
                                         err);
+
+    nnodes = osinfo_loader_nodeset("./avatar-format", ctxt, &nodes, err);
+    if (error_is_set(err))
+        goto error;
+
+    if (nnodes > 0) {
+        OsinfoAvatarFormat *avatar_format;
+
+        xmlNodePtr saved = ctxt->node;
+        ctxt->node = nodes[0];
+        avatar_format = osinfo_loader_avatar_format(loader, ctxt, root, err);
+        ctxt->node = saved;
+        if (error_is_set(err))
+            goto error;
+
+        osinfo_install_script_set_avatar_format(installScript, avatar_format);
+    }
+    g_free(nodes);
 
     osinfo_db_add_install_script(loader->priv->db, installScript);
 

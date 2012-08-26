@@ -23,6 +23,7 @@ data/devices/virtio-pci.xml.in
 data/devices/qemu-usb.xml.in
 data/hypervisors/rhel-xen.xml.in
 data/hypervisors/xen.xml.in
+osinfo/osinfo_avatar_format.c
 osinfo/osinfo_deployment.c
 osinfo/osinfo_devicelink.c
 osinfo/osinfo_devicelinkfilter.c

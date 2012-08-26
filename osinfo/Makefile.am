@@ -55,6 +55,7 @@ libosinfo_1_0_includedir = $(includedir)/libosinfo-1.0/osinfo
 
 libosinfo_1_0_include_HEADERS = \
   osinfo.h			\
+  osinfo_avatar_format.h 	\
   osinfo_db.h			\
   osinfo_loader.h		\
   osinfo_device.h		\
@@ -87,37 +88,39 @@ libosinfo_1_0_include_HEADERS = \
   osinfo_treelist.h		\
   $(NULL)
 
-libosinfo_1_0_la_SOURCES =	\
-  osinfo_entity.c		\
-  osinfo_enum_types.c		\
-  osinfo_filter.c		\
-  osinfo_list.c			\
-  osinfo_device.c		\
-  osinfo_devicelink.c		\
-  osinfo_devicelist.c		\
-  osinfo_devicelinklist.c	\
-  osinfo_devicelinkfilter.c	\
-  osinfo_install_config.c       \
-  osinfo_install_config_param.c \
-  osinfo_install_script.c       \
-  osinfo_install_scriptlist.c   \
-  osinfo_product.c		\
-  osinfo_productfilter.c	\
-  osinfo_productlist.c		\
-  osinfo_platform.c		\
-  osinfo_platformlist.c		\
-  osinfo_oslist.c		\
-  osinfo_os.c			\
-  osinfo_deployment.c		\
-  osinfo_deploymentlist.c	\
-  osinfo_media.c		\
-  osinfo_medialist.c		\
-  osinfo_resources.c		\
-  osinfo_resourceslist.c	\
-  osinfo_tree.c			\
-  osinfo_treelist.c		\
-  osinfo_db.c			\
-  osinfo_loader.c		\
+libosinfo_1_0_la_SOURCES =	  \
+  osinfo_avatar_format.c 	  \
+  osinfo_entity.c		  \
+  osinfo_enum_types.c		  \
+  osinfo_filter.c		  \
+  osinfo_list.c			  \
+  osinfo_device.c		  \
+  osinfo_devicelink.c		  \
+  osinfo_devicelist.c		  \
+  osinfo_devicelinklist.c	  \
+  osinfo_devicelinkfilter.c	  \
+  osinfo_install_config.c         \
+  osinfo_install_config_param.c   \
+  osinfo_install_script.c         \
+  osinfo_install_script_private.h \
+  osinfo_install_scriptlist.c     \
+  osinfo_product.c		  \
+  osinfo_productfilter.c	  \
+  osinfo_productlist.c		  \
+  osinfo_platform.c		  \
+  osinfo_platformlist.c		  \
+  osinfo_oslist.c		  \
+  osinfo_os.c			  \
+  osinfo_deployment.c		  \
+  osinfo_deploymentlist.c	  \
+  osinfo_media.c		  \
+  osinfo_medialist.c		  \
+  osinfo_resources.c		  \
+  osinfo_resourceslist.c	  \
+  osinfo_tree.c			  \
+  osinfo_treelist.c		  \
+  osinfo_db.c			  \
+  osinfo_loader.c		  \
   $(NULL)
 
 osinfo_enum_types.h: $(libosinfo_1_0_include_HEADERS) osinfo_enum_types.h.template

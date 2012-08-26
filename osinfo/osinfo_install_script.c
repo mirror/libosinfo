@@ -30,6 +30,7 @@
 #include <libxslt/xsltutils.h>
 #include <libxslt/xsltInternals.h>
 #include <glib/gi18n-lib.h>
+#include "osinfo_install_script_private.h"
 
 G_DEFINE_TYPE (OsinfoInstallScript, osinfo_install_script, OSINFO_TYPE_ENTITY);
 
@@ -50,6 +51,7 @@ struct _OsinfoInstallScriptPrivate
     gchar *output_prefix;
     gchar *output_filename;
     GList *config_param_list;
+    OsinfoAvatarFormat *avatar;
 };
 
 enum {
@@ -60,6 +62,7 @@ enum {
     PROP_PROFILE,
     PROP_PRODUCT_KEY_FORMAT,
     PROP_PATH_FORMAT,
+    PROP_AVATAR_FORMAT,
 };
 
 typedef struct _OsinfoInstallScriptGenerateData OsinfoInstallScriptGenerateData;
@@ -142,6 +145,11 @@ osinfo_os_get_property(GObject    *object,
                          osinfo_install_script_get_path_format(script));
         break;
 
+    case PROP_AVATAR_FORMAT:
+        g_value_set_object(value,
+                           osinfo_install_script_get_avatar_format(script));
+        break;
+
     default:
         /* We don't have any other property... */
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -157,6 +165,8 @@ osinfo_install_script_finalize (GObject *object)
     g_free(script->priv->output_prefix);
     g_free(script->priv->output_filename);
     g_list_free_full(script->priv->config_param_list, g_object_unref);
+    if (script->priv->avatar != NULL)
+        g_object_unref(script->priv->avatar);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_install_script_parent_class)->finalize (object);
@@ -228,6 +238,16 @@ osinfo_install_script_class_init (OsinfoInstallScriptClass *klass)
                               G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass,
                                     PROP_PATH_FORMAT,
+                                    pspec);
+
+    pspec = g_param_spec_object("avatar-format",
+                                "Avatar Format",
+                                _("Expected avatar format"),
+                                OSINFO_TYPE_AVATAR_FORMAT,
+                                G_PARAM_READABLE |
+                                G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass,
+                                    PROP_AVATAR_FORMAT,
                                     pspec);
 
     g_type_class_add_private (klass, sizeof (OsinfoInstallScriptPrivate));
@@ -452,6 +472,38 @@ const gchar *osinfo_install_script_get_output_filename(OsinfoInstallScript *scri
         return osinfo_install_script_get_expected_filename(script);
 
     return script->priv->output_filename;
+}
+
+void
+osinfo_install_script_set_avatar_format(OsinfoInstallScript *script,
+                                        OsinfoAvatarFormat *avatar)
+{
+    g_return_if_fail(OSINFO_IS_INSTALL_SCRIPT(script));
+    g_return_if_fail(OSINFO_IS_AVATAR_FORMAT(avatar));
+
+    if (script->priv->avatar != NULL)
+        g_object_unref(script->priv->avatar);
+    script->priv->avatar = g_object_ref(avatar);
+}
+
+/**
+ * osinfo_install_script_get_avatar_format
+ *
+ * Some install scripts have restrictions on the format of the user avatar. Use
+ * this method to retrieve those restrictions in the form of an
+ * #OsinfoAvatarFormat instance.
+ *
+ * Returns: (transfer none): The avatar format, or NULL if there is no restrictions on the
+ *                           format of avatar
+ */
+OsinfoAvatarFormat *osinfo_install_script_get_avatar_format(OsinfoInstallScript *script)
+{
+    g_return_val_if_fail(OSINFO_IS_INSTALL_SCRIPT(script), NULL);
+
+    if (script->priv->avatar == NULL)
+        return NULL;
+
+    return script->priv->avatar;
 }
 
 struct _OsinfoInstallScriptGenerateData {

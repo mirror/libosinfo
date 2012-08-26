@@ -24,6 +24,7 @@
 #include <glib-object.h>
 #include <gio/gio.h>
 #include <osinfo/osinfo_install_config_param.h>
+#include <osinfo/osinfo_avatar_format.h>
 
 #ifndef __OSINFO_INSTALL_SCRIPT_H__
 #define __OSINFO_INSTALL_SCRIPT_H__
@@ -105,6 +106,8 @@ const gchar *osinfo_install_script_get_output_prefix(OsinfoInstallScript *script
 const gchar *osinfo_install_script_get_output_filename(OsinfoInstallScript *script);
 
 const gchar *osinfo_install_script_get_expected_filename(OsinfoInstallScript *script);
+
+OsinfoAvatarFormat *osinfo_install_script_get_avatar_format(OsinfoInstallScript *script);
 
 void osinfo_install_script_generate_async(OsinfoInstallScript *script,
                                           OsinfoOs *os,

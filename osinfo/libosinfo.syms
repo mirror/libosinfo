@@ -317,6 +317,12 @@ LIBOSINFO_0.2.1 {
 
 LIBOSINFO_0.2.2 {
     global:
+	osinfo_avatar_format_get_type;
+	osinfo_avatar_format_get_mime_types;
+	osinfo_avatar_format_get_width;
+	osinfo_avatar_format_get_height;
+	osinfo_avatar_format_get_alpha;
+
 	osinfo_install_config_param_policy_get_type;
 	osinfo_media_error_get_type;
 	osinfo_product_relationship_get_type;
@@ -336,9 +342,9 @@ LIBOSINFO_0.2.2 {
 	osinfo_install_config_get_script_disk;
 	osinfo_install_config_set_script_disk;
 
+	osinfo_install_script_get_avatar_format;
 	osinfo_install_script_get_path_format;
 } LIBOSINFO_0.2.1;
-
 
 /* Symbols in next release...
 
