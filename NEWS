@@ -1,3 +1,20 @@
+0.2.0 - Aug 31, 2012
+====================
+
+Introducing a new set of APIs to enable application developers to easily create
+unattended/automated installation scripts for various operating systems.
+Currently only Fedora and Microsoft Windows are supported. Also provided is a
+commandline tool, 'osinfo-install-script' to easily create such scripts without
+having to write any code.
+
+Other changes since 0.1.2:
+
+- Fix build against mingw64 toolchain.
+- API for getting product logo URLs.
+- Fix architecture for a Windows 2008 media.
+- Remove bogus minimum storage information for Fedora.
+- Add varirables for system and local database paths in pkg-config.
+
 0.1.2 - Jun 11, 2012
 ====================
 
