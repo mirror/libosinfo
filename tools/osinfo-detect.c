@@ -208,9 +208,12 @@ gint main(gint argc, gchar **argv)
     osinfo_loader_process_default_path(loader, &error);
     if (error != NULL) {
         g_printerr("Error loading OS data: %s\n", error->message);
-
-        ret = -4;
-        goto EXIT;
+        /* errors loading the osinfo database are not fatal as this can
+         * happen when the user has an invalid file in
+         * ~/.local/share/libosinfo for example. Let's report but ignore
+         * them
+         */
+        g_clear_error(&error);
     }
 
     db = osinfo_loader_get_db(loader);
