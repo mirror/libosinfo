@@ -1482,7 +1482,6 @@ void osinfo_loader_process_default_path(OsinfoLoader *loader, GError **err)
     return;
 
  error:
-    g_print("Fail\n");
     g_propagate_error(err, error);
     return;
 }
