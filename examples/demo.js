@@ -34,7 +34,7 @@ for (idx in osnames) {
 
 var osid = "http://fedoraproject.org/fedora-11"
 var hvid = "http://qemu.org/qemu-kvm-0.11.0"
-var drvclass = "network"
+var drvclass = "net"
 //var drvclass = "audio"
 
 var os = db.get_os(osid)

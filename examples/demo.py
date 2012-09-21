@@ -35,7 +35,7 @@ for name in hvnames:
 
 osid = "http://fedoraproject.org/fedora-11"
 hvid = "http://qemu.org/qemu-kvm-0.11.0"
-drvclass = "network"
+drvclass = "net"
 #drvclass = "audio"
 
 os = db.get_os(osid)

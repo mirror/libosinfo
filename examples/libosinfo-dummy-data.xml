@@ -8,7 +8,6 @@
   <vendor>0x1274</vendor>
   <product>0x5000</product>
   <name>ES1370</name>
-  <name>es1370</name>
 </device>
 
 <device id="http://pci-ids.ucw.cz/read/PC/1274/1371/80864541">
@@ -32,7 +31,7 @@
 
 <device id="http://pci-ids.ucw.cz/read/PC/a727/0013">
   <!-- 3CRPAG175 Wireless PC Card -->
-  <class>network</class>
+  <class>net</class>
   <bus-type>pci</bus-type>
   <vendor>0xa727</vendor>
   <product>0x0013</product>
@@ -44,6 +43,7 @@
   <short-id>kvm-0.11.0</short-id>
   <name>KVM 0.11.0</name>
   <version>0.11.0</version>
+  <vendor>qemu</vendor>
   <devices>
     <device id="http://pci-ids.ucw.cz/read/PC/1002/4382" />
     <device id="http://pci-ids.ucw.cz/read/PC/1274/5000" />
@@ -88,6 +88,7 @@
 <os id="http://fedoraproject.org/fedora-10">
   <short-id>fedora10</short-id>
   <name>Fedora 10</name>
+  <version>10</version>
   <vendor>Fedora Project</vendor>
 
   <!-- Device support for unspecified platform -->
