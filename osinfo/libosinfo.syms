@@ -303,6 +303,7 @@ LIBOSINFO_0.2.0 {
 
 LIBOSINFO_0.2.1 {
     global:
+	osinfo_device_get_subsystem;
 	osinfo_entity_get_param_value_boolean_with_default;
 	osinfo_entity_get_param_value_int64;
 	osinfo_entity_get_param_value_int64_with_default;

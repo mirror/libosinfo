@@ -20,6 +20,7 @@
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
  *   Daniel P. Berrange <berrange@redhat.com>
+ *   Michal Privoznik <mprivozn@redhat.com>
  */
 
 #include <glib-object.h>
@@ -51,6 +52,7 @@ typedef struct _OsinfoDevicePrivate OsinfoDevicePrivate;
 #define OSINFO_DEVICE_PROP_NAME       "name"
 #define OSINFO_DEVICE_PROP_CLASS      "class"
 #define OSINFO_DEVICE_PROP_BUS_TYPE   "bus-type"
+#define OSINFO_DEVICE_PROP_SUBSYSTEM  "subsystem"
 
 /* object */
 struct _OsinfoDevice
@@ -83,6 +85,7 @@ const gchar *osinfo_device_get_product_id(OsinfoDevice *dev);
 const gchar *osinfo_device_get_bus_type(OsinfoDevice *dev);
 const gchar *osinfo_device_get_class(OsinfoDevice *dev);
 const gchar *osinfo_device_get_name(OsinfoDevice *dev);
+const gchar *osinfo_device_get_subsystem(OsinfoDevice *dev);
 
 #endif /* __OSINFO_DEVICE_H__ */
 /*

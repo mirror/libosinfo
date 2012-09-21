@@ -20,6 +20,7 @@
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
  *   Daniel P. Berrange <berrange@redhat.com>
+ *   Michal Privoznik <mprivozn@redhat.com>
  */
 
 #include <config.h>
@@ -113,6 +114,11 @@ const gchar *osinfo_device_get_class(OsinfoDevice *dev)
 const gchar *osinfo_device_get_name(OsinfoDevice *dev)
 {
     return osinfo_entity_get_param_value(OSINFO_ENTITY(dev), OSINFO_DEVICE_PROP_NAME);
+}
+
+const gchar *osinfo_device_get_subsystem(OsinfoDevice *dev)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(dev), OSINFO_DEVICE_PROP_SUBSYSTEM);
 }
 
 /*
