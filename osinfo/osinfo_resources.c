@@ -61,29 +61,6 @@ struct _OsinfoResourcesPrivate
     gboolean unused;
 };
 
-static gint64 get_param_as_int64(OsinfoResources *resources,
-                                 const gchar *key)
-{
-    const gchar *str;
-
-    str = osinfo_entity_get_param_value(OSINFO_ENTITY(resources), key);
-
-    if (str == NULL)
-        return -1;
-
-    return (gint64) g_ascii_strtod(str, NULL);
-}
-
-static void set_param_from_int64(OsinfoResources *resources,
-                                 const gchar *key,
-                                 gint64 value)
-{
-    gchar *str;
-
-    str = g_strdup_printf("%"G_GUINT64_FORMAT, value);
-    osinfo_entity_set_param(OSINFO_ENTITY(resources), key, str);
-}
-
 static void
 osinfo_resources_finalize (GObject *object)
 {
@@ -324,7 +301,8 @@ const gchar *osinfo_resources_get_architecture(OsinfoResources *resources)
  */
 gint osinfo_resources_get_n_cpus(OsinfoResources *resources)
 {
-    return (gint) get_param_as_int64(resources, OSINFO_RESOURCES_PROP_N_CPUS);
+    return (gint) osinfo_entity_get_param_value_int64
+            (OSINFO_ENTITY(resources), OSINFO_RESOURCES_PROP_N_CPUS);
 }
 
 /**
@@ -338,7 +316,8 @@ gint osinfo_resources_get_n_cpus(OsinfoResources *resources)
  */
 gint64 osinfo_resources_get_cpu(OsinfoResources *resources)
 {
-    return get_param_as_int64(resources, OSINFO_RESOURCES_PROP_CPU);
+    return osinfo_entity_get_param_value_int64
+            (OSINFO_ENTITY(resources), OSINFO_RESOURCES_PROP_CPU);
 }
 
 /**
@@ -352,7 +331,8 @@ gint64 osinfo_resources_get_cpu(OsinfoResources *resources)
  */
 gint64 osinfo_resources_get_ram(OsinfoResources *resources)
 {
-    return get_param_as_int64(resources, OSINFO_RESOURCES_PROP_RAM);
+    return osinfo_entity_get_param_value_int64
+            (OSINFO_ENTITY(resources), OSINFO_RESOURCES_PROP_RAM);
 }
 
 /**
@@ -366,7 +346,8 @@ gint64 osinfo_resources_get_ram(OsinfoResources *resources)
  */
 gint64 osinfo_resources_get_storage(OsinfoResources *resources)
 {
-    return get_param_as_int64(resources, OSINFO_RESOURCES_PROP_STORAGE);
+    return osinfo_entity_get_param_value_int64
+            (OSINFO_ENTITY(resources), OSINFO_RESOURCES_PROP_STORAGE);
 }
 
 /**
@@ -378,7 +359,9 @@ gint64 osinfo_resources_get_storage(OsinfoResources *resources)
  */
 void osinfo_resources_set_n_cpus(OsinfoResources *resources, gint n_cpus)
 {
-    set_param_from_int64 (resources, OSINFO_RESOURCES_PROP_N_CPUS, n_cpus);
+    osinfo_entity_set_param_int64(OSINFO_ENTITY(resources),
+                                  OSINFO_RESOURCES_PROP_N_CPUS,
+                                  n_cpus);
 }
 
 /**
@@ -390,7 +373,9 @@ void osinfo_resources_set_n_cpus(OsinfoResources *resources, gint n_cpus)
  */
 void osinfo_resources_set_cpu(OsinfoResources *resources, gint64 cpu)
 {
-    set_param_from_int64 (resources, OSINFO_RESOURCES_PROP_CPU, cpu);
+    osinfo_entity_set_param_int64(OSINFO_ENTITY(resources),
+                                  OSINFO_RESOURCES_PROP_CPU,
+                                  cpu);
 }
 
 /**
@@ -402,7 +387,9 @@ void osinfo_resources_set_cpu(OsinfoResources *resources, gint64 cpu)
  */
 void osinfo_resources_set_ram(OsinfoResources *resources, gint64 ram)
 {
-    set_param_from_int64 (resources, OSINFO_RESOURCES_PROP_RAM, ram);
+    osinfo_entity_set_param_int64(OSINFO_ENTITY(resources),
+                                  OSINFO_RESOURCES_PROP_RAM,
+                                  ram);
 }
 
 /**
@@ -414,7 +401,9 @@ void osinfo_resources_set_ram(OsinfoResources *resources, gint64 ram)
  */
 void osinfo_resources_set_storage(OsinfoResources *resources, gint64 storage)
 {
-    set_param_from_int64 (resources, OSINFO_RESOURCES_PROP_STORAGE, storage);
+    osinfo_entity_set_param_int64(OSINFO_ENTITY(resources),
+                                  OSINFO_RESOURCES_PROP_STORAGE,
+                                  storage);
 }
 
 /*

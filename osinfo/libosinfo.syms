@@ -301,6 +301,14 @@ LIBOSINFO_0.2.0 {
 	osinfo_os_find_install_script;
 } LIBOSINFO_0.1.0;
 
+LIBOSINFO_0.2.1 {
+    global:
+	osinfo_entity_get_param_value_boolean_with_default;
+	osinfo_entity_get_param_value_int64;
+	osinfo_entity_get_param_value_int64_with_default;
+	osinfo_entity_set_param_int64;
+} LIBOSINFO_0.2.0;
+
 /* Symbols in next release...
 
   LIBOSINFO_0.0.2 {

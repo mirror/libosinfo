@@ -988,20 +988,6 @@ const gchar *osinfo_media_get_initrd_path(OsinfoMedia *media)
                                          OSINFO_MEDIA_PROP_INITRD);
 }
 
-static gboolean get_param_as_bool (OsinfoMedia *media,
-                                   const char *key,
-                                   gboolean default_value)
-{
-    const gchar *value;
-
-    value = osinfo_entity_get_param_value(OSINFO_ENTITY(media), key);
-    if (value == NULL)
-        return default_value;
-
-    return (g_strcmp0 ("true", value) == 0 ||
-            g_strcmp0 ("yes", value) == 0);
-}
-
 /**
  * osinfo_media_get_installer:
  * @media: a #OsinfoMedia instance
@@ -1012,7 +998,8 @@ static gboolean get_param_as_bool (OsinfoMedia *media,
  */
 gboolean osinfo_media_get_installer(OsinfoMedia *media)
 {
-    return get_param_as_bool (media, OSINFO_MEDIA_PROP_INSTALLER, TRUE);
+    return osinfo_entity_get_param_value_boolean_with_default
+            (OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_INSTALLER, TRUE);
 }
 
 /**
@@ -1025,7 +1012,8 @@ gboolean osinfo_media_get_installer(OsinfoMedia *media)
  */
 gboolean osinfo_media_get_live(OsinfoMedia *media)
 {
-    return get_param_as_bool (media, OSINFO_MEDIA_PROP_LIVE, FALSE);
+    return osinfo_entity_get_param_value_boolean_with_default
+            (OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_LIVE, FALSE);
 }
 
 /*
