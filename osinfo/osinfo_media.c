@@ -219,17 +219,6 @@ osinfo_media_get_property (GObject    *object,
     }
 }
 
-static void set_param_from_boolean (OsinfoMedia *media,
-                                    const gchar *key,
-                                    gboolean value)
-{
-    if (value)
-        osinfo_entity_set_param (OSINFO_ENTITY(media), key, "true");
-    else
-        osinfo_entity_set_param (OSINFO_ENTITY(media), key, "false");
-}
-
-
 static void
 osinfo_media_set_property(GObject      *object,
                               guint         property_id,
@@ -288,15 +277,15 @@ osinfo_media_set_property(GObject      *object,
         break;
 
     case PROP_LIVE:
-        set_param_from_boolean (media,
-                                OSINFO_MEDIA_PROP_LIVE,
-                                g_value_get_boolean (value));
+        osinfo_entity_set_param_boolean (OSINFO_ENTITY(media),
+                                         OSINFO_MEDIA_PROP_LIVE,
+                                         g_value_get_boolean (value));
         break;
 
     case PROP_INSTALLER:
-        set_param_from_boolean (media,
-                                OSINFO_MEDIA_PROP_INSTALLER,
-                                g_value_get_boolean (value));
+        osinfo_entity_set_param_boolean (OSINFO_ENTITY(media),
+                                         OSINFO_MEDIA_PROP_INSTALLER,
+                                         g_value_get_boolean (value));
         break;
 
     default:
