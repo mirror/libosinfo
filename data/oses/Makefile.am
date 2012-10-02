@@ -6,6 +6,7 @@ database_DATA =     \
   dos.xml           \
   fedora.xml        \
   freebsd.xml	    \
+  gnome.xml	    \
   mandriva.xml      \
   mandrake.xml      \
   netbsd.xml	    \
