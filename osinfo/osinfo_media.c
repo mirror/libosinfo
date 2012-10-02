@@ -151,6 +151,7 @@ enum {
     PROP_INITRD_PATH,
     PROP_INSTALLER,
     PROP_LIVE,
+    PROP_INSTALLER_REBOOTS,
 };
 
 static void
@@ -210,6 +211,11 @@ osinfo_media_get_property (GObject    *object,
     case PROP_LIVE:
         g_value_set_boolean (value,
                              osinfo_media_get_live (media));
+        break;
+
+    case PROP_INSTALLER_REBOOTS:
+        g_value_set_int (value,
+                         osinfo_media_get_installer_reboots (media));
         break;
 
     default:
@@ -286,6 +292,12 @@ osinfo_media_set_property(GObject      *object,
         osinfo_entity_set_param_boolean (OSINFO_ENTITY(media),
                                          OSINFO_MEDIA_PROP_INSTALLER,
                                          g_value_get_boolean (value));
+        break;
+
+    case PROP_INSTALLER_REBOOTS:
+        osinfo_entity_set_param_int64 (OSINFO_ENTITY(media),
+                                       OSINFO_MEDIA_PROP_INSTALLER_REBOOTS,
+                                       g_value_get_int (value));
         break;
 
     default:
@@ -465,6 +477,31 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                   G_PARAM_STATIC_NICK |
                                   G_PARAM_STATIC_BLURB);
     g_object_class_install_property (g_klass, PROP_LIVE, pspec);
+
+    /**
+     * OsinfoMedia::installer-reboots:
+     *
+     * If media is an installer, this property indicates the number of reboots
+     * the installer takes before installation is complete.
+     *
+     * This property is not applicable to media that has no installer. You can
+     * use #osinfo_media_get_installer (or OsinfoMedia::installer) to check
+     * that.
+     *
+     * Warning: Some media allow you to install from live sessions, in which
+     * case number of reboots *alone* is not a reliable method for tracking
+     * installation.
+     */
+    pspec = g_param_spec_int ("installer-reboots",
+                              "InstallerReboots",
+                              "Number of installer reboots",
+                              G_MININT,
+                              G_MAXINT,
+                              -1 /* default value */,
+                              G_PARAM_READWRITE |
+                              G_PARAM_CONSTRUCT | /* to set default value */
+                              G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property (g_klass, PROP_INSTALLER_REBOOTS, pspec);
 }
 
 static void
@@ -1003,6 +1040,32 @@ gboolean osinfo_media_get_live(OsinfoMedia *media)
 {
     return osinfo_entity_get_param_value_boolean_with_default
             (OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_LIVE, FALSE);
+}
+
+/**
+ * osinfo_media_get_installer_reboots:
+ * @media: a #OsinfoMedia instance
+ *
+ * If media is an installer, this method retrieves the number of reboots the
+ * installer takes before installation is complete.
+ *
+ * This function is not supposed to be called on media that has no installer.
+ * You can use #osinfo_media_get_installer (or OsinfoMedia::installer) to check
+ * that.
+ *
+ * Warning: Some media allow you to install from live sessions, in which case
+ * number of reboots *alone* is not a reliable method for tracking installation.
+ *
+ * Returns: (transfer none): the number of installer reboots or -1 if media is
+ * not an installer
+ */
+gint osinfo_media_get_installer_reboots(OsinfoMedia *media)
+{
+    g_return_val_if_fail(OSINFO_IS_MEDIA(media), -1);
+    g_return_val_if_fail(osinfo_media_get_installer (media), -1);
+
+    return (gint) osinfo_entity_get_param_value_int64_with_default
+            (OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_INSTALLER_REBOOTS, 1);
 }
 
 /*

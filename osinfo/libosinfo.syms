@@ -312,6 +312,7 @@ LIBOSINFO_0.2.1 {
 	osinfo_install_config_param_is_required;
 	osinfo_install_script_get_expected_filename;
 	osinfo_install_script_get_config_param;
+	osinfo_media_get_installer_reboots;
 } LIBOSINFO_0.2.0;
 
 /* Symbols in next release...
