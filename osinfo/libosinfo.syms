@@ -308,6 +308,7 @@ LIBOSINFO_0.2.1 {
 	osinfo_entity_get_param_value_int64;
 	osinfo_entity_get_param_value_int64_with_default;
 	osinfo_entity_set_param_int64;
+	osinfo_install_script_get_expected_filename;
 } LIBOSINFO_0.2.0;
 
 /* Symbols in next release...

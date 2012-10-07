@@ -47,6 +47,7 @@ G_DEFINE_TYPE (OsinfoInstallScript, osinfo_install_script, OSINFO_TYPE_ENTITY);
 struct _OsinfoInstallScriptPrivate
 {
     gchar *output_prefix;
+    gchar *output_filename;
     GList *config_param_list;
 };
 
@@ -147,6 +148,7 @@ osinfo_install_script_finalize (GObject *object)
 {
     OsinfoInstallScript *script = OSINFO_INSTALL_SCRIPT (object);
     g_free(script->priv->output_prefix);
+    g_free(script->priv->output_filename);
     g_list_free_full(script->priv->config_param_list, g_object_unref);
 
     /* Chain up to the parent class */
@@ -344,8 +346,18 @@ const gchar *osinfo_install_script_get_product_key_format(OsinfoInstallScript *s
 void osinfo_install_script_set_output_prefix(OsinfoInstallScript *script,
                                              const gchar *prefix)
 {
+    const char *output_filename =
+        osinfo_install_script_get_expected_filename(script);
+
     g_free(script->priv->output_prefix);
     script->priv->output_prefix = g_strdup(prefix);
+
+    /* update output_filename whenever output_prefix is changed */
+    g_free(script->priv->output_filename);
+    script->priv->output_filename = g_strjoin("-",
+                                              prefix,
+                                              output_filename,
+                                              NULL);
 }
 
 const gchar *osinfo_install_script_get_output_prefix(OsinfoInstallScript *script)
@@ -353,10 +365,36 @@ const gchar *osinfo_install_script_get_output_prefix(OsinfoInstallScript *script
     return script->priv->output_prefix;
 }
 
-const gchar *osinfo_install_script_get_output_filename(OsinfoInstallScript *script)
+/**
+ * osinfo_install_script_get_expected_filename:
+ *
+ * Some operating systems (as Windows) expect that script filename has
+ * particular name to work.
+ *
+ * Returns: (transfer none): the expected script filename
+ */
+const gchar *osinfo_install_script_get_expected_filename(OsinfoInstallScript *script)
 {
     return osinfo_entity_get_param_value(OSINFO_ENTITY(script),
-                                         OSINFO_INSTALL_SCRIPT_PROP_OUTPUT_FILENAME);
+                                         OSINFO_INSTALL_SCRIPT_PROP_EXPECTED_FILENAME);
+}
+
+/**
+ * osinfo_install_script_get_output_filename:
+ *
+ * Some operating systems are able to use any script filename, allowing the
+ * application to set the filename as desired. libosinfo provides this
+ * functionality by set the expected filename's prefix using
+ * osinfo_install_script_set_output_prefix() function.
+ *
+ * Returns: (transfer none): the output script filename
+ */
+const gchar *osinfo_install_script_get_output_filename(OsinfoInstallScript *script)
+{
+    if (script->priv->output_filename == NULL)
+        return osinfo_install_script_get_expected_filename(script);
+
+    return script->priv->output_filename;
 }
 
 struct _OsinfoInstallScriptGenerateData {

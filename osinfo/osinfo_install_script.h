@@ -50,7 +50,7 @@ typedef struct _OsinfoInstallScriptPrivate OsinfoInstallScriptPrivate;
 #define OSINFO_INSTALL_SCRIPT_PROP_TEMPLATE_DATA      "template-data"
 #define OSINFO_INSTALL_SCRIPT_PROP_PROFILE            "profile"
 #define OSINFO_INSTALL_SCRIPT_PROP_PRODUCT_KEY_FORMAT "product-key-format"
-#define OSINFO_INSTALL_SCRIPT_PROP_OUTPUT_FILENAME    "output-filename"
+#define OSINFO_INSTALL_SCRIPT_PROP_EXPECTED_FILENAME  "expected-filename"
 #define OSINFO_INSTALL_SCRIPT_PROP_CONFIG_REQUIRED    "required"
 #define OSINFO_INSTALL_SCRIPT_PROP_CONFIG_OPTIONAL    "optional"
 
@@ -94,6 +94,8 @@ void osinfo_install_script_set_output_prefix(OsinfoInstallScript *script, const 
 const gchar *osinfo_install_script_get_output_prefix(OsinfoInstallScript *script);
 
 const gchar *osinfo_install_script_get_output_filename(OsinfoInstallScript *script);
+
+const gchar *osinfo_install_script_get_expected_filename(OsinfoInstallScript *script);
 
 void osinfo_install_script_generate_async(OsinfoInstallScript *script,
                                           OsinfoOs *os,
