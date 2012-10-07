@@ -308,6 +308,8 @@ LIBOSINFO_0.2.1 {
 	osinfo_entity_get_param_value_int64;
 	osinfo_entity_get_param_value_int64_with_default;
 	osinfo_entity_set_param_int64;
+	osinfo_install_config_param_is_optional;
+	osinfo_install_config_param_is_required;
 	osinfo_install_script_get_expected_filename;
 	osinfo_install_script_get_config_param;
 } LIBOSINFO_0.2.0;

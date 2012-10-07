@@ -225,6 +225,38 @@ OsinfoInstallConfigParamPolicy osinfo_install_config_param_get_policy(const Osin
     return config_param->priv->policy;
 }
 
+/**
+ * osinfo_install_config_param_is_required:
+ * @config_param: the configuration parameter
+ *
+ * Returns: (transfer none): TRUE if the config_param is required.
+ *                           FALSE otherwise.
+ */
+gboolean osinfo_install_config_param_is_required(const OsinfoInstallConfigParam *config_param)
+{
+    if (config_param->priv->policy ==
+            OSINFO_INSTALL_CONFIG_PARAM_POLICY_REQUIRED)
+        return TRUE;
+
+    return FALSE;
+}
+
+/**
+ * osinfo_install_config_param_is_optional:
+ * @config_param: the configuration parameter
+ *
+ * Returns: (transfer none): TRUE if the config_param is optional.
+ *                           FALSE otherwise.
+ */
+gboolean osinfo_install_config_param_is_optional(const OsinfoInstallConfigParam *config_param)
+{
+    if (config_param->priv->policy ==
+            OSINFO_INSTALL_CONFIG_PARAM_POLICY_OPTIONAL)
+        return TRUE;
+
+    return FALSE;
+}
+
 /*
  * Local variables:
  *  indent-tabs-mode: nil
