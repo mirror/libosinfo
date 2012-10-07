@@ -264,6 +264,30 @@ GList *osinfo_install_script_get_config_param_list(const OsinfoInstallScript *sc
     return g_list_copy(script->priv->config_param_list);
 }
 
+/**
+ * osinfo_install_script_get_config_param:
+ *
+ * Get a config param from the config param's list
+ *
+ * Returns: (transfer full): the sought config param, if exists.
+ *                           NULL otherwise.
+ */
+OsinfoInstallConfigParam *
+osinfo_install_script_get_config_param(const OsinfoInstallScript *script,
+                                       const gchar *name)
+{
+    GList *l;
+
+    for (l = script->priv->config_param_list; l != NULL; l = l->next) {
+        OsinfoInstallConfigParam *tmp = l->data;
+
+        if (g_strcmp0(osinfo_install_config_param_get_name(tmp), name) == 0)
+            return g_object_ref(tmp);
+    }
+
+    return NULL;
+}
+
 static void
 osinfo_install_script_init (OsinfoInstallScript *list)
 {
