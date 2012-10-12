@@ -1,3 +1,26 @@
+0.2.1 - Oct 12, 2012
+====================
+
+Changes since 0.2.0:
+
+- Fix and simplify udev rule.
+- Fedora:
+  - Fix minimum RAM requirements for F16 and F17.
+- Add data on:
+  - Fedora 18
+  - GNOME 3.6
+  - Ubuntu 12.10
+- Fixes to doc build.
+- Install script:
+  - Add get_config_param method.
+  - Differenciate between expected/output script names.
+  - Add more utility functions.
+- Add 'installer-reboots' parameter to medias.
+- osinfo-detect does not die of DB loading errors anymore.
+- More type-specific entity value getters/setters.
+- Fixe and update RNG file.
+- Add 'subsystem' property/attribute to devices.
+
 0.2.0 - Aug 31, 2012
 ====================
 
