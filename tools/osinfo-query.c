@@ -28,6 +28,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <locale.h>
+#include <glib/gi18n.h>
 
 #include <osinfo/osinfo.h>
 
@@ -358,6 +360,11 @@ gint main(gint argc, gchar **argv)
     gsize i;
     const gchar *sortKey = NULL;
     const gchar *fields = NULL;
+
+    setlocale(LC_ALL, "");
+    textdomain (GETTEXT_PACKAGE);
+    bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
+    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
     g_type_init();
 

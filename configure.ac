@@ -12,6 +12,15 @@ LIBOSINFO_COMPILE_WARNINGS
 GNOME_MAINTAINER_MODE_DEFINES
 AM_MAINTAINER_MODE([enable])
 
+# i18 support
+IT_PROG_INTLTOOL(0.40.0)
+
+GETTEXT_PACKAGE=AC_PACKAGE_NAME
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE],["$GETTEXT_PACKAGE"],[The name of the gettext domain])
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION([0.17])
+
 # Autoconf 2.61a.99 and earlier don't support linking a file only
 # in VPATH builds.  But since GNUmakefile is for maintainer use
 # only, it does not matter if we skip the link with older autoconf.
@@ -180,5 +189,6 @@ AC_CONFIG_FILES([
 	docs/Makefile
 	docs/reference/Makefile
 	examples/Makefile
+	po/Makefile.in
 ])
 AC_OUTPUT

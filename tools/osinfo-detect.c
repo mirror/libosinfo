@@ -26,6 +26,8 @@
 
 #include <osinfo/osinfo.h>
 #include <string.h>
+#include <locale.h>
+#include <glib/gi18n.h>
 
 #define FORMAT_STR_PLAIN "plain"
 #define FORMAT_STR_ENV "env"
@@ -182,6 +184,11 @@ gint main(gint argc, gchar **argv)
     OsinfoDb *db = NULL;
     OsinfoOs *os = NULL;
     gint ret = 0;
+
+    setlocale(LC_ALL, "");
+    textdomain (GETTEXT_PACKAGE);
+    bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
+    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
     context = g_option_context_new("- Detect if media is bootable " \
                                    "and the relavent OS and distribution.");

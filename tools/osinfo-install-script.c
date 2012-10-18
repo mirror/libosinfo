@@ -25,6 +25,8 @@
 
 #include <osinfo/osinfo.h>
 #include <string.h>
+#include <locale.h>
+#include <glib/gi18n.h>
 
 static const gchar *profile;
 static const gchar *output_dir;
@@ -162,6 +164,11 @@ gint main(gint argc, gchar **argv)
     OsinfoDb *db = NULL;
     OsinfoOs *os = NULL;
     gint ret = 0;
+
+    setlocale(LC_ALL, "");
+    textdomain (GETTEXT_PACKAGE);
+    bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
+    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
     g_type_init();
 

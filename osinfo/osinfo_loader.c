@@ -23,6 +23,7 @@
  */
 
 #include <config.h>
+#include <glib/gi18n-lib.h>
 
 #include <osinfo/osinfo.h>
 
@@ -69,6 +70,9 @@ static void
 osinfo_loader_class_init (OsinfoLoaderClass *klass)
 {
     GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+
+    bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
+    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
     g_klass->finalize = osinfo_loader_finalize;
 

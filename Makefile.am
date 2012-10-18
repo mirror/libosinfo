@@ -1,5 +1,18 @@
 
-SUBDIRS = osinfo test data tools docs examples
+SUBDIRS = osinfo test data tools docs po examples
+
+INTLTOOL_FILES = \
+	intltool-extract.in \
+	intltool-merge.in \
+	intltool-update.in \
+	$(NULL)
+
+DISTCLEANFILES =				\
+	intltool-extract			\
+	intltool-merge				\
+	intltool-update				\
+	po/.intltool-merge-cache		\
+	$(NULL)
 
 EXTRA_DIST = \
   COPYING.LIB \
@@ -10,7 +23,20 @@ EXTRA_DIST = \
   cfg.mk \
   GNUmakefile \
   maint.mk \
+  $(INTLTOOL_FILES) \
   $(NULL)
+
+MAINTAINERCLEANFILES =				\
+	po/Makefile.in.in			\
+	po/Makevars.template			\
+	po/Rules-quot				\
+	po/boldquot.sed				\
+	po/en@boldquot.header			\
+	po/en@quot.header			\
+	po/insert-header.sin			\
+	po/quot.sed				\
+	po/remove-potcdate.sin			\
+	$(NULL)
 
 DISTCHECK_CONFIGURE_FLAGS=--enable-gtk-doc
 

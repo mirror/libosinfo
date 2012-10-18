@@ -2,6 +2,7 @@ AM_CFLAGS = $(GOBJECT_CFLAGS) \
 	    $(GIO_CFLAGS)     \
 	    $(LIBXML_CFLAGS)  \
 	    -DPKGDATADIR="\"$(pkgdatadir)\"" \
+	    -DLOCALEDIR="\"$(datadir)/locale\"" \
 	    $(WARN_CFLAGS) \
 	    -I$(top_srcdir) \
             $(NULL)
