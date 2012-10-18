@@ -1,24 +1,28 @@
 
 databasedir = $(pkgdatadir)/db/oses/
-database_DATA =     \
-  centos.xml        \
-  debian.xml        \
-  dos.xml           \
-  fedora.xml        \
-  freebsd.xml	    \
-  gnome.xml	    \
-  mandriva.xml      \
-  mandrake.xml      \
-  netbsd.xml	    \
-  netware.xml	    \
-  openbsd.xml	    \
-  opensuse.xml      \
-  rhl.xml           \
-  rhel.xml          \
-  solaris.xml	    \
-  suse.xml          \
-  ubuntu.xml        \
-  windows.xml 	    \
-  $(NULL)
+database_in_files = 	\
+	centos.xml.in   \
+	debian.xml.in   \
+	dos.xml.in      \
+	fedora.xml.in   \
+	freebsd.xml.in  \
+	gnome.xml.in	\
+	mandriva.xml.in \
+	mandrake.xml.in \
+	netbsd.xml.in	\
+	netware.xml.in  \
+	openbsd.xml.in  \
+	opensuse.xml.in \
+	rhl.xml.in      \
+	rhel.xml.in     \
+	solaris.xml.in  \
+	suse.xml.in     \
+	ubuntu.xml.in   \
+	windows.xml.in  \
+	$(NULL)
 
-EXTRA_DIST = $(database_DATA)
+database_DATA = $(database_in_files:.xml.in=.xml)
+
+@INTLTOOL_XML_RULE@
+
+EXTRA_DIST = $(database_in_files) $(database_DATA)

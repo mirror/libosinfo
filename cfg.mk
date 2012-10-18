@@ -1,5 +1,5 @@
 # Customize Makefile.maint.                           -*- makefile -*-
-# Copyright (C) 2008-2011 Red Hat, Inc.
+# Copyright (C) 2008-2012 Red Hat, Inc.
 # Copyright (C) 2003-2008 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
@@ -56,6 +56,10 @@ local-checks-to-skip =			\
 # Files that should never cause syntax check failures.
 VC_LIST_ALWAYS_EXCLUDE_REGEX = \
   (^HACKING|\.po|maint.mk)$$
+
+# Tweak how some of the syntax check rules work
+_makefile_at_at_check_exceptions = ' && !/INTLTOOL_XML_RULE/'
+translation-markers = (\b(N?_|gettext *)\([^)"]*("|$$))|(<(_[a-zA-Z]*).*/\5>)
 
 # Functions like free() that are no-ops on NULL arguments.
 useless_free_options =				\
