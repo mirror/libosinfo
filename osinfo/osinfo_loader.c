@@ -223,14 +223,35 @@ static void osinfo_loader_entity(OsinfoLoader *loader,
                                  GError **err)
 {
     int i = 0;
+    const gchar * const *langs = g_get_language_names ();
 
     /* Standard well-known keys first, allow single value only */
-    for (i = 0 ; keys[i] != NULL ; i++) {
-        gchar *xpath = g_strdup_printf("string(./%s)", keys[i]);
-        gchar *value = osinfo_loader_string(xpath, ctxt, err);
-        g_free(xpath);
-        if (error_is_set(err))
-            return;
+    for (i = 0 ; keys[i] != NULL; i++) {
+        gchar *value = NULL;
+        gchar *xpath;
+        int j;
+
+        /* We are guaranteed to have at least the default "C" locale and we
+         * want to ignore that, hence the NULL check on index 'j + 1'.
+         */
+        for (j = 0; langs[j + 1] != NULL; j++) {
+            xpath = g_strdup_printf("string(./%s[lang('%s')])", keys[i], langs[j]);
+            value = osinfo_loader_string(xpath, ctxt, err);
+            g_free(xpath);
+            if (error_is_set(err))
+                return;
+
+            if (value != NULL)
+                break;
+        }
+
+        if (value == NULL) {
+            xpath = g_strdup_printf("string(./%s)", keys[i]);
+            value = osinfo_loader_string(xpath, ctxt, err);
+            g_free(xpath);
+            if (error_is_set(err))
+                return;
+        }
 
         if (value) {
             osinfo_entity_set_param(entity, keys[i], value);
