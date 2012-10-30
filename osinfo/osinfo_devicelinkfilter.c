@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoDeviceLinkFilter, osinfo_devicelinkfilter, OSINFO_TYPE_FILTER);
 
@@ -130,7 +131,7 @@ osinfo_devicelinkfilter_class_init (OsinfoDeviceLinkFilterClass *klass)
      */
     pspec = g_param_spec_object("target-filter",
                                 "Target Filter",
-                                "Device link target filter",
+                                _("Device link target filter"),
                                 OSINFO_TYPE_FILTER,
                                 G_PARAM_CONSTRUCT_ONLY |
                                 G_PARAM_READWRITE |

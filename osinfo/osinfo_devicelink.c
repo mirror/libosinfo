@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoDeviceLink, osinfo_devicelink, OSINFO_TYPE_ENTITY);
 
@@ -125,7 +126,7 @@ osinfo_devicelink_class_init (OsinfoDeviceLinkClass *klass)
      */
     pspec = g_param_spec_object("target",
                                 "Target",
-                                "Target device",
+                                _("Target device"),
                                 OSINFO_TYPE_DEVICE,
                                 G_PARAM_CONSTRUCT_ONLY |
                                 G_PARAM_READWRITE |

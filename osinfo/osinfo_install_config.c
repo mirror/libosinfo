@@ -24,6 +24,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoInstallConfig, osinfo_install_config, OSINFO_TYPE_ENTITY);
 

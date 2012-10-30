@@ -29,6 +29,7 @@
 #include <gio/gio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <glib/gi18n-lib.h>
 
 typedef struct _CreateFromLocationAsyncData CreateFromLocationAsyncData;
 struct _CreateFromLocationAsyncData {
@@ -273,7 +274,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
      */
     pspec = g_param_spec_string("architecture",
                                 "ARCHITECTURE",
-                                "CPU Architecture",
+                                _("CPU Architecture"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
                                 G_PARAM_STATIC_NAME |
@@ -288,7 +289,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
      */
     pspec = g_param_spec_string("url",
                                 "URL",
-                                "The URL to this tree",
+                                _("The URL to this tree"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
                                 G_PARAM_STATIC_NAME |
@@ -303,7 +304,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
      */
     pspec = g_param_spec_string("volume-id",
                                 "VolumeID",
-                                "Expected ISO9660 volume ID",
+                                _("The expected ISO9660 volume ID"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
                                 G_PARAM_STATIC_NAME |
@@ -318,7 +319,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
      */
     pspec = g_param_spec_string("publisher-id",
                                 "PublisherID",
-                                "Expected ISO9660 publisher ID",
+                                _("The expected ISO9660 publisher ID"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
                                 G_PARAM_STATIC_NAME |
@@ -333,7 +334,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
      */
     pspec = g_param_spec_string("application-id",
                                 "ApplicationID",
-                                "Expected ISO9660 application ID",
+                                _("The expected ISO9660 application ID"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
                                 G_PARAM_STATIC_NAME |
@@ -348,7 +349,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
      */
     pspec = g_param_spec_string("system-id",
                                 "SystemID",
-                                "Expected ISO9660 system ID",
+                                _("The expected ISO9660 system ID"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
                                 G_PARAM_STATIC_NAME |
@@ -363,7 +364,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
      */
     pspec = g_param_spec_string("kernel-path",
                                 "KernelPath",
-                                "The path to the kernel image",
+                                _("The path to the kernel image"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
                                 G_PARAM_STATIC_NAME |
@@ -378,7 +379,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
      */
     pspec = g_param_spec_string("initrd-path",
                                 "InitrdPath",
-                                "The path to the inirtd image",
+                                _("The path to the inirtd image"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
                                 G_PARAM_STATIC_NAME |
@@ -393,7 +394,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
      */
     pspec = g_param_spec_string("boot-iso-path",
                                 "BootISOPath",
-                                "The path to the bootable ISO image",
+                                _("The path to the bootable ISO image"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
                                 G_PARAM_STATIC_NAME |
@@ -621,7 +622,7 @@ static void on_location_read(GObject *source,
                                      &length,
                                      NULL,
                                      &error)) {
-        g_prefix_error(&error, "Failed to load .treeinfo file: ");
+        g_prefix_error(&error, _("Failed to load .treeinfo file: "));
         g_simple_async_result_take_error(data->res, error);
         g_simple_async_result_complete(data->res);
         create_from_location_async_data_free(data);
@@ -632,7 +633,7 @@ static void on_location_read(GObject *source,
                              content,
                              length,
                              &error))) {
-        g_prefix_error(&error, "Failed to process keyinfo file: ");
+        g_prefix_error(&error, _("Failed to process keyinfo file: "));
         g_simple_async_result_take_error(data->res, error);
         goto cleanup;
     }

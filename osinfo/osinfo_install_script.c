@@ -29,6 +29,7 @@
 #include <libxslt/transform.h>
 #include <libxslt/xsltutils.h>
 #include <libxslt/xsltInternals.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoInstallScript, osinfo_install_script, OSINFO_TYPE_ENTITY);
 
@@ -168,7 +169,7 @@ osinfo_install_script_class_init (OsinfoInstallScriptClass *klass)
 
     pspec = g_param_spec_string("template-uri",
                                 "TemplateURI",
-                                "URI for install script template",
+                                _("URI for install script template"),
                                 NULL /* default value */,
                                 G_PARAM_READABLE |
                                 G_PARAM_WRITABLE |
@@ -182,7 +183,7 @@ osinfo_install_script_class_init (OsinfoInstallScriptClass *klass)
 
     pspec = g_param_spec_string("template-data",
                                 "TemplateData",
-                                "Data for install script template",
+                                _("Data for install script template"),
                                 NULL /* default value */,
                                 G_PARAM_READABLE |
                                 G_PARAM_WRITABLE |
@@ -196,7 +197,7 @@ osinfo_install_script_class_init (OsinfoInstallScriptClass *klass)
 
     pspec = g_param_spec_string("profile",
                                 "Profile",
-                                "Install script profile name",
+                                _("Install script profile name"),
                                 NULL /* default value */,
                                 G_PARAM_READABLE |
                                 G_PARAM_WRITABLE |
@@ -210,7 +211,7 @@ osinfo_install_script_class_init (OsinfoInstallScriptClass *klass)
 
     pspec = g_param_spec_string("product-key-format",
                                 "Product Key Format",
-                                "Product key format mask",
+                                _("Product key format mask"),
                                 NULL /* default value */,
                                 G_PARAM_READABLE |
                                 G_PARAM_STATIC_NAME |
@@ -469,7 +470,7 @@ static xsltStylesheetPtr osinfo_install_script_load_template(const gchar *uri,
     pctxt = xmlNewParserCtxt();
     if (!pctxt || !pctxt->sax) {
         g_set_error(error, 0, 0, "%s",
-                    "Unable to create XML parser context");
+                    _("Unable to create XML parser context"));
         goto cleanup;
     }
 
@@ -477,13 +478,13 @@ static xsltStylesheetPtr osinfo_install_script_load_template(const gchar *uri,
                                XML_PARSE_NOENT | XML_PARSE_NONET |
                                XML_PARSE_NOWARNING))) {
         g_set_error(error, 0, 0, "%s",
-                    "Unable to read XSL template");
+                    _("Unable to read XSL template"));
         goto cleanup;
     }
 
     if (!(xslt = xsltParseStylesheetDoc(doc))) {
         g_set_error(error, 0, 0, "%s",
-                    "Unable to parse XSL template");
+                    _("Unable to parse XSL template"));
         goto cleanup;
     }
 
@@ -504,7 +505,7 @@ static xmlNodePtr osinfo_install_script_generate_entity_config(OsinfoInstallConf
 
     if (!(node = xmlNewDocNode(NULL, NULL, (xmlChar*)name, NULL))) {
         xmlErrorPtr err = xmlGetLastError();
-        g_set_error(error, 0, 0, "Unable to create XML node '%s': '%s'",
+        g_set_error(error, 0, 0, _("Unable to create XML node '%s': '%s'"),
                     name, err ? err->message : "");
         goto error;
     }
@@ -512,13 +513,13 @@ static xmlNodePtr osinfo_install_script_generate_entity_config(OsinfoInstallConf
     if (!(data = xmlNewDocNode(NULL, NULL, (const xmlChar*)"id",
                                (const xmlChar*)osinfo_entity_get_id(entity)))) {
         xmlErrorPtr err = xmlGetLastError();
-        g_set_error(error, 0, 0, "Unable to create XML node 'id': '%s'",
+        g_set_error(error, 0, 0, _("Unable to create XML node 'id': '%s'"),
                     err ? err->message : "");
         goto error;
     }
     if (!(xmlAddChild(node, data))) {
         xmlErrorPtr err = xmlGetLastError();
-        g_set_error(error, 0, 0, "Unable to add XML child '%s'", err ? err->message : "");
+        g_set_error(error, 0, 0, _("Unable to add XML child '%s'"), err ? err->message : "");
         goto error;
     }
     data = NULL;
@@ -532,13 +533,13 @@ static xmlNodePtr osinfo_install_script_generate_entity_config(OsinfoInstallConf
             if (!(data = xmlNewDocNode(NULL, NULL, (const xmlChar*)tmp1->data,
                                        (const xmlChar*)tmp2->data))) {
                 xmlErrorPtr err = xmlGetLastError();
-                g_set_error(error, 0, 0, "Unable to create XML node '%s': '%s'",
+                g_set_error(error, 0, 0, _("Unable to create XML node '%s': '%s'"),
                             (const gchar *)tmp1->data, err ? err->message : "");
                 goto error;
             }
             if (!(xmlAddChild(node, data))) {
                 xmlErrorPtr err = xmlGetLastError();
-                g_set_error(error, 0, 0, "Unable to add XML child '%s'", err ? err->message : "");
+                g_set_error(error, 0, 0, _("Unable to add XML child '%s'"), err ? err->message : "");
                 goto error;
             }
             data = NULL;
@@ -582,7 +583,7 @@ static xmlDocPtr osinfo_install_script_generate_config_xml(OsinfoInstallScript *
         goto error;
     if (!(xmlAddChild(root, node))) {
         xmlErrorPtr err = xmlGetLastError();
-        g_set_error(error, 0, 0, "Unable to set XML root '%s'", err ? err->message : "");
+        g_set_error(error, 0, 0, _("Unable to set XML root '%s'"), err ? err->message : "");
         goto error;
     }
 
@@ -593,7 +594,7 @@ static xmlDocPtr osinfo_install_script_generate_config_xml(OsinfoInstallScript *
         goto error;
     if (!(xmlAddChild(root, node))) {
         xmlErrorPtr err = xmlGetLastError();
-        g_set_error(error, 0, 0, "Unable to set XML root '%s'", err ? err->message : "");
+        g_set_error(error, 0, 0, _("Unable to set XML root '%s'"), err ? err->message : "");
         goto error;
     }
 
@@ -604,7 +605,7 @@ static xmlDocPtr osinfo_install_script_generate_config_xml(OsinfoInstallScript *
         goto error;
     if (!(xmlAddChild(root, node))) {
         xmlErrorPtr err = xmlGetLastError();
-        g_set_error(error, 0, 0, "Unable to set XML root '%s'", err ? err->message : "");
+        g_set_error(error, 0, 0, _("Unable to set XML root '%s'"), err ? err->message : "");
         goto error;
     }
 
@@ -626,17 +627,17 @@ static gchar *osinfo_install_script_apply_xslt(xsltStylesheetPtr ss,
     int len;
 
     if (!(ctxt = xsltNewTransformContext(ss, doc))) {
-        g_set_error(error, 0, 0, "%s", "Unable to create XSL transform context");
+        g_set_error(error, 0, 0, "%s", _("Unable to create XSL transform context"));
         goto cleanup;
     }
 
     if (!(docOut = xsltApplyStylesheetUser(ss, doc, NULL, NULL, NULL, ctxt))) {
-        g_set_error(error, 0, 0, "%s", "Unable to apply XSL transform context");
+        g_set_error(error, 0, 0, "%s", _("Unable to apply XSL transform context"));
         goto cleanup;
     }
 
     if (xsltSaveResultToString((xmlChar **)&ret, &len, docOut, ss) < 0) {
-        g_set_error(error, 0, 0, "%s", "Unable to convert XSL output to string");
+        g_set_error(error, 0, 0, "%s", _("Unable to convert XSL output to string"));
         goto cleanup;
     }
 
@@ -692,7 +693,7 @@ static void osinfo_install_script_template_loaded(GObject *src,
                                      &length,
                                      NULL,
                                      &error)) {
-        g_prefix_error(&error, "Failed to load script template %s: ", uri);
+        g_prefix_error(&error, _("Failed to load script template %s: "), uri);
         g_simple_async_result_take_error(data->res, error);
         goto cleanup;
     }
@@ -705,7 +706,7 @@ static void osinfo_install_script_template_loaded(GObject *src,
                                               &output,
                                               data->config,
                                               &error)) {
-        g_prefix_error(&error, "Failed to apply script template %s: ", uri);
+        g_prefix_error(&error, _("Failed to apply script template %s: "), uri);
         g_simple_async_result_take_error(data->res, error);
         goto cleanup;
     }
@@ -749,7 +750,7 @@ void osinfo_install_script_generate_async(OsinfoInstallScript *script,
                                                   &output,
                                                   data->config,
                                                   &error)) {
-            g_prefix_error(&error, "%s", "Failed to apply script template: ");
+            g_prefix_error(&error, "%s", _("Failed to apply script template: "));
             g_simple_async_result_take_error(data->res, error);
             g_simple_async_result_complete(data->res);
             osinfo_install_script_generate_data_free(data);

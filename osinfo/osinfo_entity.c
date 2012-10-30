@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_ABSTRACT_TYPE (OsinfoEntity, osinfo_entity, G_TYPE_OBJECT);
 
@@ -132,7 +133,7 @@ osinfo_entity_class_init (OsinfoEntityClass *klass)
      */
     pspec = g_param_spec_string ("id",
                                  "ID",
-                                 "Unique identifier",
+                                 _("Unique identifier"),
                                  NULL /* default value */,
                                  G_PARAM_CONSTRUCT_ONLY |
                                  G_PARAM_READWRITE |

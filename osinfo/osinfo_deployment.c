@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoDeployment, osinfo_deployment, OSINFO_TYPE_ENTITY);
 
@@ -150,7 +151,7 @@ osinfo_deployment_class_init (OsinfoDeploymentClass *klass)
      */
     pspec = g_param_spec_object("os",
                                 "Os",
-                                "Operating system",
+                                _("Operating system"),
                                 OSINFO_TYPE_OS,
                                 G_PARAM_CONSTRUCT_ONLY |
                                 G_PARAM_READWRITE |
@@ -167,7 +168,7 @@ osinfo_deployment_class_init (OsinfoDeploymentClass *klass)
      */
     pspec = g_param_spec_object("platform",
                                 "Platform",
-                                "Virtualization platform",
+                                _("Virtualization platform"),
                                 OSINFO_TYPE_PLATFORM,
                                 G_PARAM_CONSTRUCT_ONLY |
                                 G_PARAM_READWRITE |

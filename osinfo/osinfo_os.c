@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoOs, osinfo_os, OSINFO_TYPE_PRODUCT);
 
@@ -137,7 +138,7 @@ osinfo_os_class_init (OsinfoOsClass *klass)
      */
     pspec = g_param_spec_string ("family",
                                  "Family",
-                                 "Generic Family",
+                                 _("Generic Family"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
                                  G_PARAM_STATIC_NAME |
@@ -155,7 +156,7 @@ osinfo_os_class_init (OsinfoOsClass *klass)
      */
     pspec = g_param_spec_string ("distro",
                                  "Distro",
-                                 "Generic Distro",
+                                 _("Generic Distro"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
                                  G_PARAM_STATIC_NAME |

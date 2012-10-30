@@ -27,6 +27,7 @@
 #include <osinfo/osinfo.h>
 #include <gio/gio.h>
 #include <string.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoDb, osinfo_db, G_TYPE_OBJECT);
 

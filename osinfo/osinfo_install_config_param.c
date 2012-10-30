@@ -24,6 +24,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoInstallConfigParam, osinfo_install_config_param, OSINFO_TYPE_ENTITY);
 
@@ -137,7 +138,7 @@ osinfo_install_config_param_class_init (OsinfoInstallConfigParamClass *klass)
      **/
     pspec = g_param_spec_string("name",
                                 "Name",
-                                "Parameter name",
+                                _("Parameter name"),
                                 NULL,
                                 G_PARAM_WRITABLE |
                                 G_PARAM_READABLE |
@@ -155,7 +156,7 @@ osinfo_install_config_param_class_init (OsinfoInstallConfigParamClass *klass)
      **/
     pspec = g_param_spec_string("policy",
                                 "Policy",
-                                "Parameter policy",
+                                _("Parameter policy"),
                                 NULL,
                                 G_PARAM_WRITABLE |
                                 G_PARAM_READABLE |

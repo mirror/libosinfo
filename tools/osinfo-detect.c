@@ -2,7 +2,7 @@
  * Copyright (C) 2011 Red Hat, Inc.
  *
  * osinfo-detect: Given a path to a ISO9660 image/device, detects if media is
- *                bootable and the relavent OS if media is an installer for it.
+ *                bootable and the relevant OS if media is an installer for it.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@ static gboolean parse_format_str(const gchar *option_name,
         g_set_error(error,
                     G_OPTION_ERROR,
                     G_OPTION_ERROR_FAILED,
-                    "Invalid value '%s'", value);
+                    _("Invalid value '%s'"), value);
 
         return FALSE;
     }
@@ -83,7 +83,7 @@ static gboolean parse_type_str(const gchar *option_name,
         g_set_error(error,
                     G_OPTION_ERROR,
                     G_OPTION_ERROR_FAILED,
-                    "Invalid value '%s'", value);
+                    _("Invalid value '%s'"), value);
 
         return FALSE;
     }
@@ -95,12 +95,12 @@ static GOptionEntry entries[] =
 {
     { "format", 'f', 0,
       G_OPTION_ARG_CALLBACK, parse_format_str,
-      "Output format. Default: plain",
-      "plain|env." },
+      N_("Output format. Default: plain"),
+      N_("plain|env.") },
     { "type", 't', 0,
       G_OPTION_ARG_CALLBACK, parse_type_str,
-      "URL type. Default: media",
-      "media|tree." },
+      N_("URL type. Default: media"),
+      N_("media|tree.") },
     { NULL }
 };
 
@@ -110,12 +110,12 @@ static void print_bootable(gboolean bootable)
         if (format == OUTPUT_FORMAT_ENV)
             g_print("OSINFO_BOOTABLE=1\n");
         else
-            g_print("Media is bootable.\n");
+            g_print(_("Media is bootable.\n"));
     else
         if (format == OUTPUT_FORMAT_ENV)
             g_print("OSINFO_BOOTABLE=0\n");
         else
-            g_print("Media is not bootable.\n");
+            g_print(_("Media is not bootable.\n"));
 }
 
 static void print_os_media(OsinfoOs *os, OsinfoMedia *media)
@@ -136,9 +136,9 @@ static void print_os_media(OsinfoOs *os, OsinfoMedia *media)
         const gchar *name = osinfo_product_get_name(OSINFO_PRODUCT(os));
 
         if (osinfo_media_get_installer (media))
-            g_print("Media is an installer for OS '%s'\n", name);
+            g_print(_("Media is an installer for OS '%s'\n"), name);
         if (osinfo_media_get_live (media))
-            g_print("Media is live media for OS '%s'\n", name);
+            g_print(_("Media is live media for OS '%s'\n"), name);
     }
 }
 
@@ -172,7 +172,7 @@ static void print_os_tree(OsinfoOs *os, OsinfoTree *tree, OsinfoTree *matched_tr
     } else {
         const gchar *name = osinfo_product_get_name(OSINFO_PRODUCT(os));
 
-        g_print("Tree is an installer for OS '%s'\n", name);
+        g_print(_("Tree is an installer for OS '%s'\n"), name);
     }
 }
 
@@ -190,12 +190,12 @@ gint main(gint argc, gchar **argv)
     bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
     bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
-    context = g_option_context_new("- Detect if media is bootable " \
-                                   "and the relavent OS and distribution.");
-    /* FIXME: We don't have a gettext package to pass to this function. */
-    g_option_context_add_main_entries(context, entries, NULL);
+    context = g_option_context_new(_("- Detect if media is bootable " \
+                                     "and the relevant OS and distribution."));
+    g_option_context_add_main_entries(context, entries, GETTEXT_PACKAGE);
     if (!g_option_context_parse(context, &argc, &argv, &error)) {
-        g_printerr("Error while parsing options: %s\n", error->message);
+        g_printerr(_("Error while parsing commandline options: %s\n"),
+                   error->message);
         g_printerr("%s\n", g_option_context_get_help(context, FALSE, NULL));
 
         ret = -1;
@@ -214,7 +214,7 @@ gint main(gint argc, gchar **argv)
     loader = osinfo_loader_new();
     osinfo_loader_process_default_path(loader, &error);
     if (error != NULL) {
-        g_printerr("Error loading OS data: %s\n", error->message);
+        g_printerr(_("Error loading OS data: %s\n"), error->message);
         /* errors loading the osinfo database are not fatal as this can
          * happen when the user has an invalid file in
          * ~/.local/share/libosinfo for example. Let's report but ignore
@@ -231,7 +231,7 @@ gint main(gint argc, gchar **argv)
         media = osinfo_media_create_from_location(argv[1], NULL, &error);
         if (error != NULL) {
             if (error->code != OSINFO_MEDIA_ERROR_NOT_BOOTABLE) {
-                g_printerr("Error parsing media: %s\n", error->message);
+                g_printerr(_("Error parsing media: %s\n"), error->message);
 
                 ret = -3;
                 goto EXIT;
@@ -248,7 +248,7 @@ gint main(gint argc, gchar **argv)
         OsinfoTree *matched_tree = NULL;
         tree = osinfo_tree_create_from_location(argv[1], NULL, &error);
         if (error != NULL) {
-            g_printerr("Error parsing tree: %s\n", error->message);
+            g_printerr(_("Error parsing installer tree: %s\n"), error->message);
 
             ret = -3;
             goto EXIT;

@@ -29,6 +29,7 @@
 #include <gio/gio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <glib/gi18n-lib.h>
 
 #define MAX_VOLUME 32
 #define MAX_SYSTEM 32
@@ -333,7 +334,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
      */
     pspec = g_param_spec_string ("architecture",
                                  "ARCHITECTURE",
-                                 "CPU Architecture",
+                                 _("CPU Architecture"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
                                  G_PARAM_STATIC_NAME |
@@ -348,7 +349,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
      */
     pspec = g_param_spec_string ("url",
                                  "URL",
-                                 "The URL to this media",
+                                 _("The URL to this media"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
                                  G_PARAM_STATIC_NAME |
@@ -363,7 +364,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
      */
     pspec = g_param_spec_string ("volume-id",
                                  "VolumeID",
-                                 "Expected ISO9660 volume ID",
+                                 _("The expected ISO9660 volume ID"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
                                  G_PARAM_STATIC_NAME |
@@ -378,7 +379,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
      */
     pspec = g_param_spec_string ("publisher-id",
                                  "PublisherID",
-                                 "Expected ISO9660 publisher ID",
+                                 _("The expected ISO9660 publisher ID"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
                                  G_PARAM_STATIC_NAME |
@@ -393,7 +394,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
      */
     pspec = g_param_spec_string ("application-id",
                                  "ApplicationID",
-                                 "Expected ISO9660 application ID",
+                                 _("The expected ISO9660 application ID"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
                                  G_PARAM_STATIC_NAME |
@@ -408,7 +409,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
      */
     pspec = g_param_spec_string ("system-id",
                                  "SystemID",
-                                 "Expected ISO9660 system ID",
+                                 _("The expected ISO9660 system ID"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
                                  G_PARAM_STATIC_NAME |
@@ -423,7 +424,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
      */
     pspec = g_param_spec_string ("kernel-path",
                                  "KernelPath",
-                                 "The path to the kernel image",
+                                 _("The path to the kernel image"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
                                  G_PARAM_STATIC_NAME |
@@ -438,7 +439,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
      */
     pspec = g_param_spec_string ("initrd-path",
                                  "InitrdPath",
-                                 "The path to the inirtd image",
+                                 _("The path to the inirtd image"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
                                  G_PARAM_STATIC_NAME |
@@ -453,7 +454,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
      */
     pspec = g_param_spec_boolean ("installer",
                                   "Installer",
-                                  "Media provides a installer",
+                                  _("Media provides a installer"),
                                   TRUE /* default value */,
                                   G_PARAM_READWRITE |
                                   G_PARAM_CONSTRUCT | /* to set default value */
@@ -469,7 +470,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
      */
     pspec = g_param_spec_boolean ("live",
                                   "Live",
-                                  "Media can boot directly w/o installation",
+                                  _("Media can boot directly w/o installation"),
                                   FALSE /* default value */,
                                   G_PARAM_READWRITE |
                                   G_PARAM_CONSTRUCT | /* to set default value */
@@ -494,7 +495,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
      */
     pspec = g_param_spec_int ("installer-reboots",
                               "InstallerReboots",
-                              "Number of installer reboots",
+                              _("Number of installer reboots"),
                               G_MININT,
                               G_MAXINT,
                               -1 /* default value */,
@@ -613,14 +614,14 @@ static void on_svd_read (GObject *source,
                                      &error);
     if (ret < 0) {
         g_prefix_error(&error,
-                       "Failed to read supplementary volume descriptor: ");
+                       _("Failed to read supplementary volume descriptor: "));
         goto EXIT;
     }
     if (ret == 0) {
         g_set_error(&error,
                     OSINFO_MEDIA_ERROR,
                     OSINFO_MEDIA_ERROR_NO_SVD,
-                    "Supplementary volume descriptor was truncated");
+                    _("Supplementary volume descriptor was truncated"));
         goto EXIT;
     }
 
@@ -643,7 +644,7 @@ static void on_svd_read (GObject *source,
         g_set_error(&error,
                     OSINFO_MEDIA_ERROR,
                     OSINFO_MEDIA_ERROR_NOT_BOOTABLE,
-                    "Install media is not bootable");
+                    _("Install media is not bootable"));
 
         goto EXIT;
     }
@@ -699,14 +700,14 @@ static void on_pvd_read (GObject *source,
                                      res,
                                      &error);
     if (ret < 0) {
-        g_prefix_error(&error, "Failed to read primary volume descriptor: ");
+        g_prefix_error(&error, _("Failed to read primary volume descriptor: "));
         goto ON_ERROR;
     }
     if (ret == 0) {
         g_set_error(&error,
                     OSINFO_MEDIA_ERROR,
                     OSINFO_MEDIA_ERROR_NO_PVD,
-                    "Primary volume descriptor was truncated");
+                    _("Primary volume descriptor was truncated"));
         goto ON_ERROR;
     }
 
@@ -731,7 +732,7 @@ static void on_pvd_read (GObject *source,
         g_set_error(&error,
                     OSINFO_MEDIA_ERROR,
                     OSINFO_MEDIA_ERROR_INSUFFICIENT_METADATA,
-                    "Insufficient metadata on installation media");
+                    _("Insufficient metadata on installation media"));
 
         goto ON_ERROR;
     }
@@ -766,12 +767,12 @@ static void on_location_skipped(GObject *source,
 
     if (g_input_stream_skip_finish(stream, res, &error) < PVD_OFFSET) {
         if (error)
-            g_prefix_error(&error, "Failed to skip %d bytes", PVD_OFFSET);
+            g_prefix_error(&error, _("Failed to skip %d bytes"), PVD_OFFSET);
         else
             g_set_error(&error,
                          OSINFO_MEDIA_ERROR,
                          OSINFO_MEDIA_ERROR_NO_DESCRIPTORS,
-                         "No volume descriptors");
+                         _("No volume descriptors"));
         g_simple_async_result_take_error(data->res, error);
         g_simple_async_result_complete (data->res);
         create_from_location_async_data_free(data);
@@ -803,7 +804,7 @@ static void on_location_read(GObject *source,
 
     stream = g_file_read_finish(G_FILE(source), res, &error);
     if (error != NULL) {
-        g_prefix_error(&error, "Failed to open file");
+        g_prefix_error(&error, _("Failed to open file"));
         g_simple_async_result_take_error(data->res, error);
         g_simple_async_result_complete (data->res);
         create_from_location_async_data_free(data);

@@ -29,6 +29,7 @@
 #include <gio/gio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoResources, osinfo_resources, OSINFO_TYPE_ENTITY);
 
@@ -166,7 +167,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
      */
     pspec = g_param_spec_string ("architecture",
                                  "ARCHITECTURE",
-                                 "CPU Architecture",
+                                 _("CPU Architecture"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
                                  G_PARAM_CONSTRUCT_ONLY |
@@ -184,7 +185,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
      */
     pspec = g_param_spec_int64 ("cpu",
                                 "CPU",
-                                "CPU frequency in hertz (Hz)",
+                                _("CPU frequency in hertz (Hz)"),
                                 -1,
                                 G_MAXINT,
                                 -1,
@@ -203,7 +204,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
      */
     pspec = g_param_spec_int ("n-cpus",
                               "N-CPUs",
-                              "Number of CPUs",
+                              _("Number of CPUs"),
                               -1,
                               G_MAXINT,
                               -1,
@@ -222,7 +223,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
      */
     pspec = g_param_spec_int64 ("ram",
                                 "RAM",
-                                "Amount of Random Access Memory (RAM) in bytes",
+                                _("Amount of Random Access Memory (RAM) in bytes"),
                                 -1,
                                 G_MAXINT64,
                                 -1,
@@ -241,7 +242,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
      */
     pspec = g_param_spec_int64 ("storage",
                                 "Storage",
-                                "Amount of storage space in bytes",
+                                _("Amount of storage space in bytes"),
                                 -1,
                                 G_MAXINT64,
                                 -1,

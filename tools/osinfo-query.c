@@ -54,71 +54,71 @@ struct OsinfoType {
 
 static struct OsinfoLabel os_labels[] = {
     { OSINFO_PRODUCT_PROP_SHORT_ID,
-      "Short ID", TRUE, 20 },
+      N_("Short ID"), TRUE, 20 },
     { OSINFO_PRODUCT_PROP_NAME,
-      "Name", TRUE, 50 },
+      N_("Name"), TRUE, 50 },
     { OSINFO_PRODUCT_PROP_VERSION,
-      "Version", TRUE, 8 },
+      N_("Version"), TRUE, 8 },
     { OSINFO_OS_PROP_FAMILY,
-      "Family", FALSE, 12 },
+      N_("Family"), FALSE, 12 },
     { OSINFO_OS_PROP_DISTRO,
-      "Distro", FALSE, 12 },
+      N_("Distro"), FALSE, 12 },
     { OSINFO_PRODUCT_PROP_VENDOR,
-      "Vendor", FALSE, 25 },
+      N_("Vendor"), FALSE, 25 },
     { OSINFO_PRODUCT_PROP_RELEASE_DATE,
-      "Release date", FALSE, 12 },
+      N_("Release date"), FALSE, 12 },
     { OSINFO_PRODUCT_PROP_EOL_DATE,
-      "End of life", FALSE, 12 },
+      N_("End of life"), FALSE, 12 },
     { OSINFO_PRODUCT_PROP_CODENAME,
-      "Code name", FALSE, 10 },
+      N_("Code name"), FALSE, 10 },
     { OSINFO_ENTITY_PROP_ID,
-      "ID", TRUE, 40 },
+      N_("ID"), TRUE, 40 },
     { NULL, NULL, 0, 0},
 };
 
 static struct OsinfoLabel platform_labels[] = {
     { OSINFO_PRODUCT_PROP_SHORT_ID,
-      "Short ID", TRUE, 20 },
+      N_("Short ID"), TRUE, 20 },
     { OSINFO_PRODUCT_PROP_NAME,
-      "Name", TRUE, 50 },
+      N_("Name"), TRUE, 50 },
     { OSINFO_PRODUCT_PROP_VERSION,
-      "Version", TRUE, 8 },
+      N_("Version"), TRUE, 8 },
     { OSINFO_PRODUCT_PROP_VENDOR,
-      "Vendor", TRUE, 25 },
+      N_("Vendor"), TRUE, 25 },
     { OSINFO_PRODUCT_PROP_RELEASE_DATE,
-      "Release date", FALSE, 12 },
+      N_("Release date"), FALSE, 12 },
     { OSINFO_PRODUCT_PROP_EOL_DATE,
-      "End of life", FALSE, 12 },
+      N_("End of life"), FALSE, 12 },
     { OSINFO_PRODUCT_PROP_CODENAME,
-      "Code name", FALSE, 10 },
+      N_("Code name"), FALSE, 10 },
     { OSINFO_ENTITY_PROP_ID,
-      "ID", TRUE, 40 },
+      N_("ID"), TRUE, 40 },
     { NULL, NULL, 0, 0 },
 };
 
 static struct OsinfoLabel device_labels[] = {
     { OSINFO_DEVICE_PROP_VENDOR,
-      "Vendor", TRUE, 20 },
+      N_("Vendor"), TRUE, 20 },
     { OSINFO_DEVICE_PROP_VENDOR_ID,
-      "Vendor ID", TRUE, 12 },
+      N_("Vendor ID"), TRUE, 12 },
     { OSINFO_DEVICE_PROP_PRODUCT,
-      "Product", TRUE, 20 },
+      N_("Product"), TRUE, 20 },
     { OSINFO_DEVICE_PROP_PRODUCT_ID,
-      "Product ID", TRUE, 12 },
+      N_("Product ID"), TRUE, 12 },
     { OSINFO_PRODUCT_PROP_NAME,
-      "Name", TRUE, 14 },
+      N_("Name"), TRUE, 14 },
     { OSINFO_DEVICE_PROP_CLASS,
-      "Class", TRUE, 15 },
+      N_("Class"), TRUE, 15 },
     { OSINFO_DEVICE_PROP_BUS_TYPE,
-      "Bus", TRUE, 8 },
+      N_("Bus"), TRUE, 8 },
     { OSINFO_ENTITY_PROP_ID,
-      "ID", TRUE, 40 },
+      N_("ID"), TRUE, 40 },
     { NULL, NULL, 0, 0 },
 };
 
 static struct OsinfoLabel deployment_labels[] = {
     { OSINFO_ENTITY_PROP_ID,
-      "ID", TRUE, 40 },
+      N_("ID"), TRUE, 40 },
     { NULL, NULL, 0, 0 },
 };
 
@@ -150,7 +150,7 @@ static gboolean toggle_fields(struct OsinfoLabel *labels,
         }
         if (!found) {
             g_set_error(error, 0, 0,
-                        "Unknown property name %s", fields[i]);
+                        _("Unknown property name %s"), fields[i]);
             goto cleanup;
         }
     }
@@ -174,7 +174,7 @@ static gboolean build_filter(struct OsinfoLabel *labels,
     for (i = 0 ; i < argc ; i++) {
         const gchar *tmp = strchr(argv[i], '=');
         if (!tmp) {
-            g_set_error(error, 0, 0, "%s", "Syntax error in condition, expecting KEY=VALUE");
+            g_set_error(error, 0, 0, "%s", _("Syntax error in condition, expecting KEY=VALUE"));
             goto cleanup;
         }
         gchar *key = g_strndup(argv[i], tmp-argv[i]);
@@ -188,7 +188,7 @@ static gboolean build_filter(struct OsinfoLabel *labels,
 
         if (!found) {
             g_set_error(error, 0, 0,
-                        "Unknown property name %s", key);
+                        _("Unknown property name %s"), key);
             goto cleanup;
         }
 
@@ -293,10 +293,10 @@ static gboolean print_results_text(OsinfoList *list,
             g_print(" | ");
         first = FALSE;
 
-        if (strlen(labels[i].label) > labels[i].width)
+        if (strlen(gettext(labels[i].label)) > labels[i].width)
             pad = 0;
         else
-            pad = labels[i].width - strlen(labels[i].label);
+            pad = labels[i].width - strlen(gettext(labels[i].label));
 
         padstr = g_new0(gchar, pad+1);
         padstr[pad] = '\0';
@@ -305,7 +305,7 @@ static gboolean print_results_text(OsinfoList *list,
             memset(padstr, ' ', pad);
 
         g_print("%s%s",
-                labels[i].label, padstr);
+                gettext(labels[i].label), padstr);
         g_free(padstr);
     }
     g_print("\n");
@@ -397,25 +397,26 @@ gint main(gint argc, gchar **argv)
 
     GOptionEntry entries[] = {
         { "sort", 's', 0, G_OPTION_ARG_STRING, &sortKey,
-          "Sort column", NULL },
+          _("Sort column"), NULL },
         { "fields", 'f', 0, G_OPTION_ARG_STRING, &fields,
-          "Display fields", NULL },
+          _("Display fields"), NULL },
         { NULL, 0, 0, 0, NULL, NULL, NULL }
     };
 
 
-    context = g_option_context_new("- Query the OS info database");
+    context = g_option_context_new(_("- Query the OS info database"));
 
-    g_option_context_add_main_entries(context, entries, NULL);
+    g_option_context_add_main_entries(context, entries, GETTEXT_PACKAGE);
 
     if (!g_option_context_parse(context, &argc, &argv, &error)) {
-        g_printerr("Error while parsing options: %s\n", error->message);
+        g_printerr(_("Error while parsing commandline options: %s\n"),
+                   error->message);
         g_printerr("%s\n", g_option_context_get_help(context, FALSE, NULL));
         goto error;
     }
 
     if (argc < 2) {
-        g_printerr("Missing data type parameter\n");
+        g_printerr(_("Missing data type parameter\n"));
         goto error;
     }
 
@@ -424,7 +425,7 @@ gint main(gint argc, gchar **argv)
     loader = osinfo_loader_new();
     osinfo_loader_process_default_path(loader, &error);
     if (error != NULL) {
-        g_printerr("Error loading OS data: %s\n", error->message);
+        g_printerr(_("Error loading OS data: %s\n"), error->message);
         goto error;
     }
 
@@ -443,17 +444,17 @@ gint main(gint argc, gchar **argv)
     }
 
     if (!entities) {
-        g_printerr("Unknown type '%s' requested\n", type);
+        g_printerr(_("Unknown type '%s' requested\n"), type);
         goto error;
     }
 
     if (!build_filter(labels, filter, argc-2, argv+2, &error)) {
-        g_printerr("Unable to construct filter: %s\n", error->message);
+        g_printerr(_("Unable to construct filter: %s\n"), error->message);
         goto error;
     }
 
     if (!toggle_fields(labels, fields, &error)) {
-        g_printerr("Unable to set field visibility: %s\n", error->message);
+        g_printerr(_("Unable to set field visibility: %s\n"), error->message);
         goto error;
     }
 

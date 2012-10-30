@@ -45,7 +45,7 @@ static gboolean handle_config(const gchar *option_name G_GNUC_UNUSED,
 
     if (!(val = strchr(value, '='))) {
         g_set_error(error, 0, 0,
-                    "Expected configuration key=value");
+                    _("Expected configuration key=value"));
         return FALSE;
     }
     len = val - value;
@@ -63,14 +63,14 @@ static gboolean handle_config(const gchar *option_name G_GNUC_UNUSED,
 static GOptionEntry entries[] =
 {
     { "profile", 'p', 0, G_OPTION_ARG_STRING, (void*)&profile,
-      "Install script profile", NULL, },
+      N_("Install script profile"), NULL, },
     { "output-dir", 'd', 0, G_OPTION_ARG_STRING, (void*)&output_dir,
-      "Install script output directory", NULL, },
+      N_("Install script output directory"), NULL, },
     { "prefix", 'P', 0, G_OPTION_ARG_STRING, (void*)&prefix,
-      "The output filename prefix", NULL, },
+      N_("The output filename prefix"), NULL, },
     { "config", 'c', 0, G_OPTION_ARG_CALLBACK,
       handle_config,
-      "Set configuration parameter", "key=value" },
+      N_("Set configuration parameter"), "key=value" },
     { NULL }
 };
 
@@ -140,8 +140,8 @@ static gboolean generate_script(OsinfoOs *os)
                                               NULL,
                                               &error);
         if (error != NULL) {
-            g_printerr("Unable to generate install script: %s\n",
-                    error->message ? error->message : "unknown");
+            g_printerr(_("Unable to generate install script: %s\n"),
+                       error->message ? error->message : "unknown");
             goto cleanup;
         }
     }
@@ -174,11 +174,10 @@ gint main(gint argc, gchar **argv)
 
     config = osinfo_install_config_new("http://libosinfo.fedorahosted.org/config");
 
-    context = g_option_context_new("- Generate an OS install script");
-    /* FIXME: We don't have a gettext package to pass to this function. */
-    g_option_context_add_main_entries(context, entries, NULL);
+    context = g_option_context_new(_("- Generate an OS install script"));
+    g_option_context_add_main_entries(context, entries, GETTEXT_PACKAGE);
     if (!g_option_context_parse(context, &argc, &argv, &error)) {
-        g_printerr("Error while parsing options: %s\n", error->message);
+        g_printerr(_("Error while parsing options: %s\n"), error->message);
         g_printerr("%s\n", g_option_context_get_help(context, FALSE, NULL));
 
         ret = -1;
@@ -195,7 +194,7 @@ gint main(gint argc, gchar **argv)
     loader = osinfo_loader_new();
     osinfo_loader_process_default_path(loader, &error);
     if (error != NULL) {
-        g_printerr("Error loading OS data: %s\n", error->message);
+        g_printerr(_("Error loading OS data: %s\n"), error->message);
 
         ret = -3;
         goto EXIT;
@@ -204,7 +203,7 @@ gint main(gint argc, gchar **argv)
     db = osinfo_loader_get_db(loader);
     os = find_os(db, argv[1]);
     if (!os) {
-        g_printerr("Error finding OS: %s\n", argv[1]);
+        g_printerr(_("Error finding OS: %s\n"), argv[1]);
         ret = -4;
         goto EXIT;
     }

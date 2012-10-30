@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_ABSTRACT_TYPE (OsinfoList, osinfo_list, G_TYPE_OBJECT);
 
@@ -127,7 +128,7 @@ osinfo_list_class_init (OsinfoListClass *klass)
      */
     pspec = g_param_spec_gtype("element-type",
                                "Element type",
-                               "List element type",
+                               _("List element type"),
                                OSINFO_TYPE_ENTITY,
                                G_PARAM_CONSTRUCT_ONLY |
                                G_PARAM_READWRITE |

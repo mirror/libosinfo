@@ -28,6 +28,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_ABSTRACT_TYPE (OsinfoProduct, osinfo_product, OSINFO_TYPE_ENTITY);
 
@@ -161,7 +162,7 @@ osinfo_product_class_init (OsinfoProductClass *klass)
      */
     pspec = g_param_spec_string ("name",
                                  "Name",
-                                 "Name",
+                                 _("Name"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
                                  G_PARAM_STATIC_NAME |
@@ -176,7 +177,7 @@ osinfo_product_class_init (OsinfoProductClass *klass)
      */
     pspec = g_param_spec_string ("short-id",
                                  "ShortID",
-                                 "Short ID",
+                                 _("Short ID"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
                                  G_PARAM_STATIC_NAME |
@@ -191,7 +192,7 @@ osinfo_product_class_init (OsinfoProductClass *klass)
      */
     pspec = g_param_spec_string ("vendor",
                                  "Vendor",
-                                 "Vendor",
+                                 _("Vendor"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
                                  G_PARAM_STATIC_NAME |
@@ -206,7 +207,7 @@ osinfo_product_class_init (OsinfoProductClass *klass)
      */
     pspec = g_param_spec_string ("version",
                                  "Version",
-                                 "Version",
+                                 _("Version"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
                                  G_PARAM_STATIC_NAME |
@@ -221,7 +222,7 @@ osinfo_product_class_init (OsinfoProductClass *klass)
      */
     pspec = g_param_spec_string ("codename",
                                  "Codename",
-                                 "Codename",
+                                 _("Codename"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
                                  G_PARAM_STATIC_NAME |
@@ -236,7 +237,7 @@ osinfo_product_class_init (OsinfoProductClass *klass)
      */
     pspec = g_param_spec_string ("logo",
                                  "Logo",
-                                 "URI of the logo",
+                                 _("URI of the logo"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
                                  G_PARAM_STATIC_NAME |
