@@ -59,7 +59,8 @@ VC_LIST_ALWAYS_EXCLUDE_REGEX = \
 
 # Tweak how some of the syntax check rules work
 _makefile_at_at_check_exceptions = ' && !/INTLTOOL_XML_RULE/'
-translation-markers = (\b(N?_|gettext *)\([^)"]*("|$$))|(<(_[a-zA-Z]*).*/\5>)
+_gl_translatable_string_re = \
+	(\b(N?_|gettext *)\([^)"]*("|$$))|(<(_[a-zA-Z]*).*/\5>)
 
 # Functions like free() that are no-ops on NULL arguments.
 useless_free_options =				\
