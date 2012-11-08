@@ -211,6 +211,20 @@ void osinfo_entity_set_param_int64(OsinfoEntity *entity, const gchar *key, gint6
     g_free(str);
 }
 
+void osinfo_entity_set_param_enum(OsinfoEntity *entity, const gchar *key, gint value, GType enum_type)
+{
+    GEnumClass *enum_class;
+    GEnumValue *enum_value;
+
+    g_return_if_fail(G_TYPE_IS_ENUM (enum_type));
+
+    enum_class = g_type_class_ref(enum_type);
+    enum_value = g_enum_get_value(enum_class, value);
+    g_type_class_unref(enum_class);
+
+    osinfo_entity_set_param(entity, key, enum_value->value_nick);
+}
+
 /**
  * osinfo_entity_add_param:
  * @entity: OsinfoEntity containing the parameters
@@ -371,6 +385,31 @@ gint64 osinfo_entity_get_param_value_int64_with_default(OsinfoEntity *entity,
         return default_value;
 
     return value;
+}
+
+gint osinfo_entity_get_param_value_enum(OsinfoEntity *entity,
+                                        const char *key,
+                                        GType enum_type,
+                                        gint default_value)
+{
+    const gchar *nick;
+    GEnumClass *enum_class;
+    GEnumValue *enum_value;
+
+    g_return_val_if_fail(G_TYPE_IS_ENUM(enum_type), default_value);
+
+    nick = osinfo_entity_get_param_value(entity, key);
+    if (nick == NULL)
+        return default_value;
+
+    enum_class = g_type_class_ref(enum_type);
+    enum_value = g_enum_get_value_by_nick(enum_class, nick);
+    g_type_class_unref(enum_class);
+
+    if (enum_value != NULL)
+        return enum_value->value;
+
+    g_return_val_if_reached(default_value);
 }
 
 /**
