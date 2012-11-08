@@ -155,15 +155,15 @@ osinfo_install_config_param_class_init (OsinfoInstallConfigParamClass *klass)
      *
      * The policy of the configuration parameter.
      **/
-    pspec = g_param_spec_string("policy",
-                                "Policy",
-                                _("Parameter policy"),
-                                NULL,
-                                G_PARAM_READABLE |
-                                G_PARAM_CONSTRUCT_ONLY |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+    pspec = g_param_spec_enum("policy",
+                              "Policy",
+                              _("Parameter policy"),
+                              OSINFO_TYPE_INSTALL_CONFIG_PARAM_POLICY,
+                              OSINFO_INSTALL_CONFIG_PARAM_POLICY_OPTIONAL,
+                              G_PARAM_READABLE |
+                              G_PARAM_STATIC_NAME |
+                              G_PARAM_STATIC_NICK |
+                              G_PARAM_STATIC_BLURB);
     g_object_class_install_property(g_klass,
                                     PROP_POLICY,
                                     pspec);
@@ -218,8 +218,10 @@ const gchar *osinfo_install_config_param_get_name(const OsinfoInstallConfigParam
  */
 OsinfoInstallConfigParamPolicy osinfo_install_config_param_get_policy(const OsinfoInstallConfigParam *config_param)
 {
-    return osinfo_entity_get_param_value(OSINFO_ENTITY(config_param),
-                                         OSINFO_INSTALL_CONFIG_PARAM_PROP_POLICY);
+    return osinfo_entity_get_param_value_enum(OSINFO_ENTITY(config_param),
+                                              OSINFO_INSTALL_CONFIG_PARAM_PROP_POLICY,
+                                              OSINFO_TYPE_INSTALL_CONFIG_PARAM_POLICY,
+                                              OSINFO_INSTALL_CONFIG_PARAM_POLICY_OPTIONAL);
 }
 
 /**
