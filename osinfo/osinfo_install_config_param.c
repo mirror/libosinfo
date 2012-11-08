@@ -65,17 +65,15 @@ osinfo_install_config_param_set_property(GObject *object,
     switch (property_id)
         {
         case PROP_NAME:
-            config_param->priv->name = g_value_dup_string(value);
+            osinfo_entity_set_param(OSINFO_ENTITY(config_param),
+                                    OSINFO_INSTALL_CONFIG_PARAM_PROP_NAME,
+                                    g_value_get_string(value));
             break;
         case PROP_POLICY:
             {
-            const gchar *policy = g_value_get_string(value);
-            if (g_strcmp0(policy, "required") == 0)
-                config_param->priv->policy =
-                    OSINFO_INSTALL_CONFIG_PARAM_POLICY_REQUIRED;
-            else if (g_strcmp0(policy, "optional") == 0)
-                config_param->priv->policy =
-                    OSINFO_INSTALL_CONFIG_PARAM_POLICY_OPTIONAL;
+            osinfo_entity_set_param(OSINFO_ENTITY(config_param),
+                                    OSINFO_INSTALL_CONFIG_PARAM_PROP_POLICY,
+                                    g_value_get_string(value));
             break;
             }
         default:
@@ -97,10 +95,20 @@ osinfo_install_config_param_get_property(GObject *object,
     switch (property_id)
         {
         case PROP_NAME:
-            g_value_set_string(value, config_param->priv->name);
+            {
+            const gchar *name;
+
+            name = osinfo_install_config_param_get_name(config_param);
+            g_value_set_string(value, name);
             break;
+            }
         case PROP_POLICY:
-            g_value_set_enum(value, config_param->priv->policy);
+            {
+            OsinfoInstallConfigParamPolicy policy;
+
+            policy = osinfo_install_config_param_get_policy(config_param);
+            g_value_set_enum(value, policy);
+            }
             break;
         default:
             /* We don't have any other property... */
@@ -212,7 +220,8 @@ OsinfoInstallConfigParam *osinfo_install_config_param_new(const gchar *name,
  */
 const gchar *osinfo_install_config_param_get_name(const OsinfoInstallConfigParam *config_param)
 {
-    return config_param->priv->name;
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(config_param),
+                                         OSINFO_INSTALL_CONFIG_PARAM_PROP_NAME);
 }
 
 /**
@@ -223,7 +232,8 @@ const gchar *osinfo_install_config_param_get_name(const OsinfoInstallConfigParam
  */
 OsinfoInstallConfigParamPolicy osinfo_install_config_param_get_policy(const OsinfoInstallConfigParam *config_param)
 {
-    return config_param->priv->policy;
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(config_param),
+                                         OSINFO_INSTALL_CONFIG_PARAM_PROP_POLICY);
 }
 
 /**
@@ -235,11 +245,8 @@ OsinfoInstallConfigParamPolicy osinfo_install_config_param_get_policy(const Osin
  */
 gboolean osinfo_install_config_param_is_required(const OsinfoInstallConfigParam *config_param)
 {
-    if (config_param->priv->policy ==
-            OSINFO_INSTALL_CONFIG_PARAM_POLICY_REQUIRED)
-        return TRUE;
-
-    return FALSE;
+    return (osinfo_install_config_param_get_policy(config_param) ==
+            OSINFO_INSTALL_CONFIG_PARAM_POLICY_REQUIRED);
 }
 
 /**
@@ -251,11 +258,8 @@ gboolean osinfo_install_config_param_is_required(const OsinfoInstallConfigParam 
  */
 gboolean osinfo_install_config_param_is_optional(const OsinfoInstallConfigParam *config_param)
 {
-    if (config_param->priv->policy ==
-            OSINFO_INSTALL_CONFIG_PARAM_POLICY_OPTIONAL)
-        return TRUE;
-
-    return FALSE;
+    return (osinfo_install_config_param_get_policy(config_param) ==
+            OSINFO_INSTALL_CONFIG_PARAM_POLICY_OPTIONAL);
 }
 
 /*
