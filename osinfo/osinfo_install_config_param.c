@@ -62,18 +62,17 @@ osinfo_install_config_param_set_property(GObject *object,
     OsinfoInstallConfigParam *config_param =
         OSINFO_INSTALL_CONFIG_PARAM (object);
 
-    switch (property_id)
-        {
-        case PROP_NAME:
-            osinfo_entity_set_param(OSINFO_ENTITY(config_param),
-                                    OSINFO_INSTALL_CONFIG_PARAM_PROP_NAME,
-                                    g_value_get_string(value));
-            break;
-        default:
-            /* We don't have any other property... */
-            G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-            break;
-        }
+    switch (property_id) {
+    case PROP_NAME:
+        osinfo_entity_set_param(OSINFO_ENTITY(config_param),
+                                OSINFO_INSTALL_CONFIG_PARAM_PROP_NAME,
+                                g_value_get_string(value));
+        break;
+    default:
+        /* We don't have any other property... */
+        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+        break;
+    }
 }
 
 static void
@@ -85,29 +84,28 @@ osinfo_install_config_param_get_property(GObject *object,
     OsinfoInstallConfigParam *config_param =
         OSINFO_INSTALL_CONFIG_PARAM (object);
 
-    switch (property_id)
-        {
-        case PROP_NAME:
-            {
-            const gchar *name;
+    switch (property_id) {
+    case PROP_NAME:
+    {
+        const gchar *name;
 
-            name = osinfo_install_config_param_get_name(config_param);
-            g_value_set_string(value, name);
-            break;
-            }
-        case PROP_POLICY:
-            {
-            OsinfoInstallConfigParamPolicy policy;
+        name = osinfo_install_config_param_get_name(config_param);
+        g_value_set_string(value, name);
+        break;
+    }
+    case PROP_POLICY:
+    {
+        OsinfoInstallConfigParamPolicy policy;
 
-            policy = osinfo_install_config_param_get_policy(config_param);
-            g_value_set_enum(value, policy);
-            }
-            break;
-        default:
-            /* We don't have any other property... */
-            G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-            break;
-        }
+        policy = osinfo_install_config_param_get_policy(config_param);
+        g_value_set_enum(value, policy);
+        break;
+    }
+    default:
+        /* We don't have any other property... */
+        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+        break;
+    }
 }
 
 
