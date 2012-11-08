@@ -315,6 +315,14 @@ LIBOSINFO_0.2.1 {
 	osinfo_media_get_installer_reboots;
 } LIBOSINFO_0.2.0;
 
+LIBOSINFO_0.2.2 {
+    global:
+	osinfo_install_config_param_policy_get_type;
+	osinfo_media_error_get_type;
+	osinfo_product_relationship_get_type;
+} LIBOSINFO_0.2.1;
+
+
 /* Symbols in next release...
 
   LIBOSINFO_0.0.2 {
