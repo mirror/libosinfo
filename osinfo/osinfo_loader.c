@@ -582,8 +582,10 @@ static void osinfo_loader_install_config_param(OsinfoLoader *loader,
     for (i = 0 ; i < nnodes ; i++) {
         gchar *name = (gchar *)xmlGetProp(nodes[i], BAD_CAST "name");
         gchar *policy = (gchar *)xmlGetProp(nodes[i], BAD_CAST "policy");
-        OsinfoInstallConfigParam *param =
-            osinfo_install_config_param_new(name, policy);
+        OsinfoInstallConfigParam *param = osinfo_install_config_param_new(name);
+        osinfo_entity_set_param(OSINFO_ENTITY(param),
+                                OSINFO_INSTALL_CONFIG_PARAM_PROP_POLICY,
+                                policy);
         osinfo_install_script_add_config_param(OSINFO_INSTALL_SCRIPT(entity),
                                                param);
 

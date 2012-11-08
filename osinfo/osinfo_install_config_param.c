@@ -69,13 +69,6 @@ osinfo_install_config_param_set_property(GObject *object,
                                     OSINFO_INSTALL_CONFIG_PARAM_PROP_NAME,
                                     g_value_get_string(value));
             break;
-        case PROP_POLICY:
-            {
-            osinfo_entity_set_param(OSINFO_ENTITY(config_param),
-                                    OSINFO_INSTALL_CONFIG_PARAM_PROP_POLICY,
-                                    g_value_get_string(value));
-            break;
-            }
         default:
             /* We don't have any other property... */
             G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -166,7 +159,6 @@ osinfo_install_config_param_class_init (OsinfoInstallConfigParamClass *klass)
                                 "Policy",
                                 _("Parameter policy"),
                                 NULL,
-                                G_PARAM_WRITABLE |
                                 G_PARAM_READABLE |
                                 G_PARAM_CONSTRUCT_ONLY |
                                 G_PARAM_STATIC_NAME |
@@ -175,7 +167,6 @@ osinfo_install_config_param_class_init (OsinfoInstallConfigParamClass *klass)
     g_object_class_install_property(g_klass,
                                     PROP_POLICY,
                                     pspec);
-
 
     g_klass->finalize = osinfo_install_config_param_finalize;
 
@@ -197,19 +188,14 @@ osinfo_install_config_param_init (OsinfoInstallConfigParam *config_param)
 /**
  * osinfo_install_config_param_new:
  * @name: the configuration parameter name
- * @policy: the configuration parameter policy
  *
  * Construct a new configuration parameter to a #OsinfoInstallScript.
  *
  * Returns: (transfer full): the new configuration parameter
  */
-OsinfoInstallConfigParam *osinfo_install_config_param_new(const gchar *name,
-                                                          const gchar *policy)
+OsinfoInstallConfigParam *osinfo_install_config_param_new(const gchar *name)
 {
-    return g_object_new(OSINFO_TYPE_INSTALL_CONFIG_PARAM,
-                        "name", name,
-                        "policy", policy,
-                        NULL);
+    return g_object_new(OSINFO_TYPE_INSTALL_CONFIG_PARAM, "name", name, NULL);
 }
 
 /**

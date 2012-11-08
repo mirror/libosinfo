@@ -69,7 +69,7 @@ struct _OsinfoInstallConfigParamClass
 
 GType osinfo_install_config_param_get_type(void);
 
-OsinfoInstallConfigParam *osinfo_install_config_param_new(const gchar *name, const gchar *policy);
+OsinfoInstallConfigParam *osinfo_install_config_param_new(const gchar *name);
 
 const gchar *osinfo_install_config_param_get_name(const OsinfoInstallConfigParam *config_param);
 
