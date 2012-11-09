@@ -330,6 +330,38 @@ const gchar *osinfo_install_config_get_hostname(OsinfoInstallConfig *config)
 }
 
 /**
+ * osinfo_install_config_set_target_disk:
+ *
+ * Sets the #OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK parameter.
+ *
+ * Note that the format of this string is dependent on the installer script
+ * @config is going to be used with. You can use
+ * #osinfo_install_script_get_path_format() to find out which format
+ * does the script expects this string to be in. In case of
+ * #OSINFO_PATH_FORMAT_UNIX unix device node names are expected, e.g "/dev/fd0".
+ * In case of #OSINFO_PATH_FORMAT_DOS drive letters are expected, e.g "A".
+ */
+void osinfo_install_config_set_target_disk(OsinfoInstallConfig *config,
+                                           const gchar *disk)
+{
+    osinfo_entity_set_param(OSINFO_ENTITY(config),
+                            OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK,
+                            disk);
+}
+
+/**
+ * osinfo_install_config_get_target_disk:
+ *
+ * Returns: The value of #OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK parameter,
+ *          or NULL.
+ */
+const gchar *osinfo_install_config_get_target_disk(OsinfoInstallConfig *config)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(config),
+                                         OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK);
+}
+
+/**
  * osinfo_install_config_set_avatar_location:
  *
  * Sets the #OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION parameter.
@@ -367,12 +399,8 @@ const gchar *osinfo_install_config_get_avatar_location(OsinfoInstallConfig *conf
  *
  * Sets the #OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK parameter.
  *
- * Note that the format of this string is dependent on the installer script
- * @config is going to be used with. You can use
- * #osinfo_install_script_get_path_format() to find out which format
- * does the script expects this string to be in. In case of
- * #OSINFO_PATH_FORMAT_UNIX unix device node names are expected, e.g "/dev/fd0".
- * In case of #OSINFO_PATH_FORMAT_DOS drive letters are expected, e.g "A".
+ * Please read documentation on #osinfo_install_config_set_target_disk() for
+ * explanation on the format of @disk string.
  */
 void osinfo_install_config_set_avatar_disk(OsinfoInstallConfig *config,
                                            const gchar *disk)

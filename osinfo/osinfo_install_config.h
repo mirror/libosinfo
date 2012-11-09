@@ -54,7 +54,8 @@
 #define OSINFO_INSTALL_CONFIG_PROP_REG_PASSWORD   "reg-password"
 #define OSINFO_INSTALL_CONFIG_PROP_REG_PRODUCTKEY "reg-product-key"
 
-#define OSINFO_INSTALL_CONFIG_PROP_HOSTNAME "hostname"
+#define OSINFO_INSTALL_CONFIG_PROP_HOSTNAME    "hostname"
+#define OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK "target-disk"
 
 #define OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION "avatar-location"
 #define OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK     "avatar-disk"
@@ -153,6 +154,10 @@ const gchar *osinfo_install_config_get_reg_product_key(OsinfoInstallConfig *conf
 void osinfo_install_config_set_hostname(OsinfoInstallConfig *config,
                                         const gchar *hostname);
 const gchar *osinfo_install_config_get_hostname(OsinfoInstallConfig *config);
+
+void osinfo_install_config_set_target_disk(OsinfoInstallConfig *config,
+                                           const gchar *disk);
+const gchar *osinfo_install_config_get_target_disk(OsinfoInstallConfig *config);
 
 void osinfo_install_config_set_avatar_location(OsinfoInstallConfig *config,
                                                const gchar *location);
