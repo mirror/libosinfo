@@ -56,6 +56,8 @@
 
 #define OSINFO_INSTALL_CONFIG_PROP_HOSTNAME "hostname"
 
+#define OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION "avatar-location"
+#define OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK     "avatar-disk"
 
 typedef struct _OsinfoInstallConfig        OsinfoInstallConfig;
 typedef struct _OsinfoInstallConfigClass   OsinfoInstallConfigClass;
@@ -152,6 +154,13 @@ void osinfo_install_config_set_hostname(OsinfoInstallConfig *config,
                                         const gchar *hostname);
 const gchar *osinfo_install_config_get_hostname(OsinfoInstallConfig *config);
 
+void osinfo_install_config_set_avatar_location(OsinfoInstallConfig *config,
+                                               const gchar *location);
+const gchar *osinfo_install_config_get_avatar_location(OsinfoInstallConfig *config);
+
+void osinfo_install_config_set_avatar_disk(OsinfoInstallConfig *config,
+                                           const gchar *disk);
+const gchar *osinfo_install_config_get_avatar_disk(OsinfoInstallConfig *config);
 
 #endif /* __OSINFO_INSTALL_CONFIG_H__ */
 /*
