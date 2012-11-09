@@ -607,6 +607,7 @@ static void osinfo_loader_install_script(OsinfoLoader *loader,
     const gchar *const keys[] = {
         OSINFO_INSTALL_SCRIPT_PROP_PROFILE,
         OSINFO_INSTALL_SCRIPT_PROP_PRODUCT_KEY_FORMAT,
+        OSINFO_INSTALL_SCRIPT_PROP_PATH_FORMAT,
         NULL
     };
     gchar *value = NULL;

@@ -320,9 +320,12 @@ LIBOSINFO_0.2.2 {
 	osinfo_install_config_param_policy_get_type;
 	osinfo_media_error_get_type;
 	osinfo_product_relationship_get_type;
+	osinfo_path_format_get_type;
 
 	osinfo_entity_get_param_value_enum;
 	osinfo_entity_set_param_enum;
+
+	osinfo_install_script_get_path_format;
 } LIBOSINFO_0.2.1;
 
 

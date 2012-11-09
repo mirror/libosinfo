@@ -51,6 +51,7 @@ typedef struct _OsinfoInstallScriptPrivate OsinfoInstallScriptPrivate;
 #define OSINFO_INSTALL_SCRIPT_PROP_PROFILE            "profile"
 #define OSINFO_INSTALL_SCRIPT_PROP_PRODUCT_KEY_FORMAT "product-key-format"
 #define OSINFO_INSTALL_SCRIPT_PROP_EXPECTED_FILENAME  "expected-filename"
+#define OSINFO_INSTALL_SCRIPT_PROP_PATH_FORMAT        "path-format"
 
 /* object */
 struct _OsinfoInstallScript
@@ -70,6 +71,16 @@ struct _OsinfoInstallScriptClass
 
     /* class members */
 };
+
+/**
+ * OsinfoPathFormat:
+ * OSINFO_PATH_FORMAT_UNIX: Unix/Linux path format, e.g /home/foo/bar.txt
+ * OSINFO_PATH_FORMAT_DOS: DOS/Windows path format, e.g \My Documents\bar.txt
+ */
+typedef enum {
+    OSINFO_PATH_FORMAT_UNIX,
+    OSINFO_PATH_FORMAT_DOS
+} OsinfoPathFormat;
 
 GType osinfo_install_script_get_type(void);
 
@@ -140,6 +151,7 @@ OsinfoInstallConfigParam *osinfo_install_script_get_config_param(const OsinfoIns
 void osinfo_install_script_add_config_param(OsinfoInstallScript *script, OsinfoInstallConfigParam *param);
 
 GList *osinfo_install_script_get_config_param_list(const OsinfoInstallScript *script);
+OsinfoPathFormat osinfo_install_script_get_path_format(OsinfoInstallScript *script);
 
 #endif /* __OSINFO_INSTALL_SCRIPT_H__ */
 /*

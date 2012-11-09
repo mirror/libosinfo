@@ -59,6 +59,7 @@ enum {
     PROP_TEMPLATE_DATA,
     PROP_PROFILE,
     PROP_PRODUCT_KEY_FORMAT,
+    PROP_PATH_FORMAT,
 };
 
 typedef struct _OsinfoInstallScriptGenerateData OsinfoInstallScriptGenerateData;
@@ -134,6 +135,11 @@ osinfo_os_get_property(GObject    *object,
     case PROP_PRODUCT_KEY_FORMAT:
         g_value_set_string(value,
                            osinfo_install_script_get_product_key_format(script));
+        break;
+
+    case PROP_PATH_FORMAT:
+        g_value_set_enum(value,
+                         osinfo_install_script_get_path_format(script));
         break;
 
     default:
@@ -219,6 +225,19 @@ osinfo_install_script_class_init (OsinfoInstallScriptClass *klass)
                                 G_PARAM_STATIC_BLURB);
     g_object_class_install_property(g_klass,
                                     PROP_PRODUCT_KEY_FORMAT,
+                                    pspec);
+
+    pspec = g_param_spec_enum("path-format",
+                              "Path Format",
+                              _("Expected path format"),
+                              OSINFO_TYPE_PATH_FORMAT,
+                              OSINFO_PATH_FORMAT_UNIX /* default value */,
+                              G_PARAM_READABLE |
+                              G_PARAM_STATIC_NAME |
+                              G_PARAM_STATIC_NICK |
+                              G_PARAM_STATIC_BLURB);
+    g_object_class_install_property(g_klass,
+                                    PROP_PATH_FORMAT,
                                     pspec);
 
     g_type_class_add_private (klass, sizeof (OsinfoInstallScriptPrivate));
@@ -1008,6 +1027,15 @@ GFile *osinfo_install_script_generate_output(OsinfoInstallScript *script,
     g_main_loop_unref(loop);
 
     return data.file;
+}
+
+OsinfoPathFormat osinfo_install_script_get_path_format(OsinfoInstallScript *script)
+{
+    return osinfo_entity_get_param_value_enum
+        (OSINFO_ENTITY(script),
+         OSINFO_INSTALL_SCRIPT_PROP_PATH_FORMAT,
+         OSINFO_TYPE_PATH_FORMAT,
+         OSINFO_PATH_FORMAT_UNIX);
 }
 
 /*
