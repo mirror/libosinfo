@@ -56,6 +56,7 @@
 
 #define OSINFO_INSTALL_CONFIG_PROP_HOSTNAME    "hostname"
 #define OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK "target-disk"
+#define OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK "script-disk"
 
 #define OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION "avatar-location"
 #define OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK     "avatar-disk"
@@ -158,6 +159,10 @@ const gchar *osinfo_install_config_get_hostname(OsinfoInstallConfig *config);
 void osinfo_install_config_set_target_disk(OsinfoInstallConfig *config,
                                            const gchar *disk);
 const gchar *osinfo_install_config_get_target_disk(OsinfoInstallConfig *config);
+
+void osinfo_install_config_set_script_disk(OsinfoInstallConfig *config,
+                                           const gchar *disk);
+const gchar *osinfo_install_config_get_script_disk(OsinfoInstallConfig *config);
 
 void osinfo_install_config_set_avatar_location(OsinfoInstallConfig *config,
                                                const gchar *location);

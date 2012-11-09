@@ -333,6 +333,9 @@ LIBOSINFO_0.2.2 {
 	osinfo_install_config_get_target_disk;
 	osinfo_install_config_set_target_disk;
 
+	osinfo_install_config_get_script_disk;
+	osinfo_install_config_set_script_disk;
+
 	osinfo_install_script_get_path_format;
 } LIBOSINFO_0.2.1;
 

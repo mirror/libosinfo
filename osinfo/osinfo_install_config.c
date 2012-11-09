@@ -362,6 +362,34 @@ const gchar *osinfo_install_config_get_target_disk(OsinfoInstallConfig *config)
 }
 
 /**
+ * osinfo_install_config_set_script_disk:
+ *
+ * Sets the #OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK parameter.
+ *
+ * Please read documentation on #osinfo_install_config_set_target_disk() for
+ * explanation on the format of @disk string.
+ */
+void osinfo_install_config_set_script_disk(OsinfoInstallConfig *config,
+                                           const gchar *disk)
+{
+    osinfo_entity_set_param(OSINFO_ENTITY(config),
+                            OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK,
+                            disk);
+}
+
+/**
+ * osinfo_install_config_get_script_disk:
+ *
+ * Returns: The value of #OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK parameter,
+ *          or NULL.
+ */
+const gchar *osinfo_install_config_get_script_disk(OsinfoInstallConfig *config)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(config),
+                                         OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK);
+}
+
+/**
  * osinfo_install_config_set_avatar_location:
  *
  * Sets the #OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION parameter.
