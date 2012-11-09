@@ -566,12 +566,12 @@ static void osinfo_loader_deployment(OsinfoLoader *loader,
     osinfo_db_add_deployment(loader->priv->db, deployment);
 }
 
-static void osinfo_loader_install_config_param(OsinfoLoader *loader,
-                                               OsinfoEntity *entity,
-                                               const gchar *xpath,
-                                               xmlXPathContextPtr ctxt,
-                                               xmlNodePtr root,
-                                               GError **err)
+static void osinfo_loader_install_config_params(OsinfoLoader *loader,
+                                                OsinfoEntity *entity,
+                                                const gchar *xpath,
+                                                xmlXPathContextPtr ctxt,
+                                                xmlNodePtr root,
+                                                GError **err)
 {
     xmlNodePtr *nodes = NULL;
     int nnodes = osinfo_loader_nodeset(xpath, ctxt, &nodes, err);
@@ -651,12 +651,12 @@ static void osinfo_loader_install_script(OsinfoLoader *loader,
                                 value);
     g_free(value);
 
-    osinfo_loader_install_config_param(loader,
-                                       OSINFO_ENTITY(installScript),
-                                       "./config/*",
-                                       ctxt,
-                                       root,
-                                       err);
+    osinfo_loader_install_config_params(loader,
+                                        OSINFO_ENTITY(installScript),
+                                        "./config/*",
+                                        ctxt,
+                                        root,
+                                        err);
 
     osinfo_db_add_install_script(loader->priv->db, installScript);
 
