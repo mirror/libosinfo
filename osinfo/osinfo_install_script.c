@@ -218,7 +218,7 @@ osinfo_install_script_class_init (OsinfoInstallScriptClass *klass)
                                 G_PARAM_STATIC_NICK |
                                 G_PARAM_STATIC_BLURB);
     g_object_class_install_property(g_klass,
-                                    PROP_PROFILE,
+                                    PROP_PRODUCT_KEY_FORMAT,
                                     pspec);
 
     g_type_class_add_private (klass, sizeof (OsinfoInstallScriptPrivate));
