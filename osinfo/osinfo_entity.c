@@ -221,6 +221,7 @@ void osinfo_entity_set_param_enum(OsinfoEntity *entity, const gchar *key, gint v
     enum_class = g_type_class_ref(enum_type);
     enum_value = g_enum_get_value(enum_class, value);
     g_type_class_unref(enum_class);
+    g_return_if_fail(enum_value != NULL);
 
     osinfo_entity_set_param(entity, key, enum_value->value_nick);
 }
