@@ -40,12 +40,6 @@ G_DEFINE_TYPE (OsinfoInstallConfigParam, osinfo_install_config_param, OSINFO_TYP
  * generate an automated installation script
  */
 
-struct _OsinfoInstallConfigParamPrivate
-{
-    gchar *name;
-    OsinfoInstallConfigParamPolicy policy;
-};
-
 enum {
     PROP_0,
 
@@ -108,18 +102,6 @@ osinfo_install_config_param_get_property(GObject *object,
     }
 }
 
-
-static void
-osinfo_install_config_param_finalize(GObject *object)
-{
-    OsinfoInstallConfigParam *config_param =
-        OSINFO_INSTALL_CONFIG_PARAM(object);
-    g_free(config_param->priv->name);
-
-    /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_install_config_param_parent_class)->finalize (object);
-}
-
 /* Init functions */
 static void
 osinfo_install_config_param_class_init (OsinfoInstallConfigParamClass *klass)
@@ -165,23 +147,13 @@ osinfo_install_config_param_class_init (OsinfoInstallConfigParamClass *klass)
     g_object_class_install_property(g_klass,
                                     PROP_POLICY,
                                     pspec);
-
-    g_klass->finalize = osinfo_install_config_param_finalize;
-
-    g_type_class_add_private (klass, sizeof (OsinfoInstallConfigParamPrivate));
 }
 
 static void
 osinfo_install_config_param_init (OsinfoInstallConfigParam *config_param)
 {
-    OsinfoInstallConfigParamPrivate *priv;
-    config_param->priv = priv =
-        OSINFO_INSTALL_CONFIG_PARAM_GET_PRIVATE(config_param);
-
-    config_param->priv->name = NULL;
-    config_param->priv->policy = OSINFO_INSTALL_CONFIG_PARAM_POLICY_NONE;
+   /* G_DEFINE_TYPE() needs an instance init function */
 }
-
 
 /**
  * osinfo_install_config_param_new:
