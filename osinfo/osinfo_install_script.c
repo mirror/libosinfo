@@ -381,6 +381,29 @@ const gchar *osinfo_install_script_get_profile(OsinfoInstallScript *script)
                                          OSINFO_INSTALL_SCRIPT_PROP_PROFILE);
 }
 
+/**
+ * osinfo_install_script_get_product_key_format:
+ *
+ * If this function returns a non-NULL string, it means that the @script
+ * requires you to specify product registration key through #OsinfoInstallConfig
+ * instance passed to script generation methods.
+ *
+ * The returned string specifies the expected format of the product key like this:
+ *
+ * @ - any character
+ * % - alphabet
+ * # - numeric character
+ * $ - alphanumeric character
+ *
+ * All other characters represent themselves.
+ *
+ * For example in case of installer for Microsoft Windows XP, you'll get
+ * "$$$$$-$$$$$-$$$$$-$$$$$-$$$$$". That means a product key consists of 24
+ * alphanumeric characters and 4 '-' characters at (0-based) indices 5, 11, 17
+ * and 23.
+ *
+ * Returns: (transfer none): Product key format mask, or NULL.
+ */
 const gchar *osinfo_install_script_get_product_key_format(OsinfoInstallScript *script)
 {
     return osinfo_entity_get_param_value(OSINFO_ENTITY(script),
