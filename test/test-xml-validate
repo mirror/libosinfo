@@ -42,7 +42,7 @@ exit $ret
 : ${srcdir=.}
 . $srcdir/test-lib.sh
 
-DIRS="oses hypervisors devices"
+DIRS="oses hypervisors devices install-scripts"
 SCHEMA="libosinfo.rng"
 
 check_schema "$DIRS" "$SCHEMA"
