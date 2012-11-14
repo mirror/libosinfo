@@ -608,6 +608,7 @@ static void osinfo_loader_install_script(OsinfoLoader *loader,
         OSINFO_INSTALL_SCRIPT_PROP_PROFILE,
         OSINFO_INSTALL_SCRIPT_PROP_PRODUCT_KEY_FORMAT,
         OSINFO_INSTALL_SCRIPT_PROP_PATH_FORMAT,
+        OSINFO_INSTALL_SCRIPT_PROP_EXPECTED_FILENAME,
         NULL
     };
     gchar *value = NULL;
@@ -640,15 +641,6 @@ static void osinfo_loader_install_script(OsinfoLoader *loader,
     if (value)
         osinfo_entity_set_param(OSINFO_ENTITY(installScript),
                                 OSINFO_INSTALL_SCRIPT_PROP_TEMPLATE_URI,
-                                value);
-    g_free(value);
-
-    value = osinfo_loader_string("string(./template/@filename)", ctxt, err);
-    if (error_is_set(err))
-        goto error;
-    if (value)
-        osinfo_entity_set_param(OSINFO_ENTITY(installScript),
-                                OSINFO_INSTALL_SCRIPT_PROP_EXPECTED_FILENAME,
                                 value);
     g_free(value);
 
