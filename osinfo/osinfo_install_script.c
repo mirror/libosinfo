@@ -180,9 +180,7 @@ osinfo_install_script_class_init (OsinfoInstallScriptClass *klass)
                                 G_PARAM_READABLE |
                                 G_PARAM_WRITABLE |
                                 G_PARAM_CONSTRUCT_ONLY |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass,
                                     PROP_TEMPLATE_URI,
                                     pspec);
@@ -194,9 +192,7 @@ osinfo_install_script_class_init (OsinfoInstallScriptClass *klass)
                                 G_PARAM_READABLE |
                                 G_PARAM_WRITABLE |
                                 G_PARAM_CONSTRUCT_ONLY |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass,
                                     PROP_TEMPLATE_DATA,
                                     pspec);
@@ -208,9 +204,7 @@ osinfo_install_script_class_init (OsinfoInstallScriptClass *klass)
                                 G_PARAM_READABLE |
                                 G_PARAM_WRITABLE |
                                 G_PARAM_CONSTRUCT_ONLY |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass,
                                     PROP_PROFILE,
                                     pspec);
@@ -220,9 +214,7 @@ osinfo_install_script_class_init (OsinfoInstallScriptClass *klass)
                                 _("Product key format mask"),
                                 NULL /* default value */,
                                 G_PARAM_READABLE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass,
                                     PROP_PRODUCT_KEY_FORMAT,
                                     pspec);
@@ -233,9 +225,7 @@ osinfo_install_script_class_init (OsinfoInstallScriptClass *klass)
                               OSINFO_TYPE_PATH_FORMAT,
                               OSINFO_PATH_FORMAT_UNIX /* default value */,
                               G_PARAM_READABLE |
-                              G_PARAM_STATIC_NAME |
-                              G_PARAM_STATIC_NICK |
-                              G_PARAM_STATIC_BLURB);
+                              G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass,
                                     PROP_PATH_FORMAT,
                                     pspec);
