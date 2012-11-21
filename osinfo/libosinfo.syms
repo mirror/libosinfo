@@ -335,10 +335,8 @@ LIBOSINFO_0.2.2 {
 	osinfo_install_config_set_avatar_location;
 	osinfo_install_config_get_avatar_disk;
 	osinfo_install_config_set_avatar_disk;
-
 	osinfo_install_config_get_target_disk;
 	osinfo_install_config_set_target_disk;
-
 	osinfo_install_config_get_script_disk;
 	osinfo_install_config_set_script_disk;
 
