@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include "osinfo_media_private.h"
 #include <gio/gio.h>
 #include <string.h>
 #include <glib/gi18n-lib.h>
@@ -525,6 +526,76 @@ OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
     g_list_free(oss);
 
     return ret;
+}
+
+static void fill_media (OsinfoMedia *media, OsinfoMedia *matched_media, OsinfoOs *os)
+{
+    gboolean is_installer;
+    gboolean is_live;
+    gint reboots;
+    const gchar *kernel_path;
+    const gchar *initrd_path;
+    const gchar *arch;
+    const gchar *url;
+
+    arch = osinfo_media_get_architecture(matched_media);
+    if (arch != NULL)
+        g_object_set(G_OBJECT(media), "architecture", arch, NULL);
+    url = osinfo_media_get_url(matched_media);
+    if (url != NULL)
+        g_object_set(G_OBJECT(media), "url", url, NULL);
+
+    kernel_path = osinfo_media_get_kernel_path(matched_media);
+    if (kernel_path != NULL)
+        g_object_set(G_OBJECT(media), "kernel_path", kernel_path, NULL);
+
+    initrd_path = osinfo_media_get_initrd_path(matched_media);
+    if (initrd_path != NULL)
+        g_object_set(G_OBJECT(media), "initrd_path", initrd_path, NULL);
+    is_installer = osinfo_media_get_installer(matched_media);
+    is_live = osinfo_media_get_live(matched_media);
+    g_object_set(G_OBJECT(media),
+                 "installer", is_installer,
+                 "live", is_live,
+                 NULL);
+    if (is_installer) {
+        reboots = osinfo_media_get_installer_reboots(matched_media);
+        g_object_set(G_OBJECT(media), "installer-reboots", reboots, NULL);
+    }
+    if (os != NULL)
+        osinfo_media_set_os(media, os);
+}
+
+/**
+ * osinfo_db_identify_media:
+ * @db: a #OsinfoDb database
+ * @media: the installation media
+ * data
+ *
+ * Try to match a newly created @media with a media description from @db.
+ * If found, @media will be filled with the corresponding information
+ * stored in @db. In particular, after a call to
+ * osinfo_db_identify_media(), if the media could be identified, its
+ * OsinfoMedia::os property will be set.
+ *
+ * Returns: TRUE if @media was found in @db, FALSE otherwise
+ */
+gboolean osinfo_db_identify_media(OsinfoDb *db, OsinfoMedia *media)
+{
+    OsinfoMedia *matched_media;
+    OsinfoOs *matched_os;
+
+    g_return_val_if_fail(OSINFO_IS_MEDIA(media), FALSE);
+    g_return_val_if_fail(OSINFO_IS_DB(db), FALSE);
+
+    matched_os = osinfo_db_guess_os_from_media(db, media, &matched_media);
+    if (matched_os == NULL) {
+        return FALSE;
+    }
+
+    fill_media(media, matched_media, matched_os);
+
+    return TRUE;
 }
 
 

@@ -252,18 +252,18 @@ static void test_one(const gchar *vendor)
     tmp = isos;
     while (tmp) {
         struct ISOInfo *info  = tmp->data;
-        OsinfoMedia *media = NULL;
-        OsinfoOs *os = osinfo_db_guess_os_from_media(db,
-                                                     info->media,
-                                                     &media);
+        gboolean matched = osinfo_db_identify_media(db, info->media);
+        OsinfoOs *os;
 
-        fail_unless(os != NULL, "ISO %s was not matched by OS %s",
+        fail_unless(matched, "ISO %s was not matched by OS %s",
                     info->filename, info->shortid);
 
+        g_object_get(info->media, "os", &os, NULL);
         const gchar *shortid = osinfo_product_get_short_id(OSINFO_PRODUCT(os));
         fail_unless(g_str_equal(shortid, info->shortid),
                     "ISO %s matched OS %s instead of expected %s",
                     info->filename, shortid, info->shortid);
+        g_object_unref(G_OBJECT(os));
 
         tmp = tmp->next;
     }

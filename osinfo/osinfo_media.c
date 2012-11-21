@@ -505,7 +505,10 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     /**
      * OsinfoMedia:os:
      *
-     * Os information for the current media.
+     * Os information for the current media. For media stored in an
+     * #OsinfoDB, it will be filled when the database is loaded, otherwise
+     * the property will be filled after a successful call to
+     * osinfo_db_identify_media().
      */
     pspec = g_param_spec_object ("os",
                                   "Os",

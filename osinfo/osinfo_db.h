@@ -103,6 +103,8 @@ void osinfo_db_add_install_script(OsinfoDb *db, OsinfoInstallScript *script);
 OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
                                         OsinfoMedia *media,
                                         OsinfoMedia **matched_media);
+gboolean osinfo_db_identify_media(OsinfoDb *db,
+                                  OsinfoMedia *media);
 
 OsinfoOs *osinfo_db_guess_os_from_tree(OsinfoDb *db,
                                        OsinfoTree *tree,

@@ -118,8 +118,11 @@ static void print_bootable(gboolean bootable)
             g_print(_("Media is not bootable.\n"));
 }
 
-static void print_os_media(OsinfoOs *os, OsinfoMedia *media)
+static void print_media(OsinfoMedia *media)
 {
+    OsinfoOs *os;
+
+    g_object_get(G_OBJECT(media), "os", &os, NULL);
     if (os == NULL)
         return;
 
@@ -140,6 +143,7 @@ static void print_os_media(OsinfoOs *os, OsinfoMedia *media)
         if (osinfo_media_get_live (media))
             g_print(_("Media is live media for OS '%s'\n"), name);
     }
+    g_object_unref(os);
 }
 
 static void print_os_tree(OsinfoOs *os, OsinfoTree *tree, OsinfoTree *matched_tree)
@@ -182,7 +186,6 @@ gint main(gint argc, gchar **argv)
     GError *error = NULL;
     OsinfoLoader *loader = NULL;
     OsinfoDb *db = NULL;
-    OsinfoOs *os = NULL;
     gint ret = 0;
 
     setlocale(LC_ALL, "");
@@ -227,7 +230,6 @@ gint main(gint argc, gchar **argv)
 
     if (type == URL_TYPE_MEDIA) {
         OsinfoMedia *media = NULL;
-        OsinfoMedia *matched_media = NULL;
         media = osinfo_media_create_from_location(argv[1], NULL, &error);
         if (error != NULL) {
             if (error->code != OSINFO_MEDIA_ERROR_NOT_BOOTABLE) {
@@ -241,9 +243,10 @@ gint main(gint argc, gchar **argv)
         } else {
             print_bootable(TRUE);
         }
-        os = osinfo_db_guess_os_from_media(db, media, &matched_media);
-        print_os_media(os, matched_media);
+        osinfo_db_identify_media(db, media);
+        print_media(media);
     } else if (type == URL_TYPE_TREE) {
+        OsinfoOs *os = NULL;
         OsinfoTree *tree = NULL;
         OsinfoTree *matched_tree = NULL;
         tree = osinfo_tree_create_from_location(argv[1], NULL, &error);
