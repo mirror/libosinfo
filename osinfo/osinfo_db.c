@@ -458,20 +458,10 @@ static gint media_volume_compare (gconstpointer a, gconstpointer b)
         return 1;
 }
 
-/**
- * osinfo_db_guess_os_from_media:
- * @db: the database
- * @media: the installation media
- * @matched_media: (out) (transfer none) (allow-none): the matched operating
- * system media
- *
- * Guess operating system given a #OsinfoMedia object.
- *
- * Returns: (transfer none): the operating system, or NULL if guessing failed
- */
-OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
-                                        OsinfoMedia *media,
-                                        OsinfoMedia **matched_media)
+static OsinfoOs *
+osinfo_db_guess_os_from_media_internal(OsinfoDb *db,
+                                       OsinfoMedia *media,
+                                       OsinfoMedia **matched_media)
 {
     OsinfoOs *ret = NULL;
     GList *oss = NULL;
@@ -526,6 +516,24 @@ OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
     g_list_free(oss);
 
     return ret;
+}
+/**
+ * osinfo_db_guess_os_from_media:
+ * @db: the database
+ * @media: the installation media
+ * @matched_media: (out) (transfer none) (allow-none): the matched operating
+ * system media
+ *
+ * Guess operating system given a #OsinfoMedia object.
+ *
+ * Returns: (transfer none): the operating system, or NULL if guessing failed
+ * Deprecated: 0.2.3: Use osinfo_db_identify_media() instead.
+ */
+OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
+                                        OsinfoMedia *media,
+                                        OsinfoMedia **matched_media)
+{
+    return osinfo_db_guess_os_from_media_internal(db, media, matched_media);
 }
 
 static void fill_media (OsinfoMedia *media, OsinfoMedia *matched_media, OsinfoOs *os)
@@ -588,7 +596,8 @@ gboolean osinfo_db_identify_media(OsinfoDb *db, OsinfoMedia *media)
     g_return_val_if_fail(OSINFO_IS_MEDIA(media), FALSE);
     g_return_val_if_fail(OSINFO_IS_DB(db), FALSE);
 
-    matched_os = osinfo_db_guess_os_from_media(db, media, &matched_media);
+    matched_os = osinfo_db_guess_os_from_media_internal(db, media,
+                                                        &matched_media);
     if (matched_os == NULL) {
         return FALSE;
     }

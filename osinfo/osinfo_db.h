@@ -100,6 +100,7 @@ void osinfo_db_add_deployment(OsinfoDb *db, OsinfoDeployment *deployment);
 void osinfo_db_add_datamap(OsinfoDb *db, OsinfoDatamap *datamap);
 void osinfo_db_add_install_script(OsinfoDb *db, OsinfoInstallScript *script);
 
+G_DEPRECATED_FOR(osinfo_db_identify_media)
 OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
                                         OsinfoMedia *media,
                                         OsinfoMedia **matched_media);
