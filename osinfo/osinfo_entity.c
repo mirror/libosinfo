@@ -371,7 +371,7 @@ gint64 osinfo_entity_get_param_value_int64(OsinfoEntity *entity,
     if (str == NULL)
         return -1;
 
-    return (gint64) g_ascii_strtod(str, NULL);
+    return (gint64) g_ascii_strtoll(str, NULL);
 }
 
 gint64 osinfo_entity_get_param_value_int64_with_default(OsinfoEntity *entity,
