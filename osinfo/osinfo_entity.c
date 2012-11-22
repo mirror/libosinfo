@@ -364,28 +364,21 @@ gboolean osinfo_entity_get_param_value_boolean_with_default(OsinfoEntity *entity
 gint64 osinfo_entity_get_param_value_int64(OsinfoEntity *entity,
                                            const gchar *key)
 {
-    const gchar *str;
-
-    str = osinfo_entity_get_param_value(entity, key);
-
-    if (str == NULL)
-        return -1;
-
-    return (gint64) g_ascii_strtoll(str, NULL);
+    return osinfo_entity_get_param_value_int64_with_default(entity, key, -1);
 }
 
 gint64 osinfo_entity_get_param_value_int64_with_default(OsinfoEntity *entity,
                                                         const gchar *key,
                                                         gint64 default_value)
 {
-    gint64 value;
+    const gchar *str;
 
-    value = osinfo_entity_get_param_value_int64(entity, key);
+    str = osinfo_entity_get_param_value(entity, key);
 
-    if (value < 0)
+    if (str == NULL)
         return default_value;
 
-    return value;
+    return g_ascii_strtoll(str, NULL, 0);
 }
 
 gint osinfo_entity_get_param_value_enum(OsinfoEntity *entity,
