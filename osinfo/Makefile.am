@@ -84,6 +84,7 @@ OSINFO_HEADER_FILES =		\
   osinfo_deployment.h		\
   osinfo_deploymentlist.h	\
   osinfo_media.h		\
+  osinfo_media_private.h	\
   osinfo_medialist.h		\
   osinfo_resources.h		\
   osinfo_resourceslist.h	\

@@ -124,6 +124,7 @@ const gchar *osinfo_media_get_publisher_id(OsinfoMedia *media);
 const gchar *osinfo_media_get_application_id(OsinfoMedia *media);
 const gchar *osinfo_media_get_kernel_path(OsinfoMedia *media);
 const gchar *osinfo_media_get_initrd_path(OsinfoMedia *media);
+OsinfoOs *osinfo_media_get_os(OsinfoMedia *media);
 gboolean osinfo_media_get_installer(OsinfoMedia *media);
 gboolean osinfo_media_get_live(OsinfoMedia *media);
 gint osinfo_media_get_installer_reboots(OsinfoMedia *media);

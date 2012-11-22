@@ -26,6 +26,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include "osinfo_media_private.h"
 #include <gio/gio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -136,7 +137,7 @@ G_DEFINE_TYPE (OsinfoMedia, osinfo_media, OSINFO_TYPE_ENTITY);
 
 struct _OsinfoMediaPrivate
 {
-    gboolean unused;
+    GWeakRef os;
 };
 
 enum {
@@ -153,6 +154,7 @@ enum {
     PROP_INSTALLER,
     PROP_LIVE,
     PROP_INSTALLER_REBOOTS,
+    PROP_OS
 };
 
 static void
@@ -217,6 +219,10 @@ osinfo_media_get_property (GObject    *object,
     case PROP_INSTALLER_REBOOTS:
         g_value_set_int (value,
                          osinfo_media_get_installer_reboots (media));
+        break;
+
+    case PROP_OS:
+        g_value_take_object (value, osinfo_media_get_os (media));
         break;
 
     default:
@@ -301,6 +307,10 @@ osinfo_media_set_property(GObject      *object,
                                        g_value_get_int (value));
         break;
 
+    case PROP_OS:
+        osinfo_media_set_os(media, g_value_get_object(value));
+        break;
+
     default:
         /* We don't have any other property... */
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -315,6 +325,16 @@ osinfo_media_finalize (GObject *object)
     G_OBJECT_CLASS (osinfo_media_parent_class)->finalize (object);
 }
 
+static void osinfo_media_dispose(GObject *obj)
+{
+    OsinfoMedia *media = OSINFO_MEDIA(obj);
+
+    g_weak_ref_clear(&media->priv->os);
+
+    G_OBJECT_CLASS(osinfo_media_parent_class)->dispose(obj);
+}
+
+
 /* Init functions */
 static void
 osinfo_media_class_init (OsinfoMediaClass *klass)
@@ -322,6 +342,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     GObjectClass *g_klass = G_OBJECT_CLASS (klass);
     GParamSpec *pspec;
 
+    g_klass->dispose = osinfo_media_dispose;
     g_klass->finalize = osinfo_media_finalize;
     g_klass->get_property = osinfo_media_get_property;
     g_klass->set_property = osinfo_media_set_property;
@@ -480,6 +501,19 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                               G_PARAM_READWRITE |
                               G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_INSTALLER_REBOOTS, pspec);
+
+    /**
+     * OsinfoMedia:os:
+     *
+     * Os information for the current media.
+     */
+    pspec = g_param_spec_object ("os",
+                                  "Os",
+                                  _("Information about the operating system on this media"),
+                                  OSINFO_TYPE_OS,
+                                  G_PARAM_READWRITE |
+                                  G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property (g_klass, PROP_OS, pspec);
 }
 
 static void
@@ -487,6 +521,7 @@ osinfo_media_init (OsinfoMedia *media)
 {
     OsinfoMediaPrivate *priv;
     media->priv = priv = OSINFO_MEDIA_GET_PRIVATE(media);
+    g_weak_ref_init(&media->priv->os, NULL);
 }
 
 OsinfoMedia *osinfo_media_new(const gchar *id,
@@ -1046,6 +1081,24 @@ gint osinfo_media_get_installer_reboots(OsinfoMedia *media)
             (OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_INSTALLER_REBOOTS, 1);
 }
 
+/* osinfo_media_get_os:
+ * Returns: (transfer full):
+ */
+OsinfoOs *osinfo_media_get_os(OsinfoMedia *media)
+{
+    g_return_val_if_fail(OSINFO_IS_MEDIA(media), NULL);
+
+    return g_weak_ref_get(&media->priv->os);
+}
+
+void osinfo_media_set_os(OsinfoMedia *media, OsinfoOs *os)
+{
+    g_return_if_fail(OSINFO_IS_MEDIA(media));
+
+    g_object_ref(os);
+    g_weak_ref_set(&media->priv->os, os);
+    g_object_unref(os);
+}
 /*
  * Local variables:
  *  indent-tabs-mode: nil
