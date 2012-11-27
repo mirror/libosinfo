@@ -140,7 +140,18 @@ const gchar *osinfo_install_config_get_l10n_keyboard(OsinfoInstallConfig *config
                                          OSINFO_INSTALL_CONFIG_PROP_L10N_KEYBOARD);
 }
 
-
+/**
+ * osinfo_install_config_set_l10n_language:
+ *
+ * Sets the #OSINFO_INSTALL_CONFIG_PROP_L10N_LANGUAGE parameter.
+ *
+ * The expected format of this string is the gettext locale names standard:
+ *
+ * https://www.gnu.org/savannah-checkouts/gnu/gettext/manual/html_node/Locale-Names.html
+ *
+ * Both encoding and variant are accepted but optional. For example, both 'pt_BR'
+ * and 'pt_BR.utf8' are accepted as the language codes for Brazilian Portuguese.
+ */
 void osinfo_install_config_set_l10n_language(OsinfoInstallConfig *config,
                                              const gchar *language)
 {
