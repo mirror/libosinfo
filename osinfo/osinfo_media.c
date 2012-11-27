@@ -476,7 +476,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                               _("Number of installer reboots"),
                               G_MININT,
                               G_MAXINT,
-                              -1 /* default value */,
+                              1 /* default value */,
                               G_PARAM_READWRITE |
                               G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_INSTALLER_REBOOTS, pspec);
