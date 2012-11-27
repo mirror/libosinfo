@@ -457,7 +457,6 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                   _("Media provides a installer"),
                                   TRUE /* default value */,
                                   G_PARAM_READWRITE |
-                                  G_PARAM_CONSTRUCT | /* to set default value */
                                   G_PARAM_STATIC_NAME |
                                   G_PARAM_STATIC_NICK |
                                   G_PARAM_STATIC_BLURB);
@@ -473,7 +472,6 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                   _("Media can boot directly w/o installation"),
                                   FALSE /* default value */,
                                   G_PARAM_READWRITE |
-                                  G_PARAM_CONSTRUCT | /* to set default value */
                                   G_PARAM_STATIC_NAME |
                                   G_PARAM_STATIC_NICK |
                                   G_PARAM_STATIC_BLURB);
@@ -500,7 +498,6 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                               G_MAXINT,
                               -1 /* default value */,
                               G_PARAM_READWRITE |
-                              G_PARAM_CONSTRUCT | /* to set default value */
                               G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_INSTALLER_REBOOTS, pspec);
 }
