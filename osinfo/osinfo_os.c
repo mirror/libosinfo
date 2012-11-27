@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include "osinfo_media_private.h"
 #include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoOs, osinfo_os, OSINFO_TYPE_PRODUCT);
@@ -429,6 +430,7 @@ void osinfo_os_add_media(OsinfoOs *os, OsinfoMedia *media)
     g_return_if_fail(OSINFO_IS_MEDIA(media));
 
     osinfo_list_add(OSINFO_LIST(os->priv->medias), OSINFO_ENTITY(media));
+    osinfo_media_set_os(media, os);
 }
 
 /**
