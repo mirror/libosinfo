@@ -60,6 +60,7 @@ libosinfo_1_0_include_HEADERS = \
   osinfo_loader.h		\
   osinfo_device.h		\
   osinfo_device_driver.h	\
+  osinfo_device_driverlist.h	\
   osinfo_devicelink.h		\
   osinfo_devicelist.h		\
   osinfo_devicelinklist.h	\
@@ -98,6 +99,7 @@ libosinfo_1_0_la_SOURCES =	  \
   osinfo_device.c		  \
   osinfo_device_driver.c	  \
   osinfo_device_driver_private.h  \
+  osinfo_device_driverlist.c	  \
   osinfo_devicelink.c		  \
   osinfo_devicelist.c		  \
   osinfo_devicelinklist.c	  \

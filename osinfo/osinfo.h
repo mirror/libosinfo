@@ -33,6 +33,7 @@
 #include <osinfo/osinfo_list.h>
 #include <osinfo/osinfo_device.h>
 #include <osinfo/osinfo_device_driver.h>
+#include <osinfo/osinfo_device_driverlist.h>
 #include <osinfo/osinfo_devicelink.h>
 #include <osinfo/osinfo_devicelist.h>
 #include <osinfo/osinfo_devicelinklist.h>
