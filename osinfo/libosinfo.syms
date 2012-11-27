@@ -323,6 +323,13 @@ LIBOSINFO_0.2.2 {
 	osinfo_avatar_format_get_height;
 	osinfo_avatar_format_get_alpha;
 
+	osinfo_device_driver_get_type;
+	osinfo_device_driver_get_architecture;
+	osinfo_device_driver_get_devices;
+	osinfo_device_driver_get_location;
+	osinfo_device_driver_get_files;
+	osinfo_device_driver_get_pre_installable;
+
 	osinfo_install_config_param_policy_get_type;
 	osinfo_media_error_get_type;
 	osinfo_product_relationship_get_type;
