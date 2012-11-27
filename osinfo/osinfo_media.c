@@ -337,9 +337,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                  _("CPU Architecture"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_ARCHITECTURE, pspec);
 
     /**
@@ -352,9 +350,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                  _("The URL to this media"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_URL, pspec);
 
     /**
@@ -367,9 +363,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                  _("The expected ISO9660 volume ID"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_VOLUME_ID, pspec);
 
     /**
@@ -382,9 +376,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                  _("The expected ISO9660 publisher ID"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_PUBLISHER_ID, pspec);
 
     /**
@@ -397,9 +389,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                  _("The expected ISO9660 application ID"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_APPLICATION_ID, pspec);
 
     /**
@@ -412,9 +402,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                  _("The expected ISO9660 system ID"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_SYSTEM_ID, pspec);
 
     /**
@@ -427,9 +415,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                  _("The path to the kernel image"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_KERNEL_PATH, pspec);
 
     /**
@@ -442,9 +428,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                  _("The path to the initrd image"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_INITRD_PATH, pspec);
 
     /**
@@ -457,9 +441,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                   _("Media provides a installer"),
                                   TRUE /* default value */,
                                   G_PARAM_READWRITE |
-                                  G_PARAM_STATIC_NAME |
-                                  G_PARAM_STATIC_NICK |
-                                  G_PARAM_STATIC_BLURB);
+                                  G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_INSTALLER, pspec);
 
     /**
@@ -472,9 +454,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                   _("Media can boot directly w/o installation"),
                                   FALSE /* default value */,
                                   G_PARAM_READWRITE |
-                                  G_PARAM_STATIC_NAME |
-                                  G_PARAM_STATIC_NICK |
-                                  G_PARAM_STATIC_BLURB);
+                                  G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_LIVE, pspec);
 
     /**
