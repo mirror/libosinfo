@@ -206,7 +206,7 @@ void osinfo_entity_set_param_int64(OsinfoEntity *entity, const gchar *key, gint6
 {
     gchar *str;
 
-    str = g_strdup_printf("%"G_GUINT64_FORMAT, value);
+    str = g_strdup_printf("%"G_GINT64_FORMAT, value);
     osinfo_entity_set_param(entity, key, str);
     g_free(str);
 }
