@@ -35,6 +35,7 @@
 #include <libxml/xpath.h>
 #include <libxml/xmlreader.h>
 #include "osinfo_install_script_private.h"
+#include "osinfo_device_driver_private.h"
 
 G_DEFINE_TYPE (OsinfoLoader, osinfo_loader, G_TYPE_OBJECT);
 
@@ -907,6 +908,71 @@ EXIT:
     g_clear_object(&resources);
 }
 
+static OsinfoDeviceDriver *osinfo_loader_driver(OsinfoLoader *loader,
+                                                xmlXPathContextPtr ctxt,
+                                                xmlNodePtr root,
+                                                const gchar *id,
+                                                GError **err)
+{
+    xmlNodePtr *nodes = NULL;
+    guint i;
+
+    xmlChar *arch = xmlGetProp(root, BAD_CAST OSINFO_DEVICE_DRIVER_PROP_ARCHITECTURE);
+    xmlChar *location = xmlGetProp(root, BAD_CAST OSINFO_DEVICE_DRIVER_PROP_LOCATION);
+    xmlChar *preinst = xmlGetProp(root, BAD_CAST OSINFO_DEVICE_DRIVER_PROP_PRE_INSTALLABLE);
+
+    OsinfoDeviceDriver *driver = osinfo_device_driver_new(id);
+
+    if (arch) {
+        osinfo_entity_set_param(OSINFO_ENTITY(driver),
+                                OSINFO_DEVICE_DRIVER_PROP_ARCHITECTURE,
+                                (gchar *)arch);
+        xmlFree(arch);
+    }
+
+    if (location) {
+        osinfo_entity_set_param(OSINFO_ENTITY(driver),
+                                OSINFO_DEVICE_DRIVER_PROP_LOCATION,
+                                (gchar *)location);
+        xmlFree(location);
+    }
+
+    if (preinst) {
+        osinfo_entity_set_param(OSINFO_ENTITY(driver),
+                                OSINFO_DEVICE_DRIVER_PROP_PRE_INSTALLABLE,
+                                (gchar *)preinst);
+        xmlFree(preinst);
+    }
+
+    gint nnodes = osinfo_loader_nodeset("./*", ctxt, &nodes, err);
+    if (error_is_set(err))
+        return NULL;
+
+    for (i = 0 ; i < nnodes ; i++) {
+        if (nodes[i]->children &&
+            nodes[i]->children->type == XML_TEXT_NODE &&
+            (strcmp((const gchar *)nodes[i]->name,
+                    OSINFO_DEVICE_DRIVER_PROP_FILE) == 0)) {
+            osinfo_entity_add_param(OSINFO_ENTITY(driver),
+                                    (const gchar *)nodes[i]->name,
+                                    (const gchar *)nodes[i]->children->content);
+        } else if (strcmp((const gchar *)nodes[i]->name,
+                          OSINFO_DEVICE_DRIVER_PROP_DEVICE) == 0) {
+            xmlChar *device_id = xmlGetProp(nodes[i], BAD_CAST "id");
+            OsinfoDevice *device = osinfo_loader_get_device(loader,
+                                                            (gchar *)device_id);
+            xmlFree(device_id);
+
+            osinfo_device_driver_add_device(driver, device);
+        }
+    }
+
+    g_free(nodes);
+
+    return driver;
+}
+
+
 static void osinfo_loader_os(OsinfoLoader *loader,
                              xmlXPathContextPtr ctxt,
                              xmlNodePtr root,
@@ -1019,6 +1085,30 @@ static void osinfo_loader_os(OsinfoLoader *loader,
         g_free(scriptid);
 
         osinfo_os_add_install_script(os, script);
+    }
+
+    g_free(nodes);
+
+    nnodes = osinfo_loader_nodeset("./driver", ctxt, &nodes, err);
+    if (error_is_set(err))
+        goto cleanup;
+
+    for (i = 0 ; i < nnodes ; i++) {
+        xmlNodePtr saved = ctxt->node;
+        ctxt->node = nodes[i];
+        gchar *driver_id = g_strdup_printf("%s:%u", id, i);
+        OsinfoDeviceDriver *driver= osinfo_loader_driver(loader,
+                                                         ctxt,
+                                                         nodes[i],
+                                                         driver_id,
+                                                         err);
+        g_free (driver_id);
+        ctxt->node = saved;
+        if (error_is_set(err))
+            break;
+
+        osinfo_os_add_device_driver(os, driver);
+        g_object_unref(driver);
     }
 
     g_free(nodes);
