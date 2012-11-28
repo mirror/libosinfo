@@ -280,6 +280,11 @@ START_TEST(test_fedora)
 }
 END_TEST
 
+START_TEST(test_rhel)
+{
+    test_one("rhel");
+}
+END_TEST
 
 START_TEST(test_ubuntu)
 {
@@ -315,6 +320,7 @@ list_suite(void)
     tcase_set_timeout(tc, 20);
 
     tcase_add_test(tc, test_fedora);
+    tcase_add_test(tc, test_rhel);
     tcase_add_test(tc, test_ubuntu);
     tcase_add_test(tc, test_debian);
     tcase_add_test(tc, test_windows);
