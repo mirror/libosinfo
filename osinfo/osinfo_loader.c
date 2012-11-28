@@ -957,6 +957,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
             break;
 
         osinfo_os_add_media (os, media);
+        g_object_unref (media);
     }
 
     g_free(nodes);
