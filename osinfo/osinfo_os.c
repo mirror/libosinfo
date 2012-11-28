@@ -54,6 +54,8 @@ struct _OsinfoOsPrivate
     OsinfoResourcesList *recommended;
 
     OsinfoInstallScriptList *scripts;
+
+    OsinfoDeviceDriverList *device_drivers;
 };
 
 struct _OsinfoOsDeviceLink {
@@ -113,6 +115,8 @@ osinfo_os_finalize (GObject *object)
     g_object_unref(os->priv->trees);
 
     g_object_unref(os->priv->scripts);
+
+    g_object_unref(os->priv->device_drivers);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_os_parent_class)->finalize (object);
@@ -179,6 +183,7 @@ osinfo_os_init (OsinfoOs *os)
     os->priv->minimum = osinfo_resourceslist_new ();
     os->priv->recommended = osinfo_resourceslist_new ();
     os->priv->scripts = osinfo_install_scriptlist_new ();
+    os->priv->device_drivers = osinfo_device_driverlist_new ();
 }
 
 /**
@@ -570,6 +575,30 @@ void osinfo_os_add_install_script(OsinfoOs *os, OsinfoInstallScript *script)
     g_return_if_fail(OSINFO_IS_OS(os));
 
     osinfo_list_add(OSINFO_LIST(os->priv->scripts), OSINFO_ENTITY(script));
+}
+
+/**
+ * osinfo_os_get_device_drivers:
+ * @os: an operating system
+ *
+ * Gets list of all available device drivers for OS @os.
+ *
+ * Returns: (transfer none): A list of device drivers
+ */
+OsinfoDeviceDriverList *osinfo_os_get_device_drivers(OsinfoOs *os)
+{
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+
+    return os->priv->device_drivers;
+}
+
+void osinfo_os_add_device_driver(OsinfoOs *os, OsinfoDeviceDriver *driver)
+{
+    g_return_if_fail(OSINFO_IS_OS(os));
+    g_return_if_fail(OSINFO_IS_DEVICE_DRIVER(driver));
+
+    osinfo_list_add(OSINFO_LIST(os->priv->device_drivers),
+                    OSINFO_ENTITY(driver));
 }
 
 /*

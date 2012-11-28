@@ -105,6 +105,9 @@ OsinfoInstallScript *osinfo_os_find_install_script(OsinfoOs *os, const gchar *pr
 OsinfoInstallScriptList *osinfo_os_get_install_script_list(OsinfoOs *os);
 void osinfo_os_add_install_script(OsinfoOs *os, OsinfoInstallScript *script);
 
+OsinfoDeviceDriverList *osinfo_os_get_device_drivers(OsinfoOs *os);
+void osinfo_os_add_device_driver(OsinfoOs *os, OsinfoDeviceDriver *driver);
+
 #endif /* __OSINFO_OS_H__ */
 /*
  * Local variables:

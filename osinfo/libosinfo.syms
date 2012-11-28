@@ -358,6 +358,9 @@ LIBOSINFO_0.2.2 {
 	osinfo_install_script_get_path_format;
 
 	osinfo_install_script_get_product_key_format;
+
+	osinfo_os_get_device_drivers;
+	osinfo_os_add_device_driver;
 } LIBOSINFO_0.2.1;
 
 /* Symbols in next release...
