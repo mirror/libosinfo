@@ -292,6 +292,27 @@ START_TEST(test_multi_props_clear)
 END_TEST
 
 
+START_TEST(test_int64_props)
+{
+    OsinfoEntity *ent = g_object_new(osinfo_dummy_get_type(), "id", "myentity", NULL);
+
+    osinfo_entity_set_param_int64(ent, "my_int", 10);
+    fail_unless(osinfo_entity_get_param_value_int64(ent, "my_int") == 10);
+    osinfo_entity_set_param_int64(ent, "my_neg_int", -20);
+    fail_unless(osinfo_entity_get_param_value_int64(ent, "my_neg_int") == -20);
+    osinfo_entity_set_param_int64(ent, "my_str", 30);
+    fail_unless(osinfo_entity_get_param_value_int64(ent, "my_str") == 30);
+    osinfo_entity_set_param_int64(ent, "my_neg_str", -40);
+    fail_unless(osinfo_entity_get_param_value_int64(ent, "my_neg_str") == -40);
+    fail_unless(osinfo_entity_get_param_value_int64_with_default(ent, "my_neg_str", 1234) == -40);
+
+    fail_unless(osinfo_entity_get_param_value_int64(ent, "missing") == -1);
+    fail_unless(osinfo_entity_get_param_value_int64_with_default(ent, "missing", 1234) == 1234);
+
+    g_object_unref(ent);
+}
+END_TEST
+
 static Suite *
 entity_suite(void)
 {
@@ -303,6 +324,7 @@ entity_suite(void)
     tcase_add_test(tc, test_multi_prop_value);
     tcase_add_test(tc, test_multi_props);
     tcase_add_test(tc, test_multi_props_clear);
+    tcase_add_test(tc, test_int64_props);
     suite_add_tcase(s, tc);
     return s;
 }
