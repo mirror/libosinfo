@@ -342,6 +342,8 @@ LIBOSINFO_0.2.2 {
 
 	osinfo_install_script_get_avatar_format;
 	osinfo_install_script_get_path_format;
+
+	osinfo_install_script_get_product_key_format;
 } LIBOSINFO_0.2.1;
 
 /* Symbols in next release...
