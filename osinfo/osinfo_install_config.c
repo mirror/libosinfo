@@ -125,6 +125,14 @@ const gchar *osinfo_install_config_get_hardware_arch(OsinfoInstallConfig *config
 }
 
 
+/**
+ * osinfo_install_config_set_l10n_keyboard:
+ *
+ * Sets the #OSINFO_INSTALL_CONFIG_PROP_L10N_KEYBOARD parameter.
+ *
+ * The expected format of this string is the same as
+ * #osinfo_install_config_set_l10n_language function's 'language' parameter.
+ */
 void osinfo_install_config_set_l10n_keyboard(OsinfoInstallConfig *config,
                                              const gchar *keyboard)
 {
