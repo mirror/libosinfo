@@ -1149,7 +1149,8 @@ static void osinfo_loader_root(OsinfoLoader *loader,
      *   Advance tag
      *   If closing libosinfo tag, break
      *   If non element tag, continue
-     *   If element tag, and element is not os, platform or device, error
+     *   If element tag, and element is not os, platform, device,
+     *   deployment or install-script, error
      *   Else, switch on tag type and handle reading in data
      * After loop, return success if no error
      * If there was an error, clean up lib data acquired so far
