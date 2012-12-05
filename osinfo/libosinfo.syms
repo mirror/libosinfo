@@ -353,6 +353,14 @@ LIBOSINFO_0.2.2 {
 	osinfo_install_config_set_target_disk;
 	osinfo_install_config_get_script_disk;
 	osinfo_install_config_set_script_disk;
+	osinfo_install_config_set_pre_install_drivers_disk;
+	osinfo_install_config_get_pre_install_drivers_disk;
+	osinfo_install_config_set_pre_install_drivers_location;
+	osinfo_install_config_get_pre_install_drivers_location;
+	osinfo_install_config_set_post_install_drivers_disk;
+	osinfo_install_config_get_post_install_drivers_disk;
+	osinfo_install_config_set_post_install_drivers_location;
+	osinfo_install_config_get_post_install_drivers_location;
 
 	osinfo_install_script_get_avatar_format;
 	osinfo_install_script_get_path_format;

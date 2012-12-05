@@ -469,6 +469,149 @@ const gchar *osinfo_install_config_get_avatar_disk(OsinfoInstallConfig *config)
                                          OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK);
 }
 
+/**
+ * osinfo_install_config_set_pre_install_drivers_disk:
+ * @config: the install config
+ *
+ * Specify the disk on which drivers to be installed at the very beginning of
+ * installation, are available. This is usually needed for devices for which the
+ * OS in question does not have out of the box support for and devices are
+ * required/prefered to be available during actual installation.
+ *
+ * Please read documentation on #osinfo_install_config_set_target_disk() for
+ * explanation on the format of @disk string.
+ *
+ * NOTE: Not every install script supports pre-installation of drivers. Use
+ * #osinfo_install_script_get_can_pre_install_drivers() to find out if an
+ * installer script supports it.
+ *
+ * NOTE: Microsoft Windows XP requires pre-installation driver files to be
+ * present in the script disk under the toplevel directory.
+ */
+void osinfo_install_config_set_pre_install_drivers_disk(OsinfoInstallConfig *config,
+                                                        const gchar *disk)
+{
+    osinfo_entity_set_param(OSINFO_ENTITY(config),
+                            OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_DISK,
+                            disk);
+}
+
+/**
+ * osinfo_install_config_get_pre_install_drivers_disk:
+ *
+ * Returns: The disk on which pre-installation drivers are located, or NULL if
+ * its not set using #osinfo_install_config_set_pre_install_drivers_disk().
+ */
+const gchar *osinfo_install_config_get_pre_install_drivers_disk(OsinfoInstallConfig *config)
+{
+    return osinfo_entity_get_param_value
+            (OSINFO_ENTITY(config),
+             OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_DISK);
+}
+
+/**
+ * osinfo_install_config_set_pre_install_drivers_location:
+ * @config: the install config
+ *
+ * Specify the location on which drivers to be installed at the very beginning of
+ * installation, are available. Please read documentation on
+ * #osinfo_install_config_set_pre_install_drivers_disk() for more information
+ * about pre-installation of drivers.
+ *
+ * Please read documentation on #osinfo_install_config_set_avatar_location() for
+ * explanation on the format of @location string.
+ */
+void osinfo_install_config_set_pre_install_drivers_location(OsinfoInstallConfig *config,
+                                                            const gchar *location)
+{
+    osinfo_entity_set_param(OSINFO_ENTITY(config),
+                            OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_LOCATION,
+                            location);
+}
+
+/**
+ * osinfo_install_config_get_pre_install_drivers_location:
+ *
+ * Returns: The location on which pre-installation drivers are located, or NULL if
+ * its not set using #osinfo_install_config_set_pre_install_drivers_location().
+ */
+const gchar *osinfo_install_config_get_pre_install_drivers_location(OsinfoInstallConfig *config)
+{
+    return osinfo_entity_get_param_value
+            (OSINFO_ENTITY(config),
+             OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_LOCATION);
+}
+
+/**
+ * osinfo_install_config_set_post_install_drivers_disk:
+ * @config: the install config
+ *
+ * Specify the disk on which drivers to be installed at the end of installation,
+ * are available.
+ *
+ * Please read documentation on #osinfo_install_config_set_target_disk() for
+ * explanation on the format of @disk string.
+ *
+ * NOTE: Not every install script supports post-installation of drivers. Use
+ * #osinfo_install_script_get_can_post_install_drivers() to find out if an
+ * install script supports it.
+ */
+void osinfo_install_config_set_post_install_drivers_disk(OsinfoInstallConfig *config,
+                                                         const gchar *disk)
+{
+    osinfo_entity_set_param(OSINFO_ENTITY(config),
+                            OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_DISK,
+                            disk);
+}
+
+/**
+ * osinfo_install_config_get_post_install_drivers_disk:
+ *
+ * Returns: The disk on which post-installation drivers are located, or NULL if
+ * its not set using #osinfo_install_config_set_post_install_drivers_disk().
+ */
+const gchar *osinfo_install_config_get_post_install_drivers_disk(OsinfoInstallConfig *config)
+{
+    return osinfo_entity_get_param_value
+            (OSINFO_ENTITY(config),
+             OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_DISK);
+}
+
+/**
+ * osinfo_install_config_set_post_install_drivers_location:
+ * @config: the install config
+ *
+ * Specify the disk on which drivers to be installed at the end of installation,
+ * are available.
+ *
+ * Please read documentation on #osinfo_install_config_set_avatar_location() for
+ * explanation on the format of @location string.
+ *
+ * NOTE: Not every install script supports post-installation of drivers. Use
+ * #osinfo_install_script_get_can_post_install_drivers() to find out if an
+ * install script supports it.
+ */
+void osinfo_install_config_set_post_install_drivers_location(OsinfoInstallConfig *config,
+                                                             const gchar *location)
+{
+    osinfo_entity_set_param(OSINFO_ENTITY(config),
+                            OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_LOCATION,
+                            location);
+}
+
+/**
+ * osinfo_install_config_get_post_install_drivers_location:
+ *
+ * Returns: The disk on which post-installation drivers are located, or NULL if
+ * its not set using #osinfo_install_config_set_post_install_drivers_location().
+ */
+const gchar *osinfo_install_config_get_post_install_drivers_location(OsinfoInstallConfig *config)
+{
+    return osinfo_entity_get_param_value
+            (OSINFO_ENTITY(config),
+             OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_LOCATION);
+}
+
 /*
  * Local variables:
  *  indent-tabs-mode: nil

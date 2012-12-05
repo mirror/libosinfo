@@ -61,6 +61,12 @@
 #define OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION "avatar-location"
 #define OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK     "avatar-disk"
 
+#define OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_DISK "pre-install-drivers-disk"
+#define OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_LOCATION "pre-install-drivers-location"
+
+#define OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_DISK "post-install-drivers-disk"
+#define OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_LOCATION "post-install-drivers-location"
+
 typedef struct _OsinfoInstallConfig        OsinfoInstallConfig;
 typedef struct _OsinfoInstallConfigClass   OsinfoInstallConfigClass;
 typedef struct _OsinfoInstallConfigPrivate OsinfoInstallConfigPrivate;
@@ -171,6 +177,20 @@ const gchar *osinfo_install_config_get_avatar_location(OsinfoInstallConfig *conf
 void osinfo_install_config_set_avatar_disk(OsinfoInstallConfig *config,
                                            const gchar *disk);
 const gchar *osinfo_install_config_get_avatar_disk(OsinfoInstallConfig *config);
+
+void osinfo_install_config_set_pre_install_drivers_disk(OsinfoInstallConfig *config,
+                                                        const gchar *disk);
+const gchar *osinfo_install_config_get_pre_install_drivers_disk(OsinfoInstallConfig *config);
+void osinfo_install_config_set_pre_install_drivers_location(OsinfoInstallConfig *config,
+                                                            const gchar *location);
+const gchar *osinfo_install_config_get_pre_install_drivers_location(OsinfoInstallConfig *config);
+
+void osinfo_install_config_set_post_install_drivers_disk(OsinfoInstallConfig *config,
+                                                         const gchar *disk);
+const gchar *osinfo_install_config_get_post_install_drivers_disk(OsinfoInstallConfig *config);
+void osinfo_install_config_set_post_install_drivers_location(OsinfoInstallConfig *config,
+                                                             const gchar *location);
+const gchar *osinfo_install_config_get_post_install_drivers_location(OsinfoInstallConfig *config);
 
 #endif /* __OSINFO_INSTALL_CONFIG_H__ */
 /*
