@@ -53,7 +53,7 @@ libosinfo_1_0_la_DEPENDENCIES = libosinfo.syms
 
 libosinfo_1_0_includedir = $(includedir)/libosinfo-1.0/osinfo
 
-libosinfo_1_0_include_HEADERS = \
+OSINFO_HEADER_FILES =		\
   osinfo.h			\
   osinfo_avatar_format.h 	\
   osinfo_db.h			\
@@ -66,7 +66,6 @@ libosinfo_1_0_include_HEADERS = \
   osinfo_devicelinklist.h	\
   osinfo_devicelinkfilter.h	\
   osinfo_entity.h		\
-  osinfo_enum_types.h		\
   osinfo_filter.h		\
   osinfo_install_config.h       \
   osinfo_install_config_param.h \
@@ -89,6 +88,10 @@ libosinfo_1_0_include_HEADERS = \
   osinfo_tree.h			\
   osinfo_treelist.h		\
   $(NULL)
+
+libosinfo_1_0_include_HEADERS = \
+  $(OSINFO_HEADER_FILES)	\
+  osinfo_enum_types.h
 
 libosinfo_1_0_la_SOURCES =	  \
   osinfo_avatar_format.c 	  \
@@ -128,10 +131,10 @@ libosinfo_1_0_la_SOURCES =	  \
   osinfo_loader.c		  \
   $(NULL)
 
-osinfo_enum_types.h: $(libosinfo_1_0_include_HEADERS) osinfo_enum_types.h.template
+osinfo_enum_types.h: $(OSINFO_HEADER_FILES) osinfo_enum_types.h.template
 	$(AM_V_GEN) ( $(GLIB_MKENUMS) --template $(srcdir)/osinfo_enum_types.h.template $(libosinfo_1_0_include_HEADERS:%=$(srcdir)/%) ) > $(srcdir)/osinfo_enum_types.h
 
-osinfo_enum_types.c: $(libosinfo_1_0_include_HEADERS) osinfo_enum_types.c.template
+osinfo_enum_types.c: $(OSINFO_HEADER_FILES) osinfo_enum_types.c.template
 	$(AM_V_GEN) ( $(GLIB_MKENUMS) --template $(srcdir)/osinfo_enum_types.c.template $(libosinfo_1_0_include_HEADERS:%=$(srcdir)/%) ) > $(srcdir)/osinfo_enum_types.c
 
 if WITH_GOBJECT_INTROSPECTION
