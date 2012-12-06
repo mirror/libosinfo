@@ -71,10 +71,10 @@ typedef struct _OsinfoInstallScriptGenerateSyncData OsinfoInstallScriptGenerateS
 
 
 static void
-osinfo_os_set_property(GObject    *object,
-                       guint       property_id,
-                       const GValue     *value,
-                       GParamSpec *pspec)
+osinfo_install_script_set_property(GObject    *object,
+                                   guint       property_id,
+                                   const GValue     *value,
+                                   GParamSpec *pspec)
 {
     OsinfoInstallScript *script = OSINFO_INSTALL_SCRIPT(object);
     const gchar *data;
@@ -112,10 +112,10 @@ osinfo_os_set_property(GObject    *object,
 }
 
 static void
-osinfo_os_get_property(GObject    *object,
-                       guint       property_id,
-                       GValue     *value,
-                       GParamSpec *pspec)
+osinfo_install_script_get_property(GObject    *object,
+                                   guint       property_id,
+                                   GValue     *value,
+                                   GParamSpec *pspec)
 {
     OsinfoInstallScript *script = OSINFO_INSTALL_SCRIPT(object);
 
@@ -179,8 +179,8 @@ osinfo_install_script_class_init (OsinfoInstallScriptClass *klass)
     GObjectClass *g_klass = G_OBJECT_CLASS (klass);
     GParamSpec *pspec;
 
-    g_klass->get_property = osinfo_os_get_property;
-    g_klass->set_property = osinfo_os_set_property;
+    g_klass->get_property = osinfo_install_script_get_property;
+    g_klass->set_property = osinfo_install_script_set_property;
     g_klass->finalize = osinfo_install_script_finalize;
 
     pspec = g_param_spec_string("template-uri",
