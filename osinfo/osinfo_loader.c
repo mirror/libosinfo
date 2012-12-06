@@ -356,7 +356,7 @@ static void osinfo_loader_device(OsinfoLoader *loader,
     }
 
     OsinfoDevice *device = osinfo_loader_get_device(loader, id);
-    g_free(id);
+    xmlFree(id);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(device), keys, ctxt, root, err);
 }
@@ -385,7 +385,7 @@ static void osinfo_loader_device_link(OsinfoLoader *loader,
             goto cleanup;
         }
         OsinfoDevice *dev = osinfo_loader_get_device(loader, id);
-        g_free(id);
+        xmlFree(id);
 
         OsinfoDeviceLink *devlink = NULL;
         if (OSINFO_IS_PLATFORM(entity)) {
@@ -433,7 +433,7 @@ static void osinfo_loader_product_relshp(OsinfoLoader *loader,
             relproduct = OSINFO_PRODUCT(osinfo_loader_get_platform(loader, id));
         else
             relproduct = OSINFO_PRODUCT(osinfo_loader_get_os(loader, id));
-        g_free(id);
+        xmlFree(id);
 
         osinfo_product_add_related(product, relshp, relproduct);
     }
@@ -505,7 +505,7 @@ static void osinfo_loader_platform(OsinfoLoader *loader,
     }
 
     OsinfoPlatform *platform = osinfo_loader_get_platform(loader, id);
-    g_free(id);
+    xmlFree(id);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(platform), keys, ctxt, root, err);
     if (error_is_set(err))
@@ -538,7 +538,7 @@ static void osinfo_loader_deployment(OsinfoLoader *loader,
     gchar *osid = osinfo_loader_string("string(./os/@id)", ctxt, err);
     if (!osid && 0) {
         OSINFO_ERROR(err, _("Missing deployment os id property"));
-        g_free(id);
+        xmlFree(id);
         return;
     }
     OsinfoOs *os = osinfo_loader_get_os(loader, osid);
@@ -547,14 +547,14 @@ static void osinfo_loader_deployment(OsinfoLoader *loader,
     gchar *platformid = osinfo_loader_string("string(./platform/@id)", ctxt, err);
     if (!platformid) {
         OSINFO_ERROR(err, _("Missing deployment platform id property"));
-        g_free(id);
+        xmlFree(id);
         return;
     }
     OsinfoPlatform *platform = osinfo_loader_get_platform(loader, platformid);
     g_free(platformid);
 
     OsinfoDeployment *deployment = osinfo_deployment_new(id, os, platform);
-    g_free(id);
+    xmlFree(id);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(deployment), keys, ctxt, root, err);
     if (error_is_set(err))
@@ -591,8 +591,8 @@ static void osinfo_loader_install_config_params(OsinfoLoader *loader,
         osinfo_install_script_add_config_param(OSINFO_INSTALL_SCRIPT(entity),
                                                param);
 
-        g_free(name);
-        g_free(policy);
+        xmlFree(name);
+        xmlFree(policy);
     };
 
     g_free(nodes);
@@ -650,7 +650,7 @@ static void osinfo_loader_install_script(OsinfoLoader *loader,
 
     OsinfoInstallScript *installScript = osinfo_loader_get_install_script(loader,
                                                                           id);
-    g_free(id);
+    xmlFree(id);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(installScript), keys, ctxt, root, err);
     if (error_is_set(err))
@@ -1084,7 +1084,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
         }
         OsinfoInstallScript *script;
         script = osinfo_loader_get_install_script(loader, scriptid);
-        g_free(scriptid);
+        xmlFree(scriptid);
 
         osinfo_os_add_install_script(os, script);
     }
@@ -1116,7 +1116,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
     g_free(nodes);
 
 cleanup:
-    g_free(id);
+    xmlFree(id);
 }
 
 static void osinfo_loader_root(OsinfoLoader *loader,
