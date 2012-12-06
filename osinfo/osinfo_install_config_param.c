@@ -209,7 +209,10 @@ osinfo_install_config_param_init (OsinfoInstallConfigParam *config_param)
  */
 OsinfoInstallConfigParam *osinfo_install_config_param_new(const gchar *name)
 {
-    return g_object_new(OSINFO_TYPE_INSTALL_CONFIG_PARAM, "name", name, NULL);
+    return g_object_new(OSINFO_TYPE_INSTALL_CONFIG_PARAM,
+                        "id", name,
+                        "name", name,
+                        NULL);
 }
 
 /**
