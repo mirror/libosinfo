@@ -51,7 +51,7 @@ struct _OsinfoInstallScriptPrivate
 {
     gchar *output_prefix;
     gchar *output_filename;
-    GList *config_param_list;
+    OsinfoInstallConfigParamList *config_params;
     OsinfoAvatarFormat *avatar;
 };
 
@@ -165,8 +165,11 @@ osinfo_install_script_finalize (GObject *object)
     OsinfoInstallScript *script = OSINFO_INSTALL_SCRIPT (object);
     g_free(script->priv->output_prefix);
     g_free(script->priv->output_filename);
-    g_list_free_full(script->priv->config_param_list, g_object_unref);
-    if (script->priv->avatar != NULL)
+
+    if (script->priv->config_params)
+        g_object_unref(script->priv->config_params);
+
+    if (script->priv->avatar)
         g_object_unref(script->priv->avatar);
 
     /* Chain up to the parent class */
@@ -259,35 +262,23 @@ void osinfo_install_script_add_config_param(OsinfoInstallScript *script, OsinfoI
     g_return_if_fail(OSINFO_IS_INSTALL_SCRIPT(script));
     g_return_if_fail(OSINFO_IS_INSTALL_CONFIG_PARAM(param));
 
-    script->priv->config_param_list =
-        g_list_prepend(script->priv->config_param_list, param);
+    osinfo_list_add(OSINFO_LIST(script->priv->config_params),
+                    OSINFO_ENTITY(param));
 }
 
 gboolean osinfo_install_script_has_config_param(const OsinfoInstallScript *script, const OsinfoInstallConfigParam *config_param)
 {
-    GList *l;
-
-    for (l = script->priv->config_param_list; l != NULL; l = l->next) {
-        OsinfoInstallConfigParam *tmp = l->data;
-
-        if (g_strcmp0(osinfo_install_config_param_get_name(tmp),
-                      osinfo_install_config_param_get_name(config_param)) == 0)
-            return TRUE;
-    }
-    return FALSE;
+    /* NB: this code assumes that the 'id' and 'name' entity properties
+     * are the same
+     */
+    const char *name = osinfo_install_config_param_get_name(config_param);
+    return osinfo_install_script_has_config_param_name(script, name);
 }
 
 gboolean osinfo_install_script_has_config_param_name(const OsinfoInstallScript *script, const gchar *name)
 {
-    GList *l;
-
-    for (l = script->priv->config_param_list; l != NULL; l = l->next) {
-        OsinfoInstallConfigParam *tmp = l->data;
-
-        if (g_strcmp0(osinfo_install_config_param_get_name(tmp), name) == 0)
-            return TRUE;
-    }
-    return FALSE;
+    OsinfoList *l = OSINFO_LIST(script->priv->config_params);
+    return (osinfo_list_find_by_id(l, name) != NULL);
 }
 
 /**
@@ -301,7 +292,20 @@ gboolean osinfo_install_script_has_config_param_name(const OsinfoInstallScript *
  */
 GList *osinfo_install_script_get_config_param_list(const OsinfoInstallScript *script)
 {
-    return g_list_copy(script->priv->config_param_list);
+    return osinfo_list_get_elements(OSINFO_LIST(script->priv->config_params));
+}
+
+/**
+ * osinfo_install_script_get_config_params:
+ *
+ * Get the list of valid config parameters for @script.
+ *
+ * Returns: (transfer none): the list of valid #OsinfoInstallConfigParam
+ * parameters.
+ */
+OsinfoInstallConfigParamList *osinfo_install_script_get_config_params(const OsinfoInstallScript *script)
+{
+    return script->priv->config_params;
 }
 
 /**
@@ -318,16 +322,16 @@ OsinfoInstallConfigParam *
 osinfo_install_script_get_config_param(const OsinfoInstallScript *script,
                                        const gchar *name)
 {
-    GList *l;
+    /* NB: this code assumes that the 'id' and 'name' entity properties
+     * are the same
+     */
+    OsinfoInstallConfigParam *param;
+    OsinfoList *l = OSINFO_LIST(script->priv->config_params);
+    param = OSINFO_INSTALL_CONFIG_PARAM(osinfo_list_find_by_id(l, name));
+    if (param == NULL)
+        return NULL;
 
-    for (l = script->priv->config_param_list; l != NULL; l = l->next) {
-        OsinfoInstallConfigParam *tmp = l->data;
-
-        if (g_strcmp0(osinfo_install_config_param_get_name(tmp), name) == 0)
-            return g_object_ref(tmp);
-    }
-
-    return NULL;
+    return g_object_ref(G_OBJECT(param));
 }
 
 static void
@@ -336,7 +340,7 @@ osinfo_install_script_init (OsinfoInstallScript *list)
     OsinfoInstallScriptPrivate *priv;
     list->priv = priv = OSINFO_INSTALL_SCRIPT_GET_PRIVATE(list);
 
-    list->priv->config_param_list = NULL;
+    list->priv->config_params = osinfo_install_config_paramlist_new();
 }
 
 
