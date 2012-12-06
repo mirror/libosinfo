@@ -116,6 +116,7 @@ libosinfo_1_0_la_SOURCES =		\
   osinfo_install_config.c		\
   osinfo_install_config_param.c		\
   osinfo_install_config_paramlist.c	\
+  osinfo_install_config_private.h	\
   osinfo_install_script.c		\
   osinfo_install_script_private.h	\
   osinfo_install_scriptlist.c		\

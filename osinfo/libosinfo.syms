@@ -388,6 +388,8 @@ LIBOSINFO_0.2.3 {
 	osinfo_db_get_datamap_list;
 	osinfo_db_identify_media;
 
+	osinfo_install_config_get_config_params;
+
 	osinfo_install_config_paramlist_get_type;
 	osinfo_install_config_paramlist_new;
 
