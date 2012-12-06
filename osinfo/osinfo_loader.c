@@ -1050,6 +1050,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
             break;
 
         osinfo_os_add_tree (os, tree);
+        g_object_unref(G_OBJECT(tree));
     }
 
     g_free(nodes);
