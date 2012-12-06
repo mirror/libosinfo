@@ -88,6 +88,9 @@ gboolean osinfo_install_config_param_is_required(const OsinfoInstallConfigParam 
 
 gboolean osinfo_install_config_param_is_optional(const OsinfoInstallConfigParam *config_param);
 
+void osinfo_install_config_param_set_value_map(OsinfoInstallConfigParam *config_param, OsinfoDatamap *datamap);
+OsinfoDatamap *osinfo_install_config_param_get_value_map(const OsinfoInstallConfigParam *config_param);
+
 
 #endif /* __OSINFO_INSTALL_CONFIG_PARAM_H__ */
 /*

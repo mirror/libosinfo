@@ -19,6 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * Authors:
+ *   Christophe Fergeau <cfergeau@redhat.com>
  *   Fabiano Fidêncio <fabiano@fidencio.org>
  */
 
@@ -43,11 +44,17 @@ G_DEFINE_TYPE (OsinfoInstallConfigParam, osinfo_install_config_param, OSINFO_TYP
  * object.
  */
 
+struct _OsinfoInstallConfigParamPrivate
+{
+    OsinfoDatamap *value_map;
+};
+
 enum {
     PROP_0,
 
     PROP_NAME,
     PROP_POLICY,
+    PROP_VALUE_MAP
 };
 
 static void
@@ -65,6 +72,12 @@ osinfo_install_config_param_set_property(GObject *object,
                                 OSINFO_INSTALL_CONFIG_PARAM_PROP_NAME,
                                 g_value_get_string(value));
         break;
+
+    case PROP_VALUE_MAP:
+        osinfo_install_config_param_set_value_map(config_param,
+                                                  g_value_get_object(value));
+        break;
+
     default:
         /* We don't have any other property... */
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -98,11 +111,25 @@ osinfo_install_config_param_get_property(GObject *object,
         g_value_set_enum(value, policy);
         break;
     }
+    case PROP_VALUE_MAP:
+        g_value_set_object(value, config_param->priv->value_map);
+        break;
     default:
         /* We don't have any other property... */
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
         break;
     }
+}
+
+static void
+osinfo_install_config_param_finalize(GObject *object)
+{
+    OsinfoInstallConfigParam *config_param;
+    config_param = OSINFO_INSTALL_CONFIG_PARAM(object);
+    g_clear_object(&config_param->priv->value_map);
+
+    /* Chain up to the parent class */
+    G_OBJECT_CLASS (osinfo_install_config_param_parent_class)->finalize (object);
 }
 
 /* Init functions */
@@ -146,12 +173,30 @@ osinfo_install_config_param_class_init (OsinfoInstallConfigParamClass *klass)
     g_object_class_install_property(g_klass,
                                     PROP_POLICY,
                                     pspec);
+    /**
+     * OsinfoInstallConfigParam:value-map:
+     *
+     * The mapping between generic values and OS-specific values for this
+     * configuration parameter
+     **/
+    pspec = g_param_spec_object("value-map",
+                              "Value Mapping",
+                              _("Parameter Value Mapping"),
+                              OSINFO_TYPE_DATAMAP,
+                              G_PARAM_READWRITE |
+                              G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass,
+                                    PROP_VALUE_MAP,
+                                    pspec);
+
+    g_klass->finalize = osinfo_install_config_param_finalize;
+    g_type_class_add_private (klass, sizeof (OsinfoInstallConfigParamPrivate));
 }
 
 static void
 osinfo_install_config_param_init (OsinfoInstallConfigParam *config_param)
 {
-   /* G_DEFINE_TYPE() needs an instance init function */
+    config_param->priv = OSINFO_INSTALL_CONFIG_PARAM_GET_PRIVATE(config_param);
 }
 
 /**
@@ -217,6 +262,30 @@ gboolean osinfo_install_config_param_is_optional(const OsinfoInstallConfigParam 
 {
     return (osinfo_install_config_param_get_policy(config_param) ==
             OSINFO_INSTALL_CONFIG_PARAM_POLICY_OPTIONAL);
+}
+
+OsinfoDatamap *osinfo_install_config_param_get_value_map(const OsinfoInstallConfigParam *config_param)
+{
+    return config_param->priv->value_map;
+}
+
+/**
+ * osinfo_install_config_param_set_value_map:
+ * @config_param: the configuration parameter
+ * @datamap: a #OsinfoDatamap to transform values this parameter is set to,
+ * or NULL to disable transformations for this parameter
+ *
+ * After a call to osinfo_install_config_param_set_value_map(), @datamap will
+ * be used to transform values set for this parameter to OS-specific
+ * values. A NULL @datamap will disable transformations.
+ */
+void osinfo_install_config_param_set_value_map(OsinfoInstallConfigParam *config_param, OsinfoDatamap *datamap)
+{
+    g_return_if_fail(OSINFO_IS_INSTALL_CONFIG_PARAM(config_param));
+
+    if (config_param->priv->value_map != NULL)
+        g_object_unref(G_OBJECT(config_param->priv->value_map));
+    config_param->priv->value_map = g_object_ref(datamap);
 }
 
 /*
