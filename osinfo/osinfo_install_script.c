@@ -289,6 +289,15 @@ gboolean osinfo_install_script_has_config_param_name(const OsinfoInstallScript *
     return FALSE;
 }
 
+/**
+ * osinfo_install_script_get_config_param_list:
+ *
+ * Get the list of valid config parameters for @script.
+ *
+ * Returns: (transfer container) (element-type OsinfoInstallScript): the
+ * list of valid #OsinfoInstallConfigParam parameters. Free with
+ * g_list_free() when done. The elements are owned by libosinfo.
+ */
 GList *osinfo_install_script_get_config_param_list(const OsinfoInstallScript *script)
 {
     return g_list_copy(script->priv->config_param_list);
