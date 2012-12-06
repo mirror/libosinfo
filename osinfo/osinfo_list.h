@@ -76,6 +76,11 @@ void osinfo_list_add_intersection(OsinfoList *list, OsinfoList *sourceOne, Osinf
 void osinfo_list_add_union(OsinfoList *list, OsinfoList *sourceOne, OsinfoList *sourceTwo);
 void osinfo_list_add_all(OsinfoList *list, OsinfoList *source);
 
+OsinfoList *osinfo_list_new_copy(OsinfoList *source);
+OsinfoList *osinfo_list_new_filtered(OsinfoList *source, OsinfoFilter *filter);
+OsinfoList *osinfo_list_new_intersection(OsinfoList *sourceOne, OsinfoList *sourceTwo);
+OsinfoList *osinfo_list_new_union(OsinfoList *sourceOne, OsinfoList *sourceTwo);
+
 #endif /* __OSINFO_LIST_H__ */
 /*
  * Local variables:

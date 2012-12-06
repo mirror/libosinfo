@@ -362,11 +362,15 @@ LIBOSINFO_0.2.2 {
 	osinfo_install_config_get_post_install_drivers_location;
 
 	osinfo_install_script_get_avatar_format;
-	osinfo_install_script_get_path_format;
-
-	osinfo_install_script_get_product_key_format;
 	osinfo_install_script_get_can_pre_install_drivers;
 	osinfo_install_script_get_can_post_install_drivers;
+	osinfo_install_script_get_path_format;
+	osinfo_install_script_get_product_key_format;
+
+	osinfo_list_new_copy;
+	osinfo_list_new_filtered;
+	osinfo_list_new_intersection;
+	osinfo_list_new_union;
 
 	osinfo_os_get_device_drivers;
 	osinfo_os_add_device_driver;

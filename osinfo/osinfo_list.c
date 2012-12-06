@@ -19,6 +19,7 @@
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
+ *   Christophe Fergeau <cfergeau@redhat.com>
  *   Daniel P. Berrange <berrange@redhat.com>
  */
 
@@ -380,6 +381,111 @@ void osinfo_list_add_all(OsinfoList *list, OsinfoList *source)
         OsinfoEntity *entity = osinfo_list_get_nth(source, i);
         osinfo_list_add(list, entity);
     }
+}
+
+/*
+ * Creates a list of the same type as sourceOne and sourceTwo after
+ * checking they are the same type. The created list elements are
+ * of the same type as the elements of sourceOne and sourceTwo
+ */
+static OsinfoList *osinfo_list_new_same(OsinfoList *sourceOne,
+                                        OsinfoList *sourceTwo)
+{
+    GType typeOne = G_OBJECT_TYPE(sourceOne);
+
+    if (sourceTwo != NULL) {
+        GType typeTwo = G_OBJECT_TYPE(sourceTwo);
+
+        g_return_val_if_fail(typeOne == typeTwo, NULL);
+        g_return_val_if_fail(OSINFO_IS_LIST(sourceTwo), NULL);
+    }
+
+    g_return_val_if_fail(OSINFO_IS_LIST(sourceOne), NULL);
+
+    return g_object_new(typeOne,
+                        "element-type",
+                        sourceOne->priv->elementType,
+                        NULL);
+}
+
+/**
+ * osinfo_list_new_copy:
+ * @source: the list to copy
+ *
+ * Construct a new list that is filled with elements from @source
+ *
+ * Returns: (transfer full): a copy of the list
+ */
+OsinfoList *osinfo_list_new_copy(OsinfoList *source)
+{
+    OsinfoList *newList = osinfo_list_new_same(source, NULL);
+    g_return_val_if_fail(newList != NULL, NULL);
+    osinfo_list_add_all(OSINFO_LIST(newList),
+                        OSINFO_LIST(source));
+    return newList;
+}
+
+/**
+ * osinfo_list_new_filtered:
+ * @source: the list to copy
+ * @filter: the filter to apply
+ *
+ * Construct a new list that is filled with elements from @source that
+ * match @filter
+ *
+ * Returns: (transfer full): a filtered copy of the list
+ */
+OsinfoList *osinfo_list_new_filtered(OsinfoList *source, OsinfoFilter *filter)
+{
+    OsinfoList *newList = osinfo_list_new_same(source, NULL);
+    g_return_val_if_fail(newList != NULL, NULL);
+    osinfo_list_add_filtered(OSINFO_LIST(newList),
+                             OSINFO_LIST(source),
+                             filter);
+    return newList;
+}
+
+/**
+ * osinfo_list_new_intersection:
+ * @sourceOne: the first list to copy
+ * @sourceTwo: the second list to copy
+ *
+ * Construct a new list that is filled with only the
+ * s that are present in both @sourceOne and @sourceTwo.
+ *
+ * Returns: (transfer full): an intersection of the two lists
+ */
+OsinfoList *osinfo_list_new_intersection(OsinfoList *sourceOne,
+                                         OsinfoList *sourceTwo)
+{
+    OsinfoList *newList = osinfo_list_new_same(sourceOne, sourceTwo);
+    g_return_val_if_fail(newList != NULL, NULL);
+    osinfo_list_add_intersection(OSINFO_LIST(newList),
+                                 OSINFO_LIST(sourceOne),
+                                 OSINFO_LIST(sourceTwo));
+    return newList;
+}
+
+/**
+ * osinfo_new_union:
+ * @sourceOne: the first list to copy
+ * @sourceTwo: the second list to copy
+ *
+ * Construct a new list that is filled with all the that are present in
+ * either @sourceOne and @sourceTwo. @sourceOne and @sourceTwo must be of
+ * the same type.
+ *
+ * Returns: (transfer full): a union of the two lists
+ */
+OsinfoList *osinfo_list_new_union(OsinfoList *sourceOne,
+                                  OsinfoList *sourceTwo)
+{
+    OsinfoList *newList = osinfo_list_new_same(sourceOne, sourceTwo);
+    g_return_val_if_fail(newList != NULL, NULL);
+    osinfo_list_add_union(OSINFO_LIST(newList),
+                          OSINFO_LIST(sourceOne),
+                          OSINFO_LIST(sourceTwo));
+    return newList;
 }
 
 
