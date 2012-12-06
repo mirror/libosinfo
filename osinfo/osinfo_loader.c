@@ -732,6 +732,7 @@ static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
     };
 
     OsinfoMedia *media = osinfo_media_new(id, arch);
+    xmlFree(arch);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(media), keys, ctxt, root, err);
     if (live) {
@@ -801,6 +802,7 @@ static OsinfoTree *osinfo_loader_tree (OsinfoLoader *loader,
     };
 
     OsinfoTree *tree = osinfo_tree_new(id, arch);
+    xmlFree(arch);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(tree), keys, ctxt, root, err);
 
@@ -880,6 +882,7 @@ static OsinfoResources *osinfo_loader_resources(OsinfoLoader *loader,
 
 EXIT:
     g_free(nodes);
+    xmlFree(arch);
 
     return resources;
 }
