@@ -388,10 +388,14 @@ LIBOSINFO_0.2.3 {
 	osinfo_db_get_datamap_list;
 	osinfo_db_identify_media;
 
+	osinfo_install_config_paramlist_get_type;
+	osinfo_install_config_paramlist_new;
+
 	osinfo_install_script_generate_output_finish;
 
 	osinfo_media_get_languages;
 	osinfo_media_get_os;
+
 } LIBOSINFO_0.2.2;
 
 /* Symbols in next release...

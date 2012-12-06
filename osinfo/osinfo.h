@@ -42,6 +42,7 @@
 #include <osinfo/osinfo_devicelinkfilter.h>
 #include <osinfo/osinfo_install_config.h>
 #include <osinfo/osinfo_install_config_param.h>
+#include <osinfo/osinfo_install_config_paramlist.h>
 #include <osinfo/osinfo_install_script.h>
 #include <osinfo/osinfo_avatar_format.h>
 #include <osinfo/osinfo_install_scriptlist.h>
