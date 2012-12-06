@@ -559,13 +559,17 @@ static void osinfo_loader_deployment(OsinfoLoader *loader,
     xmlFree(id);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(deployment), keys, ctxt, root, err);
-    if (error_is_set(err))
+    if (error_is_set(err)) {
+        g_object_unref(G_OBJECT(deployment));
         return;
+    }
 
     osinfo_loader_device_link(loader, OSINFO_ENTITY(deployment),
                               "./devices/device", ctxt, root, err);
-    if (error_is_set(err))
+    if (error_is_set(err)) {
+        g_object_unref(G_OBJECT(deployment));
         return;
+    }
 
     osinfo_db_add_deployment(loader->priv->db, deployment);
 }
@@ -706,6 +710,7 @@ static void osinfo_loader_install_script(OsinfoLoader *loader,
     return;
 
  error:
+    g_free(nodes);
     g_free(value);
     g_object_unref(installScript);
 }
@@ -757,8 +762,10 @@ static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
     }
 
     gint nnodes = osinfo_loader_nodeset("./iso/*", ctxt, &nodes, err);
-    if (error_is_set(err))
+    if (error_is_set(err)) {
+        g_object_unref(media);
         return NULL;
+    }
 
     for (i = 0 ; i < nnodes ; i++) {
         if (!nodes[i]->children ||
@@ -807,8 +814,10 @@ static OsinfoTree *osinfo_loader_tree (OsinfoLoader *loader,
     osinfo_loader_entity(loader, OSINFO_ENTITY(tree), keys, ctxt, root, err);
 
     gint nnodes = osinfo_loader_nodeset("./treeinfo/*", ctxt, &nodes, err);
-    if (error_is_set(err))
+    if (error_is_set(err)) {
+        g_object_unref(G_OBJECT(tree));
         return NULL;
+    }
 
     for (i = 0 ; i < nnodes ; i++) {
         if (!nodes[i]->children ||
@@ -1027,7 +1036,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
         g_free (media_id);
         ctxt->node = saved;
         if (error_is_set(err))
-            break;
+            goto cleanup;
 
         osinfo_os_add_media (os, media);
         g_object_unref (media);
@@ -1047,7 +1056,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
         g_free (tree_id);
         ctxt->node = saved;
         if (error_is_set(err))
-            break;
+            goto cleanup;
 
         osinfo_os_add_tree (os, tree);
         g_object_unref(G_OBJECT(tree));
@@ -1079,13 +1088,12 @@ static void osinfo_loader_os(OsinfoLoader *loader,
 
     nnodes = osinfo_loader_nodeset("./installer/script", ctxt, &nodes, err);
     if (error_is_set(err))
-        return;
+        goto cleanup;
 
     for (i = 0 ; i < nnodes ; i++) {
         gchar *scriptid = (gchar *)xmlGetProp(nodes[i], BAD_CAST "id");
         if (!scriptid) {
             OSINFO_ERROR(err, _("Missing OS install script property"));
-            g_free(nodes);
             goto cleanup;
         }
         OsinfoInstallScript *script;
@@ -1119,9 +1127,8 @@ static void osinfo_loader_os(OsinfoLoader *loader,
         g_object_unref(driver);
     }
 
-    g_free(nodes);
-
 cleanup:
+    g_free(nodes);
     xmlFree(id);
 }
 
