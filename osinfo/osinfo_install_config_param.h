@@ -37,8 +37,9 @@
 #define OSINFO_IS_INSTALL_CONFIG_PARAM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), OSINFO_TYPE_INSTALL_CONFIG_PARAM))
 #define OSINFO_INSTALL_CONFIG_PARAM_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), OSINFO_TYPE_INSTALL_CONFIG_PARAM, OsinfoInstallConfigParamClass))
 
-#define OSINFO_INSTALL_CONFIG_PARAM_PROP_NAME   "name"
-#define OSINFO_INSTALL_CONFIG_PARAM_PROP_POLICY "policy"
+#define OSINFO_INSTALL_CONFIG_PARAM_PROP_DATAMAP "value-map"
+#define OSINFO_INSTALL_CONFIG_PARAM_PROP_NAME    "name"
+#define OSINFO_INSTALL_CONFIG_PARAM_PROP_POLICY  "policy"
 
 typedef struct _OsinfoInstallConfigParam        OsinfoInstallConfigParam;
 typedef struct _OsinfoInstallConfigParamClass   OsinfoInstallConfigParamClass;

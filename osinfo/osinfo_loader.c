@@ -642,12 +642,19 @@ static void osinfo_loader_install_config_params(OsinfoLoader *loader,
     for (i = 0 ; i < nnodes ; i++) {
         gchar *name = (gchar *)xmlGetProp(nodes[i], BAD_CAST OSINFO_INSTALL_CONFIG_PARAM_PROP_NAME);
         gchar *policy = (gchar *)xmlGetProp(nodes[i], BAD_CAST OSINFO_INSTALL_CONFIG_PARAM_PROP_POLICY);
+        gchar *mapid = (gchar *)xmlGetProp(nodes[i], BAD_CAST OSINFO_INSTALL_CONFIG_PARAM_PROP_DATAMAP);
         OsinfoInstallConfigParam *param = osinfo_install_config_param_new(name);
         osinfo_entity_set_param(OSINFO_ENTITY(param),
                                 OSINFO_INSTALL_CONFIG_PARAM_PROP_POLICY,
                                 policy);
         osinfo_install_script_add_config_param(OSINFO_INSTALL_SCRIPT(entity),
                                                param);
+        if (mapid != NULL) {
+            OsinfoDatamap *map;
+            map = osinfo_loader_get_datamap(loader, mapid);
+            if (map != NULL)
+                osinfo_install_config_param_set_value_map(param, map);
+        }
 
         xmlFree(name);
         xmlFree(policy);
