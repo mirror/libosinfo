@@ -134,6 +134,8 @@ osinfo_loader_nodeset(const char *xpath,
     if (obj == NULL)
         return(0);
     if (obj->type != XPATH_NODESET) {
+        g_set_error(err, g_quark_from_static_string("libosinfo"), 0,
+                    _("Expected a nodeset in XPath query %s"), xpath);
         xmlXPathFreeObject(obj);
         return (-1);
     }
