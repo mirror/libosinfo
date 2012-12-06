@@ -94,8 +94,8 @@ static OsinfoOs *find_os(OsinfoDb *db,
                                  OSINFO_PRODUCT_PROP_SHORT_ID,
                                  idoruri);
 
-    filteredList = osinfo_oslist_new_filtered(oslist,
-                                              filter);
+    filteredList = OSINFO_OSLIST(osinfo_list_new_filtered(OSINFO_LIST(oslist),
+                                                          filter));
 
     if (osinfo_list_get_length(OSINFO_LIST(filteredList)) > 0)
         os = OSINFO_OS(osinfo_list_get_nth(OSINFO_LIST(filteredList), 0));
@@ -122,8 +122,8 @@ static gboolean generate_script(OsinfoOs *os)
                                  OSINFO_INSTALL_SCRIPT_PROP_PROFILE,
                                  profile ? profile :
                                  OSINFO_INSTALL_SCRIPT_PROFILE_JEOS);
-    profile_scripts = osinfo_install_scriptlist_new_filtered(scripts,
-                                                            filter);
+    profile_scripts = OSINFO_INSTALL_SCRIPTLIST(osinfo_list_new_filtered(OSINFO_LIST(scripts),
+                                                                         filter));
     l = osinfo_list_get_elements(OSINFO_LIST(profile_scripts));
     for (tmp = l; tmp != NULL; tmp = tmp->next) {
         OsinfoInstallScript *script = tmp->data;

@@ -43,7 +43,7 @@ START_TEST(test_union)
     osinfo_list_add(OSINFO_LIST(list2), OSINFO_ENTITY(ent1));
     osinfo_list_add(OSINFO_LIST(list2), OSINFO_ENTITY(ent4));
 
-    list3 = osinfo_devicelist_new_union(list1, list2);
+    list3 = OSINFO_DEVICELIST(osinfo_list_new_union(OSINFO_LIST(list1), OSINFO_LIST(list2)));
 
     fail_unless(osinfo_list_get_length(OSINFO_LIST(list3)) == 4, "List did not have 4 elements");
 
@@ -102,7 +102,7 @@ START_TEST(test_intersect)
     osinfo_list_add(OSINFO_LIST(list2), OSINFO_ENTITY(ent3));
     osinfo_list_add(OSINFO_LIST(list2), OSINFO_ENTITY(ent4));
 
-    list3 = osinfo_devicelist_new_intersection(list1, list2);
+    list3 = OSINFO_DEVICELIST(osinfo_list_new_intersection(OSINFO_LIST(list1), OSINFO_LIST(list2)));
 
     fail_unless(osinfo_list_get_length(OSINFO_LIST(list3)) == 2, "List did not have 2 elements");
 
@@ -166,7 +166,7 @@ START_TEST(test_filter)
     osinfo_list_add(OSINFO_LIST(list1), OSINFO_ENTITY(ent3));
     osinfo_list_add(OSINFO_LIST(list1), OSINFO_ENTITY(ent4));
 
-    list2 = osinfo_devicelist_new_filtered(list1, filter);
+    list2 = OSINFO_DEVICELIST(osinfo_list_new_filtered(OSINFO_LIST(list1), filter));
 
     fail_unless(osinfo_list_get_length(OSINFO_LIST(list2)) == 3, "List did not have 3 elements");
 

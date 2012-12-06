@@ -238,9 +238,12 @@ OsinfoDeployment *osinfo_db_find_deployment(OsinfoDb *db,
  */
 OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *db)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    OsinfoList *new_list;
 
-    return osinfo_oslist_new_copy(db->priv->oses);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    new_list = osinfo_list_new_copy(OSINFO_LIST(db->priv->oses));
+
+    return OSINFO_OSLIST(new_list);
 }
 
 /**
@@ -251,9 +254,12 @@ OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *db)
  */
 OsinfoPlatformList *osinfo_db_get_platform_list(OsinfoDb *db)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    OsinfoList *new_list;
 
-    return osinfo_platformlist_new_copy(db->priv->platforms);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    new_list = osinfo_list_new_copy(OSINFO_LIST(db->priv->platforms));
+
+    return OSINFO_PLATFORMLIST(new_list);
 }
 
 /**
@@ -264,9 +270,12 @@ OsinfoPlatformList *osinfo_db_get_platform_list(OsinfoDb *db)
  */
 OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *db)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    OsinfoList *new_list;
 
-    return osinfo_devicelist_new_copy(db->priv->devices);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    new_list = osinfo_list_new_copy(OSINFO_LIST(db->priv->devices));
+
+    return OSINFO_DEVICELIST(new_list);
 }
 
 
@@ -278,9 +287,12 @@ OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *db)
  */
 OsinfoDeploymentList *osinfo_db_get_deployment_list(OsinfoDb *db)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    OsinfoList *new_list;
 
-    return osinfo_deploymentlist_new_copy(db->priv->deployments);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    new_list = osinfo_list_new_copy(OSINFO_LIST(db->priv->deployments));
+
+    return OSINFO_DEPLOYMENTLIST(new_list);
 }
 
 
@@ -292,9 +304,12 @@ OsinfoDeploymentList *osinfo_db_get_deployment_list(OsinfoDb *db)
  */
 OsinfoInstallScriptList *osinfo_db_get_install_script_list(OsinfoDb *db)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    OsinfoList *new_list;
 
-    return osinfo_install_scriptlist_new_copy(db->priv->scripts);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    new_list = osinfo_list_new_copy(OSINFO_LIST(db->priv->scripts));
+
+    return OSINFO_INSTALL_SCRIPTLIST(new_list);
 }
 
 

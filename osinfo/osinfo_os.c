@@ -256,7 +256,8 @@ OsinfoDeviceList *osinfo_os_get_all_devices(OsinfoOs *os, OsinfoFilter *filter)
                 (OSINFO_PRODUCT(os), OSINFO_PRODUCT_RELATIONSHIP_DERIVES_FROM);
     cloned = osinfo_product_get_related(OSINFO_PRODUCT(os),
                                         OSINFO_PRODUCT_RELATIONSHIP_CLONES);
-    related_list = osinfo_productlist_new_union(derived, cloned);
+    related_list = OSINFO_PRODUCTLIST(osinfo_list_new_union(OSINFO_LIST(derived),
+                                                            OSINFO_LIST(cloned)));
     g_object_unref(derived);
     g_object_unref(cloned);
 
@@ -268,7 +269,8 @@ OsinfoDeviceList *osinfo_os_get_all_devices(OsinfoOs *os, OsinfoFilter *filter)
         related_devices = osinfo_os_get_all_devices(OSINFO_OS(related), filter);
         if (osinfo_list_get_length(OSINFO_LIST(related_devices)) > 0) {
             OsinfoDeviceList *tmp_list = devices;
-            devices = osinfo_devicelist_new_union(devices, related_devices);
+            devices = OSINFO_DEVICELIST(osinfo_list_new_union(OSINFO_LIST(devices),
+                                                              OSINFO_LIST(related_devices)));
             g_object_unref(tmp_list);
         }
     }
@@ -565,9 +567,12 @@ OsinfoInstallScript *osinfo_os_find_install_script(OsinfoOs *os, const gchar *pr
  */
 OsinfoInstallScriptList *osinfo_os_get_install_script_list(OsinfoOs *os)
 {
-    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+    OsinfoList *new_list;
 
-    return osinfo_install_scriptlist_new_copy(os->priv->scripts);
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+    new_list = osinfo_list_new_copy(OSINFO_LIST(os->priv->scripts));
+
+    return OSINFO_INSTALL_SCRIPTLIST(new_list);
 }
 
 

@@ -137,7 +137,7 @@ START_TEST(test_supportdate)
     /* Product 1 & 3 */
     date = g_date_new_dmy(31, 12, 1999);
     osinfo_productfilter_add_support_date_constraint(filter, date);
-    tmp = osinfo_productlist_new_filtered(products, OSINFO_FILTER(filter));
+    tmp = OSINFO_PRODUCTLIST(osinfo_list_new_filtered(OSINFO_LIST(products), OSINFO_FILTER(filter)));
     fail_unless(osinfo_list_get_length(OSINFO_LIST(tmp)) == 2, "2 products");
     fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 0) == (OsinfoEntity*)product1, "Got product 1");
     fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 1) == (OsinfoEntity*)product3, "Got product 3");
@@ -147,7 +147,7 @@ START_TEST(test_supportdate)
     /* Product 1, 2 & 3 */
     date = g_date_new_dmy(01, 01, 2000);
     osinfo_productfilter_add_support_date_constraint(filter, date);
-    tmp = osinfo_productlist_new_filtered(products, OSINFO_FILTER(filter));
+    tmp = OSINFO_PRODUCTLIST(osinfo_list_new_filtered(OSINFO_LIST(products), OSINFO_FILTER(filter)));
     fail_unless(osinfo_list_get_length(OSINFO_LIST(tmp)) == 3, "3 products");
     fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 0) == (OsinfoEntity*)product1, "Got product 1");
     fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 1) == (OsinfoEntity*)product2, "Got product 2");
@@ -158,7 +158,7 @@ START_TEST(test_supportdate)
     /* Product 1, 2 & 3 */
     date = g_date_new_dmy(01, 01, 2010);
     osinfo_productfilter_add_support_date_constraint(filter, date);
-    tmp = osinfo_productlist_new_filtered(products, OSINFO_FILTER(filter));
+    tmp = OSINFO_PRODUCTLIST(osinfo_list_new_filtered(OSINFO_LIST(products), OSINFO_FILTER(filter)));
     fail_unless(osinfo_list_get_length(OSINFO_LIST(tmp)) == 3, "3 products");
     fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 0) == (OsinfoEntity*)product1, "Got product 1");
     fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 1) == (OsinfoEntity*)product2, "Got product 2");
@@ -169,7 +169,7 @@ START_TEST(test_supportdate)
     /* Product 1, 2 & 3 */
     date = g_date_new_dmy(01, 05, 2005);
     osinfo_productfilter_add_support_date_constraint(filter, date);
-    tmp = osinfo_productlist_new_filtered(products, OSINFO_FILTER(filter));
+    tmp = OSINFO_PRODUCTLIST(osinfo_list_new_filtered(OSINFO_LIST(products), OSINFO_FILTER(filter)));
     fail_unless(osinfo_list_get_length(OSINFO_LIST(tmp)) == 4, "4 products");
     fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 0) == (OsinfoEntity*)product1, "Got product 1");
     fail_unless(osinfo_list_get_nth(OSINFO_LIST(tmp), 1) == (OsinfoEntity*)product2, "Got product 2");
