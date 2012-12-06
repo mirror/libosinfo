@@ -94,6 +94,7 @@ OsinfoResourcesList *osinfo_resourceslist_new(void)
  * from @source
  *
  * Returns: (transfer full): a copy of the resources list
+ * Deprecated: 0.2.2: Use osinfo_list_new_copy() instead.
  */
 OsinfoResourcesList *osinfo_resourceslist_new_copy(OsinfoResourcesList *source)
 {
@@ -112,6 +113,7 @@ OsinfoResourcesList *osinfo_resourceslist_new_copy(OsinfoResourcesList *source)
  * from @source that match @filter
  *
  * Returns: (transfer full): a filtered copy of the resources list
+ * Deprecated: 0.2.2: Use osinfo_list_new_filtered() instead.
  */
 OsinfoResourcesList *osinfo_resourceslist_new_filtered
                                 (OsinfoResourcesList *source,
@@ -133,6 +135,7 @@ OsinfoResourcesList *osinfo_resourceslist_new_filtered
  * resources instances that are present in both @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): an intersection of the two resources lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_intersection() instead.
  */
 OsinfoResourcesList *osinfo_resourceslist_new_intersection
                                 (OsinfoResourcesList *sourceOne,
@@ -154,6 +157,7 @@ OsinfoResourcesList *osinfo_resourceslist_new_intersection
  * resources instances that are present in either @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): a union of the two resources lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_union() instead.
  */
 OsinfoResourcesList *osinfo_resourceslist_new_union
                                 (OsinfoResourcesList *sourceOne,

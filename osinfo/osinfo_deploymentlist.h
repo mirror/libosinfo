@@ -68,9 +68,13 @@ struct _OsinfoDeploymentListClass
 GType osinfo_deploymentlist_get_type(void);
 
 OsinfoDeploymentList *osinfo_deploymentlist_new(void);
+G_DEPRECATED_FOR(osinfo_list_new_copy)
 OsinfoDeploymentList *osinfo_deploymentlist_new_copy(OsinfoDeploymentList *source);
+G_DEPRECATED_FOR(osinfo_list_new_filtered)
 OsinfoDeploymentList *osinfo_deploymentlist_new_filtered(OsinfoDeploymentList *source, OsinfoFilter *filter);
+G_DEPRECATED_FOR(osinfo_list_new_intersection)
 OsinfoDeploymentList *osinfo_deploymentlist_new_intersection(OsinfoDeploymentList *sourceOne, OsinfoDeploymentList *sourceTwo);
+G_DEPRECATED_FOR(osinfo_list_new_union)
 OsinfoDeploymentList *osinfo_deploymentlist_new_union(OsinfoDeploymentList *sourceOne, OsinfoDeploymentList *sourceTwo);
 
 #endif /* __OSINFO_DEPLOYMENTLIST_H__ */

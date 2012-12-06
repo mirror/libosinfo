@@ -68,9 +68,13 @@ struct _OsinfoInstallScriptListClass
 GType osinfo_install_scriptlist_get_type(void);
 
 OsinfoInstallScriptList *osinfo_install_scriptlist_new(void);
+G_DEPRECATED_FOR(osinfo_list_new_copy)
 OsinfoInstallScriptList *osinfo_install_scriptlist_new_copy(OsinfoInstallScriptList *source);
+G_DEPRECATED_FOR(osinfo_list_new_filtered)
 OsinfoInstallScriptList *osinfo_install_scriptlist_new_filtered(OsinfoInstallScriptList *source, OsinfoFilter *filter);
+G_DEPRECATED_FOR(osinfo_list_new_intersection)
 OsinfoInstallScriptList *osinfo_install_scriptlist_new_intersection(OsinfoInstallScriptList *sourceOne, OsinfoInstallScriptList *sourceTwo);
+G_DEPRECATED_FOR(osinfo_list_new_union)
 OsinfoInstallScriptList *osinfo_install_scriptlist_new_union(OsinfoInstallScriptList *sourceOne, OsinfoInstallScriptList *sourceTwo);
 
 #endif /* __OSINFO_INSTALL_SCRIPTLIST_H__ */

@@ -68,9 +68,13 @@ struct _OsinfoTreeListClass
 GType osinfo_treelist_get_type(void);
 
 OsinfoTreeList *osinfo_treelist_new(void);
+G_DEPRECATED_FOR(osinfo_list_new_copy)
 OsinfoTreeList *osinfo_treelist_new_copy(OsinfoTreeList *source);
+G_DEPRECATED_FOR(osinfo_list_new_filtered)
 OsinfoTreeList *osinfo_treelist_new_filtered(OsinfoTreeList *source, OsinfoFilter *filter);
+G_DEPRECATED_FOR(osinfo_list_new_intersection)
 OsinfoTreeList *osinfo_treelist_new_intersection(OsinfoTreeList *sourceOne, OsinfoTreeList *sourceTwo);
+G_DEPRECATED_FOR(osinfo_list_new_union)
 OsinfoTreeList *osinfo_treelist_new_union(OsinfoTreeList *sourceOne, OsinfoTreeList *sourceTwo);
 
 #endif /* __OSINFO_TREELIST_H__ */

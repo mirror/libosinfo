@@ -68,9 +68,13 @@ struct _OsinfoOsListClass
 GType osinfo_oslist_get_type(void);
 
 OsinfoOsList *osinfo_oslist_new(void);
+G_DEPRECATED_FOR(osinfo_list_new_copy)
 OsinfoOsList *osinfo_oslist_new_copy(OsinfoOsList *source);
+G_DEPRECATED_FOR(osinfo_list_new_filtered)
 OsinfoOsList *osinfo_oslist_new_filtered(OsinfoOsList *source, OsinfoFilter *filter);
+G_DEPRECATED_FOR(osinfo_list_new_intersection)
 OsinfoOsList *osinfo_oslist_new_intersection(OsinfoOsList *sourceOne, OsinfoOsList *sourceTwo);
+G_DEPRECATED_FOR(osinfo_list_new_union)
 OsinfoOsList *osinfo_oslist_new_union(OsinfoOsList *sourceOne, OsinfoOsList *sourceTwo);
 
 #endif /* __OSINFO_OSLIST_H__ */

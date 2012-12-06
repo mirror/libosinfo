@@ -76,13 +76,17 @@ struct _OsinfoResourcesListClass
 GType osinfo_resourceslist_get_type(void);
 
 OsinfoResourcesList *osinfo_resourceslist_new(void);
+G_DEPRECATED_FOR(osinfo_list_new_copy)
 OsinfoResourcesList *osinfo_resourceslist_new_copy(OsinfoResourcesList *source);
+G_DEPRECATED_FOR(osinfo_list_new_filtered)
 OsinfoResourcesList *osinfo_resourceslist_new_filtered
                                 (OsinfoResourcesList *source,
                                  OsinfoFilter *filter);
+G_DEPRECATED_FOR(osinfo_list_new_intersection)
 OsinfoResourcesList *osinfo_resourceslist_new_intersection
                                 (OsinfoResourcesList *sourceOne,
                                  OsinfoResourcesList *sourceTwo);
+G_DEPRECATED_FOR(osinfo_list_new_intersection)
 OsinfoResourcesList *osinfo_resourceslist_new_union
                                 (OsinfoResourcesList *sourceOne,
                                  OsinfoResourcesList *sourceTwo);

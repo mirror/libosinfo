@@ -94,6 +94,7 @@ OsinfoOsList *osinfo_oslist_new(void)
  * from @source
  *
  * Returns: (transfer full): a copy of the os list
+ * Deprecated: 0.2.2: Use osinfo_list_new_copy() instead.
  */
 OsinfoOsList *osinfo_oslist_new_copy(OsinfoOsList *source)
 {
@@ -112,6 +113,7 @@ OsinfoOsList *osinfo_oslist_new_copy(OsinfoOsList *source)
  * from @source that match @filter
  *
  * Returns: (transfer full): a filtered copy of the os list
+ * Deprecated: 0.2.2: Use osinfo_list_new_filtered() instead.
  */
 OsinfoOsList *osinfo_oslist_new_filtered(OsinfoOsList *source, OsinfoFilter *filter)
 {
@@ -131,6 +133,7 @@ OsinfoOsList *osinfo_oslist_new_filtered(OsinfoOsList *source, OsinfoFilter *fil
  * oss that are present in both @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): an intersection of the two os lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_intersection() instead.
  */
 OsinfoOsList *osinfo_oslist_new_intersection(OsinfoOsList *sourceOne, OsinfoOsList *sourceTwo)
 {
@@ -150,6 +153,7 @@ OsinfoOsList *osinfo_oslist_new_intersection(OsinfoOsList *sourceOne, OsinfoOsLi
  * oss that are present in either @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): a union of the two os lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_union() instead.
  */
 OsinfoOsList *osinfo_oslist_new_union(OsinfoOsList *sourceOne, OsinfoOsList *sourceTwo)
 {

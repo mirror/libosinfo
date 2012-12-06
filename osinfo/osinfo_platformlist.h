@@ -68,9 +68,13 @@ struct _OsinfoPlatformListClass
 GType osinfo_platformlist_get_type(void);
 
 OsinfoPlatformList *osinfo_platformlist_new(void);
+G_DEPRECATED_FOR(osinfo_list_new_copy)
 OsinfoPlatformList *osinfo_platformlist_new_copy(OsinfoPlatformList *source);
+G_DEPRECATED_FOR(osinfo_list_new_filtered)
 OsinfoPlatformList *osinfo_platformlist_new_filtered(OsinfoPlatformList *source, OsinfoFilter *filter);
+G_DEPRECATED_FOR(osinfo_list_new_intersection)
 OsinfoPlatformList *osinfo_platformlist_new_intersection(OsinfoPlatformList *sourceOne, OsinfoPlatformList *sourceTwo);
+G_DEPRECATED_FOR(osinfo_list_new_union)
 OsinfoPlatformList *osinfo_platformlist_new_union(OsinfoPlatformList *sourceOne, OsinfoPlatformList *sourceTwo);
 
 #endif /* __OSINFO_PLATFORMLIST_H__ */

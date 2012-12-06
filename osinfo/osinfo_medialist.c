@@ -92,6 +92,7 @@ OsinfoMediaList *osinfo_medialist_new(void)
  * from @source
  *
  * Returns: (transfer full): a copy of the media list
+ * Deprecated: 0.2.2: Use osinfo_list_new_copy() instead.
  */
 OsinfoMediaList *osinfo_medialist_new_copy(OsinfoMediaList *source)
 {
@@ -110,6 +111,7 @@ OsinfoMediaList *osinfo_medialist_new_copy(OsinfoMediaList *source)
  * from @source that match @filter
  *
  * Returns: (transfer full): a filtered copy of the media list
+ * Deprecated: 0.2.2: Use osinfo_list_new_filtered() instead.
  */
 OsinfoMediaList *osinfo_medialist_new_filtered(OsinfoMediaList *source,
                                                OsinfoFilter *filter)
@@ -130,6 +132,7 @@ OsinfoMediaList *osinfo_medialist_new_filtered(OsinfoMediaList *source,
  * medias that are present in both @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): an intersection of the two media lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_intersection() instead.
  */
 OsinfoMediaList *osinfo_medialist_new_intersection(OsinfoMediaList *sourceOne,
                                                    OsinfoMediaList *sourceTwo)
@@ -150,6 +153,7 @@ OsinfoMediaList *osinfo_medialist_new_intersection(OsinfoMediaList *sourceOne,
  * medias that are present in either @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): a union of the two media lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_union() instead.
  */
 OsinfoMediaList *osinfo_medialist_new_union(OsinfoMediaList *sourceOne,
                                             OsinfoMediaList *sourceTwo)

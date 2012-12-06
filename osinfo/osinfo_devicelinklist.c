@@ -94,6 +94,7 @@ OsinfoDeviceLinkList *osinfo_devicelinklist_new(void)
  * from @source
  *
  * Returns: (transfer full): a copy of the devicelink list
+ * Deprecated: 0.2.2: Use osinfo_list_new_copy() instead.
  */
 OsinfoDeviceLinkList *osinfo_devicelinklist_new_copy(OsinfoDeviceLinkList *source)
 {
@@ -113,6 +114,7 @@ OsinfoDeviceLinkList *osinfo_devicelinklist_new_copy(OsinfoDeviceLinkList *sourc
  * from @source that match @filter
  *
  * Returns: (transfer full): a filtered copy of the devicelink list
+ * Deprecated: 0.2.2: Use osinfo_list_new_filtered() instead.
  */
 OsinfoDeviceLinkList *osinfo_devicelinklist_new_filtered(OsinfoDeviceLinkList *source, OsinfoFilter *filter)
 {
@@ -132,6 +134,7 @@ OsinfoDeviceLinkList *osinfo_devicelinklist_new_filtered(OsinfoDeviceLinkList *s
  * devicelinks that are present in both @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): an intersection of the two devicelink lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_intersection() instead.
  */
 OsinfoDeviceLinkList *osinfo_devicelinklist_new_intersection(OsinfoDeviceLinkList *sourceOne, OsinfoDeviceLinkList *sourceTwo)
 {
@@ -151,6 +154,7 @@ OsinfoDeviceLinkList *osinfo_devicelinklist_new_intersection(OsinfoDeviceLinkLis
  * devicelinks that are present in either @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): a union of the two devicelink lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_union() instead.
  */
 OsinfoDeviceLinkList *osinfo_devicelinklist_new_union(OsinfoDeviceLinkList *sourceOne, OsinfoDeviceLinkList *sourceTwo)
 {

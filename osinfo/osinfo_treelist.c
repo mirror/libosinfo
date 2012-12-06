@@ -92,6 +92,7 @@ OsinfoTreeList *osinfo_treelist_new(void)
  * from @source
  *
  * Returns: (transfer full): a copy of the tree list
+ * Deprecated: 0.2.2: Use osinfo_list_new_copy() instead.
  */
 OsinfoTreeList *osinfo_treelist_new_copy(OsinfoTreeList *source)
 {
@@ -110,6 +111,7 @@ OsinfoTreeList *osinfo_treelist_new_copy(OsinfoTreeList *source)
  * from @source that match @filter
  *
  * Returns: (transfer full): a filtered copy of the tree list
+ * Deprecated: 0.2.2: Use osinfo_list_new_filtered() instead.
  */
 OsinfoTreeList *osinfo_treelist_new_filtered(OsinfoTreeList *source,
                                                OsinfoFilter *filter)
@@ -130,6 +132,7 @@ OsinfoTreeList *osinfo_treelist_new_filtered(OsinfoTreeList *source,
  * trees that are present in both @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): an intersection of the two tree lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_intersection() instead.
  */
 OsinfoTreeList *osinfo_treelist_new_intersection(OsinfoTreeList *sourceOne,
                                                    OsinfoTreeList *sourceTwo)
@@ -150,6 +153,7 @@ OsinfoTreeList *osinfo_treelist_new_intersection(OsinfoTreeList *sourceOne,
  * trees that are present in either @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): a union of the two tree lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_union() instead.
  */
 OsinfoTreeList *osinfo_treelist_new_union(OsinfoTreeList *sourceOne,
                                           OsinfoTreeList *sourceTwo)

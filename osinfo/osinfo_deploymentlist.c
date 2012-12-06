@@ -94,6 +94,7 @@ OsinfoDeploymentList *osinfo_deploymentlist_new(void)
  * from @source
  *
  * Returns: (transfer full): a copy of the deployment list
+ * Deprecated: 0.2.2: Use osinfo_list_new_copy() instead.
  */
 OsinfoDeploymentList *osinfo_deploymentlist_new_copy(OsinfoDeploymentList *source)
 {
@@ -113,6 +114,7 @@ OsinfoDeploymentList *osinfo_deploymentlist_new_copy(OsinfoDeploymentList *sourc
  * from @source that match @filter
  *
  * Returns: (transfer full): a filtered copy of the deployment list
+ * Deprecated: 0.2.2: Use osinfo_list_new_filtered() instead.
  */
 OsinfoDeploymentList *osinfo_deploymentlist_new_filtered(OsinfoDeploymentList *source, OsinfoFilter *filter)
 {
@@ -132,6 +134,7 @@ OsinfoDeploymentList *osinfo_deploymentlist_new_filtered(OsinfoDeploymentList *s
  * deployments that are present in both @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): an intersection of the two deployment lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_intersection() instead.
  */
 OsinfoDeploymentList *osinfo_deploymentlist_new_intersection(OsinfoDeploymentList *sourceOne, OsinfoDeploymentList *sourceTwo)
 {
@@ -151,6 +154,7 @@ OsinfoDeploymentList *osinfo_deploymentlist_new_intersection(OsinfoDeploymentLis
  * deployments that are present in either @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): a union of the two deployment lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_union() instead.
  */
 OsinfoDeploymentList *osinfo_deploymentlist_new_union(OsinfoDeploymentList *sourceOne, OsinfoDeploymentList *sourceTwo)
 {

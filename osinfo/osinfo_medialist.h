@@ -68,9 +68,13 @@ struct _OsinfoMediaListClass
 GType osinfo_medialist_get_type(void);
 
 OsinfoMediaList *osinfo_medialist_new(void);
+G_DEPRECATED_FOR(osinfo_list_new_copy)
 OsinfoMediaList *osinfo_medialist_new_copy(OsinfoMediaList *source);
+G_DEPRECATED_FOR(osinfo_list_new_filtered)
 OsinfoMediaList *osinfo_medialist_new_filtered(OsinfoMediaList *source, OsinfoFilter *filter);
+G_DEPRECATED_FOR(osinfo_list_new_intersection)
 OsinfoMediaList *osinfo_medialist_new_intersection(OsinfoMediaList *sourceOne, OsinfoMediaList *sourceTwo);
+G_DEPRECATED_FOR(osinfo_list_new_union)
 OsinfoMediaList *osinfo_medialist_new_union(OsinfoMediaList *sourceOne, OsinfoMediaList *sourceTwo);
 
 #endif /* __OSINFO_MEDIALIST_H__ */

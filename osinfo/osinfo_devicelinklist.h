@@ -68,9 +68,13 @@ struct _OsinfoDeviceLinkListClass
 GType osinfo_devicelinklist_get_type(void);
 
 OsinfoDeviceLinkList *osinfo_devicelinklist_new(void);
+G_DEPRECATED_FOR(osinfo_list_new_copy)
 OsinfoDeviceLinkList *osinfo_devicelinklist_new_copy(OsinfoDeviceLinkList *source);
+G_DEPRECATED_FOR(osinfo_list_new_filtered)
 OsinfoDeviceLinkList *osinfo_devicelinklist_new_filtered(OsinfoDeviceLinkList *source, OsinfoFilter *filter);
+G_DEPRECATED_FOR(osinfo_list_new_intersection)
 OsinfoDeviceLinkList *osinfo_devicelinklist_new_intersection(OsinfoDeviceLinkList *sourceOne, OsinfoDeviceLinkList *sourceTwo);
+G_DEPRECATED_FOR(osinfo_list_new_union)
 OsinfoDeviceLinkList *osinfo_devicelinklist_new_union(OsinfoDeviceLinkList *sourceOne, OsinfoDeviceLinkList *sourceTwo);
 
 OsinfoDeviceList *osinfo_devicelinklist_get_devices(OsinfoDeviceLinkList *list, OsinfoFilter *filter);

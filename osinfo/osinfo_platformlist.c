@@ -93,6 +93,7 @@ OsinfoPlatformList *osinfo_platformlist_new(void)
  * from @source
  *
  * Returns: (transfer full): a copy of the platform list
+ * Deprecated: 0.2.2: Use osinfo_list_new_copy() instead.
  */
 OsinfoPlatformList *osinfo_platformlist_new_copy(OsinfoPlatformList *source)
 {
@@ -111,6 +112,7 @@ OsinfoPlatformList *osinfo_platformlist_new_copy(OsinfoPlatformList *source)
  * from @source that match @filter
  *
  * Returns: (transfer full): a filtered copy of the platform list
+ * Deprecated: 0.2.2: Use osinfo_list_new_filtered() instead.
  */
 OsinfoPlatformList *osinfo_platformlist_new_filtered(OsinfoPlatformList *source, OsinfoFilter *filter)
 {
@@ -130,6 +132,7 @@ OsinfoPlatformList *osinfo_platformlist_new_filtered(OsinfoPlatformList *source,
  * platforms that are present in both @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): an intersection of the two platform lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_intersection() instead.
  */
 OsinfoPlatformList *osinfo_platformlist_new_intersection(OsinfoPlatformList *sourceOne, OsinfoPlatformList *sourceTwo)
 {
@@ -149,6 +152,7 @@ OsinfoPlatformList *osinfo_platformlist_new_intersection(OsinfoPlatformList *sou
  * platforms that are present in either @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): a union of the two platform lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_union() instead.
  */
 OsinfoPlatformList *osinfo_platformlist_new_union(OsinfoPlatformList *sourceOne, OsinfoPlatformList *sourceTwo)
 {

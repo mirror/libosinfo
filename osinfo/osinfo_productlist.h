@@ -68,9 +68,13 @@ struct _OsinfoProductListClass
 GType osinfo_productlist_get_type(void);
 
 OsinfoProductList *osinfo_productlist_new(void);
+G_DEPRECATED_FOR(osinfo_list_new_copy)
 OsinfoProductList *osinfo_productlist_new_copy(OsinfoProductList *source);
+G_DEPRECATED_FOR(osinfo_list_new_filtered)
 OsinfoProductList *osinfo_productlist_new_filtered(OsinfoProductList *source, OsinfoFilter *filter);
+G_DEPRECATED_FOR(osinfo_list_new_intersection)
 OsinfoProductList *osinfo_productlist_new_intersection(OsinfoProductList *sourceOne, OsinfoProductList *sourceTwo);
+G_DEPRECATED_FOR(osinfo_list_new_union)
 OsinfoProductList *osinfo_productlist_new_union(OsinfoProductList *sourceOne, OsinfoProductList *sourceTwo);
 
 #endif /* __OSINFO_PRODUCTLIST_H__ */
