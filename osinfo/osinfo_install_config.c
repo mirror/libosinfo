@@ -737,6 +737,56 @@ OsinfoInstallConfigParamList *osinfo_install_config_get_config_params(OsinfoInst
     return config->priv->config_params;
 }
 
+
+static OsinfoDatamap *
+osinfo_install_config_get_param_datamap(OsinfoInstallConfig *config,
+                                        const gchar *param_name)
+{
+    OsinfoEntity *entity;
+    OsinfoInstallConfigParam *param;
+
+    if (!config->priv->config_params)
+        return NULL;
+
+    entity = osinfo_list_find_by_id(OSINFO_LIST(config->priv->config_params),
+                                    param_name);
+    if (entity == NULL) {
+        g_debug("%s is not a known parameter for this config", param_name);
+        return NULL;
+    }
+
+    param = OSINFO_INSTALL_CONFIG_PARAM(entity);;
+    return osinfo_install_config_param_get_value_map(param);
+}
+
+
+GList *
+osinfo_install_config_get_param_value_list(OsinfoInstallConfig *config,
+                                           const gchar *key)
+{
+    GList *values;
+    GList *it;
+    OsinfoDatamap *map;
+
+    values = osinfo_entity_get_param_value_list(OSINFO_ENTITY(config), key);
+    if (values == NULL)
+        return NULL;
+
+    map = osinfo_install_config_get_param_datamap(config, key);
+    if (map != NULL) {
+        for (it = values; it != NULL; it = it->next) {
+            const char *transformed_value;
+            transformed_value = osinfo_datamap_lookup(map, it->data);
+            if (transformed_value == NULL) {
+                continue;
+            }
+            it->data = (gpointer)transformed_value;
+        }
+    }
+
+    return values;
+}
+
 /*
  * Local variables:
  *  indent-tabs-mode: nil
