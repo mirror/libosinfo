@@ -961,8 +961,10 @@ static OsinfoDeviceDriver *osinfo_loader_driver(OsinfoLoader *loader,
     }
 
     gint nnodes = osinfo_loader_nodeset("./*", ctxt, &nodes, err);
-    if (error_is_set(err))
+    if (error_is_set(err)) {
+        g_object_unref(G_OBJECT(driver));
         return NULL;
+    }
 
     for (i = 0 ; i < nnodes ; i++) {
         if (nodes[i]->children &&
