@@ -287,6 +287,18 @@ static void osinfo_loader_entity(OsinfoLoader *loader,
     g_free(custom);
 }
 
+static OsinfoDatamap *osinfo_loader_get_datamap(OsinfoLoader *loader,
+                                                 const gchar *id)
+{
+    OsinfoDatamap *datamap = osinfo_db_get_datamap(loader->priv->db, id);
+    if (!datamap) {
+        datamap = osinfo_datamap_new(id);
+        osinfo_db_add_datamap(loader->priv->db, datamap);
+        g_object_unref(datamap);
+    }
+    return datamap;
+}
+
 static OsinfoDevice *osinfo_loader_get_device(OsinfoLoader *loader,
                                               const gchar *id)
 {
@@ -572,6 +584,46 @@ static void osinfo_loader_deployment(OsinfoLoader *loader,
     }
 
     osinfo_db_add_deployment(loader->priv->db, deployment);
+}
+
+static void osinfo_loader_datamap(OsinfoLoader *loader,
+                                  xmlXPathContextPtr ctxt,
+                                  xmlNodePtr root,
+                                  GError **err)
+{
+    xmlNodePtr *nodes = NULL;
+    guint i;
+    int nnodes;
+
+    gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
+
+    if (!id) {
+        OSINFO_ERROR(err, _("Missing os id property"));
+        return;
+    }
+
+    OsinfoDatamap *map = osinfo_loader_get_datamap(loader, id);
+
+    nnodes = osinfo_loader_nodeset("./entry", ctxt, &nodes, err);
+    if (error_is_set(err))
+        goto cleanup;
+
+    for (i = 0 ; i < nnodes ; i++) {
+        gchar *inval = (gchar *)xmlGetProp(nodes[i], BAD_CAST "inval");
+        gchar *outval;
+
+        if (inval == NULL)
+            continue;
+        outval = (gchar *)xmlGetProp(nodes[i], BAD_CAST "outval");
+        osinfo_datamap_insert(map, inval, outval);
+
+        xmlFree(inval);
+        xmlFree(outval);
+    }
+
+cleanup:
+    g_free(nodes);
+    xmlFree(id);
 }
 
 static void osinfo_loader_install_config_params(OsinfoLoader *loader,
@@ -1150,7 +1202,7 @@ static void osinfo_loader_root(OsinfoLoader *loader,
      *   If closing libosinfo tag, break
      *   If non element tag, continue
      *   If element tag, and element is not os, platform, device,
-     *   deployment or install-script, error
+     *   datamap, deployment or install-script, error
      *   Else, switch on tag type and handle reading in data
      * After loop, return success if no error
      * If there was an error, clean up lib data acquired so far
@@ -1160,12 +1212,14 @@ static void osinfo_loader_root(OsinfoLoader *loader,
     xmlNodePtr *platforms = NULL;
     xmlNodePtr *deployments = NULL;
     xmlNodePtr *installScripts = NULL;
+    xmlNodePtr *dataMaps = NULL;
     int i;
     int ndeployment;
     int nos;
     int ndevice;
     int nplatform;
     int ninstallScript;
+    int ndataMaps;
 
     if (!xmlStrEqual(root->name, BAD_CAST "libosinfo")) {
         OSINFO_ERROR(err, _("Incorrect root element"));
@@ -1237,8 +1291,21 @@ static void osinfo_loader_root(OsinfoLoader *loader,
             goto cleanup;
     }
 
+    ndataMaps = osinfo_loader_nodeset("./datamap", ctxt, &dataMaps, err);
+    if (error_is_set(err))
+        goto cleanup;
+
+    for (i = 0 ; i < ndataMaps ; i++) {
+        xmlNodePtr saved = ctxt->node;
+        ctxt->node = dataMaps[i];
+        osinfo_loader_datamap(loader, ctxt, dataMaps[i], err);
+        ctxt->node = saved;
+        if (error_is_set(err))
+            goto cleanup;
+    }
 
  cleanup:
+    g_free(dataMaps);
     g_free(installScripts);
     g_free(deployments);
     g_free(platforms);

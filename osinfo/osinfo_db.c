@@ -53,6 +53,7 @@ struct _OsinfoDbPrivate
     OsinfoPlatformList *platforms;
     OsinfoOsList *oses;
     OsinfoDeploymentList *deployments;
+    OsinfoDatamapList *datamaps;
     OsinfoInstallScriptList *scripts;
 };
 
@@ -67,6 +68,7 @@ osinfo_db_finalize (GObject *object)
     g_object_unref(db->priv->platforms);
     g_object_unref(db->priv->oses);
     g_object_unref(db->priv->deployments);
+    g_object_unref(db->priv->datamaps);
     g_object_unref(db->priv->scripts);
 
     /* Chain up to the parent class */
@@ -96,6 +98,7 @@ osinfo_db_init (OsinfoDb *db)
     db->priv->platforms = osinfo_platformlist_new();
     db->priv->oses = osinfo_oslist_new();
     db->priv->deployments = osinfo_deploymentlist_new();
+    db->priv->datamaps = osinfo_datamaplist_new();
     db->priv->scripts = osinfo_install_scriptlist_new();
 }
 
@@ -171,6 +174,22 @@ OsinfoDeployment *osinfo_db_get_deployment(OsinfoDb *db, const gchar *id)
 
     return OSINFO_DEPLOYMENT(osinfo_list_find_by_id(OSINFO_LIST(db->priv->deployments), id));
 }
+
+/**
+ * osinfo_db_get_datamap:
+ * @db: the database
+ * @id: the unique operating system identifier
+ *
+ * Returns: (transfer none): the install datamap, or NULL if none is found
+ */
+OsinfoDatamap *osinfo_db_get_datamap(OsinfoDb *db, const gchar *id)
+{
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    g_return_val_if_fail(id != NULL, NULL);
+
+    return OSINFO_DATAMAP(osinfo_list_find_by_id(OSINFO_LIST(db->priv->datamaps), id));
+}
+
 
 /**
  * osinfo_db_get_install_script:
@@ -297,6 +316,23 @@ OsinfoDeploymentList *osinfo_db_get_deployment_list(OsinfoDb *db)
 
 
 /**
+ * osinfo_db_get_install_datamap_list:
+ * @db: the database
+ *
+ * Returns: (transfer full): the list of install datamaps
+ */
+OsinfoDatamapList *osinfo_db_get_datamap_list(OsinfoDb *db)
+{
+    OsinfoList *new_list;
+
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    new_list = osinfo_list_new_copy(OSINFO_LIST(db->priv->datamaps));
+
+    return OSINFO_DATAMAPLIST(new_list);
+}
+
+
+/**
  * osinfo_db_get_install_script_list:
  * @db: the database
  *
@@ -370,6 +406,21 @@ void osinfo_db_add_deployment(OsinfoDb *db, OsinfoDeployment *deployment)
     g_return_if_fail(OSINFO_IS_DEPLOYMENT(deployment));
 
     osinfo_list_add(OSINFO_LIST(db->priv->deployments), OSINFO_ENTITY(deployment));
+}
+
+
+/**
+ * osinfo_db_add_datamap:
+ * @db: the database
+ * @datamap: (transfer none): a install datamap
+ *
+ */
+void osinfo_db_add_datamap(OsinfoDb *db, OsinfoDatamap *datamap)
+{
+    g_return_if_fail(OSINFO_IS_DB(db));
+    g_return_if_fail(OSINFO_IS_DATAMAP(datamap));
+
+    osinfo_list_add(OSINFO_LIST(db->priv->datamaps), OSINFO_ENTITY(datamap));
 }
 
 
