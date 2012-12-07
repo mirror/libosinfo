@@ -305,6 +305,8 @@ GList *osinfo_install_script_get_config_param_list(const OsinfoInstallScript *sc
 
 /**
  * osinfo_install_script_get_config_param:
+ * @script: the install script
+ * @name: name of the parameter
  *
  * Get a config param from the config param's list
  *
@@ -346,6 +348,9 @@ OsinfoInstallScript *osinfo_install_script_new(const gchar *id)
 
 /**
  * osinfo_install_script_new_data:
+ * @id: a unique identifier
+ * @profile: the profile of script
+ * @templateData: style sheet data
  *
  * Construct a new install script from stylesheet data
  *
@@ -365,6 +370,9 @@ OsinfoInstallScript *osinfo_install_script_new_data(const gchar *id,
 
 /**
  * osinfo_install_script_new_uri:
+ * @id: a unique identifier
+ * @profile: the profile of script
+ * @templateUri: style sheet URI
  *
  * Construct a new install script from a stylesheet URI
  *
@@ -402,6 +410,7 @@ const gchar *osinfo_install_script_get_profile(OsinfoInstallScript *script)
 
 /**
  * osinfo_install_script_get_product_key_format:
+ * @script: the install script
  *
  * If this function returns a non-NULL string, it means that the @script
  * requires you to specify product registration key through #OsinfoInstallConfig
@@ -453,6 +462,7 @@ const gchar *osinfo_install_script_get_output_prefix(OsinfoInstallScript *script
 
 /**
  * osinfo_install_script_get_expected_filename:
+ * @script: the install script
  *
  * Some operating systems (as Windows) expect that script filename has
  * particular name to work.
@@ -467,6 +477,7 @@ const gchar *osinfo_install_script_get_expected_filename(OsinfoInstallScript *sc
 
 /**
  * osinfo_install_script_get_output_filename:
+ * @script: the install script
  *
  * Some operating systems are able to use any script filename, allowing the
  * application to set the filename as desired. libosinfo provides this
@@ -497,6 +508,7 @@ osinfo_install_script_set_avatar_format(OsinfoInstallScript *script,
 
 /**
  * osinfo_install_script_get_avatar_format
+ * @script: the install script
  *
  * Some install scripts have restrictions on the format of the user avatar. Use
  * this method to retrieve those restrictions in the form of an
@@ -1066,6 +1078,8 @@ void osinfo_install_script_generate_output_async(OsinfoInstallScript *script,
  * @config:     the install script config
  * @output_dir: the directory where file containing the output script
  *              will be written
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
+ * @error: The location where to store any error, or %NULL
  *
  * Creates a install script written in a file
  *

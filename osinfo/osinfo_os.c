@@ -559,6 +559,7 @@ OsinfoInstallScript *osinfo_os_find_install_script(OsinfoOs *os, const gchar *pr
 
 /**
  * osinfo_os_get_install_script_list:
+ * @os: an operating system
  *
  * Returns: (transfer full): a list of the install scripts for the specified os
  */
