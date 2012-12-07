@@ -331,10 +331,6 @@ LIBOSINFO_0.2.2 {
 
 	osinfo_device_driverlist_get_type;
 	osinfo_device_driverlist_new;
-	osinfo_device_driverlist_new_copy;
-	osinfo_device_driverlist_new_filtered;
-	osinfo_device_driverlist_new_intersection;
-	osinfo_device_driverlist_new_union;
 
 	osinfo_install_config_param_policy_get_type;
 	osinfo_media_error_get_type;

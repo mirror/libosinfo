@@ -76,13 +76,6 @@ struct _OsinfoDeviceDriverListClass
 GType osinfo_device_driverlist_get_type(void);
 
 OsinfoDeviceDriverList *osinfo_device_driverlist_new(void);
-OsinfoDeviceDriverList *osinfo_device_driverlist_new_copy(OsinfoDeviceDriverList *source);
-OsinfoDeviceDriverList *osinfo_device_driverlist_new_filtered(OsinfoDeviceDriverList *source,
-                                                              OsinfoFilter *filter);
-OsinfoDeviceDriverList *osinfo_device_driverlist_new_intersection(OsinfoDeviceDriverList *sourceOne,
-                                                                  OsinfoDeviceDriverList *sourceTwo);
-OsinfoDeviceDriverList *osinfo_device_driverlist_new_union(OsinfoDeviceDriverList *sourceOne,
-                                                           OsinfoDeviceDriverList *sourceTwo);
 
 #endif /* __OSINFO_DEVICE_DRIVERLIST_H__ */
 /*
