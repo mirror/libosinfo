@@ -97,6 +97,7 @@ osinfo_install_config_init (OsinfoInstallConfig *config)
 
 /**
  * osinfo_install_config_new:
+ * @id: the unique identifier
  *
  * Construct a new install configuration that is initially empty.
  *
@@ -127,6 +128,8 @@ const gchar *osinfo_install_config_get_hardware_arch(OsinfoInstallConfig *config
 
 /**
  * osinfo_install_config_set_l10n_keyboard:
+ * @config: the install config
+ * @keyboard: the keyboard
  *
  * Sets the #OSINFO_INSTALL_CONFIG_PROP_L10N_KEYBOARD parameter.
  *
@@ -150,6 +153,8 @@ const gchar *osinfo_install_config_get_l10n_keyboard(OsinfoInstallConfig *config
 
 /**
  * osinfo_install_config_set_l10n_language:
+ * @config: the install config
+ * @language: the language
  *
  * Sets the #OSINFO_INSTALL_CONFIG_PROP_L10N_LANGUAGE parameter.
  *
@@ -350,6 +355,8 @@ const gchar *osinfo_install_config_get_hostname(OsinfoInstallConfig *config)
 
 /**
  * osinfo_install_config_set_target_disk:
+ * @config: the install config
+ * @disk: the target disk
  *
  * Sets the #OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK parameter.
  *
@@ -370,6 +377,7 @@ void osinfo_install_config_set_target_disk(OsinfoInstallConfig *config,
 
 /**
  * osinfo_install_config_get_target_disk:
+ * @config: the install config
  *
  * Returns: The value of #OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK parameter,
  *          or NULL.
@@ -382,6 +390,8 @@ const gchar *osinfo_install_config_get_target_disk(OsinfoInstallConfig *config)
 
 /**
  * osinfo_install_config_set_script_disk:
+ * @config: the install config
+ * @disk: the disk
  *
  * Sets the #OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK parameter.
  *
@@ -398,6 +408,7 @@ void osinfo_install_config_set_script_disk(OsinfoInstallConfig *config,
 
 /**
  * osinfo_install_config_get_script_disk:
+ * @config: the install config
  *
  * Returns: The value of #OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK parameter,
  *          or NULL.
@@ -410,6 +421,8 @@ const gchar *osinfo_install_config_get_script_disk(OsinfoInstallConfig *config)
 
 /**
  * osinfo_install_config_set_avatar_location:
+ * @config: the install config
+ * @location: new location
  *
  * Sets the #OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION parameter.
  *
@@ -431,6 +444,7 @@ void osinfo_install_config_set_avatar_location(OsinfoInstallConfig *config,
 
 /**
  * osinfo_install_config_get_avatar_location:
+ * @config: the install config
  *
  * Returns: The value of #OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION parameter,
  *          or NULL.
@@ -443,6 +457,8 @@ const gchar *osinfo_install_config_get_avatar_location(OsinfoInstallConfig *conf
 
 /**
  * osinfo_install_config_set_avatar_disk:
+ * @config: the install config
+ * @disk: the avatar disk
  *
  * Sets the #OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK parameter.
  *
@@ -459,6 +475,7 @@ void osinfo_install_config_set_avatar_disk(OsinfoInstallConfig *config,
 
 /**
  * osinfo_install_config_get_avatar_disk:
+ * @config: the install config
  *
  * Returns: The value of #OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK parameter,
  *          or NULL.
@@ -472,6 +489,7 @@ const gchar *osinfo_install_config_get_avatar_disk(OsinfoInstallConfig *config)
 /**
  * osinfo_install_config_set_pre_install_drivers_disk:
  * @config: the install config
+ * @disk: the disk
  *
  * Specify the disk on which drivers to be installed at the very beginning of
  * installation, are available. This is usually needed for devices for which the
@@ -498,6 +516,7 @@ void osinfo_install_config_set_pre_install_drivers_disk(OsinfoInstallConfig *con
 
 /**
  * osinfo_install_config_get_pre_install_drivers_disk:
+ * @config: the install config
  *
  * Returns: The disk on which pre-installation drivers are located, or NULL if
  * its not set using #osinfo_install_config_set_pre_install_drivers_disk().
@@ -512,6 +531,7 @@ const gchar *osinfo_install_config_get_pre_install_drivers_disk(OsinfoInstallCon
 /**
  * osinfo_install_config_set_pre_install_drivers_location:
  * @config: the install config
+ * @location: the location
  *
  * Specify the location on which drivers to be installed at the very beginning of
  * installation, are available. Please read documentation on
@@ -531,6 +551,7 @@ void osinfo_install_config_set_pre_install_drivers_location(OsinfoInstallConfig 
 
 /**
  * osinfo_install_config_get_pre_install_drivers_location:
+ * @config: the install config
  *
  * Returns: The location on which pre-installation drivers are located, or NULL if
  * its not set using #osinfo_install_config_set_pre_install_drivers_location().
@@ -545,6 +566,7 @@ const gchar *osinfo_install_config_get_pre_install_drivers_location(OsinfoInstal
 /**
  * osinfo_install_config_set_post_install_drivers_disk:
  * @config: the install config
+ * @disk: the target disk
  *
  * Specify the disk on which drivers to be installed at the end of installation,
  * are available.
@@ -566,6 +588,7 @@ void osinfo_install_config_set_post_install_drivers_disk(OsinfoInstallConfig *co
 
 /**
  * osinfo_install_config_get_post_install_drivers_disk:
+ * @config: the install config
  *
  * Returns: The disk on which post-installation drivers are located, or NULL if
  * its not set using #osinfo_install_config_set_post_install_drivers_disk().
@@ -580,6 +603,7 @@ const gchar *osinfo_install_config_get_post_install_drivers_disk(OsinfoInstallCo
 /**
  * osinfo_install_config_set_post_install_drivers_location:
  * @config: the install config
+ * @location: the location of avatar
  *
  * Specify the disk on which drivers to be installed at the end of installation,
  * are available.
@@ -601,6 +625,7 @@ void osinfo_install_config_set_post_install_drivers_location(OsinfoInstallConfig
 
 /**
  * osinfo_install_config_get_post_install_drivers_location:
+ * @config: the install config
  *
  * Returns: The disk on which post-installation drivers are located, or NULL if
  * its not set using #osinfo_install_config_set_post_install_drivers_location().
