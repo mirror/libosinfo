@@ -68,6 +68,7 @@ struct _OsinfoDevice
 /* class */
 struct _OsinfoDeviceClass
 {
+    /*< private >*/
     OsinfoEntityClass parent_class;
 
     /* class members */

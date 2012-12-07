@@ -60,6 +60,7 @@ struct _OsinfoDeviceLink
 /* class */
 struct _OsinfoDeviceLinkClass
 {
+    /*< private >*/
     OsinfoEntityClass parent_class;
 
     /* class members */

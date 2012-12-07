@@ -96,6 +96,7 @@ struct _OsinfoMedia
 /* class */
 struct _OsinfoMediaClass
 {
+    /*< private >*/
     OsinfoEntityClass parent_class;
 
     /* class members */

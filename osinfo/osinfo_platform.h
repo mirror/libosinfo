@@ -60,6 +60,7 @@ struct _OsinfoPlatform
 /* class */
 struct _OsinfoPlatformClass
 {
+    /*< private >*/
     OsinfoProductClass parent_class;
 
     /* class members */

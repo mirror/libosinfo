@@ -58,6 +58,7 @@ struct _OsinfoLoader
 /* class */
 struct _OsinfoLoaderClass
 {
+    /*< private >*/
     GObjectClass parent_class;
 
     /* class members */

@@ -59,6 +59,7 @@ struct _OsinfoPlatformList
 /* class */
 struct _OsinfoPlatformListClass
 {
+    /*< private >*/
     OsinfoProductListClass parent_class;
 
     /* class members */

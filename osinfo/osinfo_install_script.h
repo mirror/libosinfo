@@ -70,6 +70,7 @@ struct _OsinfoInstallScript
 /* class */
 struct _OsinfoInstallScriptClass
 {
+    /*< private >*/
     OsinfoEntityClass parent_class;
 
     /* class members */
@@ -77,8 +78,8 @@ struct _OsinfoInstallScriptClass
 
 /**
  * OsinfoPathFormat:
- * OSINFO_PATH_FORMAT_UNIX: Unix/Linux path format, e.g /home/foo/bar.txt
- * OSINFO_PATH_FORMAT_DOS: DOS/Windows path format, e.g \My Documents\bar.txt
+ * @OSINFO_PATH_FORMAT_UNIX: Unix/Linux path format, e.g /home/foo/bar.txt
+ * @OSINFO_PATH_FORMAT_DOS: DOS/Windows path format, e.g \My Documents\bar.txt
  */
 typedef enum {
     OSINFO_PATH_FORMAT_UNIX,

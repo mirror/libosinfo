@@ -67,6 +67,7 @@ struct _OsinfoProduct
 /* class */
 struct _OsinfoProductClass
 {
+    /*< private >*/
     OsinfoEntityClass parent_class;
 
     /* class members */

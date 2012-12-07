@@ -85,6 +85,7 @@ struct _OsinfoInstallConfig
 /* class */
 struct _OsinfoInstallConfigClass
 {
+    /*< private >*/
     OsinfoEntityClass parent_class;
 
     /* class members */

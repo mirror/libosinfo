@@ -59,6 +59,7 @@ struct _OsinfoInstallScriptList
 /* class */
 struct _OsinfoInstallScriptListClass
 {
+    /*< private >*/
     OsinfoListClass parent_class;
 
     /* class members */

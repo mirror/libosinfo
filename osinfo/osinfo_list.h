@@ -55,6 +55,7 @@ struct _OsinfoList
 /* class */
 struct _OsinfoListClass
 {
+    /*< private >*/
     GObjectClass parent_class;
 
     /* class members */

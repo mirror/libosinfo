@@ -67,6 +67,7 @@ struct _OsinfoDeviceDriverList
 /* class */
 struct _OsinfoDeviceDriverListClass
 {
+    /*< private >*/
     OsinfoListClass parent_class;
 
     /* class members */

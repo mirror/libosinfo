@@ -58,6 +58,7 @@ struct _OsinfoFilter
 /* class */
 struct _OsinfoFilterClass
 {
+    /*< private >*/
     GObjectClass parent_class;
 
     /* class members */

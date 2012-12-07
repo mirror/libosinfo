@@ -77,6 +77,7 @@ struct _OsinfoResources
 /* class */
 struct _OsinfoResourcesClass
 {
+    /*< private >*/
     OsinfoEntityClass parent_class;
 
     /* class members */

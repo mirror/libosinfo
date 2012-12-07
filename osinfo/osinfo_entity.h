@@ -59,6 +59,7 @@ struct _OsinfoEntity
 /* class */
 struct _OsinfoEntityClass
 {
+    /*< private >*/
     GObjectClass parent_class;
 
     /* class members */

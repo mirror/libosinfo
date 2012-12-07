@@ -59,6 +59,7 @@ struct _OsinfoProductList
 /* class */
 struct _OsinfoProductListClass
 {
+    /*< private >*/
     OsinfoListClass parent_class;
 
     /* class members */

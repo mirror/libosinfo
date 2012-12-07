@@ -55,6 +55,7 @@ struct _OsinfoDeviceLinkFilter
 /* class */
 struct _OsinfoDeviceLinkFilterClass
 {
+    /*< private >*/
     OsinfoFilterClass parent_class;
 
     /* class members */

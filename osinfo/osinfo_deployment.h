@@ -59,6 +59,7 @@ struct _OsinfoDeployment
 /* class */
 struct _OsinfoDeploymentClass
 {
+    /*< private >*/
     OsinfoEntityClass parent_class;
 
     /* class members */

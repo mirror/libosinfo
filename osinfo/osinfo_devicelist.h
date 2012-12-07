@@ -59,6 +59,7 @@ struct _OsinfoDeviceList
 /* class */
 struct _OsinfoDeviceListClass
 {
+    /*< private >*/
     OsinfoListClass parent_class;
 
     /* class members */

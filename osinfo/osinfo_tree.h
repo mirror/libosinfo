@@ -76,6 +76,7 @@ struct _OsinfoTree
 /* class */
 struct _OsinfoTreeClass
 {
+    /*< private >*/
     OsinfoEntityClass parent_class;
 
     /* class members */

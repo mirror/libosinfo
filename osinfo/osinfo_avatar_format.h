@@ -73,6 +73,7 @@ struct _OsinfoAvatarFormat
 /* class */
 struct _OsinfoAvatarFormatClass
 {
+    /*< private >*/
     OsinfoEntityClass parent_class;
 };
 

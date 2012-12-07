@@ -65,6 +65,7 @@ struct _OsinfoDb
 /* class */
 struct _OsinfoDbClass
 {
+    /*< private >*/
     GObjectClass parent_class;
 
     /* class members */

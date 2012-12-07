@@ -63,6 +63,7 @@ struct _OsinfoInstallConfigParam
 /* class */
 struct _OsinfoInstallConfigParamClass
 {
+    /*< private >*/
     OsinfoEntityClass parent_class;
 
     /* class members */

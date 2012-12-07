@@ -59,6 +59,7 @@ struct _OsinfoMediaList
 /* class */
 struct _OsinfoMediaListClass
 {
+    /*< private >*/
     OsinfoListClass parent_class;
 
     /* class members */

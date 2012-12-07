@@ -70,6 +70,7 @@ struct _OsinfoDeviceDriver
 /* class */
 struct _OsinfoDeviceDriverClass
 {
+    /*< private >*/
     OsinfoEntityClass parent_class;
 
     /* class members */

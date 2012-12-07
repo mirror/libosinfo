@@ -55,6 +55,7 @@ struct _OsinfoProductFilter
 /* class */
 struct _OsinfoProductFilterClass
 {
+    /*< private >*/
     OsinfoFilterClass parent_class;
 
     /* class members */
