@@ -25,6 +25,8 @@
 #ifndef __OSINFO_LIST_H__
 #define __OSINFO_LIST_H__
 
+#include <osinfo/osinfo_filter.h>
+
 /*
  * Type macros.
  */
