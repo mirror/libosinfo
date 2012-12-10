@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<libosinfo version="0.0.1">
+
+  <datamap id="http://example.com/libosinfo/test-datamap">
+    <!-- default value for keyboard, mandatory -->
+    <entry inval="us" outval="us"/>
+    <entry inval="val1" outval="foo"/>
+    <entry inval="val2" outval="bar"/>
+    <entry inval="val3" outval="baz"/>
+    <entry inval="VAL1" outval="FOOBAR"/>
+  </datamap>
+
+  <datamap id="http://example.com/libosinfo/test-datamap2">
+    <!-- default value for language, mandatory -->
+    <entry inval="en_EN.UTF-8" outval="English"/>
+    <entry inval="en_EN" outval="English"/>
+    <entry inval="fr_FR" outval="French"/>
+    <entry inval="fi_FI" outval="Finnish"/>
+  </datamap>
+</libosinfo>

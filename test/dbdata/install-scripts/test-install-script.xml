@@ -1,0 +1,26 @@
+<libosinfo version="0.0.1">
+  <!-- JEOS PROFILE -->
+  <install-script id="http://example.com/libosinfo/test-install-script">
+    <profile>jeos</profile>
+    <expected-filename>test.ks</expected-filename>
+    <config>
+      <param name="l10n-keyboard" policy="optional" value-map="http://example.com/libosinfo/test-datamap"/>
+      <param name="l10n-language" policy="optional" value-map="http://example.com/libosinfo/test-datamap2"/>
+      <param name="l10n-timezone" policy="optional"/>
+    </config>
+    <template>
+      <xsl:stylesheet
+        xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+        version="1.0">
+
+        <xsl:output method="text"/>
+
+        <xsl:template match="/install-script-config">
+keyboard <xsl:value-of select="config/l10n-keyboard"/>
+lang <xsl:value-of select="config/l10n-language"/>
+timezone --utc <xsl:value-of select="config/l10n-timezone"/>
+        </xsl:template>
+      </xsl:stylesheet>
+    </template>
+  </install-script>
+</libosinfo>

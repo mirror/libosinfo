@@ -56,6 +56,12 @@ static const gchar *expectData =                                        \
     "%end\n"                                                            \
     "  ";
 
+static const gchar *expectData2 =                                       \
+    "\n"                                                                \
+    "keyboard FOOBAR\n"                                                 \
+    "lang French\n"                                                     \
+    "timezone --utc Europe/Paris";
+
 static void test_generate_finish(GObject *src,
                                  GAsyncResult *res,
                                  gpointer user_data)
@@ -172,6 +178,83 @@ START_TEST(test_script_data)
 }
 END_TEST
 
+START_TEST(test_script_datamap)
+{
+    OsinfoLoader *loader = osinfo_loader_new();
+    OsinfoDb *db;
+    OsinfoOs *os;
+    OsinfoInstallScript *script;
+    OsinfoInstallConfig *config;
+    GMainLoop *loop;
+
+    osinfo_loader_process_path(loader, SRCDIR "/test/dbdata", &error);
+    fail_unless(error == NULL, error ? error->message : "none");
+    db = g_object_ref(osinfo_loader_get_db(loader));
+    g_object_unref(loader);
+
+    fail_unless(osinfo_db_get_datamap(db, "http://example.com/libosinfo/test-datamap") != NULL, "Could not find OsinfoDatamap 'test-datamap'");
+    fail_unless(osinfo_db_get_datamap(db, "http://example.com/libosinfo/test-datamap2") != NULL, "Could not find OsinfoDatamap 'test-datamap2'");
+    script = osinfo_db_get_install_script(db, "http://example.com/libosinfo/test-install-script");
+    fail_unless(script != NULL, "Could not find OsinfoInstallScript 'test-install-script'");
+
+    config = osinfo_install_config_new("http://example.com");
+
+    osinfo_install_config_set_l10n_keyboard(config, "unknown");
+    fail_unless(g_strcmp0(osinfo_install_config_get_l10n_keyboard(config), "unknown") == 0,
+                "Got %s instead of 'unknown'", osinfo_install_config_get_l10n_keyboard(config));
+
+    osinfo_install_config_set_l10n_keyboard(config, "val1");
+    fail_unless(g_strcmp0(osinfo_install_config_get_l10n_keyboard(config), "val1") == 0,
+                "Got %s instead of 'val1'", osinfo_install_config_get_l10n_keyboard(config));
+
+    osinfo_install_config_set_l10n_keyboard(config, "val2");
+    fail_unless(g_strcmp0(osinfo_install_config_get_l10n_keyboard(config), "val2") == 0,
+                "Got %s instead of 'val2'", osinfo_install_config_get_l10n_keyboard(config));
+
+    osinfo_install_config_set_l10n_keyboard(config, "val3");
+    fail_unless(g_strcmp0(osinfo_install_config_get_l10n_keyboard(config), "val3") == 0,
+                "Got %s instead of 'val3'", osinfo_install_config_get_l10n_keyboard(config));
+
+    osinfo_install_config_set_l10n_keyboard(config, "VAL1");
+    fail_unless(g_strcmp0(osinfo_install_config_get_l10n_keyboard(config), "VAL1") == 0,
+                "Got %s instead of 'VAL1", osinfo_install_config_get_l10n_keyboard(config));
+
+    osinfo_install_config_set_l10n_language(config, "en_EN");
+    fail_unless(g_strcmp0(osinfo_install_config_get_l10n_language(config), "en_EN") == 0,
+                "Got %s instead of 'en_EN'", osinfo_install_config_get_l10n_language(config));
+    osinfo_install_config_set_l10n_language(config, "fr_FR");
+    osinfo_install_config_set_l10n_timezone(config, "Europe/Paris");
+
+
+    os = osinfo_os_new("http://fedoraproject.org/fedora/16");
+    osinfo_entity_set_param(OSINFO_ENTITY(os),
+                            OSINFO_PRODUCT_PROP_SHORT_ID,
+                            "fedora16");
+
+    loop = g_main_loop_new (g_main_context_get_thread_default (),
+                            TRUE);
+
+    osinfo_install_script_generate_async(script,
+                                         os,
+                                         config,
+                                         NULL,
+                                         test_generate_finish,
+                                         loop);
+
+    if (g_main_loop_is_running(loop))
+        g_main_loop_run(loop);
+
+    unlink(BUILDDIR "/test/install-script-actual.txt");
+    fail_unless(error == NULL, error ? error->message : "none");
+
+    fail_unless(strcmp(actualData, expectData2) == 0, "Actual '%s' match expect '%s'",
+                actualData, expectData2);
+
+    g_object_unref(db);
+    g_object_unref(os);
+    g_object_unref(config);
+}
+END_TEST
 
 
 static Suite *
@@ -183,6 +266,7 @@ list_suite(void)
 
     tcase_add_test(tc, test_script_file);
     tcase_add_test(tc, test_script_data);
+    tcase_add_test(tc, test_script_datamap);
     suite_add_tcase(s, tc);
     return s;
 }
