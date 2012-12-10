@@ -1,3 +1,26 @@
+0.2.2 - Dec 10, 2012
+====================
+
+Changes since 0.2.1:
+
+- Loads of improvements and fixes to installer APIs and scripts. Now they are in
+  such a good shape that next release of Boxes will make full use of them.
+- Add API for information on downloadable device drivers. As a starting point,
+  information on virtio storage drivers for Windows XP and 7 is provided.
+- Add/improve data on:
+  - RHEL
+  - Windows 7
+  - Windows 8
+  - Windows XP
+- Enable translations for many (potential) user-visible strings. No
+  translations submitted yet. :(
+- Correct default value for OsinfoMedia::installer-reboots.
+- Register enum types with gobject type system.
+- Add enum param getter/setter helpers.
+- OsinfoList is now instantiable and all its subclasses has been deprecated.
+  Newer code should use OsinfoList directly.
+- Various other fixes and improvements.
+
 0.2.1 - Oct 12, 2012
 ====================
 
