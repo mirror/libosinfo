@@ -829,12 +829,35 @@ static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
              strcmp((const gchar *)nodes[i]->name,
                     OSINFO_MEDIA_PROP_PUBLISHER_ID) != 0 &&
              strcmp((const gchar *)nodes[i]->name,
-                    OSINFO_MEDIA_PROP_APPLICATION_ID) != 0))
+                    OSINFO_MEDIA_PROP_APPLICATION_ID) != 0 &&
+             strcmp((const gchar *)nodes[i]->name,
+                    OSINFO_MEDIA_PROP_LANG) != 0))
             continue;
 
-        osinfo_entity_set_param(OSINFO_ENTITY(media),
-                                (const gchar *)nodes[i]->name,
-                                (const gchar *)nodes[i]->children->content);
+        if (strcmp((const gchar *)nodes[i]->name,
+                   OSINFO_MEDIA_PROP_LANG) == 0) {
+            gchar *regex = (gchar *)xmlGetProp(nodes[i], BAD_CAST "regex");
+            if (g_strcmp0(regex, "true") == 0) {
+                gchar *datamap;
+                osinfo_entity_set_param(OSINFO_ENTITY(media),
+                                        OSINFO_MEDIA_PROP_LANG_REGEX,
+                                        (const gchar *)nodes[i]->children->content);
+                datamap = (gchar *)xmlGetProp(nodes[i], BAD_CAST OSINFO_MEDIA_PROP_LANG_MAP);
+                if (datamap != NULL)
+                    osinfo_entity_set_param(OSINFO_ENTITY(media),
+                                            OSINFO_MEDIA_PROP_LANG_MAP,
+                                            datamap);
+            } else {
+                osinfo_entity_add_param(OSINFO_ENTITY(media),
+                                        OSINFO_MEDIA_PROP_LANG,
+                                        (const gchar *)nodes[i]->children->content);
+            }
+            xmlFree(regex);
+        } else {
+            osinfo_entity_set_param(OSINFO_ENTITY(media),
+                                    (const gchar *)nodes[i]->name,
+                                    (const gchar *)nodes[i]->children->content);
+        }
     }
 
     g_free(nodes);

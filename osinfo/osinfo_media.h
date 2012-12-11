@@ -82,6 +82,8 @@ typedef struct _OsinfoMediaPrivate OsinfoMediaPrivate;
 #define OSINFO_MEDIA_PROP_INSTALLER      "installer"
 #define OSINFO_MEDIA_PROP_INSTALLER_REBOOTS "installer-reboots"
 #define OSINFO_MEDIA_PROP_LANG           "l10n-language"
+#define OSINFO_MEDIA_PROP_LANG_REGEX     "l10n-language-regex"
+#define OSINFO_MEDIA_PROP_LANG_MAP       "l10n-language-map"
 
 /* object */
 struct _OsinfoMedia
