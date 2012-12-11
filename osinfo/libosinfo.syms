@@ -372,6 +372,18 @@ LIBOSINFO_0.2.2 {
 	osinfo_os_add_device_driver;
 } LIBOSINFO_0.2.1;
 
+LIBOSINFO_0.2.3 {
+    global:
+	osinfo_datamap_get_type;
+	osinfo_datamap_new;
+	osinfo_datamap_insert;
+	osinfo_datamap_lookup;
+	osinfo_datamap_reverse_lookup;
+
+	osinfo_datamaplist_get_type;
+	osinfo_datamaplist_new;
+} LIBOSINFO_0.2.2;
+
 /* Symbols in next release...
 
   LIBOSINFO_0.0.2 {

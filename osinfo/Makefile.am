@@ -58,6 +58,8 @@ OSINFO_HEADER_FILES =		\
   osinfo_avatar_format.h 	\
   osinfo_db.h			\
   osinfo_loader.h		\
+  osinfo_datamap.h		\
+  osinfo_datamaplist.h		\
   osinfo_device.h		\
   osinfo_device_driver.h	\
   osinfo_device_driverlist.h	\
@@ -94,7 +96,9 @@ libosinfo_1_0_include_HEADERS = \
   osinfo_enum_types.h
 
 libosinfo_1_0_la_SOURCES =	  \
-  osinfo_avatar_format.c 	  \
+  osinfo_avatar_format.c	  \
+  osinfo_datamap.c		  \
+  osinfo_datamaplist.c		  \
   osinfo_entity.c		  \
   osinfo_enum_types.c		  \
   osinfo_filter.c		  \

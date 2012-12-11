@@ -27,6 +27,8 @@
 
 #include <glib-object.h>
 
+#include <osinfo/osinfo_datamap.h>
+#include <osinfo/osinfo_datamaplist.h>
 #include <osinfo/osinfo_enum_types.h>
 #include <osinfo/osinfo_entity.h>
 #include <osinfo/osinfo_filter.h>
