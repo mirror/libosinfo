@@ -39,6 +39,86 @@ G_DEFINE_TYPE (OsinfoDb, osinfo_db, G_TYPE_OBJECT);
      (((str) != NULL) &&                                                \
       g_regex_match_simple((pattern), (str), 0, 0)))
 
+static gchar *get_raw_lang(const char *volume_id, const gchar *regex_str)
+{
+    GRegex *regex;
+    GMatchInfo *match;
+    gboolean matched;
+    gchar *raw_lang = NULL;
+
+    regex = g_regex_new(regex_str, G_REGEX_ANCHORED,
+                        G_REGEX_MATCH_ANCHORED, NULL);
+    if (regex == NULL)
+        return NULL;
+
+    matched = g_regex_match(regex, volume_id, G_REGEX_MATCH_ANCHORED, &match);
+    if (!matched || !g_match_info_matches(match))
+        goto end;
+    raw_lang = g_match_info_fetch(match, 1);
+    if (raw_lang == NULL)
+        goto end;
+
+end:
+    g_match_info_unref(match);
+    g_regex_unref(regex);
+
+    return raw_lang;
+}
+
+static const char *language_code_from_raw(OsinfoDatamap *lang_map,
+                                          const char *raw_lang)
+{
+    const char *lang;
+
+    if (lang_map == NULL)
+        return raw_lang;
+
+    lang = osinfo_datamap_lookup(lang_map, raw_lang);
+    if (lang == NULL)
+        return raw_lang;
+
+    return lang;
+}
+
+static GList *match_languages(OsinfoDb *db, OsinfoMedia *media,
+                              OsinfoMedia *db_media)
+{
+    const gchar *volume_id;
+    const gchar *regex;
+    const gchar *lang_map_id;
+    OsinfoDatamap *lang_map;
+    gchar *raw_lang;
+    GList *languages;
+
+    g_return_val_if_fail(OSINFO_IS_MEDIA(media), NULL);
+    g_return_val_if_fail(OSINFO_IS_MEDIA(db_media), NULL);
+
+    regex = osinfo_entity_get_param_value(OSINFO_ENTITY(db_media),
+                                          OSINFO_MEDIA_PROP_LANG_REGEX);
+    if (regex == NULL)
+        return NULL;
+
+    volume_id = osinfo_media_get_volume_id(media);
+    if (volume_id == NULL)
+        return NULL;
+
+    lang_map_id = osinfo_entity_get_param_value(OSINFO_ENTITY(db_media),
+                                                OSINFO_MEDIA_PROP_LANG_MAP);
+    if (lang_map_id != NULL) {
+        lang_map = osinfo_db_get_datamap(db, lang_map_id);
+    } else {
+        lang_map = NULL;
+    }
+
+    raw_lang = get_raw_lang(volume_id, regex);
+
+    languages = g_list_append(NULL,
+                              (gpointer)language_code_from_raw(lang_map, raw_lang));
+    g_free(raw_lang);
+
+    return languages;
+}
+
 /**
  * SECTION:osinfo_db
  * @short_description: Database of all entities
@@ -536,8 +616,11 @@ OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
     return osinfo_db_guess_os_from_media_internal(db, media, matched_media);
 }
 
-static void fill_media (OsinfoMedia *media, OsinfoMedia *matched_media, OsinfoOs *os)
+static void fill_media (OsinfoDb *db, OsinfoMedia *media,
+                        OsinfoMedia *matched_media,
+                        OsinfoOs *os)
 {
+    GList *languages;
     gboolean is_installer;
     gboolean is_live;
     gint reboots;
@@ -545,6 +628,11 @@ static void fill_media (OsinfoMedia *media, OsinfoMedia *matched_media, OsinfoOs
     const gchar *initrd_path;
     const gchar *arch;
     const gchar *url;
+
+    languages = match_languages(db, media, matched_media);
+    if (languages != NULL)
+        osinfo_media_set_languages(media, languages);
+    g_list_free(languages);
 
     arch = osinfo_media_get_architecture(matched_media);
     if (arch != NULL)
@@ -602,7 +690,7 @@ gboolean osinfo_db_identify_media(OsinfoDb *db, OsinfoMedia *media)
         return FALSE;
     }
 
-    fill_media(media, matched_media, matched_os);
+    fill_media(db, media, matched_media, matched_os);
 
     return TRUE;
 }
