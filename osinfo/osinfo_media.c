@@ -154,7 +154,8 @@ enum {
     PROP_INSTALLER,
     PROP_LIVE,
     PROP_INSTALLER_REBOOTS,
-    PROP_OS
+    PROP_OS,
+    PROP_LANGUAGES,
 };
 
 static void
@@ -223,6 +224,10 @@ osinfo_media_get_property (GObject    *object,
 
     case PROP_OS:
         g_value_take_object (value, osinfo_media_get_os (media));
+        break;
+
+    case PROP_LANGUAGES:
+        g_value_set_pointer (value, osinfo_media_get_languages (media));
         break;
 
     default:
@@ -309,6 +314,10 @@ osinfo_media_set_property(GObject      *object,
 
     case PROP_OS:
         osinfo_media_set_os(media, g_value_get_object(value));
+        break;
+
+    case PROP_LANGUAGES:
+        osinfo_media_set_languages(media, g_value_get_pointer(value));
         break;
 
     default:
@@ -517,6 +526,27 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                   G_PARAM_READWRITE |
                                   G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_OS, pspec);
+
+    /**
+     * OsinfoMedia:languages:
+     *
+     * If media is an installer, this property indicates the languages that
+     * can be used during automatic installations.
+     *
+     * On media that are not installers, this property will indicate the
+     * languages that the user interface can be displayed in.
+     * Use #osinfo_media_get_installer (or OsinfoMedia::installer) to know
+     * if the media is an installer or not.
+     *
+     * Type: GLib.List(utf8)
+     * Transfer: container
+     */
+    pspec = g_param_spec_pointer ("languages",
+                                  "Languages",
+                                  _("Supported languages"),
+                                  G_PARAM_READABLE |
+                                  G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property (g_klass, PROP_LANGUAGES, pspec);
 }
 
 static void
@@ -1101,6 +1131,42 @@ void osinfo_media_set_os(OsinfoMedia *media, OsinfoOs *os)
     g_object_ref(os);
     g_weak_ref_set(&media->priv->os, os);
     g_object_unref(os);
+}
+
+/**
+ * osinfo_media_get_languages:
+ * @media: a #OsinfoMedia instance
+ *
+ * If media is an installer, this property indicates the languages that
+ * can be used during automatic installations.
+ *
+ * On media that are not installers, this property will indicate the
+ * languages that the user interface can be displayed in.
+ * Use #osinfo_media_get_installer (or OsinfoMedia::installer) to know
+ * if the media is an installer or not.
+ *
+ * Returns: (transfer container) (element-type utf8): a #GList
+ * containing the list of the UI languages this media supports. The list
+ * must be freed with g_list_free() when no longer needed. If the
+ * supported languages are unknown, NULL will be returned.
+ */
+GList *osinfo_media_get_languages(OsinfoMedia *media)
+{
+    g_return_val_if_fail(OSINFO_IS_MEDIA(media), NULL);
+    return osinfo_entity_get_param_value_list(OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_LANG);
+}
+
+void osinfo_media_set_languages(OsinfoMedia *media, GList *languages)
+{
+    GList *it;
+
+    g_return_if_fail(OSINFO_IS_MEDIA(media));
+
+    osinfo_entity_clear_param(OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_LANG);
+    for (it = languages; it != NULL; it = it->next)
+        osinfo_entity_add_param(OSINFO_ENTITY(media),
+                                OSINFO_MEDIA_PROP_LANG,
+                                it->data);
 }
 /*
  * Local variables:
