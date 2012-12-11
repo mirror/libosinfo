@@ -29,6 +29,7 @@ struct ISOInfo {
     gchar *shortid;
     gchar *filename;
     OsinfoMedia *media;
+    GHashTable *langs;
 };
 
 static void free_iso(struct ISOInfo *info)
@@ -40,9 +41,50 @@ static void free_iso(struct ISOInfo *info)
     g_free(info->shortid);
     if (info->media)
         g_object_unref(info->media);
+    if (info->langs)
+        g_hash_table_unref(info->langs);
     g_free(info);
 }
 
+static gboolean load_langs(GFile *file, struct ISOInfo *info, GError **error)
+{
+    char *path;
+    GKeyFile *lang_file;
+    GStrv langs;
+    GStrv it;
+
+    path = g_file_get_path(file);
+    if (path == NULL)
+        return FALSE;
+    if (!g_str_has_suffix(path, ".txt")) {
+        g_free(path);
+        return FALSE;
+    }
+    strcpy(&path[strlen(path) - sizeof(".txt") + 1], ".lng");
+    lang_file = g_key_file_new();
+    if (!g_key_file_load_from_file(lang_file, path, G_KEY_FILE_NONE, NULL)) {
+        g_key_file_free(lang_file);
+        g_free(path);
+        return FALSE;
+    }
+    langs = g_key_file_get_string_list(lang_file, "general", "l10n-language",
+                                       NULL, NULL);
+    if (langs == NULL) {
+        g_key_file_free(lang_file);
+        g_free(path);
+        return FALSE;
+    }
+
+    for (it = langs; (it != NULL) && (*it != NULL); it++) {
+        g_hash_table_add(info->langs, g_strdup(*it));
+    }
+
+    g_strfreev(langs);
+    g_key_file_free(lang_file);
+    g_free(path);
+
+    return TRUE;
+}
 
 static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *name, GError **error)
 {
@@ -60,6 +102,7 @@ static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *
 
     info->filename = g_strdup(name);
     info->shortid = g_strdup(shortid);
+    info->langs = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
     if (strstr(name, "amd64") ||
              strstr(name, "x64") ||
              strstr(name, "x86_64") ||
@@ -110,6 +153,8 @@ static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *
 
     if (*error)
         goto error;
+
+    load_langs(file, info, error);
 
  cleanup:
     if (fis)
@@ -231,6 +276,28 @@ static GList *load_isos(const gchar *vendor, GError **error)
 }
 
 
+static void test_langs(struct ISOInfo *info)
+{
+    GList *langs;
+    GList *it;
+
+    /* exit early if there was no associated .lng file */
+    if (g_hash_table_size(info->langs) == 0)
+        return;
+
+    langs = osinfo_media_get_languages(info->media);
+
+    for (it = langs; it != NULL; it = it->next) {
+        fail_unless(g_hash_table_contains(info->langs, it->data),
+                    "%s not a known language for ISO %s",
+                    it->data, info->filename);
+        g_hash_table_remove(info->langs, it->data);
+    }
+    fail_unless(g_hash_table_size(info->langs) == 0,
+                "some languages were not identified on ISO %s",
+                info->filename);
+}
+
 static void test_one(const gchar *vendor)
 {
     OsinfoLoader *loader = osinfo_loader_new();
@@ -264,6 +331,7 @@ static void test_one(const gchar *vendor)
                     "ISO %s matched OS %s instead of expected %s",
                     info->filename, shortid, info->shortid);
         g_object_unref(G_OBJECT(os));
+        test_langs(info);
 
         tmp = tmp->next;
     }
