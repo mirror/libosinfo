@@ -125,9 +125,7 @@ osinfo_install_config_param_class_init (OsinfoInstallConfigParamClass *klass)
                                 G_PARAM_WRITABLE |
                                 G_PARAM_READABLE |
                                 G_PARAM_CONSTRUCT_ONLY |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass,
                                     PROP_NAME,
                                     pspec);
@@ -142,9 +140,7 @@ osinfo_install_config_param_class_init (OsinfoInstallConfigParamClass *klass)
                               OSINFO_TYPE_INSTALL_CONFIG_PARAM_POLICY,
                               OSINFO_INSTALL_CONFIG_PARAM_POLICY_OPTIONAL,
                               G_PARAM_READABLE |
-                              G_PARAM_STATIC_NAME |
-                              G_PARAM_STATIC_NICK |
-                              G_PARAM_STATIC_BLURB);
+                              G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass,
                                     PROP_POLICY,
                                     pspec);

@@ -171,9 +171,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
                                  G_PARAM_CONSTRUCT_ONLY |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass,
                                      PROP_ARCHITECTURE,
                                      pspec);
@@ -190,9 +188,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
                                 G_MAXINT,
                                 -1,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass,
                                      PROP_CPU,
                                      pspec);
@@ -209,9 +205,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
                               G_MAXINT,
                               -1,
                               G_PARAM_READWRITE |
-                              G_PARAM_STATIC_NAME |
-                              G_PARAM_STATIC_NICK |
-                              G_PARAM_STATIC_BLURB);
+                              G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass,
                                      PROP_N_CPUS,
                                      pspec);
@@ -228,9 +222,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
                                 G_MAXINT64,
                                 -1,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass,
                                      PROP_RAM,
                                      pspec);
@@ -247,9 +239,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
                                 G_MAXINT64,
                                 -1,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass,
                                      PROP_STORAGE,
                                      pspec);

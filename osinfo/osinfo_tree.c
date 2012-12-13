@@ -277,9 +277,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
                                 _("CPU Architecture"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_ARCHITECTURE, pspec);
 
     /**
@@ -292,9 +290,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
                                 _("The URL to this tree"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_URL, pspec);
 
     /**
@@ -307,9 +303,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
                                 _("The expected ISO9660 volume ID"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_TREEINFO_FAMILY, pspec);
 
     /**
@@ -322,9 +316,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
                                 _("The expected ISO9660 publisher ID"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_TREEINFO_VARIANT, pspec);
 
     /**
@@ -337,9 +329,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
                                 _("The expected ISO9660 application ID"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_TREEINFO_VERSION, pspec);
 
     /**
@@ -352,9 +342,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
                                 _("The expected ISO9660 system ID"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_TREEINFO_ARCH, pspec);
 
     /**
@@ -367,9 +355,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
                                 _("The path to the kernel image"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_KERNEL_PATH, pspec);
 
     /**
@@ -382,9 +368,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
                                 _("The path to the inirtd image"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_INITRD_PATH, pspec);
 
     /**
@@ -397,9 +381,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
                                 _("The path to the bootable ISO image"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_BOOT_ISO_PATH, pspec);
 
 }

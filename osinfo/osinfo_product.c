@@ -165,9 +165,7 @@ osinfo_product_class_init (OsinfoProductClass *klass)
                                  _("Name"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_NAME, pspec);
 
     /**
@@ -180,9 +178,7 @@ osinfo_product_class_init (OsinfoProductClass *klass)
                                  _("Short ID"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_SHORT_ID, pspec);
 
     /**
@@ -195,9 +191,7 @@ osinfo_product_class_init (OsinfoProductClass *klass)
                                  _("Vendor"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_VENDOR, pspec);
 
     /**
@@ -210,9 +204,7 @@ osinfo_product_class_init (OsinfoProductClass *klass)
                                  _("Version"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_VERSION, pspec);
 
     /**
@@ -225,9 +217,7 @@ osinfo_product_class_init (OsinfoProductClass *klass)
                                  _("Codename"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_NAME, pspec);
 
     /**
@@ -240,9 +230,7 @@ osinfo_product_class_init (OsinfoProductClass *klass)
                                  _("URI of the logo"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_LOGO, pspec);
 }
 

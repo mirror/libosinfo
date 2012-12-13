@@ -145,9 +145,7 @@ osinfo_os_class_init (OsinfoOsClass *klass)
                                  _("Generic Family"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass,
                                      PROP_FAMILY,
                                      pspec);
@@ -163,9 +161,7 @@ osinfo_os_class_init (OsinfoOsClass *klass)
                                  _("Generic Distro"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass,
                                      PROP_DISTRO,
                                      pspec);
