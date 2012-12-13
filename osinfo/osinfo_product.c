@@ -156,7 +156,7 @@ osinfo_product_class_init (OsinfoProductClass *klass)
     g_type_class_add_private (klass, sizeof (OsinfoProductPrivate));
 
     /**
-     * OsinfoProduct::name:
+     * OsinfoProduct:name:
      *
      * The name of this product.
      */
@@ -171,7 +171,7 @@ osinfo_product_class_init (OsinfoProductClass *klass)
     g_object_class_install_property (g_klass, PROP_NAME, pspec);
 
     /**
-     * OsinfoProduct::short-id:
+     * OsinfoProduct:short-id:
      *
      * The short ID of this product.
      */
@@ -186,7 +186,7 @@ osinfo_product_class_init (OsinfoProductClass *klass)
     g_object_class_install_property (g_klass, PROP_SHORT_ID, pspec);
 
     /**
-     * OsinfoProduct::vendor:
+     * OsinfoProduct:vendor:
      *
      * The Vendor of this product.
      */
@@ -201,7 +201,7 @@ osinfo_product_class_init (OsinfoProductClass *klass)
     g_object_class_install_property (g_klass, PROP_VENDOR, pspec);
 
     /**
-     * OsinfoProduct::version:
+     * OsinfoProduct:version:
      *
      * The version of the product.
      */
@@ -216,7 +216,7 @@ osinfo_product_class_init (OsinfoProductClass *klass)
     g_object_class_install_property (g_klass, PROP_VERSION, pspec);
 
     /**
-     * OsinfoProduct::codename:
+     * OsinfoProduct:codename:
      *
      * The codename of this product.
      */
@@ -231,7 +231,7 @@ osinfo_product_class_init (OsinfoProductClass *klass)
     g_object_class_install_property (g_klass, PROP_NAME, pspec);
 
     /**
-     * OsinfoProduct::logo:
+     * OsinfoProduct:logo:
      *
      * The URI of the logo of the product.
      */

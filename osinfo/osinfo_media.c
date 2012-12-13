@@ -328,7 +328,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_type_class_add_private (klass, sizeof (OsinfoMediaPrivate));
 
     /**
-     * OsinfoMedia::architecture:
+     * OsinfoMedia:architecture:
      *
      * The target hardware architecture of this media.
      */
@@ -341,7 +341,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_object_class_install_property (g_klass, PROP_ARCHITECTURE, pspec);
 
     /**
-     * OsinfoMedia::url:
+     * OsinfoMedia:url:
      *
      * The URL to this media.
      */
@@ -354,7 +354,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_object_class_install_property (g_klass, PROP_URL, pspec);
 
     /**
-     * OsinfoMedia::volume-id:
+     * OsinfoMedia:volume-id:
      *
      * Expected volume ID (regular expression) for ISO9660 image/device.
      */
@@ -367,7 +367,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_object_class_install_property (g_klass, PROP_VOLUME_ID, pspec);
 
     /**
-     * OsinfoMedia::publisher-id:
+     * OsinfoMedia:publisher-id:
      *
      * Expected publisher ID (regular expression) for ISO9660 image/device.
      */
@@ -380,7 +380,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_object_class_install_property (g_klass, PROP_PUBLISHER_ID, pspec);
 
     /**
-     * OsinfoMedia::application-id:
+     * OsinfoMedia:application-id:
      *
      * Expected application ID (regular expression) for ISO9660 image/device.
      */
@@ -393,7 +393,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_object_class_install_property (g_klass, PROP_APPLICATION_ID, pspec);
 
     /**
-     * OsinfoMedia::system-id:
+     * OsinfoMedia:system-id:
      *
      * Expected system ID (regular expression) for ISO9660 image/device.
      */
@@ -406,7 +406,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_object_class_install_property (g_klass, PROP_SYSTEM_ID, pspec);
 
     /**
-     * OsinfoMedia::kernel-path:
+     * OsinfoMedia:kernel-path:
      *
      * The path to the kernel image in the install tree.
      */
@@ -419,7 +419,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_object_class_install_property (g_klass, PROP_KERNEL_PATH, pspec);
 
     /**
-     * OsinfoMedia::initrd-path:
+     * OsinfoMedia:initrd-path:
      *
      * The path to the initrd image in the install tree.
      */
@@ -432,7 +432,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_object_class_install_property (g_klass, PROP_INITRD_PATH, pspec);
 
     /**
-     * OsinfoMedia::installer:
+     * OsinfoMedia:installer:
      *
      * Whether media provides a installer for an OS.
      */
@@ -445,7 +445,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_object_class_install_property (g_klass, PROP_INSTALLER, pspec);
 
     /**
-     * OsinfoMedia::live:
+     * OsinfoMedia:live:
      *
      * Whether media can boot directly an OS without any installations.
      */
@@ -458,7 +458,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_object_class_install_property (g_klass, PROP_LIVE, pspec);
 
     /**
-     * OsinfoMedia::installer-reboots:
+     * OsinfoMedia:installer-reboots:
      *
      * If media is an installer, this property indicates the number of reboots
      * the installer takes before installation is complete.

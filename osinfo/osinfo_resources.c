@@ -161,7 +161,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
     g_type_class_add_private (klass, sizeof (OsinfoResourcesPrivate));
 
     /**
-     * OsinfoResources::architecture:
+     * OsinfoResources:architecture:
      *
      * The target hardware architecture to which these resources applies.
      */
@@ -179,7 +179,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
                                      pspec);
 
     /**
-     * OsinfoResources::cpu:
+     * OsinfoResources:cpu:
      *
      * The CPU frequency in hertz (Hz).
      */
@@ -198,7 +198,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
                                      pspec);
 
     /**
-     * OsinfoResources::n-cpus:
+     * OsinfoResources:n-cpus:
      *
      * The number of CPUs.
      */
@@ -217,7 +217,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
                                      pspec);
 
     /**
-     * OsinfoResources::ram:
+     * OsinfoResources:ram:
      *
      * The amount of Random Access Memory (RAM) in bytes.
      */
@@ -236,7 +236,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
                                      pspec);
 
     /**
-     * OsinfoResources::storage:
+     * OsinfoResources:storage:
      *
      * The amount of storage space in bytes.
      */

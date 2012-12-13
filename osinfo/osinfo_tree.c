@@ -268,7 +268,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
     g_type_class_add_private(klass, sizeof(OsinfoTreePrivate));
 
     /**
-     * OsinfoTree::architecture:
+     * OsinfoTree:architecture:
      *
      * The target hardware architecture of this tree.
      */
@@ -283,7 +283,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
     g_object_class_install_property(g_klass, PROP_ARCHITECTURE, pspec);
 
     /**
-     * OsinfoTree::url:
+     * OsinfoTree:url:
      *
      * The URL to this tree.
      */
@@ -298,7 +298,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
     g_object_class_install_property(g_klass, PROP_URL, pspec);
 
     /**
-     * OsinfoTree::volume-id:
+     * OsinfoTree:volume-id:
      *
      * Expected volume ID (regular expression) for ISO9660 image/device.
      */
@@ -313,7 +313,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
     g_object_class_install_property(g_klass, PROP_TREEINFO_FAMILY, pspec);
 
     /**
-     * OsinfoTree::publisher-id:
+     * OsinfoTree:publisher-id:
      *
      * Expected publisher ID (regular expression) for ISO9660 image/device.
      */
@@ -328,7 +328,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
     g_object_class_install_property(g_klass, PROP_TREEINFO_VARIANT, pspec);
 
     /**
-     * OsinfoTree::application-id:
+     * OsinfoTree:application-id:
      *
      * Expected application ID (regular expression) for ISO9660 image/device.
      */
@@ -343,7 +343,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
     g_object_class_install_property(g_klass, PROP_TREEINFO_VERSION, pspec);
 
     /**
-     * OsinfoTree::system-id:
+     * OsinfoTree:system-id:
      *
      * Expected system ID (regular expression) for ISO9660 image/device.
      */
@@ -358,7 +358,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
     g_object_class_install_property(g_klass, PROP_TREEINFO_ARCH, pspec);
 
     /**
-     * OsinfoTree::kernel-path:
+     * OsinfoTree:kernel-path:
      *
      * The path to the kernel image in the install tree.
      */
@@ -373,7 +373,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
     g_object_class_install_property(g_klass, PROP_KERNEL_PATH, pspec);
 
     /**
-     * OsinfoTree::initrd-path:
+     * OsinfoTree:initrd-path:
      *
      * The path to the initrd image in the install tree.
      */
@@ -388,7 +388,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
     g_object_class_install_property(g_klass, PROP_INITRD_PATH, pspec);
 
     /**
-     * OsinfoTree::boot-iso-path:
+     * OsinfoTree:boot-iso-path:
      *
      * The path to the boot ISO in the install tree
      */
