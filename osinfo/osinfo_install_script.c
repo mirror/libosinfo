@@ -727,7 +727,7 @@ static gchar *osinfo_install_script_apply_xslt(xsltStylesheetPtr ss,
                                                GError **error)
 {
     xsltTransformContextPtr ctxt;
-    gchar *ret;
+    gchar *ret = NULL;
     xmlDocPtr docOut = NULL;
     int len;
 
