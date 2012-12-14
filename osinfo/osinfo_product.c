@@ -132,6 +132,8 @@ osinfo_product_get_property (GObject    *object,
     case PROP_CODENAME:
         g_value_set_string (value,
                             osinfo_product_get_codename (product));
+        break;
+
     case PROP_LOGO:
         g_value_set_string (value,
                             osinfo_product_get_logo (product));
