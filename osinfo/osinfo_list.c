@@ -465,7 +465,7 @@ OsinfoList *osinfo_list_new_intersection(OsinfoList *sourceOne,
 }
 
 /**
- * osinfo_new_union:
+ * osinfo_list_new_union:
  * @sourceOne: the first list to copy
  * @sourceTwo: the second list to copy
  *

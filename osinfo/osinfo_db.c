@@ -397,7 +397,7 @@ OsinfoDeploymentList *osinfo_db_get_deployment_list(OsinfoDb *db)
 
 
 /**
- * osinfo_db_get_install_datamap_list:
+ * osinfo_db_get_datamap_list:
  * @db: the database
  *
  * Returns: (transfer full): the list of install datamaps
