@@ -637,9 +637,15 @@ static xmlNodePtr osinfo_install_script_generate_entity_config(OsinfoInstallConf
 
     tmp1 = keys = osinfo_entity_get_param_keys(entity);
     while (tmp1) {
-        GList *values = osinfo_entity_get_param_value_list(entity, tmp1->data);
-        GList *tmp2 = values;
+        GList *values;
+        GList *tmp2;
 
+        if (OSINFO_IS_INSTALL_CONFIG(entity))
+            values = osinfo_install_config_get_param_value_list(OSINFO_INSTALL_CONFIG(entity), tmp1->data);
+        else
+            values = osinfo_entity_get_param_value_list(entity, tmp1->data);
+
+        tmp2 = values;
         while (tmp2) {
             if (!(data = xmlNewDocNode(NULL, NULL, (const xmlChar*)tmp1->data,
                                        (const xmlChar*)tmp2->data))) {
