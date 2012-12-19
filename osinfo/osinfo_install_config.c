@@ -99,9 +99,15 @@ osinfo_install_config_init (OsinfoInstallConfig *config)
  * osinfo_install_config_new:
  * @id: the unique identifier
  *
- * Construct a new install configuration that is initially empty.
+ * Construct a new install configuration with default values for
+ * language, keyboard, timezone and admin password. The default values
+ * are to use an 'us' keyboard, an 'en_US.UTF-8' language and an
+ * 'America/New_York' timezone. The admin password is set to a random
+ * 8 character password.
  *
- * Returns: (transfer full): an empty install configuration
+ * Returns: (transfer full): an install configuration with default
+ * values
+ *
  */
 OsinfoInstallConfig *osinfo_install_config_new(const gchar *id)
 {
