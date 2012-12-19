@@ -34,11 +34,13 @@ G_DEFINE_TYPE (OsinfoInstallConfigParam, osinfo_install_config_param, OSINFO_TYP
 /**
  * SECTION:osinfo_install_config_param
  * @short_description: OS install configuration parameters (and its policies)
- * @see_also: #OsinfoInstallScript, #OsinfoInstallSciptConfig
+ * @see_also: #OsinfoInstallScript, #OsinfoInstallConfig
  *
- * #OsinfoInstallConfigParam is an entity for representing all parameters that
+ * #OsinfoInstallConfigParam is an entity for describing all parameters that
  * can be set in an automated installation. It is used to help applications to
- * generate an automated installation script
+ * generate an automated installation script. The actual parameter values
+ * for an #OsinfoInstallScript must be set using an #OsinfoInstallConfig
+ * object.
  */
 
 enum {

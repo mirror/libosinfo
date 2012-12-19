@@ -38,12 +38,13 @@ G_DEFINE_TYPE (OsinfoInstallScript, osinfo_install_script, OSINFO_TYPE_ENTITY);
 
 /**
  * SECTION:osinfo_install_script
- * @short_description: OS install scripturation
- * @see_also: #OsinfoInstallScript
+ * @short_description: OS install script generation
+ * @see_also: #OsinfoInstallConfig
  *
- * #OsinfoInstallScript is an object for representing OS
- * install scripturation data. It is used to generate an
- * automated installation script
+ * #OsinfoInstallScript is an object used to generate an
+ * automated installation script for an OS. The OS
+ * configuration data (language, keyboard, timezone, ...)
+ * comes from an #OsinfoInstallConfig object.
  */
 
 struct _OsinfoInstallScriptPrivate
