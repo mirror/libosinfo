@@ -507,7 +507,7 @@ osinfo_install_script_set_avatar_format(OsinfoInstallScript *script,
 }
 
 /**
- * osinfo_install_script_get_avatar_format
+ * osinfo_install_script_get_avatar_format:
  * @script: the install script
  *
  * Some install scripts have restrictions on the format of the user avatar. Use
