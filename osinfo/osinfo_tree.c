@@ -698,7 +698,7 @@ OsinfoTree *osinfo_tree_create_from_location_finish(GAsyncResult *res,
 
 /**
  * osinfo_tree_get_architecture:
- * @tree: a #OsinfoTree instance
+ * @tree: an #OsinfoTree instance
  *
  * Retrieves the target hardware architecture of the OS @tree provides.
  *
@@ -712,7 +712,7 @@ const gchar *osinfo_tree_get_architecture(OsinfoTree *tree)
 
 /**
  * osinfo_tree_get_url:
- * @tree: a #OsinfoTree instance
+ * @tree: an #OsinfoTree instance
  *
  * The URL to the @tree
  *
@@ -726,7 +726,7 @@ const gchar *osinfo_tree_get_url(OsinfoTree *tree)
 
 /**
  * osinfo_tree_get_treeinfo_family:
- * @tree: a #OsinfoTree instance
+ * @tree: an #OsinfoTree instance
  *
  * If @tree is an ISO9660 image/device, this function retrieves the expected
  * volume ID.
@@ -745,7 +745,7 @@ const gchar *osinfo_tree_get_treeinfo_family(OsinfoTree *tree)
 
 /**
  * osinfo_tree_get_treeinfo_arch:
- * @tree: a #OsinfoTree instance
+ * @tree: an #OsinfoTree instance
  *
  * If @tree is an ISO9660 image/device, this function retrieves the expected
  * system ID.
@@ -764,7 +764,7 @@ const gchar *osinfo_tree_get_treeinfo_arch(OsinfoTree *tree)
 
 /**
  * osinfo_tree_get_treeinfo_variant:
- * @tree: a #OsinfoTree instance
+ * @tree: an #OsinfoTree instance
  *
  * If @tree is an ISO9660 image/device, this function retrieves the expected
  * publisher ID.
@@ -783,7 +783,7 @@ const gchar *osinfo_tree_get_treeinfo_variant(OsinfoTree *tree)
 
 /**
  * osinfo_tree_get_treeinfo_version:
- * @tree: a #OsinfoTree instance
+ * @tree: an #OsinfoTree instance
  *
  * If @tree is an ISO9660 image/device, this function retrieves the expected
  * application ID.
@@ -802,7 +802,7 @@ const gchar *osinfo_tree_get_treeinfo_version(OsinfoTree *tree)
 
 /**
  * osinfo_tree_get_boot_iso_path:
- * @tree: a #OsinfoTree instance
+ * @tree: an #OsinfoTree instance
  *
  * Retrieves the path to the boot_iso image in the install tree.
  *
@@ -816,7 +816,7 @@ const gchar *osinfo_tree_get_boot_iso_path(OsinfoTree *tree)
 
 /**
  * osinfo_tree_get_kernel_path:
- * @tree: a #OsinfoTree instance
+ * @tree: an #OsinfoTree instance
  *
  * Retrieves the path to the kernel image in the install tree.
  *
@@ -832,7 +832,7 @@ const gchar *osinfo_tree_get_kernel_path(OsinfoTree *tree)
 
 /**
  * osinfo_tree_get_initrd_path:
- * @tree: a #OsinfoTree instance
+ * @tree: an #OsinfoTree instance
  *
  * Retrieves the path to the initrd image in the install tree.
  *

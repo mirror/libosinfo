@@ -267,7 +267,7 @@ OsinfoResources *osinfo_resources_new(const gchar *id,
 
 /**
  * osinfo_resources_get_architecture:
- * @resources: a #OsinfoResources instance
+ * @resources: an #OsinfoResources instance
  *
  * Retrieves the target hardware architecture to which @resources applies. Some
  * operating systems specify the same requirements and recommendations for all
@@ -284,7 +284,7 @@ const gchar *osinfo_resources_get_architecture(OsinfoResources *resources)
 
 /**
  * osinfo_resources_get_n_cpus:
- * @resources: a #OsinfoResources instance
+ * @resources: an #OsinfoResources instance
  *
  * Retrieves the number of CPUs.
  *
@@ -298,7 +298,7 @@ gint osinfo_resources_get_n_cpus(OsinfoResources *resources)
 
 /**
  * osinfo_resources_get_cpu:
- * @resources: a #OsinfoResources instance
+ * @resources: an #OsinfoResources instance
  *
  * Retrieves the CPU frequency in hertz (Hz). Divide the value by #OSINFO_MEGAHERTZ if
  * you need this value in megahertz (MHz).
@@ -313,7 +313,7 @@ gint64 osinfo_resources_get_cpu(OsinfoResources *resources)
 
 /**
  * osinfo_resources_get_ram:
- * @resources: a #OsinfoResources instance
+ * @resources: an #OsinfoResources instance
  *
  * Retrieves the amount of Random Access Memory (RAM) in bytes. Divide the value
  * by #OSINFO_MEBIBYTES if you need this value in mebibytes.
@@ -328,7 +328,7 @@ gint64 osinfo_resources_get_ram(OsinfoResources *resources)
 
 /**
  * osinfo_resources_get_storage:
- * @resources: a #OsinfoResources instance
+ * @resources: an #OsinfoResources instance
  *
  * Retrieves the amount of storage space in bytes. Divide the value by
  * #OSINFO_GIBIBYTES if you need this value in gibibytes.
@@ -343,7 +343,7 @@ gint64 osinfo_resources_get_storage(OsinfoResources *resources)
 
 /**
  * osinfo_resources_set_n_cpus:
- * @resources: a #OsinfoResources instance
+ * @resources: an #OsinfoResources instance
  * @n_cpus: the number of CPUs
  *
  * Sets the number of CPUs.
@@ -357,7 +357,7 @@ void osinfo_resources_set_n_cpus(OsinfoResources *resources, gint n_cpus)
 
 /**
  * osinfo_resources_set_cpu:
- * @resources: a #OsinfoResources instance
+ * @resources: an #OsinfoResources instance
  * @cpu: the CPU frequency in hertz (Hz)
  *
  * Sets the CPU frequency.
@@ -371,7 +371,7 @@ void osinfo_resources_set_cpu(OsinfoResources *resources, gint64 cpu)
 
 /**
  * osinfo_resources_set_ram:
- * @resources: a #OsinfoResources instance
+ * @resources: an #OsinfoResources instance
  * @ram: the amount of ram in bytes
  *
  * Sets the amount of RAM in bytes.
@@ -385,7 +385,7 @@ void osinfo_resources_set_ram(OsinfoResources *resources, gint64 ram)
 
 /**
  * osinfo_resources_set_storage:
- * @resources: a #OsinfoResources instance
+ * @resources: an #OsinfoResources instance
  * @storage: the amount of storage in bytes
  *
  * Sets the amount of storage space.

@@ -152,7 +152,7 @@ osinfo_devicelink_init (OsinfoDeviceLink *devlink)
  * osinfo_devicelink_new:
  * @target: the target device
  *
- * Construct a new link to a #OsinfoDevice. The unique ID
+ * Construct a new link for an #OsinfoDevice. The unique ID
  * of the link is set to match the ID of the target device.
  *
  * Returns: (transfer full): the new device link

@@ -1,5 +1,5 @@
 /*
- * libosinfo: a operating system deployment for a platform
+ * libosinfo: an operating system deployment for a platform
  *
  * Copyright (C) 2009-2012 Red Hat, Inc.
  *

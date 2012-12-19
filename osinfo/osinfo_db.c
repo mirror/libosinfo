@@ -493,7 +493,7 @@ void osinfo_db_add_deployment(OsinfoDb *db, OsinfoDeployment *deployment)
 /**
  * osinfo_db_add_datamap:
  * @db: the database
- * @datamap: (transfer none): a install datamap
+ * @datamap: (transfer none): an install datamap
  *
  */
 void osinfo_db_add_datamap(OsinfoDb *db, OsinfoDatamap *datamap)
@@ -508,7 +508,7 @@ void osinfo_db_add_datamap(OsinfoDb *db, OsinfoDatamap *datamap)
 /**
  * osinfo_db_add_install_script:
  * @db: the database
- * @script: (transfer none): a install script
+ * @script: (transfer none): an install script
  *
  */
 void osinfo_db_add_install_script(OsinfoDb *db, OsinfoInstallScript *script)
@@ -604,7 +604,7 @@ osinfo_db_guess_os_from_media_internal(OsinfoDb *db,
  * @matched_media: (out) (transfer none) (allow-none): the matched operating
  * system media
  *
- * Guess operating system given a #OsinfoMedia object.
+ * Guess operating system given an #OsinfoMedia object.
  *
  * Returns: (transfer none): the operating system, or NULL if guessing failed
  * Deprecated: 0.2.3: Use osinfo_db_identify_media() instead.
@@ -664,7 +664,7 @@ static void fill_media (OsinfoDb *db, OsinfoMedia *media,
 
 /**
  * osinfo_db_identify_media:
- * @db: a #OsinfoDb database
+ * @db: an #OsinfoDb database
  * @media: the installation media
  * data
  *
@@ -703,7 +703,7 @@ gboolean osinfo_db_identify_media(OsinfoDb *db, OsinfoMedia *media)
  * @matched_tree: (out) (transfer none) (allow-none): the matched operating
  * system tree
  *
- * Guess operating system given a #OsinfoTree object.
+ * Guess operating system given an #OsinfoTree object.
  *
  * Returns: (transfer none): the operating system, or NULL if guessing failed
  */

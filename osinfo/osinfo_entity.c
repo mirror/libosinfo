@@ -173,7 +173,7 @@ osinfo_entity_init (OsinfoEntity *entity)
 
 /**
  * osinfo_entity_set_param:
- * @entity: OsinfoEntity containing the parameters
+ * @entity: an #OsinfoEntity containing the parameters
  * @key: the name of the key
  * @value: the data to associated with that key
  *
@@ -226,7 +226,7 @@ void osinfo_entity_set_param_enum(OsinfoEntity *entity, const gchar *key, gint v
 
 /**
  * osinfo_entity_add_param:
- * @entity: OsinfoEntity containing the parameters
+ * @entity: an #OsinfoEntity containing the parameters
  * @key: the name of the key
  * @value: the data to associated with that key
  *
@@ -260,7 +260,7 @@ void osinfo_entity_add_param(OsinfoEntity *entity, const gchar *key, const gchar
 
 /**
  * osinfo_entity_clear_param:
- * @entity: OsinfoEntity containing the parameters
+ * @entity: an #OsinfoEntity containing the parameters
  * @key: the name of the key
  *
  * Remove all values associated with a key
@@ -272,7 +272,7 @@ void osinfo_entity_clear_param(OsinfoEntity *entity, const gchar *key)
 
 /**
  * osinfo_entity_get_id:
- * @entity: a OsinfoEntity
+ * @entity: an #OsinfoEntity
  *
  * Retrieves the unique key for the entity. The format of identifiers
  * is undefined, but the recommended practice is to use a URI.
@@ -289,7 +289,7 @@ const gchar *osinfo_entity_get_id(OsinfoEntity *entity)
 
 /**
  * osinfo_entity_get_param_keys:
- * @entity: OsinfoEntity containing the parameters
+ * @entity: an #OsinfoEntity containing the parameters
  *
  * Retrieve all the known parameter keys associated with
  * the entity
@@ -308,7 +308,7 @@ GList *osinfo_entity_get_param_keys(OsinfoEntity *entity)
 
 /**
  * osinfo_entity_get_param_value:
- * @entity: OsinfoEntity containing the parameters
+ * @entity: an #OsinfoEntity containing the parameters
  * @key: the name of the key
  *
  * Retrieve the parameter value associated with a named key. If
@@ -406,7 +406,7 @@ gint osinfo_entity_get_param_value_enum(OsinfoEntity *entity,
 
 /**
  * osinfo_entity_get_param_value_list:
- * @entity: OsinfoEntity containing the parameters
+ * @entity: an #OsinfoEntity containing the parameters
  * @key: the name of the key
  *
  * Retrieve all the parameter values associated with a named

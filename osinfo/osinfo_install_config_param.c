@@ -156,7 +156,7 @@ osinfo_install_config_param_init (OsinfoInstallConfigParam *config_param)
  * osinfo_install_config_param_new:
  * @name: the configuration parameter name
  *
- * Construct a new configuration parameter to a #OsinfoInstallScript.
+ * Construct a new configuration parameter for an #OsinfoInstallScript.
  *
  * Returns: (transfer full): the new configuration parameter
  */

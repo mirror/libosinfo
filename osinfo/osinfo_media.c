@@ -464,11 +464,11 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     /**
      * OsinfoMedia:installer:
      *
-     * Whether media provides a installer for an OS.
+     * Whether media provides an installer for an OS.
      */
     pspec = g_param_spec_boolean ("installer",
                                   "Installer",
-                                  _("Media provides a installer"),
+                                  _("Media provides an installer"),
                                   TRUE /* default value */,
                                   G_PARAM_READWRITE |
                                   G_PARAM_STATIC_STRINGS);
@@ -926,7 +926,7 @@ OsinfoMedia *osinfo_media_create_from_location_finish(GAsyncResult *res,
 
 /**
  * osinfo_media_get_architecture:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * Retrieves the target hardware architecture of the OS @media provides.
  *
@@ -940,7 +940,7 @@ const gchar *osinfo_media_get_architecture(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_url:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * The URL to the @media
  *
@@ -954,7 +954,7 @@ const gchar *osinfo_media_get_url(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_volume_id:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * If @media is an ISO9660 image/device, this function retrieves the expected
  * volume ID.
@@ -973,7 +973,7 @@ const gchar *osinfo_media_get_volume_id(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_system_id:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * If @media is an ISO9660 image/device, this function retrieves the expected
  * system ID.
@@ -992,7 +992,7 @@ const gchar *osinfo_media_get_system_id(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_publisher_id:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * If @media is an ISO9660 image/device, this function retrieves the expected
  * publisher ID.
@@ -1011,7 +1011,7 @@ const gchar *osinfo_media_get_publisher_id(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_application_id:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * If @media is an ISO9660 image/device, this function retrieves the expected
  * application ID.
@@ -1030,7 +1030,7 @@ const gchar *osinfo_media_get_application_id(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_kernel_path:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * Retrieves the path to the kernel image in the install tree.
  *
@@ -1046,7 +1046,7 @@ const gchar *osinfo_media_get_kernel_path(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_initrd_path:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * Retrieves the path to the initrd image in the install tree.
  *
@@ -1062,9 +1062,9 @@ const gchar *osinfo_media_get_initrd_path(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_installer:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
- * Whether @media provides a installer for an OS.
+ * Whether @media provides an installer for an OS.
  *
  * Returns: #TRUE if media is installer, #FALSE otherwise
  */
@@ -1076,7 +1076,7 @@ gboolean osinfo_media_get_installer(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_live:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * Whether @media can boot directly an OS without any installations.
  *
@@ -1090,7 +1090,7 @@ gboolean osinfo_media_get_live(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_installer_reboots:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * If media is an installer, this method retrieves the number of reboots the
  * installer takes before installation is complete.
@@ -1135,7 +1135,7 @@ void osinfo_media_set_os(OsinfoMedia *media, OsinfoOs *os)
 
 /**
  * osinfo_media_get_languages:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * If media is an installer, this property indicates the languages that
  * can be used during automatic installations.

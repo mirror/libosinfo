@@ -368,7 +368,7 @@ OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoDevice *dev)
 
 /**
  * osinfo_os_get_family:
- * @os: a OsinfoOs
+ * @os: an #OsinfoOs
  *
  * Retrieves the generic family the OS @os belongs to, based upon its kernel,
  * for example linux, winnt, solaris, freebsd etc.
@@ -384,7 +384,7 @@ const gchar *osinfo_os_get_family(OsinfoOs *os)
 
 /**
  * osinfo_os_get_distro:
- * @os: a OsinfoOs
+ * @os: an #OsinfoOs
  *
  * Retrieves the generic family the OS @os belongs to, for example fedora,
  * ubuntu, windows, solaris, freebsd etc.

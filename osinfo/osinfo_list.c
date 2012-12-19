@@ -448,8 +448,8 @@ OsinfoList *osinfo_list_new_filtered(OsinfoList *source, OsinfoFilter *filter)
  * @sourceOne: the first list to copy
  * @sourceTwo: the second list to copy
  *
- * Construct a new list that is filled with only the
- * s that are present in both @sourceOne and @sourceTwo.
+ * Construct a new list that is filled with only the elements
+ * that are present in both @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): an intersection of the two lists
  */

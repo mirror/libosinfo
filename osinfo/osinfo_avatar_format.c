@@ -171,7 +171,7 @@ osinfo_avatar_format_init (OsinfoAvatarFormat *avatar)
 /**
  * osinfo_avatar_format_new:
  *
- * Construct a new user avatar file to a #OsinfoInstallScript.
+ * Construct a new user avatar file for an #OsinfoInstallScript.
  *
  * Returns: (transfer full): the necessary information to create an avatar for
  *                           an user

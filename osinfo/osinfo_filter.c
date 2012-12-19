@@ -276,7 +276,7 @@ static gboolean osinfo_filter_matches_default(OsinfoFilter *filter, OsinfoEntity
 /**
  * osinfo_filter_matches:
  * @filter: a filter object
- * @entity: a entity to query
+ * @entity: an entity to query
  *
  * Determine of an entity matches a filter
  *

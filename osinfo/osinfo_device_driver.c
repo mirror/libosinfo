@@ -95,7 +95,7 @@ OsinfoDeviceDriver *osinfo_device_driver_new(const gchar *id)
 
 /**
  * osinfo_device_driver_get_architecture:
- * @driver: a #OsinfoDeviceDriver instance
+ * @driver: an #OsinfoDeviceDriver instance
  *
  * Retrieves the target hardware architecture of @driver.
  *
@@ -109,7 +109,7 @@ const gchar *osinfo_device_driver_get_architecture(OsinfoDeviceDriver *driver)
 
 /**
  * osinfo_device_driver_get_location:
- * @driver: a #OsinfoDeviceDriver instance
+ * @driver: an #OsinfoDeviceDriver instance
  *
  * Retrieves the location of the @driver as a URL.
  *
@@ -123,7 +123,7 @@ const gchar *osinfo_device_driver_get_location(OsinfoDeviceDriver *driver)
 
 /**
  * osinfo_device_driver_get_files:
- * @driver: a #OsinfoDeviceDriver instance
+ * @driver: an #OsinfoDeviceDriver instance
  *
  * Retrieves the names of driver files under the location returned by
  * #osinfo_device_driver_get_location.
@@ -138,7 +138,7 @@ GList *osinfo_device_driver_get_files(OsinfoDeviceDriver *driver)
 
 /**
  * osinfo_device_driver_get_pre_installable:
- * @driver: a #OsinfoDeviceDriver instance
+ * @driver: an #OsinfoDeviceDriver instance
  *
  * Returns: TRUE if @driver is pre-installable, FALSE otherwise.
  */
@@ -151,7 +151,7 @@ gboolean osinfo_device_driver_get_pre_installable(OsinfoDeviceDriver *driver)
 
 /**
  * osinfo_device_driver_get_devices:
- * @driver: a #OsinfoDeviceDriver instance
+ * @driver: an #OsinfoDeviceDriver instance
  *
  * Returns: (transfer none): The list of devices supported by this driver.
  */
