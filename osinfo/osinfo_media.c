@@ -1114,8 +1114,11 @@ gint osinfo_media_get_installer_reboots(OsinfoMedia *media)
             (OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_INSTALLER_REBOOTS, 1);
 }
 
-/* osinfo_media_get_os:
- * Returns: (transfer full):
+/**
+ * osinfo_media_get_os:
+ * @media: an #OsinfoMedia instance
+ *
+ * Returns: (transfer full): the operating system, or NULL
  */
 OsinfoOs *osinfo_media_get_os(OsinfoMedia *media)
 {
@@ -1156,6 +1159,14 @@ GList *osinfo_media_get_languages(OsinfoMedia *media)
     return osinfo_entity_get_param_value_list(OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_LANG);
 }
 
+/**
+ * osinfo_media_set_languages:
+ * @media: an #OsinfoMedia instance
+ * @languages: (element-type utf8): a #GList containing the list of the UI
+ * languages this media supports.
+ *
+ * Sets the #OSINFO_MEDIA_PROP_LANG parameter
+ */
 void osinfo_media_set_languages(OsinfoMedia *media, GList *languages)
 {
     GList *it;

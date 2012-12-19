@@ -538,7 +538,13 @@ void osinfo_os_add_recommended_resources(OsinfoOs *os,
                     OSINFO_ENTITY(resources));
 }
 
-
+/**
+ * osinfo_os_find_install_script:
+ * @os:      an operating system
+ * @profile: the install script profile
+ *
+ * Returns: (transfer full): A new #OsinfoInstallScript for the @os @profile
+ */
 OsinfoInstallScript *osinfo_os_find_install_script(OsinfoOs *os, const gchar *profile)
 {
     g_return_val_if_fail(OSINFO_IS_OS(os), NULL);

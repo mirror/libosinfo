@@ -889,6 +889,14 @@ static gpointer osinfo_install_script_generate_finish_common(OsinfoInstallScript
     return g_simple_async_result_get_op_res_gpointer(simple);
 }
 
+/**
+ * osinfo_install_script_generate_finish:
+ * @script: the install script
+ * @res:    a #GAsyncResult
+ * @error:  The location where to store any error, or NULL
+ *
+ * Returns: (transfer full): the generated script, or NULL on error
+ */
 gchar *osinfo_install_script_generate_finish(OsinfoInstallScript *script,
                                              GAsyncResult *res,
                                              GError **error)
@@ -898,6 +906,14 @@ gchar *osinfo_install_script_generate_finish(OsinfoInstallScript *script,
                                                         error);
 }
 
+/**
+ * osinfo_install_script_generate_output_finish:
+ * @script: the install script
+ * @res:    a #GAsyncResult
+ * @error:  The location where to store any error, or NULL
+ *
+ * Returns: (transfer full): a file containing the script, or NULL on error
+ */
 GFile *osinfo_install_script_generate_output_finish(OsinfoInstallScript *script,
                                                     GAsyncResult *res,
                                                     GError **error)
