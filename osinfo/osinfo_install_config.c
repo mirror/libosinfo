@@ -153,7 +153,7 @@ osinfo_install_config_init (OsinfoInstallConfig *config)
 
     osinfo_entity_set_param(OSINFO_ENTITY(config),
                             OSINFO_INSTALL_CONFIG_PROP_L10N_KEYBOARD,
-                            "us");
+                            "en_US.UTF-8");
     osinfo_entity_set_param(OSINFO_ENTITY(config),
                             OSINFO_INSTALL_CONFIG_PROP_L10N_TIMEZONE,
                             "America/New_York");
@@ -179,7 +179,7 @@ osinfo_install_config_init (OsinfoInstallConfig *config)
  *
  * Construct a new install configuration with default values for
  * language, keyboard, timezone and admin password. The default values
- * are to use an 'us' keyboard, an 'en_US.UTF-8' language and an
+ * are to use an 'en_US.UTF-8' language and keyboard, and an
  * 'America/New_York' timezone. The admin password is set to a random
  * 8 character password.
  *
