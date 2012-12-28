@@ -325,7 +325,7 @@ The following usage generates a Fedora 16 kickstart script
          --profile jeos \
          --config l10n-timezone=GMT \
          --config l10n-keyboard=uk \
-         --config l10n-language=en_GB.UTF-8 \
+         --config l10n-language=en_GB \
          --config admin-password=123456 \
          --config user-login=berrange \
          --config user-password=123456 \

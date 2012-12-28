@@ -153,13 +153,13 @@ osinfo_install_config_init (OsinfoInstallConfig *config)
 
     osinfo_entity_set_param(OSINFO_ENTITY(config),
                             OSINFO_INSTALL_CONFIG_PROP_L10N_KEYBOARD,
-                            "en_US.UTF-8");
+                            "en_US");
     osinfo_entity_set_param(OSINFO_ENTITY(config),
                             OSINFO_INSTALL_CONFIG_PROP_L10N_TIMEZONE,
                             "America/New_York");
     osinfo_entity_set_param(OSINFO_ENTITY(config),
                             OSINFO_INSTALL_CONFIG_PROP_L10N_LANGUAGE,
-                            "en_US.UTF-8");
+                            "en_US");
 
     for (i = 0 ; i < sizeof(pass)-1 ; i++) {
         gint val = g_random_int_range(0, sizeof(valid));
@@ -179,9 +179,8 @@ osinfo_install_config_init (OsinfoInstallConfig *config)
  *
  * Construct a new install configuration with default values for
  * language, keyboard, timezone and admin password. The default values
- * are to use an 'en_US.UTF-8' language and keyboard, and an
- * 'America/New_York' timezone. The admin password is set to a random
- * 8 character password.
+ * are to use an 'en_US' language and keyboard, and an 'America/New_York'
+ * timezone. The admin password is set to a random 8 character password.
  *
  * Returns: (transfer full): an install configuration with default
  * values
@@ -240,7 +239,6 @@ const gchar *osinfo_install_config_get_hardware_arch(OsinfoInstallConfig *config
                                          OSINFO_INSTALL_CONFIG_PROP_HARDWARE_ARCH);
 }
 
-
 /**
  * osinfo_install_config_set_l10n_keyboard:
  * @config: the install config
@@ -277,8 +275,9 @@ const gchar *osinfo_install_config_get_l10n_keyboard(OsinfoInstallConfig *config
  *
  * https://www.gnu.org/savannah-checkouts/gnu/gettext/manual/html_node/Locale-Names.html
  *
- * Encoding is accepted but option while variant is not yet supported. For example, both
- * 'pt_BR' and 'pt_BR.utf8' are accepted as the language codes for Brazilian Portuguese.
+ * Encoding and variant are (at least for now) not supported. For example,
+ * 'pt_BR' is accepted is accepted as the language codes for Brazilian Portuguese
+ * but 'pt_BR.utf8' is not.
  */
 void osinfo_install_config_set_l10n_language(OsinfoInstallConfig *config,
                                              const gchar *language)
