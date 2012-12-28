@@ -277,8 +277,8 @@ const gchar *osinfo_install_config_get_l10n_keyboard(OsinfoInstallConfig *config
  *
  * https://www.gnu.org/savannah-checkouts/gnu/gettext/manual/html_node/Locale-Names.html
  *
- * Both encoding and variant are accepted but optional. For example, both 'pt_BR'
- * and 'pt_BR.utf8' are accepted as the language codes for Brazilian Portuguese.
+ * Encoding is accepted but option while variant is not yet supported. For example, both
+ * 'pt_BR' and 'pt_BR.utf8' are accepted as the language codes for Brazilian Portuguese.
  */
 void osinfo_install_config_set_l10n_language(OsinfoInstallConfig *config,
                                              const gchar *language)
