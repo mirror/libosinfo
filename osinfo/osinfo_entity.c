@@ -135,7 +135,7 @@ osinfo_entity_class_init (OsinfoEntityClass *klass)
                                  "ID",
                                  _("Unique identifier"),
                                  NULL /* default value */,
-                                 G_PARAM_CONSTRUCT_ONLY |
+                                 G_PARAM_CONSTRUCT |
                                  G_PARAM_READWRITE |
                                  G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass,
