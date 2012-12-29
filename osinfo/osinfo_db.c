@@ -624,6 +624,7 @@ static void fill_media (OsinfoDb *db, OsinfoMedia *media,
     gboolean is_installer;
     gboolean is_live;
     gint reboots;
+    const gchar *id;
     const gchar *kernel_path;
     const gchar *initrd_path;
     const gchar *arch;
@@ -633,6 +634,9 @@ static void fill_media (OsinfoDb *db, OsinfoMedia *media,
     if (languages != NULL)
         osinfo_media_set_languages(media, languages);
     g_list_free(languages);
+
+    id = osinfo_entity_get_id(OSINFO_ENTITY(matched_media));
+    g_object_set(G_OBJECT(media), "id", id, NULL);
 
     arch = osinfo_media_get_architecture(matched_media);
     if (arch != NULL)
@@ -670,9 +674,9 @@ static void fill_media (OsinfoDb *db, OsinfoMedia *media,
  *
  * Try to match a newly created @media with a media description from @db.
  * If found, @media will be filled with the corresponding information
- * stored in @db. In particular, after a call to
- * osinfo_db_identify_media(), if the media could be identified, its
- * OsinfoMedia::os property will be set.
+ * stored in @db. In particular, after a call to osinfo_db_identify_media(), if
+ * the media could be identified, its OsinfoEntify::id and OsinfoMedia::os
+ * properties will be set.
  *
  * Returns: TRUE if @media was found in @db, FALSE otherwise
  */
