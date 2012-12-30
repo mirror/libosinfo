@@ -1,6 +1,6 @@
 
 databasedir = $(pkgdatadir)/db/hypervisors/
-database_in_files = rhel-xen.xml.in xen.xml.in
+database_in_files = kvm.xml.in qemu.xml.in rhel-xen.xml.in xen.xml.in
 
 database_DATA = $(database_in_files:.xml.in=.xml)
 

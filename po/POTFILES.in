@@ -21,6 +21,8 @@ data/devices/qemu-ps2.xml.in
 data/devices/qemu-pci.xml.in
 data/devices/virtio-pci.xml.in
 data/devices/qemu-usb.xml.in
+data/hypervisors/kvm.xml.in
+data/hypervisors/qemu.xml.in
 data/hypervisors/rhel-xen.xml.in
 data/hypervisors/xen.xml.in
 osinfo/osinfo_avatar_format.c
