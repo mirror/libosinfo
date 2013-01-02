@@ -28,6 +28,7 @@ osinfo/osinfo_deployment.c
 osinfo/osinfo_devicelink.c
 osinfo/osinfo_devicelinkfilter.c
 osinfo/osinfo_entity.c
+osinfo/osinfo_install_config.c
 osinfo/osinfo_install_config_param.c
 osinfo/osinfo_install_script.c
 osinfo/osinfo_list.c
