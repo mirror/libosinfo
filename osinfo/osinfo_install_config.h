@@ -22,7 +22,6 @@
  */
 
 #include <glib-object.h>
-#include <osinfo/osinfo_install_config_paramlist.h>
 
 #ifndef __OSINFO_INSTALL_CONFIG_H__
 #define __OSINFO_INSTALL_CONFIG_H__
@@ -183,7 +182,6 @@ const gchar *osinfo_install_config_get_avatar_disk(OsinfoInstallConfig *config);
 void osinfo_install_config_set_pre_install_drivers_disk(OsinfoInstallConfig *config,
                                                         const gchar *disk);
 const gchar *osinfo_install_config_get_pre_install_drivers_disk(OsinfoInstallConfig *config);
-
 void osinfo_install_config_set_pre_install_drivers_location(OsinfoInstallConfig *config,
                                                             const gchar *location);
 const gchar *osinfo_install_config_get_pre_install_drivers_location(OsinfoInstallConfig *config);
@@ -191,12 +189,9 @@ const gchar *osinfo_install_config_get_pre_install_drivers_location(OsinfoInstal
 void osinfo_install_config_set_post_install_drivers_disk(OsinfoInstallConfig *config,
                                                          const gchar *disk);
 const gchar *osinfo_install_config_get_post_install_drivers_disk(OsinfoInstallConfig *config);
-
 void osinfo_install_config_set_post_install_drivers_location(OsinfoInstallConfig *config,
                                                              const gchar *location);
 const gchar *osinfo_install_config_get_post_install_drivers_location(OsinfoInstallConfig *config);
-
-OsinfoInstallConfigParamList *osinfo_install_config_get_config_params(OsinfoInstallConfig *config);
 
 #endif /* __OSINFO_INSTALL_CONFIG_H__ */
 /*

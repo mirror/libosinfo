@@ -24,7 +24,6 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
-#include "osinfo/osinfo_install_config_private.h"
 #include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoInstallConfig, osinfo_install_config, OSINFO_TYPE_ENTITY);
@@ -43,91 +42,14 @@ G_DEFINE_TYPE (OsinfoInstallConfig, osinfo_install_config, OSINFO_TYPE_ENTITY);
 
 struct _OsinfoInstallConfigPrivate
 {
-    OsinfoInstallConfigParamList *config_params;
+    gboolean unused;
 };
-
-enum {
-    PROP_0,
-
-    PROP_CONFIG_PARAMS,
-};
-
-static void
-osinfo_install_config_set_property(GObject    *object,
-                                   guint       property_id,
-                                   const GValue     *value,
-                                   GParamSpec *pspec)
-{
-    OsinfoInstallConfig *config = OSINFO_INSTALL_CONFIG(object);
-
-    switch (property_id) {
-    case PROP_CONFIG_PARAMS:
-        osinfo_install_config_set_config_params(config, g_value_get_object(value));
-        break;
-
-    default:
-        /* We don't have any other property... */
-        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-        break;
-    }
-}
-
-static void
-osinfo_install_config_get_property(GObject    *object,
-                                   guint       property_id,
-                                   GValue     *value,
-                                   GParamSpec *pspec)
-{
-    OsinfoInstallConfig *config = OSINFO_INSTALL_CONFIG(object);
-
-    switch (property_id) {
-    case PROP_CONFIG_PARAMS:
-        g_value_set_object(value, osinfo_install_config_get_config_params(config));
-        break;
-
-    default:
-        /* We don't have any other property... */
-        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-        break;
-    }
-}
-
-
-static void
-osinfo_install_config_finalize (GObject *object)
-{
-    OsinfoInstallConfig *config = OSINFO_INSTALL_CONFIG (object);
-
-    if (config->priv->config_params)
-        g_object_unref(config->priv->config_params);
-
-    /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_install_config_parent_class)->finalize (object);
-}
 
 
 /* Init functions */
 static void
 osinfo_install_config_class_init (OsinfoInstallConfigClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
-    GParamSpec *pspec;
-
-    g_klass->get_property = osinfo_install_config_get_property;
-    g_klass->set_property = osinfo_install_config_set_property;
-    g_klass->finalize = osinfo_install_config_finalize;
-
-    pspec = g_param_spec_object("config-params",
-                                "Config Parameters",
-                                _("Valid configuration parameters"),
-                                OSINFO_TYPE_INSTALL_CONFIG_PARAMLIST,
-                                G_PARAM_READWRITE |
-                                G_PARAM_CONSTRUCT_ONLY |
-                                G_PARAM_STATIC_STRINGS);
-    g_object_class_install_property(g_klass,
-                                    PROP_CONFIG_PARAMS,
-                                    pspec);
-
     g_type_class_add_private (klass, sizeof (OsinfoInstallConfigPrivate));
 }
 
@@ -718,22 +640,6 @@ const gchar *osinfo_install_config_get_post_install_drivers_location(OsinfoInsta
     return osinfo_entity_get_param_value
             (OSINFO_ENTITY(config),
              OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_LOCATION);
-}
-
-void osinfo_install_config_set_config_params(OsinfoInstallConfig *config,
-                                             OsinfoInstallConfigParamList *config_params)
-{
-    if (config->priv->config_params != NULL)
-        g_object_unref(config->priv->config_params);
-    if (config_params != NULL)
-        config->priv->config_params = g_object_ref(G_OBJECT(config_params));
-    else
-        config->priv->config_params = NULL;
-}
-
-OsinfoInstallConfigParamList *osinfo_install_config_get_config_params(OsinfoInstallConfig *config)
-{
-    return config->priv->config_params;
 }
 
 /*
