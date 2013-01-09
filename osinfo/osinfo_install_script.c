@@ -30,7 +30,6 @@
 #include <libxslt/xsltutils.h>
 #include <libxslt/xsltInternals.h>
 #include <glib/gi18n-lib.h>
-#include "osinfo_install_config_private.h"
 #include "osinfo_install_script_private.h"
 
 G_DEFINE_TYPE (OsinfoInstallScript, osinfo_install_script, OSINFO_TYPE_ENTITY);
@@ -759,33 +758,6 @@ static gchar *osinfo_install_script_apply_xslt(xsltStylesheetPtr ss,
 }
 
 
-static OsinfoInstallConfig *create_config_for_script(OsinfoInstallScript *script, OsinfoInstallConfig *config)
-{
-    OsinfoInstallConfig *os_config;
-    GList *params;
-    GList *param;
-    const gchar *id;
-
-    id = osinfo_entity_get_id(OSINFO_ENTITY(config));
-    os_config = osinfo_install_config_new_for_script(id, script);
-    params = osinfo_entity_get_param_keys(OSINFO_ENTITY(config));
-    for (param = params; param != NULL; param = param->next) {
-        GList *values;
-        GList *value;
-
-        osinfo_entity_clear_param(OSINFO_ENTITY(os_config), param->data);
-        values = osinfo_entity_get_param_value_list(OSINFO_ENTITY(config), param->data);
-        for (value = values; value != NULL; value = value->next) {
-            osinfo_entity_add_param(OSINFO_ENTITY(os_config), param->data, value->data);
-        }
-        g_list_free(values);
-    }
-    g_list_free(params);
-
-    return os_config;
-}
-
-
 static gboolean osinfo_install_script_apply_template(OsinfoInstallScript *script,
                                                      OsinfoOs *os,
                                                      const gchar *templateUri,
@@ -795,10 +767,8 @@ static gboolean osinfo_install_script_apply_template(OsinfoInstallScript *script
                                                      GError **error)
 {
     gboolean ret = FALSE;
-    OsinfoInstallConfig *os_config = create_config_for_script(script, config);
     xsltStylesheetPtr templateXsl = osinfo_install_script_load_template(templateUri, template, error);
-    xmlDocPtr configXml = osinfo_install_script_generate_config_xml(script, os, os_config, error);
-    g_object_unref(G_OBJECT(os_config));
+    xmlDocPtr configXml = osinfo_install_script_generate_config_xml(script, os, config, error);
 
     if (!templateXsl || !configXml)
         goto cleanup;
