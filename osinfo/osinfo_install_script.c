@@ -603,10 +603,62 @@ static xsltStylesheetPtr osinfo_install_script_load_template(const gchar *uri,
     return xslt;
 }
 
-static xmlNodePtr osinfo_install_script_generate_entity_config(OsinfoInstallConfig *config,
-                                                               OsinfoEntity *entity,
-                                                               const gchar *name,
-                                                               GError **error)
+
+static OsinfoDatamap *
+osinfo_install_script_get_param_datamap(OsinfoInstallScript *script,
+                                        const gchar *param_name)
+{
+    OsinfoEntity *entity;
+    OsinfoInstallConfigParam *param;
+
+    if (!script->priv->config_params)
+        return NULL;
+
+    entity = osinfo_list_find_by_id(OSINFO_LIST(script->priv->config_params),
+                                    param_name);
+    if (entity == NULL) {
+        g_debug("%s is not a known parameter for this config", param_name);
+        return NULL;
+    }
+
+    param = OSINFO_INSTALL_CONFIG_PARAM(entity);
+    return osinfo_install_config_param_get_value_map(param);
+}
+
+
+static GList *
+osinfo_install_script_get_param_value_list(OsinfoInstallScript *script,
+                                           OsinfoInstallConfig *config,
+                                           const gchar *key)
+{
+    GList *values;
+    GList *it;
+    OsinfoDatamap *map;
+
+    values = osinfo_entity_get_param_value_list(OSINFO_ENTITY(config), key);
+    if (values == NULL)
+        return NULL;
+
+    map = osinfo_install_script_get_param_datamap(script, key);
+    if (map != NULL) {
+        for (it = values; it != NULL; it = it->next) {
+            const char *transformed_value;
+            transformed_value = osinfo_datamap_lookup(map, it->data);
+            if (transformed_value == NULL) {
+                continue;
+            }
+            it->data = (gpointer)transformed_value;
+        }
+    }
+
+    return values;
+}
+
+
+static xmlNodePtr osinfo_install_script_generate_entity_xml(OsinfoInstallScript *script,
+                                                            OsinfoEntity *entity,
+                                                            const gchar *name,
+                                                            GError **error)
 {
     xmlNodePtr node = NULL;
     xmlNodePtr data = NULL;
@@ -636,9 +688,17 @@ static xmlNodePtr osinfo_install_script_generate_entity_config(OsinfoInstallConf
 
     tmp1 = keys = osinfo_entity_get_param_keys(entity);
     while (tmp1) {
-        GList *values = osinfo_entity_get_param_value_list(entity, tmp1->data);
-        GList *tmp2 = values;
+        GList *values;
+        GList *tmp2;
 
+        if (OSINFO_IS_INSTALL_CONFIG(entity))
+            values = osinfo_install_script_get_param_value_list(script,
+                                                                OSINFO_INSTALL_CONFIG(entity),
+                                                                tmp1->data);
+        else
+            values = osinfo_entity_get_param_value_list(entity, tmp1->data);
+
+        tmp2 = values;
         while (tmp2) {
             if (!(data = xmlNewDocNode(NULL, NULL, (const xmlChar*)tmp1->data,
                                        (const xmlChar*)tmp2->data))) {
@@ -686,10 +746,10 @@ static xmlDocPtr osinfo_install_script_generate_config_xml(OsinfoInstallScript *
                          NULL);
     xmlDocSetRootElement(doc, root);
 
-    if (!(node = osinfo_install_script_generate_entity_config(config,
-                                                              OSINFO_ENTITY(script),
-                                                              "script",
-                                                              error)))
+    if (!(node = osinfo_install_script_generate_entity_xml(script,
+                                                           OSINFO_ENTITY(script),
+                                                           "script",
+                                                           error)))
         goto error;
     if (!(xmlAddChild(root, node))) {
         xmlErrorPtr err = xmlGetLastError();
@@ -697,10 +757,10 @@ static xmlDocPtr osinfo_install_script_generate_config_xml(OsinfoInstallScript *
         goto error;
     }
 
-    if (!(node = osinfo_install_script_generate_entity_config(config,
-                                                              OSINFO_ENTITY(os),
-                                                              "os",
-                                                              error)))
+    if (!(node = osinfo_install_script_generate_entity_xml(script,
+                                                           OSINFO_ENTITY(os),
+                                                           "os",
+                                                           error)))
         goto error;
     if (!(xmlAddChild(root, node))) {
         xmlErrorPtr err = xmlGetLastError();
@@ -708,10 +768,10 @@ static xmlDocPtr osinfo_install_script_generate_config_xml(OsinfoInstallScript *
         goto error;
     }
 
-    if (!(node = osinfo_install_script_generate_entity_config(config,
-                                                              OSINFO_ENTITY(config),
-                                                              "config",
-                                                              error)))
+    if (!(node = osinfo_install_script_generate_entity_xml(script,
+                                                           OSINFO_ENTITY(config),
+                                                           "config",
+                                                           error)))
         goto error;
     if (!(xmlAddChild(root, node))) {
         xmlErrorPtr err = xmlGetLastError();
