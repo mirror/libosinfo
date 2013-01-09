@@ -28,9 +28,12 @@
 #include <locale.h>
 #include <glib/gi18n.h>
 
-static const gchar *profile;
+static const gchar *profile = "jeos";
 static const gchar *output_dir;
 static const gchar *prefix;
+
+static gboolean list_config = FALSE;
+static gboolean list_profile = FALSE;
 
 static OsinfoInstallConfig *config;
 
@@ -71,6 +74,10 @@ static GOptionEntry entries[] =
     { "config", 'c', 0, G_OPTION_ARG_CALLBACK,
       handle_config,
       N_("Set configuration parameter"), "key=value" },
+    { "list-config", '\0', 0, G_OPTION_ARG_NONE, (void*)&list_config,
+      N_("List configuration parameters"), NULL },
+    { "list-profiles", '\0', 0, G_OPTION_ARG_NONE, (void*)&list_profile,
+      N_("List install script profiles"), NULL },
     { NULL }
 };
 
@@ -108,6 +115,76 @@ static OsinfoOs *find_os(OsinfoDb *db,
 }
 
 
+static gboolean list_script_config(OsinfoOs *os)
+{
+    OsinfoInstallScriptList *scripts = osinfo_os_get_install_script_list(os);
+    OsinfoInstallScriptList *profile_scripts;
+    OsinfoFilter *filter;
+    GList *l, *tmp;
+    gboolean ret = FALSE;
+
+    filter = osinfo_filter_new();
+    osinfo_filter_add_constraint(filter,
+                                 OSINFO_INSTALL_SCRIPT_PROP_PROFILE,
+                                 profile ? profile :
+                                 OSINFO_INSTALL_SCRIPT_PROFILE_JEOS);
+    profile_scripts = OSINFO_INSTALL_SCRIPTLIST(osinfo_list_new_filtered(OSINFO_LIST(scripts),
+                                                                         filter));
+    l = osinfo_list_get_elements(OSINFO_LIST(profile_scripts));
+    if (!l) {
+        g_printerr(_("No install script for profile '%s' and OS '%s'"),
+                   profile, osinfo_product_get_name(OSINFO_PRODUCT(os)));
+        goto cleanup;
+    }
+
+    for (tmp = l; tmp != NULL; tmp = tmp->next) {
+        OsinfoInstallScript *script = tmp->data;
+        GList *params = osinfo_install_script_get_config_param_list(script);
+        GList *tmp2;
+
+        for (tmp2 = params ; tmp2 != NULL ; tmp2 = tmp2->next) {
+            OsinfoInstallConfigParam *param = OSINFO_INSTALL_CONFIG_PARAM(tmp2->data);
+
+            g_print("%s: %s\n",
+                    osinfo_install_config_param_get_name(param),
+                    osinfo_install_config_param_is_required(param) ?
+                    _("required") : _("optional"));
+        }
+    }
+    ret = TRUE;
+
+ cleanup:
+    g_list_free(l);
+    g_object_unref(scripts);
+    g_object_unref(filter);
+    g_object_unref(profile_scripts);
+    return ret;
+}
+
+
+static gboolean list_script_profile(OsinfoOs *os)
+{
+    OsinfoInstallScriptList *scripts = osinfo_os_get_install_script_list(os);
+    GList *l, *tmp;
+    gboolean ret = FALSE;
+
+    l = osinfo_list_get_elements(OSINFO_LIST(scripts));
+
+    for (tmp = l; tmp != NULL; tmp = tmp->next) {
+        OsinfoInstallScript *script = tmp->data;
+
+        g_print("%s: %s\n",
+                osinfo_install_script_get_profile(script),
+                osinfo_install_script_get_expected_filename(script));
+    }
+    ret = TRUE;
+
+    g_list_free(l);
+    g_object_unref(scripts);
+    return ret;
+}
+
+
 static gboolean generate_script(OsinfoOs *os)
 {
     OsinfoInstallScriptList *scripts = osinfo_os_get_install_script_list(os);
@@ -125,6 +202,13 @@ static gboolean generate_script(OsinfoOs *os)
     profile_scripts = OSINFO_INSTALL_SCRIPTLIST(osinfo_list_new_filtered(OSINFO_LIST(scripts),
                                                                          filter));
     l = osinfo_list_get_elements(OSINFO_LIST(profile_scripts));
+
+    if (!l) {
+        g_printerr(_("No install script for profile '%s' and OS '%s'"),
+                   profile, osinfo_product_get_name(OSINFO_PRODUCT(os)));
+        goto cleanup;
+    }
+
     for (tmp = l; tmp != NULL; tmp = tmp->next) {
         OsinfoInstallScript *script = tmp->data;
         GFile *dir = g_file_new_for_commandline_arg(output_dir ?
@@ -191,6 +275,14 @@ gint main(gint argc, gchar **argv)
         goto EXIT;
     }
 
+    if (list_profile && list_config) {
+        g_printerr("%s",
+                   _("Only one of --list-propfile and --list-config can be requested"));
+        ret = -2;
+        goto EXIT;
+    }
+
+
     loader = osinfo_loader_new();
     osinfo_loader_process_default_path(loader, &error);
     if (error != NULL) {
@@ -208,9 +300,21 @@ gint main(gint argc, gchar **argv)
         goto EXIT;
     }
 
-    if (!generate_script(os)) {
-        ret = -5;
-        goto EXIT;
+    if (list_config) {
+        if (!list_script_config(os)) {
+            ret = -5;
+            goto EXIT;
+        }
+    } else if (list_profile) {
+        if (!list_script_profile(os)) {
+            ret = -5;
+            goto EXIT;
+        }
+    } else {
+        if (!generate_script(os)) {
+            ret = -5;
+            goto EXIT;
+        }
     }
 
 EXIT:
