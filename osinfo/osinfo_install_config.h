@@ -72,8 +72,6 @@ typedef struct _OsinfoInstallConfig        OsinfoInstallConfig;
 typedef struct _OsinfoInstallConfigClass   OsinfoInstallConfigClass;
 typedef struct _OsinfoInstallConfigPrivate OsinfoInstallConfigPrivate;
 
-#include <osinfo/osinfo_install_script.h>
-
 /* object */
 struct _OsinfoInstallConfig
 {
@@ -97,8 +95,6 @@ struct _OsinfoInstallConfigClass
 GType osinfo_install_config_get_type(void);
 
 OsinfoInstallConfig *osinfo_install_config_new(const gchar *id);
-OsinfoInstallConfig *osinfo_install_config_new_for_script(const gchar *id,
-                                                          OsinfoInstallScript *script);
 
 void osinfo_install_config_set_hardware_arch(OsinfoInstallConfig *config,
                                              const gchar *arch);

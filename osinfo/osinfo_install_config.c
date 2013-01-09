@@ -188,39 +188,8 @@ osinfo_install_config_init (OsinfoInstallConfig *config)
  */
 OsinfoInstallConfig *osinfo_install_config_new(const gchar *id)
 {
-    g_return_val_if_fail(id != NULL, NULL);
-
-    return g_object_new(OSINFO_TYPE_INSTALL_CONFIG, "id", id, NULL);
-}
-
-
-/**
- * osinfo_install_config_new_for_script:
- * @id: the unique identifier
- * @script: the #OsinfoInstallScript we are creating the configuration for
- *
- * Construct a new install configuration associated with @script.
- * OsinfoInstallConfig:config-params will contain the
- * #OsinfoInstallConfigParamList describing the parameters that can be set
- * on the config object when creating a configuration for @script. See
- * osinfo_install_config_new() for a description of the default values that
- * will be set on the newly created #OsinfoInstallConfig.
- *
- * Returns: (transfer full): an install configuration
- */
-OsinfoInstallConfig *osinfo_install_config_new_for_script(const gchar *id,
-                                                          OsinfoInstallScript *script)
-{
-    OsinfoInstallConfigParamList *params;
-
-    g_return_val_if_fail(id != NULL, NULL);
-    g_return_val_if_fail(script != NULL, NULL);
-
-    params = osinfo_install_script_get_config_params(script);
-
     return g_object_new(OSINFO_TYPE_INSTALL_CONFIG,
                         "id", id,
-                        "config-params", params,
                         NULL);
 }
 
