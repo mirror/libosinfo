@@ -28,7 +28,6 @@
 
 void osinfo_install_config_set_config_params(OsinfoInstallConfig *config,
                                              OsinfoInstallConfigParamList *config_params);
-GList *osinfo_install_config_get_param_value_list(OsinfoInstallConfig *config, const gchar *key);
 
 #endif /* __OSINFO_INSTALL_CONFIG_PRIVATE_H__ */
 /*
