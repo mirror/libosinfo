@@ -112,6 +112,7 @@ libosinfo_1_0_la_SOURCES =		\
   osinfo_devicelinklist.c		\
   osinfo_devicelinkfilter.c		\
   osinfo_device_driver.c		\
+  osinfo_device_driver_private.h	\
   osinfo_device_driverlist.c		\
   osinfo_install_config.c		\
   osinfo_install_config_param.c		\
