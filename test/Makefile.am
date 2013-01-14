@@ -1,5 +1,5 @@
 
-EXTRA_DIST = isodata
+EXTRA_DIST = isodata dbdata
 
 check_PROGRAMS = \
 	test-entity \
