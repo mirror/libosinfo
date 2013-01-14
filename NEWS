@@ -1,3 +1,35 @@
+0.2.3 - Jan 14, 2013
+====================
+
+Changes since 0.2.2:
+
+- Add datamaps for translating OS-neutral values to OS-specific ones, e.g some
+  installer configuration parameters like keyboard, language and timezone etc.
+- New API to detect media that makes it possible to also query languages
+  supported by the media.
+- Add install scripts for:
+  - RHEL 6.x.
+  - Microsoft Windows 8
+- Fix install script for Fedora 18.
+- Drop support for encoding in l10n install script configuration parameters.
+- Fix test build issues.
+- Fixes and improvements to documentation.
+- Fix potential issues spotted by Coverity.
+- Fix build for translations.
+- osinfo-install-script tool now has options to list available configuration
+  parameters and profiles.
+- Add/improve data on:
+  - RHEL
+  - Debian
+  - openSUSE
+  - Microsoft Windows 7
+  - Ubuntu
+  - MacOS X
+- Added translations:
+  - Ukrainian
+  - Polish
+- Many other fixes and improvements.
+
 0.2.2 - Dec 10, 2012
 ====================
 
