@@ -11,6 +11,8 @@ URL: https://fedorahosted.org/libosinfo/
 
 BuildArch: noarch
 
+BuildRequires: intltool
+
 BuildRequires: mingw32-filesystem >= 95
 BuildRequires: mingw64-filesystem >= 95
 BuildRequires: mingw32-gcc
@@ -93,6 +95,7 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 %dir %{mingw32_datadir}/libosinfo/schemas
 %{mingw32_datadir}/libosinfo/db/usb.ids
 %{mingw32_datadir}/libosinfo/db/pci.ids
+%{mingw32_datadir}/libosinfo/db/datamaps
 %{mingw32_datadir}/libosinfo/db/devices
 %{mingw32_datadir}/libosinfo/db/oses
 %{mingw32_datadir}/libosinfo/db/hypervisors
@@ -102,6 +105,7 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 %{mingw32_mandir}/man1/osinfo-detect.1*
 %{mingw32_mandir}/man1/osinfo-install-script.1*
 %{mingw32_mandir}/man1/osinfo-query.1*
+%{mingw32_libdir}/locale/*/LC_MESSAGES/libosinfo.mo
 
 %files -n mingw64-libosinfo
 %doc AUTHORS ChangeLog COPYING.LIB NEWS README
@@ -121,6 +125,7 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 %dir %{mingw64_datadir}/libosinfo/schemas
 %{mingw64_datadir}/libosinfo/db/usb.ids
 %{mingw64_datadir}/libosinfo/db/pci.ids
+%{mingw64_datadir}/libosinfo/db/datamaps
 %{mingw64_datadir}/libosinfo/db/devices
 %{mingw64_datadir}/libosinfo/db/oses
 %{mingw64_datadir}/libosinfo/db/hypervisors
@@ -130,5 +135,6 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 %{mingw64_mandir}/man1/osinfo-detect.1*
 %{mingw64_mandir}/man1/osinfo-install-script.1*
 %{mingw64_mandir}/man1/osinfo-query.1*
+%{mingw64_libdir}/locale/*/LC_MESSAGES/libosinfo.mo
 
 %changelog

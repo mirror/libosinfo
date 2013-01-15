@@ -19,6 +19,7 @@ Group: Development/Libraries
 Source: https://fedorahosted.org/releases/l/i/%{name}/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 URL: https://fedorahosted.org/libosinfo/
+BuildRequires: intltool
 BuildRequires: glib2-devel
 BuildRequires: check-devel
 BuildRequires: libxml2-devel >= 2.6.0
@@ -83,6 +84,8 @@ rm -fr %{buildroot}
 rm -f %{buildroot}%{_libdir}/*.a
 rm -f %{buildroot}%{_libdir}/*.la
 
+%find_lang %{name}
+
 %check
 make check
 
@@ -93,7 +96,7 @@ rm -fr %{buildroot}
 
 %postun -p /sbin/ldconfig
 
-%files
+%files -f %{name}.lang
 %defattr(-, root, root)
 %doc AUTHORS ChangeLog COPYING.LIB NEWS README
 %{_bindir}/osinfo-detect
@@ -105,6 +108,7 @@ rm -fr %{buildroot}
 %dir %{_datadir}/libosinfo/schemas/
 %{_datadir}/libosinfo/db/usb.ids
 %{_datadir}/libosinfo/db/pci.ids
+%{_datadir}/libosinfo/db/datamaps
 %{_datadir}/libosinfo/db/devices
 %{_datadir}/libosinfo/db/oses
 %{_datadir}/libosinfo/db/hypervisors
