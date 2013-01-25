@@ -1230,6 +1230,42 @@ gboolean osinfo_install_script_get_can_post_install_drivers(OsinfoInstallScript 
          OSINFO_INSTALL_SCRIPT_PROP_CAN_POST_INSTALL_DRIVERS);
 }
 
+/**
+ * osinfo_install_script_get_pre_install_drivers_signing_req:
+ * @script: the install script
+ *
+ * If install script can install drivers at the very beginning of installation,
+ * this function retrieves the requirement about signed status of drivers.
+ *
+ * Returns: (type OsinfoDeviceDriverSigningReq):
+ */
+int osinfo_install_script_get_pre_install_drivers_signing_req(OsinfoInstallScript *script)
+{
+    return osinfo_entity_get_param_value_enum
+        (OSINFO_ENTITY(script),
+         OSINFO_INSTALL_SCRIPT_PROP_PRE_INSTALL_DRIVERS_SIGNING_REQ,
+         OSINFO_TYPE_DEVICE_DRIVER_SIGNING_REQ,
+         OSINFO_DEVICE_DRIVER_SIGNING_REQ_NONE);
+}
+
+/**
+ * osinfo_install_script_get_post_install_drivers_signing_req:
+ * @script: the install script
+ *
+ * If install script can install drivers at the end of installation, this
+ * function retrieves the requirement about signed status of drivers.
+ *
+ * Returns: (type OsinfoDeviceDriverSigningReq):
+ */
+int osinfo_install_script_get_post_install_drivers_signing_req(OsinfoInstallScript *script)
+{
+    return osinfo_entity_get_param_value_enum
+        (OSINFO_ENTITY(script),
+         OSINFO_INSTALL_SCRIPT_PROP_POST_INSTALL_DRIVERS_SIGNING_REQ,
+         OSINFO_TYPE_DEVICE_DRIVER_SIGNING_REQ,
+         OSINFO_DEVICE_DRIVER_SIGNING_REQ_NONE);
+}
+
 /*
  * Local variables:
  *  indent-tabs-mode: nil

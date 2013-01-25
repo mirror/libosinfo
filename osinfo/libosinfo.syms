@@ -404,8 +404,13 @@ LIBOSINFO_0.2.6 {
 	osinfo_device_driver_get_signed;
 	osinfo_device_driver_set_signed;
 
+	osinfo_device_driver_signing_req_get_type;
+
 	osinfo_install_config_get_driver_signing;
 	osinfo_install_config_set_driver_signing;
+
+	osinfo_install_script_get_pre_install_drivers_signing_req;
+	osinfo_install_script_get_post_install_drivers_signing_req;
 } LIBOSINFO_0.2.3;
 
 /* Symbols in next release...

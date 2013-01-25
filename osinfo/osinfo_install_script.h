@@ -55,6 +55,8 @@ typedef struct _OsinfoInstallScriptPrivate OsinfoInstallScriptPrivate;
 #define OSINFO_INSTALL_SCRIPT_PROP_PATH_FORMAT        "path-format"
 #define OSINFO_INSTALL_SCRIPT_PROP_CAN_PRE_INSTALL_DRIVERS "can-pre-install-drivers"
 #define OSINFO_INSTALL_SCRIPT_PROP_CAN_POST_INSTALL_DRIVERS "can-post-install-drivers"
+#define OSINFO_INSTALL_SCRIPT_PROP_PRE_INSTALL_DRIVERS_SIGNING_REQ "pre-install-drivers-signing-req"
+#define OSINFO_INSTALL_SCRIPT_PROP_POST_INSTALL_DRIVERS_SIGNING_REQ "post-install-drivers-signing-req"
 
 /* object */
 struct _OsinfoInstallScript
@@ -85,6 +87,31 @@ typedef enum {
     OSINFO_PATH_FORMAT_UNIX,
     OSINFO_PATH_FORMAT_DOS
 } OsinfoPathFormat;
+
+/**
+ * OsinfoDeviceDriverSigningReq:
+ *
+ * @OSINFO_DEVICE_DRIVER_SIGNING_REQ_NONE: Script do not require device drivers
+ * to be signed.
+ *
+ * @OSINFO_DEVICE_DRIVER_SIGNING_REQ_STRICT: Script must only be given signed
+ * device drivers. Some scripts will allow overriding this requirement through
+ * #osinfo_install_config_set_driver_signing function. You can query if a
+ * script supports this by checking if
+ * #OSINFO_INSTALL_CONFIG_PROP_DRIVER_SIGNING configuration parameter is used
+ * by the script in question (or other scripts in the same profile).
+ *
+ * @OSINFO_DEVICE_DRIVER_SIGNING_REQ_WARN: A warning will be issued by OS
+ * installer if device drivers are not signed and most probably require user
+ * input (and thus breaking unattended installation). See
+ * #OSINFO_DEVICE_DRIVER_SIGNING_REQ_STRICT on how this warning can be disabled
+ * for some scripts.
+ */
+typedef enum {
+    OSINFO_DEVICE_DRIVER_SIGNING_REQ_NONE,
+    OSINFO_DEVICE_DRIVER_SIGNING_REQ_STRICT,
+    OSINFO_DEVICE_DRIVER_SIGNING_REQ_WARN
+} OsinfoDeviceDriverSigningReq;
 
 GType osinfo_install_script_get_type(void);
 
@@ -162,6 +189,9 @@ OsinfoPathFormat osinfo_install_script_get_path_format(OsinfoInstallScript *scri
 
 gboolean osinfo_install_script_get_can_pre_install_drivers(OsinfoInstallScript *script);
 gboolean osinfo_install_script_get_can_post_install_drivers(OsinfoInstallScript *script);
+
+int osinfo_install_script_get_pre_install_drivers_signing_req(OsinfoInstallScript *script);
+int osinfo_install_script_get_post_install_drivers_signing_req(OsinfoInstallScript *script);
 
 #endif /* __OSINFO_INSTALL_SCRIPT_H__ */
 /*
