@@ -55,6 +55,7 @@ typedef struct _OsinfoDeviceDriverPrivate OsinfoDeviceDriverPrivate;
 #define OSINFO_DEVICE_DRIVER_PROP_PRE_INSTALLABLE "pre-installable"
 #define OSINFO_DEVICE_DRIVER_PROP_FILE            "file"
 #define OSINFO_DEVICE_DRIVER_PROP_DEVICE          "device"
+#define OSINFO_DEVICE_DRIVER_PROP_SIGNED          "signed"
 
 /* object */
 struct _OsinfoDeviceDriver
@@ -83,6 +84,7 @@ const gchar *osinfo_device_driver_get_location(OsinfoDeviceDriver *driver);
 gboolean osinfo_device_driver_get_pre_installable(OsinfoDeviceDriver *driver);
 GList *osinfo_device_driver_get_files(OsinfoDeviceDriver *driver);
 OsinfoDeviceList *osinfo_device_driver_get_devices(OsinfoDeviceDriver *driver);
+gboolean osinfo_device_driver_get_signed(OsinfoDeviceDriver *driver);
 
 #endif /* __OSINFO_DEVICE_DRIVER_H__ */
 /*

@@ -170,6 +170,22 @@ void osinfo_device_driver_add_device(OsinfoDeviceDriver *driver,
                     OSINFO_ENTITY(device));
 }
 
+/**
+ * osinfo_device_driver_get_signed:
+ * @driver: an #OsinfoDeviceDriver instance
+ *
+ * Some OS vendors recommend or require device drivers to be signed by them
+ * before these device drivers could be installed on their OS.
+ *
+ * Returns: TRUE if @driver is signed, FALSE otherwise.
+ */
+gboolean osinfo_device_driver_get_signed(OsinfoDeviceDriver *driver)
+{
+    return osinfo_entity_get_param_value_boolean
+                (OSINFO_ENTITY(driver),
+                 OSINFO_DEVICE_DRIVER_PROP_SIGNED);
+}
+
 /*
  * Local variables:
  *  indent-tabs-mode: nil
