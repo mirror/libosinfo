@@ -190,6 +190,7 @@ static gboolean generate_script(OsinfoOs *os)
     OsinfoInstallScriptList *scripts = osinfo_os_get_install_script_list(os);
     OsinfoInstallScriptList *profile_scripts;
     OsinfoFilter *filter;
+    GFile *dir;
     GList *l, *tmp;
     gboolean ret = FALSE;
     GError *error = NULL;
@@ -209,10 +210,10 @@ static gboolean generate_script(OsinfoOs *os)
         goto cleanup;
     }
 
+    dir = g_file_new_for_commandline_arg(output_dir ? output_dir : ".");
+
     for (tmp = l; tmp != NULL; tmp = tmp->next) {
         OsinfoInstallScript *script = tmp->data;
-        GFile *dir = g_file_new_for_commandline_arg(output_dir ?
-                                                    output_dir : ".");
 
         if (prefix)
             osinfo_install_script_set_output_prefix(script, prefix);
@@ -236,6 +237,7 @@ static gboolean generate_script(OsinfoOs *os)
     g_object_unref(scripts);
     g_object_unref(filter);
     g_object_unref(profile_scripts);
+    g_object_unref(dir);
     return ret;
 }
 
