@@ -34,6 +34,7 @@ static const gchar *prefix;
 
 static gboolean list_config = FALSE;
 static gboolean list_profile = FALSE;
+static gboolean quiet = FALSE;
 
 static OsinfoInstallConfig *config;
 
@@ -78,6 +79,8 @@ static GOptionEntry entries[] =
       N_("List configuration parameters"), NULL },
     { "list-profiles", '\0', 0, G_OPTION_ARG_NONE, (void*)&list_profile,
       N_("List install script profiles"), NULL },
+    { "quiet", 'q', 0, G_OPTION_ARG_NONE, (void*)&quiet,
+      N_("Do not display output filenames"), NULL },
     { NULL }
 };
 
@@ -229,6 +232,8 @@ static gboolean generate_script(OsinfoOs *os)
                        error->message ? error->message : "unknown");
             goto cleanup;
         }
+        if (!quiet)
+           g_print ("%s\n", osinfo_install_script_get_output_filename(script));
     }
     ret = TRUE;
 
