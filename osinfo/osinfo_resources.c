@@ -248,8 +248,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
 static void
 osinfo_resources_init (OsinfoResources *resources)
 {
-    OsinfoResourcesPrivate *priv;
-    resources->priv = priv = OSINFO_RESOURCES_GET_PRIVATE(resources);
+    resources->priv = OSINFO_RESOURCES_GET_PRIVATE(resources);
 }
 
 OsinfoResources *osinfo_resources_new(const gchar *id,

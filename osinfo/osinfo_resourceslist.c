@@ -67,8 +67,7 @@ osinfo_resourceslist_class_init (OsinfoResourcesListClass *klass)
 static void
 osinfo_resourceslist_init (OsinfoResourcesList *list)
 {
-    OsinfoResourcesListPrivate *priv;
-    list->priv = priv = OSINFO_RESOURCESLIST_GET_PRIVATE(list);
+    list->priv = OSINFO_RESOURCESLIST_GET_PRIVATE(list);
 
 }
 

@@ -552,8 +552,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
 static void
 osinfo_media_init (OsinfoMedia *media)
 {
-    OsinfoMediaPrivate *priv;
-    media->priv = priv = OSINFO_MEDIA_GET_PRIVATE(media);
+    media->priv = OSINFO_MEDIA_GET_PRIVATE(media);
     g_weak_ref_init(&media->priv->os, NULL);
 }
 

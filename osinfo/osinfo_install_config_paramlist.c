@@ -66,9 +66,7 @@ osinfo_install_config_paramlist_class_init (OsinfoInstallConfigParamListClass *k
 static void
 osinfo_install_config_paramlist_init (OsinfoInstallConfigParamList *list)
 {
-    OsinfoInstallConfigParamListPrivate *priv;
-    list->priv = priv = OSINFO_INSTALL_CONFIG_PARAMLIST_GET_PRIVATE(list);
-
+    list->priv = OSINFO_INSTALL_CONFIG_PARAMLIST_GET_PRIVATE(list);
 }
 
 /**

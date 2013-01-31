@@ -65,9 +65,7 @@ osinfo_deploymentlist_class_init (OsinfoDeploymentListClass *klass)
 static void
 osinfo_deploymentlist_init (OsinfoDeploymentList *list)
 {
-    OsinfoDeploymentListPrivate *priv;
-    list->priv = priv = OSINFO_DEPLOYMENTLIST_GET_PRIVATE(list);
-
+    list->priv = OSINFO_DEPLOYMENTLIST_GET_PRIVATE(list);
 }
 
 

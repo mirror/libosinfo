@@ -70,8 +70,7 @@ osinfo_device_class_init (OsinfoDeviceClass *klass)
 static void
 osinfo_device_init (OsinfoDevice *device)
 {
-    OsinfoDevicePrivate *priv;
-    device->priv = priv = OSINFO_DEVICE_GET_PRIVATE(device);
+    device->priv = OSINFO_DEVICE_GET_PRIVATE(device);
 }
 
 OsinfoDevice *osinfo_device_new(const gchar *id)

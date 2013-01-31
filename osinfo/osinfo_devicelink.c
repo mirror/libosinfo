@@ -143,8 +143,7 @@ osinfo_devicelink_class_init (OsinfoDeviceLinkClass *klass)
 static void
 osinfo_devicelink_init (OsinfoDeviceLink *devlink)
 {
-    OsinfoDeviceLinkPrivate *priv;
-    devlink->priv = priv = OSINFO_DEVICELINK_GET_PRIVATE(devlink);
+    devlink->priv = OSINFO_DEVICELINK_GET_PRIVATE(devlink);
 }
 
 

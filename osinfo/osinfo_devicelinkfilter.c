@@ -166,9 +166,7 @@ OsinfoDeviceLinkFilter *osinfo_devicelinkfilter_new(OsinfoFilter *filter)
 static void
 osinfo_devicelinkfilter_init (OsinfoDeviceLinkFilter *devicelinkfilter)
 {
-    OsinfoDeviceLinkFilterPrivate *priv;
-    priv = OSINFO_DEVICELINKFILTER_GET_PRIVATE(devicelinkfilter);
-    devicelinkfilter->priv = priv;
+    devicelinkfilter->priv = OSINFO_DEVICELINKFILTER_GET_PRIVATE(devicelinkfilter);
 }
 
 

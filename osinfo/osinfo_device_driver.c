@@ -76,10 +76,8 @@ osinfo_device_driver_class_init (OsinfoDeviceDriverClass *klass)
 static void
 osinfo_device_driver_init (OsinfoDeviceDriver *driver)
 {
-    OsinfoDeviceDriverPrivate *priv;
-    driver->priv = priv = OSINFO_DEVICE_DRIVER_GET_PRIVATE(driver);
-
-    priv->devices = osinfo_devicelist_new ();
+    driver->priv = OSINFO_DEVICE_DRIVER_GET_PRIVATE(driver);
+    driver->priv->devices = osinfo_devicelist_new ();
 }
 
 OsinfoDeviceDriver *osinfo_device_driver_new(const gchar *id)

@@ -172,9 +172,7 @@ osinfo_db_class_init (OsinfoDbClass *klass)
 static void
 osinfo_db_init (OsinfoDb *db)
 {
-    OsinfoDbPrivate *priv;
-    db->priv = priv = OSINFO_DB_GET_PRIVATE(db);
-
+    db->priv = OSINFO_DB_GET_PRIVATE(db);
     db->priv->devices = osinfo_devicelist_new();
     db->priv->platforms = osinfo_platformlist_new();
     db->priv->oses = osinfo_oslist_new();

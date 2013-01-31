@@ -65,9 +65,7 @@ osinfo_platformlist_class_init (OsinfoPlatformListClass *klass)
 static void
 osinfo_platformlist_init (OsinfoPlatformList *list)
 {
-    OsinfoPlatformListPrivate *priv;
-    list->priv = priv = OSINFO_PLATFORMLIST_GET_PRIVATE(list);
-
+    list->priv = OSINFO_PLATFORMLIST_GET_PRIVATE(list);
 }
 
 

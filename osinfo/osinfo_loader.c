@@ -84,9 +84,7 @@ osinfo_loader_class_init (OsinfoLoaderClass *klass)
 static void
 osinfo_loader_init (OsinfoLoader *loader)
 {
-    OsinfoLoaderPrivate *priv;
-    loader->priv = priv = OSINFO_LOADER_GET_PRIVATE(loader);
-
+    loader->priv = OSINFO_LOADER_GET_PRIVATE(loader);
     loader->priv->db = osinfo_db_new();
 }
 

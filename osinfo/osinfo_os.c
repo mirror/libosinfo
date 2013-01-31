@@ -171,8 +171,7 @@ osinfo_os_class_init (OsinfoOsClass *klass)
 static void
 osinfo_os_init (OsinfoOs *os)
 {
-    OsinfoOsPrivate *priv;
-    os->priv = priv = OSINFO_OS_GET_PRIVATE(os);
+    os->priv = OSINFO_OS_GET_PRIVATE(os);
 
     os->priv->deviceLinks = NULL;
     os->priv->medias = osinfo_medialist_new ();

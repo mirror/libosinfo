@@ -67,11 +67,10 @@ static const gchar valid[] = {
 static void
 osinfo_install_config_init (OsinfoInstallConfig *config)
 {
-    OsinfoInstallConfigPrivate *priv;
     gchar pass[9];
     gsize i;
 
-    config->priv = priv = OSINFO_INSTALL_CONFIG_GET_PRIVATE(config);
+    config->priv = OSINFO_INSTALL_CONFIG_GET_PRIVATE(config);
 
     osinfo_entity_set_param(OSINFO_ENTITY(config),
                             OSINFO_INSTALL_CONFIG_PROP_L10N_KEYBOARD,

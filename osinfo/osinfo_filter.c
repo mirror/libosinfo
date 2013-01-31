@@ -105,9 +105,7 @@ osinfo_filter_prop_constraints_free(gpointer props)
 static void
 osinfo_filter_init (OsinfoFilter *filter)
 {
-    OsinfoFilterPrivate *priv;
-    priv = OSINFO_FILTER_GET_PRIVATE(filter);
-    filter->priv = priv;
+    filter->priv = OSINFO_FILTER_GET_PRIVATE(filter);
 
     filter->priv->propertyConstraints =
         g_hash_table_new_full(g_str_hash,

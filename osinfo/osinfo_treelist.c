@@ -65,9 +65,7 @@ osinfo_treelist_class_init (OsinfoTreeListClass *klass)
 static void
 osinfo_treelist_init (OsinfoTreeList *list)
 {
-    OsinfoTreeListPrivate *priv;
-    list->priv = priv = OSINFO_TREELIST_GET_PRIVATE(list);
-
+    list->priv = OSINFO_TREELIST_GET_PRIVATE(list);
 }
 
 /**

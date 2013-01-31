@@ -182,9 +182,7 @@ osinfo_deployment_class_init (OsinfoDeploymentClass *klass)
 static void
 osinfo_deployment_init (OsinfoDeployment *deployment)
 {
-    OsinfoDeploymentPrivate *priv;
-    deployment->priv = priv = OSINFO_DEPLOYMENT_GET_PRIVATE(deployment);
-
+    deployment->priv = OSINFO_DEPLOYMENT_GET_PRIVATE(deployment);
     deployment->priv->deviceLinks = NULL;
 }
 

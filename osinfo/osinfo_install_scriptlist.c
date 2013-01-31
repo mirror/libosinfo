@@ -65,9 +65,7 @@ osinfo_install_scriptlist_class_init (OsinfoInstallScriptListClass *klass)
 static void
 osinfo_install_scriptlist_init (OsinfoInstallScriptList *list)
 {
-    OsinfoInstallScriptListPrivate *priv;
-    list->priv = priv = OSINFO_INSTALL_SCRIPTLIST_GET_PRIVATE(list);
-
+    list->priv = OSINFO_INSTALL_SCRIPTLIST_GET_PRIVATE(list);
 }
 
 /**

@@ -145,9 +145,7 @@ osinfo_list_class_init (OsinfoListClass *klass)
 static void
 osinfo_list_init (OsinfoList *list)
 {
-    OsinfoListPrivate *priv;
-    list->priv = priv = OSINFO_LIST_GET_PRIVATE(list);
-
+    list->priv = OSINFO_LIST_GET_PRIVATE(list);
     list->priv->array = g_ptr_array_new_with_free_func(NULL);
     list->priv->entities = g_hash_table_new_full(g_str_hash,
                                                  g_str_equal,

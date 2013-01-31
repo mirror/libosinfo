@@ -64,9 +64,7 @@ osinfo_datamaplist_class_init (OsinfoDatamapListClass *klass)
 static void
 osinfo_datamaplist_init (OsinfoDatamapList *list)
 {
-    OsinfoDatamapListPrivate *priv;
-    list->priv = priv = OSINFO_DATAMAPLIST_GET_PRIVATE(list);
-
+    list->priv = OSINFO_DATAMAPLIST_GET_PRIVATE(list);
 }
 
 /**

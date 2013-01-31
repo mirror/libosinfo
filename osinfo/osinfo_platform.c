@@ -81,9 +81,7 @@ osinfo_platform_class_init (OsinfoPlatformClass *klass)
 static void
 osinfo_platform_init (OsinfoPlatform *platform)
 {
-    OsinfoPlatformPrivate *priv;
-    platform->priv = priv = OSINFO_PLATFORM_GET_PRIVATE(platform);
-
+    platform->priv = OSINFO_PLATFORM_GET_PRIVATE(platform);
     platform->priv->deviceLinks = NULL;
 }
 

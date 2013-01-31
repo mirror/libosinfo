@@ -110,10 +110,7 @@ osinfo_productfilter_product_constraints_free(gpointer relshps)
 static void
 osinfo_productfilter_init (OsinfoProductFilter *productfilter)
 {
-    OsinfoProductFilterPrivate *priv;
-    priv = OSINFO_PRODUCTFILTER_GET_PRIVATE(productfilter);
-    productfilter->priv = priv;
-
+    productfilter->priv = OSINFO_PRODUCTFILTER_GET_PRIVATE(productfilter);
     productfilter->priv->productConstraints =
         g_hash_table_new_full(g_direct_hash,
                               g_direct_equal,

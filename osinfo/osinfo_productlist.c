@@ -65,9 +65,7 @@ osinfo_productlist_class_init (OsinfoProductListClass *klass)
 static void
 osinfo_productlist_init (OsinfoProductList *list)
 {
-    OsinfoProductListPrivate *priv;
-    list->priv = priv = OSINFO_PRODUCTLIST_GET_PRIVATE(list);
-
+    list->priv = OSINFO_PRODUCTLIST_GET_PRIVATE(list);
 }
 
 

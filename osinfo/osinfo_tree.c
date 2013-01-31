@@ -389,8 +389,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
 static void
 osinfo_tree_init(OsinfoTree *tree)
 {
-    OsinfoTreePrivate *priv;
-    tree->priv = priv = OSINFO_TREE_GET_PRIVATE(tree);
+    tree->priv = OSINFO_TREE_GET_PRIVATE(tree);
 }
 
 OsinfoTree *osinfo_tree_new(const gchar *id,

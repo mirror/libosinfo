@@ -66,9 +66,7 @@ osinfo_device_driverlist_class_init (OsinfoDeviceDriverListClass *klass)
 static void
 osinfo_device_driverlist_init (OsinfoDeviceDriverList *list)
 {
-    OsinfoDeviceDriverListPrivate *priv;
-    list->priv = priv = OSINFO_DEVICE_DRIVERLIST_GET_PRIVATE(list);
-
+    list->priv = OSINFO_DEVICE_DRIVERLIST_GET_PRIVATE(list);
 }
 
 /**

@@ -337,9 +337,7 @@ osinfo_install_script_get_config_param(const OsinfoInstallScript *script,
 static void
 osinfo_install_script_init (OsinfoInstallScript *list)
 {
-    OsinfoInstallScriptPrivate *priv;
-    list->priv = priv = OSINFO_INSTALL_SCRIPT_GET_PRIVATE(list);
-
+    list->priv = OSINFO_INSTALL_SCRIPT_GET_PRIVATE(list);
     list->priv->config_params = osinfo_install_config_paramlist_new();
 }
 

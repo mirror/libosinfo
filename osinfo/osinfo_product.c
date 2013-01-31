@@ -239,9 +239,7 @@ osinfo_product_class_init (OsinfoProductClass *klass)
 static void
 osinfo_product_init (OsinfoProduct *product)
 {
-    OsinfoProductPrivate *priv;
-    product->priv = priv = OSINFO_PRODUCT_GET_PRIVATE(product);
-
+    product->priv = OSINFO_PRODUCT_GET_PRIVATE(product);
     product->priv->productLinks = NULL;
 }
 

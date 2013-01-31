@@ -76,9 +76,7 @@ osinfo_datamap_class_init (OsinfoDatamapClass *klass)
 static void
 osinfo_datamap_init (OsinfoDatamap *list)
 {
-    OsinfoDatamapPrivate *priv;
-    list->priv = priv = OSINFO_DATAMAP_GET_PRIVATE(list);
-
+    list->priv = OSINFO_DATAMAP_GET_PRIVATE(list);
     list->priv->map = g_hash_table_new_full(g_str_hash,
                                             g_str_equal,
                                             g_free,

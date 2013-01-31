@@ -65,9 +65,7 @@ osinfo_medialist_class_init (OsinfoMediaListClass *klass)
 static void
 osinfo_medialist_init (OsinfoMediaList *list)
 {
-    OsinfoMediaListPrivate *priv;
-    list->priv = priv = OSINFO_MEDIALIST_GET_PRIVATE(list);
-
+    list->priv = OSINFO_MEDIALIST_GET_PRIVATE(list);
 }
 
 /**

@@ -65,9 +65,7 @@ osinfo_devicelinklist_class_init (OsinfoDeviceLinkListClass *klass)
 static void
 osinfo_devicelinklist_init (OsinfoDeviceLinkList *list)
 {
-    OsinfoDeviceLinkListPrivate *priv;
-    list->priv = priv = OSINFO_DEVICELINKLIST_GET_PRIVATE(list);
-
+    list->priv = OSINFO_DEVICELINKLIST_GET_PRIVATE(list);
 }
 
 

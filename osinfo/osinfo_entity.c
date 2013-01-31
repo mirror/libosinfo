@@ -161,9 +161,7 @@ static void osinfo_entity_param_values_free(gpointer values)
 static void
 osinfo_entity_init (OsinfoEntity *entity)
 {
-    OsinfoEntityPrivate *priv;
-    entity->priv = priv = OSINFO_ENTITY_GET_PRIVATE(entity);
-
+    entity->priv = OSINFO_ENTITY_GET_PRIVATE(entity);
     entity->priv->params = g_hash_table_new_full(g_str_hash,
                                                g_str_equal,
                                                g_free,
