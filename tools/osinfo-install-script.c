@@ -193,7 +193,7 @@ static gboolean generate_script(OsinfoOs *os)
     OsinfoInstallScriptList *scripts = osinfo_os_get_install_script_list(os);
     OsinfoInstallScriptList *profile_scripts;
     OsinfoFilter *filter;
-    GFile *dir;
+    GFile *dir = NULL;
     GList *l, *tmp;
     gboolean ret = FALSE;
     GError *error = NULL;
@@ -242,7 +242,8 @@ static gboolean generate_script(OsinfoOs *os)
     g_object_unref(scripts);
     g_object_unref(filter);
     g_object_unref(profile_scripts);
-    g_object_unref(dir);
+    if (dir)
+        g_object_unref(dir);
     return ret;
 }
 
