@@ -238,10 +238,10 @@ gint main(gint argc, gchar **argv)
                 g_printerr(_("Error parsing media: %s\n"), error->message);
 
                 ret = -3;
-                goto EXIT;
             } else {
                 print_bootable(FALSE);
             }
+            goto EXIT;
         } else {
             print_bootable(TRUE);
         }
