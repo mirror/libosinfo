@@ -67,6 +67,8 @@
 #define OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_DISK "post-install-drivers-disk"
 #define OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_LOCATION "post-install-drivers-location"
 
+#define OSINFO_INSTALL_CONFIG_PROP_DRIVER_SIGNING "driver-signing"
+
 typedef struct _OsinfoInstallConfig        OsinfoInstallConfig;
 typedef struct _OsinfoInstallConfigClass   OsinfoInstallConfigClass;
 typedef struct _OsinfoInstallConfigPrivate OsinfoInstallConfigPrivate;
@@ -192,6 +194,10 @@ const gchar *osinfo_install_config_get_post_install_drivers_disk(OsinfoInstallCo
 void osinfo_install_config_set_post_install_drivers_location(OsinfoInstallConfig *config,
                                                              const gchar *location);
 const gchar *osinfo_install_config_get_post_install_drivers_location(OsinfoInstallConfig *config);
+
+void osinfo_install_config_set_driver_signing(OsinfoInstallConfig *config,
+                                              gboolean signing);
+gboolean osinfo_install_config_get_driver_signing(OsinfoInstallConfig *config);
 
 #endif /* __OSINFO_INSTALL_CONFIG_H__ */
 /*
