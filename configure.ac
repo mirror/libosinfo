@@ -121,26 +121,6 @@ if test "x$enable_introspection" = "xyes" ; then
 fi
 AM_CONDITIONAL([WITH_VALA], [test "x$enable_vala" = "xyes"])
 
-AC_ARG_ENABLE([udev],
-        AS_HELP_STRING([--enable-udev], [enable Udev support]),
-        [], [enable_udev=no])
-AM_CONDITIONAL([WITH_UDEV], [test "x$enable_udev" = "xyes"])
-
-AC_ARG_WITH([udev-rulesdir],
-             [AS_HELP_STRING([--with-udev-rulesdir],[UDev rules directory])],
-             [], [])
-
-if test "x$with_udev_rulesdir" = "x"; then
-        if test "x$prefix" = "x/usr" ; then
-                with_udev_rulesdir=/lib/udev/rules.d
-        else
-                with_udev_rulesdir=$prefix/lib/udev/rules.d
-        fi
-fi
-
-UDEV_RULESDIR="$with_udev_rulesdir"
-AC_SUBST(UDEV_RULESDIR)
-
 AC_ARG_ENABLE([coverage],
         AS_HELP_STRING([--enable-coverage], [enable GCC code coverage]),
         [], [enable_coverage=no])

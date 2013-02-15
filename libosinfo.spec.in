@@ -10,11 +10,6 @@
 %define with_gir 1
 %endif
 
-%define with_udev 1
-%if 0%{?fedora} >= 19
-%define with_udev 0
-%endif
-
 Summary: A library for managing OS information for virtualization
 Name: libosinfo
 Version: @VERSION@
@@ -37,9 +32,6 @@ BuildRequires: /usr/bin/pod2man
 BuildRequires: gobject-introspection-devel
 %endif
 Requires: hwdata
-%if %{with_udev}
-Requires: udev
-%endif
 
 %description
 libosinfo is a library that allows virtualization provisioning tools to
@@ -82,13 +74,7 @@ This package provides the Vala bindings for libosinfo library.
 %define gir_arg --enable-introspection=no
 %endif
 
-%if %{with_udev}
-%define udev_arg --enable-udev=yes
-%else
-%define udev_arg --enable-udev=no
-%endif
-
-%configure %{gir_arg} %{udev_arg} --enable-vala=yes --with-usb-ids-path=/usr/share/hwdata/usb.ids --with-pci-ids-path=/usr/share/hwdata/pci.ids
+%configure %{gir_arg} --enable-vala=yes --with-usb-ids-path=/usr/share/hwdata/usb.ids --with-pci-ids-path=/usr/share/hwdata/pci.ids
 %__make %{?_smp_mflags} V=1
 
 chmod a-x examples/*.js examples/*.py
@@ -134,9 +120,6 @@ rm -fr %{buildroot}
 %{_mandir}/man1/osinfo-query.1*
 %{_mandir}/man1/osinfo-install-script.1*
 %{_libdir}/%{name}-1.0.so.*
-%if %{with_udev}
-/lib/udev/rules.d/95-osinfo.rules
-%endif
 %if %{with_gir}
 %{_libdir}/girepository-1.0/Libosinfo-1.0.typelib
 %endif

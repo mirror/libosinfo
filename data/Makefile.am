@@ -1,7 +1,7 @@
 INSTALL_DATA_HOOK_DEPS =
 
 SUBDIRS = datamaps devices oses hypervisors install-scripts schemas
-EXTRA_DIST = usb.ids pci.ids 95-osinfo.rules.in
+EXTRA_DIST = usb.ids pci.ids
 CLEANFILES = usb.ids pci.ids
 
 if USE_INTERNAL_USB_IDS
@@ -32,17 +32,5 @@ pci_ids_install:
 INSTALL_DATA_HOOK_DEPS += pci_ids_install
 endif
 
-if WITH_UDEV
-BUILT_SOURCES = 95-osinfo.rules
-
-95-osinfo.rules: 95-osinfo.rules.in
-	sed 's,\@bindir\@,$(exec_prefix)/bin,' $< > $@
-
-95-osinfo.rules-install: 95-osinfo.rules
-	$(MKDIR_P) $(DESTDIR)$(UDEV_RULESDIR)
-	$(INSTALL) -m 0644 95-osinfo.rules $(DESTDIR)$(UDEV_RULESDIR)
-
-INSTALL_DATA_HOOK_DEPS += 95-osinfo.rules-install
-endif
 
 install-data-hook: $(INSTALL_DATA_HOOK_DEPS)
