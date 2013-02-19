@@ -1,3 +1,27 @@
+0.2.4 - Feb 19, 2013
+====================
+
+Changes since 0.2.3:
+
+- Fix crash in osinfo-detect against non-bootable media.
+- osinfo-install-script now displays names of generated files.
+- Add an all-in-one virtio and QXL device driver setup binary to Windows XP
+  and 7. Same binary also installs spice-vdagent for us.
+- Make use of post-installation drivers in Windows XP installer scripts.
+- Log post-install commands of Windows XP to target disk.
+- Add/improve/fix data on:
+  - QEMU/QEMU-KVM hypervisor
+  - GNOME
+  - openSUSE
+- RPM spec file changes:
+  - Include datamaps and locale files.
+  - Pointto libosinfo official website.
+  - Disable udev rule on Fedora >= 19. Changes in udev > 197 and
+    libblkid > 2.22.2 have made this rule obsolete.
+- Adapt to glib 2.36.
+- Fix some build warnings.
+- Some other fixes and improvements.
+
 0.2.3 - Jan 14, 2013
 ====================
 
