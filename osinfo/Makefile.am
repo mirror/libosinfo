@@ -137,6 +137,7 @@ libosinfo_1_0_la_SOURCES =		\
   osinfo_treelist.c			\
   osinfo_db.c				\
   osinfo_loader.c			\
+  ignore-value.h			\
   $(NULL)
 
 osinfo_enum_types.h: $(OSINFO_HEADER_FILES) osinfo_enum_types.h.template
