@@ -7,6 +7,7 @@ AC_CONFIG_SRCDIR([osinfo/osinfo_db.c])
 AC_CONFIG_HEADERS([config.h])
 AC_PROG_LIBTOOL
 AC_PROG_CC
+AC_PROG_LN_S
 
 LIBOSINFO_COMPILE_WARNINGS
 GNOME_MAINTAINER_MODE_DEFINES
@@ -170,6 +171,26 @@ if test "x$enable_coverage" == "xyes" ; then
 fi
 AC_SUBST(COVERAGE_CFLAGS)
 AC_SUBST(COVERAGE_LDFLAGS)
+
+# Path to the usb.ids file -- to know if we use one shipped with another
+# package, or an internal file
+AC_ARG_WITH(usb-ids-path,
+              [AC_HELP_STRING([--with-usb-ids-path],
+                              [Specify the path to usb.ids @<:@default=(internal)@:>@])],,
+                              [with_usb_ids_path="\${usb_databasedir}/usb.ids"])
+
+AM_CONDITIONAL(USE_INTERNAL_USB_IDS, test "x$with_usb_ids_path" = "x\${usb_databasedir}/usb.ids")
+AC_SUBST([USB_IDS], ["$with_usb_ids_path"])
+
+# Path to the pci.ids file -- to know if we use one shipped with another
+# package, or an internal file
+AC_ARG_WITH(pci-ids-path,
+              [AC_HELP_STRING([--with-pci-ids-path],
+                              [Specify the path to pci.ids @<:@default=(internal)@:>@])],,
+                              [with_pci_ids_path="\${pci_databasedir}/pci.ids"])
+
+AM_CONDITIONAL(USE_INTERNAL_PCI_IDS, test "x$with_pci_ids_path" = "x\${pci_databasedir}/pci.ids")
+AC_SUBST([PCI_IDS], ["$with_pci_ids_path"])
 
 # Setup GLIB_MKENUMS to use glib-mkenums even if GLib is uninstalled.
 GLIB_MKENUMS=`$PKG_CONFIG --variable=glib_mkenums glib-2.0`
