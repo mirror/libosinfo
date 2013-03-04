@@ -1,3 +1,22 @@
+0.2.5 - March 04, 2013
+======================
+
+Changes since 0.2.4:
+
+- Make use of post-installation drivers in Windows 7 install scripts. This
+  implies apps can now easily setup virtio+QXL device drivers and spice-vdagent
+  as part of Windows 7 unattended installation.
+- Windows 7 install script now requires product key, mainly because product key
+  is the only way to choose product when dealing with installer media with
+  multiple products on it.
+- Actually add install scripts for Windows 8. This was supposed to be merged in
+  release 0.2.3.
+- Formalize architecture names in DB to align with libvirt. The main change is
+  that i386, i486, i586, all merge to just i686, since in practice these
+  differences haven't mattered for at least 15 years now.
+- Fixes to mingw RPM spec from Fedora.
+- Add a Windows 7 volume ID to DB.
+
 0.2.4 - Feb 19, 2013
 ====================
 
