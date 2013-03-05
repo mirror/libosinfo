@@ -37,7 +37,9 @@ BuildRequires: /usr/bin/pod2man
 BuildRequires: gobject-introspection-devel
 %endif
 Requires: hwdata
+%if %{with_udev}
 Requires: udev
+%endif
 
 %description
 libosinfo is a library that allows virtualization provisioning tools to
