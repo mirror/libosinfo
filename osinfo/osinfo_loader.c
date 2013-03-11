@@ -1495,7 +1495,6 @@ osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
                 WANT_ID(device_id);
                 WANT_REST(device);
                 SAVE_BUF(device_buf);
-                ignore_value(device);
 
                 gchar *id = g_strdup_printf("%s/%s/%s",
                                             baseURI, vendor_id, device_id);
@@ -1505,8 +1504,14 @@ osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
                                         OSINFO_DEVICE_PROP_VENDOR_ID,
                                         vendor_id);
                 osinfo_entity_set_param(OSINFO_ENTITY(dev),
+                                        OSINFO_DEVICE_PROP_VENDOR,
+                                        vendor);
+                osinfo_entity_set_param(OSINFO_ENTITY(dev),
                                         OSINFO_DEVICE_PROP_PRODUCT_ID,
                                         device_id);
+                osinfo_entity_set_param(OSINFO_ENTITY(dev),
+                                        OSINFO_DEVICE_PROP_PRODUCT,
+                                        device);
                 osinfo_entity_set_param(OSINFO_ENTITY(dev),
                                         OSINFO_DEVICE_PROP_BUS_TYPE,
                                         busType);
@@ -1517,7 +1522,6 @@ osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
             WANT_ID(vendor_id);
             WANT_REST(vendor);
             SAVE_BUF(vendor_buf);
-            ignore_value(vendor);
         }
 
     done:
