@@ -1,3 +1,16 @@
+0.2.6 - March 18, 2013
+======================
+
+Changes since 0.2.5:
+
+- New API to:
+  - query signed status of device drivers.
+  - query device driver signing requirement of installer scripts.
+  - enable/disable installer script driver signing checks.
+- Use system-installed pci.ids/usb.ids files, if available.
+- Don't ignore vendor/device names from pci.ids/usb.ids files.
+- Corrections to RPM spec.
+
 0.2.5 - March 04, 2013
 ======================
 
