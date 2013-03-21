@@ -378,6 +378,11 @@ START_TEST(test_openbsd)
 }
 END_TEST
 
+START_TEST(test_opensuse)
+{
+    test_one("opensuse");
+}
+END_TEST
 
 
 static Suite *
@@ -393,6 +398,7 @@ list_suite(void)
     tcase_add_test(tc, test_debian);
     tcase_add_test(tc, test_windows);
     tcase_add_test(tc, test_openbsd);
+    tcase_add_test(tc, test_opensuse);
     suite_add_tcase(s, tc);
     return s;
 }
