@@ -384,6 +384,11 @@ START_TEST(test_opensuse)
 }
 END_TEST
 
+START_TEST(test_centos)
+{
+    test_one("centos");
+}
+END_TEST
 
 static Suite *
 list_suite(void)
@@ -399,6 +404,7 @@ list_suite(void)
     tcase_add_test(tc, test_windows);
     tcase_add_test(tc, test_openbsd);
     tcase_add_test(tc, test_opensuse);
+    tcase_add_test(tc, test_centos);
     suite_add_tcase(s, tc);
     return s;
 }
