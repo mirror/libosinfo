@@ -235,7 +235,7 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoFilter *filter)
  * @filter: (allow-none)(transfer none): an optional device property filter
  *
  * Get all devices matching a given filter but unlike osinfo_os_get_devices
- * this function also retreives devices from all derived and cloned operating
+ * this function also retrieves devices from all derived and cloned operating
  * systems.
  *
  * Returns: (transfer full): A list of devices
