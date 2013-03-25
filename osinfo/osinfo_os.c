@@ -26,6 +26,7 @@
 
 #include <osinfo/osinfo.h>
 #include "osinfo_media_private.h"
+#include "osinfo/osinfo_product_private.h"
 #include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoOs, osinfo_os, OSINFO_TYPE_PRODUCT);
@@ -229,6 +230,29 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoFilter *filter)
     return newList;
 }
 
+struct GetAllDevicesData {
+    OsinfoFilter *filter;
+    OsinfoDeviceList *devices;
+};
+
+static void get_all_devices_cb(OsinfoProduct *product, gpointer user_data)
+{
+    OsinfoDeviceList *devices;
+    OsinfoList *tmp_list;
+    struct GetAllDevicesData *foreach_data = (struct GetAllDevicesData *)user_data;
+
+    g_return_if_fail(OSINFO_IS_OS(product));
+
+    devices = osinfo_os_get_devices(OSINFO_OS(product),
+                                    foreach_data->filter);
+    tmp_list = osinfo_list_new_union(OSINFO_LIST(foreach_data->devices),
+                                     OSINFO_LIST(devices));
+    g_object_unref(foreach_data->devices);
+    g_object_unref(devices);
+    foreach_data->devices = OSINFO_DEVICELIST(tmp_list);
+}
+
+
 /**
  * osinfo_os_get_all_devices:
  * @os: an operating system
@@ -242,38 +266,18 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoFilter *filter)
  */
 OsinfoDeviceList *osinfo_os_get_all_devices(OsinfoOs *os, OsinfoFilter *filter)
 {
-    OsinfoProductList *derived, *cloned, *related_list;
-    OsinfoDeviceList *devices;
-    guint i;
+    struct GetAllDevicesData foreach_data = {
+        .filter = filter,
+        .devices = osinfo_devicelist_new()
+    };
 
-    devices = osinfo_os_get_devices(os, filter);
+    osinfo_product_foreach_related(OSINFO_PRODUCT(os),
+                                   OSINFO_PRODUCT_FOREACH_FLAG_DERIVES_FROM |
+                                   OSINFO_PRODUCT_FOREACH_FLAG_CLONES,
+                                   get_all_devices_cb,
+                                   &foreach_data);
 
-    derived = osinfo_product_get_related
-                (OSINFO_PRODUCT(os), OSINFO_PRODUCT_RELATIONSHIP_DERIVES_FROM);
-    cloned = osinfo_product_get_related(OSINFO_PRODUCT(os),
-                                        OSINFO_PRODUCT_RELATIONSHIP_CLONES);
-    related_list = OSINFO_PRODUCTLIST(osinfo_list_new_union(OSINFO_LIST(derived),
-                                                            OSINFO_LIST(cloned)));
-    g_object_unref(derived);
-    g_object_unref(cloned);
-
-    for (i = 0; i < osinfo_list_get_length(OSINFO_LIST(related_list)); i++) {
-        OsinfoEntity *related;
-        OsinfoDeviceList *related_devices;
-
-        related = osinfo_list_get_nth(OSINFO_LIST(related_list), i);
-        related_devices = osinfo_os_get_all_devices(OSINFO_OS(related), filter);
-        if (osinfo_list_get_length(OSINFO_LIST(related_devices)) > 0) {
-            OsinfoDeviceList *tmp_list = devices;
-            devices = OSINFO_DEVICELIST(osinfo_list_new_union(OSINFO_LIST(devices),
-                                                              OSINFO_LIST(related_devices)));
-            g_object_unref(tmp_list);
-        }
-    }
-
-    g_object_unref (related_list);
-
-    return devices;
+    return foreach_data.devices;
 }
 
 /**
