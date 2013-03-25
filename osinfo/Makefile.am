@@ -75,6 +75,7 @@ OSINFO_HEADER_FILES =			\
   osinfo_install_script.h		\
   osinfo_install_scriptlist.h		\
   osinfo_product.h			\
+  osinfo_product_private.h		\
   osinfo_productfilter.h		\
   osinfo_productlist.h			\
   osinfo_platform.h			\

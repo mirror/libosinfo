@@ -30,6 +30,8 @@
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
+#include "osinfo/osinfo_product_private.h"
+
 G_DEFINE_ABSTRACT_TYPE (OsinfoProduct, osinfo_product, OSINFO_TYPE_ENTITY);
 
 #define OSINFO_PRODUCT_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_PRODUCT, OsinfoProductPrivate))
@@ -365,6 +367,64 @@ GDate *osinfo_product_get_eol_date(OsinfoProduct *prod)
 const gchar *osinfo_product_get_logo(OsinfoProduct *prod)
 {
     return osinfo_entity_get_param_value(OSINFO_ENTITY(prod), OSINFO_PRODUCT_PROP_LOGO);
+}
+
+static OsinfoList *osinfo_list_append(OsinfoList *appendee,
+                                      OsinfoList *appended)
+{
+    OsinfoList *result;
+    result = osinfo_list_new_union(appendee, appended);
+    g_object_unref(G_OBJECT(appendee));
+
+    return result;
+}
+
+void osinfo_product_foreach_related(OsinfoProduct *product,
+                                    OsinfoProductForeachFlag flags,
+                                    OsinfoProductForeach foreach_func,
+                                    gpointer user_data)
+{
+    OsinfoList *related_list;
+    OsinfoProductList *tmp_related;
+    guint i;
+
+    foreach_func(product, user_data);
+
+    related_list = OSINFO_LIST(osinfo_productlist_new());
+    if (flags & OSINFO_PRODUCT_FOREACH_FLAG_DERIVES_FROM) {
+        tmp_related = osinfo_product_get_related
+                      (product, OSINFO_PRODUCT_RELATIONSHIP_DERIVES_FROM);
+        related_list = osinfo_list_append(related_list,
+                                          OSINFO_LIST(tmp_related));
+        g_object_unref(G_OBJECT(tmp_related));
+    }
+
+    if (flags & OSINFO_PRODUCT_FOREACH_FLAG_UPGRADES) {
+        tmp_related = osinfo_product_get_related
+                      (product, OSINFO_PRODUCT_RELATIONSHIP_UPGRADES);
+        related_list = osinfo_list_append(related_list,
+                                          OSINFO_LIST(tmp_related));
+        g_object_unref(G_OBJECT(tmp_related));
+    }
+
+    if (flags & OSINFO_PRODUCT_FOREACH_FLAG_CLONES) {
+        tmp_related = osinfo_product_get_related
+                      (product, OSINFO_PRODUCT_RELATIONSHIP_CLONES);
+        related_list = osinfo_list_append(related_list,
+                                          OSINFO_LIST(tmp_related));
+        g_object_unref(G_OBJECT(tmp_related));
+    }
+
+    for (i = 0; i < osinfo_list_get_length(related_list); i++) {
+        OsinfoEntity *related;
+
+        related = osinfo_list_get_nth(related_list, i);
+        osinfo_product_foreach_related(OSINFO_PRODUCT(related),
+                                       flags,
+                                       foreach_func,
+                                       user_data);
+    }
+    g_object_unref (related_list);
 }
 
 /*
