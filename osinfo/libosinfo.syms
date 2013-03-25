@@ -413,6 +413,10 @@ LIBOSINFO_0.2.6 {
 	osinfo_install_script_get_post_install_drivers_signing_req;
 } LIBOSINFO_0.2.3;
 
+LIBOSINFO_0.2.7 {
+	osinfo_platform_get_all_devices;
+} LIBOSINFO_0.2.6;
+
 /* Symbols in next release...
 
   LIBOSINFO_0.0.2 {

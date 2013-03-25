@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include "osinfo/osinfo_product_private.h"
 #include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoPlatform, osinfo_platform, OSINFO_TYPE_PRODUCT);
@@ -101,6 +102,43 @@ OsinfoPlatform *osinfo_platform_new(const gchar *id)
                         NULL);
 }
 
+struct GetAllDevicesData {
+    OsinfoFilter *filter;
+    OsinfoDeviceList *devices;
+};
+
+static void get_all_devices_cb(OsinfoProduct *product, gpointer user_data)
+{
+    OsinfoDeviceList *devices;
+    OsinfoList *tmp_list;
+    struct GetAllDevicesData *foreach_data = (struct GetAllDevicesData *)user_data;
+
+    g_return_if_fail(OSINFO_IS_PLATFORM(product));
+
+    devices = osinfo_platform_get_devices(OSINFO_PLATFORM(product),
+                                          foreach_data->filter);
+    tmp_list = osinfo_list_new_union(OSINFO_LIST(foreach_data->devices),
+                                     OSINFO_LIST(devices));
+    g_object_unref(foreach_data->devices);
+    g_object_unref(devices);
+    foreach_data->devices = OSINFO_DEVICELIST(tmp_list);
+}
+
+OsinfoDeviceList *osinfo_platform_get_all_devices(OsinfoPlatform *platform,
+                                                  OsinfoFilter *filter)
+{
+    struct GetAllDevicesData foreach_data = {
+        .filter = filter,
+        .devices = osinfo_devicelist_new()
+    };
+
+    osinfo_product_foreach_related(OSINFO_PRODUCT(platform),
+                                   OSINFO_PRODUCT_FOREACH_FLAG_UPGRADES,
+                                   get_all_devices_cb,
+                                   &foreach_data);
+
+    return foreach_data.devices;
+}
 
 /**
  * osinfo_platform_get_devices:

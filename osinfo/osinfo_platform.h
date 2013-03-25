@@ -71,6 +71,7 @@ GType osinfo_platform_get_type(void);
 OsinfoPlatform *osinfo_platform_new(const gchar *id);
 
 OsinfoDeviceList *osinfo_platform_get_devices(OsinfoPlatform *platform, OsinfoFilter *filter);
+OsinfoDeviceList *osinfo_platform_get_all_devices(OsinfoPlatform *platform, OsinfoFilter *filter);
 OsinfoDeviceLinkList *osinfo_platform_get_device_links(OsinfoPlatform *platform, OsinfoFilter *filter);
 
 OsinfoDeviceLink *osinfo_platform_add_device(OsinfoPlatform *platform, OsinfoDevice *dev);
