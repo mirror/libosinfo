@@ -11,7 +11,7 @@ usb.ids:
 	-wget -q -O $@ http://www.linux-usb.org/usb.ids
 else
 usb_ids_install:
-	$(LN_S) $(USB_IDS) $(pkgdatadir)/db/usb.ids
+	$(LN_S) $(USB_IDS) $(DESTDIR)$(pkgdatadir)/db/usb.ids
 INSTALL_DATA_HOOK_DEPS += usb_ids_install
 endif
 
@@ -22,7 +22,7 @@ pci.ids:
 	-wget -q -O $@ http://pciids.sourceforge.net/v2.2/pci.ids
 else
 pci_ids_install:
-	$(LN_S) $(PCI_IDS) $(pkgdatadir)/db/pci.ids
+	$(LN_S) $(PCI_IDS) $(DESTDIR)$(pkgdatadir)/db/pci.ids
 INSTALL_DATA_HOOK_DEPS += pci_ids_install
 endif
 
