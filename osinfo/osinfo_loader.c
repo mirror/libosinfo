@@ -655,6 +655,7 @@ static void osinfo_loader_install_config_params(OsinfoLoader *loader,
                 osinfo_install_config_param_set_value_map(param, map);
         }
 
+        xmlFree(mapid);
         xmlFree(name);
         xmlFree(policy);
     };
@@ -855,6 +856,7 @@ static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
                     osinfo_entity_set_param(OSINFO_ENTITY(media),
                                             OSINFO_MEDIA_PROP_LANG_MAP,
                                             datamap);
+                xmlFree(datamap);
             } else {
                 osinfo_entity_add_param(OSINFO_ENTITY(media),
                                         OSINFO_MEDIA_PROP_LANG,
@@ -1789,13 +1791,13 @@ void osinfo_loader_process_system_path(OsinfoLoader *loader,
         path = PKG_DATA_DIR;
 
     dbdir = g_strdup_printf("%s/db", path);
-
     file = g_file_new_for_path(dbdir);
     osinfo_loader_process_file(loader,
                                file,
                                FALSE,
                                err);
     g_object_unref(file);
+    g_free(dbdir);
 }
 
 void osinfo_loader_process_local_path(OsinfoLoader *loader, GError **err)
