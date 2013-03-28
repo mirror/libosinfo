@@ -66,7 +66,7 @@ START_TEST(test_uris)
     GError *error = NULL;
     OsinfoOsList *oslist = NULL;
     GList *osel = NULL, *tmp;
-    gchar *debugstr;
+    const gchar *debugstr;
 
     session = soup_session_async_new_with_options(
 #ifdef HAVE_LIBSOUP_GNOME
@@ -74,7 +74,7 @@ START_TEST(test_uris)
                                                   SOUP_TYPE_PROXY_RESOLVER_GNOME,
 #endif
                                                   NULL);
-    if ((debugstr = getenv("LIBOSINFO_TEST_DEBUG"))) {
+    if ((debugstr = g_getenv("LIBOSINFO_TEST_DEBUG"))) {
         SoupLogger *logger;
         int debug_level = atoi(debugstr);
 
@@ -131,7 +131,7 @@ int main(void)
     Suite *s = list_suite ();
     SRunner *sr = srunner_create (s);
 
-    if (!getenv("LIBOSINFO_NETWORK_TESTS"))
+    if (!g_getenv("LIBOSINFO_NETWORK_TESTS"))
         return 77; /* Skip */
 
 #if !GLIB_CHECK_VERSION(2,35,1)

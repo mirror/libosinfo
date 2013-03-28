@@ -1786,7 +1786,7 @@ void osinfo_loader_process_system_path(OsinfoLoader *loader,
 {
     GFile *file;
     gchar *dbdir;
-    const gchar *path = getenv("OSINFO_DATA_DIR");
+    const gchar *path = g_getenv("OSINFO_DATA_DIR");
     if (!path)
         path = PKG_DATA_DIR;
 
