@@ -390,6 +390,12 @@ START_TEST(test_centos)
 }
 END_TEST
 
+START_TEST(test_gnome)
+{
+    test_one("gnome");
+}
+END_TEST
+
 static Suite *
 list_suite(void)
 {
@@ -405,6 +411,7 @@ list_suite(void)
     tcase_add_test(tc, test_openbsd);
     tcase_add_test(tc, test_opensuse);
     tcase_add_test(tc, test_centos);
+    tcase_add_test(tc, test_gnome);
     suite_add_tcase(s, tc);
     return s;
 }
