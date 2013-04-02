@@ -5,9 +5,10 @@ AM_INIT_AUTOMAKE([1.11.1 foreign color-tests tar-ustar])
 AC_PREREQ([2.61])
 AC_CONFIG_SRCDIR([osinfo/osinfo_db.c])
 AC_CONFIG_HEADERS([config.h])
-AC_PROG_LIBTOOL
 AC_PROG_CC
 AC_PROG_LN_S
+
+LT_INIT([shared disable-static win32-dll])
 
 LIBOSINFO_COMPILE_WARNINGS
 GNOME_MAINTAINER_MODE_DEFINES
