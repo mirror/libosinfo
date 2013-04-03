@@ -124,6 +124,18 @@ static void get_all_devices_cb(OsinfoProduct *product, gpointer user_data)
     foreach_data->devices = OSINFO_DEVICELIST(tmp_list);
 }
 
+
+/**
+ * osinfo_platform_get_all_devices:
+ * @platform: a platform
+ * @filter: (allow-none)(transfer none): an optional device property filter
+ *
+ * Get all platforms matching a given filter but unlike
+ * osinfo_platform_get_devices this function also retrieves devices from
+ * all derived and upgraded platforms.
+ *
+ * Returns: (transfer full): A list of devices
+ */
 OsinfoDeviceList *osinfo_platform_get_all_devices(OsinfoPlatform *platform,
                                                   OsinfoFilter *filter)
 {
