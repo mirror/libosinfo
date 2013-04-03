@@ -392,7 +392,7 @@ static OsinfoList *osinfo_list_append(OsinfoList *appendee,
  * upgrades or clones, or a combination of these, or none.
  */
 void osinfo_product_foreach_related(OsinfoProduct *product,
-                                    OsinfoProductForeachFlag flags,
+                                    unsigned int flags,
                                     OsinfoProductForeach foreach_func,
                                     gpointer user_data)
 {

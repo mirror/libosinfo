@@ -36,7 +36,7 @@ typedef enum { /*< skip >*/
 } OsinfoProductForeachFlag;
 
 void osinfo_product_foreach_related(OsinfoProduct *product,
-                                    OsinfoProductForeachFlag flags,
+                                    unsigned int flags,
                                     OsinfoProductForeach foreach_func,
                                     gpointer user_data);
 
