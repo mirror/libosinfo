@@ -133,7 +133,8 @@ OsinfoDeviceList *osinfo_platform_get_all_devices(OsinfoPlatform *platform,
     };
 
     osinfo_product_foreach_related(OSINFO_PRODUCT(platform),
-                                   OSINFO_PRODUCT_FOREACH_FLAG_UPGRADES,
+                                   OSINFO_PRODUCT_FOREACH_FLAG_UPGRADES |
+                                   OSINFO_PRODUCT_FOREACH_FLAG_DERIVES_FROM,
                                    get_all_devices_cb,
                                    &foreach_data);
 
