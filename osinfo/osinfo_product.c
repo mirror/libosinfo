@@ -379,6 +379,18 @@ static OsinfoList *osinfo_list_append(OsinfoList *appendee,
     return result;
 }
 
+/**
+ * osinfo_product_foreach_related:
+ * @product: a product
+ * @flags: bitwise-or of #OsinfoProductForeachFlag
+ * @foreach_func: the function to call for each related product
+ * @user_data: user data to pass to foreach_func()
+ *
+ * Call @foreach_func for @product and for each #OsinfoProduct related
+ * to @product. The meaning of 'related' is defined by the @flag parameter,
+ * and can be products @product derives from or products which @product
+ * upgrades or clones, or a combination of these, or none.
+ */
 void osinfo_product_foreach_related(OsinfoProduct *product,
                                     OsinfoProductForeachFlag flags,
                                     OsinfoProductForeach foreach_func,
