@@ -33,7 +33,7 @@ BUILT_SOURCES = 95-osinfo.rules
 	sed 's,\@bindir\@,$(exec_prefix)/bin,' $< > $@
 
 95-osinfo.rules-install: 95-osinfo.rules
-	mkdir -p $(DESTDIR)$(UDEV_RULESDIR)
+	$(MKDIR_P) $(DESTDIR)$(UDEV_RULESDIR)
 	$(INSTALL) -m 0644 95-osinfo.rules $(DESTDIR)$(UDEV_RULESDIR)
 
 INSTALL_DATA_HOOK_DEPS += 95-osinfo.rules-install
