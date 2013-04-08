@@ -17,4 +17,9 @@ which gnome-autogen.sh || {
     exit 1
 }
 
+# Real ChangeLog/AUTHORS is auto-generated from GIT logs at
+# make dist time, but automake requires that it
+# exists at all times :-(
+touch ChangeLog AUTHORS
+
 ACLOCAL_FLAGS="$ACLOCAL_FLAGS" USE_GNOME2_MACROS=1 . gnome-autogen.sh --enable-gtk-doc "$@"
