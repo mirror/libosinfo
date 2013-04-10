@@ -414,6 +414,8 @@ LIBOSINFO_0.2.6 {
 } LIBOSINFO_0.2.3;
 
 LIBOSINFO_0.2.7 {
+	osinfo_install_script_generate_command_line;
+
 	osinfo_platform_get_all_devices;
 } LIBOSINFO_0.2.6;
 

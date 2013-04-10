@@ -175,6 +175,10 @@ GFile *osinfo_install_script_generate_output(OsinfoInstallScript *script,
                                              GCancellable *cancellable,
                                              GError **error);
 
+gchar *osinfo_install_script_generate_command_line(OsinfoInstallScript *script,
+                                                   OsinfoOs *os,
+                                                   OsinfoInstallConfig *config);
+
 gboolean osinfo_install_script_has_config_param(const OsinfoInstallScript *script, const OsinfoInstallConfigParam *config_param);
 
 gboolean osinfo_install_script_has_config_param_name(const OsinfoInstallScript *script, const gchar *name);

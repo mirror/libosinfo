@@ -732,6 +732,7 @@ static xmlNodePtr osinfo_install_script_generate_entity_xml(OsinfoInstallScript 
 static xmlDocPtr osinfo_install_script_generate_config_xml(OsinfoInstallScript *script,
                                                            OsinfoOs *os,
                                                            OsinfoInstallConfig *config,
+                                                           const gchar *node_name,
                                                            GError **error)
 {
     xmlDocPtr doc = xmlNewDoc((xmlChar *)"1.0");
@@ -740,7 +741,7 @@ static xmlDocPtr osinfo_install_script_generate_config_xml(OsinfoInstallScript *
 
     root = xmlNewDocNode(NULL,
                          NULL,
-                         (xmlChar*)"install-script-config",
+                         (xmlChar*)node_name,
                          NULL);
     xmlDocSetRootElement(doc, root);
 
@@ -820,13 +821,14 @@ static gboolean osinfo_install_script_apply_template(OsinfoInstallScript *script
                                                      OsinfoOs *os,
                                                      const gchar *templateUri,
                                                      const gchar *template,
+                                                     const gchar *node_name,
                                                      gchar **result,
                                                      OsinfoInstallConfig *config,
                                                      GError **error)
 {
     gboolean ret = FALSE;
     xsltStylesheetPtr templateXsl = osinfo_install_script_load_template(templateUri, template, error);
-    xmlDocPtr configXml = osinfo_install_script_generate_config_xml(script, os, config, error);
+    xmlDocPtr configXml = osinfo_install_script_generate_config_xml(script, os, config, node_name, error);
 
     if (!templateXsl || !configXml)
         goto cleanup;
@@ -871,6 +873,7 @@ static void osinfo_install_script_template_loaded(GObject *src,
                                               data->os,
                                               uri,
                                               input,
+                                              "install-script-config",
                                               &output,
                                               data->config,
                                               &error)) {
@@ -915,6 +918,7 @@ void osinfo_install_script_generate_async(OsinfoInstallScript *script,
                                                   os,
                                                   "<data>",
                                                   templateData,
+                                                  "install-script-config",
                                                   &output,
                                                   data->config,
                                                   &error)) {
@@ -1196,6 +1200,45 @@ GFile *osinfo_install_script_generate_output(OsinfoInstallScript *script,
     return data.file;
 }
 
+/**
+ * osinfo_install_script_generate_command_line:
+ * @script: the install script
+ * @os:     the os entity
+ * @config: the install script config
+ *
+ * Some install scripts need to pass a command line to the kernel, Such install
+ * scripts belong to OSs that provide paths to the kernel and initrd files that
+ * can be used to directly boot
+ * (http://wiki.qemu.org/download/qemu-doc.html#direct_005flinux_005fboot)
+ * the OS in order to pass the needed commandline to it.
+ *
+ * Returns: (transfer full): The generated command line string, NULL otherwise.
+ */
+gchar *osinfo_install_script_generate_command_line(OsinfoInstallScript *script,
+                                                   OsinfoOs *os,
+                                                   OsinfoInstallConfig *config)
+{
+    const gchar *templateData = osinfo_install_script_get_template_data(script);
+    gchar *output = NULL;
+
+    if (templateData) {
+        GError *error = NULL;
+        if (!osinfo_install_script_apply_template(script,
+                                                  os,
+                                                  "<data>",
+                                                  templateData,
+                                                  "command-line",
+                                                  &output,
+                                                  config,
+                                                  &error)) {
+            g_prefix_error(&error, "%s", _("Failed to apply script template: "));
+        }
+    }
+
+    return output;
+}
+
+
 OsinfoPathFormat osinfo_install_script_get_path_format(OsinfoInstallScript *script)
 {
     return osinfo_entity_get_param_value_enum
@@ -1265,6 +1308,7 @@ int osinfo_install_script_get_post_install_drivers_signing_req(OsinfoInstallScri
          OSINFO_TYPE_DEVICE_DRIVER_SIGNING_REQ,
          OSINFO_DEVICE_DRIVER_SIGNING_REQ_NONE);
 }
+
 
 /*
  * Local variables:
