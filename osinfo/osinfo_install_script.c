@@ -1214,7 +1214,7 @@ OsinfoPathFormat osinfo_install_script_get_path_format(OsinfoInstallScript *scri
  * not have out of the box support for and devices are required/prefered to be
  * available during actual installation.
  *
- * Returns: TRUE if install script supports pre-installable drivers, FASLSE otherwise.
+ * Returns: TRUE if install script supports pre-installable drivers, FALSE otherwise.
  */
 gboolean osinfo_install_script_get_can_pre_install_drivers(OsinfoInstallScript *script)
 {
