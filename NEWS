@@ -1,3 +1,35 @@
+0.2.7 - May 13, 2013
+====================
+
+Changes since 0.2.6:
+
+- Add/improve/fix data on:
+  - CentOS 6.*
+  - Fedora 19
+  - GNOME 3.8
+  - openSUSE 12.3
+  - RHEL 6.4
+  - Ubuntu 13.04
+- Add testcases for media detection:
+  - Debian 7.0.*
+  - Fedora 17, 18 and 19
+  - Ubuntu 12.10 and 13.04
+- Installer script fixes/improvements:
+  - Setup user avatar for Windows 7.
+  - Fix against old RHEL and Fedora.
+  - Specify installation method for Fedora (required by Fedora 19).
+- New API:
+  - osinfo_platform_get_all_devices()
+  - osinfo_install_script_generate_command_line()
+- build:
+  - Take DESTDIR into account when creating symlinks.
+  - Fix issues with installing in a tree where libosinfo was already installed.
+  - Fix a race-condition regarding usb.ids/pci.ids setup.
+  - Disable static libraries by default.
+- Some portability improments/fixes.
+- Fixes `make syntax-check`.
+- More docs and fixes to existing docs.
+
 0.2.6 - March 18, 2013
 ======================
 
