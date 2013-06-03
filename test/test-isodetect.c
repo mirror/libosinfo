@@ -402,6 +402,12 @@ START_TEST(test_altlinux)
 }
 END_TEST
 
+START_TEST(test_mageia)
+{
+    test_one("mageia");
+}
+END_TEST
+
 static Suite *
 list_suite(void)
 {
@@ -419,6 +425,7 @@ list_suite(void)
     tcase_add_test(tc, test_centos);
     tcase_add_test(tc, test_gnome);
     tcase_add_test(tc, test_altlinux);
+    tcase_add_test(tc, test_mageia);
     suite_add_tcase(s, tc);
     return s;
 }

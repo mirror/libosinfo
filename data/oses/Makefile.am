@@ -8,6 +8,7 @@ database_in_files = 	\
 	fedora.xml.in   \
 	freebsd.xml.in  \
 	gnome.xml.in	\
+	mageia.xml.in \
 	mandriva.xml.in \
 	mandrake.xml.in \
 	netbsd.xml.in	\

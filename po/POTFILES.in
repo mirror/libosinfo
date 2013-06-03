@@ -1,6 +1,7 @@
 data/oses/netware.xml.in
 data/oses/solaris.xml.in
 data/oses/dos.xml.in
+data/oses/mageia.xml.in
 data/oses/mandrake.xml.in
 data/oses/mandriva.xml.in
 data/oses/suse.xml.in
