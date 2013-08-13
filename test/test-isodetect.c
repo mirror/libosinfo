@@ -396,6 +396,12 @@ START_TEST(test_gnome)
 }
 END_TEST
 
+START_TEST(test_altlinux)
+{
+    test_one("altlinux");
+}
+END_TEST
+
 static Suite *
 list_suite(void)
 {
@@ -412,6 +418,7 @@ list_suite(void)
     tcase_add_test(tc, test_opensuse);
     tcase_add_test(tc, test_centos);
     tcase_add_test(tc, test_gnome);
+    tcase_add_test(tc, test_altlinux);
     suite_add_tcase(s, tc);
     return s;
 }

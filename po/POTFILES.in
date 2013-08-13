@@ -17,6 +17,7 @@ data/oses/openbsd.xml.in
 data/oses/freebsd.xml.in
 data/oses/rhl.xml.in
 data/oses/netbsd.xml.in
+data/oses/altlinux.xml.in
 data/devices/qemu-ps2.xml.in
 data/devices/qemu-pci.xml.in
 data/devices/virtio-pci.xml.in
