@@ -71,7 +71,6 @@ START_TEST(test_uris)
     session = soup_session_async_new_with_options(
 #ifdef HAVE_LIBSOUP_GNOME
                                                   SOUP_SESSION_ADD_FEATURE_BY_TYPE,
-                                                  SOUP_TYPE_PROXY_RESOLVER_GNOME,
 #endif
                                                   NULL);
     if ((debugstr = g_getenv("LIBOSINFO_TEST_DEBUG"))) {
