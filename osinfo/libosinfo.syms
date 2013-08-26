@@ -419,6 +419,10 @@ LIBOSINFO_0.2.7 {
 	osinfo_platform_get_all_devices;
 } LIBOSINFO_0.2.6;
 
+LIBOSINFO_0.2.8 {
+	osinfo_product_get_codename;
+} LIBOSINFO_0.2.7;
+
 /* Symbols in next release...
 
   LIBOSINFO_0.0.2 {
