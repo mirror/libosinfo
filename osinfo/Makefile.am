@@ -75,7 +75,6 @@ OSINFO_HEADER_FILES =			\
   osinfo_install_script.h		\
   osinfo_install_scriptlist.h		\
   osinfo_product.h			\
-  osinfo_product_private.h		\
   osinfo_productfilter.h		\
   osinfo_productlist.h			\
   osinfo_platform.h			\
@@ -86,7 +85,6 @@ OSINFO_HEADER_FILES =			\
   osinfo_deployment.h			\
   osinfo_deploymentlist.h		\
   osinfo_media.h			\
-  osinfo_media_private.h		\
   osinfo_medialist.h			\
   osinfo_resources.h			\
   osinfo_resourceslist.h		\
@@ -122,6 +120,7 @@ libosinfo_1_0_la_SOURCES =		\
   osinfo_install_script_private.h	\
   osinfo_install_scriptlist.c		\
   osinfo_product.c			\
+  osinfo_product_private.h		\
   osinfo_productfilter.c		\
   osinfo_productlist.c			\
   osinfo_platform.c			\
@@ -131,6 +130,7 @@ libosinfo_1_0_la_SOURCES =		\
   osinfo_deployment.c			\
   osinfo_deploymentlist.c		\
   osinfo_media.c			\
+  osinfo_media_private.h		\
   osinfo_medialist.c			\
   osinfo_resources.c			\
   osinfo_resourceslist.c		\
