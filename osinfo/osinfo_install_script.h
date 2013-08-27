@@ -185,8 +185,6 @@ gboolean osinfo_install_script_has_config_param_name(const OsinfoInstallScript *
 
 OsinfoInstallConfigParam *osinfo_install_script_get_config_param(const OsinfoInstallScript *script, const gchar *name);
 
-void osinfo_install_script_add_config_param(OsinfoInstallScript *script, OsinfoInstallConfigParam *param);
-
 GList *osinfo_install_script_get_config_param_list(const OsinfoInstallScript *script);
 OsinfoInstallConfigParamList *osinfo_install_script_get_config_params(const OsinfoInstallScript *script);
 OsinfoPathFormat osinfo_install_script_get_path_format(OsinfoInstallScript *script);
