@@ -421,6 +421,10 @@ LIBOSINFO_0.2.7 {
 
 LIBOSINFO_0.2.8 {
 	osinfo_product_get_codename;
+	osinfo_product_get_eol_date;
+	osinfo_product_get_eol_date_string;
+	osinfo_product_get_release_date;
+	osinfo_product_get_release_date_string;
 } LIBOSINFO_0.2.7;
 
 /* Symbols in next release...
