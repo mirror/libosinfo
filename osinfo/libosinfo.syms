@@ -420,6 +420,23 @@ LIBOSINFO_0.2.7 {
 } LIBOSINFO_0.2.6;
 
 LIBOSINFO_0.2.8 {
+	osinfo_avatar_format_new;
+
+	osinfo_install_config_get_hardware_arch;
+	osinfo_install_config_get_hostname;
+	osinfo_install_config_get_reg_login;
+	osinfo_install_config_get_reg_password;
+	osinfo_install_config_get_reg_product_key;
+
+	osinfo_install_config_param_get_value_map;
+	osinfo_install_config_param_set_value_map;
+
+	osinfo_install_script_get_output_prefix;
+
+	osinfo_loader_process_local_path;
+	osinfo_loader_process_system_path;
+	osinfo_loader_process_user_path;
+
 	osinfo_product_get_codename;
 	osinfo_product_get_eol_date;
 	osinfo_product_get_eol_date_string;
