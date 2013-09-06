@@ -144,7 +144,7 @@ libosinfo_1_0_la_SOURCES =		\
 osinfo_enum_types.h: $(OSINFO_HEADER_FILES) osinfo_enum_types.h.template
 	$(AM_V_GEN) ( $(GLIB_MKENUMS) --template $(srcdir)/osinfo_enum_types.h.template $(libosinfo_1_0_include_HEADERS:%=$(srcdir)/%) ) > $(srcdir)/osinfo_enum_types.h
 
-osinfo_enum_types.c: $(OSINFO_HEADER_FILES) osinfo_enum_types.c.template
+osinfo_enum_types.c: $(OSINFO_HEADER_FILES) osinfo_enum_types.c.template osinfo_enum_types.h
 	$(AM_V_GEN) ( $(GLIB_MKENUMS) --template $(srcdir)/osinfo_enum_types.c.template $(libosinfo_1_0_include_HEADERS:%=$(srcdir)/%) ) > $(srcdir)/osinfo_enum_types.c
 
 if WITH_GOBJECT_INTROSPECTION
