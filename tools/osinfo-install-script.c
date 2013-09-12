@@ -287,7 +287,7 @@ gint main(gint argc, gchar **argv)
 
     if (list_profile && list_config) {
         g_printerr("%s",
-                   _("Only one of --list-propfile and --list-config can be requested"));
+                   _("Only one of --list-profile and --list-config can be requested"));
         ret = -2;
         goto EXIT;
     }
