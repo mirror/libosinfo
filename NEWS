@@ -1,3 +1,25 @@
+0.2.8 - Sep 16, 2013
+====================
+
+Changes since 0.2.7:
+- Add/improve/fix data on:
+  - ALTLinux
+  - Fedora 19
+  - Fedora 20
+  - FreeBSD
+  - GNOME 3.8
+  - GNOME 3.10
+  - Microsoft Windows 7
+  - QEMU
+  - Ubuntu
+- Add testcases for media detection:
+  - Microsoft Windows Server 2008 R2
+- Fix export of public API.
+- Hide private API.
+- Fix a parallel build issue.
+- Fix build against latest intltool.
+- Drop usage of deprecated API.
+
 0.2.7 - May 13, 2013
 ====================
 
