@@ -1166,6 +1166,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
     const OsinfoEntityKey keys[] = {
         { OSINFO_OS_PROP_FAMILY, G_TYPE_STRING },
         { OSINFO_OS_PROP_DISTRO, G_TYPE_STRING },
+        { OSINFO_OS_PROP_RELEASE_STATUS, G_TYPE_STRING },
         { NULL, G_TYPE_INVALID }
     };
 

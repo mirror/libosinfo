@@ -55,8 +55,9 @@ typedef struct _OsinfoOsClass   OsinfoOsClass;
 
 typedef struct _OsinfoOsPrivate OsinfoOsPrivate;
 
-#define OSINFO_OS_PROP_FAMILY    "family"
-#define OSINFO_OS_PROP_DISTRO    "distro"
+#define OSINFO_OS_PROP_FAMILY                 "family"
+#define OSINFO_OS_PROP_DISTRO                 "distro"
+#define OSINFO_OS_PROP_RELEASE_STATUS         "release-status"
 
 /* object */
 struct _OsinfoOs
@@ -78,6 +79,21 @@ struct _OsinfoOsClass
     /* class members */
 };
 
+/**
+ * OsinfoReleaseStatus:
+ * @OSINFO_RELEASE_STATUS_RELEASED: A released OS.
+ * @OSINFO_RELEASE_STATUS_SNAPSHOT: A continuous integration snapshot and not
+ * an actual released product yet. For example, gnome-continuous images for
+ * development snapshots of GNOME and nightly build ISOs of Fedora etc.
+ * @OSINFO_RELEASE_STATUS_PRERELEASE: A pre-release. For example, alpha and
+ * beta pre-releases of Fedora etc.
+ */
+typedef enum {
+    OSINFO_RELEASE_STATUS_RELEASED,
+    OSINFO_RELEASE_STATUS_SNAPSHOT,
+    OSINFO_RELEASE_STATUS_PRERELEASE
+} OsinfoReleaseStatus;
+
 GType osinfo_os_get_type(void);
 
 OsinfoOs *osinfo_os_new(const gchar *id);
@@ -93,6 +109,7 @@ OsinfoDeviceLinkList *osinfo_os_get_device_links(OsinfoOs *os, OsinfoFilter *fil
 OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoDevice *dev);
 const gchar *osinfo_os_get_family(OsinfoOs *os);
 const gchar *osinfo_os_get_distro(OsinfoOs *os);
+int osinfo_os_get_release_status(OsinfoOs *os);
 OsinfoMediaList *osinfo_os_get_media_list(OsinfoOs *os);
 void osinfo_os_add_media(OsinfoOs *os, OsinfoMedia *media);
 OsinfoTreeList *osinfo_os_get_tree_list(OsinfoOs *os);

@@ -402,6 +402,25 @@ const gchar *osinfo_os_get_distro(OsinfoOs *os)
 }
 
 /**
+ * osinfo_os_get_release_status:
+ * @os: an #OsinfoOs
+ *
+ * Use this to determine the release status of the @os.
+ *
+ * Returns: (type OsinfoReleaseStatus): release status of @os.
+ */
+int osinfo_os_get_release_status(OsinfoOs *os)
+{
+    g_return_val_if_fail(OSINFO_IS_OS(os), OSINFO_RELEASE_STATUS_RELEASED);
+
+    return osinfo_entity_get_param_value_enum
+        (OSINFO_ENTITY(os),
+         OSINFO_OS_PROP_RELEASE_STATUS,
+         OSINFO_TYPE_RELEASE_STATUS,
+         OSINFO_RELEASE_STATUS_RELEASED);
+}
+
+/**
  * osinfo_os_get_media_list:
  * @os: an operating system
  *
