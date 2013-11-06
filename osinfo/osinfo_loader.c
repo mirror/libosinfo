@@ -186,6 +186,48 @@ osinfo_loader_string(const char *xpath,
     return ret;
 }
 
+static gboolean
+osinfo_loader_boolean(const char *xpath,
+                      xmlXPathContextPtr ctxt,
+                      GError **err)
+{
+
+    xmlNodePtr *nodes;
+    int count;
+    int i;
+    gboolean ret = FALSE;
+
+    g_return_val_if_fail(ctxt != NULL, NULL);
+    g_return_val_if_fail(xpath != NULL, NULL);
+
+    count = osinfo_loader_nodeset(xpath, ctxt, &nodes, err);
+
+    if (count < 0) {
+        return FALSE;
+    }
+    for (i = 0 ; i < count ; i++) {
+        xmlNodePtr node = nodes[i];
+
+        if (!node->children) {
+            /* node is present -> TRUE */
+            ret = TRUE;
+            break;
+        }
+        if (node->children->type != XML_TEXT_NODE) {
+            OSINFO_ERROR(err, _("Expected a text node attribute value"));
+            goto cleanup;
+        }
+
+        if (g_strcmp0((const char *)nodes[i]->children->content, "true") == 0) {
+            ret = TRUE;
+            break;
+        }
+    }
+cleanup:
+    g_free(nodes);
+    return ret;
+}
+
 static gchar *
 osinfo_loader_doc(const char *xpath,
                   xmlXPathContextPtr ctxt,
@@ -238,6 +280,7 @@ static void osinfo_loader_entity(OsinfoLoader *loader,
     /* Standard well-known keys first, allow single value only */
     for (i = 0 ; keys != NULL && keys[i].name != NULL; i++) {
         gchar *value_str = NULL;
+        gboolean value_bool;
         gchar *xpath = NULL;
         int j;
 
@@ -266,6 +309,10 @@ static void osinfo_loader_entity(OsinfoLoader *loader,
                     value_str = osinfo_loader_string(xpath, ctxt, err);
                 }
                 break;
+            case G_TYPE_BOOLEAN:
+                xpath = g_strdup_printf("./%s", keys[i].name);
+                value_bool = osinfo_loader_boolean(xpath, ctxt, err);
+                break;
             default:
                 g_warn_if_reached();
                 break;
@@ -279,6 +326,9 @@ static void osinfo_loader_entity(OsinfoLoader *loader,
                     g_free(value_str);
                     value_str = NULL;
                 }
+                break;
+            case G_TYPE_BOOLEAN:
+                osinfo_entity_set_param_boolean(entity, keys[i].name, value_bool);
                 break;
             default:
                 g_warn_if_reached();
@@ -692,7 +742,7 @@ static OsinfoAvatarFormat *osinfo_loader_avatar_format(OsinfoLoader *loader,
         { OSINFO_AVATAR_FORMAT_PROP_MIME_TYPE, G_TYPE_STRING },
         { OSINFO_AVATAR_FORMAT_PROP_WIDTH, G_TYPE_STRING },
         { OSINFO_AVATAR_FORMAT_PROP_HEIGHT, G_TYPE_STRING },
-        { OSINFO_AVATAR_FORMAT_PROP_ALPHA, G_TYPE_STRING },
+        { OSINFO_AVATAR_FORMAT_PROP_ALPHA, G_TYPE_BOOLEAN },
         { NULL, G_TYPE_INVALID }
     };
 
@@ -719,8 +769,8 @@ static void osinfo_loader_install_script(OsinfoLoader *loader,
         { OSINFO_INSTALL_SCRIPT_PROP_PRODUCT_KEY_FORMAT, G_TYPE_STRING },
         { OSINFO_INSTALL_SCRIPT_PROP_PATH_FORMAT, G_TYPE_STRING },
         { OSINFO_INSTALL_SCRIPT_PROP_EXPECTED_FILENAME, G_TYPE_STRING },
-        { OSINFO_INSTALL_SCRIPT_PROP_CAN_PRE_INSTALL_DRIVERS, G_TYPE_STRING },
-        { OSINFO_INSTALL_SCRIPT_PROP_CAN_POST_INSTALL_DRIVERS, G_TYPE_STRING },
+        { OSINFO_INSTALL_SCRIPT_PROP_CAN_PRE_INSTALL_DRIVERS, G_TYPE_BOOLEAN },
+        { OSINFO_INSTALL_SCRIPT_PROP_CAN_POST_INSTALL_DRIVERS, G_TYPE_BOOLEAN },
         { OSINFO_INSTALL_SCRIPT_PROP_PRE_INSTALL_DRIVERS_SIGNING_REQ, G_TYPE_STRING },
         { OSINFO_INSTALL_SCRIPT_PROP_POST_INSTALL_DRIVERS_SIGNING_REQ, G_TYPE_STRING },
         { NULL, G_TYPE_INVALID }
