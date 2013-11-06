@@ -229,7 +229,7 @@ static void osinfo_loader_entity(OsinfoLoader *loader,
     const gchar * const *langs = g_get_language_names ();
 
     /* Standard well-known keys first, allow single value only */
-    for (i = 0 ; keys[i] != NULL; i++) {
+    for (i = 0 ; keys != NULL && keys[i] != NULL; i++) {
         gchar *value = NULL;
         gchar *xpath;
         int j;
@@ -509,9 +509,6 @@ static void osinfo_loader_platform(OsinfoLoader *loader,
                                    GError **err)
 {
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
-    const gchar *const keys[] = {
-        NULL,
-    };
     if (!id) {
         OSINFO_ERROR(err, _("Missing platform id property"));
         return;
@@ -520,7 +517,7 @@ static void osinfo_loader_platform(OsinfoLoader *loader,
     OsinfoPlatform *platform = osinfo_loader_get_platform(loader, id);
     xmlFree(id);
 
-    osinfo_loader_entity(loader, OSINFO_ENTITY(platform), keys, ctxt, root, err);
+    osinfo_loader_entity(loader, OSINFO_ENTITY(platform), NULL, ctxt, root, err);
     if (error_is_set(err))
         return;
 
@@ -540,9 +537,6 @@ static void osinfo_loader_deployment(OsinfoLoader *loader,
                                      GError **err)
 {
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
-    const gchar *const keys[] = {
-        NULL
-    };
     if (!id) {
         OSINFO_ERROR(err, _("Missing deployment id property"));
         return;
@@ -569,7 +563,7 @@ static void osinfo_loader_deployment(OsinfoLoader *loader,
     OsinfoDeployment *deployment = osinfo_deployment_new(id, os, platform);
     xmlFree(id);
 
-    osinfo_loader_entity(loader, OSINFO_ENTITY(deployment), keys, ctxt, root, err);
+    osinfo_loader_entity(loader, OSINFO_ENTITY(deployment), NULL, ctxt, root, err);
     if (error_is_set(err)) {
         g_object_unref(G_OBJECT(deployment));
         return;
