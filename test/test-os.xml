@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<libosinfo version="0.0.1">
+
+  <os id="http://libosinfo.org/test/os/test1">
+    <short-id>test1</short-id>
+    <name>Test 1</name>
+    <version>unknown</version>
+    <vendor>libosinfo.org</vendor>
+    <family>test</family>
+    <release-status>prerelease</release-status>
+  </os>
+
+  <os id="http://libosinfo.org/test/os/test2">
+    <short-id>test2</short-id>
+    <release-status>released</release-status>
+  </os>
+
+  <os id="http://libosinfo.org/test/os/test3">
+    <short-id>test3</short-id>
+  </os>
+
+  <os id="http://libosinfo.org/test/os/test4">
+    <short-id>test4</short-id>
+    <release-status>snapshot</release-status>
+  </os>
+
+  <os id="http://libosinfo.org/test/os/test5">
+    <short-id>test5</short-id>
+    <release-status>invalid-value</release-status>
+  </os>
+</libosinfo>

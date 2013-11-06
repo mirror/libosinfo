@@ -63,6 +63,75 @@ START_TEST(test_devices)
 END_TEST
 
 
+START_TEST(test_loader)
+{
+    OsinfoLoader *loader;
+    OsinfoDb *db;
+    OsinfoOs *os;
+    GError *error = NULL;
+    const char *str;
+
+    loader = osinfo_loader_new();
+    osinfo_loader_process_path(loader, SRCDIR "/test/test-os.xml", &error);
+    fail_unless(error == NULL, error ? error->message:"none");
+    db = osinfo_loader_get_db(loader);
+
+    os = osinfo_db_get_os(db, "http://libosinfo.org/test/os/test1");
+    fail_unless(os != NULL, "could not find OS 'test1'");
+    str = osinfo_product_get_short_id(OSINFO_PRODUCT(os));
+    fail_unless(g_strcmp0(str, "test1") == 0, "wrong OS short-id");
+    str = osinfo_product_get_name(OSINFO_PRODUCT(os));
+    fail_unless(g_strcmp0(str, "Test 1") == 0, "wrong OS name");
+    str = osinfo_product_get_version(OSINFO_PRODUCT(os));
+    fail_unless(g_strcmp0(str, "unknown") == 0, "wrong OS version");
+    str = osinfo_product_get_vendor(OSINFO_PRODUCT(os));
+    fail_unless(g_strcmp0(str, "libosinfo.org") == 0, "wrong OS vendor");
+    str = osinfo_os_get_family(os);
+    fail_unless(g_strcmp0(str, "test") == 0, "wrong OS family");
+    fail_unless(osinfo_os_get_release_status(os) == OSINFO_RELEASE_STATUS_PRERELEASE,
+                "OS should be a pre-release");
+
+    os = osinfo_db_get_os(db, "http://libosinfo.org/test/os/test2");
+    fail_unless(os != NULL, "could not find OS 'test2'");
+    str = osinfo_product_get_short_id(OSINFO_PRODUCT(os));
+    fail_unless(g_strcmp0(str, "test2") == 0, "wrong OS short-id");
+    str = osinfo_product_get_name(OSINFO_PRODUCT(os));
+    fail_unless(str == NULL, "wrong OS name");
+    str = osinfo_product_get_version(OSINFO_PRODUCT(os));
+    fail_unless(str == NULL, "wrong OS version");
+    str = osinfo_product_get_vendor(OSINFO_PRODUCT(os));
+    fail_unless(str == NULL, "wrong OS vendor");
+    str = osinfo_os_get_family(os);
+    fail_unless(str == NULL, "wrong OS family");
+    fail_unless(osinfo_os_get_release_status(os) == OSINFO_RELEASE_STATUS_RELEASED,
+                "OS should be a released one");
+
+    os = osinfo_db_get_os(db, "http://libosinfo.org/test/os/test3");
+    fail_unless(os != NULL, "could not find OS 'test3'");
+    str = osinfo_product_get_short_id(OSINFO_PRODUCT(os));
+    fail_unless(g_strcmp0(str, "test3") == 0, "wrong OS short-id");
+    fail_unless(osinfo_os_get_release_status(os) == OSINFO_RELEASE_STATUS_RELEASED,
+                "OS should be a released one");
+
+    os = osinfo_db_get_os(db, "http://libosinfo.org/test/os/test4");
+    fail_unless(os != NULL, "could not find OS 'test4'");
+    str = osinfo_product_get_short_id(OSINFO_PRODUCT(os));
+    fail_unless(g_strcmp0(str, "test4") == 0, "wrong OS short-id");
+    fail_unless(osinfo_os_get_release_status(os) == OSINFO_RELEASE_STATUS_SNAPSHOT,
+                "OS should be a snapshot");
+
+    os = osinfo_db_get_os(db, "http://libosinfo.org/test/os/test5");
+    fail_unless(os != NULL, "could not find OS 'test5'");
+    str = osinfo_product_get_short_id(OSINFO_PRODUCT(os));
+    fail_unless(g_strcmp0(str, "test5") == 0, "wrong OS short-id");
+    fail_unless(osinfo_os_get_release_status(os) == OSINFO_RELEASE_STATUS_RELEASED,
+                "OS should be a released one");
+
+    g_object_unref(loader);
+}
+END_TEST
+
+
 START_TEST(test_devices_filter)
 {
     OsinfoOs *os = osinfo_os_new("awesome");
@@ -130,6 +199,7 @@ os_suite(void)
     Suite *s = suite_create("Os");
     TCase *tc = tcase_create("Core");
     tcase_add_test(tc, test_basic);
+    tcase_add_test(tc, test_loader);
     tcase_add_test(tc, test_devices);
     tcase_add_test(tc, test_devices_filter);
     tcase_add_test(tc, test_device_driver);
