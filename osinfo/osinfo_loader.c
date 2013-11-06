@@ -57,6 +57,13 @@ struct _OsinfoLoaderPrivate
     OsinfoDb *db;
 };
 
+struct _OsinfoEntityKey
+{
+    const char *name;
+    GType type;
+};
+typedef struct _OsinfoEntityKey OsinfoEntityKey;
+
 static void
 osinfo_loader_finalize (GObject *object)
 {
@@ -220,7 +227,7 @@ osinfo_loader_doc(const char *xpath,
 
 static void osinfo_loader_entity(OsinfoLoader *loader,
                                  OsinfoEntity *entity,
-                                 const gchar *const *keys,
+                                 const OsinfoEntityKey *keys,
                                  xmlXPathContextPtr ctxt,
                                  xmlNodePtr root,
                                  GError **err)
@@ -229,37 +236,55 @@ static void osinfo_loader_entity(OsinfoLoader *loader,
     const gchar * const *langs = g_get_language_names ();
 
     /* Standard well-known keys first, allow single value only */
-    for (i = 0 ; keys != NULL && keys[i] != NULL; i++) {
-        gchar *value = NULL;
-        gchar *xpath;
+    for (i = 0 ; keys != NULL && keys[i].name != NULL; i++) {
+        gchar *value_str = NULL;
+        gchar *xpath = NULL;
         int j;
 
         /* We are guaranteed to have at least the default "C" locale and we
          * want to ignore that, hence the NULL check on index 'j + 1'.
          */
-        for (j = 0; langs[j + 1] != NULL; j++) {
-            xpath = g_strdup_printf("string(./%s[lang('%s')])", keys[i], langs[j]);
-            value = osinfo_loader_string(xpath, ctxt, err);
-            g_free(xpath);
-            if (error_is_set(err))
-                return;
+        if (keys[i].type == G_TYPE_STRING) {
+            for (j = 0; langs[j + 1] != NULL; j++) {
+                xpath = g_strdup_printf("string(./%s[lang('%s')])",
+                                        keys[i].name, langs[j]);
+                value_str = osinfo_loader_string(xpath, ctxt, err);
+                g_free(xpath);
+                xpath = NULL;
+                if (error_is_set(err))
+                    return;
 
-            if (value != NULL)
+                if (value_str != NULL)
+                    break;
+            }
+        }
+
+        switch (keys[i].type) {
+            case G_TYPE_STRING:
+                xpath = g_strdup_printf("string(./%s)", keys[i].name);
+                if (value_str == NULL) {
+                    value_str = osinfo_loader_string(xpath, ctxt, err);
+                }
+                break;
+            default:
+                g_warn_if_reached();
                 break;
         }
+        g_free(xpath);
 
-        if (value == NULL) {
-            xpath = g_strdup_printf("string(./%s)", keys[i]);
-            value = osinfo_loader_string(xpath, ctxt, err);
-            g_free(xpath);
-            if (error_is_set(err))
-                return;
+        switch (keys[i].type) {
+            case G_TYPE_STRING:
+                if (value_str) {
+                    osinfo_entity_set_param(entity, keys[i].name, value_str);
+                    g_free(value_str);
+                    value_str = NULL;
+                }
+                break;
+            default:
+                g_warn_if_reached();
+                break;
         }
-
-        if (value) {
-            osinfo_entity_set_param(entity, keys[i], value);
-            g_free(value);
-        }
+        g_warn_if_fail(value_str == NULL);
     }
 
     /* Then any site specific custom keys. x-... Can be repeated */
@@ -352,16 +377,16 @@ static void osinfo_loader_device(OsinfoLoader *loader,
                                  GError **err)
 {
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
-    const gchar *const keys[] = {
-        OSINFO_DEVICE_PROP_VENDOR,
-        OSINFO_DEVICE_PROP_VENDOR_ID,
-        OSINFO_DEVICE_PROP_PRODUCT,
-        OSINFO_DEVICE_PROP_PRODUCT_ID,
-        OSINFO_DEVICE_PROP_SUBSYSTEM,
-        OSINFO_DEVICE_PROP_BUS_TYPE,
-        OSINFO_DEVICE_PROP_CLASS,
-        OSINFO_DEVICE_PROP_NAME,
-        NULL,
+    const OsinfoEntityKey keys[] = {
+        { OSINFO_DEVICE_PROP_VENDOR, G_TYPE_STRING },
+        { OSINFO_DEVICE_PROP_VENDOR_ID, G_TYPE_STRING },
+        { OSINFO_DEVICE_PROP_PRODUCT, G_TYPE_STRING },
+        { OSINFO_DEVICE_PROP_PRODUCT_ID, G_TYPE_STRING },
+        { OSINFO_DEVICE_PROP_SUBSYSTEM, G_TYPE_STRING },
+        { OSINFO_DEVICE_PROP_BUS_TYPE, G_TYPE_STRING },
+        { OSINFO_DEVICE_PROP_CLASS, G_TYPE_STRING },
+        { OSINFO_DEVICE_PROP_NAME, G_TYPE_STRING },
+        { NULL, G_TYPE_INVALID }
     };
     if (!id) {
         OSINFO_ERROR(err, _("Missing device id property"));
@@ -388,9 +413,9 @@ static void osinfo_loader_device_link(OsinfoLoader *loader,
         return;
 
     for (i = 0 ; i < nrelated ; i++) {
-        const gchar *keys[] = {
-            OSINFO_DEVICELINK_PROP_DRIVER,
-            NULL,
+        const OsinfoEntityKey keys[] = {
+            { OSINFO_DEVICELINK_PROP_DRIVER, G_TYPE_STRING },
+            { NULL, G_TYPE_INVALID }
         };
         gchar *id = (gchar *)xmlGetProp(related[i], BAD_CAST "id");
         if (!id) {
@@ -461,16 +486,16 @@ static void osinfo_loader_product(OsinfoLoader *loader,
                                   xmlNodePtr root,
                                   GError **err)
 {
-    const gchar *const keys[] = {
-        OSINFO_PRODUCT_PROP_NAME,
-        OSINFO_PRODUCT_PROP_VENDOR,
-        OSINFO_PRODUCT_PROP_VERSION,
-        OSINFO_PRODUCT_PROP_LOGO,
-        OSINFO_PRODUCT_PROP_SHORT_ID,
-        OSINFO_PRODUCT_PROP_RELEASE_DATE,
-        OSINFO_PRODUCT_PROP_EOL_DATE,
-        OSINFO_PRODUCT_PROP_CODENAME,
-        NULL,
+    const OsinfoEntityKey keys[] = {
+        { OSINFO_PRODUCT_PROP_NAME, G_TYPE_STRING },
+        { OSINFO_PRODUCT_PROP_VENDOR, G_TYPE_STRING },
+        { OSINFO_PRODUCT_PROP_VERSION, G_TYPE_STRING },
+        { OSINFO_PRODUCT_PROP_LOGO, G_TYPE_STRING },
+        { OSINFO_PRODUCT_PROP_SHORT_ID, G_TYPE_STRING },
+        { OSINFO_PRODUCT_PROP_RELEASE_DATE, G_TYPE_STRING },
+        { OSINFO_PRODUCT_PROP_EOL_DATE, G_TYPE_STRING },
+        { OSINFO_PRODUCT_PROP_CODENAME, G_TYPE_STRING },
+        { NULL, G_TYPE_INVALID }
     };
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(product), keys, ctxt, root, err);
@@ -663,12 +688,12 @@ static OsinfoAvatarFormat *osinfo_loader_avatar_format(OsinfoLoader *loader,
                                                        GError **err)
 {
     OsinfoAvatarFormat *avatar_format;
-    const gchar *const keys[] = {
-        OSINFO_AVATAR_FORMAT_PROP_MIME_TYPE,
-        OSINFO_AVATAR_FORMAT_PROP_WIDTH,
-        OSINFO_AVATAR_FORMAT_PROP_HEIGHT,
-        OSINFO_AVATAR_FORMAT_PROP_ALPHA,
-        NULL
+    const OsinfoEntityKey keys[] = {
+        { OSINFO_AVATAR_FORMAT_PROP_MIME_TYPE, G_TYPE_STRING },
+        { OSINFO_AVATAR_FORMAT_PROP_WIDTH, G_TYPE_STRING },
+        { OSINFO_AVATAR_FORMAT_PROP_HEIGHT, G_TYPE_STRING },
+        { OSINFO_AVATAR_FORMAT_PROP_ALPHA, G_TYPE_STRING },
+        { NULL, G_TYPE_INVALID }
     };
 
     avatar_format = osinfo_avatar_format_new();
@@ -689,16 +714,16 @@ static void osinfo_loader_install_script(OsinfoLoader *loader,
                                          GError **err)
 {
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
-    const gchar *const keys[] = {
-        OSINFO_INSTALL_SCRIPT_PROP_PROFILE,
-        OSINFO_INSTALL_SCRIPT_PROP_PRODUCT_KEY_FORMAT,
-        OSINFO_INSTALL_SCRIPT_PROP_PATH_FORMAT,
-        OSINFO_INSTALL_SCRIPT_PROP_EXPECTED_FILENAME,
-        OSINFO_INSTALL_SCRIPT_PROP_CAN_PRE_INSTALL_DRIVERS,
-        OSINFO_INSTALL_SCRIPT_PROP_CAN_POST_INSTALL_DRIVERS,
-        OSINFO_INSTALL_SCRIPT_PROP_PRE_INSTALL_DRIVERS_SIGNING_REQ,
-        OSINFO_INSTALL_SCRIPT_PROP_POST_INSTALL_DRIVERS_SIGNING_REQ,
-        NULL
+    const OsinfoEntityKey keys[] = {
+        { OSINFO_INSTALL_SCRIPT_PROP_PROFILE, G_TYPE_STRING },
+        { OSINFO_INSTALL_SCRIPT_PROP_PRODUCT_KEY_FORMAT, G_TYPE_STRING },
+        { OSINFO_INSTALL_SCRIPT_PROP_PATH_FORMAT, G_TYPE_STRING },
+        { OSINFO_INSTALL_SCRIPT_PROP_EXPECTED_FILENAME, G_TYPE_STRING },
+        { OSINFO_INSTALL_SCRIPT_PROP_CAN_PRE_INSTALL_DRIVERS, G_TYPE_STRING },
+        { OSINFO_INSTALL_SCRIPT_PROP_CAN_POST_INSTALL_DRIVERS, G_TYPE_STRING },
+        { OSINFO_INSTALL_SCRIPT_PROP_PRE_INSTALL_DRIVERS_SIGNING_REQ, G_TYPE_STRING },
+        { OSINFO_INSTALL_SCRIPT_PROP_POST_INSTALL_DRIVERS_SIGNING_REQ, G_TYPE_STRING },
+        { NULL, G_TYPE_INVALID }
     };
     gchar *value = NULL;
     xmlNodePtr *nodes = NULL;
@@ -784,11 +809,11 @@ static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
     xmlChar *installer = xmlGetProp(root, BAD_CAST OSINFO_MEDIA_PROP_INSTALLER);
     xmlChar *installer_reboots =
             xmlGetProp(root, BAD_CAST OSINFO_MEDIA_PROP_INSTALLER_REBOOTS);
-    const gchar *const keys[] = {
-        OSINFO_MEDIA_PROP_URL,
-        OSINFO_MEDIA_PROP_KERNEL,
-        OSINFO_MEDIA_PROP_INITRD,
-        NULL
+    const OsinfoEntityKey keys[] = {
+        { OSINFO_MEDIA_PROP_URL, G_TYPE_STRING },
+        { OSINFO_MEDIA_PROP_KERNEL, G_TYPE_STRING },
+        { OSINFO_MEDIA_PROP_INITRD, G_TYPE_STRING },
+        { NULL, G_TYPE_INVALID }
     };
 
     OsinfoMedia *media = osinfo_media_new(id, arch);
@@ -879,12 +904,12 @@ static OsinfoTree *osinfo_loader_tree (OsinfoLoader *loader,
     guint i;
 
     gchar *arch = (gchar *)xmlGetProp(root, BAD_CAST "arch");
-    const gchar *const keys[] = {
-        OSINFO_TREE_PROP_URL,
-        OSINFO_TREE_PROP_KERNEL,
-        OSINFO_TREE_PROP_INITRD,
-        OSINFO_TREE_PROP_BOOT_ISO,
-        NULL
+    const OsinfoEntityKey keys[] = {
+        { OSINFO_TREE_PROP_URL, G_TYPE_STRING },
+        { OSINFO_TREE_PROP_KERNEL, G_TYPE_STRING },
+        { OSINFO_TREE_PROP_INITRD, G_TYPE_STRING },
+        { OSINFO_TREE_PROP_BOOT_ISO, G_TYPE_STRING },
+        { NULL, G_TYPE_INVALID }
     };
 
     OsinfoTree *tree = osinfo_tree_new(id, arch);
@@ -1088,11 +1113,12 @@ static void osinfo_loader_os(OsinfoLoader *loader,
     int nnodes;
 
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
-    const gchar *const keys[] = {
-        OSINFO_OS_PROP_FAMILY,
-        OSINFO_OS_PROP_DISTRO,
-        NULL
+    const OsinfoEntityKey keys[] = {
+        { OSINFO_OS_PROP_FAMILY, G_TYPE_STRING },
+        { OSINFO_OS_PROP_DISTRO, G_TYPE_STRING },
+        { NULL, G_TYPE_INVALID }
     };
+
     if (!id) {
         OSINFO_ERROR(err, _("Missing os id property"));
         return;
