@@ -197,8 +197,8 @@ osinfo_loader_boolean(const char *xpath,
     int i;
     gboolean ret = FALSE;
 
-    g_return_val_if_fail(ctxt != NULL, NULL);
-    g_return_val_if_fail(xpath != NULL, NULL);
+    g_return_val_if_fail(ctxt != NULL, FALSE);
+    g_return_val_if_fail(xpath != NULL, FALSE);
 
     count = osinfo_loader_nodeset(xpath, ctxt, &nodes, err);
 
@@ -280,7 +280,7 @@ static void osinfo_loader_entity(OsinfoLoader *loader,
     /* Standard well-known keys first, allow single value only */
     for (i = 0 ; keys != NULL && keys[i].name != NULL; i++) {
         gchar *value_str = NULL;
-        gboolean value_bool;
+        gboolean value_bool = FALSE;
         gchar *xpath = NULL;
         int j;
 
