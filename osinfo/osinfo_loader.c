@@ -859,7 +859,6 @@ static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
     xmlChar *installer = xmlGetProp(root, BAD_CAST OSINFO_MEDIA_PROP_INSTALLER);
     xmlChar *installer_reboots =
             xmlGetProp(root, BAD_CAST OSINFO_MEDIA_PROP_INSTALLER_REBOOTS);
-    xmlChar *variant = xmlGetProp(root, BAD_CAST OSINFO_MEDIA_PROP_VARIANT);
     const OsinfoEntityKey keys[] = {
         { OSINFO_MEDIA_PROP_URL, G_TYPE_STRING },
         { OSINFO_MEDIA_PROP_KERNEL, G_TYPE_STRING },
@@ -892,7 +891,22 @@ static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
         xmlFree(installer_reboots);
     }
 
-    gint nnodes = osinfo_loader_nodeset("./iso/*", ctxt, &nodes, err);
+    gint nnodes = osinfo_loader_nodeset("./variant", ctxt, &nodes, err);
+    if (error_is_set(err)) {
+        g_object_unref(media);
+        return NULL;
+    }
+
+    for (i = 0 ; i < nnodes ; i++) {
+        gchar *variant_id = (gchar *)xmlGetProp(nodes[i], BAD_CAST "id");
+        osinfo_entity_add_param(OSINFO_ENTITY(media),
+                                OSINFO_MEDIA_PROP_VARIANT,
+                                variant_id);
+        xmlFree(variant_id);
+    }
+    g_free(nodes);
+
+    nnodes = osinfo_loader_nodeset("./iso/*", ctxt, &nodes, err);
     if (error_is_set(err)) {
         g_object_unref(media);
         return NULL;

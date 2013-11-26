@@ -627,6 +627,7 @@ static void fill_media (OsinfoDb *db, OsinfoMedia *media,
     const gchar *initrd_path;
     const gchar *arch;
     const gchar *url;
+    GList *variants, *node;
 
     languages = match_languages(db, media, matched_media);
     if (languages != NULL)
@@ -642,7 +643,12 @@ static void fill_media (OsinfoDb *db, OsinfoMedia *media,
     url = osinfo_media_get_url(matched_media);
     if (url != NULL)
         g_object_set(G_OBJECT(media), "url", url, NULL);
-
+    variants = osinfo_entity_get_param_value_list(OSINFO_ENTITY(matched_media),
+                                                  "variant");
+    for (node = variants; node != NULL; node = node->next)
+        osinfo_entity_add_param(OSINFO_ENTITY(media),
+                                "variant",
+                                (gchar *) node->data);
     kernel_path = osinfo_media_get_kernel_path(matched_media);
     if (kernel_path != NULL)
         g_object_set(G_OBJECT(media), "kernel_path", kernel_path, NULL);

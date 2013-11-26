@@ -26,6 +26,7 @@
 #include <glib-object.h>
 #include <gio/gio.h>
 #include <osinfo/osinfo_entity.h>
+#include <osinfo/osinfo_os_variantlist.h>
 
 #ifndef __OSINFO_MEDIA_H__
 #define __OSINFO_MEDIA_H__
@@ -84,6 +85,7 @@ typedef struct _OsinfoMediaPrivate OsinfoMediaPrivate;
 #define OSINFO_MEDIA_PROP_LANG           "l10n-language"
 #define OSINFO_MEDIA_PROP_LANG_REGEX     "l10n-language-regex"
 #define OSINFO_MEDIA_PROP_LANG_MAP       "l10n-language-map"
+#define OSINFO_MEDIA_PROP_VARIANT        "variant"
 
 /* object */
 struct _OsinfoMedia
@@ -128,6 +130,7 @@ const gchar *osinfo_media_get_application_id(OsinfoMedia *media);
 const gchar *osinfo_media_get_kernel_path(OsinfoMedia *media);
 const gchar *osinfo_media_get_initrd_path(OsinfoMedia *media);
 OsinfoOs *osinfo_media_get_os(OsinfoMedia *media);
+OsinfoOsVariantList *osinfo_media_get_os_variants(OsinfoMedia *media);
 GList *osinfo_media_get_languages(OsinfoMedia *media);
 gboolean osinfo_media_get_installer(OsinfoMedia *media);
 gboolean osinfo_media_get_live(OsinfoMedia *media);

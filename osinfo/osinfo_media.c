@@ -1136,6 +1136,45 @@ void osinfo_media_set_os(OsinfoMedia *media, OsinfoOs *os)
 }
 
 /**
+ * osinfo_media_get_os_variants:
+ * @media: an #OsinfoMedia instance
+ *
+ * Gets the variants of the associated operating system.
+ *
+ * Returns: (transfer full): the operating system variant, or NULL
+ */
+OsinfoOsVariantList *osinfo_media_get_os_variants(OsinfoMedia *media)
+{
+    OsinfoOs *os;
+    OsinfoOsVariantList *os_variants;
+    OsinfoOsVariantList *media_variants;
+    GList *ids, *node;
+    OsinfoFilter *filter;
+
+    g_return_val_if_fail(OSINFO_IS_MEDIA(media), NULL);
+    os = g_weak_ref_get(&media->priv->os);
+    os_variants = osinfo_os_get_variant_list(os);
+    g_object_unref(os);
+
+    ids = osinfo_entity_get_param_value_list(OSINFO_ENTITY(media),
+                                             OSINFO_MEDIA_PROP_VARIANT);
+    filter = osinfo_filter_new();
+    media_variants = osinfo_os_variantlist_new();
+    for (node = ids; node != NULL; node = node->next) {
+        osinfo_filter_clear_constraints(filter);
+        osinfo_filter_add_constraint(filter,
+                                     OSINFO_ENTITY_PROP_ID,
+                                     (const char *) node->data);
+        osinfo_list_add_filtered(OSINFO_LIST(media_variants),
+                                 OSINFO_LIST(os_variants),
+                                 filter);
+    }
+    g_object_unref(os_variants);
+
+    return media_variants;
+}
+
+/**
  * osinfo_media_get_languages:
  * @media: an #OsinfoMedia instance
  *

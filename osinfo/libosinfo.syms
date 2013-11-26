@@ -448,6 +448,8 @@ LIBOSINFO_0.2.9 {
 	osinfo_os_get_release_status;
 	osinfo_release_status_get_type;
 
+	osinfo_media_get_os_variants;
+
 	osinfo_os_add_variant;
 	osinfo_os_get_variant_list;
 
