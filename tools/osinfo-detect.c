@@ -136,12 +136,40 @@ static void print_media(OsinfoMedia *media)
         g_print("OSINFO_MEDIA=%s\n",
                 osinfo_entity_get_id(OSINFO_ENTITY(media)));
     } else {
-        const gchar *name = osinfo_product_get_name(OSINFO_PRODUCT(os));
+        OsinfoOsVariantList *variants;
+        const gchar *name;
+        guint num_variants;
+
+        variants = osinfo_media_get_os_variants(media);
+        num_variants = osinfo_list_get_length(OSINFO_LIST(variants));
+        if (num_variants == 1) {
+            OsinfoEntity *variant;
+
+            variant = osinfo_list_get_nth(OSINFO_LIST(variants), 0);
+            name = osinfo_os_variant_get_name(OSINFO_OS_VARIANT(variant));
+        } else {
+            name = osinfo_product_get_name(OSINFO_PRODUCT(os));
+        }
 
         if (osinfo_media_get_installer (media))
             g_print(_("Media is an installer for OS '%s'\n"), name);
         if (osinfo_media_get_live (media))
             g_print(_("Media is live media for OS '%s'\n"), name);
+
+        if (num_variants > 1) {
+            guint i;
+
+            g_print(_("Available OS variants on media:\n"));
+            for (i = 0; i < num_variants; i++) {
+                OsinfoEntity *variant;
+
+                variant = osinfo_list_get_nth(OSINFO_LIST(variants), i);
+                name = osinfo_os_variant_get_name(OSINFO_OS_VARIANT(variant));
+                g_print("%s\n", name);
+            }
+        }
+
+        g_clear_object(&variants);
     }
     g_object_unref(os);
 }
