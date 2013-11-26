@@ -859,6 +859,7 @@ static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
     xmlChar *installer = xmlGetProp(root, BAD_CAST OSINFO_MEDIA_PROP_INSTALLER);
     xmlChar *installer_reboots =
             xmlGetProp(root, BAD_CAST OSINFO_MEDIA_PROP_INSTALLER_REBOOTS);
+    xmlChar *variant = xmlGetProp(root, BAD_CAST OSINFO_MEDIA_PROP_VARIANT);
     const OsinfoEntityKey keys[] = {
         { OSINFO_MEDIA_PROP_URL, G_TYPE_STRING },
         { OSINFO_MEDIA_PROP_KERNEL, G_TYPE_STRING },
@@ -1003,6 +1004,25 @@ static OsinfoTree *osinfo_loader_tree (OsinfoLoader *loader,
     g_free(nodes);
 
     return tree;
+}
+
+static OsinfoOsVariant *osinfo_loader_os_variant (OsinfoLoader *loader,
+                                                  xmlXPathContextPtr ctxt,
+                                                  xmlNodePtr root,
+                                                  GError **err)
+{
+    const OsinfoEntityKey keys[] = {
+        { OSINFO_OS_VARIANT_PROP_NAME, G_TYPE_STRING },
+        { NULL, G_TYPE_INVALID }
+    };
+
+    gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
+    OsinfoOsVariant *variant= osinfo_os_variant_new(id);
+    xmlFree(id);
+
+    osinfo_loader_entity(loader, OSINFO_ENTITY(variant), keys, ctxt, root, err);
+
+    return variant;
 }
 
 static OsinfoResources *osinfo_loader_resources(OsinfoLoader *loader,
@@ -1226,6 +1246,27 @@ static void osinfo_loader_os(OsinfoLoader *loader,
 
         osinfo_os_add_tree (os, tree);
         g_object_unref(G_OBJECT(tree));
+    }
+
+    g_free(nodes);
+
+    nnodes = osinfo_loader_nodeset("./variant", ctxt, &nodes, err);
+    if (error_is_set(err))
+        goto cleanup;
+
+    for (i = 0 ; i < nnodes ; i++) {
+        xmlNodePtr saved = ctxt->node;
+        ctxt->node = nodes[i];
+        OsinfoOsVariant *variant = osinfo_loader_os_variant(loader,
+                                                            ctxt,
+                                                            nodes[i],
+                                                            err);
+        ctxt->node = saved;
+        if (error_is_set(err))
+            goto cleanup;
+
+        osinfo_os_add_variant (os, variant);
+        g_object_unref(G_OBJECT(variant));
     }
 
     g_free(nodes);

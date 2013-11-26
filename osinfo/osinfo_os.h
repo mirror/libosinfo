@@ -29,6 +29,8 @@
 #include <osinfo/osinfo_medialist.h>
 #include <osinfo/osinfo_media.h>
 #include <osinfo/osinfo_treelist.h>
+#include <osinfo/osinfo_os_variant.h>
+#include <osinfo/osinfo_os_variantlist.h>
 #include <osinfo/osinfo_tree.h>
 #include <osinfo/osinfo_resources.h>
 #include <osinfo/osinfo_resourceslist.h>
@@ -114,6 +116,8 @@ OsinfoMediaList *osinfo_os_get_media_list(OsinfoOs *os);
 void osinfo_os_add_media(OsinfoOs *os, OsinfoMedia *media);
 OsinfoTreeList *osinfo_os_get_tree_list(OsinfoOs *os);
 void osinfo_os_add_tree(OsinfoOs *os, OsinfoTree *tree);
+OsinfoOsVariantList *osinfo_os_get_variant_list(OsinfoOs *os);
+void osinfo_os_add_variant(OsinfoOs *os, OsinfoOsVariant *variant);
 OsinfoResourcesList *osinfo_os_get_minimum_resources(OsinfoOs *os);
 OsinfoResourcesList *osinfo_os_get_recommended_resources(OsinfoOs *os);
 void osinfo_os_add_minimum_resources(OsinfoOs *os, OsinfoResources *resources);

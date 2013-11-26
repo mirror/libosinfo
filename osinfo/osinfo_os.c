@@ -52,6 +52,7 @@ struct _OsinfoOsPrivate
 
     OsinfoMediaList *medias;
     OsinfoTreeList *trees;
+    OsinfoOsVariantList *variants;
     OsinfoResourcesList *minimum;
     OsinfoResourcesList *recommended;
 
@@ -115,6 +116,7 @@ osinfo_os_finalize (GObject *object)
     g_list_free(os->priv->deviceLinks);
     g_object_unref(os->priv->medias);
     g_object_unref(os->priv->trees);
+    g_object_unref(os->priv->variants);
 
     g_object_unref(os->priv->scripts);
 
@@ -177,6 +179,7 @@ osinfo_os_init (OsinfoOs *os)
     os->priv->deviceLinks = NULL;
     os->priv->medias = osinfo_medialist_new ();
     os->priv->trees = osinfo_treelist_new ();
+    os->priv->variants = osinfo_os_variantlist_new ();
     os->priv->minimum = osinfo_resourceslist_new ();
     os->priv->recommended = osinfo_resourceslist_new ();
     os->priv->scripts = osinfo_install_scriptlist_new ();
@@ -487,6 +490,40 @@ void osinfo_os_add_tree(OsinfoOs *os, OsinfoTree *tree)
     g_return_if_fail(OSINFO_IS_TREE(tree));
 
     osinfo_list_add(OSINFO_LIST(os->priv->trees), OSINFO_ENTITY(tree));
+}
+
+/**
+ * osinfo_os_get_variant_list:
+ * @os: an operating system
+ *
+ * Gets all known variants of operating system @os.
+ *
+ * Returns: (transfer full): A list of variants
+ */
+OsinfoOsVariantList *osinfo_os_get_variant_list(OsinfoOs *os)
+{
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+
+    OsinfoOsVariantList *newList = osinfo_os_variantlist_new();
+
+    osinfo_list_add_all(OSINFO_LIST(newList), OSINFO_LIST(os->priv->variants));
+
+    return newList;
+}
+
+/**
+ * osinfo_os_add_variant:
+ * @os: an operating system
+ * @variant: (transfer none): the variant to add
+ *
+ * Adds a variant @variant to operating system @os.
+ */
+void osinfo_os_add_variant(OsinfoOs *os, OsinfoOsVariant *variant)
+{
+    g_return_if_fail(OSINFO_IS_OS(os));
+    g_return_if_fail(OSINFO_IS_OS_VARIANT(variant));
+
+    osinfo_list_add(OSINFO_LIST(os->priv->variants), OSINFO_ENTITY(variant));
 }
 
 /**
