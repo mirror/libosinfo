@@ -451,6 +451,9 @@ LIBOSINFO_0.2.9 {
 	osinfo_os_variant_get_type;
 	osinfo_os_variant_get_name;
 	osinfo_os_variant_new;
+
+	osinfo_os_variantlist_get_type;
+	osinfo_os_variantlist_new;
 } LIBOSINFO_0.2.8;
 
 /* Symbols in next release...
