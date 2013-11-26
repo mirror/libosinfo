@@ -447,6 +447,10 @@ LIBOSINFO_0.2.8 {
 LIBOSINFO_0.2.9 {
 	osinfo_os_get_release_status;
 	osinfo_release_status_get_type;
+
+	osinfo_os_variant_get_type;
+	osinfo_os_variant_get_name;
+	osinfo_os_variant_new;
 } LIBOSINFO_0.2.8;
 
 /* Symbols in next release...

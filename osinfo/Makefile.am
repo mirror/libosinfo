@@ -82,6 +82,7 @@ OSINFO_HEADER_FILES =			\
   osinfo_list.h				\
   osinfo_os.h				\
   osinfo_oslist.h			\
+  osinfo_os_variant.h			\
   osinfo_deployment.h			\
   osinfo_deploymentlist.h		\
   osinfo_media.h			\
@@ -127,6 +128,7 @@ libosinfo_1_0_la_SOURCES =		\
   osinfo_platformlist.c			\
   osinfo_oslist.c			\
   osinfo_os.c				\
+  osinfo_os_variant.c			\
   osinfo_deployment.c			\
   osinfo_deploymentlist.c		\
   osinfo_media.c			\
