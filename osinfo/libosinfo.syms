@@ -402,7 +402,6 @@ LIBOSINFO_0.2.3 {
 LIBOSINFO_0.2.6 {
     global:
 	osinfo_device_driver_get_signed;
-	osinfo_device_driver_set_signed;
 
 	osinfo_device_driver_signing_req_get_type;
 
