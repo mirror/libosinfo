@@ -151,6 +151,22 @@ osinfo_enum_types.h: $(OSINFO_HEADER_FILES) osinfo_enum_types.h.template
 osinfo_enum_types.c: $(OSINFO_HEADER_FILES) osinfo_enum_types.c.template osinfo_enum_types.h
 	$(AM_V_GEN) ( $(GLIB_MKENUMS) --template $(srcdir)/osinfo_enum_types.c.template $(libosinfo_1_0_include_HEADERS:%=$(srcdir)/%) ) > $(srcdir)/osinfo_enum_types.c
 
+# .libs/libosinfo.so is built by libtool as a side-effect of the Makefile
+# rule for libosinfo.la.  However, checking symbols relies on Linux ELF layout
+if WITH_LINUX
+check-symfile: libosinfo.syms libosinfo-1.0.la
+	$(AM_V_GEN)$(PERL) $(srcdir)/check-symfile.pl libosinfo.syms \
+	  .libs/libosinfo-1.0.so
+else ! WITH_LINUX
+check-symfile:
+endif ! WITH_LINUX
+check-symsorting:
+	$(AM_V_GEN)$(PERL) $(srcdir)/check-symsorting.pl \
+		$(srcdir) libosinfo.syms
+EXTRA_DIST += check-symfile.pl check-symsorting.pl
+
+check-local: check-symfile check-symsorting
+
 if WITH_GOBJECT_INTROSPECTION
 
 Libosinfo-1.0.gir: libosinfo-1.0.la $(G_IR_SCANNER) Makefile.am

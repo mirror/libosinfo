@@ -92,6 +92,13 @@ AC_SUBST([NO_UNDEFINED_FLAGS])
 AC_SUBST([VERSION_SCRIPT_FLAGS])
 AM_CONDITIONAL([USE_VERSION_DEFS], [test "$USE_VERSION_DEFS" = "1"])
 
+with_linux=no
+case $host in
+  *-*-linux*) with_linux=yes ;;
+esac
+AM_CONDITIONAL([WITH_LINUX], [test "$with_linux" = "yes"])
+
+
 AC_ARG_ENABLE([introspection],
         AS_HELP_STRING([--enable-introspection], [enable GObject introspection]),
         [], [enable_introspection=check])
