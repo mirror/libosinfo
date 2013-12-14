@@ -1,5 +1,5 @@
 
-EXTRA_DIST = isodata dbdata
+EXTRA_DIST = isodata dbdata test-os.xml
 
 check_PROGRAMS = \
 	test-entity \
