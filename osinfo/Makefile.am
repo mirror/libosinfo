@@ -155,14 +155,14 @@ osinfo_enum_types.c: $(OSINFO_HEADER_FILES) osinfo_enum_types.c.template osinfo_
 # rule for libosinfo.la.  However, checking symbols relies on Linux ELF layout
 if WITH_LINUX
 check-symfile: libosinfo.syms libosinfo-1.0.la
-	$(AM_V_GEN)$(PERL) $(srcdir)/check-symfile.pl libosinfo.syms \
+	$(AM_V_GEN)$(PERL) $(srcdir)/check-symfile.pl $(srcdir)/libosinfo.syms \
 	  .libs/libosinfo-1.0.so
 else ! WITH_LINUX
 check-symfile:
 endif ! WITH_LINUX
 check-symsorting:
 	$(AM_V_GEN)$(PERL) $(srcdir)/check-symsorting.pl \
-		$(srcdir) libosinfo.syms
+		$(srcdir) $(srcdir)/libosinfo.syms
 EXTRA_DIST += check-symfile.pl check-symsorting.pl
 
 check-local: check-symfile check-symsorting
