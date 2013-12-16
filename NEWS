@@ -1,3 +1,28 @@
+0.2.9 - Dec 16, 2013
+====================
+
+Changes since 0.2.8:
+
+- Add/improve/fix data on:
+  - Debian
+  - Fedora 20
+  - GNOME continuous 3.12
+  - Mageia
+  - Microsoft Windows 7
+  - Microsoft Windows 8.1
+  - RHEL 5.8
+  - RHEL 6.5
+  - RHEL 7.0
+- Support '<foo/>' syntax for booleans in database, in addition to existing
+  '<foo>true</foo>'.
+- New API/XML to determine/specify:
+  - if an OS is an actual release, a pre-release or a development snapshot.
+  - variants of an OS. For example, professional, enterprise and ultimate
+    editions of Windows OSs and workstation and server variants of RHEL etc.
+- Various fixes to build system.
+- More testcases.
+- Some other minor fixes/changes.
+
 0.2.8 - Sep 16, 2013
 ====================
 
