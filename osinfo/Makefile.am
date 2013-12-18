@@ -39,12 +39,14 @@ libosinfo_1_0_la_CFLAGS = \
 	-DLOCALEDIR="\"$(datadir)/locale\"" \
 	$(NULL)
 
-libosinfo_1_0_la_LDFLAGS = \
-	$(COVERAGE_LDFLAGS) \
+libosinfo_1_0_la_LIBADD = \
 	$(LIBXML_LIBS) \
 	$(LIBXSLT_LIBS) \
 	$(GOBJECT_LIBS) \
-	$(GIO_LIBS) \
+	$(GIO_LIBS)
+
+libosinfo_1_0_la_LDFLAGS = \
+	$(COVERAGE_LDFLAGS) \
 	$(VERSION_SCRIPT_FLAGS)$(LIBOSINFO_VERSION_FILE) \
         -version-info $(LIBOSINFO_VERSION_INFO) \
 	$(NO_UNDEFINED_FLAGS)
