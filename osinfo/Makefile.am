@@ -169,42 +169,28 @@ EXTRA_DIST += check-symfile.pl check-symsorting.pl
 
 check-local: check-symfile check-symsorting
 
-if WITH_GOBJECT_INTROSPECTION
+-include $(INTROSPECTION_MAKEFILE)
+INTROSPECTION_GIRS =
+CLEANFILES =
 
-Libosinfo-1.0.gir: libosinfo-1.0.la $(G_IR_SCANNER) Makefile.am
-	$(AM_V_GEN)$(G_IR_SCANNER) --quiet \
-		--namespace Libosinfo \
-		--nsversion 1.0 \
-		--include GObject-2.0 \
-		--include Gio-2.0 \
-		--include libxml2-2.0 \
-		--c-include="osinfo/osinfo.h" \
-		--pkg-export=libosinfo-1.0 \
-		--identifier-prefix=Osinfo \
-		--symbol-prefix=osinfo \
-		--library=$(builddir)/libosinfo-1.0.la \
-		--output $@ \
-		-I$(top_srcdir) \
-		-I$(srcdir) \
-		--verbose \
-		--pkg=gobject-2.0 \
-		--pkg=gio-2.0 \
-		--pkg=libxml-2.0 \
-		--pkg=libxslt \
-		$(libosinfo_1_0_include_HEADERS:%=$(srcdir)/%) \
-		$(libosinfo_1_0_la_SOURCES:%=$(srcdir)/%)
+if HAVE_INTROSPECTION
+Libosinfo-1.0.gir: libosinfo-1.0.la
+Libosinfo_1_0_gir_INCLUDES = GObject-2.0 Gio-2.0 libxml2-2.0
+Libosinfo_1_0_gir_PACKAGES = gobject-2.0 gio-2.0 libxml-2.0 libxslt
+Libosinfo_1_0_gir_EXPORT_PACKAGES = libosinfo-1.0
+Libosinfo_1_0_gir_LIBS = libosinfo-1.0.la
+Libosinfo_1_0_gir_FILES = $(libosinfo_1_0_include_HEADERS) $(libosinfo_1_0_la_SOURCES)
+Libosinfo_1_0_gir_CFLAGS = $(libosinfo_1_0_la_CFLAGS)
+Libosinfo_1_0_gir_SCANNERFLAGS = --identifier-prefix=Osinfo --symbol-prefix=osinfo --c-include="osinfo/osinfo.h"
+INTROSPECTION_GIRS += Libosinfo-1.0.gir
 
 girdir = $(datadir)/gir-1.0
 gir_DATA = Libosinfo-1.0.gir
 
-typelibsdir = $(libdir)/girepository-1.0
-typelibs_DATA = Libosinfo-1.0.typelib
+typelibdir = $(libdir)/girepository-1.0
+typelib_DATA = Libosinfo-1.0.typelib
 
-%.typelib: %.gir
-	$(AM_V_GEN)$(G_IR_COMPILER) \
-		--includedir=$(builddir) \
-		--includedir=$(girdir) \
-		-o $@ $<
+CLEANFILES += $(gir_DATA) $(typelib_DATA)
 
 if WITH_VALA
 vapidir = $(datadir)/vala/vapi
@@ -220,6 +206,6 @@ libosinfo-1.0.vapi: Libosinfo-1.0.gir Libosinfo-1.0.typelib
 
 endif # WITH_VALA
 
-CLEANFILES = $(gir_DATA) $(typelibs_DATA) $(vapi_DATA) $(wildcard *.gcno)
+CLEANFILES += $(gir_DATA) $(typelibs_DATA) $(vapi_DATA) $(wildcard *.gcno)
 
-endif # WITH_GOBJECT_INTROSPECTION
+endif # HAVE_INTROSPECTION
