@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Red Hat, Inc.
+ * Copyright (C) 2011, 2014 Red Hat, Inc.
  *
  * osinfo-install-script: generate an install script
  *
@@ -34,6 +34,7 @@ static const gchar *prefix;
 
 static gboolean list_config = FALSE;
 static gboolean list_profile = FALSE;
+static gboolean list_inj_method = FALSE;
 static gboolean quiet = FALSE;
 
 static OsinfoInstallConfig *config;
@@ -79,6 +80,8 @@ static GOptionEntry entries[] =
       N_("List configuration parameters"), NULL },
     { "list-profiles", '\0', 0, G_OPTION_ARG_NONE, (void*)&list_profile,
       N_("List install script profiles"), NULL },
+    { "list-injection-methods", '\0', 0, G_OPTION_ARG_NONE,
+      (void*)&list_inj_method, N_("List supported injection methods"), NULL },
     { "quiet", 'q', 0, G_OPTION_ARG_NONE, (void*)&quiet,
       N_("Do not display output filenames"), NULL },
     { NULL }
@@ -187,6 +190,35 @@ static gboolean list_script_profile(OsinfoOs *os)
     return ret;
 }
 
+static gboolean list_script_inj_method(OsinfoOs *os)
+{
+    OsinfoInstallScriptList *scripts = osinfo_os_get_install_script_list(os);
+    GList *l, *tmp;
+    gboolean ret = FALSE;
+    GFlagsClass *f;
+
+    f = g_type_class_ref(OSINFO_TYPE_INSTALL_SCRIPT_INJECTION_METHOD);
+    l = osinfo_list_get_elements(OSINFO_LIST(scripts));
+
+    for (tmp = l; tmp != NULL; tmp = tmp->next) {
+        OsinfoInstallScript *script = tmp->data;
+        unsigned int methods, i;
+        methods = osinfo_install_script_get_injection_methods(script);
+
+        g_print("%s:", osinfo_install_script_get_profile(script));
+        for (i = 0; i < f->n_values; i++)
+            if (f->values[i].value & methods)
+                g_print(" %s", f->values[i].value_nick);
+        g_print("\n");
+    }
+    ret = TRUE;
+
+    g_list_free(l);
+    g_type_class_unref(f);
+    g_object_unref(scripts);
+    return ret;
+}
+
 
 static gboolean generate_script(OsinfoOs *os)
 {
@@ -285,9 +317,12 @@ gint main(gint argc, gchar **argv)
         goto EXIT;
     }
 
-    if (list_profile && list_config) {
+    if ((list_profile     ? 1 : 0) +
+        (list_config      ? 1 : 0) +
+        (list_inj_method  ? 1 : 0) > 1) {
         g_printerr("%s",
-                   _("Only one of --list-profile and --list-config can be requested"));
+                   _("Only one of --list-profile, --list-config and "
+                     "--list-injection-methods can be requested"));
         ret = -2;
         goto EXIT;
     }
@@ -317,6 +352,11 @@ gint main(gint argc, gchar **argv)
         }
     } else if (list_profile) {
         if (!list_script_profile(os)) {
+            ret = -5;
+            goto EXIT;
+        }
+    } else if (list_inj_method) {
+        if (!list_script_inj_method(os)) {
             ret = -5;
             goto EXIT;
         }
