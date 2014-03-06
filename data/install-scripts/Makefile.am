@@ -4,6 +4,7 @@ database_DATA =     \
   debian.xml        \
   fedora.xml        \
   rhel.xml          \
+  ubuntu.xml        \
   windows-sif.xml   \
   windows-cmd.xml   \
   windows-reg.xml   \
