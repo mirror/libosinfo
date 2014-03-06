@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -777,7 +777,9 @@ static void osinfo_loader_install_script(OsinfoLoader *loader,
     };
     gchar *value = NULL;
     xmlNodePtr *nodes = NULL;
-    int nnodes;
+    int i, nnodes;
+    unsigned int injection_methods = 0;
+    GFlagsClass *flags_class;
 
     if (!id) {
         OSINFO_ERROR(err, _("Missing install script id property"));
@@ -834,6 +836,23 @@ static void osinfo_loader_install_script(OsinfoLoader *loader,
         osinfo_install_script_set_avatar_format(installScript, avatar_format);
     }
     g_free(nodes);
+
+    nnodes = osinfo_loader_nodeset("./injection-method", ctxt, &nodes, err);
+    if (error_is_set(err))
+        goto error;
+
+    flags_class = g_type_class_ref(OSINFO_TYPE_INSTALL_SCRIPT_INJECTION_METHOD);
+    for (i = 0 ; i < nnodes ; i++) {
+        const gchar *nick = (const gchar *) nodes[i]->children->content;
+        injection_methods |= g_flags_get_value_by_nick(flags_class, nick)->value;
+    }
+    osinfo_entity_set_param_int64(OSINFO_ENTITY(installScript),
+                                  OSINFO_INSTALL_SCRIPT_PROP_INJECTION_METHOD,
+                                  injection_methods);
+
+    g_type_class_unref(flags_class);
+    g_free(nodes);
+
 
     osinfo_db_add_install_script(loader->priv->db, installScript);
 

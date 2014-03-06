@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -1307,6 +1307,23 @@ int osinfo_install_script_get_post_install_drivers_signing_req(OsinfoInstallScri
          OSINFO_INSTALL_SCRIPT_PROP_POST_INSTALL_DRIVERS_SIGNING_REQ,
          OSINFO_TYPE_DEVICE_DRIVER_SIGNING_REQ,
          OSINFO_DEVICE_DRIVER_SIGNING_REQ_NONE);
+}
+
+/**
+ * osinfo_install_script_get_injection_methods:
+ * @script: the install script
+ *
+ * Retrieve the supported method to inject the script in to the installation process.
+ *
+ * Returns: (type OsinfoInstallScriptInjectionMethod): bitwise-or of
+ * supported methods for install script injection.
+ */
+unsigned int osinfo_install_script_get_injection_methods(OsinfoInstallScript *script)
+{
+    return osinfo_entity_get_param_value_int64_with_default
+        (OSINFO_ENTITY(script),
+         OSINFO_INSTALL_SCRIPT_PROP_INJECTION_METHOD,
+         0);
 }
 
 
