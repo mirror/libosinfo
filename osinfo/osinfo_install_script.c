@@ -670,8 +670,8 @@ static xmlNodePtr osinfo_install_script_generate_entity_xml(OsinfoInstallScript 
         goto error;
     }
 
-    if (!(data = xmlNewDocNode(NULL, NULL, (const xmlChar*)"id",
-                               (const xmlChar*)osinfo_entity_get_id(entity)))) {
+    if (!(data = xmlNewDocRawNode(NULL, NULL, (const xmlChar*)"id",
+                                  (const xmlChar*)osinfo_entity_get_id(entity)))) {
         xmlErrorPtr err = xmlGetLastError();
         g_set_error(error, 0, 0, _("Unable to create XML node 'id': '%s'"),
                     err ? err->message : "");
@@ -698,8 +698,8 @@ static xmlNodePtr osinfo_install_script_generate_entity_xml(OsinfoInstallScript 
 
         tmp2 = values;
         while (tmp2) {
-            if (!(data = xmlNewDocNode(NULL, NULL, (const xmlChar*)tmp1->data,
-                                       (const xmlChar*)tmp2->data))) {
+            if (!(data = xmlNewDocRawNode(NULL, NULL, (const xmlChar*)tmp1->data,
+                                          (const xmlChar*)tmp2->data))) {
                 xmlErrorPtr err = xmlGetLastError();
                 g_set_error(error, 0, 0, _("Unable to create XML node '%s': '%s'"),
                             (const gchar *)tmp1->data, err ? err->message : "");
