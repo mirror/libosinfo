@@ -1,3 +1,27 @@
+0.2.10 - Mar 20, 2013
+=====================
+
+Changes since 0.2.9:
+
+- Add API and option to osinfo-install-script utility that allows you to query
+  the available methods to inject the installer script to the installation
+  process.
+- Add JEOS installer scripts for Debian and Ubuntu.
+- Disable installer script for Windows 8.1 as its known not to work.
+- Allow XML special chars in installer script configuration values.
+- Fix a few build issues.
+- Add/improve/fix data on:
+  - Debian
+  - Fedora
+  - FreeBSD
+  - Mandrake
+  - Mandriva
+  - Microsoft Windows 7
+  - openSUSE
+  - Solaris
+  - Ubuntu
+  - Qemu
+
 0.2.9 - Dec 16, 2013
 ====================
 
