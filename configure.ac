@@ -185,6 +185,7 @@ AC_CONFIG_FILES([
 	mingw-libosinfo.spec
 	osinfo/Makefile
 	osinfo/libosinfo-1.0.pc
+	osinfo/osinfo_version.h
 	data/Makefile
 	data/datamaps/Makefile
 	data/devices/Makefile

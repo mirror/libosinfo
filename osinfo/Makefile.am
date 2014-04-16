@@ -94,6 +94,7 @@ OSINFO_HEADER_FILES =			\
   osinfo_resourceslist.h		\
   osinfo_tree.h				\
   osinfo_treelist.h			\
+  osinfo_version.h			\
   $(NULL)
 
 libosinfo_1_0_include_HEADERS =		\

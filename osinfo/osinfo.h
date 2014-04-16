@@ -65,6 +65,7 @@
 #include <osinfo/osinfo_loader.h>
 #include <osinfo/osinfo_os_variant.h>
 #include <osinfo/osinfo_os_variantlist.h>
+#include <osinfo/osinfo_version.h>
 
 #endif
 /*
