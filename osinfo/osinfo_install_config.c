@@ -343,6 +343,20 @@ const gchar *osinfo_install_config_get_reg_product_key(OsinfoInstallConfig *conf
                                          OSINFO_INSTALL_CONFIG_PROP_REG_PRODUCTKEY);
 }
 
+/**
+ * osinfo_install_config_set_hostname:
+ * @config: the install config
+ * @hostname: the desired hostname
+ *
+ * Sets the #OSINFO_INSTALL_CONFIG_PROP_HOSTNAME parameter.
+ *
+ * Note that some operating systems have restrictions on maximum number of, and
+ * allowed characters in hostname (or its equivalent) so it is highly
+ * recommended that you keep the actual hostname less than or equal to 15
+ * characters long and make sure that it does not contain any characters other
+ * than ASCII alphanumeric and '-'. Otherwise unattended installation might
+ * fail.
+ */
 void osinfo_install_config_set_hostname(OsinfoInstallConfig *config,
                                         const gchar *hostname)
 {
