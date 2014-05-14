@@ -15,6 +15,9 @@
 
   <chapter>
     <title>Libosinfo</title>
+    <xi:include href="xml/osinfo_avatar_format.xml"/>
+    <xi:include href="xml/osinfo_datamaplist.xml"/>
+    <xi:include href="xml/osinfo_datamap.xml"/>
     <xi:include href="xml/osinfo_db.xml"/>
     <xi:include href="xml/osinfo_deployment.xml"/>
     <xi:include href="xml/osinfo_deploymentlist.xml"/>
@@ -23,12 +26,22 @@
     <xi:include href="xml/osinfo_devicelink.xml"/>
     <xi:include href="xml/osinfo_devicelinkfilter.xml"/>
     <xi:include href="xml/osinfo_devicelinklist.xml"/>
+    <xi:include href="xml/osinfo_device_driver.xml"/>
+    <xi:include href="xml/osinfo_device_driverlist.xml"/>
     <xi:include href="xml/osinfo_entity.xml"/>
+    <xi:include href="xml/osinfo_enum_types.xml"/>
     <xi:include href="xml/osinfo_filter.xml"/>
+    <xi:include href="xml/osinfo_install_config.xml"/>
+    <xi:include href="xml/osinfo_install_config_param.xml"/>
+    <xi:include href="xml/osinfo_install_config_paramlist.xml"/>
+    <xi:include href="xml/osinfo_install_script.xml"/>
+    <xi:include href="xml/osinfo_install_scriptlist.xml"/>
     <xi:include href="xml/osinfo_list.xml"/>
     <xi:include href="xml/osinfo_loader.xml"/>
     <xi:include href="xml/osinfo_os.xml"/>
     <xi:include href="xml/osinfo_oslist.xml"/>
+    <xi:include href="xml/osinfo_os_variant.xml"/>
+    <xi:include href="xml/osinfo_os_variantlist.xml"/>
     <xi:include href="xml/osinfo_product.xml"/>
     <xi:include href="xml/osinfo_productfilter.xml"/>
     <xi:include href="xml/osinfo_productlist.xml"/>
@@ -38,6 +51,9 @@
     <xi:include href="xml/osinfo_medialist.xml"/>
     <xi:include href="xml/osinfo_resources.xml"/>
     <xi:include href="xml/osinfo_resourceslist.xml"/>
+    <xi:include href="xml/osinfo_tree.xml"/>
+    <xi:include href="xml/osinfo_treelist.xml"/>
+    <xi:include href="xml/osinfo_version.xml"/>
   </chapter>
   <chapter id="object-tree">
     <title>Object Hierarchy</title>
@@ -46,6 +62,10 @@
   <index id="api-index-full">
     <title>API Index</title>
     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="depr-index">
+    <title>Deprecated API Index</title>
+    <xi:include href="xml/api-index-deprecated.xml"><xi:fallback /></xi:include>
   </index>
 
   <xi:include href="xml/annotation-glossary.xml"><xi:fallback /></xi:include>
