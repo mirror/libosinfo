@@ -187,9 +187,8 @@ void osinfo_entity_set_param(OsinfoEntity *entity, const gchar *key, const gchar
 
     GList *values = NULL;
 
-    g_hash_table_remove(entity->priv->params, key);
     values = g_list_append(values, g_strdup(value));
-    g_hash_table_insert(entity->priv->params, g_strdup(key), values);
+    g_hash_table_replace(entity->priv->params, g_strdup(key), values);
 }
 
 
