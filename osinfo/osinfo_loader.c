@@ -541,19 +541,25 @@ static void osinfo_loader_device_link(OsinfoLoader *loader,
 static void osinfo_loader_product_relshp(OsinfoLoader *loader,
                                          OsinfoProduct *product,
                                          OsinfoProductRelationship relshp,
-                                         const gchar *xpath,
+                                         const gchar *name,
                                          xmlXPathContextPtr ctxt,
                                          xmlNodePtr root,
                                          GError **err)
 {
     xmlNodePtr *related = NULL;
-    int nrelated = osinfo_loader_nodeset(xpath, loader, ctxt, &related, err);
-    int i;
+    xmlNodePtr it;
+
     if (error_is_set(err))
         return;
 
-    for (i = 0; i < nrelated; i++) {
-        gchar *id = (gchar *)xmlGetProp(related[i], BAD_CAST "id");
+    for (it = root->children; it; it = it->next) {
+        if (it->type != XML_ELEMENT_NODE)
+            continue;
+
+        if (!xmlStrEqual(it->name, BAD_CAST name))
+            continue;
+
+        gchar *id = (gchar *) xmlGetProp(it, BAD_CAST "id");
         if (!id) {
             OSINFO_ERROR(err, _("Missing product upgrades id property"));
             goto cleanup;
@@ -596,7 +602,7 @@ static void osinfo_loader_product(OsinfoLoader *loader,
 
     osinfo_loader_product_relshp(loader, product,
                                  OSINFO_PRODUCT_RELATIONSHIP_DERIVES_FROM,
-                                 "./derives-from",
+                                 "derives-from",
                                  ctxt,
                                  root,
                                  err);
@@ -605,7 +611,7 @@ static void osinfo_loader_product(OsinfoLoader *loader,
 
     osinfo_loader_product_relshp(loader, product,
                                  OSINFO_PRODUCT_RELATIONSHIP_CLONES,
-                                 "./clones",
+                                 "clones",
                                  ctxt,
                                  root,
                                  err);
@@ -614,7 +620,7 @@ static void osinfo_loader_product(OsinfoLoader *loader,
 
     osinfo_loader_product_relshp(loader, product,
                                  OSINFO_PRODUCT_RELATIONSHIP_UPGRADES,
-                                 "./upgrades",
+                                 "upgrades",
                                  ctxt,
                                  root,
                                  err);
@@ -1439,114 +1445,43 @@ static void osinfo_loader_root(OsinfoLoader *loader,
      * After loop, return success if no error
      * If there was an error, clean up lib data acquired so far
      */
-    xmlNodePtr *oss = NULL;
-    xmlNodePtr *devices = NULL;
-    xmlNodePtr *platforms = NULL;
-    xmlNodePtr *deployments = NULL;
-    xmlNodePtr *installScripts = NULL;
-    xmlNodePtr *dataMaps = NULL;
-    int i;
-    int ndeployment;
-    int nos;
-    int ndevice;
-    int nplatform;
-    int ninstallScript;
-    int ndataMaps;
+    xmlNodePtr it;
 
     if (!xmlStrEqual(root->name, BAD_CAST "libosinfo")) {
         OSINFO_ERROR(err, _("Incorrect root element"));
         return;
     }
 
-    ndevice = osinfo_loader_nodeset("./device", loader, ctxt, &devices, err);
-    if (error_is_set(err))
-        goto cleanup;
+    for (it = root->children; it; it = it->next) {
+        if (it->type != XML_ELEMENT_NODE)
+            continue;
 
-    for (i = 0; i < ndevice; i++) {
         xmlNodePtr saved = ctxt->node;
-        ctxt->node = devices[i];
-        osinfo_loader_device(loader, ctxt, devices[i], err);
+        ctxt->node = it;
+
+        if (xmlStrEqual(it->name, BAD_CAST "device"))
+            osinfo_loader_device(loader, ctxt, it, err);
+
+        else if (xmlStrEqual(it->name, BAD_CAST "platform"))
+            osinfo_loader_platform(loader, ctxt, it, err);
+
+        else if (xmlStrEqual(it->name, BAD_CAST "os"))
+            osinfo_loader_os(loader, ctxt, it, err);
+
+        else if (xmlStrEqual(it->name, BAD_CAST "deployment"))
+            osinfo_loader_deployment(loader, ctxt, it, err);
+
+        else if (xmlStrEqual(it->name, BAD_CAST "install-script"))
+            osinfo_loader_install_script(loader, ctxt, it, err);
+
+        else if (xmlStrEqual(it->name, BAD_CAST "datamap"))
+            osinfo_loader_datamap(loader, ctxt, it, err);
+
         ctxt->node = saved;
+
         if (error_is_set(err))
-            goto cleanup;
+            return;
     }
-
-    nplatform = osinfo_loader_nodeset("./platform", loader, ctxt, &platforms,
-                                      err);
-    if (error_is_set(err))
-        goto cleanup;
-
-    for (i = 0; i < nplatform; i++) {
-        xmlNodePtr saved = ctxt->node;
-        ctxt->node = platforms[i];
-        osinfo_loader_platform(loader, ctxt, platforms[i], err);
-        ctxt->node = saved;
-        if (error_is_set(err))
-            goto cleanup;
-    }
-
-    nos = osinfo_loader_nodeset("./os", loader, ctxt, &oss, err);
-    if (error_is_set(err))
-        goto cleanup;
-
-    for (i = 0; i < nos; i++) {
-        xmlNodePtr saved = ctxt->node;
-        ctxt->node = oss[i];
-        osinfo_loader_os(loader, ctxt, oss[i], err);
-        ctxt->node = saved;
-        if (error_is_set(err))
-            goto cleanup;
-    }
-
-    ndeployment = osinfo_loader_nodeset("./deployment", loader, ctxt,
-                                        &deployments, err);
-    if (error_is_set(err))
-        goto cleanup;
-
-    for (i = 0; i < ndeployment; i++) {
-        xmlNodePtr saved = ctxt->node;
-        ctxt->node = deployments[i];
-        osinfo_loader_deployment(loader, ctxt, deployments[i], err);
-        ctxt->node = saved;
-        if (error_is_set(err))
-            goto cleanup;
-    }
-
-    ninstallScript = osinfo_loader_nodeset("./install-script", loader, ctxt,
-                                           &installScripts, err);
-    if (error_is_set(err))
-        goto cleanup;
-
-    for (i = 0; i < ninstallScript; i++) {
-        xmlNodePtr saved = ctxt->node;
-        ctxt->node = installScripts[i];
-        osinfo_loader_install_script(loader, ctxt, installScripts[i], err);
-        ctxt->node = saved;
-        if (error_is_set(err))
-            goto cleanup;
-    }
-
-    ndataMaps = osinfo_loader_nodeset("./datamap", loader, ctxt, &dataMaps,
-                                      err);
-    if (error_is_set(err))
-        goto cleanup;
-
-    for (i = 0; i < ndataMaps; i++) {
-        xmlNodePtr saved = ctxt->node;
-        ctxt->node = dataMaps[i];
-        osinfo_loader_datamap(loader, ctxt, dataMaps[i], err);
-        ctxt->node = saved;
-        if (error_is_set(err))
-            goto cleanup;
-    }
-
- cleanup:
-    g_free(dataMaps);
-    g_free(installScripts);
-    g_free(deployments);
-    g_free(platforms);
-    g_free(oss);
-    g_free(devices);
 }
 
 static void
