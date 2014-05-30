@@ -328,17 +328,21 @@ static void osinfo_loader_entity(OsinfoLoader *loader,
          * want to ignore that, hence the NULL check on index 'j + 1'.
          */
         if (keys[i].type == G_TYPE_STRING) {
-            for (j = 0; langs[j + 1] != NULL; j++) {
-                xpath = g_strdup_printf("string(./%s[lang('%s')])",
-                                        keys[i].name, langs[j]);
-                value_str = osinfo_loader_string(xpath, loader, ctxt, err);
-                g_free(xpath);
-                xpath = NULL;
-                if (error_is_set(err))
-                    return;
+            xmlNodePtr it;
+            for (it = root->children; it; it = it->next) {
+                if (xmlStrEqual(it->name, BAD_CAST keys[i].name)) {
+                    xmlChar *lang = xmlGetProp(it, BAD_CAST "lang");
+                    if (lang == NULL)
+                        continue;
 
-                if (value_str != NULL)
-                    break;
+                    for (j = 0; langs[j + 1] != NULL; j++) {
+                        if (xmlStrEqual(lang, BAD_CAST langs[j])) {
+                            gchar *content = (gchar *) it->children->content;
+                            value_str = g_strdup(content);
+                            break;
+                        }
+                    }
+                }
             }
         }
 
