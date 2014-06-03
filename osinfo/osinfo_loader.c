@@ -1646,19 +1646,20 @@ osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
                                             baseURI, vendor_id, device_id);
 
                 OsinfoDevice *dev = osinfo_loader_get_device(loader, id);
-                osinfo_entity_set_param(OSINFO_ENTITY(dev),
+                OsinfoEntity *entity = OSINFO_ENTITY(dev);
+                osinfo_entity_set_param(entity,
                                         OSINFO_DEVICE_PROP_VENDOR_ID,
                                         vendor_id);
-                osinfo_entity_set_param(OSINFO_ENTITY(dev),
+                osinfo_entity_set_param(entity,
                                         OSINFO_DEVICE_PROP_VENDOR,
                                         vendor);
-                osinfo_entity_set_param(OSINFO_ENTITY(dev),
+                osinfo_entity_set_param(entity,
                                         OSINFO_DEVICE_PROP_PRODUCT_ID,
                                         device_id);
-                osinfo_entity_set_param(OSINFO_ENTITY(dev),
+                osinfo_entity_set_param(entity,
                                         OSINFO_DEVICE_PROP_PRODUCT,
                                         device);
-                osinfo_entity_set_param(OSINFO_ENTITY(dev),
+                osinfo_entity_set_param(entity,
                                         OSINFO_DEVICE_PROP_BUS_TYPE,
                                         busType);
                 g_free(id);
