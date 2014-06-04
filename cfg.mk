@@ -110,6 +110,12 @@ sc_copyright_format:
 	halt='spell Red Hat as two words'				\
 	  $(_sc_search_regexp)
 
+sc_bracket_spacing_check:
+	$(AM_V_GEN)files=`$(VC_LIST) | grep '\.c$$'`; \
+	$(PERL) $(top_srcdir)/build-aux/bracket-spacing.pl $$files || \
+	  { echo '$(ME): incorrect whitespace' 1>&2; \
+	    exit 1; }
+
 # We don't use this feature of maint.mk.
 prev_version_file = /dev/null
 
