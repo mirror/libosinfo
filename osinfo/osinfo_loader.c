@@ -138,16 +138,16 @@ osinfo_loader_nodeset(const char *xpath,
     obj = xmlXPathEval(BAD_CAST xpath, ctxt);
     ctxt->node = relnode;
     if (obj == NULL)
-        return(0);
+        return 0;
     if (obj->type != XPATH_NODESET) {
         g_set_error(err, g_quark_from_static_string("libosinfo"), 0,
                     _("Expected a nodeset in XPath query %s"), xpath);
         xmlXPathFreeObject(obj);
-        return (-1);
+        return -1;
     }
     if ((obj->nodesetval == NULL)  || (obj->nodesetval->nodeNr < 0)) {
         xmlXPathFreeObject(obj);
-        return (0);
+        return 0;
     }
 
     ret = obj->nodesetval->nodeNr;
@@ -157,7 +157,7 @@ osinfo_loader_nodeset(const char *xpath,
                ret * sizeof(xmlNodePtr));
     }
     xmlXPathFreeObject(obj);
-    return (ret);
+    return ret;
 }
 
 static gchar *
