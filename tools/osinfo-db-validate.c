@@ -227,7 +227,7 @@ static gboolean validate_files(gint argc, gchar **argv, GError **error)
         goto cleanup;
     }
 
-    for (i = 0 ; i < argc ; i++) {
+    for (i = 0; i < argc; i++) {
         GFile *file = g_file_new_for_commandline_arg(argv[i]);
         if (!validate_file(rngValid, file, NULL, error)) {
             g_object_unref(file);
@@ -252,9 +252,9 @@ gint main(gint argc, gchar **argv)
     gint ret = EXIT_FAILURE;
 
     setlocale(LC_ALL, "");
-    textdomain (GETTEXT_PACKAGE);
+    textdomain(GETTEXT_PACKAGE);
     bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
-    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+    bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
 
 #if !GLIB_CHECK_VERSION(2,35,1)
     g_type_init();
@@ -333,7 +333,7 @@ Daniel P. Berrange <berrange@redhat.com>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2012 Red Hat, Inc.
+Copyright (C) 2012, 2014 Red Hat, Inc.
 
 =head1 LICENSE
 

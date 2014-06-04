@@ -148,7 +148,7 @@ static gboolean list_script_config(OsinfoOs *os)
         GList *params = osinfo_install_script_get_config_param_list(script);
         GList *tmp2;
 
-        for (tmp2 = params ; tmp2 != NULL ; tmp2 = tmp2->next) {
+        for (tmp2 = params; tmp2 != NULL; tmp2 = tmp2->next) {
             OsinfoInstallConfigParam *param = OSINFO_INSTALL_CONFIG_PARAM(tmp2->data);
 
             g_print("%s: %s\n",
@@ -265,7 +265,7 @@ static gboolean generate_script(OsinfoOs *os)
             goto cleanup;
         }
         if (!quiet)
-           g_print ("%s\n", osinfo_install_script_get_output_filename(script));
+           g_print("%s\n", osinfo_install_script_get_output_filename(script));
     }
     ret = TRUE;
 
@@ -290,9 +290,9 @@ gint main(gint argc, gchar **argv)
     gint ret = 0;
 
     setlocale(LC_ALL, "");
-    textdomain (GETTEXT_PACKAGE);
+    textdomain(GETTEXT_PACKAGE);
     bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
-    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+    bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
 
 #if !GLIB_CHECK_VERSION(2,35,1)
     g_type_init();

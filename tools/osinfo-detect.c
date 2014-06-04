@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Red Hat, Inc.
+ * Copyright (C) 2011, 2014 Red Hat, Inc.
  *
  * osinfo-detect: Given a path to a ISO9660 image/device, detects if media is
  *                bootable and the relevant OS if media is an installer for it.
@@ -129,9 +129,9 @@ static void print_media(OsinfoMedia *media)
     if (format == OUTPUT_FORMAT_ENV) {
         const gchar *id = osinfo_entity_get_id(OSINFO_ENTITY(os));
 
-        if (osinfo_media_get_installer (media))
+        if (osinfo_media_get_installer(media))
             g_print("OSINFO_INSTALLER=%s\n", id);
-        if (osinfo_media_get_live (media))
+        if (osinfo_media_get_live(media))
             g_print("OSINFO_LIVE=%s\n", id);
         g_print("OSINFO_MEDIA=%s\n",
                 osinfo_entity_get_id(OSINFO_ENTITY(media)));
@@ -151,9 +151,9 @@ static void print_media(OsinfoMedia *media)
             name = osinfo_product_get_name(OSINFO_PRODUCT(os));
         }
 
-        if (osinfo_media_get_installer (media))
+        if (osinfo_media_get_installer(media))
             g_print(_("Media is an installer for OS '%s'\n"), name);
-        if (osinfo_media_get_live (media))
+        if (osinfo_media_get_live(media))
             g_print(_("Media is live media for OS '%s'\n"), name);
 
         if (num_variants > 1) {
@@ -217,9 +217,9 @@ gint main(gint argc, gchar **argv)
     gint ret = 0;
 
     setlocale(LC_ALL, "");
-    textdomain (GETTEXT_PACKAGE);
+    textdomain(GETTEXT_PACKAGE);
     bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
-    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+    bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
 
     context = g_option_context_new(_("- Detect if media is bootable " \
                                      "and the relevant OS and distribution."));

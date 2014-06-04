@@ -136,13 +136,13 @@ static gboolean toggle_fields(struct OsinfoLabel *labels,
 
     fields = g_strsplit(fieldStr, ",", 0);
 
-    for (j = 0 ; labels[j].prop ; j++) {
+    for (j = 0; labels[j].prop; j++) {
         labels[j].enabled = FALSE;
     }
 
-    for (i = 0 ; fields[i] != NULL ; i++) {
+    for (i = 0; fields[i] != NULL; i++) {
         gboolean found = FALSE;
-        for (j = 0 ; labels[j].prop ; j++) {
+        for (j = 0; labels[j].prop; j++) {
             if (g_str_equal(fields[i], labels[j].prop)) {
                 labels[j].enabled = TRUE;
                 found = TRUE;
@@ -171,7 +171,7 @@ static gboolean build_filter(struct OsinfoLabel *labels,
     gboolean ret = FALSE;
     gsize i, j;
 
-    for (i = 0 ; i < argc ; i++) {
+    for (i = 0; i < argc; i++) {
         const gchar *tmp = strchr(argv[i], '=');
         if (!tmp) {
             g_set_error(error, 0, 0, "%s", _("Syntax error in condition, expecting KEY=VALUE"));
@@ -181,7 +181,7 @@ static gboolean build_filter(struct OsinfoLabel *labels,
         gchar *val = g_strdup(tmp+1);
         gboolean found = FALSE;
 
-        for (j = 0 ; labels[j].prop != NULL ; j++) {
+        for (j = 0; labels[j].prop != NULL; j++) {
             if (g_str_equal(key, labels[j].prop))
                 found = TRUE;
         }
@@ -234,7 +234,7 @@ static gboolean print_entity_text(OsinfoEntity *entity,
 {
     gsize i;
     gboolean first = TRUE;
-    for (i = 0 ; labels[i].prop != NULL ; i++) {
+    for (i = 0; labels[i].prop != NULL; i++) {
         gsize pad;
         gchar *padstr;
         const gchar *val = osinfo_entity_get_param_value(entity, labels[i].prop);
@@ -281,7 +281,7 @@ static gboolean print_results_text(OsinfoList *list,
                                            (gchar*)(sortKey ? sortKey :
                                                     labels[0].prop));
 
-    for (i = 0 ; labels[i].prop != NULL ; i++) {
+    for (i = 0; labels[i].prop != NULL; i++) {
         gsize pad;
         gchar *padstr;
         if (!labels[i].enabled)
@@ -311,7 +311,7 @@ static gboolean print_results_text(OsinfoList *list,
     g_print("\n");
 
     first = TRUE;
-    for (i = 0 ; labels[i].prop != NULL ; i++) {
+    for (i = 0; labels[i].prop != NULL; i++) {
         gchar *padstr;
         if (!labels[i].enabled)
             continue;
@@ -362,9 +362,9 @@ gint main(gint argc, gchar **argv)
     const gchar *fields = NULL;
 
     setlocale(LC_ALL, "");
-    textdomain (GETTEXT_PACKAGE);
+    textdomain(GETTEXT_PACKAGE);
     bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
-    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+    bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
 
 #if !GLIB_CHECK_VERSION(2,35,1)
     g_type_init();
@@ -434,7 +434,7 @@ gint main(gint argc, gchar **argv)
     db = osinfo_loader_get_db(loader);
 
 
-    for (i = 0 ; i < (sizeof(types)/sizeof(types[0])) ; i++) {
+    for (i = 0; i < (sizeof(types)/sizeof(types[0])); i++) {
         if (g_str_equal(types[i].name, type)) {
             entities = types[i].listFunc(db);
             filter = g_object_new(types[i].filterType, NULL);
@@ -702,7 +702,7 @@ Daniel P. Berrange <berrange@redhat.com>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2012 Red Hat, Inc.
+Copyright (C) 2012, 2014 Red Hat, Inc.
 
 =head1 LICENSE
 
