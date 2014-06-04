@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -77,9 +77,9 @@ START_TEST(test_uris)
         SoupLogger *logger;
         int debug_level = atoi(debugstr);
 
-        logger = soup_logger_new (debug_level, -1);
-        soup_session_add_feature (session, SOUP_SESSION_FEATURE (logger));
-        g_object_unref (logger);
+        logger = soup_logger_new(debug_level, -1);
+        soup_session_add_feature(session, SOUP_SESSION_FEATURE(logger));
+        g_object_unref(logger);
     }
 
     fail_unless(OSINFO_IS_LOADER(loader), "Loader is not a LOADER");
@@ -127,8 +127,8 @@ list_suite(void)
 int main(void)
 {
     int number_failed;
-    Suite *s = list_suite ();
-    SRunner *sr = srunner_create (s);
+    Suite *s = list_suite();
+    SRunner *sr = srunner_create(s);
 
     if (!g_getenv("LIBOSINFO_NETWORK_TESTS"))
         return 77; /* Skip */
@@ -149,9 +149,9 @@ int main(void)
     osinfo_oslist_get_type();
     osinfo_filter_get_type();
 
-    srunner_run_all (sr, CK_ENV);
-    number_failed = srunner_ntests_failed (sr);
-    srunner_free (sr);
+    srunner_run_all(sr, CK_ENV);
+    number_failed = srunner_ntests_failed(sr);
+    srunner_free(sr);
 
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

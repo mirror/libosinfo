@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,8 +52,8 @@ device_suite(void)
 int main(void)
 {
     int number_failed;
-    Suite *s = device_suite ();
-    SRunner *sr = srunner_create (s);
+    Suite *s = device_suite();
+    SRunner *sr = srunner_create(s);
 
 #if !GLIB_CHECK_VERSION(2,35,1)
     g_type_init();
@@ -62,9 +62,9 @@ int main(void)
     /* Upfront so we don't confuse valgrind */
     osinfo_device_get_type();
 
-    srunner_run_all (sr, CK_ENV);
-    number_failed = srunner_ntests_failed (sr);
-    srunner_free (sr);
+    srunner_run_all(sr, CK_ENV);
+    number_failed = srunner_ntests_failed(sr);
+    srunner_free(sr);
 
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

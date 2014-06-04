@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -107,8 +107,8 @@ START_TEST(test_script_file)
                                            "jeos",
                                            "file://" SRCDIR "/test/install-script.xsl");
 
-    loop = g_main_loop_new (g_main_context_get_thread_default (),
-                            TRUE);
+    loop = g_main_loop_new(g_main_context_get_thread_default(),
+                           TRUE);
 
     os = osinfo_os_new("http://fedoraproject.org/fedora/16");
     osinfo_install_script_generate_async(script,
@@ -156,8 +156,8 @@ START_TEST(test_script_data)
                                             "jeos",
                                             data);
 
-    loop = g_main_loop_new (g_main_context_get_thread_default (),
-                            TRUE);
+    loop = g_main_loop_new(g_main_context_get_thread_default(),
+                           TRUE);
 
     osinfo_install_script_generate_async(script,
                                          os,
@@ -231,8 +231,8 @@ START_TEST(test_script_datamap)
                             OSINFO_PRODUCT_PROP_SHORT_ID,
                             "fedora16");
 
-    loop = g_main_loop_new (g_main_context_get_thread_default (),
-                            TRUE);
+    loop = g_main_loop_new(g_main_context_get_thread_default(),
+                           TRUE);
 
     osinfo_install_script_generate_async(script,
                                          os,
@@ -274,8 +274,8 @@ list_suite(void)
 int main(void)
 {
     int number_failed;
-    Suite *s = list_suite ();
-    SRunner *sr = srunner_create (s);
+    Suite *s = list_suite();
+    SRunner *sr = srunner_create(s);
 
 #if !GLIB_CHECK_VERSION(2,35,1)
     g_type_init();
@@ -293,9 +293,9 @@ int main(void)
     osinfo_oslist_get_type();
     osinfo_filter_get_type();
 
-    srunner_run_all (sr, CK_ENV);
-    number_failed = srunner_ntests_failed (sr);
-    srunner_free (sr);
+    srunner_run_all(sr, CK_ENV);
+    number_failed = srunner_ntests_failed(sr);
+    srunner_free(sr);
 
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

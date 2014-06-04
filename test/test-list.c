@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,10 +41,10 @@ struct _OsinfoDummyClass
 
 GType osinfo_dummy_get_type(void);
 
-G_DEFINE_TYPE (OsinfoDummy, osinfo_dummy, OSINFO_TYPE_ENTITY);
+G_DEFINE_TYPE(OsinfoDummy, osinfo_dummy, OSINFO_TYPE_ENTITY);
 
 static void osinfo_dummy_class_init(OsinfoDummyClass *klass G_GNUC_UNUSED){}
-static void osinfo_dummy_init (OsinfoDummy *self G_GNUC_UNUSED) {}
+static void osinfo_dummy_init(OsinfoDummy *self G_GNUC_UNUSED) {}
 
 
 typedef struct _OsinfoDummyList        OsinfoDummyList;
@@ -62,10 +62,10 @@ struct _OsinfoDummyListClass
 
 GType osinfo_dummy_list_get_type(void);
 
-G_DEFINE_TYPE (OsinfoDummyList, osinfo_dummy_list, OSINFO_TYPE_LIST);
+G_DEFINE_TYPE(OsinfoDummyList, osinfo_dummy_list, OSINFO_TYPE_LIST);
 
 static void osinfo_dummy_list_class_init(OsinfoDummyListClass *klass G_GNUC_UNUSED){}
-static void osinfo_dummy_list_init (OsinfoDummyList *self G_GNUC_UNUSED) {}
+static void osinfo_dummy_list_init(OsinfoDummyList *self G_GNUC_UNUSED) {}
 
 
 
@@ -134,7 +134,7 @@ START_TEST(test_union)
     gboolean has4 = FALSE;
     gboolean hasBad = FALSE;
     int i;
-    for (i = 0 ; i < osinfo_list_get_length(list3) ; i++) {
+    for (i = 0; i < osinfo_list_get_length(list3); i++) {
         OsinfoEntity *ent = osinfo_list_get_nth(list3, i);
         if (ent == ent1)
             has1 = TRUE;
@@ -192,7 +192,7 @@ START_TEST(test_intersect)
     gboolean has4 = FALSE;
     gboolean hasBad = FALSE;
     int i;
-    for (i = 0 ; i < osinfo_list_get_length(list3) ; i++) {
+    for (i = 0; i < osinfo_list_get_length(list3); i++) {
         OsinfoEntity *ent = osinfo_list_get_nth(list3, i);
         if (ent == ent1)
             has1 = TRUE;
@@ -256,7 +256,7 @@ START_TEST(test_filter)
     gboolean has4 = FALSE;
     gboolean hasBad = FALSE;
     int i;
-    for (i = 0 ; i < osinfo_list_get_length(list2) ; i++) {
+    for (i = 0; i < osinfo_list_get_length(list2); i++) {
         OsinfoEntity *ent = osinfo_list_get_nth(list2, i);
         if (ent == ent1)
             has1 = TRUE;
@@ -381,8 +381,8 @@ list_suite(void)
 int main(void)
 {
     int number_failed;
-    Suite *s = list_suite ();
-    SRunner *sr = srunner_create (s);
+    Suite *s = list_suite();
+    SRunner *sr = srunner_create(s);
 
 #if !GLIB_CHECK_VERSION(2,35,1)
     g_type_init();
@@ -393,9 +393,9 @@ int main(void)
     osinfo_dummy_list_get_type();
     osinfo_filter_get_type();
 
-    srunner_run_all (sr, CK_ENV);
-    number_failed = srunner_ntests_failed (sr);
-    srunner_free (sr);
+    srunner_run_all(sr, CK_ENV);
+    number_failed = srunner_ntests_failed(sr);
+    srunner_free(sr);
 
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

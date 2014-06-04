@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -304,7 +304,7 @@ START_TEST(test_rel_os)
     gboolean hasOs5 = FALSE;
     gboolean hasBad = FALSE;
     int i;
-    for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(sublist)) ; i++) {
+    for (i = 0; i < osinfo_list_get_length(OSINFO_LIST(sublist)); i++) {
         OsinfoOs *ent = OSINFO_OS(osinfo_list_get_nth(OSINFO_LIST(sublist), i));
 
         if (ent == os1)
@@ -332,7 +332,7 @@ START_TEST(test_rel_os)
 
     sublist = osinfo_db_unique_values_for_os_relationship(db, OSINFO_PRODUCT_RELATIONSHIP_UPGRADES);
     hasOs1 = hasOs2 = hasOs3 = hasOs4 = hasOs5 = hasBad = FALSE;
-    for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(sublist)) ; i++) {
+    for (i = 0; i < osinfo_list_get_length(OSINFO_LIST(sublist)); i++) {
         OsinfoOs *ent = OSINFO_OS(osinfo_list_get_nth(OSINFO_LIST(sublist), i));
 
         if (ent == os1)
@@ -360,7 +360,7 @@ START_TEST(test_rel_os)
 
     sublist = osinfo_db_unique_values_for_os_relationship(db, OSINFO_PRODUCT_RELATIONSHIP_CLONES);
     hasOs1 = hasOs2 = hasOs3 = hasOs4 = hasOs5 = hasBad = FALSE;
-    for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(sublist)) ; i++) {
+    for (i = 0; i < osinfo_list_get_length(OSINFO_LIST(sublist)); i++) {
         OsinfoOs *ent = OSINFO_OS(osinfo_list_get_nth(OSINFO_LIST(sublist), i));
 
         if (ent == os1)
@@ -419,8 +419,8 @@ list_suite(void)
 int main(void)
 {
     int number_failed;
-    Suite *s = list_suite ();
-    SRunner *sr = srunner_create (s);
+    Suite *s = list_suite();
+    SRunner *sr = srunner_create(s);
 
 #if !GLIB_CHECK_VERSION(2,35,1)
     g_type_init();
@@ -438,9 +438,9 @@ int main(void)
     osinfo_oslist_get_type();
     osinfo_filter_get_type();
 
-    srunner_run_all (sr, CK_ENV);
-    number_failed = srunner_ntests_failed (sr);
-    srunner_free (sr);
+    srunner_run_all(sr, CK_ENV);
+    number_failed = srunner_ntests_failed(sr);
+    srunner_free(sr);
 
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

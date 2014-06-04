@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,10 +41,10 @@ struct _OsinfoDummyClass
 
 GType osinfo_dummy_get_type(void);
 
-G_DEFINE_TYPE (OsinfoDummy, osinfo_dummy, OSINFO_TYPE_ENTITY);
+G_DEFINE_TYPE(OsinfoDummy, osinfo_dummy, OSINFO_TYPE_ENTITY);
 
 static void osinfo_dummy_class_init(OsinfoDummyClass *klass G_GNUC_UNUSED){}
-static void osinfo_dummy_init (OsinfoDummy *self G_GNUC_UNUSED) {}
+static void osinfo_dummy_init(OsinfoDummy *self G_GNUC_UNUSED) {}
 
 
 START_TEST(test_id)
@@ -332,8 +332,8 @@ entity_suite(void)
 int main(void)
 {
     int number_failed;
-    Suite *s = entity_suite ();
-    SRunner *sr = srunner_create (s);
+    Suite *s = entity_suite();
+    SRunner *sr = srunner_create(s);
 
 #if !GLIB_CHECK_VERSION(2,35,1)
     g_type_init();
@@ -342,9 +342,9 @@ int main(void)
     /* Upfront so we don't confuse valgrind */
     osinfo_dummy_get_type();
 
-    srunner_run_all (sr, CK_ENV);
-    number_failed = srunner_ntests_failed (sr);
-    srunner_free (sr);
+    srunner_run_all(sr, CK_ENV);
+    number_failed = srunner_ntests_failed(sr);
+    srunner_free(sr);
 
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

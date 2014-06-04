@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ START_TEST(test_union)
     gboolean has4 = FALSE;
     gboolean hasBad = FALSE;
     int i;
-    for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(list3)) ; i++) {
+    for (i = 0; i < osinfo_list_get_length(OSINFO_LIST(list3)); i++) {
         OsinfoOs *ent = OSINFO_OS(osinfo_list_get_nth(OSINFO_LIST(list3), i));
         if (ent == ent1)
             has1 = TRUE;
@@ -112,7 +112,7 @@ START_TEST(test_intersect)
     gboolean has4 = FALSE;
     gboolean hasBad = FALSE;
     int i;
-    for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(list3)) ; i++) {
+    for (i = 0; i < osinfo_list_get_length(OSINFO_LIST(list3)); i++) {
         OsinfoOs *ent = OSINFO_OS(osinfo_list_get_nth(OSINFO_LIST(list3), i));
         if (ent == ent1)
             has1 = TRUE;
@@ -176,7 +176,7 @@ START_TEST(test_filter)
     gboolean has4 = FALSE;
     gboolean hasBad = FALSE;
     int i;
-    for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(list2)) ; i++) {
+    for (i = 0; i < osinfo_list_get_length(OSINFO_LIST(list2)); i++) {
         OsinfoOs *ent = OSINFO_OS(osinfo_list_get_nth(OSINFO_LIST(list2), i));
         if (ent == ent1)
             has1 = TRUE;
@@ -221,8 +221,8 @@ list_suite(void)
 int main(void)
 {
     int number_failed;
-    Suite *s = list_suite ();
-    SRunner *sr = srunner_create (s);
+    Suite *s = list_suite();
+    SRunner *sr = srunner_create(s);
 
 #if !GLIB_CHECK_VERSION(2,35,1)
     g_type_init();
@@ -233,9 +233,9 @@ int main(void)
     osinfo_oslist_get_type();
     osinfo_filter_get_type();
 
-    srunner_run_all (sr, CK_ENV);
-    number_failed = srunner_ntests_failed (sr);
-    srunner_free (sr);
+    srunner_run_all(sr, CK_ENV);
+    number_failed = srunner_ntests_failed(sr);
+    srunner_free(sr);
 
     return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
