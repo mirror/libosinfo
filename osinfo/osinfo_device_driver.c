@@ -1,7 +1,7 @@
 /*
  * libosinfo: Device driver
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -31,12 +31,12 @@
 
 #include "osinfo_device_driver_private.h"
 
-G_DEFINE_TYPE (OsinfoDeviceDriver, osinfo_device_driver, OSINFO_TYPE_ENTITY);
+G_DEFINE_TYPE(OsinfoDeviceDriver, osinfo_device_driver, OSINFO_TYPE_ENTITY);
 
 #define OSINFO_DEVICE_DRIVER_GET_PRIVATE(obj) \
-        (G_TYPE_INSTANCE_GET_PRIVATE ((obj), \
-                                      OSINFO_TYPE_DEVICE_DRIVER, \
-                                      OsinfoDeviceDriverPrivate))
+        (G_TYPE_INSTANCE_GET_PRIVATE((obj), \
+                                     OSINFO_TYPE_DEVICE_DRIVER,         \
+                                     OsinfoDeviceDriverPrivate))
 
 /**
  * SECTION:osinfo_device_driver
@@ -53,38 +53,38 @@ struct _OsinfoDeviceDriverPrivate
 };
 
 static void
-osinfo_device_driver_finalize (GObject *object)
+osinfo_device_driver_finalize(GObject *object)
 {
-    OsinfoDeviceDriver *driver = OSINFO_DEVICE_DRIVER (object);
+    OsinfoDeviceDriver *driver = OSINFO_DEVICE_DRIVER(object);
 
     g_object_unref(driver->priv->devices);
 
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_device_driver_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_device_driver_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_device_driver_class_init (OsinfoDeviceDriverClass *klass)
+osinfo_device_driver_class_init(OsinfoDeviceDriverClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
 
     g_klass->finalize = osinfo_device_driver_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoDeviceDriverPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoDeviceDriverPrivate));
 }
 
 static void
-osinfo_device_driver_init (OsinfoDeviceDriver *driver)
+osinfo_device_driver_init(OsinfoDeviceDriver *driver)
 {
     driver->priv = OSINFO_DEVICE_DRIVER_GET_PRIVATE(driver);
-    driver->priv->devices = osinfo_devicelist_new ();
+    driver->priv->devices = osinfo_devicelist_new();
 }
 
 OsinfoDeviceDriver *osinfo_device_driver_new(const gchar *id)
 {
     OsinfoDeviceDriver *driver;
 
-    driver = g_object_new (OSINFO_TYPE_DEVICE_DRIVER,
+    driver = g_object_new(OSINFO_TYPE_DEVICE_DRIVER,
                            "id", id,
                            NULL);
 

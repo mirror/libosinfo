@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,9 +27,9 @@
 #include <osinfo/osinfo.h>
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (OsinfoPlatformList, osinfo_platformlist, OSINFO_TYPE_PRODUCTLIST);
+G_DEFINE_TYPE(OsinfoPlatformList, osinfo_platformlist, OSINFO_TYPE_PRODUCTLIST);
 
-#define OSINFO_PLATFORMLIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_PLATFORMLIST, OsinfoPlatformListPrivate))
+#define OSINFO_PLATFORMLIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_PLATFORMLIST, OsinfoPlatformListPrivate))
 
 /**
  * SECTION:osinfo_platformlist
@@ -46,24 +46,24 @@ struct _OsinfoPlatformListPrivate
 };
 
 static void
-osinfo_platformlist_finalize (GObject *object)
+osinfo_platformlist_finalize(GObject *object)
 {
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_platformlist_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_platformlist_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_platformlist_class_init (OsinfoPlatformListClass *klass)
+osinfo_platformlist_class_init(OsinfoPlatformListClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
 
     g_klass->finalize = osinfo_platformlist_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoPlatformListPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoPlatformListPrivate));
 }
 
 static void
-osinfo_platformlist_init (OsinfoPlatformList *list)
+osinfo_platformlist_init(OsinfoPlatformList *list)
 {
     list->priv = OSINFO_PLATFORMLIST_GET_PRIVATE(list);
 }

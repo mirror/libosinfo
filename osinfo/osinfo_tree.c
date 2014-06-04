@@ -1,7 +1,7 @@
 /*
  * libosinfo: An installation tree for a (guest) OS
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -71,20 +71,20 @@ static void create_from_location_data_free(CreateFromLocationData *data)
 }
 
 GQuark
-osinfo_tree_error_quark (void)
+osinfo_tree_error_quark(void)
 {
     static GQuark quark = 0;
 
     if (!quark)
-        quark = g_quark_from_static_string ("osinfo-tree-error");
+        quark = g_quark_from_static_string("osinfo-tree-error");
 
     return quark;
 }
 
-G_DEFINE_TYPE (OsinfoTree, osinfo_tree, OSINFO_TYPE_ENTITY);
+G_DEFINE_TYPE(OsinfoTree, osinfo_tree, OSINFO_TYPE_ENTITY);
 
 #define OSINFO_TREE_GET_PRIVATE(obj)                    \
-    (G_TYPE_INSTANCE_GET_PRIVATE ((obj),                \
+    (G_TYPE_INSTANCE_GET_PRIVATE((obj),                \
                                   OSINFO_TYPE_TREE,     \
                                   OsinfoTreePrivate))
 
@@ -622,7 +622,7 @@ static void on_location_read(GObject *source,
     g_simple_async_result_set_op_res_gpointer(data->res, ret, NULL);
 
  cleanup:
-    g_simple_async_result_complete (data->res);
+    g_simple_async_result_complete(data->res);
     create_from_location_async_data_free(data);
     g_free(content);
 }

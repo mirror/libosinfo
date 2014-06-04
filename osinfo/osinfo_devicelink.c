@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,9 +27,9 @@
 #include <osinfo/osinfo.h>
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (OsinfoDeviceLink, osinfo_devicelink, OSINFO_TYPE_ENTITY);
+G_DEFINE_TYPE(OsinfoDeviceLink, osinfo_devicelink, OSINFO_TYPE_ENTITY);
 
-#define OSINFO_DEVICELINK_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_DEVICELINK, OsinfoDeviceLinkPrivate))
+#define OSINFO_DEVICELINK_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_DEVICELINK, OsinfoDeviceLinkPrivate))
 
 /**
  * SECTION:osinfo_devicelink
@@ -58,7 +58,7 @@ osinfo_devicelink_set_property(GObject *object,
                                const GValue *value,
                                GParamSpec *pspec)
 {
-    OsinfoDeviceLink *devlink = OSINFO_DEVICELINK (object);
+    OsinfoDeviceLink *devlink = OSINFO_DEVICELINK(object);
 
     switch (property_id)
         {
@@ -71,7 +71,7 @@ osinfo_devicelink_set_property(GObject *object,
             break;
         default:
             /* We don't have any other property... */
-            G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
             break;
         }
 }
@@ -82,7 +82,7 @@ osinfo_devicelink_get_property(GObject *object,
                                GValue *value,
                                GParamSpec *pspec)
 {
-    OsinfoDeviceLink *devlink = OSINFO_DEVICELINK (object);
+    OsinfoDeviceLink *devlink = OSINFO_DEVICELINK(object);
 
     switch (property_id)
         {
@@ -91,7 +91,7 @@ osinfo_devicelink_get_property(GObject *object,
             break;
         default:
             /* We don't have any other property... */
-            G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
             break;
         }
 }
@@ -106,14 +106,14 @@ osinfo_devicelink_finalize(GObject *object)
         g_object_unref(devlink->priv->target);
 
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_devicelink_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_devicelink_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_devicelink_class_init (OsinfoDeviceLinkClass *klass)
+osinfo_devicelink_class_init(OsinfoDeviceLinkClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
     GParamSpec *pspec;
 
     g_klass->set_property = osinfo_devicelink_set_property;
@@ -137,11 +137,11 @@ osinfo_devicelink_class_init (OsinfoDeviceLinkClass *klass)
 
 
     g_klass->finalize = osinfo_devicelink_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoDeviceLinkPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoDeviceLinkPrivate));
 }
 
 static void
-osinfo_devicelink_init (OsinfoDeviceLink *devlink)
+osinfo_devicelink_init(OsinfoDeviceLink *devlink)
 {
     devlink->priv = OSINFO_DEVICELINK_GET_PRIVATE(devlink);
 }

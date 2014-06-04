@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -26,9 +26,9 @@
 #include <osinfo/osinfo.h>
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (OsinfoInstallConfig, osinfo_install_config, OSINFO_TYPE_ENTITY);
+G_DEFINE_TYPE(OsinfoInstallConfig, osinfo_install_config, OSINFO_TYPE_ENTITY);
 
-#define OSINFO_INSTALL_CONFIG_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_INSTALL_CONFIG, OsinfoInstallConfigPrivate))
+#define OSINFO_INSTALL_CONFIG_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_INSTALL_CONFIG, OsinfoInstallConfigPrivate))
 
 /**
  * SECTION:osinfo_install_config
@@ -48,9 +48,9 @@ struct _OsinfoInstallConfigPrivate
 
 /* Init functions */
 static void
-osinfo_install_config_class_init (OsinfoInstallConfigClass *klass)
+osinfo_install_config_class_init(OsinfoInstallConfigClass *klass)
 {
-    g_type_class_add_private (klass, sizeof (OsinfoInstallConfigPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoInstallConfigPrivate));
 }
 
 static const gchar valid[] = {
@@ -65,7 +65,7 @@ static const gchar valid[] = {
 
 
 static void
-osinfo_install_config_init (OsinfoInstallConfig *config)
+osinfo_install_config_init(OsinfoInstallConfig *config)
 {
     gchar pass[9];
     gsize i;
@@ -82,7 +82,7 @@ osinfo_install_config_init (OsinfoInstallConfig *config)
                             OSINFO_INSTALL_CONFIG_PROP_L10N_LANGUAGE,
                             "en_US");
 
-    for (i = 0 ; i < sizeof(pass)-1 ; i++) {
+    for (i = 0; i < sizeof(pass)-1; i++) {
         gint val = g_random_int_range(0, sizeof(valid));
         pass[i] = valid[val];
     }

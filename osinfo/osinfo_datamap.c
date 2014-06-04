@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,9 +30,9 @@
 #include <libxslt/xsltutils.h>
 #include <libxslt/xsltInternals.h>
 
-G_DEFINE_TYPE (OsinfoDatamap, osinfo_datamap, OSINFO_TYPE_ENTITY);
+G_DEFINE_TYPE(OsinfoDatamap, osinfo_datamap, OSINFO_TYPE_ENTITY);
 
-#define OSINFO_DATAMAP_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_DATAMAP, OsinfoDatamapPrivate))
+#define OSINFO_DATAMAP_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_DATAMAP, OsinfoDatamapPrivate))
 
 /**
  * SECTION:osinfo_datamap
@@ -51,7 +51,7 @@ struct _OsinfoDatamapPrivate
 };
 
 static void
-osinfo_datamap_finalize (GObject *object)
+osinfo_datamap_finalize(GObject *object)
 {
     OsinfoDatamap *map = OSINFO_DATAMAP(object);
 
@@ -59,22 +59,22 @@ osinfo_datamap_finalize (GObject *object)
     g_hash_table_unref(map->priv->reverse_map);
 
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_datamap_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_datamap_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_datamap_class_init (OsinfoDatamapClass *klass)
+osinfo_datamap_class_init(OsinfoDatamapClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
 
     g_klass->finalize = osinfo_datamap_finalize;
 
-    g_type_class_add_private (klass, sizeof (OsinfoDatamapPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoDatamapPrivate));
 }
 
 static void
-osinfo_datamap_init (OsinfoDatamap *list)
+osinfo_datamap_init(OsinfoDatamap *list)
 {
     list->priv = OSINFO_DATAMAP_GET_PRIVATE(list);
     list->priv->map = g_hash_table_new_full(g_str_hash,

@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,9 +27,9 @@
 #include <osinfo/osinfo.h>
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (OsinfoDeviceList, osinfo_devicelist, OSINFO_TYPE_LIST);
+G_DEFINE_TYPE(OsinfoDeviceList, osinfo_devicelist, OSINFO_TYPE_LIST);
 
-#define OSINFO_DEVICELIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_DEVICELIST, OsinfoDeviceListPrivate))
+#define OSINFO_DEVICELIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_DEVICELIST, OsinfoDeviceListPrivate))
 
 /**
  * SECTION:osinfo_devicelist
@@ -46,24 +46,24 @@ struct _OsinfoDeviceListPrivate
 };
 
 static void
-osinfo_devicelist_finalize (GObject *object)
+osinfo_devicelist_finalize(GObject *object)
 {
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_devicelist_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_devicelist_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_devicelist_class_init (OsinfoDeviceListClass *klass)
+osinfo_devicelist_class_init(OsinfoDeviceListClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
 
     g_klass->finalize = osinfo_devicelist_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoDeviceListPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoDeviceListPrivate));
 }
 
 static void
-osinfo_devicelist_init (OsinfoDeviceList *list)
+osinfo_devicelist_init(OsinfoDeviceList *list)
 {
     list->priv = OSINFO_DEVICELIST_GET_PRIVATE(list);
 }

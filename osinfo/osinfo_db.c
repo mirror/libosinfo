@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,9 +30,9 @@
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (OsinfoDb, osinfo_db, G_TYPE_OBJECT);
+G_DEFINE_TYPE(OsinfoDb, osinfo_db, G_TYPE_OBJECT);
 
-#define OSINFO_DB_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_DB, OsinfoDbPrivate))
+#define OSINFO_DB_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_DB, OsinfoDbPrivate))
 
 #define match_regex(pattern, str)                                       \
     (((pattern) == NULL) ||                                             \
@@ -138,12 +138,12 @@ struct _OsinfoDbPrivate
     OsinfoInstallScriptList *scripts;
 };
 
-static void osinfo_db_finalize (GObject *object);
+static void osinfo_db_finalize(GObject *object);
 
 static void
-osinfo_db_finalize (GObject *object)
+osinfo_db_finalize(GObject *object)
 {
-    OsinfoDb *db = OSINFO_DB (object);
+    OsinfoDb *db = OSINFO_DB(object);
 
     g_object_unref(db->priv->devices);
     g_object_unref(db->priv->platforms);
@@ -153,24 +153,24 @@ osinfo_db_finalize (GObject *object)
     g_object_unref(db->priv->scripts);
 
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_db_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_db_parent_class)->finalize(object);
 }
 
 
 /* Init functions */
 static void
-osinfo_db_class_init (OsinfoDbClass *klass)
+osinfo_db_class_init(OsinfoDbClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
 
     g_klass->finalize = osinfo_db_finalize;
 
-    g_type_class_add_private (klass, sizeof (OsinfoDbPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoDbPrivate));
 }
 
 
 static void
-osinfo_db_init (OsinfoDb *db)
+osinfo_db_init(OsinfoDb *db)
 {
     db->priv = OSINFO_DB_GET_PRIVATE(db);
     db->priv->devices = osinfo_devicelist_new();
@@ -518,7 +518,7 @@ void osinfo_db_add_install_script(OsinfoDb *db, OsinfoInstallScript *script)
 }
 
 
-static gint media_volume_compare (gconstpointer a, gconstpointer b)
+static gint media_volume_compare(gconstpointer a, gconstpointer b)
 {
     OsinfoMedia *media_a = OSINFO_MEDIA(a);
     OsinfoMedia *media_b = OSINFO_MEDIA(b);
@@ -573,10 +573,10 @@ osinfo_db_guess_os_from_media_internal(OsinfoDb *db,
             const gchar *os_publisher = osinfo_media_get_publisher_id(os_media);
             const gchar *os_application = osinfo_media_get_application_id(os_media);
 
-            if (match_regex (os_volume, media_volume) &&
-                match_regex (os_application, media_application) &&
-                match_regex (os_system, media_system) &&
-                match_regex (os_publisher, media_publisher)) {
+            if (match_regex(os_volume, media_volume) &&
+                match_regex(os_application, media_application) &&
+                match_regex(os_system, media_system) &&
+                match_regex(os_publisher, media_publisher)) {
                 ret = os;
                 if (matched_media != NULL)
                     *matched_media = os_media;
@@ -614,7 +614,7 @@ OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
     return osinfo_db_guess_os_from_media_internal(db, media, matched_media);
 }
 
-static void fill_media (OsinfoDb *db, OsinfoMedia *media,
+static void fill_media(OsinfoDb *db, OsinfoMedia *media,
                         OsinfoMedia *matched_media,
                         OsinfoOs *os)
 {
@@ -751,10 +751,10 @@ OsinfoOs *osinfo_db_guess_os_from_tree(OsinfoDb *db,
             const gchar *os_version = osinfo_tree_get_treeinfo_version(os_tree);
             const gchar *os_arch = osinfo_tree_get_treeinfo_arch(os_tree);
 
-            if (match_regex (os_family, tree_family) &&
-                match_regex (os_variant, tree_variant) &&
-                match_regex (os_version, tree_version) &&
-                match_regex (os_arch, tree_arch)) {
+            if (match_regex(os_family, tree_family) &&
+                match_regex(os_variant, tree_variant) &&
+                match_regex(os_version, tree_version) &&
+                match_regex(os_arch, tree_arch)) {
                 ret = os;
                 if (matched_tree != NULL)
                     *matched_tree = os_tree;
@@ -908,7 +908,7 @@ static void __osinfoAddProductIfRelationship(gpointer data, gpointer opaque)
     OsinfoProductList *thisList = osinfo_product_get_related(product, args->relshp);
     int i;
 
-    for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(thisList)) ; i++) {
+    for (i = 0; i < osinfo_list_get_length(OSINFO_LIST(thisList)); i++) {
         OsinfoEntity *entity = osinfo_list_get_nth(OSINFO_LIST(thisList), i);
         osinfo_list_add(newList, entity);
     }
@@ -931,7 +931,7 @@ OsinfoOsList *osinfo_db_unique_values_for_os_relationship(OsinfoDb *db, OsinfoPr
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
 
     OsinfoOsList *newList = osinfo_oslist_new();
-    struct __osinfoProductCheckRelationshipArgs args = {OSINFO_LIST (newList), relshp};
+    struct __osinfoProductCheckRelationshipArgs args = {OSINFO_LIST(newList), relshp};
     GList *entities = osinfo_list_get_elements(OSINFO_LIST(db->priv->oses));
 
     g_list_foreach(entities, __osinfoAddProductIfRelationship, &args);
@@ -956,7 +956,7 @@ OsinfoPlatformList *osinfo_db_unique_values_for_platform_relationship(OsinfoDb *
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
 
     OsinfoPlatformList *newList = osinfo_platformlist_new();
-    struct __osinfoProductCheckRelationshipArgs args = {OSINFO_LIST (newList), relshp};
+    struct __osinfoProductCheckRelationshipArgs args = {OSINFO_LIST(newList), relshp};
     GList *entities = osinfo_list_get_elements(OSINFO_LIST(db->priv->platforms));
 
     g_list_foreach(entities, __osinfoAddProductIfRelationship, &args);

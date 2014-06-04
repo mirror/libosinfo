@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -26,9 +26,9 @@
 
 #include <osinfo/osinfo.h>
 
-G_DEFINE_TYPE (OsinfoDatamapList, osinfo_datamaplist, OSINFO_TYPE_LIST);
+G_DEFINE_TYPE(OsinfoDatamapList, osinfo_datamaplist, OSINFO_TYPE_LIST);
 
-#define OSINFO_DATAMAPLIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_DATAMAPLIST, OsinfoDatamapListPrivate))
+#define OSINFO_DATAMAPLIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_DATAMAPLIST, OsinfoDatamapListPrivate))
 
 /**
  * SECTION:osinfo_datamaplist
@@ -45,24 +45,24 @@ struct _OsinfoDatamapListPrivate
 };
 
 static void
-osinfo_datamaplist_finalize (GObject *object)
+osinfo_datamaplist_finalize(GObject *object)
 {
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_datamaplist_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_datamaplist_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_datamaplist_class_init (OsinfoDatamapListClass *klass)
+osinfo_datamaplist_class_init(OsinfoDatamapListClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
 
     g_klass->finalize = osinfo_datamaplist_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoDatamapListPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoDatamapListPrivate));
 }
 
 static void
-osinfo_datamaplist_init (OsinfoDatamapList *list)
+osinfo_datamaplist_init(OsinfoDatamapList *list)
 {
     list->priv = OSINFO_DATAMAPLIST_GET_PRIVATE(list);
 }

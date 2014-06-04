@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,9 +27,9 @@
 #include <osinfo/osinfo.h>
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_ABSTRACT_TYPE (OsinfoEntity, osinfo_entity, G_TYPE_OBJECT);
+G_DEFINE_ABSTRACT_TYPE(OsinfoEntity, osinfo_entity, G_TYPE_OBJECT);
 
-#define OSINFO_ENTITY_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_ENTITY, OsinfoEntityPrivate))
+#define OSINFO_ENTITY_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_ENTITY, OsinfoEntityPrivate))
 
 /**
  * SECTION:osinfo_entity
@@ -52,7 +52,7 @@ struct _OsinfoEntityPrivate
     GHashTable *params;
 };
 
-static void osinfo_entity_finalize (GObject *object);
+static void osinfo_entity_finalize(GObject *object);
 
 enum {
     PROP_0,
@@ -61,63 +61,63 @@ enum {
 };
 
 static void
-osinfo_entity_set_property (GObject      *object,
+osinfo_entity_set_property(GObject      *object,
                             guint         property_id,
                             const GValue *value,
                             GParamSpec   *pspec)
 {
-    OsinfoEntity *entity = OSINFO_ENTITY (object);
+    OsinfoEntity *entity = OSINFO_ENTITY(object);
 
     switch (property_id)
         {
         case PROP_ID:
             g_free(entity->priv->id);
-            entity->priv->id = g_value_dup_string (value);
+            entity->priv->id = g_value_dup_string(value);
             break;
         default:
             /* We don't have any other property... */
-            G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
             break;
         }
 }
 
 static void
-osinfo_entity_get_property (GObject    *object,
+osinfo_entity_get_property(GObject    *object,
                             guint       property_id,
                             GValue     *value,
                             GParamSpec *pspec)
 {
-    OsinfoEntity *entity = OSINFO_ENTITY (object);
+    OsinfoEntity *entity = OSINFO_ENTITY(object);
 
     switch (property_id)
         {
         case PROP_ID:
-            g_value_set_string (value, entity->priv->id);
+            g_value_set_string(value, entity->priv->id);
             break;
         default:
             /* We don't have any other property... */
-            G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
             break;
         }
 }
 
 static void
-osinfo_entity_finalize (GObject *object)
+osinfo_entity_finalize(GObject *object)
 {
-    OsinfoEntity *entity = OSINFO_ENTITY (object);
+    OsinfoEntity *entity = OSINFO_ENTITY(object);
 
     g_free(entity->priv->id);
     g_hash_table_destroy(entity->priv->params);
 
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_entity_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_entity_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_entity_class_init (OsinfoEntityClass *klass)
+osinfo_entity_class_init(OsinfoEntityClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
     GParamSpec *pspec;
 
     g_klass->set_property = osinfo_entity_set_property;
@@ -131,19 +131,19 @@ osinfo_entity_class_init (OsinfoEntityClass *klass)
      * This parameter must be set at time of construction as no
      * default value is provided.
      */
-    pspec = g_param_spec_string ("id",
+    pspec = g_param_spec_string("id",
                                  "ID",
                                  _("Unique identifier"),
                                  NULL /* default value */,
                                  G_PARAM_CONSTRUCT |
                                  G_PARAM_READWRITE |
                                  G_PARAM_STATIC_STRINGS);
-    g_object_class_install_property (g_klass,
+    g_object_class_install_property(g_klass,
                                      PROP_ID,
                                      pspec);
 
     g_klass->finalize = osinfo_entity_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoEntityPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoEntityPrivate));
 }
 
 static void osinfo_entity_param_value_free(gpointer value, gpointer opaque G_GNUC_UNUSED)
@@ -159,7 +159,7 @@ static void osinfo_entity_param_values_free(gpointer values)
 
 
 static void
-osinfo_entity_init (OsinfoEntity *entity)
+osinfo_entity_init(OsinfoEntity *entity)
 {
     entity->priv = OSINFO_ENTITY_GET_PRIVATE(entity);
     entity->priv->params = g_hash_table_new_full(g_str_hash,
@@ -212,7 +212,7 @@ void osinfo_entity_set_param_enum(OsinfoEntity *entity, const gchar *key, gint v
     GEnumClass *enum_class;
     GEnumValue *enum_value;
 
-    g_return_if_fail(G_TYPE_IS_ENUM (enum_type));
+    g_return_if_fail(G_TYPE_IS_ENUM(enum_type));
 
     enum_class = g_type_class_ref(enum_type);
     enum_value = g_enum_get_value(enum_class, value);

@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,9 +27,9 @@
 #include <osinfo/osinfo.h>
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (OsinfoOsList, osinfo_oslist, OSINFO_TYPE_PRODUCTLIST);
+G_DEFINE_TYPE(OsinfoOsList, osinfo_oslist, OSINFO_TYPE_PRODUCTLIST);
 
-#define OSINFO_OSLIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_OSLIST, OsinfoOsListPrivate))
+#define OSINFO_OSLIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_OSLIST, OsinfoOsListPrivate))
 
 /**
  * SECTION:osinfo_oslist
@@ -46,24 +46,24 @@ struct _OsinfoOsListPrivate
 };
 
 static void
-osinfo_oslist_finalize (GObject *object)
+osinfo_oslist_finalize(GObject *object)
 {
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_oslist_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_oslist_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_oslist_class_init (OsinfoOsListClass *klass)
+osinfo_oslist_class_init(OsinfoOsListClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
 
     g_klass->finalize = osinfo_oslist_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoOsListPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoOsListPrivate));
 }
 
 static void
-osinfo_oslist_init (OsinfoOsList *list)
+osinfo_oslist_init(OsinfoOsList *list)
 {
     list->priv = OSINFO_OSLIST_GET_PRIVATE(list);
 }

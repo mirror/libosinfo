@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  * Copyright (C) 2012 Fabiano Fidêncio
  *
  * This library is free software; you can redistribute it and/or
@@ -28,9 +28,9 @@
 #include <osinfo/osinfo.h>
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (OsinfoInstallConfigParam, osinfo_install_config_param, OSINFO_TYPE_ENTITY);
+G_DEFINE_TYPE(OsinfoInstallConfigParam, osinfo_install_config_param, OSINFO_TYPE_ENTITY);
 
-#define OSINFO_INSTALL_CONFIG_PARAM_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_INSTALL_CONFIG_PARAM, OsinfoInstallConfigParamPrivate))
+#define OSINFO_INSTALL_CONFIG_PARAM_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_INSTALL_CONFIG_PARAM, OsinfoInstallConfigParamPrivate))
 
 /**
  * SECTION:osinfo_install_config_param
@@ -64,7 +64,7 @@ osinfo_install_config_param_set_property(GObject *object,
                                          GParamSpec *pspec)
 {
     OsinfoInstallConfigParam *config_param =
-        OSINFO_INSTALL_CONFIG_PARAM (object);
+        OSINFO_INSTALL_CONFIG_PARAM(object);
 
     switch (property_id) {
     case PROP_NAME:
@@ -80,7 +80,7 @@ osinfo_install_config_param_set_property(GObject *object,
 
     default:
         /* We don't have any other property... */
-        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
         break;
     }
 }
@@ -92,7 +92,7 @@ osinfo_install_config_param_get_property(GObject *object,
                                          GParamSpec *pspec)
 {
     OsinfoInstallConfigParam *config_param =
-        OSINFO_INSTALL_CONFIG_PARAM (object);
+        OSINFO_INSTALL_CONFIG_PARAM(object);
 
     switch (property_id) {
     case PROP_NAME:
@@ -116,7 +116,7 @@ osinfo_install_config_param_get_property(GObject *object,
         break;
     default:
         /* We don't have any other property... */
-        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
         break;
     }
 }
@@ -129,14 +129,14 @@ osinfo_install_config_param_finalize(GObject *object)
     g_clear_object(&config_param->priv->value_map);
 
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_install_config_param_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_install_config_param_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_install_config_param_class_init (OsinfoInstallConfigParamClass *klass)
+osinfo_install_config_param_class_init(OsinfoInstallConfigParamClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
     GParamSpec *pspec;
 
     g_klass->set_property = osinfo_install_config_param_set_property;
@@ -190,11 +190,11 @@ osinfo_install_config_param_class_init (OsinfoInstallConfigParamClass *klass)
                                     pspec);
 
     g_klass->finalize = osinfo_install_config_param_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoInstallConfigParamPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoInstallConfigParamPrivate));
 }
 
 static void
-osinfo_install_config_param_init (OsinfoInstallConfigParam *config_param)
+osinfo_install_config_param_init(OsinfoInstallConfigParam *config_param)
 {
     config_param->priv = OSINFO_INSTALL_CONFIG_PARAM_GET_PRIVATE(config_param);
 }

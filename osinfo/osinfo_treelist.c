@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,9 +27,9 @@
 #include <osinfo/osinfo.h>
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (OsinfoTreeList, osinfo_treelist, OSINFO_TYPE_LIST);
+G_DEFINE_TYPE(OsinfoTreeList, osinfo_treelist, OSINFO_TYPE_LIST);
 
-#define OSINFO_TREELIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_TREELIST, OsinfoTreeListPrivate))
+#define OSINFO_TREELIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_TREELIST, OsinfoTreeListPrivate))
 
 /**
  * SECTION:osinfo_treelist
@@ -46,24 +46,24 @@ struct _OsinfoTreeListPrivate
 };
 
 static void
-osinfo_treelist_finalize (GObject *object)
+osinfo_treelist_finalize(GObject *object)
 {
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_treelist_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_treelist_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_treelist_class_init (OsinfoTreeListClass *klass)
+osinfo_treelist_class_init(OsinfoTreeListClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
 
     g_klass->finalize = osinfo_treelist_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoTreeListPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoTreeListPrivate));
 }
 
 static void
-osinfo_treelist_init (OsinfoTreeList *list)
+osinfo_treelist_init(OsinfoTreeList *list)
 {
     list->priv = OSINFO_TREELIST_GET_PRIVATE(list);
 }
@@ -112,7 +112,7 @@ OsinfoTreeList *osinfo_treelist_new_copy(OsinfoTreeList *source)
  * Deprecated: 0.2.2: Use osinfo_list_new_filtered() instead.
  */
 OsinfoTreeList *osinfo_treelist_new_filtered(OsinfoTreeList *source,
-                                               OsinfoFilter *filter)
+                                             OsinfoFilter *filter)
 {
     OsinfoTreeList *newList = osinfo_treelist_new();
     osinfo_list_add_filtered(OSINFO_LIST(newList),
@@ -133,7 +133,7 @@ OsinfoTreeList *osinfo_treelist_new_filtered(OsinfoTreeList *source,
  * Deprecated: 0.2.2: Use osinfo_list_new_intersection() instead.
  */
 OsinfoTreeList *osinfo_treelist_new_intersection(OsinfoTreeList *sourceOne,
-                                                   OsinfoTreeList *sourceTwo)
+                                                 OsinfoTreeList *sourceTwo)
 {
     OsinfoTreeList *newList = osinfo_treelist_new();
     osinfo_list_add_intersection(OSINFO_LIST(newList),

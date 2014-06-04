@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,9 +27,9 @@
 #include <osinfo/osinfo.h>
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (OsinfoFilter, osinfo_filter, G_TYPE_OBJECT);
+G_DEFINE_TYPE(OsinfoFilter, osinfo_filter, G_TYPE_OBJECT);
 
-#define OSINFO_FILTER_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_FILTER, OsinfoFilterPrivate))
+#define OSINFO_FILTER_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_FILTER, OsinfoFilterPrivate))
 
 /**
  * SECTION:osinfo_filter
@@ -48,28 +48,28 @@ struct _OsinfoFilterPrivate
 };
 
 
-static void osinfo_filter_finalize (GObject *object);
+static void osinfo_filter_finalize(GObject *object);
 static gboolean osinfo_filter_matches_default(OsinfoFilter *filter, OsinfoEntity *entity);
 
 static void
-osinfo_filter_finalize (GObject *object)
+osinfo_filter_finalize(GObject *object)
 {
-    OsinfoFilter *filter = OSINFO_FILTER (object);
+    OsinfoFilter *filter = OSINFO_FILTER(object);
 
     g_hash_table_unref(filter->priv->propertyConstraints);
 
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_filter_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_filter_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_filter_class_init (OsinfoFilterClass *klass)
+osinfo_filter_class_init(OsinfoFilterClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
 
     g_klass->finalize = osinfo_filter_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoFilterPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoFilterPrivate));
 
     klass->matches = osinfo_filter_matches_default;
 }
@@ -103,7 +103,7 @@ osinfo_filter_prop_constraints_free(gpointer props)
 
 
 static void
-osinfo_filter_init (OsinfoFilter *filter)
+osinfo_filter_init(OsinfoFilter *filter)
 {
     filter->priv = OSINFO_FILTER_GET_PRIVATE(filter);
 

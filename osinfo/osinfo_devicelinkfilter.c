@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,9 +27,9 @@
 #include <osinfo/osinfo.h>
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (OsinfoDeviceLinkFilter, osinfo_devicelinkfilter, OSINFO_TYPE_FILTER);
+G_DEFINE_TYPE(OsinfoDeviceLinkFilter, osinfo_devicelinkfilter, OSINFO_TYPE_FILTER);
 
-#define OSINFO_DEVICELINKFILTER_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_DEVICELINKFILTER, OsinfoDeviceLinkFilterPrivate))
+#define OSINFO_DEVICELINKFILTER_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_DEVICELINKFILTER, OsinfoDeviceLinkFilterPrivate))
 
 /**
  * SECTION:osinfo_devicelinkfilter
@@ -62,7 +62,7 @@ osinfo_devicelinkfilter_set_property(GObject *object,
                                      const GValue *value,
                                      GParamSpec *pspec)
 {
-    OsinfoDeviceLinkFilter *filter = OSINFO_DEVICELINKFILTER (object);
+    OsinfoDeviceLinkFilter *filter = OSINFO_DEVICELINKFILTER(object);
 
     switch (property_id)
         {
@@ -75,7 +75,7 @@ osinfo_devicelinkfilter_set_property(GObject *object,
             break;
         default:
             /* We don't have any other property... */
-            G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
             break;
         }
 }
@@ -95,26 +95,26 @@ osinfo_devicelinkfilter_get_property(GObject *object,
             break;
         default:
             /* We don't have any other property... */
-            G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
             break;
         }
 }
 
 
 static void
-osinfo_devicelinkfilter_finalize (GObject *object)
+osinfo_devicelinkfilter_finalize(GObject *object)
 {
-    OsinfoDeviceLinkFilter *filter = OSINFO_DEVICELINKFILTER (object);
+    OsinfoDeviceLinkFilter *filter = OSINFO_DEVICELINKFILTER(object);
 
     g_object_unref(filter->priv->targetFilter);
 
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_devicelinkfilter_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_devicelinkfilter_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_devicelinkfilter_class_init (OsinfoDeviceLinkFilterClass *klass)
+osinfo_devicelinkfilter_class_init(OsinfoDeviceLinkFilterClass *klass)
 {
     GObjectClass *g_klass = G_OBJECT_CLASS(klass);
     OsinfoFilterClass *filter_klass = OSINFO_FILTER_CLASS(klass);
@@ -140,7 +140,7 @@ osinfo_devicelinkfilter_class_init (OsinfoDeviceLinkFilterClass *klass)
                                     PROP_TARGET_FILTER,
                                     pspec);
 
-    g_type_class_add_private (klass, sizeof (OsinfoDeviceLinkFilterPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoDeviceLinkFilterPrivate));
 
     filter_klass->matches = osinfo_devicelinkfilter_matches_default;
 }
@@ -164,7 +164,7 @@ OsinfoDeviceLinkFilter *osinfo_devicelinkfilter_new(OsinfoFilter *filter)
 
 
 static void
-osinfo_devicelinkfilter_init (OsinfoDeviceLinkFilter *devicelinkfilter)
+osinfo_devicelinkfilter_init(OsinfoDeviceLinkFilter *devicelinkfilter)
 {
     devicelinkfilter->priv = OSINFO_DEVICELINKFILTER_GET_PRIVATE(devicelinkfilter);
 }
@@ -191,7 +191,7 @@ static gboolean osinfo_devicelinkfilter_matches_default(OsinfoFilter *filter, Os
     g_return_val_if_fail(OSINFO_IS_DEVICELINK(entity), FALSE);
     OsinfoDeviceLinkFilter *linkfilter = OSINFO_DEVICELINKFILTER(filter);
 
-    if (!OSINFO_FILTER_CLASS (osinfo_devicelinkfilter_parent_class)->matches(filter, entity))
+    if (!OSINFO_FILTER_CLASS(osinfo_devicelinkfilter_parent_class)->matches(filter, entity))
         return FALSE;
 
     if (!osinfo_filter_matches(linkfilter->priv->targetFilter,

@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,9 +29,9 @@
 #include "osinfo/osinfo_product_private.h"
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (OsinfoOs, osinfo_os, OSINFO_TYPE_PRODUCT);
+G_DEFINE_TYPE(OsinfoOs, osinfo_os, OSINFO_TYPE_PRODUCT);
 
-#define OSINFO_OS_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_OS, OsinfoOsPrivate))
+#define OSINFO_OS_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_OS, OsinfoOsPrivate))
 
 /**
  * SECTION:osinfo_os
@@ -73,7 +73,7 @@ enum {
     PROP_DISTRO,
 };
 
-static void osinfo_os_finalize (GObject *object);
+static void osinfo_os_finalize(GObject *object);
 
 static void osinfo_device_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED)
 {
@@ -81,36 +81,36 @@ static void osinfo_device_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED
 }
 
 static void
-osinfo_os_get_property (GObject    *object,
+osinfo_os_get_property(GObject    *object,
                         guint       property_id,
                         GValue     *value,
                         GParamSpec *pspec)
 {
-    OsinfoEntity *entity = OSINFO_ENTITY (object);
+    OsinfoEntity *entity = OSINFO_ENTITY(object);
 
     switch (property_id)
         {
         case PROP_FAMILY:
-            g_value_set_string (value,
-                                osinfo_entity_get_param_value (entity,
+            g_value_set_string(value,
+                                osinfo_entity_get_param_value(entity,
                                                                "family"));
             break;
         case PROP_DISTRO:
-            g_value_set_string (value,
-                                osinfo_entity_get_param_value (entity,
+            g_value_set_string(value,
+                                osinfo_entity_get_param_value(entity,
                                                                "distro"));
             break;
         default:
             /* We don't have any other property... */
-            G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
             break;
         }
 }
 
 static void
-osinfo_os_finalize (GObject *object)
+osinfo_os_finalize(GObject *object)
 {
-    OsinfoOs *os = OSINFO_OS (object);
+    OsinfoOs *os = OSINFO_OS(object);
 
     g_list_foreach(os->priv->deviceLinks, osinfo_device_link_free, NULL);
     g_list_free(os->priv->deviceLinks);
@@ -123,20 +123,20 @@ osinfo_os_finalize (GObject *object)
     g_object_unref(os->priv->device_drivers);
 
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_os_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_os_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_os_class_init (OsinfoOsClass *klass)
+osinfo_os_class_init(OsinfoOsClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
     GParamSpec *pspec;
 
     g_klass->get_property = osinfo_os_get_property;
     g_klass->finalize = osinfo_os_finalize;
 
-    g_type_class_add_private (klass, sizeof (OsinfoOsPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoOsPrivate));
 
     /**
      * OsinfoOs:family:
@@ -144,13 +144,13 @@ osinfo_os_class_init (OsinfoOsClass *klass)
      * The generic family this OS belongs to, based upon its kernel,
      * for example linux, winnt, solaris, freebsd etc.
      */
-    pspec = g_param_spec_string ("family",
-                                 "Family",
-                                 _("Generic Family"),
-                                 NULL /* default value */,
-                                 G_PARAM_READABLE |
-                                 G_PARAM_STATIC_STRINGS);
-    g_object_class_install_property (g_klass,
+    pspec = g_param_spec_string("family",
+                                "Family",
+                                _("Generic Family"),
+                                NULL /* default value */,
+                                G_PARAM_READABLE |
+                                G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass,
                                      PROP_FAMILY,
                                      pspec);
 
@@ -160,30 +160,30 @@ osinfo_os_class_init (OsinfoOsClass *klass)
      * The generic distro this OS belongs to, for example fedora, windows,
      * solaris, freebsd etc.
      */
-    pspec = g_param_spec_string ("distro",
-                                 "Distro",
-                                 _("Generic Distro"),
-                                 NULL /* default value */,
-                                 G_PARAM_READABLE |
-                                 G_PARAM_STATIC_STRINGS);
-    g_object_class_install_property (g_klass,
-                                     PROP_DISTRO,
-                                     pspec);
+    pspec = g_param_spec_string("distro",
+                                "Distro",
+                                _("Generic Distro"),
+                                NULL /* default value */,
+                                G_PARAM_READABLE |
+                                G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass,
+                                    PROP_DISTRO,
+                                    pspec);
 }
 
 static void
-osinfo_os_init (OsinfoOs *os)
+osinfo_os_init(OsinfoOs *os)
 {
     os->priv = OSINFO_OS_GET_PRIVATE(os);
 
     os->priv->deviceLinks = NULL;
-    os->priv->medias = osinfo_medialist_new ();
-    os->priv->trees = osinfo_treelist_new ();
-    os->priv->variants = osinfo_os_variantlist_new ();
-    os->priv->minimum = osinfo_resourceslist_new ();
-    os->priv->recommended = osinfo_resourceslist_new ();
-    os->priv->scripts = osinfo_install_scriptlist_new ();
-    os->priv->device_drivers = osinfo_device_driverlist_new ();
+    os->priv->medias = osinfo_medialist_new();
+    os->priv->trees = osinfo_treelist_new();
+    os->priv->variants = osinfo_os_variantlist_new();
+    os->priv->minimum = osinfo_resourceslist_new();
+    os->priv->recommended = osinfo_resourceslist_new();
+    os->priv->scripts = osinfo_install_scriptlist_new();
+    os->priv->device_drivers = osinfo_device_driverlist_new();
 }
 
 /**
@@ -311,7 +311,7 @@ OsinfoDeviceList *osinfo_os_get_devices_by_property(OsinfoOs *os,
         devices = osinfo_os_get_all_devices(os, filter);
     else
         devices = osinfo_os_get_devices(os, filter);
-    g_object_unref (filter);
+    g_object_unref(filter);
 
     return devices;
 }

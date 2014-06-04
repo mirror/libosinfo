@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,9 +27,9 @@
 #include <osinfo/osinfo.h>
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (OsinfoDeployment, osinfo_deployment, OSINFO_TYPE_ENTITY);
+G_DEFINE_TYPE(OsinfoDeployment, osinfo_deployment, OSINFO_TYPE_ENTITY);
 
-#define OSINFO_DEPLOYMENT_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_DEPLOYMENT, OsinfoDeploymentPrivate))
+#define OSINFO_DEPLOYMENT_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_DEPLOYMENT, OsinfoDeploymentPrivate))
 
 /**
  * SECTION:osinfo_deployment
@@ -64,7 +64,7 @@ osinfo_deployment_set_property(GObject *object,
                                const GValue *value,
                                GParamSpec *pspec)
 {
-    OsinfoDeployment *deployment = OSINFO_DEPLOYMENT (object);
+    OsinfoDeployment *deployment = OSINFO_DEPLOYMENT(object);
 
     switch (property_id)
         {
@@ -84,7 +84,7 @@ osinfo_deployment_set_property(GObject *object,
             break;
         default:
             /* We don't have any other property... */
-            G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
             break;
         }
 }
@@ -95,7 +95,7 @@ osinfo_deployment_get_property(GObject *object,
                                GValue *value,
                                GParamSpec *pspec)
 {
-    OsinfoDeployment *deployment = OSINFO_DEPLOYMENT (object);
+    OsinfoDeployment *deployment = OSINFO_DEPLOYMENT(object);
 
     switch (property_id)
         {
@@ -107,7 +107,7 @@ osinfo_deployment_get_property(GObject *object,
             break;
         default:
             /* We don't have any other property... */
-            G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
             break;
         }
 }
@@ -120,9 +120,9 @@ static void osinfo_device_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED
 }
 
 static void
-osinfo_deployment_finalize (GObject *object)
+osinfo_deployment_finalize(GObject *object)
 {
-    OsinfoDeployment *deployment = OSINFO_DEPLOYMENT (object);
+    OsinfoDeployment *deployment = OSINFO_DEPLOYMENT(object);
 
     g_list_foreach(deployment->priv->deviceLinks, osinfo_device_link_free, NULL);
     g_list_free(deployment->priv->deviceLinks);
@@ -131,14 +131,14 @@ osinfo_deployment_finalize (GObject *object)
     g_object_unref(deployment->priv->platform);
 
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_deployment_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_deployment_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_deployment_class_init (OsinfoDeploymentClass *klass)
+osinfo_deployment_class_init(OsinfoDeploymentClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
     GParamSpec *pspec;
 
     g_klass->set_property = osinfo_deployment_set_property;
@@ -176,11 +176,11 @@ osinfo_deployment_class_init (OsinfoDeploymentClass *klass)
                                     pspec);
 
     g_klass->finalize = osinfo_deployment_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoDeploymentPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoDeploymentPrivate));
 }
 
 static void
-osinfo_deployment_init (OsinfoDeployment *deployment)
+osinfo_deployment_init(OsinfoDeployment *deployment)
 {
     deployment->priv = OSINFO_DEPLOYMENT_GET_PRIVATE(deployment);
     deployment->priv->deviceLinks = NULL;

@@ -1,7 +1,7 @@
 /*
  * libosinfo: a list of OS variants
  *
- * Copyright (C) 2013 Red Hat, Inc.
+ * Copyright (C) 2013-2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,9 +25,9 @@
 
 #include <osinfo/osinfo.h>
 
-G_DEFINE_TYPE (OsinfoOsVariantList, osinfo_os_variantlist, OSINFO_TYPE_LIST);
+G_DEFINE_TYPE(OsinfoOsVariantList, osinfo_os_variantlist, OSINFO_TYPE_LIST);
 
-#define OSINFO_OS_VARIANTLIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_OS_VARIANTLIST, OsinfoOsVariantListPrivate))
+#define OSINFO_OS_VARIANTLIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_OS_VARIANTLIST, OsinfoOsVariantListPrivate))
 
 /**
  * SECTION:osinfo_os_variantlist
@@ -45,13 +45,13 @@ struct _OsinfoOsVariantListPrivate
 
 /* Init functions */
 static void
-osinfo_os_variantlist_class_init (OsinfoOsVariantListClass *klass)
+osinfo_os_variantlist_class_init(OsinfoOsVariantListClass *klass)
 {
-    g_type_class_add_private (klass, sizeof (OsinfoOsVariantListPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoOsVariantListPrivate));
 }
 
 static void
-osinfo_os_variantlist_init (OsinfoOsVariantList *list)
+osinfo_os_variantlist_init(OsinfoOsVariantList *list)
 {
     list->priv = OSINFO_OS_VARIANTLIST_GET_PRIVATE(list);
 }

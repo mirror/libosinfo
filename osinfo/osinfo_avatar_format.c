@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  * Copyright (C) 2012 Fabiano Fidêncio
  *
  * This library is free software; you can redistribute it and/or
@@ -28,10 +28,10 @@
 #include <osinfo/osinfo.h>
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (OsinfoAvatarFormat, osinfo_avatar_format, OSINFO_TYPE_ENTITY);
+G_DEFINE_TYPE(OsinfoAvatarFormat, osinfo_avatar_format, OSINFO_TYPE_ENTITY);
 
 #define OSINFO_AVATAR_FORMAT_GET_PRIVATE(obj)  \
-        (G_TYPE_INSTANCE_GET_PRIVATE ((obj),                \
+        (G_TYPE_INSTANCE_GET_PRIVATE((obj),                \
          OSINFO_TYPE_AVATAR_FORMAT,            \
          OsinfoAvatarFormatPrivate))
 
@@ -56,7 +56,7 @@ osinfo_avatar_format_get_property(GObject *object,
                                   GValue *value,
                                   GParamSpec *pspec)
 {
-    OsinfoAvatarFormat *avatar = OSINFO_AVATAR_FORMAT (object);
+    OsinfoAvatarFormat *avatar = OSINFO_AVATAR_FORMAT(object);
 
     switch (property_id)
         {
@@ -82,16 +82,16 @@ osinfo_avatar_format_get_property(GObject *object,
             break;
         default:
             /* We don't have any other property... */
-            G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+            G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
             break;
         }
 }
 
 /* Init functions */
 static void
-osinfo_avatar_format_class_init (OsinfoAvatarFormatClass *klass)
+osinfo_avatar_format_class_init(OsinfoAvatarFormatClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
     GParamSpec *pspec;
 
     g_klass->get_property = osinfo_avatar_format_get_property;
@@ -164,7 +164,7 @@ osinfo_avatar_format_class_init (OsinfoAvatarFormatClass *klass)
 }
 
 static void
-osinfo_avatar_format_init (OsinfoAvatarFormat *avatar)
+osinfo_avatar_format_init(OsinfoAvatarFormat *avatar)
 {
 }
 

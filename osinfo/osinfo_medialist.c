@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,9 +27,9 @@
 #include <osinfo/osinfo.h>
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (OsinfoMediaList, osinfo_medialist, OSINFO_TYPE_LIST);
+G_DEFINE_TYPE(OsinfoMediaList, osinfo_medialist, OSINFO_TYPE_LIST);
 
-#define OSINFO_MEDIALIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_MEDIALIST, OsinfoMediaListPrivate))
+#define OSINFO_MEDIALIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_MEDIALIST, OsinfoMediaListPrivate))
 
 /**
  * SECTION:osinfo_medialist
@@ -46,24 +46,24 @@ struct _OsinfoMediaListPrivate
 };
 
 static void
-osinfo_medialist_finalize (GObject *object)
+osinfo_medialist_finalize(GObject *object)
 {
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_medialist_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_medialist_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_medialist_class_init (OsinfoMediaListClass *klass)
+osinfo_medialist_class_init(OsinfoMediaListClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
 
     g_klass->finalize = osinfo_medialist_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoMediaListPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoMediaListPrivate));
 }
 
 static void
-osinfo_medialist_init (OsinfoMediaList *list)
+osinfo_medialist_init(OsinfoMediaList *list)
 {
     list->priv = OSINFO_MEDIALIST_GET_PRIVATE(list);
 }

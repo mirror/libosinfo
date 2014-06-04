@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,9 +27,9 @@
 #include <osinfo/osinfo.h>
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (OsinfoProductFilter, osinfo_productfilter, OSINFO_TYPE_FILTER);
+G_DEFINE_TYPE(OsinfoProductFilter, osinfo_productfilter, OSINFO_TYPE_FILTER);
 
-#define OSINFO_PRODUCTFILTER_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_PRODUCTFILTER, OsinfoProductFilterPrivate))
+#define OSINFO_PRODUCTFILTER_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_PRODUCTFILTER, OsinfoProductFilterPrivate))
 
 /**
  * SECTION:osinfo_productfilter
@@ -52,29 +52,29 @@ struct _OsinfoProductFilterPrivate
     GDate *supportDate;
 };
 
-static void osinfo_productfilter_finalize (GObject *object);
+static void osinfo_productfilter_finalize(GObject *object);
 static gboolean osinfo_productfilter_matches_default(OsinfoFilter *productfilter, OsinfoEntity *entity);
 
 static void
-osinfo_productfilter_finalize (GObject *object)
+osinfo_productfilter_finalize(GObject *object)
 {
-    OsinfoProductFilter *productfilter = OSINFO_PRODUCTFILTER (object);
+    OsinfoProductFilter *productfilter = OSINFO_PRODUCTFILTER(object);
 
     g_hash_table_unref(productfilter->priv->productConstraints);
 
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_productfilter_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_productfilter_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_productfilter_class_init (OsinfoProductFilterClass *klass)
+osinfo_productfilter_class_init(OsinfoProductFilterClass *klass)
 {
     GObjectClass *g_klass = G_OBJECT_CLASS(klass);
     OsinfoFilterClass *filter_klass = OSINFO_FILTER_CLASS(klass);
 
     g_klass->finalize = osinfo_productfilter_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoProductFilterPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoProductFilterPrivate));
 
     filter_klass->matches = osinfo_productfilter_matches_default;
 }
@@ -108,7 +108,7 @@ osinfo_productfilter_product_constraints_free(gpointer relshps)
 }
 
 static void
-osinfo_productfilter_init (OsinfoProductFilter *productfilter)
+osinfo_productfilter_init(OsinfoProductFilter *productfilter)
 {
     productfilter->priv = OSINFO_PRODUCTFILTER_GET_PRIVATE(productfilter);
     productfilter->priv->productConstraints =
@@ -240,7 +240,7 @@ static void osinfo_productfilter_match_product_iterator(gpointer key, gpointer v
         OsinfoProduct *currProduct = relProducts->data;
         int i;
         gboolean found = FALSE;
-        for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(productlist)) ; i++) {
+        for (i = 0; i < osinfo_list_get_length(OSINFO_LIST(productlist)); i++) {
             OsinfoProduct *testProduct = OSINFO_PRODUCT(osinfo_list_get_nth(OSINFO_LIST(productlist), i));
             if (testProduct == currProduct) {
                 found = TRUE;
@@ -267,7 +267,7 @@ static gboolean osinfo_productfilter_matches_default(OsinfoFilter *filter, Osinf
     OsinfoProductFilter *productfilter = OSINFO_PRODUCTFILTER(filter);
     struct osinfo_productfilter_match_args args = { productfilter, entity, TRUE };
 
-    if (!OSINFO_FILTER_CLASS (osinfo_productfilter_parent_class)->matches(filter, entity))
+    if (!OSINFO_FILTER_CLASS(osinfo_productfilter_parent_class)->matches(filter, entity))
         return FALSE;
 
     g_hash_table_foreach(productfilter->priv->productConstraints,

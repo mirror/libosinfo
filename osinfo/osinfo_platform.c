@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,9 +28,9 @@
 #include "osinfo/osinfo_product_private.h"
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (OsinfoPlatform, osinfo_platform, OSINFO_TYPE_PRODUCT);
+G_DEFINE_TYPE(OsinfoPlatform, osinfo_platform, OSINFO_TYPE_PRODUCT);
 
-#define OSINFO_PLATFORM_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_PLATFORM, OsinfoPlatformPrivate))
+#define OSINFO_PLATFORM_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_PLATFORM, OsinfoPlatformPrivate))
 
 /**
  * SECTION:osinfo_platform
@@ -58,29 +58,29 @@ static void osinfo_device_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED
 }
 
 static void
-osinfo_platform_finalize (GObject *object)
+osinfo_platform_finalize(GObject *object)
 {
-    OsinfoPlatform *platform = OSINFO_PLATFORM (object);
+    OsinfoPlatform *platform = OSINFO_PLATFORM(object);
 
     g_list_foreach(platform->priv->deviceLinks, osinfo_device_link_free, NULL);
     g_list_free(platform->priv->deviceLinks);
 
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_platform_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_platform_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_platform_class_init (OsinfoPlatformClass *klass)
+osinfo_platform_class_init(OsinfoPlatformClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
 
     g_klass->finalize = osinfo_platform_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoPlatformPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoPlatformPrivate));
 }
 
 static void
-osinfo_platform_init (OsinfoPlatform *platform)
+osinfo_platform_init(OsinfoPlatform *platform)
 {
     platform->priv = OSINFO_PLATFORM_GET_PRIVATE(platform);
     platform->priv->deviceLinks = NULL;

@@ -1,7 +1,7 @@
 /*
  * libosinfo: Required or recommended resources for an (guest) OS
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -31,7 +31,7 @@
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (OsinfoResources, osinfo_resources, OSINFO_TYPE_ENTITY);
+G_DEFINE_TYPE(OsinfoResources, osinfo_resources, OSINFO_TYPE_ENTITY);
 
 enum {
     PROP_0,
@@ -44,9 +44,9 @@ enum {
 };
 
 #define OSINFO_RESOURCES_GET_PRIVATE(obj) \
-        (G_TYPE_INSTANCE_GET_PRIVATE ((obj), \
-                                      OSINFO_TYPE_RESOURCES, \
-                                      OsinfoResourcesPrivate))
+        (G_TYPE_INSTANCE_GET_PRIVATE((obj), \
+                                     OSINFO_TYPE_RESOURCES,     \
+                                     OsinfoResourcesPrivate))
 
 /**
  * SECTION:osinfo_resources
@@ -63,49 +63,49 @@ struct _OsinfoResourcesPrivate
 };
 
 static void
-osinfo_resources_finalize (GObject *object)
+osinfo_resources_finalize(GObject *object)
 {
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_resources_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_resources_parent_class)->finalize(object);
 }
 
 static void
-osinfo_resources_get_property (GObject    *object,
+osinfo_resources_get_property(GObject    *object,
                                guint       property_id,
                                GValue     *value,
                                GParamSpec *pspec)
 {
-    OsinfoResources *resources = OSINFO_RESOURCES (object);
+    OsinfoResources *resources = OSINFO_RESOURCES(object);
 
     switch (property_id) {
     case PROP_ARCHITECTURE:
-        g_value_set_string (value,
-                            osinfo_resources_get_architecture (resources));
+        g_value_set_string(value,
+                           osinfo_resources_get_architecture(resources));
         break;
 
     case PROP_N_CPUS:
-        g_value_set_int (value,
-                         osinfo_resources_get_n_cpus (resources));
+        g_value_set_int(value,
+                        osinfo_resources_get_n_cpus(resources));
         break;
 
     case PROP_CPU:
-        g_value_set_int64 (value,
-                           osinfo_resources_get_cpu (resources));
+        g_value_set_int64(value,
+                          osinfo_resources_get_cpu(resources));
         break;
 
     case PROP_RAM:
-        g_value_set_int64 (value,
-                           osinfo_resources_get_ram (resources));
+        g_value_set_int64(value,
+                          osinfo_resources_get_ram(resources));
         break;
 
     case PROP_STORAGE:
-        g_value_set_int64 (value,
-                           osinfo_resources_get_storage (resources));
+        g_value_set_int64(value,
+                          osinfo_resources_get_storage(resources));
         break;
 
     default:
         /* We don't have any other property... */
-        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
         break;
     }
 }
@@ -116,137 +116,137 @@ osinfo_resources_set_property(GObject      *object,
                               const GValue *value,
                               GParamSpec   *pspec)
 {
-    OsinfoResources *resources = OSINFO_RESOURCES (object);
+    OsinfoResources *resources = OSINFO_RESOURCES(object);
 
     switch (property_id) {
     case PROP_ARCHITECTURE:
-            osinfo_entity_set_param (OSINFO_ENTITY(resources),
-                                     OSINFO_RESOURCES_PROP_ARCHITECTURE,
-                                     g_value_get_string (value));
+            osinfo_entity_set_param(OSINFO_ENTITY(resources),
+                                    OSINFO_RESOURCES_PROP_ARCHITECTURE,
+                                    g_value_get_string(value));
         break;
 
     case PROP_N_CPUS:
-        osinfo_resources_set_n_cpus (resources, g_value_get_int (value));
+        osinfo_resources_set_n_cpus(resources, g_value_get_int(value));
         break;
 
     case PROP_CPU:
-        osinfo_resources_set_cpu (resources, g_value_get_int64 (value));
+        osinfo_resources_set_cpu(resources, g_value_get_int64(value));
         break;
 
     case PROP_RAM:
-        osinfo_resources_set_ram (resources, g_value_get_int64 (value));
+        osinfo_resources_set_ram(resources, g_value_get_int64(value));
         break;
 
     case PROP_STORAGE:
-        osinfo_resources_set_storage (resources, g_value_get_int64 (value));
+        osinfo_resources_set_storage(resources, g_value_get_int64(value));
         break;
 
     default:
         /* We don't have any other property... */
-        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
         break;
     }
 }
 
 /* Init functions */
 static void
-osinfo_resources_class_init (OsinfoResourcesClass *klass)
+osinfo_resources_class_init(OsinfoResourcesClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
     GParamSpec *pspec;
 
     g_klass->get_property = osinfo_resources_get_property;
     g_klass->set_property = osinfo_resources_set_property;
     g_klass->finalize = osinfo_resources_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoResourcesPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoResourcesPrivate));
 
     /**
      * OsinfoResources:architecture:
      *
      * The target hardware architecture to which these resources applies.
      */
-    pspec = g_param_spec_string ("architecture",
-                                 "ARCHITECTURE",
-                                 _("CPU Architecture"),
-                                 NULL /* default value */,
-                                 G_PARAM_READWRITE |
-                                 G_PARAM_CONSTRUCT_ONLY |
-                                 G_PARAM_STATIC_STRINGS);
-    g_object_class_install_property (g_klass,
-                                     PROP_ARCHITECTURE,
-                                     pspec);
+    pspec = g_param_spec_string("architecture",
+                                "ARCHITECTURE",
+                                _("CPU Architecture"),
+                                NULL /* default value */,
+                                G_PARAM_READWRITE |
+                                G_PARAM_CONSTRUCT_ONLY |
+                                G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass,
+                                    PROP_ARCHITECTURE,
+                                    pspec);
 
     /**
      * OsinfoResources:cpu:
      *
      * The CPU frequency in hertz (Hz).
      */
-    pspec = g_param_spec_int64 ("cpu",
-                                "CPU",
-                                _("CPU frequency in hertz (Hz)"),
-                                -1,
-                                G_MAXINT,
-                                -1,
-                                G_PARAM_READWRITE |
-                                G_PARAM_STATIC_STRINGS);
-    g_object_class_install_property (g_klass,
-                                     PROP_CPU,
-                                     pspec);
+    pspec = g_param_spec_int64("cpu",
+                               "CPU",
+                               _("CPU frequency in hertz (Hz)"),
+                               -1,
+                               G_MAXINT,
+                               -1,
+                               G_PARAM_READWRITE |
+                               G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass,
+                                    PROP_CPU,
+                                    pspec);
 
     /**
      * OsinfoResources:n-cpus:
      *
      * The number of CPUs.
      */
-    pspec = g_param_spec_int ("n-cpus",
-                              "N-CPUs",
-                              _("Number of CPUs"),
-                              -1,
-                              G_MAXINT,
-                              -1,
-                              G_PARAM_READWRITE |
-                              G_PARAM_STATIC_STRINGS);
-    g_object_class_install_property (g_klass,
-                                     PROP_N_CPUS,
-                                     pspec);
+    pspec = g_param_spec_int("n-cpus",
+                             "N-CPUs",
+                             _("Number of CPUs"),
+                             -1,
+                             G_MAXINT,
+                             -1,
+                             G_PARAM_READWRITE |
+                             G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass,
+                                    PROP_N_CPUS,
+                                    pspec);
 
     /**
      * OsinfoResources:ram:
      *
      * The amount of Random Access Memory (RAM) in bytes.
      */
-    pspec = g_param_spec_int64 ("ram",
-                                "RAM",
-                                _("Amount of Random Access Memory (RAM) in bytes"),
-                                -1,
-                                G_MAXINT64,
-                                -1,
-                                G_PARAM_READWRITE |
-                                G_PARAM_STATIC_STRINGS);
-    g_object_class_install_property (g_klass,
-                                     PROP_RAM,
-                                     pspec);
+    pspec = g_param_spec_int64("ram",
+                               "RAM",
+                               _("Amount of Random Access Memory (RAM) in bytes"),
+                               -1,
+                               G_MAXINT64,
+                               -1,
+                               G_PARAM_READWRITE |
+                               G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass,
+                                    PROP_RAM,
+                                    pspec);
 
     /**
      * OsinfoResources:storage:
      *
      * The amount of storage space in bytes.
      */
-    pspec = g_param_spec_int64 ("storage",
-                                "Storage",
-                                _("Amount of storage space in bytes"),
-                                -1,
-                                G_MAXINT64,
-                                -1,
-                                G_PARAM_READWRITE |
-                                G_PARAM_STATIC_STRINGS);
-    g_object_class_install_property (g_klass,
+    pspec = g_param_spec_int64("storage",
+                               "Storage",
+                               _("Amount of storage space in bytes"),
+                               -1,
+                               G_MAXINT64,
+                               -1,
+                               G_PARAM_READWRITE |
+                               G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass,
                                      PROP_STORAGE,
                                      pspec);
 }
 
 static void
-osinfo_resources_init (OsinfoResources *resources)
+osinfo_resources_init(OsinfoResources *resources)
 {
     resources->priv = OSINFO_RESOURCES_GET_PRIVATE(resources);
 }
@@ -256,10 +256,10 @@ OsinfoResources *osinfo_resources_new(const gchar *id,
 {
     OsinfoResources *resources;
 
-    resources = g_object_new (OSINFO_TYPE_RESOURCES,
-                              "id", id,
-                              "architecture", architecture,
-                              NULL);
+    resources = g_object_new(OSINFO_TYPE_RESOURCES,
+                             "id", id,
+                             "architecture", architecture,
+                             NULL);
 
     return resources;
 }

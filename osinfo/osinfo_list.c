@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,9 +28,9 @@
 #include <osinfo/osinfo.h>
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_ABSTRACT_TYPE (OsinfoList, osinfo_list, G_TYPE_OBJECT);
+G_DEFINE_ABSTRACT_TYPE(OsinfoList, osinfo_list, G_TYPE_OBJECT);
 
-#define OSINFO_LIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_LIST, OsinfoListPrivate))
+#define OSINFO_LIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_LIST, OsinfoListPrivate))
 
 /**
  * SECTION:osinfo_list
@@ -71,7 +71,7 @@ osinfo_list_set_property(GObject      *object,
 
     default:
         /* We don't have any other property... */
-        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
         break;
     }
 }
@@ -91,29 +91,29 @@ osinfo_list_get_property(GObject    *object,
 
     default:
         /* We don't have any other property... */
-        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
         break;
     }
 }
 
 
 static void
-osinfo_list_finalize (GObject *object)
+osinfo_list_finalize(GObject *object)
 {
-    OsinfoList *list = OSINFO_LIST (object);
+    OsinfoList *list = OSINFO_LIST(object);
 
     g_ptr_array_free(list->priv->array, TRUE);
     g_hash_table_unref(list->priv->entities);
 
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_list_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_list_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_list_class_init (OsinfoListClass *klass)
+osinfo_list_class_init(OsinfoListClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
     GParamSpec *pspec;
 
     g_klass->set_property = osinfo_list_set_property;
@@ -139,11 +139,11 @@ osinfo_list_class_init (OsinfoListClass *klass)
                                     PROP_ELEMENT_TYPE,
                                     pspec);
 
-    g_type_class_add_private (klass, sizeof (OsinfoListPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoListPrivate));
 }
 
 static void
-osinfo_list_init (OsinfoList *list)
+osinfo_list_init(OsinfoList *list)
 {
     list->priv = OSINFO_LIST_GET_PRIVATE(list);
     list->priv->array = g_ptr_array_new_with_free_func(NULL);

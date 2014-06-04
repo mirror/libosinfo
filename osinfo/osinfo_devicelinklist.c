@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,9 +27,9 @@
 #include <osinfo/osinfo.h>
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (OsinfoDeviceLinkList, osinfo_devicelinklist, OSINFO_TYPE_LIST);
+G_DEFINE_TYPE(OsinfoDeviceLinkList, osinfo_devicelinklist, OSINFO_TYPE_LIST);
 
-#define OSINFO_DEVICELINKLIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_DEVICELINKLIST, OsinfoDeviceLinkListPrivate))
+#define OSINFO_DEVICELINKLIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_DEVICELINKLIST, OsinfoDeviceLinkListPrivate))
 
 /**
  * SECTION:osinfo_devicelinklist
@@ -46,24 +46,24 @@ struct _OsinfoDeviceLinkListPrivate
 };
 
 static void
-osinfo_devicelinklist_finalize (GObject *object)
+osinfo_devicelinklist_finalize(GObject *object)
 {
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_devicelinklist_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_devicelinklist_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_devicelinklist_class_init (OsinfoDeviceLinkListClass *klass)
+osinfo_devicelinklist_class_init(OsinfoDeviceLinkListClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
 
     g_klass->finalize = osinfo_devicelinklist_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoDeviceLinkListPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoDeviceLinkListPrivate));
 }
 
 static void
-osinfo_devicelinklist_init (OsinfoDeviceLinkList *list)
+osinfo_devicelinklist_init(OsinfoDeviceLinkList *list)
 {
     list->priv = OSINFO_DEVICELINKLIST_GET_PRIVATE(list);
 }
@@ -178,7 +178,7 @@ OsinfoDeviceList *osinfo_devicelinklist_get_devices(OsinfoDeviceLinkList *list,
 {
     OsinfoDeviceList *newList = osinfo_devicelist_new();
     int i;
-    for (i = 0 ; i < osinfo_list_get_length(OSINFO_LIST(list)) ; i++) {
+    for (i = 0; i < osinfo_list_get_length(OSINFO_LIST(list)); i++) {
         OsinfoEntity *ent = osinfo_list_get_nth(OSINFO_LIST(list), i);
         if (!filter || osinfo_filter_matches(filter, ent))
             osinfo_list_add(OSINFO_LIST(newList), ent);

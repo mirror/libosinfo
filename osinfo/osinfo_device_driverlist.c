@@ -1,7 +1,7 @@
 /*
  * libosinfo: Device driver list
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,9 +28,9 @@
 #include <osinfo/osinfo.h>
 #include <glib/gi18n-lib.h>
 
-G_DEFINE_TYPE (OsinfoDeviceDriverList, osinfo_device_driverlist, OSINFO_TYPE_LIST);
+G_DEFINE_TYPE(OsinfoDeviceDriverList, osinfo_device_driverlist, OSINFO_TYPE_LIST);
 
-#define OSINFO_DEVICE_DRIVERLIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_DEVICE_DRIVERLIST, OsinfoDeviceDriverListPrivate))
+#define OSINFO_DEVICE_DRIVERLIST_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_DEVICE_DRIVERLIST, OsinfoDeviceDriverListPrivate))
 
 /**
  * SECTION:osinfo_device_driverlist
@@ -47,24 +47,24 @@ struct _OsinfoDeviceDriverListPrivate
 };
 
 static void
-osinfo_device_driverlist_finalize (GObject *object)
+osinfo_device_driverlist_finalize(GObject *object)
 {
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_device_driverlist_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_device_driverlist_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_device_driverlist_class_init (OsinfoDeviceDriverListClass *klass)
+osinfo_device_driverlist_class_init(OsinfoDeviceDriverListClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
 
     g_klass->finalize = osinfo_device_driverlist_finalize;
-    g_type_class_add_private (klass, sizeof (OsinfoDeviceDriverListPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoDeviceDriverListPrivate));
 }
 
 static void
-osinfo_device_driverlist_init (OsinfoDeviceDriverList *list)
+osinfo_device_driverlist_init(OsinfoDeviceDriverList *list)
 {
     list->priv = OSINFO_DEVICE_DRIVERLIST_GET_PRIVATE(list);
 }
