@@ -30,7 +30,6 @@ local-checks-to-skip =			\
   sc_file_system			\
   sc_immutable_NEWS			\
   sc_prohibit_always_true_header_tests  \
-  sc_prohibit_atoi_atof			\
   sc_two_space_separator_in_usage	\
   sc_error_message_uppercase		\
   sc_program_name			\
@@ -117,3 +116,5 @@ exclude_file_name_regexp--sc_trailing_blank = ^test/isodata/.*|docs/object-model
 exclude_file_name_regexp--sc_bindtextdomain = ^tools/.*.c|test/.*.c
 
 exclude_file_name_regexp--sc_space_tab = ^test/isodata/.*
+
+exclude_file_name_regexp--sc_prohibit_atoi_atof = ^test/.*\.c
