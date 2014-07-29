@@ -1,10 +1,10 @@
 
 databasedir = $(pkgdatadir)/db/devices/
-database_in_files = 	  \
-	xen.xml.in 	  \
-	qemu-pci.xml.in   \
-	qemu-usb.xml.in   \
-	qemu-ps2.xml.in   \
+database_in_files =	\
+	xen.xml.in	\
+	qemu-pci.xml.in	\
+	qemu-usb.xml.in	\
+	qemu-ps2.xml.in	\
 	virtio-pci.xml.in
 	$(NULL)
 

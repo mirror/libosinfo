@@ -31,7 +31,6 @@ local-checks-to-skip =			\
   sc_immutable_NEWS			\
   sc_prohibit_always_true_header_tests  \
   sc_prohibit_atoi_atof			\
-  sc_space_tab				\
   sc_two_space_separator_in_usage	\
   sc_error_message_uppercase		\
   sc_program_name			\
@@ -116,3 +115,5 @@ exclude_file_name_regexp--sc_require_config_h_first = python/libvirt-glib.c
 exclude_file_name_regexp--sc_trailing_blank = ^test/isodata/.*|docs/object-model.fig
 
 exclude_file_name_regexp--sc_bindtextdomain = ^tools/.*.c|test/.*.c
+
+exclude_file_name_regexp--sc_space_tab = ^test/isodata/.*

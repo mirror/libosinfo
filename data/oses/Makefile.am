@@ -1,6 +1,6 @@
 
 databasedir = $(pkgdatadir)/db/oses/
-database_in_files = 	\
+database_in_files =	\
 	altlinux.xml.in \
 	centos.xml.in   \
 	debian.xml.in   \
