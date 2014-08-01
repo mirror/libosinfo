@@ -1323,7 +1323,7 @@ unsigned int osinfo_install_script_get_injection_methods(OsinfoInstallScript *sc
     return osinfo_entity_get_param_value_int64_with_default
         (OSINFO_ENTITY(script),
          OSINFO_INSTALL_SCRIPT_PROP_INJECTION_METHOD,
-         0);
+         OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_DISK);
 }
 
 
