@@ -1326,6 +1326,23 @@ unsigned int osinfo_install_script_get_injection_methods(OsinfoInstallScript *sc
          OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_DISK);
 }
 
+/**
+ * osinfo_install_script_get_needs_internet:
+ * @script: the install script
+ *
+ * Some install scripts can not ensure that they work without an internet connection.
+ *
+ * Returns: TRUE if script needs an internet connection, FALSE otherwise
+ * internet connection.
+ */
+gboolean osinfo_install_script_get_needs_internet(OsinfoInstallScript *script)
+{
+    return osinfo_entity_get_param_value_boolean_with_default
+        (OSINFO_ENTITY(script),
+         OSINFO_INSTALL_SCRIPT_PROP_NEEDS_INTERNET,
+         FALSE);
+}
+
 
 /*
  * Local variables:

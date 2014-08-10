@@ -500,6 +500,11 @@ LIBOSINFO_0.2.10 {
 	osinfo_install_script_injection_method_get_type;
 } LIBOSINFO_0.2.9;
 
+  LIBOSINFO_0.2.11 {
+    global:
+	osinfo_install_script_get_needs_internet;
+  } LIBOSINFO_0.2.10;
+
 /* Symbols in next release...
 
   LIBOSINFO_0.0.2 {

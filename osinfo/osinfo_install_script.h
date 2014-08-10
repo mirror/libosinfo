@@ -55,6 +55,7 @@ typedef struct _OsinfoInstallScriptPrivate OsinfoInstallScriptPrivate;
 #define OSINFO_INSTALL_SCRIPT_PROP_PATH_FORMAT        "path-format"
 #define OSINFO_INSTALL_SCRIPT_PROP_CAN_PRE_INSTALL_DRIVERS "can-pre-install-drivers"
 #define OSINFO_INSTALL_SCRIPT_PROP_CAN_POST_INSTALL_DRIVERS "can-post-install-drivers"
+#define OSINFO_INSTALL_SCRIPT_PROP_NEEDS_INTERNET     "needs-internet"
 #define OSINFO_INSTALL_SCRIPT_PROP_PRE_INSTALL_DRIVERS_SIGNING_REQ "pre-install-drivers-signing-req"
 #define OSINFO_INSTALL_SCRIPT_PROP_POST_INSTALL_DRIVERS_SIGNING_REQ "post-install-drivers-signing-req"
 #define OSINFO_INSTALL_SCRIPT_PROP_INJECTION_METHOD "injection-method"
@@ -219,6 +220,8 @@ int osinfo_install_script_get_pre_install_drivers_signing_req(OsinfoInstallScrip
 int osinfo_install_script_get_post_install_drivers_signing_req(OsinfoInstallScript *script);
 
 unsigned int osinfo_install_script_get_injection_methods(OsinfoInstallScript *script);
+
+gboolean osinfo_install_script_get_needs_internet(OsinfoInstallScript *script);
 
 #endif /* __OSINFO_INSTALL_SCRIPT_H__ */
 /*
