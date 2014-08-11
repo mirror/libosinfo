@@ -1330,7 +1330,7 @@ unsigned int osinfo_install_script_get_injection_methods(OsinfoInstallScript *sc
  * osinfo_install_script_get_needs_internet:
  * @script: the install script
  *
- * Some install scripts can not ensure that they work without an internet connection.
+ * Some install scripts cannot ensure that they work without an internet connection.
  *
  * Returns: TRUE if script needs an internet connection, FALSE otherwise
  * internet connection.
