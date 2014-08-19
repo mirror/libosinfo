@@ -1,3 +1,29 @@
+0.2.11 - Aug 19, 2013
+=====================
+
+Changes since 0.2.10:
+
+- Document hostname limitations.
+- Export OSINFO_*_VERSION macros.
+- Add desktop scripts for Debian.
+- Add API to query install scripts if they require an internet connection.
+- Some fixes to Debian JEOS script.
+- Add/improve/fix data on:
+  - CentOS
+  - Debian
+  - FreeBSD
+  - Microsoft Windows 7
+  - Microsoft Windows 8
+  - Microsoft Windows Server 2012
+  - Microsoft Vista
+  - OpenBSD
+  - OpenSUSE
+  - Red Hat Enterprise Linux 7
+- More ISO detection testcases.
+- Many performance improvements.
+- Fixes to documentation.
+- Fixes to build.
+
 0.2.10 - Mar 20, 2013
 =====================
 
