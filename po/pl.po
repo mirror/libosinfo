@@ -1,24 +1,23 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # Piotr Drąg <piotrdrag@gmail.com>, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: Libosinfo\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-30 21:28+0200\n"
-"PO-Revision-Date: 2012-12-29 05:04+0000\n"
+"POT-Creation-Date: 2015-02-23 13:25+0000\n"
+"PO-Revision-Date: 2012-12-29 12:04-0500\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
-"Language-Team: Polish (http://www.transifex.com/projects/p/libosinfo/"
-"language/pl/)\n"
-"Language: pl\n"
+"Language-Team: Polish (http://www.transifex.com/projects/p/libosinfo/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
+"Language: pl\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Zanata 3.5.1\n"
 
 #: ../data/oses/netware.xml.in.h:1
 msgid "Novell Netware 4"
@@ -49,6 +48,10 @@ msgid "Sun Solaris 10"
 msgstr "Sun Solaris 10"
 
 #: ../data/oses/solaris.xml.in.h:4
+msgid "Sun Solaris 11"
+msgstr ""
+
+#: ../data/oses/solaris.xml.in.h:5
 msgid "Sun OpenSolaris 2009.06"
 msgstr "Sun OpenSolaris 2009.06"
 
@@ -59,6 +62,22 @@ msgstr "Microsoft MS-DOS 6.22"
 #: ../data/oses/dos.xml.in.h:2
 msgid "Microsoft"
 msgstr "Microsoft"
+
+#: ../data/oses/mageia.xml.in.h:1
+msgid "Mageia 1"
+msgstr ""
+
+#: ../data/oses/mageia.xml.in.h:2
+msgid "Mageia"
+msgstr ""
+
+#: ../data/oses/mageia.xml.in.h:3
+msgid "Mageia 2"
+msgstr ""
+
+#: ../data/oses/mageia.xml.in.h:4
+msgid "Mageia 3"
+msgstr ""
 
 #: ../data/oses/mandrake.xml.in.h:1
 msgid "Mandrake Linux 5.1"
@@ -184,6 +203,10 @@ msgstr "Mandriva Enterprise Server 5.0"
 msgid "Mandriva Enterprise Server 5.1"
 msgstr "Mandriva Enterprise Server 5.1"
 
+#: ../data/oses/mandriva.xml.in.h:15
+msgid "Mandriva Business Server 1.0"
+msgstr ""
+
 #: ../data/oses/suse.xml.in.h:1
 msgid "Suse Linux Enterprise Server 9"
 msgstr "Suse Linux Enterprise Server 9"
@@ -215,6 +238,18 @@ msgstr "GNOME 3.6"
 #: ../data/oses/gnome.xml.in.h:2
 msgid "GNOME Project"
 msgstr "Projekt GNOME"
+
+#: ../data/oses/gnome.xml.in.h:3
+msgid "GNOME 3.8"
+msgstr ""
+
+#: ../data/oses/gnome.xml.in.h:4
+msgid "GNOME 3.10"
+msgstr ""
+
+#: ../data/oses/gnome.xml.in.h:5
+msgid "GNOME 3.12"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:1
 msgid "Red Hat Enterprise Linux 2.1"
@@ -370,21 +405,52 @@ msgid "Red Hat Enterprise Linux 5.8"
 msgstr "Red Hat Enterprise Linux 5.8"
 
 #: ../data/oses/rhel.xml.in.h:39
+msgid "Red Hat Enterprise Linux 5.9"
+msgstr ""
+
+#: ../data/oses/rhel.xml.in.h:40
+msgid "Red Hat Enterprise Linux 5.10"
+msgstr ""
+
+#: ../data/oses/rhel.xml.in.h:41
+msgid "Red Hat Enterprise Linux 5.11"
+msgstr ""
+
+#: ../data/oses/rhel.xml.in.h:42
 msgid "Red Hat Enterprise Linux 6.0"
 msgstr "Red Hat Enterprise Linux 6.0"
 
-#: ../data/oses/rhel.xml.in.h:40
+#: ../data/oses/rhel.xml.in.h:43
 msgid "Red Hat Enterprise Linux 6.1"
 msgstr "Red Hat Enterprise Linux 6.1"
 
-#: ../data/oses/rhel.xml.in.h:41
+#: ../data/oses/rhel.xml.in.h:44
 msgid "Red Hat Enterprise Linux 6.2"
 msgstr "Red Hat Enterprise Linux 6.2"
 
-#: ../data/oses/rhel.xml.in.h:42
-#, fuzzy
+#: ../data/oses/rhel.xml.in.h:45
 msgid "Red Hat Enterprise Linux 6.3"
-msgstr "Red Hat Enterprise Linux 6.0"
+msgstr ""
+
+#: ../data/oses/rhel.xml.in.h:46
+msgid "Red Hat Enterprise Linux 6.4"
+msgstr ""
+
+#: ../data/oses/rhel.xml.in.h:47
+msgid "Red Hat Enterprise Linux 6.5"
+msgstr ""
+
+#: ../data/oses/rhel.xml.in.h:48
+msgid "Red Hat Enterprise Linux 6.6"
+msgstr ""
+
+#: ../data/oses/rhel.xml.in.h:49
+msgid "Red Hat Enterprise Linux 7.0"
+msgstr ""
+
+#: ../data/oses/rhel.xml.in.h:50
+msgid "Red Hat Enterprise Linux Atomic Host 7.0"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:1
 msgid "Fedora Core 1"
@@ -461,6 +527,34 @@ msgstr "Fedora 17"
 #: ../data/oses/fedora.xml.in.h:19
 msgid "Fedora 18"
 msgstr "Fedora 18"
+
+#: ../data/oses/fedora.xml.in.h:20
+msgid "Fedora 19"
+msgstr ""
+
+#: ../data/oses/fedora.xml.in.h:21
+msgid "Fedora 20"
+msgstr ""
+
+#: ../data/oses/fedora.xml.in.h:22
+msgid "Fedora 21"
+msgstr ""
+
+#: ../data/oses/fedora.xml.in.h:23
+msgid "Fedora 21 Workstation"
+msgstr ""
+
+#: ../data/oses/fedora.xml.in.h:24
+msgid "Fedora 21 Server"
+msgstr ""
+
+#: ../data/oses/fedora.xml.in.h:25
+msgid "Fedora 21 Cloud"
+msgstr ""
+
+#: ../data/oses/fedora.xml.in.h:26
+msgid "Fedora"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:1
 msgid "Microsoft Windows 1.0"
@@ -543,8 +637,44 @@ msgid "Microsoft Windows 7"
 msgstr "Microsoft Windows 7"
 
 #: ../data/oses/windows.xml.in.h:21
+msgid "Microsoft Windows 7 Starter"
+msgstr ""
+
+#: ../data/oses/windows.xml.in.h:22
+msgid "Microsoft Windows 7 Home Basic"
+msgstr ""
+
+#: ../data/oses/windows.xml.in.h:23
+msgid "Microsoft Windows 7 Home Premium"
+msgstr ""
+
+#: ../data/oses/windows.xml.in.h:24
+msgid "Microsoft Windows 7 Professional"
+msgstr ""
+
+#: ../data/oses/windows.xml.in.h:25
+msgid "Microsoft Windows 7 Enterprise"
+msgstr ""
+
+#: ../data/oses/windows.xml.in.h:26
+msgid "Microsoft Windows 7 Ultimate"
+msgstr ""
+
+#: ../data/oses/windows.xml.in.h:27
 msgid "Microsoft Windows 8"
 msgstr "Microsoft Windows 8"
+
+#: ../data/oses/windows.xml.in.h:28
+msgid "Microsoft Windows 8.1"
+msgstr ""
+
+#: ../data/oses/windows.xml.in.h:29
+msgid "Microsoft Windows Server 2012"
+msgstr ""
+
+#: ../data/oses/windows.xml.in.h:30
+msgid "Microsoft Windows Server 2012 R2"
+msgstr ""
 
 #: ../data/oses/opensuse.xml.in.h:1
 msgid "openSUSE 10.2"
@@ -582,6 +712,18 @@ msgstr "openSUSE 11.4"
 msgid "openSUSE 12.1"
 msgstr "openSUSE 12.1"
 
+#: ../data/oses/opensuse.xml.in.h:10
+msgid "openSUSE 12.2"
+msgstr ""
+
+#: ../data/oses/opensuse.xml.in.h:11
+msgid "openSUSE 12.3"
+msgstr ""
+
+#: ../data/oses/opensuse.xml.in.h:12
+msgid "openSUSE 13.1"
+msgstr ""
+
 #: ../data/oses/macos.xml.in.h:1
 msgid "MacOS X Cheetah"
 msgstr "MacOS X Cheetah"
@@ -595,8 +737,8 @@ msgid "MacOS X Puma"
 msgstr "MacOS X Puma"
 
 #: ../data/oses/macos.xml.in.h:4
-msgid "MacOS X Jaghuar"
-msgstr "MacOS X Jaghuar"
+msgid "MacOS X Jaguar"
+msgstr ""
 
 #: ../data/oses/macos.xml.in.h:5
 msgid "MacOS X Panther"
@@ -639,8 +781,8 @@ msgid "Debian Hamm"
 msgstr "Debian Hamm"
 
 #: ../data/oses/debian.xml.in.h:6
-msgid "Debian Silnk"
-msgstr "Debian Silnk"
+msgid "Debian Slink"
+msgstr ""
 
 #: ../data/oses/debian.xml.in.h:7
 msgid "Debian Potato"
@@ -665,6 +807,10 @@ msgstr "Debian Lenny"
 #: ../data/oses/debian.xml.in.h:12
 msgid "Debian Squeeze"
 msgstr "Debian Squeeze"
+
+#: ../data/oses/debian.xml.in.h:13
+msgid "Debian Wheezy"
+msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:1
 msgid "Ubuntu Warty Warthog"
@@ -738,6 +884,18 @@ msgstr "Ubuntu Precise Pangolin LTS"
 msgid "Ubuntu Quantal Quetzal"
 msgstr "Ubuntu Quantal Quetzal"
 
+#: ../data/oses/ubuntu.xml.in.h:19
+msgid "Ubuntu Raring Ringtails"
+msgstr ""
+
+#: ../data/oses/ubuntu.xml.in.h:20
+msgid "Ubuntu Saucy Salamander"
+msgstr ""
+
+#: ../data/oses/ubuntu.xml.in.h:21
+msgid "Ubuntu Trusty Tahr LTS"
+msgstr ""
+
 #: ../data/oses/centos.xml.in.h:1
 msgid "CentOS 6.0"
 msgstr "CentOS 6.0"
@@ -749,6 +907,26 @@ msgstr "CentOS"
 #: ../data/oses/centos.xml.in.h:3
 msgid "CentOS 6.1"
 msgstr "CentOS 6.1"
+
+#: ../data/oses/centos.xml.in.h:4
+msgid "CentOS 6.2"
+msgstr ""
+
+#: ../data/oses/centos.xml.in.h:5
+msgid "CentOS 6.3"
+msgstr ""
+
+#: ../data/oses/centos.xml.in.h:6
+msgid "CentOS 6.4"
+msgstr ""
+
+#: ../data/oses/centos.xml.in.h:7
+msgid "CentOS 6.5"
+msgstr ""
+
+#: ../data/oses/centos.xml.in.h:8
+msgid "CentOS 7.0"
+msgstr ""
 
 #: ../data/oses/openbsd.xml.in.h:1
 msgid "OpenBSD 4.2"
@@ -781,6 +959,30 @@ msgstr "OpenBSD 4.9"
 #: ../data/oses/openbsd.xml.in.h:8
 msgid "OpenBSD 5.0"
 msgstr "OpenBSD 5.0"
+
+#: ../data/oses/openbsd.xml.in.h:9
+msgid "OpenBSD 5.1"
+msgstr ""
+
+#: ../data/oses/openbsd.xml.in.h:10
+msgid "OpenBSD 5.2"
+msgstr ""
+
+#: ../data/oses/openbsd.xml.in.h:11
+msgid "OpenBSD 5.3"
+msgstr ""
+
+#: ../data/oses/openbsd.xml.in.h:12
+msgid "OpenBSD 5.4"
+msgstr ""
+
+#: ../data/oses/openbsd.xml.in.h:13
+msgid "OpenBSD 5.5"
+msgstr ""
+
+#: ../data/oses/openbsd.xml.in.h:14
+msgid "OpenBSD 5.6"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:1
 msgid "FreeBSD 1.0"
@@ -943,8 +1145,32 @@ msgid "FreeBSD 8.2"
 msgstr "FreeBSD 8.2"
 
 #: ../data/oses/freebsd.xml.in.h:41
+msgid "FreeBSD 8.3"
+msgstr ""
+
+#: ../data/oses/freebsd.xml.in.h:42
+msgid "FreeBSD 8.4"
+msgstr ""
+
+#: ../data/oses/freebsd.xml.in.h:43
 msgid "FreeBSD 9.0"
 msgstr "FreeBSD 9.0"
+
+#: ../data/oses/freebsd.xml.in.h:44
+msgid "FreeBSD 9.1"
+msgstr ""
+
+#: ../data/oses/freebsd.xml.in.h:45
+msgid "FreeBSD 9.2"
+msgstr ""
+
+#: ../data/oses/freebsd.xml.in.h:46
+msgid "FreeBSD 9.3"
+msgstr ""
+
+#: ../data/oses/freebsd.xml.in.h:47
+msgid "FreeBSD 10.0"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:1
 msgid "Red Hat Linux 1.0"
@@ -1086,6 +1312,50 @@ msgstr "NetBSD 5.0"
 msgid "NetBSD 5.1"
 msgstr "NetBSD 5.1"
 
+#: ../data/oses/altlinux.xml.in.h:1
+msgid "Mandrake RE Spring 2001"
+msgstr ""
+
+#: ../data/oses/altlinux.xml.in.h:2
+msgid "ALTLinux"
+msgstr ""
+
+#: ../data/oses/altlinux.xml.in.h:3
+msgid "ALT Linux 2.0"
+msgstr ""
+
+#: ../data/oses/altlinux.xml.in.h:4
+msgid "ALT Linux 2.2"
+msgstr ""
+
+#: ../data/oses/altlinux.xml.in.h:5
+msgid "ALT Linux 2.4"
+msgstr ""
+
+#: ../data/oses/altlinux.xml.in.h:6
+msgid "ALT Linux 3.0"
+msgstr ""
+
+#: ../data/oses/altlinux.xml.in.h:7
+msgid "ALT Linux 4.0"
+msgstr ""
+
+#: ../data/oses/altlinux.xml.in.h:8
+msgid "ALT Linux 4.1"
+msgstr ""
+
+#: ../data/oses/altlinux.xml.in.h:9
+msgid "ALT Linux 5.0.0 Ark"
+msgstr ""
+
+#: ../data/oses/altlinux.xml.in.h:10
+msgid "ALT Linux 6.0.0 Centaurus"
+msgstr ""
+
+#: ../data/oses/altlinux.xml.in.h:11
+msgid "ALT Linux 7.0.0 Centaurus"
+msgstr ""
+
 #: ../data/devices/qemu-ps2.xml.in.h:1
 msgid "Qemu/KVM"
 msgstr "Qemu/KVM"
@@ -1125,6 +1395,126 @@ msgstr "Ensoniq"
 #: ../data/devices/qemu-usb.xml.in.h:1
 msgid "VirtualBox"
 msgstr "VirtualBox"
+
+#: ../data/hypervisors/kvm.xml.in.h:1
+msgid "QEMU-KVM 1.0"
+msgstr ""
+
+#: ../data/hypervisors/kvm.xml.in.h:2
+msgid "linux-kvm.org"
+msgstr ""
+
+#: ../data/hypervisors/kvm.xml.in.h:3
+msgid "QEMU-KVM 1.0.1"
+msgstr ""
+
+#: ../data/hypervisors/kvm.xml.in.h:4
+msgid "QEMU-KVM 1.1.0"
+msgstr ""
+
+#: ../data/hypervisors/kvm.xml.in.h:5
+msgid "QEMU-KVM 1.1.1"
+msgstr ""
+
+#: ../data/hypervisors/kvm.xml.in.h:6
+msgid "QEMU-KVM 1.1.2"
+msgstr ""
+
+#: ../data/hypervisors/kvm.xml.in.h:7
+msgid "QEMU-KVM 1.2.0"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:1
+msgid "QEMU 1.0"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:2
+msgid "qemu.org"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:3
+msgid "QEMU 1.0.1"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:4
+msgid "QEMU 1.1"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:5
+msgid "QEMU 1.1.1"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:6
+msgid "QEMU 1.1.1-1"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:7
+msgid "QEMU 1.1.2"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:8
+msgid "QEMU 1.2.0"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:9
+msgid "QEMU 1.2.1"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:10
+msgid "QEMU 1.2.2"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:11
+msgid "QEMU 1.3.0"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:12
+msgid "QEMU 1.3.1"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:13
+msgid "QEMU 1.4.0"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:14
+msgid "QEMU 1.4.1"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:15
+msgid "QEMU 1.4.2"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:16
+msgid "QEMU 1.5.0"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:17
+msgid "QEMU 1.5.1"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:18
+msgid "QEMU 1.5.2"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:19
+msgid "QEMU 1.5.3"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:20
+msgid "QEMU 1.6.0"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:21
+msgid "QEMU 1.6.1"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:22
+msgid "QEMU 1.6.2"
+msgstr ""
+
+#: ../data/hypervisors/qemu.xml.in.h:23
+msgid "QEMU 1.7.0"
+msgstr ""
 
 #: ../data/hypervisors/rhel-xen.xml.in.h:1
 msgid "Xen 3.0.3 (RHEL 5.0)"
@@ -1287,90 +1677,90 @@ msgid "Parameter policy"
 msgstr "Polityka parametru"
 
 #: ../osinfo/osinfo_install_config_param.c:184
-#, fuzzy
 msgid "Parameter Value Mapping"
-msgstr "Nazwa parametru"
+msgstr ""
 
-#: ../osinfo/osinfo_install_script.c:193
+#: ../osinfo/osinfo_install_script.c:192
 msgid "URI for install script template"
 msgstr "Adres URI do szablonu skryptu instalacji"
 
-#: ../osinfo/osinfo_install_script.c:205
+#: ../osinfo/osinfo_install_script.c:204
 msgid "Data for install script template"
 msgstr "Dane dla szablonu skryptu instalacji"
 
-#: ../osinfo/osinfo_install_script.c:217
+#: ../osinfo/osinfo_install_script.c:216
 msgid "Install script profile name"
 msgstr "Nazwa profilu skryptu instalacji"
 
-#: ../osinfo/osinfo_install_script.c:229
+#: ../osinfo/osinfo_install_script.c:228
 msgid "Product key format mask"
 msgstr "Maska formatu klucza produktu"
 
-#: ../osinfo/osinfo_install_script.c:239
+#: ../osinfo/osinfo_install_script.c:238
 msgid "Expected path format"
 msgstr ""
 
-#: ../osinfo/osinfo_install_script.c:250
+#: ../osinfo/osinfo_install_script.c:249
 msgid "Expected avatar format"
 msgstr ""
 
-#: ../osinfo/osinfo_install_script.c:584
+#: ../osinfo/osinfo_install_script.c:581
 msgid "Unable to create XML parser context"
 msgstr "Nie można utworzyć kontekstu parsera XML"
 
-#: ../osinfo/osinfo_install_script.c:592
+#: ../osinfo/osinfo_install_script.c:589
 msgid "Unable to read XSL template"
 msgstr "Nie można odczytać szablonu XSL"
 
-#: ../osinfo/osinfo_install_script.c:598
+#: ../osinfo/osinfo_install_script.c:595
 msgid "Unable to parse XSL template"
 msgstr "Nie można przetworzyć szablonu XSL"
 
-#: ../osinfo/osinfo_install_script.c:619 ../osinfo/osinfo_install_script.c:653
+#: ../osinfo/osinfo_install_script.c:668 ../osinfo/osinfo_install_script.c:704
 #, c-format
 msgid "Unable to create XML node '%s': '%s'"
 msgstr "Nie można utworzyć węzła XML \"%s\": \"%s\""
 
-#: ../osinfo/osinfo_install_script.c:627
+#: ../osinfo/osinfo_install_script.c:676
 #, c-format
 msgid "Unable to create XML node 'id': '%s'"
 msgstr "Nie można utworzyć węzła XML \"id\": \"%s\""
 
-#: ../osinfo/osinfo_install_script.c:633 ../osinfo/osinfo_install_script.c:659
+#: ../osinfo/osinfo_install_script.c:682 ../osinfo/osinfo_install_script.c:710
 #, c-format
 msgid "Unable to add XML child '%s'"
 msgstr "Nie można dodać elementu potomnego XML \"%s\""
 
-#: ../osinfo/osinfo_install_script.c:703 ../osinfo/osinfo_install_script.c:714
-#: ../osinfo/osinfo_install_script.c:725
+#: ../osinfo/osinfo_install_script.c:755 ../osinfo/osinfo_install_script.c:766
+#: ../osinfo/osinfo_install_script.c:777
 #, c-format
 msgid "Unable to set XML root '%s'"
 msgstr "Nie można ustawić głównego elementu XML \"%s\""
 
-#: ../osinfo/osinfo_install_script.c:747
+#: ../osinfo/osinfo_install_script.c:799
 msgid "Unable to create XSL transform context"
 msgstr "Nie można utworzyć kontekstu przekształcenia XSL"
 
-#: ../osinfo/osinfo_install_script.c:752
+#: ../osinfo/osinfo_install_script.c:804
 msgid "Unable to apply XSL transform context"
 msgstr "Nie można zastosować kontekstu przekształcenia XSL"
 
-#: ../osinfo/osinfo_install_script.c:757
+#: ../osinfo/osinfo_install_script.c:809
 msgid "Unable to convert XSL output to string"
 msgstr "Nie można przekonwertować wyjścia XSL na ciąg"
 
-#: ../osinfo/osinfo_install_script.c:842
+#: ../osinfo/osinfo_install_script.c:866
 #, c-format
 msgid "Failed to load script template %s: "
 msgstr "Wczytanie szablonu skryptu %s się nie powiodło: "
 
-#: ../osinfo/osinfo_install_script.c:855
+#: ../osinfo/osinfo_install_script.c:880
 #, c-format
 msgid "Failed to apply script template %s: "
 msgstr "Zastosowanie szablonu skryptu %s się nie powiodło: "
 
-#: ../osinfo/osinfo_install_script.c:899
+#: ../osinfo/osinfo_install_script.c:925
+#: ../osinfo/osinfo_install_script.c:1234
 msgid "Failed to apply script template: "
 msgstr "Zastosowanie szablonu skryptu się nie powiodło: "
 
@@ -1378,64 +1768,64 @@ msgstr "Zastosowanie szablonu skryptu się nie powiodło: "
 msgid "List element type"
 msgstr "Typ elementu listy"
 
-#: ../osinfo/osinfo_loader.c:138
+#: ../osinfo/osinfo_loader.c:173
 #, c-format
 msgid "Expected a nodeset in XPath query %s"
 msgstr ""
 
-#: ../osinfo/osinfo_loader.c:277
+#: ../osinfo/osinfo_loader.c:253 ../osinfo/osinfo_loader.c:397
 msgid "Expected a text node attribute value"
 msgstr "Oczekiwano wartości atrybutu węzła tekstu"
 
-#: ../osinfo/osinfo_loader.c:368
+#: ../osinfo/osinfo_loader.c:488
 msgid "Missing device id property"
 msgstr "Brak właściwości identyfikatora urządzenia"
 
-#: ../osinfo/osinfo_loader.c:398
+#: ../osinfo/osinfo_loader.c:518
 msgid "Missing device link id property"
 msgstr "Brak właściwości identyfikatora dowiązania urządzenia"
 
-#: ../osinfo/osinfo_loader.c:442
+#: ../osinfo/osinfo_loader.c:568
 msgid "Missing product upgrades id property"
 msgstr "Brak właściwości identyfikatora aktualizacji produktu"
 
-#: ../osinfo/osinfo_loader.c:517
+#: ../osinfo/osinfo_loader.c:640
 msgid "Missing platform id property"
 msgstr "Brak właściwości identyfikatora platformy"
 
-#: ../osinfo/osinfo_loader.c:548
+#: ../osinfo/osinfo_loader.c:668
 msgid "Missing deployment id property"
 msgstr "Brak właściwości identyfikatora "
 
-#: ../osinfo/osinfo_loader.c:554
+#: ../osinfo/osinfo_loader.c:674
 msgid "Missing deployment os id property"
 msgstr "Brak właściwości identyfikatora wdrożenia"
 
-#: ../osinfo/osinfo_loader.c:563
+#: ../osinfo/osinfo_loader.c:684
 msgid "Missing deployment platform id property"
 msgstr "Brak właściwości identyfikatora platformy wdrożenia"
 
-#: ../osinfo/osinfo_loader.c:601 ../osinfo/osinfo_loader.c:1092
+#: ../osinfo/osinfo_loader.c:722 ../osinfo/osinfo_loader.c:1283
 msgid "Missing os id property"
 msgstr "Brak właściwości identyfikatora systemu operacyjnego"
 
-#: ../osinfo/osinfo_loader.c:712
+#: ../osinfo/osinfo_loader.c:839
 msgid "Missing install script id property"
 msgstr "Brak właściwości identyfikatora skryptu instalacji"
 
-#: ../osinfo/osinfo_loader.c:1180
+#: ../osinfo/osinfo_loader.c:1393
 msgid "Missing OS install script property"
 msgstr "Brak właściwości skryptu instalacji systemu operacyjnego"
 
-#: ../osinfo/osinfo_loader.c:1255
+#: ../osinfo/osinfo_loader.c:1456
 msgid "Incorrect root element"
 msgstr "Niepoprawny główny element"
 
-#: ../osinfo/osinfo_loader.c:1376
+#: ../osinfo/osinfo_loader.c:1522
 msgid "Unable to construct parser context"
 msgstr "Nie można skonstruować kontekstu parsera"
 
-#: ../osinfo/osinfo_loader.c:1398
+#: ../osinfo/osinfo_loader.c:1544
 msgid "Missing root XML element"
 msgstr "Brak głównego elementu XML"
 
@@ -1469,14 +1859,12 @@ msgid "The path to the kernel image"
 msgstr "Ścieżka do obrazu jądra"
 
 #: ../osinfo/osinfo_media.c:458
-#, fuzzy
 msgid "The path to the initrd image"
-msgstr "Ścieżka do obrazu inirtd"
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:471
-#, fuzzy
 msgid "Media provides an installer"
-msgstr "Nośnik dostarcza instalator"
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:484
 msgid "Media can boot directly w/o installation"
@@ -1494,81 +1882,81 @@ msgstr ""
 msgid "Supported languages"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:662
+#: ../osinfo/osinfo_media.c:661
 msgid "Failed to read supplementary volume descriptor: "
 msgstr "Odczytanie dodatkowego deskryptora woluminu się nie powiodło: "
 
-#: ../osinfo/osinfo_media.c:669
+#: ../osinfo/osinfo_media.c:668
 #, c-format
 msgid "Supplementary volume descriptor was truncated"
 msgstr "Dodatkowy deskryptor woluminu został skrócony"
 
-#: ../osinfo/osinfo_media.c:692
+#: ../osinfo/osinfo_media.c:691
 #, c-format
 msgid "Install media is not bootable"
 msgstr "Nośnik instalacji nie jest startowy"
 
-#: ../osinfo/osinfo_media.c:748
+#: ../osinfo/osinfo_media.c:747
 msgid "Failed to read primary volume descriptor: "
 msgstr "Odczytanie głównego deskryptora woluminu się nie powiodło: "
 
-#: ../osinfo/osinfo_media.c:755
+#: ../osinfo/osinfo_media.c:754
 #, c-format
 msgid "Primary volume descriptor was truncated"
 msgstr "Główny deskryptor woluminu został skrócony"
 
-#: ../osinfo/osinfo_media.c:780
+#: ../osinfo/osinfo_media.c:779
 #, c-format
 msgid "Insufficient metadata on installation media"
 msgstr "Niewystarczające metadane na nośniku instalacji"
 
-#: ../osinfo/osinfo_media.c:815
+#: ../osinfo/osinfo_media.c:814
 #, c-format
 msgid "Failed to skip %d bytes"
 msgstr "Pominięcie %d bajtów się nie powiodło"
 
-#: ../osinfo/osinfo_media.c:820
+#: ../osinfo/osinfo_media.c:819
 #, c-format
 msgid "No volume descriptors"
 msgstr "Brak deskryptorów woluminu"
 
-#: ../osinfo/osinfo_media.c:852
+#: ../osinfo/osinfo_media.c:851
 msgid "Failed to open file"
 msgstr "Otwarcie pliku się nie powiodło"
 
-#: ../osinfo/osinfo_os.c:146
+#: ../osinfo/osinfo_os.c:149
 msgid "Generic Family"
 msgstr "Ogólna rodzina"
 
-#: ../osinfo/osinfo_os.c:162
+#: ../osinfo/osinfo_os.c:165
 msgid "Generic Distro"
 msgstr "Ogólna dystrybucja"
 
-#: ../osinfo/osinfo_product.c:167 ../tools/osinfo-query.c:59
+#: ../osinfo/osinfo_product.c:169 ../tools/osinfo-query.c:59
 #: ../tools/osinfo-query.c:83 ../tools/osinfo-query.c:109
 msgid "Name"
 msgstr "Nazwa"
 
-#: ../osinfo/osinfo_product.c:180 ../tools/osinfo-query.c:57
+#: ../osinfo/osinfo_product.c:182 ../tools/osinfo-query.c:57
 #: ../tools/osinfo-query.c:81
 msgid "Short ID"
 msgstr "Krótki identyfikator"
 
-#: ../osinfo/osinfo_product.c:193 ../tools/osinfo-query.c:67
+#: ../osinfo/osinfo_product.c:195 ../tools/osinfo-query.c:67
 #: ../tools/osinfo-query.c:87 ../tools/osinfo-query.c:101
 msgid "Vendor"
 msgstr "Producent"
 
-#: ../osinfo/osinfo_product.c:206 ../tools/osinfo-query.c:61
+#: ../osinfo/osinfo_product.c:208 ../tools/osinfo-query.c:61
 #: ../tools/osinfo-query.c:85
 msgid "Version"
 msgstr "Wersja"
 
-#: ../osinfo/osinfo_product.c:219
+#: ../osinfo/osinfo_product.c:221
 msgid "Codename"
 msgstr "Nazwa kodowa"
 
-#: ../osinfo/osinfo_product.c:232
+#: ../osinfo/osinfo_product.c:234
 msgid "URI of the logo"
 msgstr "Adres URI do logo"
 
@@ -1600,13 +1988,17 @@ msgstr "Ścieżka do obrazu inirtd"
 msgid "The path to the bootable ISO image"
 msgstr "Ścieżka do startowego obrazu ISO"
 
-#: ../osinfo/osinfo_tree.c:607
+#: ../osinfo/osinfo_tree.c:606
 msgid "Failed to load .treeinfo file: "
 msgstr "Wczytanie pliku .treeinfo się nie powiodło: "
 
-#: ../osinfo/osinfo_tree.c:618
+#: ../osinfo/osinfo_tree.c:617
 msgid "Failed to process keyinfo file: "
 msgstr "Przetworzenie pliku keyinfo się nie powiodło: "
+
+#: ../osinfo/osinfo_os_variant.c:115
+msgid "The name to this variant"
+msgstr ""
 
 #: ../tools/osinfo-db-validate.c:38
 msgid "Verbose progress information"
@@ -1656,12 +2048,12 @@ msgstr "Nie można przetworzyć RNG %s"
 msgid "Unable to create RNG validation context %s"
 msgstr "Nie można utworzyć kontekstu sprawdzania poprawności RNG %s"
 
-#: ../tools/osinfo-db-validate.c:261
+#: ../tools/osinfo-db-validate.c:263
 msgid "- Validate XML documents "
 msgstr "- sprawdza poprawność dokumentów XML "
 
-#: ../tools/osinfo-db-validate.c:266 ../tools/osinfo-detect.c:200
-#: ../tools/osinfo-query.c:412
+#: ../tools/osinfo-db-validate.c:268 ../tools/osinfo-detect.c:228
+#: ../tools/osinfo-query.c:414
 #, c-format
 msgid "Error while parsing commandline options: %s\n"
 msgstr "Błąd podczas przetwarzania opcji wiersza poleceń: %s\n"
@@ -1697,79 +2089,119 @@ msgstr "Nośnik jest startowy.\n"
 msgid "Media is not bootable.\n"
 msgstr "Nośnik nie jest startowy.\n"
 
-#: ../tools/osinfo-detect.c:142
+#: ../tools/osinfo-detect.c:155
 #, c-format
 msgid "Media is an installer for OS '%s'\n"
 msgstr "Nośnik jest instalatorem dla systemu operacyjnego \"%s\"\n"
 
-#: ../tools/osinfo-detect.c:144
+#: ../tools/osinfo-detect.c:157
 #, c-format
 msgid "Media is live media for OS '%s'\n"
 msgstr "Nośnik jest nośnikiem live dla systemu operacyjnego \"%s\"\n"
 
-#: ../tools/osinfo-detect.c:179
+#: ../tools/osinfo-detect.c:162
+#, c-format
+msgid "Available OS variants on media:\n"
+msgstr ""
+
+#: ../tools/osinfo-detect.c:207
 #, c-format
 msgid "Tree is an installer for OS '%s'\n"
 msgstr "Drzewo jest instalatorem dla systemu operacyjnego \"%s\"\n"
 
-#: ../tools/osinfo-detect.c:196
+#: ../tools/osinfo-detect.c:224
 msgid "- Detect if media is bootable and the relevant OS and distribution."
 msgstr ""
 "- wykrywa odpowiedni system operacyjny i dystrybucję oraz czy nośnik jest "
 "startowy."
 
-#: ../tools/osinfo-detect.c:220 ../tools/osinfo-install-script.c:197
-#: ../tools/osinfo-query.c:428
+#: ../tools/osinfo-detect.c:250 ../tools/osinfo-install-script.c:334
+#: ../tools/osinfo-query.c:430
 #, c-format
 msgid "Error loading OS data: %s\n"
 msgstr "Błąd podczas wczytywania danych systemu operacyjnego: %s\n"
 
-#: ../tools/osinfo-detect.c:236
+#: ../tools/osinfo-detect.c:266
 #, c-format
 msgid "Error parsing media: %s\n"
 msgstr "Błąd podczas przetwarzania nośnika: %s\n"
 
-#: ../tools/osinfo-detect.c:254
+#: ../tools/osinfo-detect.c:284
 #, c-format
 msgid "Error parsing installer tree: %s\n"
 msgstr "Błąd podczas przetwarzania drzewa instalatora: %s\n"
 
-#: ../tools/osinfo-install-script.c:48
+#: ../tools/osinfo-install-script.c:53
 #, c-format
 msgid "Expected configuration key=value"
 msgstr "Oczekiwano klucz=wartość konfiguracji"
 
-#: ../tools/osinfo-install-script.c:66
+#: ../tools/osinfo-install-script.c:71
 msgid "Install script profile"
 msgstr "Profil skryptu instalacji"
 
-#: ../tools/osinfo-install-script.c:68
+#: ../tools/osinfo-install-script.c:73
 msgid "Install script output directory"
 msgstr "Katalog wyjściowy skryptu instalacji"
 
-#: ../tools/osinfo-install-script.c:70
+#: ../tools/osinfo-install-script.c:75
 msgid "The output filename prefix"
 msgstr "Przedrostek nazwy pliku wyjściowego"
 
-#: ../tools/osinfo-install-script.c:73
+#: ../tools/osinfo-install-script.c:78
 msgid "Set configuration parameter"
 msgstr "Ustawia parametr konfiguracji"
 
-#: ../tools/osinfo-install-script.c:143
+#: ../tools/osinfo-install-script.c:80
+msgid "List configuration parameters"
+msgstr ""
+
+#: ../tools/osinfo-install-script.c:82
+msgid "List install script profiles"
+msgstr ""
+
+#: ../tools/osinfo-install-script.c:84
+msgid "List supported injection methods"
+msgstr ""
+
+#: ../tools/osinfo-install-script.c:86
+msgid "Do not display output filenames"
+msgstr ""
+
+#: ../tools/osinfo-install-script.c:141 ../tools/osinfo-install-script.c:243
+#, c-format
+msgid "No install script for profile '%s' and OS '%s'"
+msgstr ""
+
+#: ../tools/osinfo-install-script.c:157
+msgid "required"
+msgstr ""
+
+#: ../tools/osinfo-install-script.c:157
+msgid "optional"
+msgstr ""
+
+#: ../tools/osinfo-install-script.c:263
 #, c-format
 msgid "Unable to generate install script: %s\n"
 msgstr "Nie można utworzyć skryptu instalacji: %s\n"
 
-#: ../tools/osinfo-install-script.c:177
+#: ../tools/osinfo-install-script.c:303
 msgid "- Generate an OS install script"
 msgstr "- tworzy skrypt instalacji systemu operacyjnego"
 
-#: ../tools/osinfo-install-script.c:180
+#: ../tools/osinfo-install-script.c:306
 #, c-format
 msgid "Error while parsing options: %s\n"
 msgstr "Błąd podczas przetwarzania opcji: %s\n"
 
-#: ../tools/osinfo-install-script.c:206
+#: ../tools/osinfo-install-script.c:324
+msgid ""
+"Only one of --list-profile, --list-config and --list-injection-methods can "
+"be requested"
+msgstr ""
+
+#: ../tools/osinfo-install-script.c:343
 #, c-format
 msgid "Error finding OS: %s\n"
 msgstr "Błąd podczas wyszukiwania systemu operacyjnego: %s\n"
@@ -1828,34 +2260,34 @@ msgstr "Nieznana nazwa właściwości %s"
 msgid "Syntax error in condition, expecting KEY=VALUE"
 msgstr "Błąd składni w warunku, oczekiwanie KLUCZ=WARTOŚĆ"
 
-#: ../tools/osinfo-query.c:400
+#: ../tools/osinfo-query.c:402
 msgid "Sort column"
 msgstr "Porządkowanie kolumn"
 
-#: ../tools/osinfo-query.c:402
+#: ../tools/osinfo-query.c:404
 msgid "Display fields"
 msgstr "Wyświetlanie pól"
 
-#: ../tools/osinfo-query.c:407
+#: ../tools/osinfo-query.c:409
 msgid "- Query the OS info database"
 msgstr "- odpytuje bazę danych informacji o systemach operacyjnych"
 
-#: ../tools/osinfo-query.c:419
+#: ../tools/osinfo-query.c:421
 #, c-format
 msgid "Missing data type parameter\n"
 msgstr "Brak parametru typu danych\n"
 
-#: ../tools/osinfo-query.c:447
+#: ../tools/osinfo-query.c:449
 #, c-format
 msgid "Unknown type '%s' requested\n"
 msgstr "Zażądano nieznanego typu \"%s\"\n"
 
-#: ../tools/osinfo-query.c:452
+#: ../tools/osinfo-query.c:454
 #, c-format
 msgid "Unable to construct filter: %s\n"
 msgstr "Nie można skonstruować filtru: %s\n"
 
-#: ../tools/osinfo-query.c:457
+#: ../tools/osinfo-query.c:459
 #, c-format
 msgid "Unable to set field visibility: %s\n"
 msgstr "Nie można ustawić widoczności pola: %s\n"

@@ -1,51 +1,50 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
-# Translators:
-# Yuri Chornoivan <yurchor@ukr.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-02-23 13:25+0000\n"
-"PO-Revision-Date: 2012-12-30 12:11-0500\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian (http://www.transifex.com/projects/p/libosinfo/language/uk/)\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: Norwegian Nynorsk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: nn\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "X-Generator: Zanata 3.5.1\n"
 
 #: ../data/oses/netware.xml.in.h:1
 msgid "Novell Netware 4"
-msgstr "Novell Netware 4"
+msgstr ""
 
 #: ../data/oses/netware.xml.in.h:2 ../data/oses/suse.xml.in.h:2
 msgid "Novell"
-msgstr "Novell"
+msgstr ""
 
 #: ../data/oses/netware.xml.in.h:3
 msgid "Novell Netware 5"
-msgstr "Novell Netware 5"
+msgstr ""
 
 #: ../data/oses/netware.xml.in.h:4
 msgid "Novell Netware 6"
-msgstr "Novell Netware 6"
+msgstr ""
 
 #: ../data/oses/solaris.xml.in.h:1
 msgid "Sun Solaris 9"
-msgstr "Sun Solaris 9"
+msgstr ""
 
 #: ../data/oses/solaris.xml.in.h:2
 msgid "Sun"
-msgstr "Sun"
+msgstr ""
 
 #: ../data/oses/solaris.xml.in.h:3
 msgid "Sun Solaris 10"
-msgstr "Sun Solaris 10"
+msgstr ""
 
 #: ../data/oses/solaris.xml.in.h:4
 msgid "Sun Solaris 11"
@@ -53,15 +52,15 @@ msgstr ""
 
 #: ../data/oses/solaris.xml.in.h:5
 msgid "Sun OpenSolaris 2009.06"
-msgstr "Sun OpenSolaris 2009.06"
+msgstr ""
 
 #: ../data/oses/dos.xml.in.h:1
 msgid "Microsoft MS-DOS 6.22"
-msgstr "Microsoft MS-DOS 6.22"
+msgstr ""
 
 #: ../data/oses/dos.xml.in.h:2
 msgid "Microsoft"
-msgstr "Microsoft"
+msgstr ""
 
 #: ../data/oses/mageia.xml.in.h:1
 msgid "Mageia 1"
@@ -81,127 +80,127 @@ msgstr ""
 
 #: ../data/oses/mandrake.xml.in.h:1
 msgid "Mandrake Linux 5.1"
-msgstr "Mandrake Linux 5.1"
+msgstr ""
 
 #: ../data/oses/mandrake.xml.in.h:2 ../data/oses/mandriva.xml.in.h:2
 msgid "Mandriva"
-msgstr "Mandriva"
+msgstr ""
 
 #: ../data/oses/mandrake.xml.in.h:3
 msgid "Mandrake Linux 5.2"
-msgstr "Mandrake Linux 5.2"
+msgstr ""
 
 #: ../data/oses/mandrake.xml.in.h:4
 msgid "Mandrake Linux 5.3"
-msgstr "Mandrake Linux 5.3"
+msgstr ""
 
 #: ../data/oses/mandrake.xml.in.h:5
 msgid "Mandrake Linux 6.0"
-msgstr "Mandrake Linux 6.0"
+msgstr ""
 
 #: ../data/oses/mandrake.xml.in.h:6
 msgid "Mandrake Linux 6.1"
-msgstr "Mandrake Linux 6.1"
+msgstr ""
 
 #: ../data/oses/mandrake.xml.in.h:7
 msgid "Mandrake Linux 7.0"
-msgstr "Mandrake Linux 7.0"
+msgstr ""
 
 #: ../data/oses/mandrake.xml.in.h:8
 msgid "Mandrake Linux 7.1"
-msgstr "Mandrake Linux 7.1"
+msgstr ""
 
 #: ../data/oses/mandrake.xml.in.h:9
 msgid "Mandrake Linux 7.2"
-msgstr "Mandrake Linux 7.2"
+msgstr ""
 
 #: ../data/oses/mandrake.xml.in.h:10
 msgid "Mandrake Linux 8.0"
-msgstr "Mandrake Linux 8.0"
+msgstr ""
 
 #: ../data/oses/mandrake.xml.in.h:11
 msgid "Mandrake Linux 8.1"
-msgstr "Mandrake Linux 8.1"
+msgstr ""
 
 #: ../data/oses/mandrake.xml.in.h:12
 msgid "Mandrake Linux 8.2"
-msgstr "Mandrake Linux 8.2"
+msgstr ""
 
 #: ../data/oses/mandrake.xml.in.h:13
 msgid "Mandrake Linux 9.0"
-msgstr "Mandrake Linux 9.0"
+msgstr ""
 
 #: ../data/oses/mandrake.xml.in.h:14
 msgid "Mandrake Linux 9.1"
-msgstr "Mandrake Linux 9.1"
+msgstr ""
 
 #: ../data/oses/mandrake.xml.in.h:15
 msgid "Mandrake Linux 9.2"
-msgstr "Mandrake Linux 9.2"
+msgstr ""
 
 #: ../data/oses/mandrake.xml.in.h:16
 msgid "Mandrake Linux 10.0"
-msgstr "Mandrake Linux 10.0"
+msgstr ""
 
 #: ../data/oses/mandrake.xml.in.h:17
 msgid "Mandrake Linux 10.1"
-msgstr "Mandrake Linux 10.1"
+msgstr ""
 
 #: ../data/oses/mandrake.xml.in.h:18
 msgid "Mandrake Linux 10.2"
-msgstr "Mandrake Linux 10.2"
+msgstr ""
 
 #: ../data/oses/mandriva.xml.in.h:1
 msgid "Mandriva Linux 2006.0"
-msgstr "Mandriva Linux 2006.0"
+msgstr ""
 
 #: ../data/oses/mandriva.xml.in.h:3
 msgid "Mandriva Linux 2007"
-msgstr "Mandriva Linux 2007"
+msgstr ""
 
 #: ../data/oses/mandriva.xml.in.h:4
 msgid "Mandriva Linux 2007 Spring"
-msgstr "Mandriva Linux 2007 Spring"
+msgstr ""
 
 #: ../data/oses/mandriva.xml.in.h:5
 msgid "Mandriva Linux 2008"
-msgstr "Mandriva Linux 2008"
+msgstr ""
 
 #: ../data/oses/mandriva.xml.in.h:6
 msgid "Mandriva Linux 2008 Spring"
-msgstr "Mandriva Linux 2008 Spring"
+msgstr ""
 
 #: ../data/oses/mandriva.xml.in.h:7
 msgid "Mandriva Linux 2009"
-msgstr "Mandriva Linux 2009"
+msgstr ""
 
 #: ../data/oses/mandriva.xml.in.h:8
 msgid "Mandriva Linux 2009 Spring"
-msgstr "Mandriva Linux 2009 Spring"
+msgstr ""
 
 #: ../data/oses/mandriva.xml.in.h:9
 msgid "Mandriva Linux 2010"
-msgstr "Mandriva Linux 2010"
+msgstr ""
 
 #: ../data/oses/mandriva.xml.in.h:10
 msgid "Mandriva Linux 2010 Spring"
-msgstr "Mandriva Linux 2010 Spring"
+msgstr ""
 
 #: ../data/oses/mandriva.xml.in.h:11
 msgid "Mandriva Linux 2010.2"
-msgstr "Mandriva Linux 2010.2"
+msgstr ""
 
 #: ../data/oses/mandriva.xml.in.h:12
 msgid "Mandriva Linux 2011"
-msgstr "Mandriva Linux 2011"
+msgstr ""
 
 #: ../data/oses/mandriva.xml.in.h:13
 msgid "Mandriva Enterprise Server 5.0"
-msgstr "Mandriva Enterprise Server 5.0"
+msgstr ""
 
 #: ../data/oses/mandriva.xml.in.h:14
 msgid "Mandriva Enterprise Server 5.1"
-msgstr "Mandriva Enterprise Server 5.1"
+msgstr ""
 
 #: ../data/oses/mandriva.xml.in.h:15
 msgid "Mandriva Business Server 1.0"
@@ -209,35 +208,35 @@ msgstr ""
 
 #: ../data/oses/suse.xml.in.h:1
 msgid "Suse Linux Enterprise Server 9"
-msgstr "Suse Linux Enterprise Server 9"
+msgstr ""
 
 #: ../data/oses/suse.xml.in.h:3
 msgid "Suse Linux Enterprise Server 10"
-msgstr "Suse Linux Enterprise Server 10"
+msgstr ""
 
 #: ../data/oses/suse.xml.in.h:4
 msgid "Suse Linux Enterprise Server 11"
-msgstr "Suse Linux Enterprise Server 11"
+msgstr ""
 
 #: ../data/oses/suse.xml.in.h:5
 msgid "Suse Linux Enterprise Desktop 9"
-msgstr "Suse Linux Enterprise Desktop 9"
+msgstr ""
 
 #: ../data/oses/suse.xml.in.h:6
 msgid "Suse Linux Enterprise Desktop 10"
-msgstr "Suse Linux Enterprise Desktop 10"
+msgstr ""
 
 #: ../data/oses/suse.xml.in.h:7
 msgid "Suse Linux Enterprise Desktop 11"
-msgstr "Suse Linux Enterprise Desktop 11"
+msgstr ""
 
 #: ../data/oses/gnome.xml.in.h:1
 msgid "GNOME 3.6"
-msgstr "GNOME 3.6"
+msgstr ""
 
 #: ../data/oses/gnome.xml.in.h:2
 msgid "GNOME Project"
-msgstr "Проект GNOME"
+msgstr ""
 
 #: ../data/oses/gnome.xml.in.h:3
 msgid "GNOME 3.8"
@@ -253,156 +252,156 @@ msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:1
 msgid "Red Hat Enterprise Linux 2.1"
-msgstr "Red Hat Enterprise Linux 2.1"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:2 ../data/oses/rhl.xml.in.h:2
 #: ../data/devices/qemu-pci.xml.in.h:5 ../data/devices/virtio-pci.xml.in.h:1
 msgid "Red Hat, Inc"
-msgstr "Red Hat, Inc"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:3
 msgid "Red Hat Enterprise Linux 2.1 Update 1"
-msgstr "Red Hat Enterprise Linux 2.1 Update 1"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:4
 msgid "Red Hat Enterprise Linux 2.1 Update 2"
-msgstr "Red Hat Enterprise Linux 2.1 Update 2"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:5
 msgid "Red Hat Enterprise Linux 2.1 Update 3"
-msgstr "Red Hat Enterprise Linux 2.1 Update 3"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:6
 msgid "Red Hat Enterprise Linux 2.1 Update 4"
-msgstr "Red Hat Enterprise Linux 2.1 Update 4"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:7
 msgid "Red Hat Enterprise Linux 2.1 Update 5"
-msgstr "Red Hat Enterprise Linux 2.1 Update 5"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:8
 msgid "Red Hat Enterprise Linux 2.1 Update 6"
-msgstr "Red Hat Enterprise Linux 2.1 Update 6"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:9
 msgid "Red Hat Enterprise Linux 2.1 Update 7"
-msgstr "Red Hat Enterprise Linux 2.1 Update 7"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:10
 msgid "Red Hat Enterprise Linux 3"
-msgstr "Red Hat Enterprise Linux 3"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:11
 msgid "Red Hat Enterprise Linux 3 Update 1"
-msgstr "Red Hat Enterprise Linux 3 Update 1"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:12
 msgid "Red Hat Enterprise Linux 3 Update 2"
-msgstr "Red Hat Enterprise Linux 3 Update 2"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:13
 msgid "Red Hat Enterprise Linux 3 Update 3"
-msgstr "Red Hat Enterprise Linux 3 Update 3"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:14
 msgid "Red Hat Enterprise Linux 3 Update 4"
-msgstr "Red Hat Enterprise Linux 3 Update 4"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:15
 msgid "Red Hat Enterprise Linux 3 Update 5"
-msgstr "Red Hat Enterprise Linux 3 Update 5"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:16
 msgid "Red Hat Enterprise Linux 3 Update 6"
-msgstr "Red Hat Enterprise Linux 3 Update 6"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:17
 msgid "Red Hat Enterprise Linux 3 Update 7"
-msgstr "Red Hat Enterprise Linux 3 Update 7"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:18
 msgid "Red Hat Enterprise Linux 3 Update 8"
-msgstr "Red Hat Enterprise Linux 3 Update 8"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:19
 msgid "Red Hat Enterprise Linux 3 Update 9"
-msgstr "Red Hat Enterprise Linux 3 Update 9"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:20
 msgid "Red Hat Enterprise Linux 4.0"
-msgstr "Red Hat Enterprise Linux 4.0"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:21
 msgid "Red Hat Enterprise Linux 4.1"
-msgstr "Red Hat Enterprise Linux 4.1"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:22
 msgid "Red Hat Enterprise Linux 4.2"
-msgstr "Red Hat Enterprise Linux 4.2"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:23
 msgid "Red Hat Enterprise Linux 4.3"
-msgstr "Red Hat Enterprise Linux 4.3"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:24
 msgid "Red Hat Enterprise Linux 4.4"
-msgstr "Red Hat Enterprise Linux 4.4"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:25
 msgid "Red Hat Enterprise Linux 4.5"
-msgstr "Red Hat Enterprise Linux 4.5"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:26
 msgid "Red Hat Enterprise Linux 4.6"
-msgstr "Red Hat Enterprise Linux 4.6"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:27
 msgid "Red Hat Enterprise Linux 4.7"
-msgstr "Red Hat Enterprise Linux 4.7"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:28
 msgid "Red Hat Enterprise Linux 4.8"
-msgstr "Red Hat Enterprise Linux 4.8"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:29
 msgid "Red Hat Enterprise Linux 4.9"
-msgstr "Red Hat Enterprise Linux 4.9"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:30
 msgid "Red Hat Enterprise Linux 5.0"
-msgstr "Red Hat Enterprise Linux 5.0"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:31
 msgid "Red Hat Enterprise Linux 5.1"
-msgstr "Red Hat Enterprise Linux 5.1"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:32
 msgid "Red Hat Enterprise Linux 5.2"
-msgstr "Red Hat Enterprise Linux 5.2"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:33
 msgid "Red Hat Enterprise Linux 5.3"
-msgstr "Red Hat Enterprise Linux 5.3"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:34
 msgid "Red Hat Enterprise Linux 5.4"
-msgstr "Red Hat Enterprise Linux 5.4"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:35
 msgid "Red Hat Enterprise Linux 5.5"
-msgstr "Red Hat Enterprise Linux 5.5"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:36
 msgid "Red Hat Enterprise Linux 5.6"
-msgstr "Red Hat Enterprise Linux 5.6"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:37
 msgid "Red Hat Enterprise Linux 5.7"
-msgstr "Red Hat Enterprise Linux 5.7"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:38
 msgid "Red Hat Enterprise Linux 5.8"
-msgstr "Red Hat Enterprise Linux 5.8"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:39
 msgid "Red Hat Enterprise Linux 5.9"
@@ -418,15 +417,15 @@ msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:42
 msgid "Red Hat Enterprise Linux 6.0"
-msgstr "Red Hat Enterprise Linux 6.0"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:43
 msgid "Red Hat Enterprise Linux 6.1"
-msgstr "Red Hat Enterprise Linux 6.1"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:44
 msgid "Red Hat Enterprise Linux 6.2"
-msgstr "Red Hat Enterprise Linux 6.2"
+msgstr ""
 
 #: ../data/oses/rhel.xml.in.h:45
 msgid "Red Hat Enterprise Linux 6.3"
@@ -454,79 +453,79 @@ msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:1
 msgid "Fedora Core 1"
-msgstr "Fedora Core 1"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:2
 msgid "Fedora Project"
-msgstr "Проект Fedora"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:3
 msgid "Fedora Core 2"
-msgstr "Fedora Core 2"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:4
 msgid "Fedora Core 3"
-msgstr "Fedora Core 3"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:5
 msgid "Fedora Core 4"
-msgstr "Fedora Core 4"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:6
 msgid "Fedora Core 5"
-msgstr "Fedora Core 5"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:7
 msgid "Fedora Core 6"
-msgstr "Fedora Core 6"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:8
 msgid "Fedora 7"
-msgstr "Fedora 7"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:9
 msgid "Fedora 8"
-msgstr "Fedora 8"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:10
 msgid "Fedora 9"
-msgstr "Fedora 9"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:11
 msgid "Fedora 10"
-msgstr "Fedora 10"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:12
 msgid "Fedora 11"
-msgstr "Fedora 11"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:13
 msgid "Fedora 12"
-msgstr "Fedora 12"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:14
 msgid "Fedora 13"
-msgstr "Fedora 13"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:15
 msgid "Fedora 14"
-msgstr "Fedora 14"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:16
 msgid "Fedora 15"
-msgstr "Fedora 15"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:17
 msgid "Fedora 16"
-msgstr "Fedora 16"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:18
 msgid "Fedora 17"
-msgstr "Fedora 17"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:19
 msgid "Fedora 18"
-msgstr "Fedora 18"
+msgstr ""
 
 #: ../data/oses/fedora.xml.in.h:20
 msgid "Fedora 19"
@@ -558,83 +557,83 @@ msgstr ""
 
 #: ../data/oses/windows.xml.in.h:1
 msgid "Microsoft Windows 1.0"
-msgstr "Microsoft Windows 1.0"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:2
 msgid "Microsoft Corporation"
-msgstr "Корпорація Microsoft"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:3
 msgid "Microsoft Windows 2.0"
-msgstr "Microsoft Windows 2.0"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:4
 msgid "Microsoft Windows 2.1"
-msgstr "Microsoft Windows 2.1"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:5
 msgid "Microsoft Windows 3.1"
-msgstr "Microsoft Windows 3.1"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:6
 msgid "Microsoft Windows NT Server 3.1"
-msgstr "Microsoft Windows NT Server 3.1"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:7
 msgid "Microsoft Windows NT Server 3.5"
-msgstr "Microsoft Windows NT Server 3.5"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:8
 msgid "Microsoft Windows NT Server 3.51"
-msgstr "Microsoft Windows NT Server 3.51"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:9
 msgid "Microsoft Windows NT Server 4.0"
-msgstr "Microsoft Windows NT Server 4.0"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:10
 msgid "Microsoft Windows 95"
-msgstr "Microsoft Windows 95"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:11
 msgid "Microsoft Windows 98"
-msgstr "Microsoft Windows 98"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:12
 msgid "Microsoft Windows Millennium Edition"
-msgstr "Microsoft Windows Millennium Edition"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:13
 msgid "Microsoft Windows 2000"
-msgstr "Microsoft Windows 2000"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:14
 msgid "Microsoft Windows XP"
-msgstr "Microsoft Windows XP"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:15
 msgid "Microsoft Windows Server 2003"
-msgstr "Microsoft Windows Server 2003"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:16
 msgid "Microsoft Windows Server 2003 R2"
-msgstr "Microsoft Windows Server 2003 R2"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:17
 msgid "Microsoft Windows Server 2008"
-msgstr "Microsoft Windows Server 2008"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:18
 msgid "Microsoft Windows Server 2008 R2"
-msgstr "Microsoft Windows Server 2008 R2"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:19
 msgid "Microsoft Windows Vista"
-msgstr "Microsoft Windows Vista"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:20
 msgid "Microsoft Windows 7"
-msgstr "Microsoft Windows 7"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:21
 msgid "Microsoft Windows 7 Starter"
@@ -662,7 +661,7 @@ msgstr ""
 
 #: ../data/oses/windows.xml.in.h:27
 msgid "Microsoft Windows 8"
-msgstr "Microsoft Windows 8"
+msgstr ""
 
 #: ../data/oses/windows.xml.in.h:28
 msgid "Microsoft Windows 8.1"
@@ -678,39 +677,39 @@ msgstr ""
 
 #: ../data/oses/opensuse.xml.in.h:1
 msgid "openSUSE 10.2"
-msgstr "openSUSE 10.2"
+msgstr ""
 
 #: ../data/oses/opensuse.xml.in.h:2
 msgid "openSUSE"
-msgstr "openSUSE"
+msgstr ""
 
 #: ../data/oses/opensuse.xml.in.h:3
 msgid "openSUSE 10.3"
-msgstr "openSUSE 10.3"
+msgstr ""
 
 #: ../data/oses/opensuse.xml.in.h:4
 msgid "openSUSE 11.0"
-msgstr "openSUSE 11.0"
+msgstr ""
 
 #: ../data/oses/opensuse.xml.in.h:5
 msgid "openSUSE 11.1"
-msgstr "openSUSE 11.1"
+msgstr ""
 
 #: ../data/oses/opensuse.xml.in.h:6
 msgid "openSUSE 11.2"
-msgstr "openSUSE 11.2"
+msgstr ""
 
 #: ../data/oses/opensuse.xml.in.h:7
 msgid "openSUSE 11.3"
-msgstr "openSUSE 11.3"
+msgstr ""
 
 #: ../data/oses/opensuse.xml.in.h:8
 msgid "openSUSE 11.4"
-msgstr "openSUSE 11.4"
+msgstr ""
 
 #: ../data/oses/opensuse.xml.in.h:9
 msgid "openSUSE 12.1"
-msgstr "openSUSE 12.1"
+msgstr ""
 
 #: ../data/oses/opensuse.xml.in.h:10
 msgid "openSUSE 12.2"
@@ -726,15 +725,15 @@ msgstr ""
 
 #: ../data/oses/macos.xml.in.h:1
 msgid "MacOS X Cheetah"
-msgstr "MacOS X Cheetah"
+msgstr ""
 
 #: ../data/oses/macos.xml.in.h:2
 msgid "Apple Inc."
-msgstr "Apple Inc."
+msgstr ""
 
 #: ../data/oses/macos.xml.in.h:3
 msgid "MacOS X Puma"
-msgstr "MacOS X Puma"
+msgstr ""
 
 #: ../data/oses/macos.xml.in.h:4
 msgid "MacOS X Jaguar"
@@ -742,43 +741,43 @@ msgstr ""
 
 #: ../data/oses/macos.xml.in.h:5
 msgid "MacOS X Panther"
-msgstr "MacOS X Panther"
+msgstr ""
 
 #: ../data/oses/macos.xml.in.h:6
 msgid "MacOS X Tiger"
-msgstr "MacOS X Tiger"
+msgstr ""
 
 #: ../data/oses/macos.xml.in.h:7
 msgid "MacOS X Leopard"
-msgstr "MacOS X Leopard"
+msgstr ""
 
 #: ../data/oses/macos.xml.in.h:8
 msgid "MacOS X Snow Leopard"
-msgstr "MacOS X Snow Leopard"
+msgstr ""
 
 #: ../data/oses/macos.xml.in.h:9
 msgid "MacOS X Lion"
-msgstr "MacOS X Lion"
+msgstr ""
 
 #: ../data/oses/debian.xml.in.h:1
 msgid "Debian Buzz"
-msgstr "Debian Buzz"
+msgstr ""
 
 #: ../data/oses/debian.xml.in.h:2
 msgid "Debian Project"
-msgstr "Проект Debian"
+msgstr ""
 
 #: ../data/oses/debian.xml.in.h:3
 msgid "Debian Rex"
-msgstr "Debian Rex"
+msgstr ""
 
 #: ../data/oses/debian.xml.in.h:4
 msgid "Debian Bo"
-msgstr "Debian Bo"
+msgstr ""
 
 #: ../data/oses/debian.xml.in.h:5
 msgid "Debian Hamm"
-msgstr "Debian Hamm"
+msgstr ""
 
 #: ../data/oses/debian.xml.in.h:6
 msgid "Debian Slink"
@@ -786,27 +785,27 @@ msgstr ""
 
 #: ../data/oses/debian.xml.in.h:7
 msgid "Debian Potato"
-msgstr "Debian Potato"
+msgstr ""
 
 #: ../data/oses/debian.xml.in.h:8
 msgid "Debian Woody"
-msgstr "Debian Woody"
+msgstr ""
 
 #: ../data/oses/debian.xml.in.h:9
 msgid "Debian Sarge"
-msgstr "Debian Sarge"
+msgstr ""
 
 #: ../data/oses/debian.xml.in.h:10
 msgid "Debian Etch"
-msgstr "Debian Etch"
+msgstr ""
 
 #: ../data/oses/debian.xml.in.h:11
 msgid "Debian Lenny"
-msgstr "Debian Lenny"
+msgstr ""
 
 #: ../data/oses/debian.xml.in.h:12
 msgid "Debian Squeeze"
-msgstr "Debian Squeeze"
+msgstr ""
 
 #: ../data/oses/debian.xml.in.h:13
 msgid "Debian Wheezy"
@@ -814,75 +813,75 @@ msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:1
 msgid "Ubuntu Warty Warthog"
-msgstr "Ubuntu Warty Warthog"
+msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:2
 msgid "Canonical Ltd"
-msgstr "Canonical Ltd"
+msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:3
 msgid "Ubuntu Hoary Hedgehog"
-msgstr "Ubuntu Hoary Hedgehog"
+msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:4
 msgid "Ubuntu Breezy Badger"
-msgstr "Ubuntu Breezy Badger"
+msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:5
 msgid "Ubuntu Dapper Drake LTS"
-msgstr "Ubuntu Dapper Drake LTS"
+msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:6
 msgid "Ubuntu Edgy Eft"
-msgstr "Ubuntu Edgy Eft"
+msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:7
 msgid "Ubuntu Feisty Fawn"
-msgstr "Ubuntu Feisty Fawn"
+msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:8
 msgid "Ubuntu Gutsy Gibbon"
-msgstr "Ubuntu Gutsy Gibbon"
+msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:9
 msgid "Ubuntu Hardy Heron LTS"
-msgstr "Ubuntu Hardy Heron LTS"
+msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:10
 msgid "Ubuntu Intrepid Ibex"
-msgstr "Ubuntu Intrepid Ibex"
+msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:11
 msgid "Ubuntu Jaunty Jackalope"
-msgstr "Ubuntu Jaunty Jackalope"
+msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:12
 msgid "Ubuntu Karmic Koala"
-msgstr "Ubuntu Karmic Koala"
+msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:13
 msgid "Ubuntu Lucid Lynx LTS"
-msgstr "Ubuntu Lucid Lynx LTS"
+msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:14
 msgid "Ubuntu Maverick Meerkat"
-msgstr "Ubuntu Maverick Meerkat"
+msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:15
 msgid "Ubuntu Natty Narwhal"
-msgstr "Ubuntu Natty Narwhal"
+msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:16
 msgid "Ubuntu Oneiric Ocelot"
-msgstr "Ubuntu Oneiric Ocelot"
+msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:17
 msgid "Ubuntu Precise Pangolin LTS"
-msgstr "Ubuntu Precise Pangolin LTS"
+msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:18
 msgid "Ubuntu Quantal Quetzal"
-msgstr "Ubuntu Quantal Quetzal"
+msgstr ""
 
 #: ../data/oses/ubuntu.xml.in.h:19
 msgid "Ubuntu Raring Ringtails"
@@ -898,15 +897,15 @@ msgstr ""
 
 #: ../data/oses/centos.xml.in.h:1
 msgid "CentOS 6.0"
-msgstr "CentOS 6.0"
+msgstr ""
 
 #: ../data/oses/centos.xml.in.h:2
 msgid "CentOS"
-msgstr "CentOS"
+msgstr ""
 
 #: ../data/oses/centos.xml.in.h:3
 msgid "CentOS 6.1"
-msgstr "CentOS 6.1"
+msgstr ""
 
 #: ../data/oses/centos.xml.in.h:4
 msgid "CentOS 6.2"
@@ -930,35 +929,35 @@ msgstr ""
 
 #: ../data/oses/openbsd.xml.in.h:1
 msgid "OpenBSD 4.2"
-msgstr "OpenBSD 4.2"
+msgstr ""
 
 #: ../data/oses/openbsd.xml.in.h:2
 msgid "OpenBSD Project"
-msgstr "Проект OpenBSD"
+msgstr ""
 
 #: ../data/oses/openbsd.xml.in.h:3
 msgid "OpenBSD 4.3"
-msgstr "OpenBSD 4.3"
+msgstr ""
 
 #: ../data/oses/openbsd.xml.in.h:4
 msgid "OpenBSD 4.4"
-msgstr "OpenBSD 4.4"
+msgstr ""
 
 #: ../data/oses/openbsd.xml.in.h:5
 msgid "OpenBSD 4.5"
-msgstr "OpenBSD 4.5"
+msgstr ""
 
 #: ../data/oses/openbsd.xml.in.h:6
 msgid "OpenBSD 4.8"
-msgstr "OpenBSD 4.8"
+msgstr ""
 
 #: ../data/oses/openbsd.xml.in.h:7
 msgid "OpenBSD 4.9"
-msgstr "OpenBSD 4.9"
+msgstr ""
 
 #: ../data/oses/openbsd.xml.in.h:8
 msgid "OpenBSD 5.0"
-msgstr "OpenBSD 5.0"
+msgstr ""
 
 #: ../data/oses/openbsd.xml.in.h:9
 msgid "OpenBSD 5.1"
@@ -986,163 +985,163 @@ msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:1
 msgid "FreeBSD 1.0"
-msgstr "FreeBSD 1.0"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:2
 msgid "FreeBSD Project"
-msgstr "Проект FreeBSD"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:3
 msgid "FreeBSD 2.0"
-msgstr "FreeBSD 2.0"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:4
 msgid "FreeBSD 2.0.5"
-msgstr "FreeBSD 2.0.5"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:5
 msgid "FreeBSD 2.2.8"
-msgstr "FreeBSD 2.2.8"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:6
 msgid "FreeBSD 2.2.9"
-msgstr "FreeBSD 2.2.9"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:7
 msgid "FreeBSD 3.0"
-msgstr "FreeBSD 3.0"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:8
 msgid "FreeBSD 3.2"
-msgstr "FreeBSD 3.2"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:9
 msgid "FreeBSD 4.0"
-msgstr "FreeBSD 4.0"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:10
 msgid "FreeBSD 4.1"
-msgstr "FreeBSD 4.1"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:11
 msgid "FreeBSD 4.2"
-msgstr "FreeBSD 4.2"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:12
 msgid "FreeBSD 4.3"
-msgstr "FreeBSD 4.3"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:13
 msgid "FreeBSD 4.4"
-msgstr "FreeBSD 4.4"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:14
 msgid "FreeBSD 4.5"
-msgstr "FreeBSD 4.5"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:15
 msgid "FreeBSD 4.6"
-msgstr "FreeBSD 4.6"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:16
 msgid "FreeBSD 4.7"
-msgstr "FreeBSD 4.7"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:17
 msgid "FreeBSD 4.8"
-msgstr "FreeBSD 4.8"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:18
 msgid "FreeBSD 4.9"
-msgstr "FreeBSD 4.9"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:19
 msgid "FreeBSD 4.10"
-msgstr "FreeBSD 4.10"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:20
 msgid "FreeBSD 4.11"
-msgstr "FreeBSD 4.11"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:21
 msgid "FreeBSD 5.0"
-msgstr "FreeBSD 5.0"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:22
 msgid "FreeBSD 5.1"
-msgstr "FreeBSD 5.1"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:23
 msgid "FreeBSD 5.2"
-msgstr "FreeBSD 5.2"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:24
 msgid "FreeBSD 5.2.1"
-msgstr "FreeBSD 5.2.1"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:25
 msgid "FreeBSD 5.3"
-msgstr "FreeBSD 5.3"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:26
 msgid "FreeBSD 5.4"
-msgstr "FreeBSD 5.4"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:27
 msgid "FreeBSD 5.5"
-msgstr "FreeBSD 5.5"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:28
 msgid "FreeBSD 6.0"
-msgstr "FreeBSD 6.0"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:29
 msgid "FreeBSD 6.1"
-msgstr "FreeBSD 6.1"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:30
 msgid "FreeBSD 6.2"
-msgstr "FreeBSD 6.2"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:31
 msgid "FreeBSD 6.3"
-msgstr "FreeBSD 6.3"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:32
 msgid "FreeBSD 6.4"
-msgstr "FreeBSD 6.4"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:33
 msgid "FreeBSD 7.0"
-msgstr "FreeBSD 7.0"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:34
 msgid "FreeBSD 7.1"
-msgstr "FreeBSD 7.1"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:35
 msgid "FreeBSD 7.2"
-msgstr "FreeBSD 7.2"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:36
 msgid "FreeBSD 7.3"
-msgstr "FreeBSD 7.3"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:37
 msgid "FreeBSD 7.4"
-msgstr "FreeBSD 7.4"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:38
 msgid "FreeBSD 8.0"
-msgstr "FreeBSD 8.0"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:39
 msgid "FreeBSD 8.1"
-msgstr "FreeBSD 8.1"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:40
 msgid "FreeBSD 8.2"
-msgstr "FreeBSD 8.2"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:41
 msgid "FreeBSD 8.3"
@@ -1154,7 +1153,7 @@ msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:43
 msgid "FreeBSD 9.0"
-msgstr "FreeBSD 9.0"
+msgstr ""
 
 #: ../data/oses/freebsd.xml.in.h:44
 msgid "FreeBSD 9.1"
@@ -1174,143 +1173,143 @@ msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:1
 msgid "Red Hat Linux 1.0"
-msgstr "Red Hat Linux 1.0"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:3
 msgid "Red Hat Linux 1.1"
-msgstr "Red Hat Linux 1.1"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:4
 msgid "Red Hat Linux 2.0"
-msgstr "Red Hat Linux 2.0"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:5
 msgid "Red Hat Linux 2.1"
-msgstr "Red Hat Linux 2.1"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:6
 msgid "Red Hat Linux 3.0.3"
-msgstr "Red Hat Linux 3.0.3"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:7
 msgid "Red Hat Linux 4.0"
-msgstr "Red Hat Linux 4.0"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:8
 msgid "Red Hat Linux 4.1"
-msgstr "Red Hat Linux 4.1"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:9
 msgid "Red Hat Linux 4.2"
-msgstr "Red Hat Linux 4.2"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:10
 msgid "Red Hat Linux 5.0"
-msgstr "Red Hat Linux 5.0"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:11
 msgid "Red Hat Linux 5.1"
-msgstr "Red Hat Linux 5.1"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:12
 msgid "Red Hat Linux 5.2"
-msgstr "Red Hat Linux 5.2"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:13
 msgid "Red Hat Linux 6.0"
-msgstr "Red Hat Linux 6.0"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:14
 msgid "Red Hat Linux 6.1"
-msgstr "Red Hat Linux 6.1"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:15
 msgid "Red Hat Linux 6.2"
-msgstr "Red Hat Linux 6.2"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:16
 msgid "Red Hat Linux 7"
-msgstr "Red Hat Linux 7"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:17
 msgid "Red Hat Linux 7.1"
-msgstr "Red Hat Linux 7.1"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:18
 msgid "Red Hat Linux 7.2"
-msgstr "Red Hat Linux 7.2"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:19
 msgid "Red Hat Linux 7.3"
-msgstr "Red Hat Linux 7.3"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:20
 msgid "Red Hat Linux 8.0"
-msgstr "Red Hat Linux 8.0"
+msgstr ""
 
 #: ../data/oses/rhl.xml.in.h:21
 msgid "Red Hat Linux 9"
-msgstr "Red Hat Linux 9"
+msgstr ""
 
 #: ../data/oses/netbsd.xml.in.h:1
 msgid "NetBSD 0.8"
-msgstr "NetBSD 0.8"
+msgstr ""
 
 #: ../data/oses/netbsd.xml.in.h:2
 msgid "NetBSD Project"
-msgstr "Проект NetBSD"
+msgstr ""
 
 #: ../data/oses/netbsd.xml.in.h:3
 msgid "NetBSD 0.9"
-msgstr "NetBSD 0.9"
+msgstr ""
 
 #: ../data/oses/netbsd.xml.in.h:4
 msgid "NetBSD 1.0"
-msgstr "NetBSD 1.0"
+msgstr ""
 
 #: ../data/oses/netbsd.xml.in.h:5
 msgid "NetBSD 1.1"
-msgstr "NetBSD 1.1"
+msgstr ""
 
 #: ../data/oses/netbsd.xml.in.h:6
 msgid "NetBSD 1.2"
-msgstr "NetBSD 1.2"
+msgstr ""
 
 #: ../data/oses/netbsd.xml.in.h:7
 msgid "NetBSD 1.3"
-msgstr "NetBSD 1.3"
+msgstr ""
 
 #: ../data/oses/netbsd.xml.in.h:8
 msgid "NetBSD 1.4"
-msgstr "NetBSD 1.4"
+msgstr ""
 
 #: ../data/oses/netbsd.xml.in.h:9
 msgid "NetBSD 1.5"
-msgstr "NetBSD 1.5"
+msgstr ""
 
 #: ../data/oses/netbsd.xml.in.h:10
 msgid "NetBSD 1.6"
-msgstr "NetBSD 1.6"
+msgstr ""
 
 #: ../data/oses/netbsd.xml.in.h:11
 msgid "NetBSD 2.0"
-msgstr "NetBSD 2.0"
+msgstr ""
 
 #: ../data/oses/netbsd.xml.in.h:12
 msgid "NetBSD 3.0"
-msgstr "NetBSD 3.0"
+msgstr ""
 
 #: ../data/oses/netbsd.xml.in.h:13
 msgid "NetBSD 4.0"
-msgstr "NetBSD 4.0"
+msgstr ""
 
 #: ../data/oses/netbsd.xml.in.h:14
 msgid "NetBSD 5.0"
-msgstr "NetBSD 5.0"
+msgstr ""
 
 #: ../data/oses/netbsd.xml.in.h:15
 msgid "NetBSD 5.1"
-msgstr "NetBSD 5.1"
+msgstr ""
 
 #: ../data/oses/altlinux.xml.in.h:1
 msgid "Mandrake RE Spring 2001"
@@ -1358,43 +1357,43 @@ msgstr ""
 
 #: ../data/devices/qemu-ps2.xml.in.h:1
 msgid "Qemu/KVM"
-msgstr "Qemu/KVM"
+msgstr ""
 
 #: ../data/devices/qemu-pci.xml.in.h:1
 msgid "LSI Logic / Symbios Logic"
-msgstr "LSI Logic / Symbios Logic"
+msgstr ""
 
 #: ../data/devices/qemu-pci.xml.in.h:2
 msgid "QEMU"
-msgstr "QEMU"
+msgstr ""
 
 #: ../data/devices/qemu-pci.xml.in.h:3
 msgid "Cirrus Logic"
-msgstr "Cirrus Logic"
+msgstr ""
 
 #: ../data/devices/qemu-pci.xml.in.h:4
 msgid "VMWare"
-msgstr "VMWare"
+msgstr ""
 
 #: ../data/devices/qemu-pci.xml.in.h:6
 msgid "Realtek Semiconductor Co., Ltd."
-msgstr "Realtek Semiconductor Co., Ltd."
+msgstr ""
 
 #: ../data/devices/qemu-pci.xml.in.h:7
 msgid "Advanced Micro Devices [AMD]"
-msgstr "Advanced Micro Devices [AMD]"
+msgstr ""
 
 #: ../data/devices/qemu-pci.xml.in.h:8
 msgid "Intel Corporation"
-msgstr "Корпорація Intel"
+msgstr ""
 
 #: ../data/devices/qemu-pci.xml.in.h:9
 msgid "Ensoniq"
-msgstr "Ensoniq"
+msgstr ""
 
 #: ../data/devices/qemu-usb.xml.in.h:1
 msgid "VirtualBox"
-msgstr "VirtualBox"
+msgstr ""
 
 #: ../data/hypervisors/kvm.xml.in.h:1
 msgid "QEMU-KVM 1.0"
@@ -1518,119 +1517,119 @@ msgstr ""
 
 #: ../data/hypervisors/rhel-xen.xml.in.h:1
 msgid "Xen 3.0.3 (RHEL 5.0)"
-msgstr "Xen 3.0.3 (RHEL 5.0)"
+msgstr ""
 
 #: ../data/hypervisors/rhel-xen.xml.in.h:2
 msgid "Red Hat, Inc."
-msgstr "Red Hat, Inc."
+msgstr ""
 
 #: ../data/hypervisors/rhel-xen.xml.in.h:3
 msgid "Xen 3.1.0 (RHEL 5.1)"
-msgstr "Xen 3.1.0 (RHEL 5.1)"
+msgstr ""
 
 #: ../data/hypervisors/rhel-xen.xml.in.h:4
 msgid "Xen 3.1.0 (RHEL 5.2)"
-msgstr "Xen 3.1.0 (RHEL 5.2)"
+msgstr ""
 
 #: ../data/hypervisors/rhel-xen.xml.in.h:5
 msgid "Xen 3.1.0 (RHEL 5.3)"
-msgstr "Xen 3.1.0 (RHEL 5.3)"
+msgstr ""
 
 #: ../data/hypervisors/rhel-xen.xml.in.h:6
 msgid "Xen 3.1.0 (RHEL 5.4)"
-msgstr "Xen 3.1.0 (RHEL 5.4)"
+msgstr ""
 
 #: ../data/hypervisors/rhel-xen.xml.in.h:7
 msgid "Xen 3.1.0 (RHEL 5.5)"
-msgstr "Xen 3.1.0 (RHEL 5.5)"
+msgstr ""
 
 #: ../data/hypervisors/rhel-xen.xml.in.h:8
 msgid "Xen 3.1.0 (RHEL 5.6)"
-msgstr "Xen 3.1.0 (RHEL 5.6)"
+msgstr ""
 
 #: ../data/hypervisors/rhel-xen.xml.in.h:9
 msgid "Xen 3.1.0 (RHEL 5.7)"
-msgstr "Xen 3.1.0 (RHEL 5.7)"
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:1
 msgid "Xen 3.0.2"
-msgstr "Xen 3.0.2"
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:2
 msgid "Citrix Systems, Inc."
-msgstr "Citrix Systems, Inc."
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:3
 msgid "Xen 3.0.3"
-msgstr "Xen 3.0.3"
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:4
 msgid "Xen 3.0.4"
-msgstr "Xen 3.0.4"
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:5
 msgid "Xen 3.1.3"
-msgstr "Xen 3.1.3"
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:6
 msgid "Xen 3.1.4"
-msgstr "Xen 3.1.4"
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:7
 msgid "Xen 3.2.0"
-msgstr "Xen 3.2.0"
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:8
 msgid "Xen 3.2.1"
-msgstr "Xen 3.2.1"
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:9
 msgid "Xen 3.2.2"
-msgstr "Xen 3.2.2"
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:10
 msgid "Xen 3.2.3"
-msgstr "Xen 3.2.3"
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:11
 msgid "Xen 3.3.0"
-msgstr "Xen 3.3.0"
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:12
 msgid "Xen 3.3.1"
-msgstr "Xen 3.3.1"
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:13
 msgid "Xen 3.3.2"
-msgstr "Xen 3.3.2"
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:14
 msgid "Xen 3.4.0"
-msgstr "Xen 3.4.0"
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:15
 msgid "Xen 3.4.1"
-msgstr "Xen 3.4.1"
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:16
 msgid "Xen 3.4.2"
-msgstr "Xen 3.4.2"
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:17
 msgid "Xen 3.4.3"
-msgstr "Xen 3.4.3"
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:18
 msgid "Xen 4.0.0"
-msgstr "Xen 4.0.0"
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:19
 msgid "Xen 4.0.1"
-msgstr "Xen 4.0.1"
+msgstr ""
 
 #: ../data/hypervisors/xen.xml.in.h:20
 msgid "Xen 4.1.0"
-msgstr "Xen 4.1.0"
+msgstr ""
 
 #: ../osinfo/osinfo_avatar_format.c:109
 msgid "The allowed mime-types for the avatar"
@@ -1650,31 +1649,31 @@ msgstr ""
 
 #: ../osinfo/osinfo_deployment.c:154
 msgid "Operating system"
-msgstr "Операційна система"
+msgstr ""
 
 #: ../osinfo/osinfo_deployment.c:169
 msgid "Virtualization platform"
-msgstr "Платформа віртуалізації"
+msgstr ""
 
 #: ../osinfo/osinfo_devicelink.c:129
 msgid "Target device"
-msgstr "Пристрій призначення"
+msgstr ""
 
 #: ../osinfo/osinfo_devicelinkfilter.c:134
 msgid "Device link target filter"
-msgstr "Фільтр призначення посилання на пристрій"
+msgstr ""
 
 #: ../osinfo/osinfo_entity.c:136
 msgid "Unique identifier"
-msgstr "Унікальний ідентифікатор"
+msgstr ""
 
 #: ../osinfo/osinfo_install_config_param.c:152
 msgid "Parameter name"
-msgstr "Назва параметра"
+msgstr ""
 
 #: ../osinfo/osinfo_install_config_param.c:168
 msgid "Parameter policy"
-msgstr "Правила щодо параметра"
+msgstr ""
 
 #: ../osinfo/osinfo_install_config_param.c:184
 msgid "Parameter Value Mapping"
@@ -1682,19 +1681,19 @@ msgstr ""
 
 #: ../osinfo/osinfo_install_script.c:192
 msgid "URI for install script template"
-msgstr "Адреса шаблона скрипту для встановлення"
+msgstr ""
 
 #: ../osinfo/osinfo_install_script.c:204
 msgid "Data for install script template"
-msgstr "Дані для шаблону скрипту для встановлення"
+msgstr ""
 
 #: ../osinfo/osinfo_install_script.c:216
 msgid "Install script profile name"
-msgstr "Назва профілю скрипту для встановлення"
+msgstr ""
 
 #: ../osinfo/osinfo_install_script.c:228
 msgid "Product key format mask"
-msgstr "Маска формату ключа продукту"
+msgstr ""
 
 #: ../osinfo/osinfo_install_script.c:238
 msgid "Expected path format"
@@ -1706,67 +1705,67 @@ msgstr ""
 
 #: ../osinfo/osinfo_install_script.c:581
 msgid "Unable to create XML parser context"
-msgstr "Не вдалося створити контекст обробки XML"
+msgstr ""
 
 #: ../osinfo/osinfo_install_script.c:589
 msgid "Unable to read XSL template"
-msgstr "Не вдалося прочитати шаблон XSL"
+msgstr ""
 
 #: ../osinfo/osinfo_install_script.c:595
 msgid "Unable to parse XSL template"
-msgstr "Не вдалося обробити шаблон XSL"
+msgstr ""
 
 #: ../osinfo/osinfo_install_script.c:668 ../osinfo/osinfo_install_script.c:704
 #, c-format
 msgid "Unable to create XML node '%s': '%s'"
-msgstr "Не вдалося створити вузол XML «%s»: «%s»"
+msgstr ""
 
 #: ../osinfo/osinfo_install_script.c:676
 #, c-format
 msgid "Unable to create XML node 'id': '%s'"
-msgstr "Не вдалося створити вузол XML «id»: «%s»"
+msgstr ""
 
 #: ../osinfo/osinfo_install_script.c:682 ../osinfo/osinfo_install_script.c:710
 #, c-format
 msgid "Unable to add XML child '%s'"
-msgstr "Не вдалося додати дочірній елемент XML «%s»"
+msgstr ""
 
 #: ../osinfo/osinfo_install_script.c:755 ../osinfo/osinfo_install_script.c:766
 #: ../osinfo/osinfo_install_script.c:777
 #, c-format
 msgid "Unable to set XML root '%s'"
-msgstr "Не вдалося встановити кореневий елемент XML «%s»"
+msgstr ""
 
 #: ../osinfo/osinfo_install_script.c:799
 msgid "Unable to create XSL transform context"
-msgstr "Не вдалося створити контекст перетворення XSL"
+msgstr ""
 
 #: ../osinfo/osinfo_install_script.c:804
 msgid "Unable to apply XSL transform context"
-msgstr "Не вдалося застосувати контекст перетворення XSL"
+msgstr ""
 
 #: ../osinfo/osinfo_install_script.c:809
 msgid "Unable to convert XSL output to string"
-msgstr "Не вдалося перетворити виведені XSL дані на рядок"
+msgstr ""
 
 #: ../osinfo/osinfo_install_script.c:866
 #, c-format
 msgid "Failed to load script template %s: "
-msgstr "Не вдалося завантажити шаблон скрипту %s: "
+msgstr ""
 
 #: ../osinfo/osinfo_install_script.c:880
 #, c-format
 msgid "Failed to apply script template %s: "
-msgstr "Не вдалося застосувати шаблон скрипту %s: "
+msgstr ""
 
 #: ../osinfo/osinfo_install_script.c:925
 #: ../osinfo/osinfo_install_script.c:1234
 msgid "Failed to apply script template: "
-msgstr "Не вдалося застосувати шаблон скрипту: "
+msgstr ""
 
 #: ../osinfo/osinfo_list.c:132
 msgid "List element type"
-msgstr "Тип списку елементів"
+msgstr ""
 
 #: ../osinfo/osinfo_loader.c:173
 #, c-format
@@ -1775,88 +1774,88 @@ msgstr ""
 
 #: ../osinfo/osinfo_loader.c:253 ../osinfo/osinfo_loader.c:397
 msgid "Expected a text node attribute value"
-msgstr "Мало бути вказано значення атрибута текстового вузла"
+msgstr ""
 
 #: ../osinfo/osinfo_loader.c:488
 msgid "Missing device id property"
-msgstr "Не вистачає властивості ідентифікатора пристрою"
+msgstr ""
 
 #: ../osinfo/osinfo_loader.c:518
 msgid "Missing device link id property"
-msgstr "Не вистачає властивості прив’язки до пристрою"
+msgstr ""
 
 #: ../osinfo/osinfo_loader.c:568
 msgid "Missing product upgrades id property"
-msgstr "Не вистачає властивості ідентифікатора оновлення продукту"
+msgstr ""
 
 #: ../osinfo/osinfo_loader.c:640
 msgid "Missing platform id property"
-msgstr "Не вистачає властивості ідентифікатора платформи"
+msgstr ""
 
 #: ../osinfo/osinfo_loader.c:668
 msgid "Missing deployment id property"
-msgstr "Не вистачає властивості ідентифікатора розгортання"
+msgstr ""
 
 #: ../osinfo/osinfo_loader.c:674
 msgid "Missing deployment os id property"
-msgstr "Не вистачає властивості ідентифікатора ОС розгортання"
+msgstr ""
 
 #: ../osinfo/osinfo_loader.c:684
 msgid "Missing deployment platform id property"
-msgstr "Не вистачає властивості платформи розгортання"
+msgstr ""
 
 #: ../osinfo/osinfo_loader.c:722 ../osinfo/osinfo_loader.c:1283
 msgid "Missing os id property"
-msgstr "Не вистачає властивості ідентифікатора ОС"
+msgstr ""
 
 #: ../osinfo/osinfo_loader.c:839
 msgid "Missing install script id property"
-msgstr "Не вистачає властивості ідентифікатора скрипту встановлення"
+msgstr ""
 
 #: ../osinfo/osinfo_loader.c:1393
 msgid "Missing OS install script property"
-msgstr "Не вистачає властивості скрипту встановлення"
+msgstr ""
 
 #: ../osinfo/osinfo_loader.c:1456
 msgid "Incorrect root element"
-msgstr "Помилковий кореневий елемент"
+msgstr ""
 
 #: ../osinfo/osinfo_loader.c:1522
 msgid "Unable to construct parser context"
-msgstr "Не вдалося побудувати контекст обробки"
+msgstr ""
 
 #: ../osinfo/osinfo_loader.c:1544
 msgid "Missing root XML element"
-msgstr "Не вистачає кореневого елемента XML"
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:367 ../osinfo/osinfo_resources.c:170
 #: ../osinfo/osinfo_tree.c:277
 msgid "CPU Architecture"
-msgstr "Архітектура процесора"
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:380
 msgid "The URL to this media"
-msgstr "Адреса цього носія"
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:393 ../osinfo/osinfo_tree.c:303
 msgid "The expected ISO9660 volume ID"
-msgstr "Очікуваний ідентифікатор тому ISO9660"
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:406 ../osinfo/osinfo_tree.c:316
 msgid "The expected ISO9660 publisher ID"
-msgstr "Очікуваний ідентифікатор оприлюднювача ISO9660"
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:419 ../osinfo/osinfo_tree.c:329
 msgid "The expected ISO9660 application ID"
-msgstr "Очікуваний ідентифікатор програми ISO9660"
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:432 ../osinfo/osinfo_tree.c:342
 msgid "The expected ISO9660 system ID"
-msgstr "Очікуваний ідентифікатор системи ISO9660"
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:445 ../osinfo/osinfo_tree.c:355
 msgid "The path to the kernel image"
-msgstr "Шлях до образу ядра"
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:458
 msgid "The path to the initrd image"
@@ -1868,11 +1867,11 @@ msgstr ""
 
 #: ../osinfo/osinfo_media.c:484
 msgid "Media can boot directly w/o installation"
-msgstr "Безпосереднє завантаження з носія без встановлення неможливе"
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:506
 msgid "Number of installer reboots"
-msgstr "Кількість перезавантажень засобом для встановлення"
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:524
 msgid "Information about the operating system on this media"
@@ -1884,117 +1883,117 @@ msgstr ""
 
 #: ../osinfo/osinfo_media.c:661
 msgid "Failed to read supplementary volume descriptor: "
-msgstr "Не вдалося прочитати дескриптор допоміжного тому: "
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:668
 #, c-format
 msgid "Supplementary volume descriptor was truncated"
-msgstr "Дескриптор допоміжного тому було обрізано"
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:691
 #, c-format
 msgid "Install media is not bootable"
-msgstr "Носій для встановлення непридатний до завантаження"
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:747
 msgid "Failed to read primary volume descriptor: "
-msgstr "Не вдалося прочитати дескриптор основного тому: "
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:754
 #, c-format
 msgid "Primary volume descriptor was truncated"
-msgstr "Дескриптор основного тому було обрізано"
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:779
 #, c-format
 msgid "Insufficient metadata on installation media"
-msgstr "Недостатньо метаданих на носії для встановлення"
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:814
 #, c-format
 msgid "Failed to skip %d bytes"
-msgstr "Не вдалося пропустити %d байтів"
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:819
 #, c-format
 msgid "No volume descriptors"
-msgstr "Немає дескрипторів тому"
+msgstr ""
 
 #: ../osinfo/osinfo_media.c:851
 msgid "Failed to open file"
-msgstr "Не вдалося відкрити файл"
+msgstr ""
 
 #: ../osinfo/osinfo_os.c:149
 msgid "Generic Family"
-msgstr "Загальне сімейство"
+msgstr ""
 
 #: ../osinfo/osinfo_os.c:165
 msgid "Generic Distro"
-msgstr "Загальний дистрибутив"
+msgstr ""
 
 #: ../osinfo/osinfo_product.c:169 ../tools/osinfo-query.c:59
 #: ../tools/osinfo-query.c:83 ../tools/osinfo-query.c:109
 msgid "Name"
-msgstr "Назва"
+msgstr ""
 
 #: ../osinfo/osinfo_product.c:182 ../tools/osinfo-query.c:57
 #: ../tools/osinfo-query.c:81
 msgid "Short ID"
-msgstr "Короткий ід."
+msgstr ""
 
 #: ../osinfo/osinfo_product.c:195 ../tools/osinfo-query.c:67
 #: ../tools/osinfo-query.c:87 ../tools/osinfo-query.c:101
 msgid "Vendor"
-msgstr "Виробник"
+msgstr ""
 
 #: ../osinfo/osinfo_product.c:208 ../tools/osinfo-query.c:61
 #: ../tools/osinfo-query.c:85
 msgid "Version"
-msgstr "Версія"
+msgstr ""
 
 #: ../osinfo/osinfo_product.c:221
 msgid "Codename"
-msgstr "Кодова назва"
+msgstr ""
 
 #: ../osinfo/osinfo_product.c:234
 msgid "URI of the logo"
-msgstr "Адреса логотипу"
+msgstr ""
 
 #: ../osinfo/osinfo_resources.c:186
 msgid "CPU frequency in hertz (Hz)"
-msgstr "Частота процесора у Гц"
+msgstr ""
 
 #: ../osinfo/osinfo_resources.c:203
 msgid "Number of CPUs"
-msgstr "Кількість процесорів"
+msgstr ""
 
 #: ../osinfo/osinfo_resources.c:220
 msgid "Amount of Random Access Memory (RAM) in bytes"
-msgstr "Об’єм оперативної пам’яті (RAM) у байтах"
+msgstr ""
 
 #: ../osinfo/osinfo_resources.c:237
 msgid "Amount of storage space in bytes"
-msgstr "Об’єм сховища даних у байтах"
+msgstr ""
 
 #: ../osinfo/osinfo_tree.c:290
 msgid "The URL to this tree"
-msgstr "Адреса цього дерева"
+msgstr ""
 
 #: ../osinfo/osinfo_tree.c:368
 msgid "The path to the inirtd image"
-msgstr "Шлях до образу inirtd"
+msgstr ""
 
 #: ../osinfo/osinfo_tree.c:381
 msgid "The path to the bootable ISO image"
-msgstr "Шлях до придатного до завантаження образу ISO"
+msgstr ""
 
 #: ../osinfo/osinfo_tree.c:606
 msgid "Failed to load .treeinfo file: "
-msgstr "Не вдалося завантажити файл .treeinfo: "
+msgstr ""
 
 #: ../osinfo/osinfo_tree.c:617
 msgid "Failed to process keyinfo file: "
-msgstr "Не вдалося обробити файл keyinfo: "
+msgstr ""
 
 #: ../osinfo/osinfo_os_variant.c:115
 msgid "The name to this variant"
@@ -2002,102 +2001,102 @@ msgstr ""
 
 #: ../tools/osinfo-db-validate.c:38
 msgid "Verbose progress information"
-msgstr "Докладні дані щодо поступу"
+msgstr ""
 
 #: ../tools/osinfo-db-validate.c:55
 #, c-format
 msgid "Schema validity error %s"
-msgstr "Помилка під час перевірки чинності схеми, %s"
+msgstr ""
 
 #: ../tools/osinfo-db-validate.c:71
 msgid "Unable to create libxml parser"
-msgstr "Не вдалося створити обробник libxml"
+msgstr ""
 
 #: ../tools/osinfo-db-validate.c:79
 #, c-format
 msgid "Unable to parse XML document '%s'"
-msgstr "Не вдалося обробити документ XML, «%s»"
+msgstr ""
 
 #: ../tools/osinfo-db-validate.c:111
 #, c-format
 msgid "Unable to validate XML document '%s'"
-msgstr "Не вдалося перевірити коректність документа XML, «%s»"
+msgstr ""
 
 #: ../tools/osinfo-db-validate.c:161
 #, c-format
 msgid "Processing '%s'...\n"
-msgstr "Обробляємо «%s»…\n"
+msgstr ""
 
 #: ../tools/osinfo-db-validate.c:184
 #, c-format
 msgid "Processed '%s'.\n"
-msgstr "Оброблено «%s».\n"
+msgstr ""
 
 #: ../tools/osinfo-db-validate.c:209
 #, c-format
 msgid "Unable to create RNG parser for %s"
-msgstr "Не вдалося створити обробник RNG для %s"
+msgstr ""
 
 #: ../tools/osinfo-db-validate.c:217
 #, c-format
 msgid "Unable to parse RNG %s"
-msgstr "Не вдалося обробити RNG, %s"
+msgstr ""
 
 #: ../tools/osinfo-db-validate.c:225
 #, c-format
 msgid "Unable to create RNG validation context %s"
-msgstr "Не вдалося створити контекст перевірки RNG, %s"
+msgstr ""
 
 #: ../tools/osinfo-db-validate.c:263
 msgid "- Validate XML documents "
-msgstr "- Перевірка документів XML "
+msgstr ""
 
 #: ../tools/osinfo-db-validate.c:268 ../tools/osinfo-detect.c:228
 #: ../tools/osinfo-query.c:414
 #, c-format
 msgid "Error while parsing commandline options: %s\n"
-msgstr "Помилка під час спроби обробити параметри командного рядка: %s\n"
+msgstr ""
 
 #: ../tools/osinfo-detect.c:65 ../tools/osinfo-detect.c:86
 #, c-format
 msgid "Invalid value '%s'"
-msgstr "Некоректне значення, «%s»"
+msgstr ""
 
 #: ../tools/osinfo-detect.c:98
 msgid "Output format. Default: plain"
-msgstr "Формат виведення даних. Типове значення: plain (без форматування)"
+msgstr ""
 
 #: ../tools/osinfo-detect.c:99
 msgid "plain|env."
-msgstr "plain|env."
+msgstr ""
 
 #: ../tools/osinfo-detect.c:102
 msgid "URL type. Default: media"
-msgstr "Тип адреси. Типове значення: media (носій)"
+msgstr ""
 
 #: ../tools/osinfo-detect.c:103
 msgid "media|tree."
-msgstr "media|tree."
+msgstr ""
 
 #: ../tools/osinfo-detect.c:113
 #, c-format
 msgid "Media is bootable.\n"
-msgstr "Носій є придатним до завантаження.\n"
+msgstr ""
 
 #: ../tools/osinfo-detect.c:118
 #, c-format
 msgid "Media is not bootable.\n"
-msgstr "Носій є непридатним до завантаження.\n"
+msgstr ""
 
 #: ../tools/osinfo-detect.c:155
 #, c-format
 msgid "Media is an installer for OS '%s'\n"
-msgstr "Носій є засобом встановлення для ОС «%s»\n"
+msgstr ""
 
 #: ../tools/osinfo-detect.c:157
 #, c-format
 msgid "Media is live media for OS '%s'\n"
-msgstr "Носій є образом портативної ОС «%s»\n"
+msgstr ""
 
 #: ../tools/osinfo-detect.c:162
 #, c-format
@@ -2107,50 +2106,48 @@ msgstr ""
 #: ../tools/osinfo-detect.c:207
 #, c-format
 msgid "Tree is an installer for OS '%s'\n"
-msgstr "Дерево каталогів є засобом встановлення ОС «%s»\n"
+msgstr ""
 
 #: ../tools/osinfo-detect.c:224
 msgid "- Detect if media is bootable and the relevant OS and distribution."
 msgstr ""
-"- Визначення того, чи є носій придатним до завантаження, а також відповідної"
-" ОС і дистрибутива."
 
 #: ../tools/osinfo-detect.c:250 ../tools/osinfo-install-script.c:334
 #: ../tools/osinfo-query.c:430
 #, c-format
 msgid "Error loading OS data: %s\n"
-msgstr "Помилка під час спроби завантаження даних ОС: %s\n"
+msgstr ""
 
 #: ../tools/osinfo-detect.c:266
 #, c-format
 msgid "Error parsing media: %s\n"
-msgstr "Помилка під час обробки носія: %s\n"
+msgstr ""
 
 #: ../tools/osinfo-detect.c:284
 #, c-format
 msgid "Error parsing installer tree: %s\n"
-msgstr "Помилка під час обробки дерева каталогів засобу встановлення: %s\n"
+msgstr ""
 
 #: ../tools/osinfo-install-script.c:53
 #, c-format
 msgid "Expected configuration key=value"
-msgstr "Налаштування мало бути визначено у форматі ключ=значення"
+msgstr ""
 
 #: ../tools/osinfo-install-script.c:71
 msgid "Install script profile"
-msgstr "Профіль скрипту для встановлення"
+msgstr ""
 
 #: ../tools/osinfo-install-script.c:73
 msgid "Install script output directory"
-msgstr "Каталог виведення даних скрипту для встановлення"
+msgstr ""
 
 #: ../tools/osinfo-install-script.c:75
 msgid "The output filename prefix"
-msgstr "Префікс назви файла виведених даних"
+msgstr ""
 
 #: ../tools/osinfo-install-script.c:78
 msgid "Set configuration parameter"
-msgstr "Встановити значення параметра налаштування"
+msgstr ""
 
 #: ../tools/osinfo-install-script.c:80
 msgid "List configuration parameters"
@@ -2184,16 +2181,16 @@ msgstr ""
 #: ../tools/osinfo-install-script.c:263
 #, c-format
 msgid "Unable to generate install script: %s\n"
-msgstr "Не вдалося створити скрипт для встановлення: %s\n"
+msgstr ""
 
 #: ../tools/osinfo-install-script.c:303
 msgid "- Generate an OS install script"
-msgstr "- Створення скрипту для встановлення ОС"
+msgstr ""
 
 #: ../tools/osinfo-install-script.c:306
 #, c-format
 msgid "Error while parsing options: %s\n"
-msgstr "Помилка під час спроби обробити параметри: %s\n"
+msgstr ""
 
 #: ../tools/osinfo-install-script.c:324
 msgid ""
@@ -2204,90 +2201,90 @@ msgstr ""
 #: ../tools/osinfo-install-script.c:343
 #, c-format
 msgid "Error finding OS: %s\n"
-msgstr "Помилка під час спроби знайти ОС: %s\n"
+msgstr ""
 
 #: ../tools/osinfo-query.c:63
 msgid "Family"
-msgstr "Сімейство"
+msgstr ""
 
 #: ../tools/osinfo-query.c:65
 msgid "Distro"
-msgstr "Дистрибутив"
+msgstr ""
 
 #: ../tools/osinfo-query.c:69 ../tools/osinfo-query.c:89
 msgid "Release date"
-msgstr "Дата випуску"
+msgstr ""
 
 #: ../tools/osinfo-query.c:71 ../tools/osinfo-query.c:91
 msgid "End of life"
-msgstr "Дата завершення підтримки"
+msgstr ""
 
 #: ../tools/osinfo-query.c:73 ../tools/osinfo-query.c:93
 msgid "Code name"
-msgstr "Кодова назва"
+msgstr ""
 
 #: ../tools/osinfo-query.c:75 ../tools/osinfo-query.c:95
 #: ../tools/osinfo-query.c:115 ../tools/osinfo-query.c:121
 msgid "ID"
-msgstr "Ід."
+msgstr ""
 
 #: ../tools/osinfo-query.c:103
 msgid "Vendor ID"
-msgstr "Ід. виробника"
+msgstr ""
 
 #: ../tools/osinfo-query.c:105
 msgid "Product"
-msgstr "Продукт"
+msgstr ""
 
 #: ../tools/osinfo-query.c:107
 msgid "Product ID"
-msgstr "Ід. продукту"
+msgstr ""
 
 #: ../tools/osinfo-query.c:111
 msgid "Class"
-msgstr "Клас"
+msgstr ""
 
 #: ../tools/osinfo-query.c:113
 msgid "Bus"
-msgstr "Канал"
+msgstr ""
 
 #: ../tools/osinfo-query.c:153 ../tools/osinfo-query.c:191
 #, c-format
 msgid "Unknown property name %s"
-msgstr "Невідома назва властивості, %s"
+msgstr ""
 
 #: ../tools/osinfo-query.c:177
 msgid "Syntax error in condition, expecting KEY=VALUE"
-msgstr "Синтаксична помилка у записі умови, мало бути: КЛЮЧ=ЗНАЧЕННЯ"
+msgstr ""
 
 #: ../tools/osinfo-query.c:402
 msgid "Sort column"
-msgstr "Стовпчик для впорядковування"
+msgstr ""
 
 #: ../tools/osinfo-query.c:404
 msgid "Display fields"
-msgstr "Показані поля"
+msgstr ""
 
 #: ../tools/osinfo-query.c:409
 msgid "- Query the OS info database"
-msgstr "- Надсилання запиту до бази даних щодо ОС"
+msgstr ""
 
 #: ../tools/osinfo-query.c:421
 #, c-format
 msgid "Missing data type parameter\n"
-msgstr "Не вистачає параметра типу даних\n"
+msgstr ""
 
 #: ../tools/osinfo-query.c:449
 #, c-format
 msgid "Unknown type '%s' requested\n"
-msgstr "Надіслано запит щодо невідомого типу, «%s»\n"
+msgstr ""
 
 #: ../tools/osinfo-query.c:454
 #, c-format
 msgid "Unable to construct filter: %s\n"
-msgstr "Не вдалося побудувати фільтр: %s\n"
+msgstr ""
 
 #: ../tools/osinfo-query.c:459
 #, c-format
 msgid "Unable to set field visibility: %s\n"
-msgstr "Не вдалося встановити параметр видимості поля: %s\n"
+msgstr ""
