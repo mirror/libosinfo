@@ -999,7 +999,9 @@ static OsinfoMedia *osinfo_loader_media(OsinfoLoader *loader,
              strcmp((const gchar *)nodes[i]->name,
                     OSINFO_MEDIA_PROP_APPLICATION_ID) != 0 &&
              strcmp((const gchar *)nodes[i]->name,
-                    OSINFO_MEDIA_PROP_LANG) != 0))
+                    OSINFO_MEDIA_PROP_LANG) != 0 &&
+             strcmp((const gchar *)nodes[i]->name,
+                    OSINFO_MEDIA_PROP_VOLUME_SIZE) != 0))
             continue;
 
         if (strcmp((const gchar *)nodes[i]->name,
