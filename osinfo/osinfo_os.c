@@ -117,6 +117,8 @@ osinfo_os_finalize(GObject *object)
     g_object_unref(os->priv->medias);
     g_object_unref(os->priv->trees);
     g_object_unref(os->priv->variants);
+    g_object_unref(os->priv->minimum);
+    g_object_unref(os->priv->recommended);
 
     g_object_unref(os->priv->scripts);
 
