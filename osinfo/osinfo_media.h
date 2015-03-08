@@ -86,6 +86,7 @@ typedef struct _OsinfoMediaPrivate OsinfoMediaPrivate;
 #define OSINFO_MEDIA_PROP_LANG_REGEX     "l10n-language-regex"
 #define OSINFO_MEDIA_PROP_LANG_MAP       "l10n-language-map"
 #define OSINFO_MEDIA_PROP_VARIANT        "variant"
+#define OSINFO_MEDIA_PROP_VOLUME_SIZE    "volume-size"
 
 /* object */
 struct _OsinfoMedia
@@ -135,6 +136,7 @@ GList *osinfo_media_get_languages(OsinfoMedia *media);
 gboolean osinfo_media_get_installer(OsinfoMedia *media);
 gboolean osinfo_media_get_live(OsinfoMedia *media);
 gint osinfo_media_get_installer_reboots(OsinfoMedia *media);
+gint64 osinfo_media_get_volume_size(OsinfoMedia *media);
 
 #endif /* __OSINFO_MEDIA_H__ */
 /*

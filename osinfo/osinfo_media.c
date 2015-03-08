@@ -156,6 +156,7 @@ enum {
     PROP_INSTALLER_REBOOTS,
     PROP_OS,
     PROP_LANGUAGES,
+    PROP_VOLUME_SIZE
 };
 
 static void
@@ -228,6 +229,11 @@ osinfo_media_get_property(GObject    *object,
 
     case PROP_LANGUAGES:
         g_value_set_pointer(value, osinfo_media_get_languages(media));
+        break;
+
+    case PROP_VOLUME_SIZE:
+        g_value_set_int64(value,
+                          osinfo_media_get_volume_size(media));
         break;
 
     default:
@@ -318,6 +324,12 @@ osinfo_media_set_property(GObject      *object,
 
     case PROP_LANGUAGES:
         osinfo_media_set_languages(media, g_value_get_pointer(value));
+        break;
+
+    case PROP_VOLUME_SIZE:
+        osinfo_entity_set_param_int64(OSINFO_ENTITY(media),
+                                      OSINFO_MEDIA_PROP_VOLUME_SIZE,
+                                      g_value_get_int64(value));
         break;
 
     default:
@@ -547,6 +559,21 @@ osinfo_media_class_init(OsinfoMediaClass *klass)
                                  G_PARAM_READABLE |
                                  G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_LANGUAGES, pspec);
+
+    /**
+     * OsinfoMedia:volume-size:
+     *
+     * Expected volume size, in bytes for ISO9660 image/device.
+     */
+    pspec = g_param_spec_int64("volume-size",
+                               "VolumeSize",
+                               _("Expected ISO9660 volume size, in bytes"),
+                               G_MININT,
+                               G_MAXINT64,
+                               -1 /* default value */,
+                               G_PARAM_READWRITE |
+                               G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass, PROP_VOLUME_SIZE, pspec);
 }
 
 static void
@@ -1217,6 +1244,22 @@ void osinfo_media_set_languages(OsinfoMedia *media, GList *languages)
                                 OSINFO_MEDIA_PROP_LANG,
                                 it->data);
 }
+
+/**
+ * osinfo_media_get_volume_size:
+ * @media: an #OsinfoMedia instance
+ *
+ * Returns: (transfer none): the ISO9660 volume size, in bytes or -1 if size is
+ * unknown or media is not an ISO9660 device/image.
+ */
+gint64 osinfo_media_get_volume_size(OsinfoMedia *media)
+{
+    g_return_val_if_fail(OSINFO_IS_MEDIA(media), -1);
+
+    return osinfo_entity_get_param_value_int64_with_default
+        (OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_VOLUME_SIZE, -1);
+}
+
 /*
  * Local variables:
  *  indent-tabs-mode: nil

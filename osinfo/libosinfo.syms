@@ -505,6 +505,11 @@ LIBOSINFO_0.2.11 {
 	osinfo_install_script_get_needs_internet;
 } LIBOSINFO_0.2.10;
 
+LIBOSINFO_0.2.12 {
+    global:
+	osinfo_media_get_volume_size;
+} LIBOSINFO_0.2.11;
+
 /* Symbols in next release...
 
   LIBOSINFO_0.0.2 {
