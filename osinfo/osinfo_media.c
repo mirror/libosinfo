@@ -46,11 +46,15 @@ struct _PrimaryVolumeDescriptor {
     guint8 ignored[8];
     gchar  system[MAX_SYSTEM];       /* System ID */
     gchar  volume[MAX_VOLUME];       /* Volume ID */
-    guint8 ignored2[246];
+    guint8 ignored2[8];
+    guint32 volume_space_size[2];
+    guint8 ignored3[40];
+    guint16 logical_blk_size[2];
+    guint8 ignored4[186];
     gchar  publisher[MAX_PUBLISHER]; /* Publisher ID */
-    guint8 ignored3[128];
+    guint8 ignored5[128];
     gchar  application[MAX_APPLICATION]; /* Application ID */
-    guint8 ignored4[1346];
+    guint8 ignored6[1346];
 };
 
 /* the PrimaryVolumeDescriptor struct must exactly 2048 bytes long
@@ -677,6 +681,8 @@ static void on_svd_read(GObject *source,
     GError *error = NULL;
     CreateFromLocationAsyncData *data;
     gssize ret;
+    guint8 index;
+    gint64 vol_size;
 
     data = (CreateFromLocationAsyncData *)user_data;
 
@@ -744,6 +750,13 @@ static void on_svd_read(GObject *source,
         osinfo_entity_set_param(OSINFO_ENTITY(media),
                                 OSINFO_MEDIA_PROP_APPLICATION_ID,
                                 data->pvd.application);
+
+    index = (G_BYTE_ORDER == G_LITTLE_ENDIAN) ? 0 : 1;
+    vol_size = ((gint64) data->pvd.volume_space_size[index]) *
+               data->pvd.logical_blk_size[index];
+    osinfo_entity_set_param_int64(OSINFO_ENTITY(media),
+                                  OSINFO_MEDIA_PROP_VOLUME_SIZE,
+                                  vol_size);
 
 EXIT:
     if (error != NULL)
