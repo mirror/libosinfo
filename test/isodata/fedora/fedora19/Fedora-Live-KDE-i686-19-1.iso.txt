@@ -1,6 +1,6 @@
 CD-ROM is in ISO 9660 format
 System id: LINUX
-Volume id: Fedora-Live-Desktop-i686-19-Alph
+Volume id: Fedora-Live-KDE-i686-19-1
 Volume set id: 
 Publisher id: 
 Data preparer id: 
@@ -11,7 +11,7 @@ Bibliographic File id:
 Volume set size is: 1
 Volume set sequence number is: 1
 Logical block size is: 2048
-Volume size is: 492490
+Volume size is: 431436
 El Torito VD version 1 found, boot catalog is in sector 36
 Joliet with UCS level 3 found
 Rock Ridge signatures version 1 found
