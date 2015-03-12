@@ -93,6 +93,7 @@ static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *
     GDataInputStream *dis = NULL;
     gchar *line;
     const gchar *arch;
+    gint64 vol_size = -1, blk_size;
 
     if (!(fis = g_file_read(file, NULL, error)))
         goto error;
@@ -148,8 +149,17 @@ static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *
             osinfo_entity_set_param(OSINFO_ENTITY(info->media),
                                     OSINFO_MEDIA_PROP_APPLICATION_ID,
                                     line + 16);
+        } else if (g_str_has_prefix(line, "Logical block size is:")) {
+            blk_size = (gint64) atoll (line + 23);
+        } else if (g_str_has_prefix(line, "Volume size is:")) {
+            vol_size = atoll (line + 16);
         }
     }
+
+    if (vol_size > 0)
+        osinfo_entity_set_param_int64(OSINFO_ENTITY(info->media),
+                                      OSINFO_MEDIA_PROP_VOLUME_SIZE,
+                                      vol_size * blk_size);
 
     if (*error)
         goto error;
