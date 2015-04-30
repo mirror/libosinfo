@@ -16,6 +16,12 @@
         <xsl:output method="text"/>
 
         <xsl:template match="/install-script-config">
+# OS id=<xsl:value-of select="os/id"/>
+# <xsl:choose>
+    <xsl:when test="media != ''">Media id=<xsl:value-of select="media/id"/></xsl:when>
+    <xsl:otherwise>Unknown media</xsl:otherwise>
+  </xsl:choose>
+# Profile: <xsl:value-of select="script/profile"/>
 keyboard <xsl:value-of select="config/l10n-keyboard"/>
 lang <xsl:value-of select="config/l10n-language"/>
 timezone --utc <xsl:value-of select="config/l10n-timezone"/>

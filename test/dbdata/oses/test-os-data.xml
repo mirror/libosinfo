@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<libosinfo version="0.0.1">
+  <os id="http://fedoraproject.org/fedora/16">
+    <short-id>fedora16</short-id>
+    <name>Fedora 16</name>
+    <version>16</version>
+    <vendor>Fedora Project</vendor>
+    <family>linux</family>
+    <distro>fedora</distro>
+    <codename>Verne</codename>
+
+    <media arch="i686">
+      <url>http://archive.fedoraproject.org/pub/archive/fedora/linux/releases/16/Fedora/i386/iso/Fedora-16-i386-DVD.iso</url>
+      <iso>
+        <volume-id>Fedora 16 i386 DVD</volume-id>
+        <system-id>LINUX</system-id>
+        <volume-size>3806375936</volume-size>
+      </iso>
+      <kernel>isolinux/vmlinuz</kernel>
+      <initrd>isolinux/initrd.img</initrd>
+    </media>
+  </os>
+</libosinfo>

@@ -6,7 +6,12 @@
   <xsl:output method="text"/>
 
   <xsl:template match="/install-script-config">
-# OS id=<xsl:value-of select="os/id"/> profile <xsl:value-of select="script/profile"/>
+# OS id=<xsl:value-of select="os/id"/>
+# <xsl:choose>
+    <xsl:when test="media != ''">Media id=<xsl:value-of select="media/id"/></xsl:when>
+    <xsl:otherwise>Unknown media</xsl:otherwise>
+  </xsl:choose>
+# Profile: <xsl:value-of select="script/profile"/>
 install
 text
 keyboard <xsl:value-of select="config/l10n-keyboard"/>

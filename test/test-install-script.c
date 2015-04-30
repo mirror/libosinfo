@@ -30,7 +30,9 @@ static GError *error = NULL;
 static gchar *actualData = NULL;
 static const gchar *expectData =                                        \
     "\n"                                                                \
-    "# OS id=http://fedoraproject.org/fedora/16 profile jeos\n"         \
+    "# OS id=http://fedoraproject.org/fedora/16\n"                      \
+    "# Media id=http://fedoraproject.org/fedora/16:0\n"                 \
+    "# Profile: jeos\n"                                                 \
     "install\n"                                                         \
     "text\n"                                                            \
     "keyboard uk\n"                                                     \
@@ -58,9 +60,25 @@ static const gchar *expectData =                                        \
 
 static const gchar *expectData2 =                                       \
     "\n"                                                                \
+    "# OS id=http://fedoraproject.org/fedora/16\n"                      \
+    "# Unknown media\n"                                                 \
+    "# Profile: jeos\n"                                                 \
     "keyboard FOOBAR\n"                                                 \
     "lang French\n"                                                     \
     "timezone --utc Europe/Paris";
+
+static void test_generate_for_media_finish(GObject *src,
+                                           GAsyncResult *res,
+                                           gpointer user_data)
+{
+    GMainLoop *loop = user_data;
+
+    actualData = osinfo_install_script_generate_for_media_finish(OSINFO_INSTALL_SCRIPT(src),
+                                                                 res,
+                                                                 &error);
+
+    g_main_loop_quit(loop);
+}
 
 static void test_generate_finish(GObject *src,
                                  GAsyncResult *res,
@@ -96,27 +114,52 @@ static OsinfoInstallConfig *test_get_config(void)
     return config;
 }
 
+static OsinfoMedia *create_media(void)
+{
+    OsinfoMedia *media = osinfo_media_new("http://fedoraproject.org/fedora/16:0",
+                                          "i686");
+    osinfo_entity_set_param(OSINFO_ENTITY(media),
+                            OSINFO_MEDIA_PROP_VOLUME_ID,
+                            "Fedora 16 i386 DVD");
+    osinfo_entity_set_param(OSINFO_ENTITY(media),
+                            OSINFO_MEDIA_PROP_SYSTEM_ID,
+                            "LINUX");
+    osinfo_entity_set_param_int64(OSINFO_ENTITY(media),
+                                  OSINFO_MEDIA_PROP_VOLUME_SIZE,
+                                  3806375936);
+    return media;
+}
+
 START_TEST(test_script_file)
 {
     OsinfoInstallScript *script;
     OsinfoInstallConfig *config = test_get_config();
-    OsinfoOs *os;
+    OsinfoLoader *loader = osinfo_loader_new();
+    OsinfoDb *db;
+    OsinfoMedia *media;
     GMainLoop *loop;
 
     script = osinfo_install_script_new_uri("http://example.com",
                                            "jeos",
                                            "file://" SRCDIR "/test/install-script.xsl");
 
+    osinfo_loader_process_path(loader, SRCDIR "/test/dbdata", &error);
+    fail_unless(error == NULL, error ? error->message : "none");
+    db = g_object_ref(osinfo_loader_get_db(loader));
+    g_object_unref(loader);
+
     loop = g_main_loop_new(g_main_context_get_thread_default(),
                            TRUE);
 
-    os = osinfo_os_new("http://fedoraproject.org/fedora/16");
-    osinfo_install_script_generate_async(script,
-                                         os,
-                                         config,
-                                         NULL,
-                                         test_generate_finish,
-                                         loop);
+    media = create_media();
+    fail_unless(osinfo_db_identify_media(db, media), "Failed to identify media");
+
+    osinfo_install_script_generate_for_media_async(script,
+                                                   media,
+                                                   config,
+                                                   NULL,
+                                                   test_generate_for_media_finish,
+                                                   loop);
 
     if (g_main_loop_is_running(loop))
         g_main_loop_run(loop);
@@ -127,7 +170,8 @@ START_TEST(test_script_file)
     fail_unless(strcmp(actualData, expectData) == 0, "Actual '%s' match expect '%s'",
                 actualData, expectData);
 
-    g_object_unref(os);
+    g_object_unref(media);
+    g_object_unref(db);
     g_object_unref(config);
     g_object_unref(script);
     g_main_loop_unref(loop);
@@ -140,7 +184,9 @@ START_TEST(test_script_data)
 {
     OsinfoInstallScript *script;
     OsinfoInstallConfig *config = test_get_config();
-    OsinfoOs *os;
+    OsinfoLoader *loader = osinfo_loader_new();
+    OsinfoDb *db;
+    OsinfoMedia *media;
     GMainLoop *loop;
     GFile *file = g_file_new_for_uri("file://" SRCDIR "/test/install-script.xsl");
     gchar *data;
@@ -148,10 +194,14 @@ START_TEST(test_script_data)
     g_file_load_contents(file, NULL, &data, NULL, NULL, &error);
     fail_unless(error == NULL, error ? error->message : "none");
 
-    os = osinfo_os_new("http://fedoraproject.org/fedora/16");
-    osinfo_entity_set_param(OSINFO_ENTITY(os),
-                            OSINFO_PRODUCT_PROP_SHORT_ID,
-                            "fedora16");
+    osinfo_loader_process_path(loader, SRCDIR "/test/dbdata", &error);
+    fail_unless(error == NULL, error ? error->message : "none");
+    db = g_object_ref(osinfo_loader_get_db(loader));
+    g_object_unref(loader);
+
+    media = create_media();
+    fail_unless(osinfo_db_identify_media(db, media), "Failed to identify media");
+
     script = osinfo_install_script_new_data("http://example.com",
                                             "jeos",
                                             data);
@@ -159,12 +209,12 @@ START_TEST(test_script_data)
     loop = g_main_loop_new(g_main_context_get_thread_default(),
                            TRUE);
 
-    osinfo_install_script_generate_async(script,
-                                         os,
-                                         config,
-                                         NULL,
-                                         test_generate_finish,
-                                         loop);
+    osinfo_install_script_generate_for_media_async(script,
+                                                   media,
+                                                   config,
+                                                   NULL,
+                                                   test_generate_for_media_finish,
+                                                   loop);
 
     if (g_main_loop_is_running(loop))
         g_main_loop_run(loop);
@@ -172,7 +222,8 @@ START_TEST(test_script_data)
     unlink(BUILDDIR "/test/install-script-actual.txt");
     fail_unless(error == NULL, error ? error->message : "none");
 
-    g_object_unref(os);
+    g_object_unref(media);
+    g_object_unref(db);
     g_object_unref(config);
     g_object_unref(script);
 }
@@ -224,7 +275,6 @@ START_TEST(test_script_datamap)
                 "Got %s instead of 'en_EN'", osinfo_install_config_get_l10n_language(config));
     osinfo_install_config_set_l10n_language(config, "fr_FR");
     osinfo_install_config_set_l10n_timezone(config, "Europe/Paris");
-
 
     os = osinfo_os_new("http://fedoraproject.org/fedora/16");
     osinfo_entity_set_param(OSINFO_ENTITY(os),
