@@ -85,6 +85,9 @@ AC_DEFUN([LIBOSINFO_COMPILE_WARNINGS],[
     # stops us from going down further
     gl_WARN_ADD([-Wframe-larger-than=4096])
 
+    # We don't care too much about C90 compliance
+    gl_WARN_ADD([-Wno-overlength-strings])
+
     # Use improved glibc headers
     AH_VERBATIM([FORTIFY_SOURCE],
     [/* Enable compile-time and run-time bounds-checking, and some warnings,
