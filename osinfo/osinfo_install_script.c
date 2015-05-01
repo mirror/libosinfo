@@ -1593,6 +1593,53 @@ gchar *osinfo_install_script_generate_command_line(OsinfoInstallScript *script,
     return output;
 }
 
+/**
+ * osinfo_install_script_generate_command_line_for_media:
+ * @script: the install script
+ * @media:  the media
+ * @config: the install script config
+ *
+ * Some install scripts need to pass a command line to the kernel, Such install
+ * scripts belong to OSs that provide paths to the kernel and initrd files that
+ * can be used to directly boot
+ * (http://wiki.qemu.org/download/qemu-doc.html#direct_005flinux_005fboot)
+ * the OS in order to pass the needed commandline to it.
+ *
+ * The media @media must have been identified successfully using
+ * #osinfo_db_identify_media() before calling this function.
+ *
+ * Returns: (transfer full): The generated command line string, NULL otherwise.
+ */
+gchar *osinfo_install_script_generate_command_line_for_media(OsinfoInstallScript *script,
+                                                             OsinfoMedia *media,
+                                                             OsinfoInstallConfig *config)
+{
+    const gchar *templateData = osinfo_install_script_get_template_data(script);
+    gchar *output = NULL;
+    OsinfoOs *os;
+
+    g_return_val_if_fail(media != NULL, NULL);
+
+    os = osinfo_media_get_os(media);
+    g_return_val_if_fail(os != NULL, NULL);
+
+    if (templateData) {
+        GError *error = NULL;
+        if (!osinfo_install_script_apply_template(script,
+                                                  os,
+                                                  media,
+                                                  "<data>",
+                                                  templateData,
+                                                  "command-line",
+                                                  &output,
+                                                  config,
+                                                  &error)) {
+            g_prefix_error(&error, "%s", _("Failed to apply script template: "));
+        }
+    }
+
+    return output;
+}
 
 OsinfoPathFormat osinfo_install_script_get_path_format(OsinfoInstallScript *script)
 {

@@ -235,6 +235,9 @@ GFile *osinfo_install_script_generate_output_for_media(OsinfoInstallScript *scri
 gchar *osinfo_install_script_generate_command_line(OsinfoInstallScript *script,
                                                    OsinfoOs *os,
                                                    OsinfoInstallConfig *config);
+gchar *osinfo_install_script_generate_command_line_for_media(OsinfoInstallScript *script,
+                                                             OsinfoMedia *media,
+                                                             OsinfoInstallConfig *config);
 
 gboolean osinfo_install_script_has_config_param(const OsinfoInstallScript *script, const OsinfoInstallConfigParam *config_param);
 

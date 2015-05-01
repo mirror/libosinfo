@@ -507,6 +507,8 @@ LIBOSINFO_0.2.11 {
 
 LIBOSINFO_0.2.12 {
     global:
+	osinfo_install_script_generate_command_line_for_media;
+
 	osinfo_install_script_generate_for_media;
 	osinfo_install_script_generate_for_media_async;
 	osinfo_install_script_generate_for_media_finish;
