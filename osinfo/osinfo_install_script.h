@@ -40,6 +40,7 @@
 #define OSINFO_INSTALL_SCRIPT_GET_CLASS(obj)        (G_TYPE_INSTANCE_GET_CLASS ((obj), OSINFO_TYPE_INSTALL_SCRIPT, OsinfoInstallScriptClass))
 
 typedef struct _OsinfoOs        OsinfoOs;
+typedef struct _OsinfoMedia     OsinfoMedia;
 typedef struct _OsinfoInstallScript        OsinfoInstallScript;
 typedef struct _OsinfoInstallScriptClass   OsinfoInstallScriptClass;
 typedef struct _OsinfoInstallScriptPrivate OsinfoInstallScriptPrivate;
@@ -198,6 +199,21 @@ GFile *osinfo_install_script_generate_output(OsinfoInstallScript *script,
                                              GFile *output_dir,
                                              GCancellable *cancellable,
                                              GError **error);
+
+void osinfo_install_script_generate_for_media_async(OsinfoInstallScript *script,
+                                                    OsinfoMedia *media,
+                                                    OsinfoInstallConfig *config,
+                                                    GCancellable *cancellable,
+                                                    GAsyncReadyCallback callback,
+                                                    gpointer user_data);
+gchar *osinfo_install_script_generate_for_media_finish(OsinfoInstallScript *script,
+                                                       GAsyncResult *res,
+                                                       GError **error);
+gchar *osinfo_install_script_generate_for_media(OsinfoInstallScript *script,
+                                                OsinfoMedia *media,
+                                                OsinfoInstallConfig *config,
+                                                GCancellable *cancellable,
+                                                GError **error);
 
 gchar *osinfo_install_script_generate_command_line(OsinfoInstallScript *script,
                                                    OsinfoOs *os,
