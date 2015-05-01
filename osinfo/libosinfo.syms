@@ -511,6 +511,10 @@ LIBOSINFO_0.2.12 {
 	osinfo_install_script_generate_for_media_async;
 	osinfo_install_script_generate_for_media_finish;
 
+	osinfo_install_script_generate_output_for_media;
+	osinfo_install_script_generate_output_for_media_async;
+	osinfo_install_script_generate_output_for_media_finish;
+
 	osinfo_media_get_volume_size;
 } LIBOSINFO_0.2.11;
 

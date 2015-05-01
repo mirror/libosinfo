@@ -215,6 +215,23 @@ gchar *osinfo_install_script_generate_for_media(OsinfoInstallScript *script,
                                                 GCancellable *cancellable,
                                                 GError **error);
 
+void osinfo_install_script_generate_output_for_media_async(OsinfoInstallScript *script,
+                                                           OsinfoMedia *media,
+                                                           OsinfoInstallConfig *config,
+                                                           GFile *output_dir,
+                                                           GCancellable *cancellable,
+                                                           GAsyncReadyCallback callback,
+                                                           gpointer user_data);
+GFile *osinfo_install_script_generate_output_for_media_finish(OsinfoInstallScript *script,
+                                                              GAsyncResult *res,
+                                                              GError **error);
+GFile *osinfo_install_script_generate_output_for_media(OsinfoInstallScript *script,
+                                                       OsinfoMedia *media,
+                                                       OsinfoInstallConfig *config,
+                                                       GFile *output_dir,
+                                                       GCancellable *cancellable,
+                                                       GError **error);
+
 gchar *osinfo_install_script_generate_command_line(OsinfoInstallScript *script,
                                                    OsinfoOs *os,
                                                    OsinfoInstallConfig *config);
