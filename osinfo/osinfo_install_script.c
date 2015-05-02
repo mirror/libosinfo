@@ -891,7 +891,19 @@ static void osinfo_install_script_template_loaded(GObject *src,
     g_free(uri);
 }
 
-
+/**
+ * osinfo_install_script_generate_async:
+ * @script:     the install script
+ * @os:         the os
+ * @config:     the install script config
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
+ * @callback: Function to call when result of this call is ready
+ * @user_data: The user data to pass to @callback, or %NULL
+ *
+ * Asynchronous variant of #osinfo_install_script_generate(). From the callback,
+ * call #osinfo_install_script_generate_finish() to conclude this call and get
+ * the generated script.
+ */
 void osinfo_install_script_generate_async(OsinfoInstallScript *script,
                                           OsinfoOs *os,
                                           OsinfoInstallConfig *config,
@@ -1040,6 +1052,18 @@ static void osinfo_install_script_generate_done(GObject *src,
     g_main_loop_quit(data->loop);
 }
 
+/**
+ * osinfo_install_script_generate:
+ * @script:     the install script
+ * @os:         the os
+ * @config:     the install script config
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
+ * @error: The location where to store any error, or %NULL
+ *
+ * Creates an install script.
+ *
+ * Returns: (transfer full): the script as string.
+ */
 gchar *osinfo_install_script_generate(OsinfoInstallScript *script,
                                       OsinfoOs *os,
                                       OsinfoInstallConfig *config,
@@ -1101,6 +1125,21 @@ static void osinfo_install_script_generate_output_write_file(GObject *src,
     }
 }
 
+/**
+ * osinfo_install_script_generate_output_async:
+ * @script:     the install script
+ * @os:         the os
+ * @config:     the install script config
+ * @output_dir: the directory where file containing the output script
+ *              will be written
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
+ * @callback: Function to call when result of this call is ready
+ * @user_data: The user data to pass to @callback, or %NULL
+ *
+ * Asynchronous variant of #osinfo_install_script_generate_output(). From the
+ * callback, call #osinfo_install_script_generate_output_finish() to conclude
+ * this call and get the generated script.
+ */
 void osinfo_install_script_generate_output_async(OsinfoInstallScript *script,
                                                  OsinfoOs *os,
                                                  OsinfoInstallConfig *config,
