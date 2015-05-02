@@ -1164,7 +1164,7 @@ void osinfo_install_script_generate_output_async(OsinfoInstallScript *script,
  * @cancellable: (allow-none): a #GCancellable, or %NULL
  * @error: The location where to store any error, or %NULL
  *
- * Creates an install script written in a file
+ * Creates an install script that is written to the returned file.
  *
  * Returns: (transfer full): a file containing the script
  */
