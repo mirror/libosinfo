@@ -983,6 +983,9 @@ static void osinfo_install_script_generate_async_common(OsinfoInstallScript *scr
  * Asynchronous variant of #osinfo_install_script_generate(). From the callback,
  * call #osinfo_install_script_generate_finish() to conclude this call and get
  * the generated script.
+ *
+ * If you are generating the script for a specific media, it is recommended that
+ * you use #osinfo_install_script_generate_for_media_async() instead.
  */
 void osinfo_install_script_generate_async(OsinfoInstallScript *script,
                                           OsinfoOs *os,
@@ -1160,6 +1163,9 @@ static void osinfo_install_script_generate_done(GObject *src,
  * Creates an install script.
  *
  * Returns: (transfer full): the script as string.
+ *
+ * If you are generating the script for a specific media, it is recommended
+ * that you use #osinfo_install_script_generate_for_media() instead.
  */
 gchar *osinfo_install_script_generate(OsinfoInstallScript *script,
                                       OsinfoOs *os,
@@ -1392,6 +1398,9 @@ static void osinfo_install_script_generate_output_async_common(OsinfoInstallScri
  * Asynchronous variant of #osinfo_install_script_generate_output(). From the
  * callback, call #osinfo_install_script_generate_output_finish() to conclude
  * this call and get the generated script.
+ *
+ * If you are generating the script for a specific media, it is recommended that
+ * you use #osinfo_install_script_generate_output_for_media_async() instead.
  */
 void osinfo_install_script_generate_output_async(OsinfoInstallScript *script,
                                                  OsinfoOs *os,
@@ -1469,6 +1478,9 @@ static GFile *osinfo_install_script_generate_output_common(OsinfoInstallScript *
  * Creates an install script that is written to the returned file.
  *
  * Returns: (transfer full): a file containing the script
+ *
+ * If you are generating the script for a specific media, it is recommended
+ * that you use #osinfo_install_script_generate_output_for_media() instead.
  */
 GFile *osinfo_install_script_generate_output(OsinfoInstallScript *script,
                                              OsinfoOs *os,
@@ -1565,6 +1577,10 @@ GFile *osinfo_install_script_generate_output_for_media(OsinfoInstallScript *scri
  * can be used to directly boot
  * (http://wiki.qemu.org/download/qemu-doc.html#direct_005flinux_005fboot)
  * the OS in order to pass the needed commandline to it.
+ *
+ * If you are generating the command line for a specific media, it is
+ * recommended that you use
+ * #osinfo_install_script_generate_command_line_for_media() instead.
  *
  * Returns: (transfer full): The generated command line string, NULL otherwise.
  */
