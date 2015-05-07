@@ -220,7 +220,7 @@ static gboolean list_script_inj_method(OsinfoOs *os)
 }
 
 
-static gboolean generate_script(OsinfoOs *os)
+static gboolean generate_script(OsinfoOs *os, OsinfoMedia *media)
 {
     OsinfoInstallScriptList *scripts = osinfo_os_get_install_script_list(os);
     OsinfoInstallScriptList *profile_scripts;
@@ -253,12 +253,21 @@ static gboolean generate_script(OsinfoOs *os)
         if (prefix)
             osinfo_install_script_set_output_prefix(script, prefix);
 
-        osinfo_install_script_generate_output(script,
-                                              os,
-                                              config,
-                                              dir,
-                                              NULL,
-                                              &error);
+        if (media != NULL) {
+            osinfo_install_script_generate_output_for_media(script,
+                                                            media,
+                                                            config,
+                                                            dir,
+                                                            NULL,
+                                                            &error);
+        } else {
+            osinfo_install_script_generate_output(script,
+                                                  os,
+                                                  config,
+                                                  dir,
+                                                  NULL,
+                                                  &error);
+        }
         if (error != NULL) {
             g_printerr(_("Unable to generate install script: %s\n"),
                        error->message ? error->message : "unknown");
@@ -287,6 +296,7 @@ gint main(gint argc, gchar **argv)
     OsinfoLoader *loader = NULL;
     OsinfoDb *db = NULL;
     OsinfoOs *os = NULL;
+    OsinfoMedia *media = NULL;
     gint ret = 0;
 
     setlocale(LC_ALL, "");
@@ -338,11 +348,24 @@ gint main(gint argc, gchar **argv)
     }
 
     db = osinfo_loader_get_db(loader);
-    os = find_os(db, argv[1]);
-    if (!os) {
-        g_printerr(_("Error finding OS: %s\n"), argv[1]);
-        ret = -4;
-        goto EXIT;
+
+    /* First assume it is a path to a media that can be identified */
+    media = osinfo_media_create_from_location(argv[1], NULL, NULL);
+    if (media != NULL)
+        if (!osinfo_db_identify_media(db, media)) {
+            g_object_unref(media);
+            media = NULL;
+        }
+
+    if (media == NULL) {
+        os = find_os(db, argv[1]);
+        if (!os) {
+            g_printerr(_("Error finding OS: %s\n"), argv[1]);
+            ret = -4;
+            goto EXIT;
+        }
+    } else {
+        os = osinfo_media_get_os(media);
     }
 
     if (list_config) {
@@ -361,7 +384,7 @@ gint main(gint argc, gchar **argv)
             goto EXIT;
         }
     } else {
-        if (!generate_script(os)) {
+        if (!generate_script(os, media)) {
             ret = -5;
             goto EXIT;
         }
@@ -370,6 +393,8 @@ gint main(gint argc, gchar **argv)
 EXIT:
     if (config)
         g_object_unref(config);
+    if (media != NULL)
+        g_object_unref(media);
     g_clear_error(&error);
     g_clear_object(&loader);
     g_option_context_free(context);
@@ -386,13 +411,14 @@ osinfo-install-script - generate a script for automated installation
 
 =head1 SYNOPSIS
 
-osinfo-install-script [OPTIONS...] OS-ID
+osinfo-install-script [OPTIONS...] MEDIA-FILE|OS-ID
 
 =head1 DESCRIPTION
 
 Generate a script suitable for performing an automated installation
-of C<OS-ID>. C<OS-ID> should be a URI identifying the operating
-system, or its short ID.
+of C<MEDIA_FILE> or C<OS-ID>. C<MEDIA_FILE> should be a path to an
+installer or live media (typically an ISO file). C<OS-ID> should be
+a URI identifying the operating system, or its short ID.
 
 By default a script will be generated for a C<JEOS> style install.
 
