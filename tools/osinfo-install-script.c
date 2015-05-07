@@ -240,7 +240,7 @@ static gboolean generate_script(OsinfoOs *os)
     l = osinfo_list_get_elements(OSINFO_LIST(profile_scripts));
 
     if (!l) {
-        g_printerr(_("No install script for profile '%s' and OS '%s'"),
+        g_printerr(_("No install script for profile '%s' and OS '%s'\n"),
                    profile, osinfo_product_get_name(OSINFO_PRODUCT(os)));
         goto cleanup;
     }
