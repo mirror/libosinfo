@@ -150,9 +150,9 @@ static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *
                                     OSINFO_MEDIA_PROP_APPLICATION_ID,
                                     line + 16);
         } else if (g_str_has_prefix(line, "Logical block size is:")) {
-            blk_size = (gint64) atoll (line + 23);
+            blk_size = (gint64) atoll(line + 23);
         } else if (g_str_has_prefix(line, "Volume size is:")) {
-            vol_size = atoll (line + 16);
+            vol_size = atoll(line + 16);
         }
     }
 
