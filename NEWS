@@ -1,3 +1,32 @@
+0.2.12 - May 27, 2015
+=====================
+
+Changes since 0.2.11:
+
+- Add API to get/set ISO9660 volume size of media.
+- Make use of volume size of ISO files for detection. This enables us to
+  differentiate between DVD and netiso of Fedora, for example.
+- Allow install trees to be associated with specific variants of the OS.
+- Use direct HTTPS URLs to drivers.
+- Install scripts
+  * Add API to generate script against a particular media.
+  * Fix Fedora script to work with netiso.
+  * Bigger /boot partition for Fedora and RHEL.
+  * Don't specify network interface for Fedora and RHEL.
+- Add/improve/fix data on:
+  - Debian 8.0
+  - Fedora (all versions)
+  - GNOME 3.14
+  - Microsoft Windows Vista, 7 and 8.1.
+  - OpenBSD 5.6
+  - openSUSE
+  - RHEL 5.9-11, 6.6 and Atomic 7.0.
+  - SUSE
+  - Ubuntu 14.04 and 15.04.
+- Fix some leaks.
+- Fix and add some API documentation.
+- Many build fixes.
+
 0.2.11 - Aug 19, 2014
 =====================
 
