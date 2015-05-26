@@ -424,6 +424,12 @@ START_TEST(test_sles)
 }
 END_TEST
 
+START_TEST(test_sled)
+{
+    test_one("sled");
+}
+END_TEST
+
 static Suite *
 list_suite(void)
 {
@@ -443,6 +449,7 @@ list_suite(void)
     tcase_add_test(tc, test_altlinux);
     tcase_add_test(tc, test_mageia);
     tcase_add_test(tc, test_sles);
+    tcase_add_test(tc, test_sled);
     suite_add_tcase(s, tc);
     return s;
 }
