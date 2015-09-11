@@ -382,6 +382,12 @@ START_TEST(test_windows)
 }
 END_TEST
 
+START_TEST(test_freebsd)
+{
+    test_one("freebsd");
+}
+END_TEST
+
 START_TEST(test_openbsd)
 {
     test_one("openbsd");
@@ -442,6 +448,7 @@ list_suite(void)
     tcase_add_test(tc, test_ubuntu);
     tcase_add_test(tc, test_debian);
     tcase_add_test(tc, test_windows);
+    tcase_add_test(tc, test_freebsd);
     tcase_add_test(tc, test_openbsd);
     tcase_add_test(tc, test_opensuse);
     tcase_add_test(tc, test_centos);
