@@ -10,11 +10,11 @@ SUBDIRS = \
 	mageia.org \
 	mandriva.com \
 	microsoft.com \
+	netbsd.org \
 	$(NULL)
 
 databasedir = $(pkgdatadir)/db/oses/
 database_in_files =	\
-	netbsd.xml.in	\
 	netware.xml.in  \
 	openbsd.xml.in  \
 	opensuse.xml.in \

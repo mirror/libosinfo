@@ -182,6 +182,7 @@ AC_CONFIG_FILES([
 	data/oses/mageia.org/Makefile
 	data/oses/mandriva.com/Makefile
 	data/oses/microsoft.com/Makefile
+	data/oses/netbsd.org/Makefile
 	data/schemas/Makefile
 	tools/Makefile
 	test/Makefile
