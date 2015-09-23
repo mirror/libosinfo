@@ -168,6 +168,7 @@ AC_CONFIG_FILES([
 	osinfo/osinfo_version.h
 	data/Makefile
 	data/datamaps/Makefile
+	data/datamaps/microsoft.com/Makefile
 	data/devices/Makefile
 	data/platforms/Makefile
 	data/platforms/linux-kvm.org/Makefile

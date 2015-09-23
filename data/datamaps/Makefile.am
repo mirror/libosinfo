@@ -1,7 +1,10 @@
 
+SUBDIRS = \
+	microsoft.com \
+	$(NULL)
+
 datamapdir = $(pkgdatadir)/db/datamaps/
 datamap_DATA =     \
-  windows-lang.xml   \
   x11-keyboard.xml   \
   $(NULL)
 
