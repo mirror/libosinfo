@@ -178,6 +178,7 @@ AC_CONFIG_FILES([
 	data/platforms/xen.org/Makefile
 	data/install-scripts/Makefile
 	data/install-scripts/debian.org/Makefile
+	data/install-scripts/fedoraproject.org/Makefile
 	data/oses/Makefile
 	data/oses/altlinux.org/Makefile
 	data/oses/apple.com/Makefile

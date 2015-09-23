@@ -1,11 +1,11 @@
 
 SUBDIRS = \
 	debian.org \
+	fedoraproject.org \
 	$(NULL)
 
 databasedir = $(pkgdatadir)/db/install-scripts/
 database_DATA =     \
-  fedora.xml        \
   rhel.xml          \
   ubuntu.xml        \
   windows-sif.xml   \
