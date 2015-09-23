@@ -12,11 +12,11 @@ SUBDIRS = \
 	microsoft.com \
 	netbsd.org \
 	novell.com \
+	openbsd.org \
 	$(NULL)
 
 databasedir = $(pkgdatadir)/db/oses/
 database_in_files =	\
-	openbsd.xml.in  \
 	opensuse.xml.in \
 	rhl.xml.in      \
 	rhel.xml.in     \
