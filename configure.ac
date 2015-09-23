@@ -179,6 +179,7 @@ AC_CONFIG_FILES([
 	data/install-scripts/Makefile
 	data/install-scripts/debian.org/Makefile
 	data/install-scripts/fedoraproject.org/Makefile
+	data/install-scripts/microsoft.com/Makefile
 	data/install-scripts/redhat.com/Makefile
 	data/install-scripts/ubuntu.com/Makefile
 	data/oses/Makefile
