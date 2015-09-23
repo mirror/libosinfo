@@ -5,12 +5,12 @@ SUBDIRS = \
 	debian.org \
 	fedoraproject.org \
 	freebsd.org \
+	gnome.org \
 	microsoft.com \
 	$(NULL)
 
 databasedir = $(pkgdatadir)/db/oses/
 database_in_files =	\
-	gnome.xml.in	\
 	mageia.xml.in \
 	mandriva.xml.in \
 	mandrake.xml.in \

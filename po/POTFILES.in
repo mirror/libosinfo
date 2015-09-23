@@ -98,6 +98,11 @@ data/oses/freebsd.org/freebsd-9.2.xml.in
 data/oses/freebsd.org/freebsd-9.3.xml.in
 data/oses/freebsd.org/freebsd-10.0.xml.in
 data/oses/freebsd.org/freebsd-10.1.xml.in
+data/oses/gnome.org/gnome-3.6.xml.in
+data/oses/gnome.org/gnome-3.8.xml.in
+data/oses/gnome.org/gnome-continuous-3.10.xml.in
+data/oses/gnome.org/gnome-continuous-3.12.xml.in
+data/oses/gnome.org/gnome-continuous-3.14.xml.in
 data/oses/microsoft.com/msdos-6.22.xml.in
 data/oses/netware.xml.in
 data/oses/solaris.xml.in
@@ -105,7 +110,6 @@ data/oses/mageia.xml.in
 data/oses/mandrake.xml.in
 data/oses/mandriva.xml.in
 data/oses/suse.xml.in
-data/oses/gnome.xml.in
 data/oses/rhel.xml.in
 data/oses/windows.xml.in
 data/oses/opensuse.xml.in

@@ -177,6 +177,7 @@ AC_CONFIG_FILES([
 	data/oses/debian.org/Makefile
 	data/oses/fedoraproject.org/Makefile
 	data/oses/freebsd.org/Makefile
+	data/oses/gnome.org/Makefile
 	data/oses/microsoft.com/Makefile
 	data/schemas/Makefile
 	tools/Makefile
