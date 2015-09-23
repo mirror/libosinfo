@@ -172,6 +172,7 @@ AC_CONFIG_FILES([
 	data/platforms/Makefile
 	data/install-scripts/Makefile
 	data/oses/Makefile
+	data/oses/altlinux.org/Makefile
 	data/schemas/Makefile
 	tools/Makefile
 	test/Makefile
