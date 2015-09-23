@@ -4,12 +4,12 @@ SUBDIRS = \
 	centos.org \
 	debian.org \
 	fedoraproject.org \
+	freebsd.org \
 	microsoft.com \
 	$(NULL)
 
 databasedir = $(pkgdatadir)/db/oses/
 database_in_files =	\
-	freebsd.xml.in  \
 	gnome.xml.in	\
 	mageia.xml.in \
 	mandriva.xml.in \
