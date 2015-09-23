@@ -174,6 +174,7 @@ AC_CONFIG_FILES([
 	data/oses/Makefile
 	data/oses/altlinux.org/Makefile
 	data/oses/centos.org/Makefile
+	data/oses/debian.org/Makefile
 	data/schemas/Makefile
 	tools/Makefile
 	test/Makefile

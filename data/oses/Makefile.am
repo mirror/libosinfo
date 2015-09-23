@@ -2,11 +2,11 @@
 SUBDIRS = \
 	altlinux.org \
 	centos.org \
+	debian.org \
 	$(NULL)
 
 databasedir = $(pkgdatadir)/db/oses/
 database_in_files =	\
-	debian.xml.in   \
 	dos.xml.in      \
 	fedora.xml.in   \
 	freebsd.xml.in  \
