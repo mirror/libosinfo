@@ -11,11 +11,11 @@ SUBDIRS = \
 	mandriva.com \
 	microsoft.com \
 	netbsd.org \
+	novell.com \
 	$(NULL)
 
 databasedir = $(pkgdatadir)/db/oses/
 database_in_files =	\
-	netware.xml.in  \
 	openbsd.xml.in  \
 	opensuse.xml.in \
 	rhl.xml.in      \

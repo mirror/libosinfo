@@ -160,7 +160,9 @@ data/oses/netbsd.org/netbsd-3.0.xml.in
 data/oses/netbsd.org/netbsd-4.0.xml.in
 data/oses/netbsd.org/netbsd-5.0.xml.in
 data/oses/netbsd.org/netbsd-5.1.xml.in
-data/oses/netware.xml.in
+data/oses/novell.com/netware-4.xml.in
+data/oses/novell.com/netware-5.xml.in
+data/oses/novell.com/netware-6.xml.in
 data/oses/solaris.xml.in
 data/oses/suse.xml.in
 data/oses/rhel.xml.in
