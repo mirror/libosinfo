@@ -7,12 +7,12 @@ SUBDIRS = \
 	fedoraproject.org \
 	freebsd.org \
 	gnome.org \
+	mageia.org \
 	microsoft.com \
 	$(NULL)
 
 databasedir = $(pkgdatadir)/db/oses/
 database_in_files =	\
-	mageia.xml.in \
 	mandriva.xml.in \
 	mandrake.xml.in \
 	netbsd.xml.in	\
