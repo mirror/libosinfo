@@ -14,7 +14,6 @@ SUBDIRS = \
 
 databasedir = $(pkgdatadir)/db/oses/
 database_in_files =	\
-	mandriva.xml.in \
 	netbsd.xml.in	\
 	netware.xml.in  \
 	openbsd.xml.in  \
