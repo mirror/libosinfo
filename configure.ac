@@ -190,6 +190,7 @@ AC_CONFIG_FILES([
 	data/oses/redhat.com/Makefile
 	data/oses/sun.com/Makefile
 	data/oses/suse.com/Makefile
+	data/oses/ubuntu.com/Makefile
 	data/schemas/Makefile
 	tools/Makefile
 	test/Makefile

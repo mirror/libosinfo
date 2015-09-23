@@ -18,11 +18,11 @@ SUBDIRS = \
 	redhat.com \
 	sun.com \
 	suse.com \
+	ubuntu.com \
 	$(NULL)
 
 databasedir = $(pkgdatadir)/db/oses/
 database_in_files =	\
-	ubuntu.xml.in   \
 	windows.xml.in  \
 	$(NULL)
 
