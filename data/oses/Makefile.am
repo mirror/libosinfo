@@ -8,13 +8,13 @@ SUBDIRS = \
 	freebsd.org \
 	gnome.org \
 	mageia.org \
+	mandriva.com \
 	microsoft.com \
 	$(NULL)
 
 databasedir = $(pkgdatadir)/db/oses/
 database_in_files =	\
 	mandriva.xml.in \
-	mandrake.xml.in \
 	netbsd.xml.in	\
 	netware.xml.in  \
 	openbsd.xml.in  \
