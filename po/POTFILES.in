@@ -8,6 +8,13 @@ data/oses/altlinux.org/altlinux-4.1.xml.in
 data/oses/altlinux.org/altlinux-5.0.xml.in
 data/oses/altlinux.org/altlinux-6.0.xml.in
 data/oses/altlinux.org/altlinux-7.0.xml.in
+data/oses/centos.org/centos-6.0.xml.in
+data/oses/centos.org/centos-6.1.xml.in
+data/oses/centos.org/centos-6.2.xml.in
+data/oses/centos.org/centos-6.3.xml.in
+data/oses/centos.org/centos-6.4.xml.in
+data/oses/centos.org/centos-6.5.xml.in
+data/oses/centos.org/centos-7.0.xml.in
 data/oses/netware.xml.in
 data/oses/solaris.xml.in
 data/oses/dos.xml.in
@@ -23,7 +30,6 @@ data/oses/opensuse.xml.in
 data/oses/macos.xml.in
 data/oses/debian.xml.in
 data/oses/ubuntu.xml.in
-data/oses/centos.xml.in
 data/oses/openbsd.xml.in
 data/oses/freebsd.xml.in
 data/oses/rhl.xml.in
