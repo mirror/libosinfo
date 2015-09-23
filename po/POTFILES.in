@@ -334,7 +334,12 @@ data/devices/qemu-ps2.xml.in
 data/devices/qemu-pci.xml.in
 data/devices/virtio-pci.xml.in
 data/devices/qemu-usb.xml.in
-data/platforms/kvm.xml.in
+data/platforms/linux-kvm.org/qemu-kvm-1.0.1.xml.in
+data/platforms/linux-kvm.org/qemu-kvm-1.0.xml.in
+data/platforms/linux-kvm.org/qemu-kvm-1.1.0.xml.in
+data/platforms/linux-kvm.org/qemu-kvm-1.1.1.xml.in
+data/platforms/linux-kvm.org/qemu-kvm-1.1.2.xml.in
+data/platforms/linux-kvm.org/qemu-kvm-1.2.0.xml.in
 data/platforms/qemu.xml.in
 data/platforms/rhel-xen.xml.in
 data/platforms/xen.xml.in

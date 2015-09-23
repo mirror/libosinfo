@@ -170,6 +170,7 @@ AC_CONFIG_FILES([
 	data/datamaps/Makefile
 	data/devices/Makefile
 	data/platforms/Makefile
+	data/platforms/linux-kvm.org/Makefile
 	data/install-scripts/Makefile
 	data/oses/Makefile
 	data/oses/altlinux.org/Makefile
