@@ -186,6 +186,7 @@ AC_CONFIG_FILES([
 	data/oses/novell.com/Makefile
 	data/oses/openbsd.org/Makefile
 	data/oses/opensuse.org/Makefile
+	data/oses/redhat.com/Makefile
 	data/schemas/Makefile
 	tools/Makefile
 	test/Makefile

@@ -14,12 +14,12 @@ SUBDIRS = \
 	novell.com \
 	openbsd.org \
 	opensuse.org \
+	redhat.com \
 	$(NULL)
 
 databasedir = $(pkgdatadir)/db/oses/
 database_in_files =	\
 	rhl.xml.in      \
-	rhel.xml.in     \
 	solaris.xml.in  \
 	suse.xml.in     \
 	ubuntu.xml.in   \
