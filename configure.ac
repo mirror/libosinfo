@@ -169,6 +169,7 @@ AC_CONFIG_FILES([
 	data/Makefile
 	data/datamaps/Makefile
 	data/datamaps/microsoft.com/Makefile
+	data/datamaps/x.org/Makefile
 	data/devices/Makefile
 	data/platforms/Makefile
 	data/platforms/linux-kvm.org/Makefile
