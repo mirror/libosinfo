@@ -13,11 +13,11 @@ SUBDIRS = \
 	netbsd.org \
 	novell.com \
 	openbsd.org \
+	opensuse.org \
 	$(NULL)
 
 databasedir = $(pkgdatadir)/db/oses/
 database_in_files =	\
-	opensuse.xml.in \
 	rhl.xml.in      \
 	rhel.xml.in     \
 	solaris.xml.in  \
