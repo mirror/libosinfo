@@ -8,6 +8,14 @@ data/oses/altlinux.org/altlinux-4.1.xml.in
 data/oses/altlinux.org/altlinux-5.0.xml.in
 data/oses/altlinux.org/altlinux-6.0.xml.in
 data/oses/altlinux.org/altlinux-7.0.xml.in
+data/oses/apple.com/macosx-10.0.xml.in
+data/oses/apple.com/macosx-10.1.xml.in
+data/oses/apple.com/macosx-10.2.xml.in
+data/oses/apple.com/macosx-10.3.xml.in
+data/oses/apple.com/macosx-10.4.xml.in
+data/oses/apple.com/macosx-10.5.xml.in
+data/oses/apple.com/macosx-10.6.xml.in
+data/oses/apple.com/macosx-10.7.xml.in
 data/oses/centos.org/centos-6.0.xml.in
 data/oses/centos.org/centos-6.1.xml.in
 data/oses/centos.org/centos-6.2.xml.in
@@ -113,7 +121,6 @@ data/oses/suse.xml.in
 data/oses/rhel.xml.in
 data/oses/windows.xml.in
 data/oses/opensuse.xml.in
-data/oses/macos.xml.in
 data/oses/ubuntu.xml.in
 data/oses/openbsd.xml.in
 data/oses/rhl.xml.in

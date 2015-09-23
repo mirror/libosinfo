@@ -1,5 +1,6 @@
 
 SUBDIRS = \
+	apple.com \
 	altlinux.org \
 	centos.org \
 	debian.org \
@@ -16,7 +17,6 @@ database_in_files =	\
 	mandrake.xml.in \
 	netbsd.xml.in	\
 	netware.xml.in  \
-	macos.xml.in    \
 	openbsd.xml.in  \
 	opensuse.xml.in \
 	rhl.xml.in      \
