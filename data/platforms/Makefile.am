@@ -2,11 +2,12 @@
 SUBDIRS = \
 	linux-kvm.org \
 	qemu.org \
+	redhat.com \
 	$(NULL)
 
 databasedir = $(pkgdatadir)/db/hypervisors/
 database_in_files = \
-	rhel-xen.xml.in xen.xml.in
+	xen.xml.in
 
 database_DATA = $(database_in_files:.xml.in=.xml)
 
