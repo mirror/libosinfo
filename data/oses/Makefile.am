@@ -19,7 +19,6 @@ SUBDIRS = \
 
 databasedir = $(pkgdatadir)/db/oses/
 database_in_files =	\
-	rhl.xml.in      \
 	solaris.xml.in  \
 	suse.xml.in     \
 	ubuntu.xml.in   \
