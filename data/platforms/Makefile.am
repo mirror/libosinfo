@@ -3,14 +3,5 @@ SUBDIRS = \
 	linux-kvm.org \
 	qemu.org \
 	redhat.com \
+	xen.org \
 	$(NULL)
-
-databasedir = $(pkgdatadir)/db/hypervisors/
-database_in_files = \
-	xen.xml.in
-
-database_DATA = $(database_in_files:.xml.in=.xml)
-
-@INTLTOOL_XML_RULE@
-
-EXTRA_DIST = $(database_in_files) $(database_DATA)

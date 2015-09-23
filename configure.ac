@@ -173,6 +173,7 @@ AC_CONFIG_FILES([
 	data/platforms/linux-kvm.org/Makefile
 	data/platforms/qemu.org/Makefile
 	data/platforms/redhat.com/Makefile
+	data/platforms/xen.org/Makefile
 	data/install-scripts/Makefile
 	data/oses/Makefile
 	data/oses/altlinux.org/Makefile
