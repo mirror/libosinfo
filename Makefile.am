@@ -66,7 +66,7 @@ dist-hook: gen-ChangeLog gen-AUTHORS
 # and insert it into the directory we're about to use to create a tarball.
 .PHONY: gen-ChangeLog gen-AUTHORS
 gen-ChangeLog:
-	if test -d .git; then					\
+	if test -d $(srcdir)/.git; then				\
 	  $(top_srcdir)/build-aux/gitlog-to-changelog		\
 	    > $(distdir)/cl-t;					\
 	  rm -f $(distdir)/ChangeLog;				\
