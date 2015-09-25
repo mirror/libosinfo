@@ -321,6 +321,10 @@ static void test_one(const gchar *vendor)
 
     osinfo_loader_process_path(loader, SRCDIR "/data", &error);
     fail_unless(error == NULL, error ? error->message : "none");
+    if (!g_str_equal(SRCDIR, BUILDDIR)) {
+        osinfo_loader_process_path(loader, BUILDDIR "/data", &error);
+        fail_unless(error == NULL, error ? error->message : "none");
+    }
 
     isos = load_isos(vendor, &error);
 
