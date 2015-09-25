@@ -171,6 +171,11 @@ AC_CONFIG_FILES([
 	data/datamaps/microsoft.com/Makefile
 	data/datamaps/x.org/Makefile
 	data/devices/Makefile
+	data/devices/ibasetechnologies.net/Makefile
+	data/devices/ibm.com/Makefile
+	data/devices/pcisig.com/Makefile
+	data/devices/usb.org/Makefile
+	data/devices/xen.org/Makefile
 	data/platforms/Makefile
 	data/platforms/linux-kvm.org/Makefile
 	data/platforms/qemu.org/Makefile

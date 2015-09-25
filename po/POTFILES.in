@@ -330,10 +330,6 @@ data/oses/ubuntu.com/ubuntu-14.04.xml.in
 data/oses/ubuntu.com/ubuntu-14.10.xml.in
 data/oses/ubuntu.com/ubuntu-15.04.xml.in
 data/oses/ubuntu.com/ubuntu-15.10.xml.in
-data/devices/qemu-ps2.xml.in
-data/devices/qemu-pci.xml.in
-data/devices/virtio-pci.xml.in
-data/devices/qemu-usb.xml.in
 data/platforms/linux-kvm.org/qemu-kvm-1.0.1.xml.in
 data/platforms/linux-kvm.org/qemu-kvm-1.0.xml.in
 data/platforms/linux-kvm.org/qemu-kvm-1.1.0.xml.in
@@ -402,6 +398,9 @@ data/platforms/xen.org/xen-3.4.3.xml.in
 data/platforms/xen.org/xen-4.0.0.xml.in
 data/platforms/xen.org/xen-4.0.1.xml.in
 data/platforms/xen.org/xen-4.1.0.xml.in
+data/devices/ibm.com/ps2-keyboard.xml.in
+data/devices/ibm.com/ps2-mouse.xml.in
+data/devices/pcisig.com/pci-1234-1111.xml.in
 osinfo/osinfo_avatar_format.c
 osinfo/osinfo_deployment.c
 osinfo/osinfo_devicelink.c
