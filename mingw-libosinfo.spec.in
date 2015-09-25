@@ -111,7 +111,7 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 %{mingw32_datadir}/libosinfo/db/hypervisors
 %{mingw32_datadir}/libosinfo/db/install-scripts
 %{mingw32_datadir}/libosinfo/schemas/libosinfo.rng
-%{mingw32_libdir}/locale/*/LC_MESSAGES/libosinfo.mo
+%{mingw32_datadir}/locale/*/LC_MESSAGES/libosinfo.mo
 
 %files -n mingw64-libosinfo
 %doc AUTHORS ChangeLog COPYING.LIB NEWS README
@@ -136,6 +136,6 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 %{mingw64_datadir}/libosinfo/db/hypervisors
 %{mingw64_datadir}/libosinfo/db/install-scripts
 %{mingw64_datadir}/libosinfo/schemas/libosinfo.rng
-%{mingw64_libdir}/locale/*/LC_MESSAGES/libosinfo.mo
+%{mingw64_datadir}/locale/*/LC_MESSAGES/libosinfo.mo
 
 %changelog
