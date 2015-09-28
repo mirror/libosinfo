@@ -11,7 +11,7 @@ n=0
 f=0
 for dir in $DIRS
 do
-  XML=`find $abs_srcdir/../data/$dir -name '*.xml'` || exit 1
+  XML=`find $abs_builddir/../data/$dir -name '*.xml'` || exit 1
 
   for xml in `echo "$XML" | sort`
   do
