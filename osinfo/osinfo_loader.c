@@ -1910,6 +1910,37 @@ void osinfo_loader_process_uri(OsinfoLoader *loader,
 }
 
 
+static GFile *osinfo_loader_get_system_path(void)
+{
+    GFile *file;
+    gchar *dbdir;
+    const gchar *path = g_getenv("OSINFO_DATA_DIR");
+    if (!path)
+        path = PKG_DATA_DIR;
+
+    dbdir = g_strdup_printf("%s/db", path);
+    file = g_file_new_for_path(dbdir);
+    g_free(dbdir);
+    return file;
+}
+
+static GFile *osinfo_loader_get_local_path(void)
+{
+    return g_file_new_for_path(SYS_CONF_DIR "/libosinfo/db");
+}
+
+static GFile *osinfo_loader_get_user_path(void)
+{
+    GFile *file;
+    gchar *dbdir;
+    const gchar *configdir = g_get_user_config_dir();
+
+    dbdir = g_strdup_printf("%s/libosinfo/db", configdir);
+    file = g_file_new_for_path(dbdir);
+    g_free(dbdir);
+    return file;
+}
+
 void osinfo_loader_process_default_path(OsinfoLoader *loader, GError **err)
 {
     GError *error = NULL;
@@ -1950,28 +1981,17 @@ void osinfo_loader_process_default_path(OsinfoLoader *loader, GError **err)
 void osinfo_loader_process_system_path(OsinfoLoader *loader,
                                        GError **err)
 {
-    GFile *file;
-    gchar *dbdir;
-    const gchar *path = g_getenv("OSINFO_DATA_DIR");
-    if (!path)
-        path = PKG_DATA_DIR;
-
-    dbdir = g_strdup_printf("%s/db", path);
-    file = g_file_new_for_path(dbdir);
+    GFile *file = osinfo_loader_get_system_path();
     osinfo_loader_process_file(loader,
                                file,
                                FALSE,
                                err);
     g_object_unref(file);
-    g_free(dbdir);
 }
 
 void osinfo_loader_process_local_path(OsinfoLoader *loader, GError **err)
 {
-    GFile *file;
-    const gchar *dbdir = SYS_CONF_DIR "/libosinfo/db";
-
-    file = g_file_new_for_path(dbdir);
+    GFile *file = osinfo_loader_get_local_path();
     osinfo_loader_process_file(loader,
                                file,
                                TRUE,
@@ -1981,18 +2001,12 @@ void osinfo_loader_process_local_path(OsinfoLoader *loader, GError **err)
 
 void osinfo_loader_process_user_path(OsinfoLoader *loader, GError **err)
 {
-    GFile *file;
-    gchar *dbdir;
-    const gchar *configdir = g_get_user_config_dir();
-
-    dbdir = g_strdup_printf("%s/libosinfo/db", configdir);
-    file = g_file_new_for_path(dbdir);
+    GFile *file = osinfo_loader_get_user_path();
     osinfo_loader_process_file(loader,
                                file,
                                TRUE,
                                err);
     g_object_unref(file);
-    g_free(dbdir);
 }
 
 /*
