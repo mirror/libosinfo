@@ -72,7 +72,7 @@ START_TEST(test_loader)
     const char *str;
 
     loader = osinfo_loader_new();
-    osinfo_loader_process_path(loader, SRCDIR "/test/test-os.xml", &error);
+    osinfo_loader_process_path(loader, SRCDIR "/test/dbdata", &error);
     fail_unless(error == NULL, error ? error->message:"none");
     db = osinfo_loader_get_db(loader);
 

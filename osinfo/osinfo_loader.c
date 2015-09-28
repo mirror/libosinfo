@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
+ * Copyright (C) 2009-2015 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -1584,7 +1584,6 @@ static void osinfo_loader_process_xml(OsinfoLoader *loader,
 static void
 osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
                                    GFile *file,
-                                   GFileInfo *info,
                                    gboolean withSubsys,
                                    const char *baseURI,
                                    const char *busType,
@@ -1710,12 +1709,10 @@ osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
 static void
 osinfo_loader_process_file_reg_usb(OsinfoLoader *loader,
                                    GFile *file,
-                                   GFileInfo *info,
                                    GError **err)
 {
     osinfo_loader_process_file_reg_ids(loader,
                                        file,
-                                       info,
                                        FALSE,
                                        "http://usb.org",
                                        "usb",
@@ -1725,12 +1722,10 @@ osinfo_loader_process_file_reg_usb(OsinfoLoader *loader,
 static void
 osinfo_loader_process_file_reg_pci(OsinfoLoader *loader,
                                    GFile *file,
-                                   GFileInfo *info,
                                    GError **err)
 {
     osinfo_loader_process_file_reg_ids(loader,
                                        file,
-                                       info,
                                        TRUE,
                                        "http://pcisig.com",
                                        "pci",
@@ -1738,15 +1733,8 @@ osinfo_loader_process_file_reg_pci(OsinfoLoader *loader,
 }
 
 static void
-osinfo_loader_process_file(OsinfoLoader *loader,
-                           GFile *file,
-                           gboolean ignoreMissing,
-                           GError **err);
-
-static void
 osinfo_loader_process_file_reg_xml(OsinfoLoader *loader,
                                    GFile *file,
-                                   GFileInfo *info,
                                    GError **err)
 {
     gchar *xml = NULL;
@@ -1764,88 +1752,72 @@ osinfo_loader_process_file_reg_xml(OsinfoLoader *loader,
     g_free(xml);
 }
 
-static void
-osinfo_loader_process_file_dir(OsinfoLoader *loader,
-                               GFile *file,
-                               GFileInfo *info,
-                               GError **err)
-{
-    GFileEnumerator *ents = g_file_enumerate_children(file,
-                                                      "standard::*",
-                                                      G_FILE_QUERY_INFO_NONE,
-                                                      NULL,
-                                                      err);
-    if (error_is_set(err))
-        return;
-
-    GFileInfo *child;
-    while ((child = g_file_enumerator_next_file(ents, NULL, err)) != NULL) {
-        const gchar *name = g_file_info_get_name(child);
-        GFile *ent = g_file_get_child(file, name);
-
-        osinfo_loader_process_file(loader, ent, FALSE, err);
-
-        g_object_unref(ent);
-        g_object_unref(child);
-
-        if (error_is_set(err))
-            break;
-    }
-
-    g_object_unref(ents);
-}
 
 static void
 osinfo_loader_process_file(OsinfoLoader *loader,
                            GFile *file,
-                           gboolean ignoreMissing,
                            GError **err)
 {
-    GError *error = NULL;
-    GFileInfo *info = g_file_query_info(file,
-                                        "standard::*",
-                                        G_FILE_QUERY_INFO_NONE,
-                                        NULL,
-                                        &error);
-    const char *name;
+    const gchar *name = g_file_get_basename(file);
 
+    if (g_str_has_suffix(name, ".xml"))
+        osinfo_loader_process_file_reg_xml(loader, file, err);
+    else if (strcmp(name, "usb.ids") == 0)
+        osinfo_loader_process_file_reg_usb(loader, file, err);
+    else if (strcmp(name, "pci.ids") == 0)
+        osinfo_loader_process_file_reg_pci(loader, file, err);
+}
+
+
+static GList *osinfo_loader_find_files(OsinfoLoader *loader,
+                                       GFile *file,
+                                       GError **err)
+{
+    GError *error = NULL;
+    GFileInfo *child;
+    GList *files = NULL;
+    GFileEnumerator *ents = g_file_enumerate_children(file,
+                                                      "standard::*",
+                                                      G_FILE_QUERY_INFO_NONE,
+                                                      NULL,
+                                                      &error);
     if (error) {
-        if (ignoreMissing &&
-            (error->code == G_IO_ERROR_NOT_FOUND)) {
+        if (error->code == G_IO_ERROR_NOT_FOUND) {
             g_error_free(error);
-            return;
+            return NULL;
         }
         g_propagate_error(err, error);
-        return;
+        return NULL;
     }
 
-    name = g_file_info_get_name(info);
+    while ((child = g_file_enumerator_next_file(ents, NULL, err)) != NULL) {
+        const gchar *name = g_file_info_get_name(child);
+        GFile *ent = g_file_get_child(file, name);
+        GFileType type = g_file_info_get_attribute_uint32(child,
+                                                          G_FILE_ATTRIBUTE_STANDARD_TYPE);
+        if (type == G_FILE_TYPE_REGULAR) {
+            if (g_str_has_suffix(name, ".xml") ||
+                g_str_equal(name, "usb.ids") ||
+                g_str_equal(name, "pci.ids"))
+                files = g_list_append(files, g_object_ref(ent));
+        } else if (type == G_FILE_TYPE_DIRECTORY) {
+            GList *subfiles = osinfo_loader_find_files(loader, ent, &error);
+            if (subfiles) {
+                files = g_list_concat(files, subfiles);
+            }
+        }
+        g_object_unref(ent);
+        g_object_unref(child);
 
-    GFileType type = g_file_info_get_attribute_uint32(info,
-                                                      G_FILE_ATTRIBUTE_STANDARD_TYPE);
-
-    switch (type) {
-    case G_FILE_TYPE_REGULAR:
-        if (g_str_has_suffix(name, ".xml"))
-            osinfo_loader_process_file_reg_xml(loader, file, info, &error);
-        else if (strcmp(name, "usb.ids") == 0)
-            osinfo_loader_process_file_reg_usb(loader, file, info, &error);
-        else if (strcmp(name, "pci.ids") == 0)
-            osinfo_loader_process_file_reg_pci(loader, file, info, &error);
-        break;
-
-    case G_FILE_TYPE_DIRECTORY:
-        osinfo_loader_process_file_dir(loader, file, info, &error);
-        break;
-
-    default:
-        break;
+        if (error) {
+            g_list_foreach(files, (GFunc)g_object_unref, NULL);
+            g_list_free(files);
+            return NULL;
+        }
     }
 
-    g_object_unref(info);
-
-    if (error)
-        g_propagate_error(err, error);
+    g_object_unref(ents);
+    return files;
 }
 
 
@@ -1858,13 +1830,27 @@ static void osinfo_loader_process_list(OsinfoLoader *loader,
     gpointer key, value;
 
     while (dirs && *dirs) {
-        osinfo_loader_process_file(loader,
-                                   *dirs,
-                                   TRUE,
-                                   &lerr);
+        GList *files = osinfo_loader_find_files(loader, *dirs, &lerr);
+        GList *tmp;
         if (lerr) {
             g_propagate_error(err, lerr);
             return;
+        }
+
+        tmp = files;
+        while (tmp) {
+            osinfo_loader_process_file(loader, tmp->data, &lerr);
+            if (lerr) {
+                g_propagate_error(err, lerr);
+                break;
+            }
+            tmp = tmp->next;
+        }
+        g_list_foreach(files, (GFunc)g_object_unref, NULL);
+        g_list_free(files);
+
+        if (lerr) {
+            break;
         }
 
         dirs++;
