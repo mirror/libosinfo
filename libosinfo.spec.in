@@ -112,7 +112,7 @@ rm -fr %{buildroot}
 %{_datadir}/libosinfo/db/datamaps
 %{_datadir}/libosinfo/db/devices
 %{_datadir}/libosinfo/db/oses
-%{_datadir}/libosinfo/db/hypervisors
+%{_datadir}/libosinfo/db/platforms
 %{_datadir}/libosinfo/db/install-scripts
 %{_datadir}/libosinfo/schemas/libosinfo.rng
 %{_mandir}/man1/osinfo-db-validate.1*

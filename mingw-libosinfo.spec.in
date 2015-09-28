@@ -108,7 +108,7 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 %{mingw32_datadir}/libosinfo/db/datamaps
 %{mingw32_datadir}/libosinfo/db/devices
 %{mingw32_datadir}/libosinfo/db/oses
-%{mingw32_datadir}/libosinfo/db/hypervisors
+%{mingw32_datadir}/libosinfo/db/platforms
 %{mingw32_datadir}/libosinfo/db/install-scripts
 %{mingw32_datadir}/libosinfo/schemas/libosinfo.rng
 %{mingw32_datadir}/locale/*/LC_MESSAGES/libosinfo.mo
@@ -133,7 +133,7 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 %{mingw64_datadir}/libosinfo/db/datamaps
 %{mingw64_datadir}/libosinfo/db/devices
 %{mingw64_datadir}/libosinfo/db/oses
-%{mingw64_datadir}/libosinfo/db/hypervisors
+%{mingw64_datadir}/libosinfo/db/platforms
 %{mingw64_datadir}/libosinfo/db/install-scripts
 %{mingw64_datadir}/libosinfo/schemas/libosinfo.rng
 %{mingw64_datadir}/locale/*/LC_MESSAGES/libosinfo.mo

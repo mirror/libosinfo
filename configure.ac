@@ -169,7 +169,7 @@ AC_CONFIG_FILES([
 	data/Makefile
 	data/datamaps/Makefile
 	data/devices/Makefile
-	data/hypervisors/Makefile
+	data/platforms/Makefile
 	data/install-scripts/Makefile
 	data/oses/Makefile
 	data/schemas/Makefile
