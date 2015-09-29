@@ -38,6 +38,13 @@
 #include "osinfo_install_script_private.h"
 #include "osinfo_device_driver_private.h"
 
+#ifndef USB_IDS
+#define USB_IDS PKG_DATA_DIR "/usb.ids"
+#endif
+#ifndef PCI_IDS
+#define PCI_IDS PKG_DATA_DIR "/pci.ids"
+#endif
+
 G_DEFINE_TYPE(OsinfoLoader, osinfo_loader, G_TYPE_OBJECT);
 
 #define OSINFO_LOADER_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_LOADER, OsinfoLoaderPrivate))
@@ -1753,22 +1760,6 @@ osinfo_loader_process_file_reg_xml(OsinfoLoader *loader,
 }
 
 
-static void
-osinfo_loader_process_file(OsinfoLoader *loader,
-                           GFile *file,
-                           GError **err)
-{
-    const gchar *name = g_file_get_basename(file);
-
-    if (g_str_has_suffix(name, ".xml"))
-        osinfo_loader_process_file_reg_xml(loader, file, err);
-    else if (strcmp(name, "usb.ids") == 0)
-        osinfo_loader_process_file_reg_usb(loader, file, err);
-    else if (strcmp(name, "pci.ids") == 0)
-        osinfo_loader_process_file_reg_pci(loader, file, err);
-}
-
-
 static GList *osinfo_loader_find_files(OsinfoLoader *loader,
                                        GFile *file,
                                        GError **err)
@@ -1796,9 +1787,7 @@ static GList *osinfo_loader_find_files(OsinfoLoader *loader,
         GFileType type = g_file_info_get_attribute_uint32(child,
                                                           G_FILE_ATTRIBUTE_STANDARD_TYPE);
         if (type == G_FILE_TYPE_REGULAR) {
-            if (g_str_has_suffix(name, ".xml") ||
-                g_str_equal(name, "usb.ids") ||
-                g_str_equal(name, "pci.ids"))
+            if (g_str_has_suffix(name, ".xml"))
                 files = g_list_append(files, g_object_ref(ent));
         } else if (type == G_FILE_TYPE_DIRECTORY) {
             GList *subfiles = osinfo_loader_find_files(loader, ent, &error);
@@ -1821,6 +1810,12 @@ static GList *osinfo_loader_find_files(OsinfoLoader *loader,
 }
 
 
+typedef enum {
+    OSINFO_DATA_FORMAT_NATIVE,
+    OSINFO_DATA_FORMAT_PCI_IDS,
+    OSINFO_DATA_FORMAT_USB_IDS,
+} OsinfoLoaderDataFormat;
+
 static void osinfo_loader_process_list(OsinfoLoader *loader,
                                        GFile **dirs,
                                        GError **err)
@@ -1830,24 +1825,39 @@ static void osinfo_loader_process_list(OsinfoLoader *loader,
     gpointer key, value;
 
     while (dirs && *dirs) {
-        GList *files = osinfo_loader_find_files(loader, *dirs, &lerr);
-        GList *tmp;
-        if (lerr) {
-            g_propagate_error(err, lerr);
-            return;
-        }
+        OsinfoLoaderDataFormat fmt = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(*dirs), "data-format"));
 
-        tmp = files;
-        while (tmp) {
-            osinfo_loader_process_file(loader, tmp->data, &lerr);
+        switch (fmt) {
+        case OSINFO_DATA_FORMAT_NATIVE: {
+            GList *files = osinfo_loader_find_files(loader, *dirs, &lerr);
+            GList *tmp;
             if (lerr) {
                 g_propagate_error(err, lerr);
-                break;
+                return;
             }
-            tmp = tmp->next;
+
+            tmp = files;
+            while (tmp) {
+                osinfo_loader_process_file_reg_xml(loader, tmp->data, &lerr);
+                if (lerr) {
+                    g_propagate_error(err, lerr);
+                    break;
+                }
+                tmp = tmp->next;
+            }
+            g_list_foreach(files, (GFunc)g_object_unref, NULL);
+            g_list_free(files);
+
+        }   break;
+
+        case OSINFO_DATA_FORMAT_PCI_IDS:
+            osinfo_loader_process_file_reg_pci(loader, *dirs, &lerr);
+            break;
+
+        case OSINFO_DATA_FORMAT_USB_IDS:
+            osinfo_loader_process_file_reg_usb(loader, *dirs, &lerr);
+            break;
         }
-        g_list_foreach(files, (GFunc)g_object_unref, NULL);
-        g_list_free(files);
 
         if (lerr) {
             break;
@@ -1898,6 +1908,8 @@ void osinfo_loader_process_path(OsinfoLoader *loader,
         g_file_new_for_path(path),
         NULL,
     };
+    g_object_set_data(G_OBJECT(dirs[0]), "data-format",
+                      GINT_TO_POINTER(OSINFO_DATA_FORMAT_NATIVE));
     osinfo_loader_process_list(loader, dirs, err);
     g_object_unref(dirs[0]);
 }
@@ -1921,8 +1933,28 @@ void osinfo_loader_process_uri(OsinfoLoader *loader,
         g_file_new_for_uri(uri),
         NULL,
     };
+    g_object_set_data(G_OBJECT(dirs[0]), "data-format",
+                      GINT_TO_POINTER(OSINFO_DATA_FORMAT_NATIVE));
     osinfo_loader_process_list(loader, dirs, err);
     g_object_unref(dirs[0]);
+}
+
+
+static GFile *osinfo_loader_get_pci_path(void)
+{
+    GFile *ids = g_file_new_for_path(PCI_IDS);
+    g_object_set_data(G_OBJECT(ids), "data-format",
+                      GINT_TO_POINTER(OSINFO_DATA_FORMAT_PCI_IDS));
+    return ids;
+}
+
+
+static GFile *osinfo_loader_get_usb_path(void)
+{
+    GFile *ids = g_file_new_for_path(USB_IDS);
+    g_object_set_data(G_OBJECT(ids), "data-format",
+                      GINT_TO_POINTER(OSINFO_DATA_FORMAT_USB_IDS));
+    return ids;
 }
 
 
@@ -1936,13 +1968,19 @@ static GFile *osinfo_loader_get_system_path(void)
 
     dbdir = g_strdup_printf("%s/db", path);
     file = g_file_new_for_path(dbdir);
+    g_object_set_data(G_OBJECT(file), "data-format",
+                      GINT_TO_POINTER(OSINFO_DATA_FORMAT_NATIVE));
     g_free(dbdir);
     return file;
 }
 
 static GFile *osinfo_loader_get_local_path(void)
 {
-    return g_file_new_for_path(SYS_CONF_DIR "/libosinfo/db");
+    GFile *file;
+    file = g_file_new_for_path(SYS_CONF_DIR "/libosinfo/db");
+    g_object_set_data(G_OBJECT(file), "data-format",
+                      GINT_TO_POINTER(OSINFO_DATA_FORMAT_NATIVE));
+    return file;
 }
 
 static GFile *osinfo_loader_get_user_path(void)
@@ -1953,6 +1991,8 @@ static GFile *osinfo_loader_get_user_path(void)
 
     dbdir = g_strdup_printf("%s/libosinfo/db", configdir);
     file = g_file_new_for_path(dbdir);
+    g_object_set_data(G_OBJECT(file), "data-format",
+                      GINT_TO_POINTER(OSINFO_DATA_FORMAT_NATIVE));
     g_free(dbdir);
     return file;
 }
@@ -1960,6 +2000,8 @@ static GFile *osinfo_loader_get_user_path(void)
 void osinfo_loader_process_default_path(OsinfoLoader *loader, GError **err)
 {
     GFile *dirs[] = {
+        osinfo_loader_get_pci_path(),
+        osinfo_loader_get_usb_path(),
         osinfo_loader_get_system_path(),
         osinfo_loader_get_local_path(),
         osinfo_loader_get_user_path(),
@@ -1970,6 +2012,8 @@ void osinfo_loader_process_default_path(OsinfoLoader *loader, GError **err)
     g_object_unref(dirs[0]);
     g_object_unref(dirs[1]);
     g_object_unref(dirs[2]);
+    g_object_unref(dirs[3]);
+    g_object_unref(dirs[4]);
 }
 
 /**
@@ -1983,12 +2027,16 @@ void osinfo_loader_process_system_path(OsinfoLoader *loader,
                                        GError **err)
 {
     GFile *dirs[] = {
+        osinfo_loader_get_pci_path(),
+        osinfo_loader_get_usb_path(),
         osinfo_loader_get_system_path(),
         NULL,
     };
 
     osinfo_loader_process_list(loader, dirs, err);
     g_object_unref(dirs[0]);
+    g_object_unref(dirs[1]);
+    g_object_unref(dirs[2]);
 }
 
 void osinfo_loader_process_local_path(OsinfoLoader *loader, GError **err)

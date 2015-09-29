@@ -103,8 +103,8 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 %dir %{mingw32_datadir}/libosinfo
 %dir %{mingw32_datadir}/libosinfo/db
 %dir %{mingw32_datadir}/libosinfo/schemas
-%{mingw32_datadir}/libosinfo/db/usb.ids
-%{mingw32_datadir}/libosinfo/db/pci.ids
+%{mingw32_datadir}/libosinfo/usb.ids
+%{mingw32_datadir}/libosinfo/pci.ids
 %{mingw32_datadir}/libosinfo/db/datamap
 %{mingw32_datadir}/libosinfo/db/device
 %{mingw32_datadir}/libosinfo/db/os
@@ -128,8 +128,8 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 %dir %{mingw64_datadir}/libosinfo
 %dir %{mingw64_datadir}/libosinfo/db
 %dir %{mingw64_datadir}/libosinfo/schemas
-%{mingw64_datadir}/libosinfo/db/usb.ids
-%{mingw64_datadir}/libosinfo/db/pci.ids
+%{mingw64_datadir}/libosinfo/usb.ids
+%{mingw64_datadir}/libosinfo/pci.ids
 %{mingw64_datadir}/libosinfo/db/datamap
 %{mingw64_datadir}/libosinfo/db/device
 %{mingw64_datadir}/libosinfo/db/os

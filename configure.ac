@@ -135,25 +135,80 @@ fi
 AC_SUBST(COVERAGE_CFLAGS)
 AC_SUBST(COVERAGE_LDFLAGS)
 
-# Path to the usb.ids file -- to know if we use one shipped with another
-# package, or an internal file
+
+USB_ID_FILES="/usr/share/usb.ids /usr/share/misc/usb.ids /usr/share/hwdata/usb.ids"
+
 AC_ARG_WITH(usb-ids-path,
               [AC_HELP_STRING([--with-usb-ids-path],
-                              [Specify the path to usb.ids @<:@default=(internal)@:>@])],,
-                              [with_usb_ids_path="\${usb_databasedir}/usb.ids"])
+                              [Specify the path to usb.ids @<:@default=(internal)@:>@])])
 
-AM_CONDITIONAL(USE_INTERNAL_USB_IDS, test "x$with_usb_ids_path" = "x\${usb_databasedir}/usb.ids")
-AC_SUBST([USB_IDS], ["$with_usb_ids_path"])
+AC_MSG_CHECKING([location of usb.ids database])
+local_usb_ids=0
+if test -z "$with_usb_ids_path"
+then
+  if test $host = $build
+  then
+    for FILE in $USB_ID_FILES
+    do
+      if test -f $FILE
+      then
+        with_usb_ids_path="$FILE"
+        break
+      fi
+    done
+  fi
 
-# Path to the pci.ids file -- to know if we use one shipped with another
-# package, or an internal file
+  if test -z "$with_usb_ids_path"
+  then
+    local_usb_ids=1
+  fi
+fi
+AM_CONDITIONAL([LOCAL_USB_IDS], [test "$local_usb_ids" = "1"])
+if test -n "$with_usb_ids_path"
+then
+  AC_DEFINE_UNQUOTED([USB_IDS], ["$with_usb_ids_path"], ["location of usb.ids database"])
+  AC_MSG_RESULT([$with_usb_ids_path])
+else
+  AC_MSG_RESULT([<built-in>])
+fi
+
+
+PCI_ID_FILES="/usr/share/pci.ids /usr/share/misc/pci.ids /usr/share/hwdata/pci.ids"
+
 AC_ARG_WITH(pci-ids-path,
               [AC_HELP_STRING([--with-pci-ids-path],
-                              [Specify the path to pci.ids @<:@default=(internal)@:>@])],,
-                              [with_pci_ids_path="\${pci_databasedir}/pci.ids"])
+                              [Specify the path to pci.ids @<:@default=(internal)@:>@])])
 
-AM_CONDITIONAL(USE_INTERNAL_PCI_IDS, test "x$with_pci_ids_path" = "x\${pci_databasedir}/pci.ids")
-AC_SUBST([PCI_IDS], ["$with_pci_ids_path"])
+AC_MSG_CHECKING([location of pci.ids database])
+local_pci_ids=0
+if test -z "$with_pci_ids_path"
+then
+  if test $host = $build
+  then
+    for FILE in $PCI_ID_FILES
+    do
+      if test -f $FILE
+      then
+        with_pci_ids_path="$FILE"
+        break
+      fi
+    done
+  fi
+
+  if test -z "$with_pci_ids_path"
+  then
+    local_pci_ids=1
+  fi
+fi
+AM_CONDITIONAL([LOCAL_PCI_IDS], [test "$local_pci_ids" = "1"])
+if test -n "$with_pci_ids_path"
+then
+  AC_DEFINE_UNQUOTED([PCI_IDS], ["$with_pci_ids_path"], ["location of pci.ids database"])
+  AC_MSG_RESULT([$with_pci_ids_path])
+else
+  AC_MSG_RESULT([<built-in>])
+fi
+
 
 # Setup GLIB_MKENUMS to use glib-mkenums even if GLib is uninstalled.
 GLIB_MKENUMS=`$PKG_CONFIG --variable=glib_mkenums glib-2.0`
