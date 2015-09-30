@@ -1665,8 +1665,8 @@ osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
                 WANT_REST(device);
                 SAVE_BUF(device_buf);
 
-                gchar *id = g_strdup_printf("%s/%s/%s",
-                                            baseURI, vendor_id, device_id);
+                gchar *id = g_strdup_printf("%s/%s/%s/%s",
+                                            baseURI, busType, vendor_id, device_id);
 
                 OsinfoDevice *dev = osinfo_loader_get_device(loader, id);
                 g_hash_table_remove(loader->priv->entity_refs, id);
@@ -1717,7 +1717,7 @@ osinfo_loader_process_file_reg_usb(OsinfoLoader *loader,
                                        file,
                                        info,
                                        FALSE,
-                                       "http://www.linux-usb.org/usb.ids",
+                                       "http://usb.org",
                                        "usb",
                                        err);
 }
@@ -1732,7 +1732,7 @@ osinfo_loader_process_file_reg_pci(OsinfoLoader *loader,
                                        file,
                                        info,
                                        TRUE,
-                                       "http://pciids.sourceforge.net/v2.2/pci.ids",
+                                       "http://pcisig.com",
                                        "pci",
                                        err);
 }
