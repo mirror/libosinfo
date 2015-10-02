@@ -42,7 +42,7 @@ exit $ret
 : ${srcdir=.}
 . $srcdir/test-lib.sh
 
-DIRS="datamaps oses platforms devices install-scripts"
+DIRS="datamap os platform device install-script"
 SCHEMA="libosinfo.rng"
 
 check_schema "$DIRS" "$SCHEMA"

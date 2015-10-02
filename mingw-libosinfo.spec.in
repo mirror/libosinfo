@@ -105,11 +105,11 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 %dir %{mingw32_datadir}/libosinfo/schemas
 %{mingw32_datadir}/libosinfo/db/usb.ids
 %{mingw32_datadir}/libosinfo/db/pci.ids
-%{mingw32_datadir}/libosinfo/db/datamaps
-%{mingw32_datadir}/libosinfo/db/devices
-%{mingw32_datadir}/libosinfo/db/oses
-%{mingw32_datadir}/libosinfo/db/platforms
-%{mingw32_datadir}/libosinfo/db/install-scripts
+%{mingw32_datadir}/libosinfo/db/datamap
+%{mingw32_datadir}/libosinfo/db/device
+%{mingw32_datadir}/libosinfo/db/os
+%{mingw32_datadir}/libosinfo/db/platform
+%{mingw32_datadir}/libosinfo/db/install-script
 %{mingw32_datadir}/libosinfo/schemas/libosinfo.rng
 %{mingw32_datadir}/locale/*/LC_MESSAGES/libosinfo.mo
 
@@ -130,11 +130,11 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 %dir %{mingw64_datadir}/libosinfo/schemas
 %{mingw64_datadir}/libosinfo/db/usb.ids
 %{mingw64_datadir}/libosinfo/db/pci.ids
-%{mingw64_datadir}/libosinfo/db/datamaps
-%{mingw64_datadir}/libosinfo/db/devices
-%{mingw64_datadir}/libosinfo/db/oses
-%{mingw64_datadir}/libosinfo/db/platforms
-%{mingw64_datadir}/libosinfo/db/install-scripts
+%{mingw64_datadir}/libosinfo/db/datamap
+%{mingw64_datadir}/libosinfo/db/device
+%{mingw64_datadir}/libosinfo/db/os
+%{mingw64_datadir}/libosinfo/db/platform
+%{mingw64_datadir}/libosinfo/db/install-script
 %{mingw64_datadir}/libosinfo/schemas/libosinfo.rng
 %{mingw64_datadir}/locale/*/LC_MESSAGES/libosinfo.mo
 

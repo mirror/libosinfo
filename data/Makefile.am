@@ -1,6 +1,6 @@
 INSTALL_DATA_HOOK_DEPS =
 
-SUBDIRS = datamaps devices oses platforms install-scripts schemas
+SUBDIRS = datamap device os platform install-script schemas
 EXTRA_DIST = usb.ids pci.ids
 CLEANFILES = usb.ids pci.ids
 
