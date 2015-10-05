@@ -1848,6 +1848,36 @@ osinfo_loader_process_file(OsinfoLoader *loader,
         g_propagate_error(err, error);
 }
 
+
+static void osinfo_loader_process_list(OsinfoLoader *loader,
+                                       GFile **dirs,
+                                       GError **err)
+{
+    GError *lerr = NULL;
+    GHashTableIter iter;
+    gpointer key, value;
+
+    while (dirs && *dirs) {
+        osinfo_loader_process_file(loader,
+                                   *dirs,
+                                   TRUE,
+                                   &lerr);
+        if (lerr) {
+            g_propagate_error(err, lerr);
+            return;
+        }
+
+        dirs++;
+    }
+
+    g_hash_table_iter_init(&iter, loader->priv->entity_refs);
+    while (g_hash_table_iter_next(&iter, &key, &value)) {
+        g_warning("Entity %s referenced but not defined", (const char *)key);
+    }
+    g_hash_table_remove_all(loader->priv->entity_refs);
+}
+
+
 /**
  * osinfo_loader_get_db:
  * @loader: the loader object
@@ -1878,12 +1908,12 @@ void osinfo_loader_process_path(OsinfoLoader *loader,
                                 const gchar *path,
                                 GError **err)
 {
-    GFile *file = g_file_new_for_path(path);
-    osinfo_loader_process_file(loader,
-                               file,
-                               FALSE,
-                               err);
-    g_object_unref(file);
+    GFile *dirs[] = {
+        g_file_new_for_path(path),
+        NULL,
+    };
+    osinfo_loader_process_list(loader, dirs, err);
+    g_object_unref(dirs[0]);
 }
 
 /**
@@ -1901,12 +1931,12 @@ void osinfo_loader_process_uri(OsinfoLoader *loader,
                                const gchar *uri,
                                GError **err)
 {
-    GFile *file = g_file_new_for_uri(uri);
-    osinfo_loader_process_file(loader,
-                               file,
-                               FALSE,
-                               err);
-    g_object_unref(file);
+    GFile *dirs[] = {
+        g_file_new_for_uri(uri),
+        NULL,
+    };
+    osinfo_loader_process_list(loader, dirs, err);
+    g_object_unref(dirs[0]);
 }
 
 
@@ -1943,32 +1973,17 @@ static GFile *osinfo_loader_get_user_path(void)
 
 void osinfo_loader_process_default_path(OsinfoLoader *loader, GError **err)
 {
-    GError *error = NULL;
+    GFile *dirs[] = {
+        osinfo_loader_get_system_path(),
+        osinfo_loader_get_local_path(),
+        osinfo_loader_get_user_path(),
+        NULL,
+    };
 
-    osinfo_loader_process_system_path(loader, &error);
-    if (error)
-        goto error;
-
-    osinfo_loader_process_local_path(loader, &error);
-    if (error)
-        goto error;
-
-    osinfo_loader_process_user_path(loader, &error);
-    if (error)
-        goto error;
-
-    GHashTableIter iter;
-    gpointer key, value;
-    g_hash_table_iter_init(&iter, loader->priv->entity_refs);
-    while (g_hash_table_iter_next(&iter, &key, &value)) {
-        g_warning("Entity %s referenced but not defined", (const char *)key);
-    }
-    g_hash_table_remove_all(loader->priv->entity_refs);
-    return;
-
- error:
-    g_propagate_error(err, error);
-    return;
+    osinfo_loader_process_list(loader, dirs, err);
+    g_object_unref(dirs[0]);
+    g_object_unref(dirs[1]);
+    g_object_unref(dirs[2]);
 }
 
 /**
@@ -1981,32 +1996,35 @@ void osinfo_loader_process_default_path(OsinfoLoader *loader, GError **err)
 void osinfo_loader_process_system_path(OsinfoLoader *loader,
                                        GError **err)
 {
-    GFile *file = osinfo_loader_get_system_path();
-    osinfo_loader_process_file(loader,
-                               file,
-                               FALSE,
-                               err);
-    g_object_unref(file);
+    GFile *dirs[] = {
+        osinfo_loader_get_system_path(),
+        NULL,
+    };
+
+    osinfo_loader_process_list(loader, dirs, err);
+    g_object_unref(dirs[0]);
 }
 
 void osinfo_loader_process_local_path(OsinfoLoader *loader, GError **err)
 {
-    GFile *file = osinfo_loader_get_local_path();
-    osinfo_loader_process_file(loader,
-                               file,
-                               TRUE,
-                               err);
-    g_object_unref(file);
+    GFile *dirs[] = {
+        osinfo_loader_get_local_path(),
+        NULL,
+    };
+
+    osinfo_loader_process_list(loader, dirs, err);
+    g_object_unref(dirs[0]);
 }
 
 void osinfo_loader_process_user_path(OsinfoLoader *loader, GError **err)
 {
-    GFile *file = osinfo_loader_get_user_path();
-    osinfo_loader_process_file(loader,
-                               file,
-                               TRUE,
-                               err);
-    g_object_unref(file);
+    GFile *dirs[] = {
+        osinfo_loader_get_user_path(),
+        NULL,
+    };
+
+    osinfo_loader_process_list(loader, dirs, err);
+    g_object_unref(dirs[0]);
 }
 
 /*
