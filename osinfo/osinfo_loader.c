@@ -56,6 +56,7 @@ struct _OsinfoLoaderPrivate
 {
     OsinfoDb *db;
     GHashTable *xpath_cache;
+    GHashTable *entity_refs;
 };
 
 struct _OsinfoEntityKey
@@ -72,6 +73,8 @@ osinfo_loader_finalize(GObject *object)
 
     g_object_unref(loader->priv->db);
     g_hash_table_destroy(loader->priv->xpath_cache);
+
+    g_hash_table_destroy(loader->priv->entity_refs);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS(osinfo_loader_parent_class)->finalize(object);
@@ -106,6 +109,10 @@ osinfo_loader_init(OsinfoLoader *loader)
                                                       g_str_equal,
                                                       g_free,
                                                       xpath_cache_value_free);
+    loader->priv->entity_refs = g_hash_table_new_full(g_str_hash,
+                                                      g_str_equal,
+                                                      g_free,
+                                                      NULL);
 }
 
 /** PUBLIC METHODS */
@@ -409,13 +416,14 @@ static void osinfo_loader_entity(OsinfoLoader *loader,
 }
 
 static OsinfoDatamap *osinfo_loader_get_datamap(OsinfoLoader *loader,
-                                                 const gchar *id)
+                                                const gchar *id)
 {
     OsinfoDatamap *datamap = osinfo_db_get_datamap(loader->priv->db, id);
     if (!datamap) {
         datamap = osinfo_datamap_new(id);
         osinfo_db_add_datamap(loader->priv->db, datamap);
         g_object_unref(datamap);
+        g_hash_table_insert(loader->priv->entity_refs, g_strdup(id), datamap);
     }
     return datamap;
 }
@@ -428,6 +436,7 @@ static OsinfoDevice *osinfo_loader_get_device(OsinfoLoader *loader,
         dev = osinfo_device_new(id);
         osinfo_db_add_device(loader->priv->db, dev);
         g_object_unref(dev);
+        g_hash_table_insert(loader->priv->entity_refs, g_strdup(id), dev);
     }
     return dev;
 }
@@ -440,6 +449,7 @@ static OsinfoOs *osinfo_loader_get_os(OsinfoLoader *loader,
         os = osinfo_os_new(id);
         osinfo_db_add_os(loader->priv->db, os);
         g_object_unref(os);
+        g_hash_table_insert(loader->priv->entity_refs, g_strdup(id), os);
     }
     return os;
 }
@@ -452,6 +462,7 @@ static OsinfoPlatform *osinfo_loader_get_platform(OsinfoLoader *loader,
         platform = osinfo_platform_new(id);
         osinfo_db_add_platform(loader->priv->db, platform);
         g_object_unref(platform);
+        g_hash_table_insert(loader->priv->entity_refs, g_strdup(id), platform);
     }
     return platform;
 }
@@ -464,6 +475,7 @@ static OsinfoInstallScript *osinfo_loader_get_install_script(OsinfoLoader *loade
         script = osinfo_install_script_new(id);
         osinfo_db_add_install_script(loader->priv->db, script);
         g_object_unref(script);
+        g_hash_table_insert(loader->priv->entity_refs, g_strdup(id), script);
     }
     return script;
 }
@@ -491,6 +503,7 @@ static void osinfo_loader_device(OsinfoLoader *loader,
     }
 
     OsinfoDevice *device = osinfo_loader_get_device(loader, id);
+    g_hash_table_remove(loader->priv->entity_refs, id);
     xmlFree(id);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(device), keys, ctxt, root, err);
@@ -643,6 +656,7 @@ static void osinfo_loader_platform(OsinfoLoader *loader,
     }
 
     OsinfoPlatform *platform = osinfo_loader_get_platform(loader, id);
+    g_hash_table_remove(loader->priv->entity_refs, id);
     xmlFree(id);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(platform), NULL, ctxt, root, err);
@@ -725,6 +739,7 @@ static void osinfo_loader_datamap(OsinfoLoader *loader,
     }
 
     OsinfoDatamap *map = osinfo_loader_get_datamap(loader, id);
+    g_hash_table_remove(loader->priv->entity_refs, id);
 
     nnodes = osinfo_loader_nodeset("./entry", loader, ctxt, &nodes, err);
     if (error_is_set(err))
@@ -844,6 +859,7 @@ static void osinfo_loader_install_script(OsinfoLoader *loader,
 
     OsinfoInstallScript *installScript = osinfo_loader_get_install_script(loader,
                                                                           id);
+    g_hash_table_remove(loader->priv->entity_refs, id);
     xmlFree(id);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(installScript), keys, ctxt, root, err);
@@ -1290,6 +1306,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
     }
 
     OsinfoOs *os = osinfo_loader_get_os(loader, id);
+    g_hash_table_remove(loader->priv->entity_refs, id);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(os), keys, ctxt, root, err);
     if (error_is_set(err))
@@ -1652,6 +1669,7 @@ osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
                                             baseURI, vendor_id, device_id);
 
                 OsinfoDevice *dev = osinfo_loader_get_device(loader, id);
+                g_hash_table_remove(loader->priv->entity_refs, id);
                 OsinfoEntity *entity = OSINFO_ENTITY(dev);
                 osinfo_entity_set_param(entity,
                                         OSINFO_DEVICE_PROP_VENDOR_ID,
@@ -1908,6 +1926,13 @@ void osinfo_loader_process_default_path(OsinfoLoader *loader, GError **err)
     if (error)
         goto error;
 
+    GHashTableIter iter;
+    gpointer key, value;
+    g_hash_table_iter_init(&iter, loader->priv->entity_refs);
+    while (g_hash_table_iter_next(&iter, &key, &value)) {
+        g_warning("Entity %s referenced but not defined", (const char *)key);
+    }
+    g_hash_table_remove_all(loader->priv->entity_refs);
     return;
 
  error:
