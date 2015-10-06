@@ -1726,7 +1726,9 @@ osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
             goto done;                          \
         }
 #define WANT_REST(var)                          \
-        (var) = tmp+offset
+        (var) = tmp+offset;                     \
+        while (*(var) == ' ')                   \
+            (var)++
 
         if (GOT_TAB()) {
             offset++;
