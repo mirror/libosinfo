@@ -342,6 +342,7 @@ static void osinfo_loader_entity(OsinfoLoader *loader,
                             break;
                         }
                     }
+                    xmlFree(lang);
                 }
             }
         }
@@ -780,6 +781,7 @@ static void osinfo_loader_install_config_params(OsinfoLoader *loader,
         xmlFree(mapid);
         xmlFree(name);
         xmlFree(policy);
+        g_object_unref(param);
     };
 
     g_free(nodes);
@@ -889,6 +891,7 @@ static void osinfo_loader_install_script(OsinfoLoader *loader,
             goto error;
 
         osinfo_install_script_set_avatar_format(installScript, avatar_format);
+        g_object_unref(avatar_format);
     }
     g_free(nodes);
 
