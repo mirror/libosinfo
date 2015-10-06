@@ -1,1 +1,2 @@
-include ../../Makefile.inc
+
+SUBDIRS = usb-80ee-0021.d

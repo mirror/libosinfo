@@ -229,7 +229,26 @@ AC_CONFIG_FILES([
 	data/device/ibasetechnologies.net/Makefile
 	data/device/ibm.com/Makefile
 	data/device/pcisig.com/Makefile
+	data/device/pcisig.com/pci-1000-0012.d/Makefile
+	data/device/pcisig.com/pci-1013-00b8.d/Makefile
+	data/device/pcisig.com/pci-1022-2000.d/Makefile
+	data/device/pcisig.com/pci-10ec-8029.d/Makefile
+	data/device/pcisig.com/pci-10ec-8139.d/Makefile
+	data/device/pcisig.com/pci-1234-1111.d/Makefile
+	data/device/pcisig.com/pci-1274-5000.d/Makefile
+	data/device/pcisig.com/pci-15ad-0710.d/Makefile
+	data/device/pcisig.com/pci-1af4-1000.d/Makefile
+	data/device/pcisig.com/pci-1af4-1001.d/Makefile
+	data/device/pcisig.com/pci-1af4-1002.d/Makefile
+	data/device/pcisig.com/pci-1af4-1003.d/Makefile
+	data/device/pcisig.com/pci-1af4-1009.d/Makefile
+	data/device/pcisig.com/pci-1b36-0100.d/Makefile
+	data/device/pcisig.com/pci-8086-100e.d/Makefile
+	data/device/pcisig.com/pci-8086-2415.d/Makefile
+	data/device/pcisig.com/pci-8086-25ab.d/Makefile
+	data/device/pcisig.com/pci-8086-2668.d/Makefile
 	data/device/usb.org/Makefile
+	data/device/usb.org/usb-80ee-0021.d/Makefile
 	data/device/xen.org/Makefile
 	data/platform/Makefile
 	data/platform/linux-kvm.org/Makefile

@@ -74,6 +74,13 @@ struct _OsinfoEntityKey
 };
 typedef struct _OsinfoEntityKey OsinfoEntityKey;
 
+typedef struct OsinfoLoaderEntityFiles OsinfoLoaderEntityFiles;
+
+struct OsinfoLoaderEntityFiles {
+    GFile *master;
+    GList *extensions;
+};
+
 static void
 osinfo_loader_finalize(GObject *object)
 {
@@ -496,6 +503,8 @@ static gboolean osinfo_loader_check_id(const gchar *relpath,
     gchar *name;
     gchar *suffix;
     gboolean sep = FALSE;
+    gchar *reldir;
+    gboolean extension;
     gsize i;
     if (g_str_has_prefix(id, "http://")) {
         suffix = g_strdup(id + strlen("http://"));
@@ -512,12 +521,20 @@ static gboolean osinfo_loader_check_id(const gchar *relpath,
                 suffix[i] = '-';
         }
     }
-    name = g_strdup_printf("/%s/%s.xml", type, suffix);
+    reldir = g_path_get_dirname(relpath);
+    if (g_str_has_suffix(reldir, ".d")) {
+        name = g_strdup_printf("/%s/%s.d", type, suffix);
+        extension = TRUE;
+    } else {
+        name = g_strdup_printf("/%s/%s.xml", type, suffix);
+        extension = FALSE;
+    }
     g_free(suffix);
 
-    if (!g_str_equal(relpath, name)) {
+    if (!g_str_equal(extension ? reldir : relpath, name)) {
         g_warning("Entity %s should be in file %s not %s",
-                  id, name, relpath);
+                  id, name, extension ? reldir : relpath);
+        g_free(reldir);
         g_free(name);
         return TRUE; /* In future switch to FALSE to refuse
                       * to load non-compliant named files.
@@ -525,6 +542,7 @@ static gboolean osinfo_loader_check_id(const gchar *relpath,
                       * first though... Switch ETA Jan 2017
                       */
     }
+    g_free(reldir);
     g_free(name);
     return TRUE;
 }
@@ -1666,6 +1684,7 @@ static void osinfo_loader_process_xml(OsinfoLoader *loader,
 static void
 osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
                                    GFile *file,
+                                   GHashTable *allentries,
                                    gboolean withSubsys,
                                    const char *baseURI,
                                    const char *busType,
@@ -1750,6 +1769,15 @@ osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
 
                 gchar *id = g_strdup_printf("%s/%s/%s/%s",
                                             baseURI, busType, vendor_id, device_id);
+                gchar *key = g_strdup_printf("/device/%s/%s-%s-%s",
+                                              baseURI + 7, busType, vendor_id, device_id);
+                OsinfoLoaderEntityFiles *files = g_hash_table_lookup(allentries, key);
+                g_free(key);
+                if (files && files->master) {
+                    /* Native database has a matching entry that completely
+                     * replaces the external record */
+                    continue;
+                }
 
                 OsinfoDevice *dev = osinfo_loader_get_device(loader, id);
                 g_hash_table_remove(loader->priv->entity_refs, id);
@@ -1793,10 +1821,12 @@ osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
 static void
 osinfo_loader_process_file_reg_usb(OsinfoLoader *loader,
                                    GFile *file,
+                                   GHashTable *allentries,
                                    GError **err)
 {
     osinfo_loader_process_file_reg_ids(loader,
                                        file,
+                                       allentries,
                                        FALSE,
                                        "http://usb.org",
                                        "usb",
@@ -1806,10 +1836,12 @@ osinfo_loader_process_file_reg_usb(OsinfoLoader *loader,
 static void
 osinfo_loader_process_file_reg_pci(OsinfoLoader *loader,
                                    GFile *file,
+                                   GHashTable *allentries,
                                    GError **err)
 {
     osinfo_loader_process_file_reg_ids(loader,
                                        file,
+                                       allentries,
                                        TRUE,
                                        "http://pcisig.com",
                                        "pci",
@@ -1847,13 +1879,93 @@ osinfo_loader_process_file_reg_xml(OsinfoLoader *loader,
 }
 
 
-static GList *osinfo_loader_find_files(OsinfoLoader *loader,
-                                       GFile *file,
-                                       GError **err)
+static void osinfo_loader_entity_files_free(OsinfoLoaderEntityFiles *files)
+{
+    if (!files)
+        return;
+    g_list_foreach(files->extensions, (GFunc)g_object_unref, NULL);
+    g_list_free(files->extensions);
+    if (files->master)
+        g_object_unref(files->master);
+    g_free(files);
+}
+
+
+static void osinfo_loader_entity_files_add_path(GHashTable *entries,
+                                                GFile *base,
+                                                GFile *ent)
+{
+    /*
+     * We have paths which are either:
+     *
+     *   $DB_ROOT/os/fedoraproject.org/fedora-19.xml
+     *   $DB_ROOT/os/fedoraproject.org/fedora-19.d/fragment.xml
+     *
+     * And need to extract the prefix
+     *
+     *   os/fedoraproject.org/fedora-19
+     *
+     * We assume that no domain names end with '.d'
+     */
+    gchar *path = g_file_get_path(ent);
+    const gchar *relpath = path;
+    gchar *dirname;
+    gchar *key = NULL;
+    gboolean extension = FALSE;
+    OsinfoLoaderEntityFiles *entry;
+    gchar *basepath = g_file_get_path(base);
+
+    g_object_set_data(G_OBJECT(ent), "base", base);
+
+    if (g_str_has_prefix(path, basepath))
+        relpath += strlen(basepath);
+
+    dirname = g_path_get_dirname(relpath);
+
+    if (g_str_has_suffix(dirname, ".d")) {
+        key = g_strndup(dirname, strlen(dirname) - 2);
+        extension = TRUE;
+    } else if (g_str_has_suffix(relpath, ".xml")) {
+        key = g_strndup(relpath, strlen(relpath) - 4);
+    } else {
+        /* This should not be reached, since we already
+         * filtered to only have files in .xml
+         */
+        g_warning("Unexpected database file %s", path);
+        goto error;
+    }
+
+    entry = g_hash_table_lookup(entries, key);
+    if (!entry) {
+        entry = g_new0(OsinfoLoaderEntityFiles, 1);
+        g_hash_table_insert(entries, g_strdup(key), entry);
+    }
+    g_object_ref(ent);
+    if (extension) {
+        entry->extensions = g_list_append(entry->extensions, ent);
+    } else {
+        if (entry->master) {
+            g_warning("Unexpected duplicate master file %s", path);
+        }
+        entry->master = ent;
+    }
+
+ error:
+    g_free(key);
+    g_free(dirname);
+    g_free(path);
+    g_free(basepath);
+}
+
+
+static void osinfo_loader_find_files(OsinfoLoader *loader,
+                                     GFile *base,
+                                     GFile *file,
+                                     GHashTable *entries,
+                                     GError **err)
 {
     GError *error = NULL;
     GFileInfo *child;
-    GList *files = NULL;
     GFileEnumerator *ents = g_file_enumerate_children(file,
                                                       "standard::*",
                                                       G_FILE_QUERY_INFO_NONE,
@@ -1875,25 +1987,19 @@ static GList *osinfo_loader_find_files(OsinfoLoader *loader,
                                                           G_FILE_ATTRIBUTE_STANDARD_TYPE);
         if (type == G_FILE_TYPE_REGULAR) {
             if (g_str_has_suffix(name, ".xml"))
-                files = g_list_append(files, g_object_ref(ent));
+                osinfo_loader_entity_files_add_path(entries, base, ent);
         } else if (type == G_FILE_TYPE_DIRECTORY) {
-            GList *subfiles = osinfo_loader_find_files(loader, ent, &error);
-            if (subfiles) {
-                files = g_list_concat(files, subfiles);
-            }
+            osinfo_loader_find_files(loader, base, ent, entries, &error);
         }
         g_object_unref(ent);
         g_object_unref(child);
 
         if (error) {
-            g_list_foreach(files, (GFunc)g_object_unref, NULL);
-            g_list_free(files);
-            return NULL;
+            break;
         }
     }
 
     g_object_unref(ents);
-    return files;
 }
 
 
@@ -1908,41 +2014,93 @@ static void osinfo_loader_process_list(OsinfoLoader *loader,
                                        GError **err)
 {
     GError *lerr = NULL;
+    GFile **tmp;
+    GHashTable *allentries = g_hash_table_new_full(g_str_hash,
+                                                   g_str_equal,
+                                                   g_free,
+                                                   (GDestroyNotify)osinfo_loader_entity_files_free);
     GHashTableIter iter;
     gpointer key, value;
 
-    while (dirs && *dirs) {
-        OsinfoLoaderDataFormat fmt = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(*dirs), "data-format"));
+    /* Phase 1: gather the files in each native format location */
+    tmp = dirs;
+    while (tmp && *tmp) {
+        OsinfoLoaderDataFormat fmt = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(*tmp), "data-format"));
+
+        if (fmt != OSINFO_DATA_FORMAT_NATIVE) {
+            tmp++;
+            continue;
+        }
+
+        GHashTable *entries = g_hash_table_new_full(g_str_hash,
+                                                    g_str_equal,
+                                                    g_free,
+                                                    (GDestroyNotify)osinfo_loader_entity_files_free);
+
+        osinfo_loader_find_files(loader, *tmp, *tmp, entries, &lerr);
+        if (lerr) {
+            g_propagate_error(err, lerr);
+            g_hash_table_unref(entries);
+            goto cleanup;
+        }
+
+        /* 'entries' contains a list of files from this location, which
+         * we need to merge with any previously gathered files.
+         *
+         * If 'allentries' already contains an entry with the matching key
+         *
+         *  => If 'entries' has the master file present, this completely
+         *     replaces the data in 'allentries.'
+         *  => Else we just augment the extensions in 'allentries'
+         */
+        g_hash_table_iter_init(&iter, entries);
+        while (g_hash_table_iter_next(&iter, &key, &value)) {
+            const gchar *path = key;
+            OsinfoLoaderEntityFiles *newfiles = value;
+            OsinfoLoaderEntityFiles *oldfiles;
+
+            oldfiles = g_hash_table_lookup(allentries, key);
+            if (!oldfiles || newfiles->master) {
+                /* Completely new, or replacing master */
+                oldfiles = g_new0(OsinfoLoaderEntityFiles, 1);
+                oldfiles->master = newfiles->master;
+                newfiles->master = NULL;
+                oldfiles->extensions = newfiles->extensions;
+                newfiles->extensions = NULL;
+                g_hash_table_insert(allentries, g_strdup(path), oldfiles);
+            } else {
+                /* Just augmenting the extensions */
+                oldfiles->extensions = g_list_concat(oldfiles->extensions,
+                                                     newfiles->extensions);
+                newfiles->extensions = NULL;
+            }
+        }
+
+        g_hash_table_unref(entries);
+
+        tmp++;
+    }
+
+    if (lerr)
+        goto cleanup;
+
+    /* Phase 2: load data from non-native locations, filtering based
+     * on overrides from native locations */
+    tmp = dirs;
+    while (tmp && *tmp) {
+        OsinfoLoaderDataFormat fmt = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(*tmp), "data-format"));
 
         switch (fmt) {
-        case OSINFO_DATA_FORMAT_NATIVE: {
-            GList *files = osinfo_loader_find_files(loader, *dirs, &lerr);
-            GList *tmp;
-            if (lerr) {
-                g_propagate_error(err, lerr);
-                return;
-            }
-
-            tmp = files;
-            while (tmp) {
-                osinfo_loader_process_file_reg_xml(loader, *dirs, tmp->data, &lerr);
-                if (lerr) {
-                    g_propagate_error(err, lerr);
-                    break;
-                }
-                tmp = tmp->next;
-            }
-            g_list_foreach(files, (GFunc)g_object_unref, NULL);
-            g_list_free(files);
-
-        }   break;
+        case OSINFO_DATA_FORMAT_NATIVE:
+            /* nada */
+            break;
 
         case OSINFO_DATA_FORMAT_PCI_IDS:
-            osinfo_loader_process_file_reg_pci(loader, *dirs, &lerr);
+            osinfo_loader_process_file_reg_pci(loader, *tmp, allentries, &lerr);
             break;
 
         case OSINFO_DATA_FORMAT_USB_IDS:
-            osinfo_loader_process_file_reg_usb(loader, *dirs, &lerr);
+            osinfo_loader_process_file_reg_usb(loader, *tmp, allentries, &lerr);
             break;
         }
 
@@ -1950,13 +2108,50 @@ static void osinfo_loader_process_list(OsinfoLoader *loader,
             break;
         }
 
-        dirs++;
+        tmp++;
+    }
+
+    if (lerr)
+        goto cleanup;
+
+    /* Phase 3: load combined set of files from native locations */
+    g_hash_table_iter_init(&iter, allentries);
+    while (g_hash_table_iter_next(&iter, &key, &value)) {
+        OsinfoLoaderEntityFiles *files = value;
+        GList *tmpl;
+        if (files->master) {
+            osinfo_loader_process_file_reg_xml(loader,
+                                               g_object_get_data(G_OBJECT(files->master), "base"),
+                                               files->master, &lerr);
+            if (lerr) {
+                g_propagate_error(err, lerr);
+                break;
+            }
+        }
+
+        tmpl = files->extensions;
+        while (tmpl) {
+            GFile *file = tmpl->data;
+            osinfo_loader_process_file_reg_xml(loader,
+                                               g_object_get_data(G_OBJECT(file), "base"),
+                                               file,
+                                               &lerr);
+            if (lerr) {
+                g_propagate_error(err, lerr);
+                break;
+            }
+
+            tmpl = tmpl->next;
+        }
     }
 
     g_hash_table_iter_init(&iter, loader->priv->entity_refs);
     while (g_hash_table_iter_next(&iter, &key, &value)) {
         g_warning("Entity %s referenced but not defined", (const char *)key);
     }
+
+ cleanup:
+    g_hash_table_unref(allentries);
     g_hash_table_remove_all(loader->priv->entity_refs);
 }
 
