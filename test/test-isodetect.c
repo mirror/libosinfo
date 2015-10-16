@@ -133,27 +133,29 @@ static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *
     info->media = osinfo_media_new(name, arch);
 
     while ((line = g_data_input_stream_read_line(dis, NULL, NULL, error)) != NULL) {
+        const gchar *key = NULL;
+        char *value = NULL;
+
         if (g_str_has_prefix(line, "Volume id: ")) {
-            osinfo_entity_set_param(OSINFO_ENTITY(info->media),
-                                    OSINFO_MEDIA_PROP_VOLUME_ID,
-                                    line + strlen("Volume id: "));
+            key = OSINFO_MEDIA_PROP_VOLUME_ID;
+            value = line + strlen("Volume id: ");
         } else if (g_str_has_prefix(line, "Publisher id: ")) {
-            osinfo_entity_set_param(OSINFO_ENTITY(info->media),
-                                    OSINFO_MEDIA_PROP_PUBLISHER_ID,
-                                    line + strlen("Publisher id: "));
+            key = OSINFO_MEDIA_PROP_PUBLISHER_ID;
+            value = line + strlen("Volume id: ");
         } else if (g_str_has_prefix(line, "System id: ")) {
-            osinfo_entity_set_param(OSINFO_ENTITY(info->media),
-                                    OSINFO_MEDIA_PROP_SYSTEM_ID,
-                                    line + strlen("System id "));
+            key = OSINFO_MEDIA_PROP_SYSTEM_ID;
+            value = line + strlen("Volume id: ");
         } else if (g_str_has_prefix(line, "Application id: ")) {
-            osinfo_entity_set_param(OSINFO_ENTITY(info->media),
-                                    OSINFO_MEDIA_PROP_APPLICATION_ID,
-                                    line + strlen("Application id: "));
+            key = OSINFO_MEDIA_PROP_APPLICATION_ID;
+            value = line + strlen("Volume id: ");
         } else if (g_str_has_prefix(line, "Logical block size is: ")) {
             blk_size = (gint64) atoll(line + strlen("Logical block size is: "));
         } else if (g_str_has_prefix(line, "Volume size is: ")) {
             vol_size = atoll(line + strlen("Volume size is: "));
         }
+
+        if (key != NULL && value != NULL && value[0] != '\0')
+            osinfo_entity_set_param(OSINFO_ENTITY(info->media), key, value);
     }
 
     if (vol_size > 0)
