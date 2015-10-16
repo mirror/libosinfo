@@ -133,26 +133,26 @@ static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *
     info->media = osinfo_media_new(name, arch);
 
     while ((line = g_data_input_stream_read_line(dis, NULL, NULL, error)) != NULL) {
-        if (g_str_has_prefix(line, "Volume id:")) {
+        if (g_str_has_prefix(line, "Volume id: ")) {
             osinfo_entity_set_param(OSINFO_ENTITY(info->media),
                                     OSINFO_MEDIA_PROP_VOLUME_ID,
-                                    line + 11);
-        } else if (g_str_has_prefix(line, "Publisher id:")) {
+                                    line + strlen("Volume id: "));
+        } else if (g_str_has_prefix(line, "Publisher id: ")) {
             osinfo_entity_set_param(OSINFO_ENTITY(info->media),
                                     OSINFO_MEDIA_PROP_PUBLISHER_ID,
-                                    line + 14);
-        } else if (g_str_has_prefix(line, "System id:")) {
+                                    line + strlen("Publisher id: "));
+        } else if (g_str_has_prefix(line, "System id: ")) {
             osinfo_entity_set_param(OSINFO_ENTITY(info->media),
                                     OSINFO_MEDIA_PROP_SYSTEM_ID,
-                                    line + 11);
-        } else if (g_str_has_prefix(line, "Application id:")) {
+                                    line + strlen("System id "));
+        } else if (g_str_has_prefix(line, "Application id: ")) {
             osinfo_entity_set_param(OSINFO_ENTITY(info->media),
                                     OSINFO_MEDIA_PROP_APPLICATION_ID,
-                                    line + 16);
-        } else if (g_str_has_prefix(line, "Logical block size is:")) {
-            blk_size = (gint64) atoll(line + 23);
-        } else if (g_str_has_prefix(line, "Volume size is:")) {
-            vol_size = atoll(line + 16);
+                                    line + strlen("Application id: "));
+        } else if (g_str_has_prefix(line, "Logical block size is: ")) {
+            blk_size = (gint64) atoll(line + strlen("Logical block size is: "));
+        } else if (g_str_has_prefix(line, "Volume size is: ")) {
+            vol_size = atoll(line + strlen("Volume size is: "));
         }
     }
 
