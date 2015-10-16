@@ -93,7 +93,7 @@ static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *
     GDataInputStream *dis = NULL;
     gchar *line;
     const gchar *arch;
-    gint64 vol_size = -1, blk_size;
+    gint64 vol_size = -1, blk_size = -1;
 
     if (!(fis = g_file_read(file, NULL, error)))
         goto error;
@@ -158,7 +158,7 @@ static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *
             osinfo_entity_set_param(OSINFO_ENTITY(info->media), key, value);
     }
 
-    if (vol_size > 0)
+    if (vol_size > 0 && blk_size > 0)
         osinfo_entity_set_param_int64(OSINFO_ENTITY(info->media),
                                       OSINFO_MEDIA_PROP_VOLUME_SIZE,
                                       vol_size * blk_size);
