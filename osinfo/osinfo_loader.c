@@ -1974,10 +1974,10 @@ static void osinfo_loader_find_files(OsinfoLoader *loader,
     if (error) {
         if (error->code == G_IO_ERROR_NOT_FOUND) {
             g_error_free(error);
-            return NULL;
+            return;
         }
         g_propagate_error(err, error);
-        return NULL;
+        return;
     }
 
     while ((child = g_file_enumerator_next_file(ents, NULL, err)) != NULL) {
