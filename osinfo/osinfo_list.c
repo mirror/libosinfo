@@ -237,12 +237,17 @@ OsinfoEntity *osinfo_list_find_by_id(OsinfoList *list, const gchar *id)
  */
 void osinfo_list_add(OsinfoList *list, OsinfoEntity *entity)
 {
+    OsinfoEntity *preexisting;
     g_return_if_fail(G_TYPE_CHECK_INSTANCE_TYPE(entity, list->priv->elementType));
 
     g_object_ref(entity);
+    preexisting = osinfo_list_find_by_id(list, osinfo_entity_get_id(entity));
+    if (preexisting != NULL) {
+        g_ptr_array_remove(list->priv->array, preexisting);
+    }
     g_ptr_array_add(list->priv->array, entity);
-    g_hash_table_insert(list->priv->entities,
-                        (gchar *)osinfo_entity_get_id(entity), entity);
+    g_hash_table_replace(list->priv->entities,
+                         (gchar *)osinfo_entity_get_id(entity), entity);
 }
 
 
