@@ -174,6 +174,9 @@ static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *
     if (fis)
         g_object_unref(fis);
 
+    if (dis)
+        g_object_unref(dis);
+
     return info;
 
  error:
