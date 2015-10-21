@@ -96,7 +96,7 @@ START_TEST(test_lookup)
 
     osinfo_list_add(list, ent);
 
-    fail_unless(osinfo_list_get_length(list) == 1, "List was empty");
+    fail_unless(osinfo_list_get_length(list) == 1, "List does not contain a single element");
     fail_unless(osinfo_list_get_nth(list, 0) == ent, "Lookup wrong element");
     fail_unless(osinfo_list_find_by_id(list, "wibble") != NULL, "Could not find element");
     fail_unless(osinfo_list_find_by_id(list, "fish") == NULL, "Found wrong element");
@@ -107,12 +107,36 @@ START_TEST(test_lookup)
 END_TEST
 
 
+
+START_TEST(test_duplicate)
+{
+    OsinfoList *list = g_object_new(osinfo_dummy_list_get_type(), NULL);
+    OsinfoEntity *ent = g_object_new(osinfo_dummy_get_type(), "id", "wibble", NULL);
+    OsinfoEntity *ent_dup = g_object_new(osinfo_dummy_get_type(), "id", "wibble", NULL);
+
+    osinfo_list_add(list, ent);
+    osinfo_list_add(list, ent_dup);
+
+    fail_unless(osinfo_list_get_length(list) == 1, "List does not contain a single element");
+    fail_unless(osinfo_list_get_nth(list, 0) == ent_dup, "Lookup wrong element");
+    fail_unless(osinfo_list_find_by_id(list, "wibble") != NULL, "Could not find element");
+    fail_unless(osinfo_list_find_by_id(list, "fish") == NULL, "Found wrong element");
+
+    g_object_unref(ent);
+    g_object_unref(ent_dup);
+    g_object_unref(list);
+}
+END_TEST
+
+
+
 START_TEST(test_union)
 {
     OsinfoList *list1 = g_object_new(osinfo_dummy_list_get_type(), NULL);
     OsinfoList *list2 = g_object_new(osinfo_dummy_list_get_type(), NULL);
     OsinfoList *list3 = g_object_new(osinfo_dummy_list_get_type(), NULL);
     OsinfoEntity *ent1 = g_object_new(osinfo_dummy_get_type(), "id", "wibble1", NULL);
+    OsinfoEntity *ent1_dup = g_object_new(osinfo_dummy_get_type(), "id", "wibble1", NULL);
     OsinfoEntity *ent2 = g_object_new(osinfo_dummy_get_type(), "id", "wibble2", NULL);
     OsinfoEntity *ent3 = g_object_new(osinfo_dummy_get_type(), "id", "wibble3", NULL);
     OsinfoEntity *ent4 = g_object_new(osinfo_dummy_get_type(), "id", "wibble4", NULL);
@@ -122,6 +146,7 @@ START_TEST(test_union)
     osinfo_list_add(list1, ent3);
 
     osinfo_list_add(list2, ent1);
+    osinfo_list_add(list2, ent1_dup);
     osinfo_list_add(list2, ent4);
 
     osinfo_list_add_union(list3, list1, list2);
@@ -154,6 +179,7 @@ START_TEST(test_union)
     fail_unless(!hasBad, "List had unexpected entity");
 
     g_object_unref(ent1);
+    g_object_unref(ent1_dup);
     g_object_unref(ent2);
     g_object_unref(ent3);
     g_object_unref(ent4);
@@ -170,6 +196,7 @@ START_TEST(test_intersect)
     OsinfoList *list2 = g_object_new(osinfo_dummy_list_get_type(), NULL);
     OsinfoList *list3 = g_object_new(osinfo_dummy_list_get_type(), NULL);
     OsinfoEntity *ent1 = g_object_new(osinfo_dummy_get_type(), "id", "wibble1", NULL);
+    OsinfoEntity *ent1_dup = g_object_new(osinfo_dummy_get_type(), "id", "wibble1", NULL);
     OsinfoEntity *ent2 = g_object_new(osinfo_dummy_get_type(), "id", "wibble2", NULL);
     OsinfoEntity *ent3 = g_object_new(osinfo_dummy_get_type(), "id", "wibble3", NULL);
     OsinfoEntity *ent4 = g_object_new(osinfo_dummy_get_type(), "id", "wibble4", NULL);
@@ -179,6 +206,7 @@ START_TEST(test_intersect)
     osinfo_list_add(list1, ent3);
 
     osinfo_list_add(list2, ent1);
+    osinfo_list_add(list2, ent1_dup);
     osinfo_list_add(list2, ent3);
     osinfo_list_add(list2, ent4);
 
@@ -212,6 +240,7 @@ START_TEST(test_intersect)
     fail_unless(!hasBad, "List had unexpected entity");
 
     g_object_unref(ent1);
+    g_object_unref(ent1_dup);
     g_object_unref(ent2);
     g_object_unref(ent3);
     g_object_unref(ent4);
@@ -370,6 +399,7 @@ list_suite(void)
     TCase *tc = tcase_create("Core");
     tcase_add_test(tc, test_basic);
     tcase_add_test(tc, test_lookup);
+    tcase_add_test(tc, test_duplicate);
     tcase_add_test(tc, test_union);
     tcase_add_test(tc, test_intersect);
     tcase_add_test(tc, test_filter);
