@@ -80,8 +80,8 @@ static const char *language_code_from_raw(OsinfoDatamap *lang_map,
     return lang;
 }
 
-static GList *match_languages(OsinfoDb *db, OsinfoMedia *media,
-                              OsinfoMedia *db_media)
+static void set_languages_for_media(OsinfoDb *db, OsinfoMedia *media,
+                                    OsinfoMedia *db_media)
 {
     const gchar *volume_id;
     const gchar *regex;
@@ -89,18 +89,19 @@ static GList *match_languages(OsinfoDb *db, OsinfoMedia *media,
     OsinfoDatamap *lang_map;
     gchar *raw_lang;
     GList *languages;
+    const char *lang;
 
-    g_return_val_if_fail(OSINFO_IS_MEDIA(media), NULL);
-    g_return_val_if_fail(OSINFO_IS_MEDIA(db_media), NULL);
+    g_return_if_fail(OSINFO_IS_MEDIA(media));
+    g_return_if_fail(OSINFO_IS_MEDIA(db_media));
 
     regex = osinfo_entity_get_param_value(OSINFO_ENTITY(db_media),
                                           OSINFO_MEDIA_PROP_LANG_REGEX);
     if (regex == NULL)
-        return NULL;
+        return;
 
     volume_id = osinfo_media_get_volume_id(media);
     if (volume_id == NULL)
-        return NULL;
+        return;
 
     lang_map_id = osinfo_entity_get_param_value(OSINFO_ENTITY(db_media),
                                                 OSINFO_MEDIA_PROP_LANG_MAP);
@@ -111,13 +112,13 @@ static GList *match_languages(OsinfoDb *db, OsinfoMedia *media,
     }
 
     raw_lang = get_raw_lang(volume_id, regex);
-
-    languages = g_list_append(NULL,
-                              (gpointer)language_code_from_raw(lang_map, raw_lang));
+    lang = language_code_from_raw(lang_map, raw_lang);
+    languages = g_list_append(NULL, (gpointer)lang);
+    osinfo_media_set_languages(media, languages);
+    g_list_free(languages);
     g_free(raw_lang);
-
-    return languages;
 }
+
 
 /**
  * SECTION:osinfo_db
@@ -625,7 +626,6 @@ static void fill_media(OsinfoDb *db, OsinfoMedia *media,
                         OsinfoMedia *matched_media,
                         OsinfoOs *os)
 {
-    GList *languages;
     gboolean is_installer;
     gboolean is_live;
     gint reboots;
@@ -636,10 +636,7 @@ static void fill_media(OsinfoDb *db, OsinfoMedia *media,
     const gchar *url;
     GList *variants, *node;
 
-    languages = match_languages(db, media, matched_media);
-    if (languages != NULL)
-        osinfo_media_set_languages(media, languages);
-    g_list_free(languages);
+    set_languages_for_media(db, media, matched_media);
 
     id = osinfo_entity_get_id(OSINFO_ENTITY(matched_media));
     g_object_set(G_OBJECT(media), "id", id, NULL);
@@ -656,7 +653,7 @@ static void fill_media(OsinfoDb *db, OsinfoMedia *media,
         osinfo_entity_add_param(OSINFO_ENTITY(media),
                                 "variant",
                                 (gchar *) node->data);
-    g_list_free (variants);
+    g_list_free(variants);
     kernel_path = osinfo_media_get_kernel_path(matched_media);
     if (kernel_path != NULL)
         g_object_set(G_OBJECT(media), "kernel_path", kernel_path, NULL);
