@@ -156,6 +156,8 @@ static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *
 
         if (key != NULL && value != NULL && value[0] != '\0')
             osinfo_entity_set_param(OSINFO_ENTITY(info->media), key, value);
+
+        g_free(line);
     }
 
     if (vol_size > 0 && blk_size > 0)
