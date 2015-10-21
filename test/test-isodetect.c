@@ -305,6 +305,7 @@ static void test_langs(struct ISOInfo *info)
                     it->data, info->filename);
         g_hash_table_remove(info->langs, it->data);
     }
+    g_list_free(langs);
     fail_unless(g_hash_table_size(info->langs) == 0,
                 "some languages were not identified on ISO %s",
                 info->filename);
