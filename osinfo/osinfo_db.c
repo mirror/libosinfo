@@ -656,6 +656,7 @@ static void fill_media(OsinfoDb *db, OsinfoMedia *media,
         osinfo_entity_add_param(OSINFO_ENTITY(media),
                                 "variant",
                                 (gchar *) node->data);
+    g_list_free (variants);
     kernel_path = osinfo_media_get_kernel_path(matched_media);
     if (kernel_path != NULL)
         g_object_set(G_OBJECT(media), "kernel_path", kernel_path, NULL);
