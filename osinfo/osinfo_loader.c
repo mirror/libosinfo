@@ -506,6 +506,10 @@ static gboolean osinfo_loader_check_id(const gchar *relpath,
     gchar *reldir;
     gboolean extension;
     gsize i;
+
+    if (!relpath)
+        return TRUE;
+
     if (g_str_has_prefix(id, "http://")) {
         suffix = g_strdup(id + strlen("http://"));
     } else {
@@ -1856,16 +1860,18 @@ osinfo_loader_process_file_reg_xml(OsinfoLoader *loader,
 {
     gchar *xml = NULL;
     gsize xmlLen;
-    gchar *relpath;
+    gchar *relpath = NULL;
 
     g_file_load_contents(file, NULL, &xml, &xmlLen, NULL, err);
     if (error_is_set(err))
         return;
 
-    relpath = g_file_get_relative_path(base, file);
-    if (relpath == NULL) {
-        relpath = g_file_get_path(file);
-        g_warning("File %s does not have expected prefix", relpath);
+    if (base) {
+        relpath = g_file_get_relative_path(base, file);
+        if (relpath == NULL) {
+            relpath = g_file_get_path(file);
+            g_warning("File %s does not have expected prefix", relpath);
+        }
     }
     gchar *uri = g_file_get_uri(file);
     osinfo_loader_process_xml(loader,
@@ -1913,12 +1919,16 @@ static void osinfo_loader_entity_files_add_path(GHashTable *entries,
     gchar *key = NULL;
     gboolean extension = FALSE;
     OsinfoLoaderEntityFiles *entry;
-    gchar *basepath = g_file_get_path(base);
+    gchar *basepath = NULL;
 
-    g_object_set_data(G_OBJECT(ent), "base", base);
+    if (base) {
+        basepath = g_file_get_path(base);
 
-    if (g_str_has_prefix(path, basepath))
-        relpath += strlen(basepath);
+        g_object_set_data(G_OBJECT(ent), "base", base);
+
+        if (g_str_has_prefix(path, basepath))
+            relpath += strlen(basepath);
+    }
 
     dirname = g_path_get_dirname(relpath);
 
@@ -1931,7 +1941,6 @@ static void osinfo_loader_entity_files_add_path(GHashTable *entries,
         /* This should not be reached, since we already
          * filtered to only have files in .xml
          */
-        g_warning("Unexpected database file %s", path);
         goto error;
     }
 
@@ -1962,44 +1971,71 @@ static void osinfo_loader_find_files(OsinfoLoader *loader,
                                      GFile *base,
                                      GFile *file,
                                      GHashTable *entries,
+                                     gboolean skipMissing,
                                      GError **err)
 {
     GError *error = NULL;
-    GFileInfo *child;
-    GFileEnumerator *ents = g_file_enumerate_children(file,
-                                                      "standard::*",
-                                                      G_FILE_QUERY_INFO_NONE,
-                                                      NULL,
-                                                      &error);
+    GFileInfo *info;
+    GFileType type;
+
+    info = g_file_query_info(file, "standard::*", G_FILE_QUERY_INFO_NONE, NULL, &error);
     if (error) {
-        if (error->code == G_IO_ERROR_NOT_FOUND) {
+        if (error->code == G_IO_ERROR_NOT_FOUND && skipMissing) {
             g_error_free(error);
             return;
         }
         g_propagate_error(err, error);
         return;
     }
-
-    while ((child = g_file_enumerator_next_file(ents, NULL, err)) != NULL) {
-        const gchar *name = g_file_info_get_name(child);
-        GFile *ent = g_file_get_child(file, name);
-        GFileType type = g_file_info_get_attribute_uint32(child,
-                                                          G_FILE_ATTRIBUTE_STANDARD_TYPE);
-        if (type == G_FILE_TYPE_REGULAR) {
-            if (g_str_has_suffix(name, ".xml"))
-                osinfo_loader_entity_files_add_path(entries, base, ent);
-        } else if (type == G_FILE_TYPE_DIRECTORY) {
-            osinfo_loader_find_files(loader, base, ent, entries, &error);
-        }
-        g_object_unref(ent);
-        g_object_unref(child);
-
+    type = g_file_info_get_attribute_uint32(info,
+                                            G_FILE_ATTRIBUTE_STANDARD_TYPE);
+    g_object_unref(info);
+    if (type == G_FILE_TYPE_REGULAR) {
+        char *path = g_file_get_path(file);
+        g_warning("Using a file (%s) as a database location is deprecated, use a directory instead",
+                  path);
+        g_free(path);
+        osinfo_loader_entity_files_add_path(entries, NULL, file);
+    } else if (type == G_FILE_TYPE_DIRECTORY) {
+        GFileEnumerator *ents;
+        ents = g_file_enumerate_children(file,
+                                         "standard::*",
+                                         G_FILE_QUERY_INFO_NONE,
+                                         NULL,
+                                         &error);
         if (error) {
-            break;
+            if (error->code == G_IO_ERROR_NOT_FOUND) {
+                g_error_free(error);
+                return;
+            }
+            g_propagate_error(err, error);
+            return;
         }
-    }
 
-    g_object_unref(ents);
+        while ((info = g_file_enumerator_next_file(ents, NULL, err)) != NULL) {
+            const gchar *name = g_file_info_get_name(info);
+            GFile *ent = g_file_get_child(file, name);
+            type = g_file_info_get_attribute_uint32(info,
+                                                    G_FILE_ATTRIBUTE_STANDARD_TYPE);
+            if (type == G_FILE_TYPE_REGULAR) {
+                if (g_str_has_suffix(name, ".xml"))
+                    osinfo_loader_entity_files_add_path(entries, base, ent);
+            } else if (type == G_FILE_TYPE_DIRECTORY) {
+                osinfo_loader_find_files(loader, base, ent, entries, FALSE, &error);
+            }
+            g_object_unref(ent);
+            g_object_unref(info);
+
+            if (error) {
+                g_propagate_error(err, error);
+                break;
+            }
+        }
+        g_object_unref(ents);
+    } else {
+        OSINFO_ERROR(&error, "Unexpected file type");
+        g_propagate_error(err, error);
+    }
 }
 
 
@@ -2011,6 +2047,7 @@ typedef enum {
 
 static void osinfo_loader_process_list(OsinfoLoader *loader,
                                        GFile **dirs,
+                                       gboolean skipMissing,
                                        GError **err)
 {
     GError *lerr = NULL;
@@ -2037,7 +2074,7 @@ static void osinfo_loader_process_list(OsinfoLoader *loader,
                                                     g_free,
                                                     (GDestroyNotify)osinfo_loader_entity_files_free);
 
-        osinfo_loader_find_files(loader, *tmp, *tmp, entries, &lerr);
+        osinfo_loader_find_files(loader, *tmp, *tmp, entries, skipMissing, &lerr);
         if (lerr) {
             g_propagate_error(err, lerr);
             g_hash_table_unref(entries);
@@ -2192,7 +2229,7 @@ void osinfo_loader_process_path(OsinfoLoader *loader,
     };
     g_object_set_data(G_OBJECT(dirs[0]), "data-format",
                       GINT_TO_POINTER(OSINFO_DATA_FORMAT_NATIVE));
-    osinfo_loader_process_list(loader, dirs, err);
+    osinfo_loader_process_list(loader, dirs, FALSE, err);
     g_object_unref(dirs[0]);
 }
 
@@ -2217,7 +2254,7 @@ void osinfo_loader_process_uri(OsinfoLoader *loader,
     };
     g_object_set_data(G_OBJECT(dirs[0]), "data-format",
                       GINT_TO_POINTER(OSINFO_DATA_FORMAT_NATIVE));
-    osinfo_loader_process_list(loader, dirs, err);
+    osinfo_loader_process_list(loader, dirs, FALSE, err);
     g_object_unref(dirs[0]);
 }
 
@@ -2290,7 +2327,7 @@ void osinfo_loader_process_default_path(OsinfoLoader *loader, GError **err)
         NULL,
     };
 
-    osinfo_loader_process_list(loader, dirs, err);
+    osinfo_loader_process_list(loader, dirs, TRUE, err);
     g_object_unref(dirs[0]);
     g_object_unref(dirs[1]);
     g_object_unref(dirs[2]);
@@ -2315,7 +2352,7 @@ void osinfo_loader_process_system_path(OsinfoLoader *loader,
         NULL,
     };
 
-    osinfo_loader_process_list(loader, dirs, err);
+    osinfo_loader_process_list(loader, dirs, FALSE, err);
     g_object_unref(dirs[0]);
     g_object_unref(dirs[1]);
     g_object_unref(dirs[2]);
@@ -2328,7 +2365,7 @@ void osinfo_loader_process_local_path(OsinfoLoader *loader, GError **err)
         NULL,
     };
 
-    osinfo_loader_process_list(loader, dirs, err);
+    osinfo_loader_process_list(loader, dirs, TRUE, err);
     g_object_unref(dirs[0]);
 }
 
@@ -2339,7 +2376,7 @@ void osinfo_loader_process_user_path(OsinfoLoader *loader, GError **err)
         NULL,
     };
 
-    osinfo_loader_process_list(loader, dirs, err);
+    osinfo_loader_process_list(loader, dirs, TRUE, err);
     g_object_unref(dirs[0]);
 }
 
