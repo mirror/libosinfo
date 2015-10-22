@@ -523,10 +523,10 @@ static gboolean osinfo_loader_check_id(const gchar *relpath,
     }
     reldir = g_path_get_dirname(relpath);
     if (g_str_has_suffix(reldir, ".d")) {
-        name = g_strdup_printf("/%s/%s.d", type, suffix);
+        name = g_strdup_printf("%s/%s.d", type, suffix);
         extension = TRUE;
     } else {
-        name = g_strdup_printf("/%s/%s.xml", type, suffix);
+        name = g_strdup_printf("%s/%s.xml", type, suffix);
         extension = FALSE;
     }
     g_free(suffix);
