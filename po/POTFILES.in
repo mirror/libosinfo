@@ -58,6 +58,7 @@ data/os/fedoraproject.org/fedora-19.xml.in
 data/os/fedoraproject.org/fedora-20.xml.in
 data/os/fedoraproject.org/fedora-21.xml.in
 data/os/fedoraproject.org/fedora-22.xml.in
+data/os/fedoraproject.org/fedora-23.xml.in
 data/os/fedoraproject.org/fedora-unknown.xml.in
 data/os/freebsd.org/freebsd-1.0.xml.in
 data/os/freebsd.org/freebsd-2.0.5.xml.in
