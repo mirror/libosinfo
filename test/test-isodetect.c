@@ -194,12 +194,15 @@ static GList *load_distro(GFile *dir, const gchar *shortid, GError **error) {
         return NULL;
 
     while ((childinfo = g_file_enumerator_next_file(children, NULL, error)) != NULL) {
-        if (g_file_info_get_file_type(childinfo) !=
-            G_FILE_TYPE_REGULAR)
+        if (g_file_info_get_file_type(childinfo) != G_FILE_TYPE_REGULAR) {
+            g_object_unref(childinfo);
             continue;
+        }
 
-        if (!g_str_has_suffix(g_file_info_get_name(childinfo), ".txt"))
+        if (!g_str_has_suffix(g_file_info_get_name(childinfo), ".txt")) {
+            g_object_unref(childinfo);
             continue;
+        }
 
         GFile *child = g_file_get_child(dir, g_file_info_get_name(childinfo));
         struct ISOInfo *iso = load_iso(child,
@@ -207,6 +210,7 @@ static GList *load_distro(GFile *dir, const gchar *shortid, GError **error) {
                                        g_file_info_get_name(childinfo),
                                        error);
         g_object_unref(child);
+        g_object_unref(childinfo);
 
         if (!iso)
             goto error;
@@ -244,14 +248,16 @@ static GList *load_distros(GFile *dir, GError **error)
         return NULL;
 
     while ((childinfo = g_file_enumerator_next_file(children, NULL, error)) != NULL) {
-        if (g_file_info_get_file_type(childinfo) !=
-            G_FILE_TYPE_DIRECTORY)
+        if (g_file_info_get_file_type(childinfo) != G_FILE_TYPE_DIRECTORY) {
+            g_object_unref(childinfo);
             continue;
+        }
 
         GFile *child = g_file_get_child(dir, g_file_info_get_name(childinfo));
         GList *isos = load_distro(child, g_file_info_get_name(childinfo), error);
 
         g_object_unref(child);
+        g_object_unref(childinfo);
 
         if (!isos && *error)
             goto error;
