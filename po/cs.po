@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-23 13:25+0000\n"
+"POT-Creation-Date: 2015-11-05 11:22+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
@@ -16,1619 +16,2183 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
-"X-Generator: Zanata 3.5.1\n"
+"X-Generator: Zanata 3.7.3\n"
 
-#: ../data/oses/netware.xml.in.h:1
-msgid "Novell Netware 4"
-msgstr ""
-
-#: ../data/oses/netware.xml.in.h:2 ../data/oses/suse.xml.in.h:2
-msgid "Novell"
-msgstr ""
-
-#: ../data/oses/netware.xml.in.h:3
-msgid "Novell Netware 5"
-msgstr ""
-
-#: ../data/oses/netware.xml.in.h:4
-msgid "Novell Netware 6"
-msgstr ""
-
-#: ../data/oses/solaris.xml.in.h:1
-msgid "Sun Solaris 9"
-msgstr ""
-
-#: ../data/oses/solaris.xml.in.h:2
-msgid "Sun"
-msgstr ""
-
-#: ../data/oses/solaris.xml.in.h:3
-msgid "Sun Solaris 10"
-msgstr ""
-
-#: ../data/oses/solaris.xml.in.h:4
-msgid "Sun Solaris 11"
-msgstr ""
-
-#: ../data/oses/solaris.xml.in.h:5
-msgid "Sun OpenSolaris 2009.06"
-msgstr ""
-
-#: ../data/oses/dos.xml.in.h:1
-msgid "Microsoft MS-DOS 6.22"
-msgstr ""
-
-#: ../data/oses/dos.xml.in.h:2
-msgid "Microsoft"
-msgstr ""
-
-#: ../data/oses/mageia.xml.in.h:1
-msgid "Mageia 1"
-msgstr ""
-
-#: ../data/oses/mageia.xml.in.h:2
-msgid "Mageia"
-msgstr ""
-
-#: ../data/oses/mageia.xml.in.h:3
-msgid "Mageia 2"
-msgstr ""
-
-#: ../data/oses/mageia.xml.in.h:4
-msgid "Mageia 3"
-msgstr ""
-
-#: ../data/oses/mandrake.xml.in.h:1
-msgid "Mandrake Linux 5.1"
-msgstr ""
-
-#: ../data/oses/mandrake.xml.in.h:2 ../data/oses/mandriva.xml.in.h:2
-msgid "Mandriva"
-msgstr ""
-
-#: ../data/oses/mandrake.xml.in.h:3
-msgid "Mandrake Linux 5.2"
-msgstr ""
-
-#: ../data/oses/mandrake.xml.in.h:4
-msgid "Mandrake Linux 5.3"
-msgstr ""
-
-#: ../data/oses/mandrake.xml.in.h:5
-msgid "Mandrake Linux 6.0"
-msgstr ""
-
-#: ../data/oses/mandrake.xml.in.h:6
-msgid "Mandrake Linux 6.1"
-msgstr ""
-
-#: ../data/oses/mandrake.xml.in.h:7
-msgid "Mandrake Linux 7.0"
-msgstr ""
-
-#: ../data/oses/mandrake.xml.in.h:8
-msgid "Mandrake Linux 7.1"
-msgstr ""
-
-#: ../data/oses/mandrake.xml.in.h:9
-msgid "Mandrake Linux 7.2"
-msgstr ""
-
-#: ../data/oses/mandrake.xml.in.h:10
-msgid "Mandrake Linux 8.0"
-msgstr ""
-
-#: ../data/oses/mandrake.xml.in.h:11
-msgid "Mandrake Linux 8.1"
-msgstr ""
-
-#: ../data/oses/mandrake.xml.in.h:12
-msgid "Mandrake Linux 8.2"
-msgstr ""
-
-#: ../data/oses/mandrake.xml.in.h:13
-msgid "Mandrake Linux 9.0"
-msgstr ""
-
-#: ../data/oses/mandrake.xml.in.h:14
-msgid "Mandrake Linux 9.1"
-msgstr ""
-
-#: ../data/oses/mandrake.xml.in.h:15
-msgid "Mandrake Linux 9.2"
-msgstr ""
-
-#: ../data/oses/mandrake.xml.in.h:16
-msgid "Mandrake Linux 10.0"
-msgstr ""
-
-#: ../data/oses/mandrake.xml.in.h:17
-msgid "Mandrake Linux 10.1"
-msgstr ""
-
-#: ../data/oses/mandrake.xml.in.h:18
-msgid "Mandrake Linux 10.2"
-msgstr ""
-
-#: ../data/oses/mandriva.xml.in.h:1
-msgid "Mandriva Linux 2006.0"
-msgstr ""
-
-#: ../data/oses/mandriva.xml.in.h:3
-msgid "Mandriva Linux 2007"
-msgstr ""
-
-#: ../data/oses/mandriva.xml.in.h:4
-msgid "Mandriva Linux 2007 Spring"
-msgstr ""
-
-#: ../data/oses/mandriva.xml.in.h:5
-msgid "Mandriva Linux 2008"
-msgstr ""
-
-#: ../data/oses/mandriva.xml.in.h:6
-msgid "Mandriva Linux 2008 Spring"
-msgstr ""
-
-#: ../data/oses/mandriva.xml.in.h:7
-msgid "Mandriva Linux 2009"
-msgstr ""
-
-#: ../data/oses/mandriva.xml.in.h:8
-msgid "Mandriva Linux 2009 Spring"
-msgstr ""
-
-#: ../data/oses/mandriva.xml.in.h:9
-msgid "Mandriva Linux 2010"
-msgstr ""
-
-#: ../data/oses/mandriva.xml.in.h:10
-msgid "Mandriva Linux 2010 Spring"
-msgstr ""
-
-#: ../data/oses/mandriva.xml.in.h:11
-msgid "Mandriva Linux 2010.2"
-msgstr ""
-
-#: ../data/oses/mandriva.xml.in.h:12
-msgid "Mandriva Linux 2011"
-msgstr ""
-
-#: ../data/oses/mandriva.xml.in.h:13
-msgid "Mandriva Enterprise Server 5.0"
-msgstr ""
-
-#: ../data/oses/mandriva.xml.in.h:14
-msgid "Mandriva Enterprise Server 5.1"
-msgstr ""
-
-#: ../data/oses/mandriva.xml.in.h:15
-msgid "Mandriva Business Server 1.0"
-msgstr ""
-
-#: ../data/oses/suse.xml.in.h:1
-msgid "Suse Linux Enterprise Server 9"
-msgstr ""
-
-#: ../data/oses/suse.xml.in.h:3
-msgid "Suse Linux Enterprise Server 10"
-msgstr ""
-
-#: ../data/oses/suse.xml.in.h:4
-msgid "Suse Linux Enterprise Server 11"
-msgstr ""
-
-#: ../data/oses/suse.xml.in.h:5
-msgid "Suse Linux Enterprise Desktop 9"
-msgstr ""
-
-#: ../data/oses/suse.xml.in.h:6
-msgid "Suse Linux Enterprise Desktop 10"
-msgstr ""
-
-#: ../data/oses/suse.xml.in.h:7
-msgid "Suse Linux Enterprise Desktop 11"
-msgstr ""
-
-#: ../data/oses/gnome.xml.in.h:1
-msgid "GNOME 3.6"
-msgstr ""
-
-#: ../data/oses/gnome.xml.in.h:2
-msgid "GNOME Project"
-msgstr ""
-
-#: ../data/oses/gnome.xml.in.h:3
-msgid "GNOME 3.8"
-msgstr ""
-
-#: ../data/oses/gnome.xml.in.h:4
-msgid "GNOME 3.10"
-msgstr ""
-
-#: ../data/oses/gnome.xml.in.h:5
-msgid "GNOME 3.12"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:1
-msgid "Red Hat Enterprise Linux 2.1"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:2 ../data/oses/rhl.xml.in.h:2
-#: ../data/devices/qemu-pci.xml.in.h:5 ../data/devices/virtio-pci.xml.in.h:1
-msgid "Red Hat, Inc"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:3
-msgid "Red Hat Enterprise Linux 2.1 Update 1"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:4
-msgid "Red Hat Enterprise Linux 2.1 Update 2"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:5
-msgid "Red Hat Enterprise Linux 2.1 Update 3"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:6
-msgid "Red Hat Enterprise Linux 2.1 Update 4"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:7
-msgid "Red Hat Enterprise Linux 2.1 Update 5"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:8
-msgid "Red Hat Enterprise Linux 2.1 Update 6"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:9
-msgid "Red Hat Enterprise Linux 2.1 Update 7"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:10
-msgid "Red Hat Enterprise Linux 3"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:11
-msgid "Red Hat Enterprise Linux 3 Update 1"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:12
-msgid "Red Hat Enterprise Linux 3 Update 2"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:13
-msgid "Red Hat Enterprise Linux 3 Update 3"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:14
-msgid "Red Hat Enterprise Linux 3 Update 4"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:15
-msgid "Red Hat Enterprise Linux 3 Update 5"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:16
-msgid "Red Hat Enterprise Linux 3 Update 6"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:17
-msgid "Red Hat Enterprise Linux 3 Update 7"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:18
-msgid "Red Hat Enterprise Linux 3 Update 8"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:19
-msgid "Red Hat Enterprise Linux 3 Update 9"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:20
-msgid "Red Hat Enterprise Linux 4.0"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:21
-msgid "Red Hat Enterprise Linux 4.1"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:22
-msgid "Red Hat Enterprise Linux 4.2"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:23
-msgid "Red Hat Enterprise Linux 4.3"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:24
-msgid "Red Hat Enterprise Linux 4.4"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:25
-msgid "Red Hat Enterprise Linux 4.5"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:26
-msgid "Red Hat Enterprise Linux 4.6"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:27
-msgid "Red Hat Enterprise Linux 4.7"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:28
-msgid "Red Hat Enterprise Linux 4.8"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:29
-msgid "Red Hat Enterprise Linux 4.9"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:30
-msgid "Red Hat Enterprise Linux 5.0"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:31
-msgid "Red Hat Enterprise Linux 5.1"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:32
-msgid "Red Hat Enterprise Linux 5.2"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:33
-msgid "Red Hat Enterprise Linux 5.3"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:34
-msgid "Red Hat Enterprise Linux 5.4"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:35
-msgid "Red Hat Enterprise Linux 5.5"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:36
-msgid "Red Hat Enterprise Linux 5.6"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:37
-msgid "Red Hat Enterprise Linux 5.7"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:38
-msgid "Red Hat Enterprise Linux 5.8"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:39
-msgid "Red Hat Enterprise Linux 5.9"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:40
-msgid "Red Hat Enterprise Linux 5.10"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:41
-msgid "Red Hat Enterprise Linux 5.11"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:42
-msgid "Red Hat Enterprise Linux 6.0"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:43
-msgid "Red Hat Enterprise Linux 6.1"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:44
-msgid "Red Hat Enterprise Linux 6.2"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:45
-msgid "Red Hat Enterprise Linux 6.3"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:46
-msgid "Red Hat Enterprise Linux 6.4"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:47
-msgid "Red Hat Enterprise Linux 6.5"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:48
-msgid "Red Hat Enterprise Linux 6.6"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:49
-msgid "Red Hat Enterprise Linux 7.0"
-msgstr ""
-
-#: ../data/oses/rhel.xml.in.h:50
-msgid "Red Hat Enterprise Linux Atomic Host 7.0"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:1
-msgid "Fedora Core 1"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:2
-msgid "Fedora Project"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:3
-msgid "Fedora Core 2"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:4
-msgid "Fedora Core 3"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:5
-msgid "Fedora Core 4"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:6
-msgid "Fedora Core 5"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:7
-msgid "Fedora Core 6"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:8
-msgid "Fedora 7"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:9
-msgid "Fedora 8"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:10
-msgid "Fedora 9"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:11
-msgid "Fedora 10"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:12
-msgid "Fedora 11"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:13
-msgid "Fedora 12"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:14
-msgid "Fedora 13"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:15
-msgid "Fedora 14"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:16
-msgid "Fedora 15"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:17
-msgid "Fedora 16"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:18
-msgid "Fedora 17"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:19
-msgid "Fedora 18"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:20
-msgid "Fedora 19"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:21
-msgid "Fedora 20"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:22
-msgid "Fedora 21"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:23
-msgid "Fedora 21 Workstation"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:24
-msgid "Fedora 21 Server"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:25
-msgid "Fedora 21 Cloud"
-msgstr ""
-
-#: ../data/oses/fedora.xml.in.h:26
-msgid "Fedora"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:1
-msgid "Microsoft Windows 1.0"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:2
-msgid "Microsoft Corporation"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:3
-msgid "Microsoft Windows 2.0"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:4
-msgid "Microsoft Windows 2.1"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:5
-msgid "Microsoft Windows 3.1"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:6
-msgid "Microsoft Windows NT Server 3.1"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:7
-msgid "Microsoft Windows NT Server 3.5"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:8
-msgid "Microsoft Windows NT Server 3.51"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:9
-msgid "Microsoft Windows NT Server 4.0"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:10
-msgid "Microsoft Windows 95"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:11
-msgid "Microsoft Windows 98"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:12
-msgid "Microsoft Windows Millennium Edition"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:13
-msgid "Microsoft Windows 2000"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:14
-msgid "Microsoft Windows XP"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:15
-msgid "Microsoft Windows Server 2003"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:16
-msgid "Microsoft Windows Server 2003 R2"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:17
-msgid "Microsoft Windows Server 2008"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:18
-msgid "Microsoft Windows Server 2008 R2"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:19
-msgid "Microsoft Windows Vista"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:20
-msgid "Microsoft Windows 7"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:21
-msgid "Microsoft Windows 7 Starter"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:22
-msgid "Microsoft Windows 7 Home Basic"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:23
-msgid "Microsoft Windows 7 Home Premium"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:24
-msgid "Microsoft Windows 7 Professional"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:25
-msgid "Microsoft Windows 7 Enterprise"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:26
-msgid "Microsoft Windows 7 Ultimate"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:27
-msgid "Microsoft Windows 8"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:28
-msgid "Microsoft Windows 8.1"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:29
-msgid "Microsoft Windows Server 2012"
-msgstr ""
-
-#: ../data/oses/windows.xml.in.h:30
-msgid "Microsoft Windows Server 2012 R2"
-msgstr ""
-
-#: ../data/oses/opensuse.xml.in.h:1
-msgid "openSUSE 10.2"
-msgstr ""
-
-#: ../data/oses/opensuse.xml.in.h:2
-msgid "openSUSE"
-msgstr ""
-
-#: ../data/oses/opensuse.xml.in.h:3
-msgid "openSUSE 10.3"
-msgstr ""
-
-#: ../data/oses/opensuse.xml.in.h:4
-msgid "openSUSE 11.0"
-msgstr ""
-
-#: ../data/oses/opensuse.xml.in.h:5
-msgid "openSUSE 11.1"
-msgstr ""
-
-#: ../data/oses/opensuse.xml.in.h:6
-msgid "openSUSE 11.2"
-msgstr ""
-
-#: ../data/oses/opensuse.xml.in.h:7
-msgid "openSUSE 11.3"
-msgstr ""
-
-#: ../data/oses/opensuse.xml.in.h:8
-msgid "openSUSE 11.4"
-msgstr ""
-
-#: ../data/oses/opensuse.xml.in.h:9
-msgid "openSUSE 12.1"
-msgstr ""
-
-#: ../data/oses/opensuse.xml.in.h:10
-msgid "openSUSE 12.2"
-msgstr ""
-
-#: ../data/oses/opensuse.xml.in.h:11
-msgid "openSUSE 12.3"
-msgstr ""
-
-#: ../data/oses/opensuse.xml.in.h:12
-msgid "openSUSE 13.1"
-msgstr ""
-
-#: ../data/oses/macos.xml.in.h:1
-msgid "MacOS X Cheetah"
-msgstr ""
-
-#: ../data/oses/macos.xml.in.h:2
-msgid "Apple Inc."
-msgstr ""
-
-#: ../data/oses/macos.xml.in.h:3
-msgid "MacOS X Puma"
-msgstr ""
-
-#: ../data/oses/macos.xml.in.h:4
-msgid "MacOS X Jaguar"
-msgstr ""
-
-#: ../data/oses/macos.xml.in.h:5
-msgid "MacOS X Panther"
-msgstr ""
-
-#: ../data/oses/macos.xml.in.h:6
-msgid "MacOS X Tiger"
-msgstr ""
-
-#: ../data/oses/macos.xml.in.h:7
-msgid "MacOS X Leopard"
-msgstr ""
-
-#: ../data/oses/macos.xml.in.h:8
-msgid "MacOS X Snow Leopard"
-msgstr ""
-
-#: ../data/oses/macos.xml.in.h:9
-msgid "MacOS X Lion"
-msgstr ""
-
-#: ../data/oses/debian.xml.in.h:1
-msgid "Debian Buzz"
-msgstr ""
-
-#: ../data/oses/debian.xml.in.h:2
-msgid "Debian Project"
-msgstr ""
-
-#: ../data/oses/debian.xml.in.h:3
-msgid "Debian Rex"
-msgstr ""
-
-#: ../data/oses/debian.xml.in.h:4
-msgid "Debian Bo"
-msgstr ""
-
-#: ../data/oses/debian.xml.in.h:5
-msgid "Debian Hamm"
-msgstr ""
-
-#: ../data/oses/debian.xml.in.h:6
-msgid "Debian Slink"
-msgstr ""
-
-#: ../data/oses/debian.xml.in.h:7
-msgid "Debian Potato"
-msgstr ""
-
-#: ../data/oses/debian.xml.in.h:8
-msgid "Debian Woody"
-msgstr ""
-
-#: ../data/oses/debian.xml.in.h:9
-msgid "Debian Sarge"
-msgstr ""
-
-#: ../data/oses/debian.xml.in.h:10
-msgid "Debian Etch"
-msgstr ""
-
-#: ../data/oses/debian.xml.in.h:11
-msgid "Debian Lenny"
-msgstr ""
-
-#: ../data/oses/debian.xml.in.h:12
-msgid "Debian Squeeze"
-msgstr ""
-
-#: ../data/oses/debian.xml.in.h:13
-msgid "Debian Wheezy"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:1
-msgid "Ubuntu Warty Warthog"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:2
-msgid "Canonical Ltd"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:3
-msgid "Ubuntu Hoary Hedgehog"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:4
-msgid "Ubuntu Breezy Badger"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:5
-msgid "Ubuntu Dapper Drake LTS"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:6
-msgid "Ubuntu Edgy Eft"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:7
-msgid "Ubuntu Feisty Fawn"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:8
-msgid "Ubuntu Gutsy Gibbon"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:9
-msgid "Ubuntu Hardy Heron LTS"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:10
-msgid "Ubuntu Intrepid Ibex"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:11
-msgid "Ubuntu Jaunty Jackalope"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:12
-msgid "Ubuntu Karmic Koala"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:13
-msgid "Ubuntu Lucid Lynx LTS"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:14
-msgid "Ubuntu Maverick Meerkat"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:15
-msgid "Ubuntu Natty Narwhal"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:16
-msgid "Ubuntu Oneiric Ocelot"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:17
-msgid "Ubuntu Precise Pangolin LTS"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:18
-msgid "Ubuntu Quantal Quetzal"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:19
-msgid "Ubuntu Raring Ringtails"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:20
-msgid "Ubuntu Saucy Salamander"
-msgstr ""
-
-#: ../data/oses/ubuntu.xml.in.h:21
-msgid "Ubuntu Trusty Tahr LTS"
-msgstr ""
-
-#: ../data/oses/centos.xml.in.h:1
-msgid "CentOS 6.0"
-msgstr ""
-
-#: ../data/oses/centos.xml.in.h:2
-msgid "CentOS"
-msgstr ""
-
-#: ../data/oses/centos.xml.in.h:3
-msgid "CentOS 6.1"
-msgstr ""
-
-#: ../data/oses/centos.xml.in.h:4
-msgid "CentOS 6.2"
-msgstr ""
-
-#: ../data/oses/centos.xml.in.h:5
-msgid "CentOS 6.3"
-msgstr ""
-
-#: ../data/oses/centos.xml.in.h:6
-msgid "CentOS 6.4"
-msgstr ""
-
-#: ../data/oses/centos.xml.in.h:7
-msgid "CentOS 6.5"
-msgstr ""
-
-#: ../data/oses/centos.xml.in.h:8
-msgid "CentOS 7.0"
-msgstr ""
-
-#: ../data/oses/openbsd.xml.in.h:1
-msgid "OpenBSD 4.2"
-msgstr ""
-
-#: ../data/oses/openbsd.xml.in.h:2
-msgid "OpenBSD Project"
-msgstr ""
-
-#: ../data/oses/openbsd.xml.in.h:3
-msgid "OpenBSD 4.3"
-msgstr ""
-
-#: ../data/oses/openbsd.xml.in.h:4
-msgid "OpenBSD 4.4"
-msgstr ""
-
-#: ../data/oses/openbsd.xml.in.h:5
-msgid "OpenBSD 4.5"
-msgstr ""
-
-#: ../data/oses/openbsd.xml.in.h:6
-msgid "OpenBSD 4.8"
-msgstr ""
-
-#: ../data/oses/openbsd.xml.in.h:7
-msgid "OpenBSD 4.9"
-msgstr ""
-
-#: ../data/oses/openbsd.xml.in.h:8
-msgid "OpenBSD 5.0"
-msgstr ""
-
-#: ../data/oses/openbsd.xml.in.h:9
-msgid "OpenBSD 5.1"
-msgstr ""
-
-#: ../data/oses/openbsd.xml.in.h:10
-msgid "OpenBSD 5.2"
-msgstr ""
-
-#: ../data/oses/openbsd.xml.in.h:11
-msgid "OpenBSD 5.3"
-msgstr ""
-
-#: ../data/oses/openbsd.xml.in.h:12
-msgid "OpenBSD 5.4"
-msgstr ""
-
-#: ../data/oses/openbsd.xml.in.h:13
-msgid "OpenBSD 5.5"
-msgstr ""
-
-#: ../data/oses/openbsd.xml.in.h:14
-msgid "OpenBSD 5.6"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:1
-msgid "FreeBSD 1.0"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:2
-msgid "FreeBSD Project"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:3
-msgid "FreeBSD 2.0"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:4
-msgid "FreeBSD 2.0.5"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:5
-msgid "FreeBSD 2.2.8"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:6
-msgid "FreeBSD 2.2.9"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:7
-msgid "FreeBSD 3.0"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:8
-msgid "FreeBSD 3.2"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:9
-msgid "FreeBSD 4.0"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:10
-msgid "FreeBSD 4.1"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:11
-msgid "FreeBSD 4.2"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:12
-msgid "FreeBSD 4.3"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:13
-msgid "FreeBSD 4.4"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:14
-msgid "FreeBSD 4.5"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:15
-msgid "FreeBSD 4.6"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:16
-msgid "FreeBSD 4.7"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:17
-msgid "FreeBSD 4.8"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:18
-msgid "FreeBSD 4.9"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:19
-msgid "FreeBSD 4.10"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:20
-msgid "FreeBSD 4.11"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:21
-msgid "FreeBSD 5.0"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:22
-msgid "FreeBSD 5.1"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:23
-msgid "FreeBSD 5.2"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:24
-msgid "FreeBSD 5.2.1"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:25
-msgid "FreeBSD 5.3"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:26
-msgid "FreeBSD 5.4"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:27
-msgid "FreeBSD 5.5"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:28
-msgid "FreeBSD 6.0"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:29
-msgid "FreeBSD 6.1"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:30
-msgid "FreeBSD 6.2"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:31
-msgid "FreeBSD 6.3"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:32
-msgid "FreeBSD 6.4"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:33
-msgid "FreeBSD 7.0"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:34
-msgid "FreeBSD 7.1"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:35
-msgid "FreeBSD 7.2"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:36
-msgid "FreeBSD 7.3"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:37
-msgid "FreeBSD 7.4"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:38
-msgid "FreeBSD 8.0"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:39
-msgid "FreeBSD 8.1"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:40
-msgid "FreeBSD 8.2"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:41
-msgid "FreeBSD 8.3"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:42
-msgid "FreeBSD 8.4"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:43
-msgid "FreeBSD 9.0"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:44
-msgid "FreeBSD 9.1"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:45
-msgid "FreeBSD 9.2"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:46
-msgid "FreeBSD 9.3"
-msgstr ""
-
-#: ../data/oses/freebsd.xml.in.h:47
-msgid "FreeBSD 10.0"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:1
-msgid "Red Hat Linux 1.0"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:3
-msgid "Red Hat Linux 1.1"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:4
-msgid "Red Hat Linux 2.0"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:5
-msgid "Red Hat Linux 2.1"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:6
-msgid "Red Hat Linux 3.0.3"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:7
-msgid "Red Hat Linux 4.0"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:8
-msgid "Red Hat Linux 4.1"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:9
-msgid "Red Hat Linux 4.2"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:10
-msgid "Red Hat Linux 5.0"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:11
-msgid "Red Hat Linux 5.1"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:12
-msgid "Red Hat Linux 5.2"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:13
-msgid "Red Hat Linux 6.0"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:14
-msgid "Red Hat Linux 6.1"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:15
-msgid "Red Hat Linux 6.2"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:16
-msgid "Red Hat Linux 7"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:17
-msgid "Red Hat Linux 7.1"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:18
-msgid "Red Hat Linux 7.2"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:19
-msgid "Red Hat Linux 7.3"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:20
-msgid "Red Hat Linux 8.0"
-msgstr ""
-
-#: ../data/oses/rhl.xml.in.h:21
-msgid "Red Hat Linux 9"
-msgstr ""
-
-#: ../data/oses/netbsd.xml.in.h:1
-msgid "NetBSD 0.8"
-msgstr ""
-
-#: ../data/oses/netbsd.xml.in.h:2
-msgid "NetBSD Project"
-msgstr ""
-
-#: ../data/oses/netbsd.xml.in.h:3
-msgid "NetBSD 0.9"
-msgstr ""
-
-#: ../data/oses/netbsd.xml.in.h:4
-msgid "NetBSD 1.0"
-msgstr ""
-
-#: ../data/oses/netbsd.xml.in.h:5
-msgid "NetBSD 1.1"
-msgstr ""
-
-#: ../data/oses/netbsd.xml.in.h:6
-msgid "NetBSD 1.2"
-msgstr ""
-
-#: ../data/oses/netbsd.xml.in.h:7
-msgid "NetBSD 1.3"
-msgstr ""
-
-#: ../data/oses/netbsd.xml.in.h:8
-msgid "NetBSD 1.4"
-msgstr ""
-
-#: ../data/oses/netbsd.xml.in.h:9
-msgid "NetBSD 1.5"
-msgstr ""
-
-#: ../data/oses/netbsd.xml.in.h:10
-msgid "NetBSD 1.6"
-msgstr ""
-
-#: ../data/oses/netbsd.xml.in.h:11
-msgid "NetBSD 2.0"
-msgstr ""
-
-#: ../data/oses/netbsd.xml.in.h:12
-msgid "NetBSD 3.0"
-msgstr ""
-
-#: ../data/oses/netbsd.xml.in.h:13
-msgid "NetBSD 4.0"
-msgstr ""
-
-#: ../data/oses/netbsd.xml.in.h:14
-msgid "NetBSD 5.0"
-msgstr ""
-
-#: ../data/oses/netbsd.xml.in.h:15
-msgid "NetBSD 5.1"
-msgstr ""
-
-#: ../data/oses/altlinux.xml.in.h:1
+#: ../data/os/altlinux.org/altlinux-1.0.xml.in.h:1
 msgid "Mandrake RE Spring 2001"
 msgstr ""
 
-#: ../data/oses/altlinux.xml.in.h:2
+#: ../data/os/altlinux.org/altlinux-1.0.xml.in.h:2
+#: ../data/os/altlinux.org/altlinux-2.0.xml.in.h:2
+#: ../data/os/altlinux.org/altlinux-2.2.xml.in.h:2
+#: ../data/os/altlinux.org/altlinux-2.4.xml.in.h:2
+#: ../data/os/altlinux.org/altlinux-3.0.xml.in.h:2
+#: ../data/os/altlinux.org/altlinux-4.0.xml.in.h:2
+#: ../data/os/altlinux.org/altlinux-4.1.xml.in.h:2
+#: ../data/os/altlinux.org/altlinux-5.0.xml.in.h:2
+#: ../data/os/altlinux.org/altlinux-6.0.xml.in.h:2
+#: ../data/os/altlinux.org/altlinux-7.0.xml.in.h:2
 msgid "ALTLinux"
 msgstr ""
 
-#: ../data/oses/altlinux.xml.in.h:3
+#: ../data/os/altlinux.org/altlinux-2.0.xml.in.h:1
 msgid "ALT Linux 2.0"
 msgstr ""
 
-#: ../data/oses/altlinux.xml.in.h:4
+#: ../data/os/altlinux.org/altlinux-2.2.xml.in.h:1
 msgid "ALT Linux 2.2"
 msgstr ""
 
-#: ../data/oses/altlinux.xml.in.h:5
+#: ../data/os/altlinux.org/altlinux-2.4.xml.in.h:1
 msgid "ALT Linux 2.4"
 msgstr ""
 
-#: ../data/oses/altlinux.xml.in.h:6
+#: ../data/os/altlinux.org/altlinux-3.0.xml.in.h:1
 msgid "ALT Linux 3.0"
 msgstr ""
 
-#: ../data/oses/altlinux.xml.in.h:7
+#: ../data/os/altlinux.org/altlinux-4.0.xml.in.h:1
 msgid "ALT Linux 4.0"
 msgstr ""
 
-#: ../data/oses/altlinux.xml.in.h:8
+#: ../data/os/altlinux.org/altlinux-4.1.xml.in.h:1
 msgid "ALT Linux 4.1"
 msgstr ""
 
-#: ../data/oses/altlinux.xml.in.h:9
-msgid "ALT Linux 5.0.0 Ark"
+#: ../data/os/altlinux.org/altlinux-5.0.xml.in.h:1
+msgid "ALT Linux 5.0"
 msgstr ""
 
-#: ../data/oses/altlinux.xml.in.h:10
-msgid "ALT Linux 6.0.0 Centaurus"
+#: ../data/os/altlinux.org/altlinux-6.0.xml.in.h:1
+msgid "ALT Linux 6.0"
 msgstr ""
 
-#: ../data/oses/altlinux.xml.in.h:11
-msgid "ALT Linux 7.0.0 Centaurus"
+#: ../data/os/altlinux.org/altlinux-7.0.xml.in.h:1
+msgid "ALT Linux 7.0"
 msgstr ""
 
-#: ../data/devices/qemu-ps2.xml.in.h:1
-msgid "Qemu/KVM"
+#: ../data/os/apple.com/macosx-10.0.xml.in.h:1
+msgid "MacOS X Cheetah"
 msgstr ""
 
-#: ../data/devices/qemu-pci.xml.in.h:1
-msgid "LSI Logic / Symbios Logic"
+#: ../data/os/apple.com/macosx-10.0.xml.in.h:2
+#: ../data/os/apple.com/macosx-10.1.xml.in.h:2
+#: ../data/os/apple.com/macosx-10.2.xml.in.h:2
+#: ../data/os/apple.com/macosx-10.3.xml.in.h:2
+#: ../data/os/apple.com/macosx-10.4.xml.in.h:2
+#: ../data/os/apple.com/macosx-10.5.xml.in.h:2
+#: ../data/os/apple.com/macosx-10.6.xml.in.h:2
+#: ../data/os/apple.com/macosx-10.7.xml.in.h:2
+msgid "Apple Inc."
 msgstr ""
 
-#: ../data/devices/qemu-pci.xml.in.h:2
-msgid "QEMU"
+#: ../data/os/apple.com/macosx-10.1.xml.in.h:1
+msgid "MacOS X Puma"
 msgstr ""
 
-#: ../data/devices/qemu-pci.xml.in.h:3
-msgid "Cirrus Logic"
+#: ../data/os/apple.com/macosx-10.2.xml.in.h:1
+msgid "MacOS X Jaguar"
 msgstr ""
 
-#: ../data/devices/qemu-pci.xml.in.h:4
-msgid "VMWare"
+#: ../data/os/apple.com/macosx-10.3.xml.in.h:1
+msgid "MacOS X Panther"
 msgstr ""
 
-#: ../data/devices/qemu-pci.xml.in.h:6
-msgid "Realtek Semiconductor Co., Ltd."
+#: ../data/os/apple.com/macosx-10.4.xml.in.h:1
+msgid "MacOS X Tiger"
 msgstr ""
 
-#: ../data/devices/qemu-pci.xml.in.h:7
-msgid "Advanced Micro Devices [AMD]"
+#: ../data/os/apple.com/macosx-10.5.xml.in.h:1
+msgid "MacOS X Leopard"
 msgstr ""
 
-#: ../data/devices/qemu-pci.xml.in.h:8
-msgid "Intel Corporation"
+#: ../data/os/apple.com/macosx-10.6.xml.in.h:1
+msgid "MacOS X Snow Leopard"
 msgstr ""
 
-#: ../data/devices/qemu-pci.xml.in.h:9
-msgid "Ensoniq"
+#: ../data/os/apple.com/macosx-10.7.xml.in.h:1
+msgid "MacOS X Lion"
 msgstr ""
 
-#: ../data/devices/qemu-usb.xml.in.h:1
-msgid "VirtualBox"
+#: ../data/os/centos.org/centos-6.0.xml.in.h:1
+msgid "CentOS 6.0"
 msgstr ""
 
-#: ../data/hypervisors/kvm.xml.in.h:1
-msgid "QEMU-KVM 1.0"
+#: ../data/os/centos.org/centos-6.0.xml.in.h:2
+#: ../data/os/centos.org/centos-6.1.xml.in.h:2
+#: ../data/os/centos.org/centos-6.2.xml.in.h:2
+#: ../data/os/centos.org/centos-6.3.xml.in.h:2
+#: ../data/os/centos.org/centos-6.4.xml.in.h:2
+#: ../data/os/centos.org/centos-6.5.xml.in.h:2
+#: ../data/os/centos.org/centos-7.0.xml.in.h:2
+msgid "CentOS"
 msgstr ""
 
-#: ../data/hypervisors/kvm.xml.in.h:2
-msgid "linux-kvm.org"
+#: ../data/os/centos.org/centos-6.1.xml.in.h:1
+msgid "CentOS 6.1"
 msgstr ""
 
-#: ../data/hypervisors/kvm.xml.in.h:3
+#: ../data/os/centos.org/centos-6.2.xml.in.h:1
+msgid "CentOS 6.2"
+msgstr ""
+
+#: ../data/os/centos.org/centos-6.3.xml.in.h:1
+msgid "CentOS 6.3"
+msgstr ""
+
+#: ../data/os/centos.org/centos-6.4.xml.in.h:1
+msgid "CentOS 6.4"
+msgstr ""
+
+#: ../data/os/centos.org/centos-6.5.xml.in.h:1
+msgid "CentOS 6.5"
+msgstr ""
+
+#: ../data/os/centos.org/centos-7.0.xml.in.h:1
+msgid "CentOS 7.0"
+msgstr ""
+
+#: ../data/os/debian.org/debian-1.1.xml.in.h:1
+msgid "Debian Buzz"
+msgstr ""
+
+#: ../data/os/debian.org/debian-1.1.xml.in.h:2
+#: ../data/os/debian.org/debian-1.2.xml.in.h:2
+#: ../data/os/debian.org/debian-1.3.xml.in.h:2
+#: ../data/os/debian.org/debian-2.0.xml.in.h:2
+#: ../data/os/debian.org/debian-2.1.xml.in.h:2
+#: ../data/os/debian.org/debian-2.2.xml.in.h:2
+#: ../data/os/debian.org/debian-3.1.xml.in.h:2
+#: ../data/os/debian.org/debian-3.xml.in.h:2
+#: ../data/os/debian.org/debian-4.xml.in.h:2
+#: ../data/os/debian.org/debian-5.xml.in.h:2
+#: ../data/os/debian.org/debian-6.xml.in.h:2
+#: ../data/os/debian.org/debian-7.xml.in.h:2
+#: ../data/os/debian.org/debian-8.xml.in.h:2
+msgid "Debian Project"
+msgstr ""
+
+#: ../data/os/debian.org/debian-1.2.xml.in.h:1
+msgid "Debian Rex"
+msgstr ""
+
+#: ../data/os/debian.org/debian-1.3.xml.in.h:1
+msgid "Debian Bo"
+msgstr ""
+
+#: ../data/os/debian.org/debian-2.0.xml.in.h:1
+msgid "Debian Hamm"
+msgstr ""
+
+#: ../data/os/debian.org/debian-2.1.xml.in.h:1
+msgid "Debian Slink"
+msgstr ""
+
+#: ../data/os/debian.org/debian-2.2.xml.in.h:1
+msgid "Debian Potato"
+msgstr ""
+
+#: ../data/os/debian.org/debian-3.1.xml.in.h:1
+msgid "Debian Sarge"
+msgstr ""
+
+#: ../data/os/debian.org/debian-3.xml.in.h:1
+msgid "Debian Woody"
+msgstr ""
+
+#: ../data/os/debian.org/debian-4.xml.in.h:1
+msgid "Debian Etch"
+msgstr ""
+
+#: ../data/os/debian.org/debian-5.xml.in.h:1
+msgid "Debian Lenny"
+msgstr ""
+
+#: ../data/os/debian.org/debian-6.xml.in.h:1
+msgid "Debian Squeeze"
+msgstr ""
+
+#: ../data/os/debian.org/debian-7.xml.in.h:1
+msgid "Debian Wheezy"
+msgstr ""
+
+#: ../data/os/debian.org/debian-8.xml.in.h:1
+msgid "Debian Jessie"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-1.xml.in.h:1
+msgid "Fedora Core 1"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-1.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-2.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-3.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-4.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-5.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-6.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-7.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-8.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-9.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-10.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-11.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-12.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-13.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-14.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-15.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-16.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-17.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-18.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-19.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-20.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-21.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-22.xml.in.h:2
+#: ../data/os/fedoraproject.org/fedora-unknown.xml.in.h:2
+msgid "Fedora Project"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-2.xml.in.h:1
+msgid "Fedora Core 2"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-3.xml.in.h:1
+msgid "Fedora Core 3"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-4.xml.in.h:1
+msgid "Fedora Core 4"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-5.xml.in.h:1
+msgid "Fedora Core 5"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-6.xml.in.h:1
+msgid "Fedora Core 6"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-7.xml.in.h:1
+msgid "Fedora 7"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-8.xml.in.h:1
+msgid "Fedora 8"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-9.xml.in.h:1
+msgid "Fedora 9"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-10.xml.in.h:1
+msgid "Fedora 10"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-11.xml.in.h:1
+msgid "Fedora 11"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-12.xml.in.h:1
+msgid "Fedora 12"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-13.xml.in.h:1
+msgid "Fedora 13"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-14.xml.in.h:1
+msgid "Fedora 14"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-15.xml.in.h:1
+msgid "Fedora 15"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-16.xml.in.h:1
+msgid "Fedora 16"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-17.xml.in.h:1
+msgid "Fedora 17"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-18.xml.in.h:1
+msgid "Fedora 18"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-19.xml.in.h:1
+msgid "Fedora 19"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-20.xml.in.h:1
+msgid "Fedora 20"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-21.xml.in.h:1
+msgid "Fedora 21"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-21.xml.in.h:3
+msgid "Fedora 21 Workstation"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-21.xml.in.h:4
+msgid "Fedora 21 Server"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-21.xml.in.h:5
+msgid "Fedora 21 Cloud"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-22.xml.in.h:1
+msgid "Fedora 22"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-22.xml.in.h:3
+msgid "Fedora 22 Workstation"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-22.xml.in.h:4
+msgid "Fedora 22 Server"
+msgstr ""
+
+#: ../data/os/fedoraproject.org/fedora-unknown.xml.in.h:1
+msgid "Fedora"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-1.0.xml.in.h:1
+msgid "FreeBSD 1.0"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-1.0.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-2.0.5.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-2.0.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-2.2.8.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-2.2.9.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-3.0.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-3.2.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-4.0.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-4.10.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-4.11.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-4.1.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-4.2.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-4.3.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-4.4.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-4.5.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-4.6.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-4.7.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-4.8.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-4.9.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-5.0.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-5.1.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-5.2.1.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-5.2.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-5.3.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-5.4.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-5.5.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-6.0.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-6.1.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-6.2.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-6.3.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-6.4.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-7.0.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-7.1.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-7.2.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-7.3.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-7.4.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-8.0.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-8.1.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-8.2.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-8.3.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-8.4.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-9.0.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-9.1.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-9.2.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-9.3.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-10.0.xml.in.h:2
+#: ../data/os/freebsd.org/freebsd-10.1.xml.in.h:2
+msgid "FreeBSD Project"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-2.0.5.xml.in.h:1
+msgid "FreeBSD 2.0.5"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-2.0.xml.in.h:1
+msgid "FreeBSD 2.0"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-2.2.8.xml.in.h:1
+msgid "FreeBSD 2.2.8"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-2.2.9.xml.in.h:1
+msgid "FreeBSD 2.2.9"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-3.0.xml.in.h:1
+msgid "FreeBSD 3.0"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-3.2.xml.in.h:1
+msgid "FreeBSD 3.2"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-4.0.xml.in.h:1
+msgid "FreeBSD 4.0"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-4.10.xml.in.h:1
+msgid "FreeBSD 4.10"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-4.11.xml.in.h:1
+msgid "FreeBSD 4.11"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-4.1.xml.in.h:1
+msgid "FreeBSD 4.1"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-4.2.xml.in.h:1
+msgid "FreeBSD 4.2"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-4.3.xml.in.h:1
+msgid "FreeBSD 4.3"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-4.4.xml.in.h:1
+msgid "FreeBSD 4.4"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-4.5.xml.in.h:1
+msgid "FreeBSD 4.5"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-4.6.xml.in.h:1
+msgid "FreeBSD 4.6"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-4.7.xml.in.h:1
+msgid "FreeBSD 4.7"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-4.8.xml.in.h:1
+msgid "FreeBSD 4.8"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-4.9.xml.in.h:1
+msgid "FreeBSD 4.9"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-5.0.xml.in.h:1
+msgid "FreeBSD 5.0"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-5.1.xml.in.h:1
+msgid "FreeBSD 5.1"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-5.2.1.xml.in.h:1
+msgid "FreeBSD 5.2.1"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-5.2.xml.in.h:1
+msgid "FreeBSD 5.2"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-5.3.xml.in.h:1
+msgid "FreeBSD 5.3"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-5.4.xml.in.h:1
+msgid "FreeBSD 5.4"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-5.5.xml.in.h:1
+msgid "FreeBSD 5.5"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-6.0.xml.in.h:1
+msgid "FreeBSD 6.0"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-6.1.xml.in.h:1
+msgid "FreeBSD 6.1"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-6.2.xml.in.h:1
+msgid "FreeBSD 6.2"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-6.3.xml.in.h:1
+msgid "FreeBSD 6.3"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-6.4.xml.in.h:1
+msgid "FreeBSD 6.4"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-7.0.xml.in.h:1
+msgid "FreeBSD 7.0"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-7.1.xml.in.h:1
+msgid "FreeBSD 7.1"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-7.2.xml.in.h:1
+msgid "FreeBSD 7.2"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-7.3.xml.in.h:1
+msgid "FreeBSD 7.3"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-7.4.xml.in.h:1
+msgid "FreeBSD 7.4"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-8.0.xml.in.h:1
+msgid "FreeBSD 8.0"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-8.1.xml.in.h:1
+msgid "FreeBSD 8.1"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-8.2.xml.in.h:1
+msgid "FreeBSD 8.2"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-8.3.xml.in.h:1
+msgid "FreeBSD 8.3"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-8.4.xml.in.h:1
+msgid "FreeBSD 8.4"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-9.0.xml.in.h:1
+msgid "FreeBSD 9.0"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-9.1.xml.in.h:1
+msgid "FreeBSD 9.1"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-9.2.xml.in.h:1
+msgid "FreeBSD 9.2"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-9.3.xml.in.h:1
+msgid "FreeBSD 9.3"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-10.0.xml.in.h:1
+msgid "FreeBSD 10.0"
+msgstr ""
+
+#: ../data/os/freebsd.org/freebsd-10.1.xml.in.h:1
+msgid "FreeBSD 10.1"
+msgstr ""
+
+#: ../data/os/gnome.org/gnome-3.6.xml.in.h:1
+msgid "GNOME 3.6"
+msgstr ""
+
+#: ../data/os/gnome.org/gnome-3.6.xml.in.h:2
+#: ../data/os/gnome.org/gnome-3.8.xml.in.h:2
+#: ../data/os/gnome.org/gnome-continuous-3.10.xml.in.h:2
+#: ../data/os/gnome.org/gnome-continuous-3.12.xml.in.h:2
+#: ../data/os/gnome.org/gnome-continuous-3.14.xml.in.h:2
+msgid "GNOME Project"
+msgstr ""
+
+#: ../data/os/gnome.org/gnome-3.8.xml.in.h:1
+msgid "GNOME 3.8"
+msgstr ""
+
+#: ../data/os/gnome.org/gnome-continuous-3.10.xml.in.h:1
+msgid "GNOME 3.10"
+msgstr ""
+
+#: ../data/os/gnome.org/gnome-continuous-3.12.xml.in.h:1
+msgid "GNOME 3.12"
+msgstr ""
+
+#: ../data/os/gnome.org/gnome-continuous-3.14.xml.in.h:1
+msgid "GNOME 3.14"
+msgstr ""
+
+#: ../data/os/mageia.org/mageia-1.xml.in.h:1
+msgid "Mageia 1"
+msgstr ""
+
+#: ../data/os/mageia.org/mageia-1.xml.in.h:2
+#: ../data/os/mageia.org/mageia-2.xml.in.h:2
+#: ../data/os/mageia.org/mageia-3.xml.in.h:2
+msgid "Mageia"
+msgstr ""
+
+#: ../data/os/mageia.org/mageia-2.xml.in.h:1
+msgid "Mageia 2"
+msgstr ""
+
+#: ../data/os/mageia.org/mageia-3.xml.in.h:1
+msgid "Mageia 3"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandrake-5.1.xml.in.h:1
+msgid "Mandrake Linux 5.1"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandrake-5.1.xml.in.h:2
+#: ../data/os/mandriva.com/mandrake-5.2.xml.in.h:2
+#: ../data/os/mandriva.com/mandrake-5.3.xml.in.h:2
+#: ../data/os/mandriva.com/mandrake-6.0.xml.in.h:2
+#: ../data/os/mandriva.com/mandrake-6.1.xml.in.h:2
+#: ../data/os/mandriva.com/mandrake-7.0.xml.in.h:2
+#: ../data/os/mandriva.com/mandrake-7.1.xml.in.h:2
+#: ../data/os/mandriva.com/mandrake-7.2.xml.in.h:2
+#: ../data/os/mandriva.com/mandrake-8.0.xml.in.h:2
+#: ../data/os/mandriva.com/mandrake-8.1.xml.in.h:2
+#: ../data/os/mandriva.com/mandrake-8.2.xml.in.h:2
+#: ../data/os/mandriva.com/mandrake-9.0.xml.in.h:2
+#: ../data/os/mandriva.com/mandrake-9.1.xml.in.h:2
+#: ../data/os/mandriva.com/mandrake-9.2.xml.in.h:2
+#: ../data/os/mandriva.com/mandrake-10.0.xml.in.h:2
+#: ../data/os/mandriva.com/mandrake-10.1.xml.in.h:2
+#: ../data/os/mandriva.com/mandrake-10.2.xml.in.h:2
+#: ../data/os/mandriva.com/mandriva-2006.0.xml.in.h:2
+#: ../data/os/mandriva.com/mandriva-2007.1.xml.in.h:2
+#: ../data/os/mandriva.com/mandriva-2007.xml.in.h:2
+#: ../data/os/mandriva.com/mandriva-2008.0.xml.in.h:2
+#: ../data/os/mandriva.com/mandriva-2008.1.xml.in.h:2
+#: ../data/os/mandriva.com/mandriva-2009.0.xml.in.h:2
+#: ../data/os/mandriva.com/mandriva-2009.1.xml.in.h:2
+#: ../data/os/mandriva.com/mandriva-2010.0.xml.in.h:2
+#: ../data/os/mandriva.com/mandriva-2010.1.xml.in.h:2
+#: ../data/os/mandriva.com/mandriva-2010.2.xml.in.h:2
+#: ../data/os/mandriva.com/mandriva-2011.xml.in.h:2
+#: ../data/os/mandriva.com/mbs-1.0.xml.in.h:2
+#: ../data/os/mandriva.com/mes-5.0.xml.in.h:2
+#: ../data/os/mandriva.com/mes-5.1.xml.in.h:2
+msgid "Mandriva"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandrake-5.2.xml.in.h:1
+msgid "Mandrake Linux 5.2"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandrake-5.3.xml.in.h:1
+msgid "Mandrake Linux 5.3"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandrake-6.0.xml.in.h:1
+msgid "Mandrake Linux 6.0"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandrake-6.1.xml.in.h:1
+msgid "Mandrake Linux 6.1"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandrake-7.0.xml.in.h:1
+msgid "Mandrake Linux 7.0"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandrake-7.1.xml.in.h:1
+msgid "Mandrake Linux 7.1"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandrake-7.2.xml.in.h:1
+msgid "Mandrake Linux 7.2"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandrake-8.0.xml.in.h:1
+msgid "Mandrake Linux 8.0"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandrake-8.1.xml.in.h:1
+msgid "Mandrake Linux 8.1"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandrake-8.2.xml.in.h:1
+msgid "Mandrake Linux 8.2"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandrake-9.0.xml.in.h:1
+msgid "Mandrake Linux 9.0"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandrake-9.1.xml.in.h:1
+msgid "Mandrake Linux 9.1"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandrake-9.2.xml.in.h:1
+msgid "Mandrake Linux 9.2"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandrake-10.0.xml.in.h:1
+msgid "Mandrake Linux 10.0"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandrake-10.1.xml.in.h:1
+msgid "Mandrake Linux 10.1"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandrake-10.2.xml.in.h:1
+msgid "Mandrake Linux 10.2"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandriva-2006.0.xml.in.h:1
+msgid "Mandriva Linux 2006.0"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandriva-2007.1.xml.in.h:1
+msgid "Mandriva Linux 2007 Spring"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandriva-2007.xml.in.h:1
+msgid "Mandriva Linux 2007"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandriva-2008.0.xml.in.h:1
+msgid "Mandriva Linux 2008"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandriva-2008.1.xml.in.h:1
+msgid "Mandriva Linux 2008 Spring"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandriva-2009.0.xml.in.h:1
+msgid "Mandriva Linux 2009"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandriva-2009.1.xml.in.h:1
+msgid "Mandriva Linux 2009 Spring"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandriva-2010.0.xml.in.h:1
+msgid "Mandriva Linux 2010"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandriva-2010.1.xml.in.h:1
+msgid "Mandriva Linux 2010 Spring"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandriva-2010.2.xml.in.h:1
+msgid "Mandriva Linux 2010.2"
+msgstr ""
+
+#: ../data/os/mandriva.com/mandriva-2011.xml.in.h:1
+msgid "Mandriva Linux 2011"
+msgstr ""
+
+#: ../data/os/mandriva.com/mbs-1.0.xml.in.h:1
+msgid "Mandriva Business Server 1.0"
+msgstr ""
+
+#: ../data/os/mandriva.com/mes-5.0.xml.in.h:1
+msgid "Mandriva Enterprise Server 5.0"
+msgstr ""
+
+#: ../data/os/mandriva.com/mes-5.1.xml.in.h:1
+msgid "Mandriva Enterprise Server 5.1"
+msgstr ""
+
+#: ../data/os/microsoft.com/msdos-6.22.xml.in.h:1
+msgid "Microsoft MS-DOS 6.22"
+msgstr ""
+
+#: ../data/os/microsoft.com/msdos-6.22.xml.in.h:2
+msgid "Microsoft"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-1.0.xml.in.h:1
+msgid "Microsoft Windows 1.0"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-1.0.xml.in.h:2
+#: ../data/os/microsoft.com/win-10.xml.in.h:2
+#: ../data/os/microsoft.com/win-2.0.xml.in.h:2
+#: ../data/os/microsoft.com/win-2.1.xml.in.h:2
+#: ../data/os/microsoft.com/win-2k12r2.xml.in.h:2
+#: ../data/os/microsoft.com/win-2k12.xml.in.h:2
+#: ../data/os/microsoft.com/win-2k3r2.xml.in.h:2
+#: ../data/os/microsoft.com/win-2k3.xml.in.h:2
+#: ../data/os/microsoft.com/win-2k8r2.xml.in.h:2
+#: ../data/os/microsoft.com/win-2k8.xml.in.h:2
+#: ../data/os/microsoft.com/win-2k.xml.in.h:2
+#: ../data/os/microsoft.com/win-3.1.xml.in.h:2
+#: ../data/os/microsoft.com/win-7.xml.in.h:2
+#: ../data/os/microsoft.com/win-8.1.xml.in.h:2
+#: ../data/os/microsoft.com/win-8.xml.in.h:2
+#: ../data/os/microsoft.com/win-95.xml.in.h:2
+#: ../data/os/microsoft.com/win-98.xml.in.h:2
+#: ../data/os/microsoft.com/win-me.xml.in.h:2
+#: ../data/os/microsoft.com/winnt-3.1.xml.in.h:2
+#: ../data/os/microsoft.com/winnt-3.51.xml.in.h:2
+#: ../data/os/microsoft.com/winnt-3.5.xml.in.h:2
+#: ../data/os/microsoft.com/winnt-4.0.xml.in.h:2
+#: ../data/os/microsoft.com/win-vista.xml.in.h:2
+#: ../data/os/microsoft.com/win-xp.xml.in.h:2
+msgid "Microsoft Corporation"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-10.xml.in.h:1
+msgid "Microsoft Windows 10"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-10.xml.in.h:3
+msgid "Microsoft Windows 10 Education"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-10.xml.in.h:4
+msgid "Microsoft Windows 10 Enterprise"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-2.0.xml.in.h:1
+msgid "Microsoft Windows 2.0"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-2.1.xml.in.h:1
+msgid "Microsoft Windows 2.1"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-2k12r2.xml.in.h:1
+msgid "Microsoft Windows Server 2012 R2"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-2k12r2.xml.in.h:3
+msgid "Windows Server 2012 R2 Storage"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-2k12r2.xml.in.h:4
+msgid "Windows Server 2012 R2 for HyperV"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-2k12r2.xml.in.h:5
+msgid "Windows Server 2012 R2 Essentials"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-2k12r2.xml.in.h:6
+msgid "Windows Server 2012 R2 Volume License"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-2k12.xml.in.h:1
+msgid "Microsoft Windows Server 2012"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-2k12.xml.in.h:3
+msgid "Windows Server 2012 Storage"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-2k12.xml.in.h:4
+msgid "Windows Server 2012 for HyperV"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-2k12.xml.in.h:5
+msgid "Windows Server 2012 Essentials"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-2k12.xml.in.h:6
+msgid "Windows Server 2012 Volume License"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-2k3r2.xml.in.h:1
+msgid "Microsoft Windows Server 2003 R2"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-2k3.xml.in.h:1
+msgid "Microsoft Windows Server 2003"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-2k8r2.xml.in.h:1
+msgid "Microsoft Windows Server 2008 R2"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-2k8.xml.in.h:1
+msgid "Microsoft Windows Server 2008"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-2k.xml.in.h:1
+msgid "Microsoft Windows 2000"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-3.1.xml.in.h:1
+msgid "Microsoft Windows 3.1"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-7.xml.in.h:1
+msgid "Microsoft Windows 7"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-7.xml.in.h:3
+msgid "Microsoft Windows 7 Debug Checked Build"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-7.xml.in.h:4
+msgid "Microsoft Windows 7 Starter"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-7.xml.in.h:5
+msgid "Microsoft Windows 7 Home Basic"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-7.xml.in.h:6
+msgid "Microsoft Windows 7 Home Premium"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-7.xml.in.h:7
+msgid "Microsoft Windows 7 Professional"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-7.xml.in.h:8
+msgid "Microsoft Windows 7 Enterprise"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-7.xml.in.h:9
+msgid "Microsoft Windows 7 Ultimate"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-8.1.xml.in.h:1
+msgid "Microsoft Windows 8.1"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-8.1.xml.in.h:3
+msgid "Microsoft Windows 8.1 Debug Checked Build"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-8.1.xml.in.h:4
+msgid "Microsoft Windows 8.1 Enterprise Debug Checked Build"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-8.1.xml.in.h:5
+msgid "Microsoft Windows 8.1 Professional"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-8.1.xml.in.h:6
+msgid "Microsoft Windows 8.1 Enterprise"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-8.xml.in.h:1
+msgid "Microsoft Windows 8"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-95.xml.in.h:1
+msgid "Microsoft Windows 95"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-98.xml.in.h:1
+msgid "Microsoft Windows 98"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-me.xml.in.h:1
+msgid "Microsoft Windows Millennium Edition"
+msgstr ""
+
+#: ../data/os/microsoft.com/winnt-3.1.xml.in.h:1
+msgid "Microsoft Windows NT Server 3.1"
+msgstr ""
+
+#: ../data/os/microsoft.com/winnt-3.51.xml.in.h:1
+msgid "Microsoft Windows NT Server 3.51"
+msgstr ""
+
+#: ../data/os/microsoft.com/winnt-3.5.xml.in.h:1
+msgid "Microsoft Windows NT Server 3.5"
+msgstr ""
+
+#: ../data/os/microsoft.com/winnt-4.0.xml.in.h:1
+msgid "Microsoft Windows NT Server 4.0"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-vista.xml.in.h:1
+msgid "Microsoft Windows Vista"
+msgstr ""
+
+#: ../data/os/microsoft.com/win-xp.xml.in.h:1
+msgid "Microsoft Windows XP"
+msgstr ""
+
+#: ../data/os/netbsd.org/netbsd-0.8.xml.in.h:1
+msgid "NetBSD 0.8"
+msgstr ""
+
+#: ../data/os/netbsd.org/netbsd-0.8.xml.in.h:2
+#: ../data/os/netbsd.org/netbsd-0.9.xml.in.h:2
+#: ../data/os/netbsd.org/netbsd-1.0.xml.in.h:2
+#: ../data/os/netbsd.org/netbsd-1.1.xml.in.h:2
+#: ../data/os/netbsd.org/netbsd-1.2.xml.in.h:2
+#: ../data/os/netbsd.org/netbsd-1.3.xml.in.h:2
+#: ../data/os/netbsd.org/netbsd-1.4.xml.in.h:2
+#: ../data/os/netbsd.org/netbsd-1.5.xml.in.h:2
+#: ../data/os/netbsd.org/netbsd-1.6.xml.in.h:2
+#: ../data/os/netbsd.org/netbsd-2.0.xml.in.h:2
+#: ../data/os/netbsd.org/netbsd-3.0.xml.in.h:2
+#: ../data/os/netbsd.org/netbsd-4.0.xml.in.h:2
+#: ../data/os/netbsd.org/netbsd-5.0.xml.in.h:2
+#: ../data/os/netbsd.org/netbsd-5.1.xml.in.h:2
+msgid "NetBSD Project"
+msgstr ""
+
+#: ../data/os/netbsd.org/netbsd-0.9.xml.in.h:1
+msgid "NetBSD 0.9"
+msgstr ""
+
+#: ../data/os/netbsd.org/netbsd-1.0.xml.in.h:1
+msgid "NetBSD 1.0"
+msgstr ""
+
+#: ../data/os/netbsd.org/netbsd-1.1.xml.in.h:1
+msgid "NetBSD 1.1"
+msgstr ""
+
+#: ../data/os/netbsd.org/netbsd-1.2.xml.in.h:1
+msgid "NetBSD 1.2"
+msgstr ""
+
+#: ../data/os/netbsd.org/netbsd-1.3.xml.in.h:1
+msgid "NetBSD 1.3"
+msgstr ""
+
+#: ../data/os/netbsd.org/netbsd-1.4.xml.in.h:1
+msgid "NetBSD 1.4"
+msgstr ""
+
+#: ../data/os/netbsd.org/netbsd-1.5.xml.in.h:1
+msgid "NetBSD 1.5"
+msgstr ""
+
+#: ../data/os/netbsd.org/netbsd-1.6.xml.in.h:1
+msgid "NetBSD 1.6"
+msgstr ""
+
+#: ../data/os/netbsd.org/netbsd-2.0.xml.in.h:1
+msgid "NetBSD 2.0"
+msgstr ""
+
+#: ../data/os/netbsd.org/netbsd-3.0.xml.in.h:1
+msgid "NetBSD 3.0"
+msgstr ""
+
+#: ../data/os/netbsd.org/netbsd-4.0.xml.in.h:1
+msgid "NetBSD 4.0"
+msgstr ""
+
+#: ../data/os/netbsd.org/netbsd-5.0.xml.in.h:1
+msgid "NetBSD 5.0"
+msgstr ""
+
+#: ../data/os/netbsd.org/netbsd-5.1.xml.in.h:1
+msgid "NetBSD 5.1"
+msgstr ""
+
+#: ../data/os/novell.com/netware-4.xml.in.h:1
+msgid "Novell Netware 4"
+msgstr ""
+
+#: ../data/os/novell.com/netware-4.xml.in.h:2
+#: ../data/os/novell.com/netware-5.xml.in.h:2
+#: ../data/os/novell.com/netware-6.xml.in.h:2
+msgid "Novell"
+msgstr ""
+
+#: ../data/os/novell.com/netware-5.xml.in.h:1
+msgid "Novell Netware 5"
+msgstr ""
+
+#: ../data/os/novell.com/netware-6.xml.in.h:1
+msgid "Novell Netware 6"
+msgstr ""
+
+#: ../data/os/openbsd.org/openbsd-4.2.xml.in.h:1
+msgid "OpenBSD 4.2"
+msgstr ""
+
+#: ../data/os/openbsd.org/openbsd-4.2.xml.in.h:2
+#: ../data/os/openbsd.org/openbsd-4.3.xml.in.h:2
+#: ../data/os/openbsd.org/openbsd-4.4.xml.in.h:2
+#: ../data/os/openbsd.org/openbsd-4.5.xml.in.h:2
+#: ../data/os/openbsd.org/openbsd-4.8.xml.in.h:2
+#: ../data/os/openbsd.org/openbsd-4.9.xml.in.h:2
+#: ../data/os/openbsd.org/openbsd-5.0.xml.in.h:2
+#: ../data/os/openbsd.org/openbsd-5.1.xml.in.h:2
+#: ../data/os/openbsd.org/openbsd-5.2.xml.in.h:2
+#: ../data/os/openbsd.org/openbsd-5.3.xml.in.h:2
+#: ../data/os/openbsd.org/openbsd-5.4.xml.in.h:2
+#: ../data/os/openbsd.org/openbsd-5.5.xml.in.h:2
+#: ../data/os/openbsd.org/openbsd-5.6.xml.in.h:2
+#: ../data/os/openbsd.org/openbsd-5.7.xml.in.h:2
+#: ../data/os/openbsd.org/openbsd-5.8.xml.in.h:2
+msgid "OpenBSD Project"
+msgstr ""
+
+#: ../data/os/openbsd.org/openbsd-4.3.xml.in.h:1
+msgid "OpenBSD 4.3"
+msgstr ""
+
+#: ../data/os/openbsd.org/openbsd-4.4.xml.in.h:1
+msgid "OpenBSD 4.4"
+msgstr ""
+
+#: ../data/os/openbsd.org/openbsd-4.5.xml.in.h:1
+msgid "OpenBSD 4.5"
+msgstr ""
+
+#: ../data/os/openbsd.org/openbsd-4.8.xml.in.h:1
+msgid "OpenBSD 4.8"
+msgstr ""
+
+#: ../data/os/openbsd.org/openbsd-4.9.xml.in.h:1
+msgid "OpenBSD 4.9"
+msgstr ""
+
+#: ../data/os/openbsd.org/openbsd-5.0.xml.in.h:1
+msgid "OpenBSD 5.0"
+msgstr ""
+
+#: ../data/os/openbsd.org/openbsd-5.1.xml.in.h:1
+msgid "OpenBSD 5.1"
+msgstr ""
+
+#: ../data/os/openbsd.org/openbsd-5.2.xml.in.h:1
+msgid "OpenBSD 5.2"
+msgstr ""
+
+#: ../data/os/openbsd.org/openbsd-5.3.xml.in.h:1
+msgid "OpenBSD 5.3"
+msgstr ""
+
+#: ../data/os/openbsd.org/openbsd-5.4.xml.in.h:1
+msgid "OpenBSD 5.4"
+msgstr ""
+
+#: ../data/os/openbsd.org/openbsd-5.5.xml.in.h:1
+msgid "OpenBSD 5.5"
+msgstr ""
+
+#: ../data/os/openbsd.org/openbsd-5.6.xml.in.h:1
+msgid "OpenBSD 5.6"
+msgstr ""
+
+#: ../data/os/openbsd.org/openbsd-5.7.xml.in.h:1
+msgid "OpenBSD 5.7"
+msgstr ""
+
+#: ../data/os/openbsd.org/openbsd-5.8.xml.in.h:1
+msgid "OpenBSD 5.8"
+msgstr ""
+
+#: ../data/os/opensuse.org/opensuse-10.2.xml.in.h:1
+msgid "openSUSE 10.2"
+msgstr ""
+
+#: ../data/os/opensuse.org/opensuse-10.2.xml.in.h:2
+#: ../data/os/opensuse.org/opensuse-10.3.xml.in.h:2
+#: ../data/os/opensuse.org/opensuse-11.0.xml.in.h:2
+#: ../data/os/opensuse.org/opensuse-11.1.xml.in.h:2
+#: ../data/os/opensuse.org/opensuse-11.2.xml.in.h:2
+#: ../data/os/opensuse.org/opensuse-11.3.xml.in.h:2
+#: ../data/os/opensuse.org/opensuse-11.4.xml.in.h:2
+#: ../data/os/opensuse.org/opensuse-12.1.xml.in.h:2
+#: ../data/os/opensuse.org/opensuse-12.2.xml.in.h:2
+#: ../data/os/opensuse.org/opensuse-12.3.xml.in.h:2
+#: ../data/os/opensuse.org/opensuse-13.1.xml.in.h:2
+#: ../data/os/opensuse.org/opensuse-13.2.xml.in.h:2
+#: ../data/os/opensuse.org/opensuse-factory.xml.in.h:1
+#: ../data/os/opensuse.org/opensuse-unknown.xml.in.h:1
+msgid "openSUSE"
+msgstr ""
+
+#: ../data/os/opensuse.org/opensuse-10.3.xml.in.h:1
+msgid "openSUSE 10.3"
+msgstr ""
+
+#: ../data/os/opensuse.org/opensuse-11.0.xml.in.h:1
+msgid "openSUSE 11.0"
+msgstr ""
+
+#: ../data/os/opensuse.org/opensuse-11.1.xml.in.h:1
+msgid "openSUSE 11.1"
+msgstr ""
+
+#: ../data/os/opensuse.org/opensuse-11.2.xml.in.h:1
+msgid "openSUSE 11.2"
+msgstr ""
+
+#: ../data/os/opensuse.org/opensuse-11.3.xml.in.h:1
+msgid "openSUSE 11.3"
+msgstr ""
+
+#: ../data/os/opensuse.org/opensuse-11.4.xml.in.h:1
+msgid "openSUSE 11.4"
+msgstr ""
+
+#: ../data/os/opensuse.org/opensuse-12.1.xml.in.h:1
+msgid "openSUSE 12.1"
+msgstr ""
+
+#: ../data/os/opensuse.org/opensuse-12.2.xml.in.h:1
+msgid "openSUSE 12.2"
+msgstr ""
+
+#: ../data/os/opensuse.org/opensuse-12.3.xml.in.h:1
+msgid "openSUSE 12.3"
+msgstr ""
+
+#: ../data/os/opensuse.org/opensuse-13.1.xml.in.h:1
+msgid "openSUSE 13.1"
+msgstr ""
+
+#: ../data/os/opensuse.org/opensuse-13.2.xml.in.h:1
+msgid "openSUSE 13.2"
+msgstr ""
+
+#: ../data/os/oracle.com/solaris-11.xml.in.h:1
+msgid "Oracle Solaris 11"
+msgstr ""
+
+#: ../data/os/oracle.com/solaris-11.xml.in.h:2
+msgid "Oracle"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-2.1.1.xml.in.h:1
+msgid "Red Hat Enterprise Linux 2.1 Update 1"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-2.1.1.xml.in.h:2
+#: ../data/os/redhat.com/rhel-2.1.2.xml.in.h:2
+#: ../data/os/redhat.com/rhel-2.1.3.xml.in.h:2
+#: ../data/os/redhat.com/rhel-2.1.4.xml.in.h:2
+#: ../data/os/redhat.com/rhel-2.1.5.xml.in.h:2
+#: ../data/os/redhat.com/rhel-2.1.6.xml.in.h:2
+#: ../data/os/redhat.com/rhel-2.1.7.xml.in.h:2
+#: ../data/os/redhat.com/rhel-2.1.xml.in.h:2
+#: ../data/os/redhat.com/rhel-3.1.xml.in.h:2
+#: ../data/os/redhat.com/rhel-3.2.xml.in.h:2
+#: ../data/os/redhat.com/rhel-3.3.xml.in.h:2
+#: ../data/os/redhat.com/rhel-3.4.xml.in.h:2
+#: ../data/os/redhat.com/rhel-3.5.xml.in.h:2
+#: ../data/os/redhat.com/rhel-3.6.xml.in.h:2
+#: ../data/os/redhat.com/rhel-3.7.xml.in.h:2
+#: ../data/os/redhat.com/rhel-3.8.xml.in.h:2
+#: ../data/os/redhat.com/rhel-3.9.xml.in.h:2
+#: ../data/os/redhat.com/rhel-3.xml.in.h:2
+#: ../data/os/redhat.com/rhel-4.0.xml.in.h:2
+#: ../data/os/redhat.com/rhel-4.1.xml.in.h:2
+#: ../data/os/redhat.com/rhel-4.2.xml.in.h:2
+#: ../data/os/redhat.com/rhel-4.3.xml.in.h:2
+#: ../data/os/redhat.com/rhel-4.4.xml.in.h:2
+#: ../data/os/redhat.com/rhel-4.5.xml.in.h:2
+#: ../data/os/redhat.com/rhel-4.6.xml.in.h:2
+#: ../data/os/redhat.com/rhel-4.7.xml.in.h:2
+#: ../data/os/redhat.com/rhel-4.8.xml.in.h:2
+#: ../data/os/redhat.com/rhel-4.9.xml.in.h:2
+#: ../data/os/redhat.com/rhel-5.0.xml.in.h:2
+#: ../data/os/redhat.com/rhel-5.10.xml.in.h:2
+#: ../data/os/redhat.com/rhel-5.11.xml.in.h:2
+#: ../data/os/redhat.com/rhel-5.1.xml.in.h:2
+#: ../data/os/redhat.com/rhel-5.2.xml.in.h:2
+#: ../data/os/redhat.com/rhel-5.3.xml.in.h:2
+#: ../data/os/redhat.com/rhel-5.4.xml.in.h:2
+#: ../data/os/redhat.com/rhel-5.5.xml.in.h:2
+#: ../data/os/redhat.com/rhel-5.6.xml.in.h:2
+#: ../data/os/redhat.com/rhel-5.7.xml.in.h:2
+#: ../data/os/redhat.com/rhel-5.8.xml.in.h:2
+#: ../data/os/redhat.com/rhel-5.9.xml.in.h:2
+#: ../data/os/redhat.com/rhel-6.0.xml.in.h:2
+#: ../data/os/redhat.com/rhel-6.1.xml.in.h:2
+#: ../data/os/redhat.com/rhel-6.2.xml.in.h:2
+#: ../data/os/redhat.com/rhel-6.3.xml.in.h:2
+#: ../data/os/redhat.com/rhel-6.4.xml.in.h:2
+#: ../data/os/redhat.com/rhel-6.5.xml.in.h:2
+#: ../data/os/redhat.com/rhel-6.6.xml.in.h:2
+#: ../data/os/redhat.com/rhel-7.0.xml.in.h:2
+#: ../data/os/redhat.com/rhel-7.1.xml.in.h:2
+#: ../data/os/redhat.com/rhel-atomic-7.0.xml.in.h:2
+#: ../data/os/redhat.com/rhel-atomic-7.1.xml.in.h:2
+#: ../data/os/redhat.com/rhl-1.0.xml.in.h:2
+#: ../data/os/redhat.com/rhl-1.1.xml.in.h:2
+#: ../data/os/redhat.com/rhl-2.0.xml.in.h:2
+#: ../data/os/redhat.com/rhl-2.1.xml.in.h:2
+#: ../data/os/redhat.com/rhl-3.0.3.xml.in.h:2
+#: ../data/os/redhat.com/rhl-4.0.xml.in.h:2
+#: ../data/os/redhat.com/rhl-4.1.xml.in.h:2
+#: ../data/os/redhat.com/rhl-4.2.xml.in.h:2
+#: ../data/os/redhat.com/rhl-5.0.xml.in.h:2
+#: ../data/os/redhat.com/rhl-5.1.xml.in.h:2
+#: ../data/os/redhat.com/rhl-5.2.xml.in.h:2
+#: ../data/os/redhat.com/rhl-6.0.xml.in.h:2
+#: ../data/os/redhat.com/rhl-6.1.xml.in.h:2
+#: ../data/os/redhat.com/rhl-6.2.xml.in.h:2
+#: ../data/os/redhat.com/rhl-7.1.xml.in.h:2
+#: ../data/os/redhat.com/rhl-7.2.xml.in.h:2
+#: ../data/os/redhat.com/rhl-7.3.xml.in.h:2
+#: ../data/os/redhat.com/rhl-7.xml.in.h:2
+#: ../data/os/redhat.com/rhl-8.0.xml.in.h:2
+#: ../data/os/redhat.com/rhl-9.xml.in.h:2
+msgid "Red Hat, Inc"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-2.1.2.xml.in.h:1
+msgid "Red Hat Enterprise Linux 2.1 Update 2"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-2.1.3.xml.in.h:1
+msgid "Red Hat Enterprise Linux 2.1 Update 3"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-2.1.4.xml.in.h:1
+msgid "Red Hat Enterprise Linux 2.1 Update 4"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-2.1.5.xml.in.h:1
+msgid "Red Hat Enterprise Linux 2.1 Update 5"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-2.1.6.xml.in.h:1
+msgid "Red Hat Enterprise Linux 2.1 Update 6"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-2.1.7.xml.in.h:1
+msgid "Red Hat Enterprise Linux 2.1 Update 7"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-2.1.xml.in.h:1
+msgid "Red Hat Enterprise Linux 2.1"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-3.1.xml.in.h:1
+msgid "Red Hat Enterprise Linux 3 Update 1"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-3.2.xml.in.h:1
+msgid "Red Hat Enterprise Linux 3 Update 2"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-3.3.xml.in.h:1
+msgid "Red Hat Enterprise Linux 3 Update 3"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-3.4.xml.in.h:1
+msgid "Red Hat Enterprise Linux 3 Update 4"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-3.5.xml.in.h:1
+msgid "Red Hat Enterprise Linux 3 Update 5"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-3.6.xml.in.h:1
+msgid "Red Hat Enterprise Linux 3 Update 6"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-3.7.xml.in.h:1
+msgid "Red Hat Enterprise Linux 3 Update 7"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-3.8.xml.in.h:1
+msgid "Red Hat Enterprise Linux 3 Update 8"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-3.9.xml.in.h:1
+msgid "Red Hat Enterprise Linux 3 Update 9"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-3.xml.in.h:1
+msgid "Red Hat Enterprise Linux 3"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-4.0.xml.in.h:1
+msgid "Red Hat Enterprise Linux 4.0"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-4.1.xml.in.h:1
+msgid "Red Hat Enterprise Linux 4.1"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-4.2.xml.in.h:1
+msgid "Red Hat Enterprise Linux 4.2"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-4.3.xml.in.h:1
+msgid "Red Hat Enterprise Linux 4.3"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-4.4.xml.in.h:1
+msgid "Red Hat Enterprise Linux 4.4"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-4.5.xml.in.h:1
+msgid "Red Hat Enterprise Linux 4.5"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-4.6.xml.in.h:1
+msgid "Red Hat Enterprise Linux 4.6"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-4.7.xml.in.h:1
+msgid "Red Hat Enterprise Linux 4.7"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-4.8.xml.in.h:1
+msgid "Red Hat Enterprise Linux 4.8"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-4.9.xml.in.h:1
+msgid "Red Hat Enterprise Linux 4.9"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-5.0.xml.in.h:1
+msgid "Red Hat Enterprise Linux 5.0"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-5.10.xml.in.h:1
+msgid "Red Hat Enterprise Linux 5.10"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-5.11.xml.in.h:1
+msgid "Red Hat Enterprise Linux 5.11"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-5.1.xml.in.h:1
+msgid "Red Hat Enterprise Linux 5.1"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-5.2.xml.in.h:1
+msgid "Red Hat Enterprise Linux 5.2"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-5.3.xml.in.h:1
+msgid "Red Hat Enterprise Linux 5.3"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-5.4.xml.in.h:1
+msgid "Red Hat Enterprise Linux 5.4"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-5.5.xml.in.h:1
+msgid "Red Hat Enterprise Linux 5.5"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-5.6.xml.in.h:1
+msgid "Red Hat Enterprise Linux 5.6"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-5.7.xml.in.h:1
+msgid "Red Hat Enterprise Linux 5.7"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-5.8.xml.in.h:1
+msgid "Red Hat Enterprise Linux 5.8"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-5.9.xml.in.h:1
+msgid "Red Hat Enterprise Linux 5.9"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-6.0.xml.in.h:1
+msgid "Red Hat Enterprise Linux 6.0"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-6.1.xml.in.h:1
+msgid "Red Hat Enterprise Linux 6.1"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-6.2.xml.in.h:1
+msgid "Red Hat Enterprise Linux 6.2"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-6.3.xml.in.h:1
+msgid "Red Hat Enterprise Linux 6.3"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-6.4.xml.in.h:1
+msgid "Red Hat Enterprise Linux 6.4"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-6.5.xml.in.h:1
+msgid "Red Hat Enterprise Linux 6.5"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-6.6.xml.in.h:1
+msgid "Red Hat Enterprise Linux 6.6"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-7.0.xml.in.h:1
+msgid "Red Hat Enterprise Linux 7.0"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-7.1.xml.in.h:1
+msgid "Red Hat Enterprise Linux 7.1"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-atomic-7.0.xml.in.h:1
+msgid "Red Hat Enterprise Linux Atomic Host 7.0"
+msgstr ""
+
+#: ../data/os/redhat.com/rhel-atomic-7.1.xml.in.h:1
+msgid "Red Hat Enterprise Linux Atomic Host 7.1"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-1.0.xml.in.h:1
+msgid "Red Hat Linux 1.0"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-1.1.xml.in.h:1
+msgid "Red Hat Linux 1.1"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-2.0.xml.in.h:1
+msgid "Red Hat Linux 2.0"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-2.1.xml.in.h:1
+msgid "Red Hat Linux 2.1"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-3.0.3.xml.in.h:1
+msgid "Red Hat Linux 3.0.3"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-4.0.xml.in.h:1
+msgid "Red Hat Linux 4.0"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-4.1.xml.in.h:1
+msgid "Red Hat Linux 4.1"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-4.2.xml.in.h:1
+msgid "Red Hat Linux 4.2"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-5.0.xml.in.h:1
+msgid "Red Hat Linux 5.0"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-5.1.xml.in.h:1
+msgid "Red Hat Linux 5.1"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-5.2.xml.in.h:1
+msgid "Red Hat Linux 5.2"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-6.0.xml.in.h:1
+msgid "Red Hat Linux 6.0"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-6.1.xml.in.h:1
+msgid "Red Hat Linux 6.1"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-6.2.xml.in.h:1
+msgid "Red Hat Linux 6.2"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-7.1.xml.in.h:1
+msgid "Red Hat Linux 7.1"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-7.2.xml.in.h:1
+msgid "Red Hat Linux 7.2"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-7.3.xml.in.h:1
+msgid "Red Hat Linux 7.3"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-7.xml.in.h:1
+msgid "Red Hat Linux 7"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-8.0.xml.in.h:1
+msgid "Red Hat Linux 8.0"
+msgstr ""
+
+#: ../data/os/redhat.com/rhl-9.xml.in.h:1
+msgid "Red Hat Linux 9"
+msgstr ""
+
+#: ../data/os/sun.com/opensolaris-2009.06.xml.in.h:1
+msgid "OpenSolaris 2009.06"
+msgstr ""
+
+#: ../data/os/sun.com/opensolaris-2009.06.xml.in.h:2
+#: ../data/os/sun.com/solaris-9.xml.in.h:2
+#: ../data/os/sun.com/solaris-10.xml.in.h:2
+msgid "Sun"
+msgstr ""
+
+#: ../data/os/sun.com/solaris-9.xml.in.h:1
+msgid "Solaris 9"
+msgstr ""
+
+#: ../data/os/sun.com/solaris-10.xml.in.h:1
+msgid "Solaris 10"
+msgstr ""
+
+#: ../data/os/suse.com/sled-9.xml.in.h:1
+msgid "SUSE Linux Enterprise Desktop 9"
+msgstr ""
+
+#: ../data/os/suse.com/sled-9.xml.in.h:2
+#: ../data/os/suse.com/sled-10.xml.in.h:2
+#: ../data/os/suse.com/sled-11.1.xml.in.h:2
+#: ../data/os/suse.com/sled-11.2.xml.in.h:2
+#: ../data/os/suse.com/sled-11.3.xml.in.h:2
+#: ../data/os/suse.com/sled-11.4.xml.in.h:2
+#: ../data/os/suse.com/sled-11.xml.in.h:2
+#: ../data/os/suse.com/sled-12.xml.in.h:2
+#: ../data/os/suse.com/sles-9.xml.in.h:2
+#: ../data/os/suse.com/sles-10.xml.in.h:2
+#: ../data/os/suse.com/sles-11.1.xml.in.h:2
+#: ../data/os/suse.com/sles-11.2.xml.in.h:2
+#: ../data/os/suse.com/sles-11.3.xml.in.h:2
+#: ../data/os/suse.com/sles-11.4.xml.in.h:2
+#: ../data/os/suse.com/sles-11.xml.in.h:2
+#: ../data/os/suse.com/sles-12.xml.in.h:2
+msgid "SUSE"
+msgstr ""
+
+#: ../data/os/suse.com/sled-10.xml.in.h:1
+msgid "SUSE Linux Enterprise Desktop 10"
+msgstr ""
+
+#: ../data/os/suse.com/sled-11.1.xml.in.h:1
+msgid "SUSE Linux Enterprise Desktop 11 SP1"
+msgstr ""
+
+#: ../data/os/suse.com/sled-11.2.xml.in.h:1
+msgid "SUSE Linux Enterprise Desktop 11 SP2"
+msgstr ""
+
+#: ../data/os/suse.com/sled-11.3.xml.in.h:1
+msgid "SUSE Linux Enterprise Desktop 11 SP3"
+msgstr ""
+
+#: ../data/os/suse.com/sled-11.4.xml.in.h:1
+msgid "SUSE Linux Enterprise Desktop 11 SP4"
+msgstr ""
+
+#: ../data/os/suse.com/sled-11.xml.in.h:1
+msgid "SUSE Linux Enterprise Desktop 11"
+msgstr ""
+
+#: ../data/os/suse.com/sled-12.xml.in.h:1
+msgid "SUSE Linux Enterprise Desktop 12"
+msgstr ""
+
+#: ../data/os/suse.com/sles-9.xml.in.h:1
+msgid "SUSE Linux Enterprise Server 9"
+msgstr ""
+
+#: ../data/os/suse.com/sles-10.xml.in.h:1
+msgid "SUSE Linux Enterprise Server 10"
+msgstr ""
+
+#: ../data/os/suse.com/sles-11.1.xml.in.h:1
+msgid "SUSE Linux Enterprise Server 11 SP1"
+msgstr ""
+
+#: ../data/os/suse.com/sles-11.2.xml.in.h:1
+msgid "SUSE Linux Enterprise Server 11 SP2"
+msgstr ""
+
+#: ../data/os/suse.com/sles-11.3.xml.in.h:1
+msgid "SUSE Linux Enterprise Server 11 SP3"
+msgstr ""
+
+#: ../data/os/suse.com/sles-11.4.xml.in.h:1
+msgid "SUSE Linux Enterprise Server 11 SP4"
+msgstr ""
+
+#: ../data/os/suse.com/sles-11.xml.in.h:1
+msgid "SUSE Linux Enterprise Server 11"
+msgstr ""
+
+#: ../data/os/suse.com/sles-12.xml.in.h:1
+msgid "SUSE Linux Enterprise Server 12"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-4.10.xml.in.h:1
+msgid "Ubuntu 4.10"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-4.10.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-5.04.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-5.10.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-6.06.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-6.10.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-7.04.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-7.10.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-8.04.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-8.10.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-9.04.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-9.10.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-10.04.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-10.10.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-11.04.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-11.10.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-12.04.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-12.10.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-13.04.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-13.10.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-14.04.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-14.10.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-15.04.xml.in.h:2
+#: ../data/os/ubuntu.com/ubuntu-15.10.xml.in.h:2
+msgid "Canonical Ltd"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-5.04.xml.in.h:1
+msgid "Ubuntu 5.04"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-5.10.xml.in.h:1
+msgid "Ubuntu 5.10"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-6.06.xml.in.h:1
+msgid "Ubuntu 6.06 LTS"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-6.10.xml.in.h:1
+msgid "Ubuntu 6.10"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-7.04.xml.in.h:1
+msgid "Ubuntu 7.04"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-7.10.xml.in.h:1
+msgid "Ubuntu 7.10"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-8.04.xml.in.h:1
+msgid "Ubuntu 8.04 LTS"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-8.10.xml.in.h:1
+msgid "Ubuntu 8.10"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-9.04.xml.in.h:1
+msgid "Ubuntu 9.04"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-9.10.xml.in.h:1
+msgid "Ubuntu 9.10"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-10.04.xml.in.h:1
+msgid "Ubuntu 10.04 LTS"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-10.10.xml.in.h:1
+msgid "Ubuntu 10.10"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-11.04.xml.in.h:1
+msgid "Ubuntu 11.04"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-11.10.xml.in.h:1
+msgid "Ubuntu 11.10"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-12.04.xml.in.h:1
+msgid "Ubuntu 12.04 LTS"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-12.10.xml.in.h:1
+msgid "Ubuntu 12.10"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-13.04.xml.in.h:1
+msgid "Ubuntu 13.04"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-13.10.xml.in.h:1
+msgid "Ubuntu 13.10"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-14.04.xml.in.h:1
+msgid "Ubuntu 14.04 LTS"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-14.10.xml.in.h:1
+msgid "Ubuntu 14.10"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-15.04.xml.in.h:1
+msgid "Ubuntu 15.04"
+msgstr ""
+
+#: ../data/os/ubuntu.com/ubuntu-15.10.xml.in.h:1
+msgid "Ubuntu 15.10"
+msgstr ""
+
+#: ../data/platform/linux-kvm.org/qemu-kvm-1.0.1.xml.in.h:1
 msgid "QEMU-KVM 1.0.1"
 msgstr ""
 
-#: ../data/hypervisors/kvm.xml.in.h:4
+#: ../data/platform/linux-kvm.org/qemu-kvm-1.0.1.xml.in.h:2
+#: ../data/platform/linux-kvm.org/qemu-kvm-1.0.xml.in.h:2
+#: ../data/platform/linux-kvm.org/qemu-kvm-1.1.0.xml.in.h:2
+#: ../data/platform/linux-kvm.org/qemu-kvm-1.1.1.xml.in.h:2
+#: ../data/platform/linux-kvm.org/qemu-kvm-1.1.2.xml.in.h:2
+#: ../data/platform/linux-kvm.org/qemu-kvm-1.2.0.xml.in.h:2
+msgid "linux-kvm.org"
+msgstr ""
+
+#: ../data/platform/linux-kvm.org/qemu-kvm-1.0.xml.in.h:1
+msgid "QEMU-KVM 1.0"
+msgstr ""
+
+#: ../data/platform/linux-kvm.org/qemu-kvm-1.1.0.xml.in.h:1
 msgid "QEMU-KVM 1.1.0"
 msgstr ""
 
-#: ../data/hypervisors/kvm.xml.in.h:5
+#: ../data/platform/linux-kvm.org/qemu-kvm-1.1.1.xml.in.h:1
 msgid "QEMU-KVM 1.1.1"
 msgstr ""
 
-#: ../data/hypervisors/kvm.xml.in.h:6
+#: ../data/platform/linux-kvm.org/qemu-kvm-1.1.2.xml.in.h:1
 msgid "QEMU-KVM 1.1.2"
 msgstr ""
 
-#: ../data/hypervisors/kvm.xml.in.h:7
+#: ../data/platform/linux-kvm.org/qemu-kvm-1.2.0.xml.in.h:1
 msgid "QEMU-KVM 1.2.0"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:1
-msgid "QEMU 1.0"
-msgstr ""
-
-#: ../data/hypervisors/qemu.xml.in.h:2
-msgid "qemu.org"
-msgstr ""
-
-#: ../data/hypervisors/qemu.xml.in.h:3
+#: ../data/platform/qemu.org/qemu-1.0.1.xml.in.h:1
 msgid "QEMU 1.0.1"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:4
-msgid "QEMU 1.1"
+#: ../data/platform/qemu.org/qemu-1.0.1.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.0.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.1.1-1.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.1.1.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.1.2.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.1.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.2.0.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.2.1.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.2.2.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.3.0.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.3.1.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.4.0.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.4.1.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.4.2.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.5.0.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.5.1.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.5.2.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.5.3.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.6.0.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.6.1.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.6.2.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.7.0.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.7.1.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-1.7.2.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-2.0.0.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-2.0.1.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-2.0.2.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-2.1.0.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-2.1.1.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-2.1.2.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-2.1.3.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-2.2.0.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-2.2.1.xml.in.h:2
+#: ../data/platform/qemu.org/qemu-2.3.0.xml.in.h:2
+msgid "qemu.org"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:5
-msgid "QEMU 1.1.1"
+#: ../data/platform/qemu.org/qemu-1.0.xml.in.h:1
+msgid "QEMU 1.0"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:6
+#: ../data/platform/qemu.org/qemu-1.1.1-1.xml.in.h:1
 msgid "QEMU 1.1.1-1"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:7
+#: ../data/platform/qemu.org/qemu-1.1.1.xml.in.h:1
+msgid "QEMU 1.1.1"
+msgstr ""
+
+#: ../data/platform/qemu.org/qemu-1.1.2.xml.in.h:1
 msgid "QEMU 1.1.2"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:8
+#: ../data/platform/qemu.org/qemu-1.1.xml.in.h:1
+msgid "QEMU 1.1"
+msgstr ""
+
+#: ../data/platform/qemu.org/qemu-1.2.0.xml.in.h:1
 msgid "QEMU 1.2.0"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:9
+#: ../data/platform/qemu.org/qemu-1.2.1.xml.in.h:1
 msgid "QEMU 1.2.1"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:10
+#: ../data/platform/qemu.org/qemu-1.2.2.xml.in.h:1
 msgid "QEMU 1.2.2"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:11
+#: ../data/platform/qemu.org/qemu-1.3.0.xml.in.h:1
 msgid "QEMU 1.3.0"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:12
+#: ../data/platform/qemu.org/qemu-1.3.1.xml.in.h:1
 msgid "QEMU 1.3.1"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:13
+#: ../data/platform/qemu.org/qemu-1.4.0.xml.in.h:1
 msgid "QEMU 1.4.0"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:14
+#: ../data/platform/qemu.org/qemu-1.4.1.xml.in.h:1
 msgid "QEMU 1.4.1"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:15
+#: ../data/platform/qemu.org/qemu-1.4.2.xml.in.h:1
 msgid "QEMU 1.4.2"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:16
+#: ../data/platform/qemu.org/qemu-1.5.0.xml.in.h:1
 msgid "QEMU 1.5.0"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:17
+#: ../data/platform/qemu.org/qemu-1.5.1.xml.in.h:1
 msgid "QEMU 1.5.1"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:18
+#: ../data/platform/qemu.org/qemu-1.5.2.xml.in.h:1
 msgid "QEMU 1.5.2"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:19
+#: ../data/platform/qemu.org/qemu-1.5.3.xml.in.h:1
 msgid "QEMU 1.5.3"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:20
+#: ../data/platform/qemu.org/qemu-1.6.0.xml.in.h:1
 msgid "QEMU 1.6.0"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:21
+#: ../data/platform/qemu.org/qemu-1.6.1.xml.in.h:1
 msgid "QEMU 1.6.1"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:22
+#: ../data/platform/qemu.org/qemu-1.6.2.xml.in.h:1
 msgid "QEMU 1.6.2"
 msgstr ""
 
-#: ../data/hypervisors/qemu.xml.in.h:23
+#: ../data/platform/qemu.org/qemu-1.7.0.xml.in.h:1
 msgid "QEMU 1.7.0"
 msgstr ""
 
-#: ../data/hypervisors/rhel-xen.xml.in.h:1
+#: ../data/platform/qemu.org/qemu-1.7.1.xml.in.h:1
+msgid "QEMU 1.7.1"
+msgstr ""
+
+#: ../data/platform/qemu.org/qemu-1.7.2.xml.in.h:1
+msgid "QEMU 1.7.2"
+msgstr ""
+
+#: ../data/platform/qemu.org/qemu-2.0.0.xml.in.h:1
+msgid "QEMU 2.0.0"
+msgstr ""
+
+#: ../data/platform/qemu.org/qemu-2.0.1.xml.in.h:1
+msgid "QEMU 2.0.1"
+msgstr ""
+
+#: ../data/platform/qemu.org/qemu-2.0.2.xml.in.h:1
+msgid "QEMU 2.0.2"
+msgstr ""
+
+#: ../data/platform/qemu.org/qemu-2.1.0.xml.in.h:1
+msgid "QEMU 2.1.0"
+msgstr ""
+
+#: ../data/platform/qemu.org/qemu-2.1.1.xml.in.h:1
+msgid "QEMU 2.1.1"
+msgstr ""
+
+#: ../data/platform/qemu.org/qemu-2.1.2.xml.in.h:1
+msgid "QEMU 2.1.2"
+msgstr ""
+
+#: ../data/platform/qemu.org/qemu-2.1.3.xml.in.h:1
+msgid "QEMU 2.1.3"
+msgstr ""
+
+#: ../data/platform/qemu.org/qemu-2.2.0.xml.in.h:1
+msgid "QEMU 2.2.0"
+msgstr ""
+
+#: ../data/platform/qemu.org/qemu-2.2.1.xml.in.h:1
+msgid "QEMU 2.2.1"
+msgstr ""
+
+#: ../data/platform/qemu.org/qemu-2.3.0.xml.in.h:1
+msgid "QEMU 2.3.0"
+msgstr ""
+
+#: ../data/platform/redhat.com/xen-rhel-3.0.3.5.0.xml.in.h:1
 msgid "Xen 3.0.3 (RHEL 5.0)"
 msgstr ""
 
-#: ../data/hypervisors/rhel-xen.xml.in.h:2
+#: ../data/platform/redhat.com/xen-rhel-3.0.3.5.0.xml.in.h:2
+#: ../data/platform/redhat.com/xen-rhel-3.1.0.5.1.xml.in.h:2
+#: ../data/platform/redhat.com/xen-rhel-3.1.0.5.2.xml.in.h:2
+#: ../data/platform/redhat.com/xen-rhel-3.1.0.5.3.xml.in.h:2
+#: ../data/platform/redhat.com/xen-rhel-3.1.0.5.4.xml.in.h:2
+#: ../data/platform/redhat.com/xen-rhel-3.1.0.5.5.xml.in.h:2
+#: ../data/platform/redhat.com/xen-rhel-3.1.0.5.6.xml.in.h:2
+#: ../data/platform/redhat.com/xen-rhel-3.1.0.5.7.xml.in.h:2
 msgid "Red Hat, Inc."
 msgstr ""
 
-#: ../data/hypervisors/rhel-xen.xml.in.h:3
+#: ../data/platform/redhat.com/xen-rhel-3.1.0.5.1.xml.in.h:1
 msgid "Xen 3.1.0 (RHEL 5.1)"
 msgstr ""
 
-#: ../data/hypervisors/rhel-xen.xml.in.h:4
+#: ../data/platform/redhat.com/xen-rhel-3.1.0.5.2.xml.in.h:1
 msgid "Xen 3.1.0 (RHEL 5.2)"
 msgstr ""
 
-#: ../data/hypervisors/rhel-xen.xml.in.h:5
+#: ../data/platform/redhat.com/xen-rhel-3.1.0.5.3.xml.in.h:1
 msgid "Xen 3.1.0 (RHEL 5.3)"
 msgstr ""
 
-#: ../data/hypervisors/rhel-xen.xml.in.h:6
+#: ../data/platform/redhat.com/xen-rhel-3.1.0.5.4.xml.in.h:1
 msgid "Xen 3.1.0 (RHEL 5.4)"
 msgstr ""
 
-#: ../data/hypervisors/rhel-xen.xml.in.h:7
+#: ../data/platform/redhat.com/xen-rhel-3.1.0.5.5.xml.in.h:1
 msgid "Xen 3.1.0 (RHEL 5.5)"
 msgstr ""
 
-#: ../data/hypervisors/rhel-xen.xml.in.h:8
+#: ../data/platform/redhat.com/xen-rhel-3.1.0.5.6.xml.in.h:1
 msgid "Xen 3.1.0 (RHEL 5.6)"
 msgstr ""
 
-#: ../data/hypervisors/rhel-xen.xml.in.h:9
+#: ../data/platform/redhat.com/xen-rhel-3.1.0.5.7.xml.in.h:1
 msgid "Xen 3.1.0 (RHEL 5.7)"
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:1
+#: ../data/platform/xen.org/xen-3.0.2.xml.in.h:1
 msgid "Xen 3.0.2"
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:2
+#: ../data/platform/xen.org/xen-3.0.2.xml.in.h:2
+#: ../data/platform/xen.org/xen-3.0.3.xml.in.h:2
+#: ../data/platform/xen.org/xen-3.0.4.xml.in.h:2
+#: ../data/platform/xen.org/xen-3.1.0.xml.in.h:2
+#: ../data/platform/xen.org/xen-3.1.3.xml.in.h:2
+#: ../data/platform/xen.org/xen-3.1.4.xml.in.h:2
+#: ../data/platform/xen.org/xen-3.2.0.xml.in.h:2
+#: ../data/platform/xen.org/xen-3.2.1.xml.in.h:2
+#: ../data/platform/xen.org/xen-3.2.2.xml.in.h:2
+#: ../data/platform/xen.org/xen-3.2.3.xml.in.h:2
+#: ../data/platform/xen.org/xen-3.3.0.xml.in.h:2
+#: ../data/platform/xen.org/xen-3.3.1.xml.in.h:2
+#: ../data/platform/xen.org/xen-3.3.2.xml.in.h:2
+#: ../data/platform/xen.org/xen-3.4.0.xml.in.h:2
+#: ../data/platform/xen.org/xen-3.4.1.xml.in.h:2
+#: ../data/platform/xen.org/xen-3.4.2.xml.in.h:2
+#: ../data/platform/xen.org/xen-3.4.3.xml.in.h:2
+#: ../data/platform/xen.org/xen-4.0.0.xml.in.h:2
+#: ../data/platform/xen.org/xen-4.0.1.xml.in.h:2
+#: ../data/platform/xen.org/xen-4.1.0.xml.in.h:2
 msgid "Citrix Systems, Inc."
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:3
+#: ../data/platform/xen.org/xen-3.0.3.xml.in.h:1
 msgid "Xen 3.0.3"
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:4
+#: ../data/platform/xen.org/xen-3.0.4.xml.in.h:1
 msgid "Xen 3.0.4"
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:5
+#: ../data/platform/xen.org/xen-3.1.0.xml.in.h:1
+msgid "Xen 3.1.0"
+msgstr ""
+
+#: ../data/platform/xen.org/xen-3.1.3.xml.in.h:1
 msgid "Xen 3.1.3"
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:6
+#: ../data/platform/xen.org/xen-3.1.4.xml.in.h:1
 msgid "Xen 3.1.4"
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:7
+#: ../data/platform/xen.org/xen-3.2.0.xml.in.h:1
 msgid "Xen 3.2.0"
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:8
+#: ../data/platform/xen.org/xen-3.2.1.xml.in.h:1
 msgid "Xen 3.2.1"
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:9
+#: ../data/platform/xen.org/xen-3.2.2.xml.in.h:1
 msgid "Xen 3.2.2"
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:10
+#: ../data/platform/xen.org/xen-3.2.3.xml.in.h:1
 msgid "Xen 3.2.3"
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:11
+#: ../data/platform/xen.org/xen-3.3.0.xml.in.h:1
 msgid "Xen 3.3.0"
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:12
+#: ../data/platform/xen.org/xen-3.3.1.xml.in.h:1
 msgid "Xen 3.3.1"
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:13
+#: ../data/platform/xen.org/xen-3.3.2.xml.in.h:1
 msgid "Xen 3.3.2"
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:14
+#: ../data/platform/xen.org/xen-3.4.0.xml.in.h:1
 msgid "Xen 3.4.0"
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:15
+#: ../data/platform/xen.org/xen-3.4.1.xml.in.h:1
 msgid "Xen 3.4.1"
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:16
+#: ../data/platform/xen.org/xen-3.4.2.xml.in.h:1
 msgid "Xen 3.4.2"
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:17
+#: ../data/platform/xen.org/xen-3.4.3.xml.in.h:1
 msgid "Xen 3.4.3"
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:18
+#: ../data/platform/xen.org/xen-4.0.0.xml.in.h:1
 msgid "Xen 4.0.0"
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:19
+#: ../data/platform/xen.org/xen-4.0.1.xml.in.h:1
 msgid "Xen 4.0.1"
 msgstr ""
 
-#: ../data/hypervisors/xen.xml.in.h:20
+#: ../data/platform/xen.org/xen-4.1.0.xml.in.h:1
 msgid "Xen 4.1.0"
+msgstr ""
+
+#: ../data/device/ibm.com/ps2-keyboard.xml.in.h:1
+#: ../data/device/ibm.com/ps2-mouse.xml.in.h:1
+msgid "Qemu/KVM"
+msgstr ""
+
+#: ../data/device/pcisig.com/pci-1234-1111.xml.in.h:1
+msgid "QEMU"
 msgstr ""
 
 #: ../osinfo/osinfo_avatar_format.c:109
@@ -1703,63 +2267,69 @@ msgstr ""
 msgid "Expected avatar format"
 msgstr ""
 
-#: ../osinfo/osinfo_install_script.c:581
+#: ../osinfo/osinfo_install_script.c:584
 msgid "Unable to create XML parser context"
 msgstr ""
 
-#: ../osinfo/osinfo_install_script.c:589
+#: ../osinfo/osinfo_install_script.c:592
 msgid "Unable to read XSL template"
 msgstr ""
 
-#: ../osinfo/osinfo_install_script.c:595
+#: ../osinfo/osinfo_install_script.c:598
 msgid "Unable to parse XSL template"
 msgstr ""
 
-#: ../osinfo/osinfo_install_script.c:668 ../osinfo/osinfo_install_script.c:704
+#: ../osinfo/osinfo_install_script.c:671 ../osinfo/osinfo_install_script.c:707
 #, c-format
 msgid "Unable to create XML node '%s': '%s'"
 msgstr ""
 
-#: ../osinfo/osinfo_install_script.c:676
+#: ../osinfo/osinfo_install_script.c:679
 #, c-format
 msgid "Unable to create XML node 'id': '%s'"
 msgstr ""
 
-#: ../osinfo/osinfo_install_script.c:682 ../osinfo/osinfo_install_script.c:710
+#: ../osinfo/osinfo_install_script.c:685 ../osinfo/osinfo_install_script.c:713
 #, c-format
 msgid "Unable to add XML child '%s'"
 msgstr ""
 
-#: ../osinfo/osinfo_install_script.c:755 ../osinfo/osinfo_install_script.c:766
-#: ../osinfo/osinfo_install_script.c:777
+#: ../osinfo/osinfo_install_script.c:759 ../osinfo/osinfo_install_script.c:770
+#: ../osinfo/osinfo_install_script.c:794
 #, c-format
 msgid "Unable to set XML root '%s'"
 msgstr ""
 
-#: ../osinfo/osinfo_install_script.c:799
+#: ../osinfo/osinfo_install_script.c:782
+#, c-format
+msgid "Unable to set 'media' node: '%s'"
+msgstr ""
+
+#: ../osinfo/osinfo_install_script.c:816
 msgid "Unable to create XSL transform context"
 msgstr ""
 
-#: ../osinfo/osinfo_install_script.c:804
+#: ../osinfo/osinfo_install_script.c:821
 msgid "Unable to apply XSL transform context"
 msgstr ""
 
-#: ../osinfo/osinfo_install_script.c:809
+#: ../osinfo/osinfo_install_script.c:826
 msgid "Unable to convert XSL output to string"
 msgstr ""
 
-#: ../osinfo/osinfo_install_script.c:866
+#: ../osinfo/osinfo_install_script.c:884
 #, c-format
 msgid "Failed to load script template %s: "
 msgstr ""
 
-#: ../osinfo/osinfo_install_script.c:880
+#: ../osinfo/osinfo_install_script.c:899
 #, c-format
 msgid "Failed to apply script template %s: "
 msgstr ""
 
-#: ../osinfo/osinfo_install_script.c:925
-#: ../osinfo/osinfo_install_script.c:1234
+#: ../osinfo/osinfo_install_script.c:954
+#: ../osinfo/osinfo_install_script.c:1605
+#: ../osinfo/osinfo_install_script.c:1653
 msgid "Failed to apply script template: "
 msgstr ""
 
@@ -1767,167 +2337,171 @@ msgstr ""
 msgid "List element type"
 msgstr ""
 
-#: ../osinfo/osinfo_loader.c:173
+#: ../osinfo/osinfo_loader.c:195
 #, c-format
 msgid "Expected a nodeset in XPath query %s"
 msgstr ""
 
-#: ../osinfo/osinfo_loader.c:253 ../osinfo/osinfo_loader.c:397
+#: ../osinfo/osinfo_loader.c:275 ../osinfo/osinfo_loader.c:420
 msgid "Expected a text node attribute value"
 msgstr ""
 
-#: ../osinfo/osinfo_loader.c:488
+#: ../osinfo/osinfo_loader.c:574
 msgid "Missing device id property"
 msgstr ""
 
-#: ../osinfo/osinfo_loader.c:518
+#: ../osinfo/osinfo_loader.c:609
 msgid "Missing device link id property"
 msgstr ""
 
-#: ../osinfo/osinfo_loader.c:568
+#: ../osinfo/osinfo_loader.c:659
 msgid "Missing product upgrades id property"
 msgstr ""
 
-#: ../osinfo/osinfo_loader.c:640
+#: ../osinfo/osinfo_loader.c:732
 msgid "Missing platform id property"
 msgstr ""
 
-#: ../osinfo/osinfo_loader.c:668
+#: ../osinfo/osinfo_loader.c:766
 msgid "Missing deployment id property"
 msgstr ""
 
-#: ../osinfo/osinfo_loader.c:674
+#: ../osinfo/osinfo_loader.c:776
 msgid "Missing deployment os id property"
 msgstr ""
 
-#: ../osinfo/osinfo_loader.c:684
+#: ../osinfo/osinfo_loader.c:786
 msgid "Missing deployment platform id property"
 msgstr ""
 
-#: ../osinfo/osinfo_loader.c:722 ../osinfo/osinfo_loader.c:1283
+#: ../osinfo/osinfo_loader.c:825 ../osinfo/osinfo_loader.c:1402
 msgid "Missing os id property"
 msgstr ""
 
-#: ../osinfo/osinfo_loader.c:839
+#: ../osinfo/osinfo_loader.c:949
 msgid "Missing install script id property"
 msgstr ""
 
-#: ../osinfo/osinfo_loader.c:1393
+#: ../osinfo/osinfo_loader.c:1517
 msgid "Missing OS install script property"
 msgstr ""
 
-#: ../osinfo/osinfo_loader.c:1456
+#: ../osinfo/osinfo_loader.c:1581
 msgid "Incorrect root element"
 msgstr ""
 
-#: ../osinfo/osinfo_loader.c:1522
+#: ../osinfo/osinfo_loader.c:1648
 msgid "Unable to construct parser context"
 msgstr ""
 
-#: ../osinfo/osinfo_loader.c:1544
+#: ../osinfo/osinfo_loader.c:1670
 msgid "Missing root XML element"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:367 ../osinfo/osinfo_resources.c:170
+#: ../osinfo/osinfo_media.c:383 ../osinfo/osinfo_resources.c:170
 #: ../osinfo/osinfo_tree.c:277
 msgid "CPU Architecture"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:380
+#: ../osinfo/osinfo_media.c:396
 msgid "The URL to this media"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:393 ../osinfo/osinfo_tree.c:303
+#: ../osinfo/osinfo_media.c:409 ../osinfo/osinfo_tree.c:303
 msgid "The expected ISO9660 volume ID"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:406 ../osinfo/osinfo_tree.c:316
+#: ../osinfo/osinfo_media.c:422 ../osinfo/osinfo_tree.c:316
 msgid "The expected ISO9660 publisher ID"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:419 ../osinfo/osinfo_tree.c:329
+#: ../osinfo/osinfo_media.c:435 ../osinfo/osinfo_tree.c:329
 msgid "The expected ISO9660 application ID"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:432 ../osinfo/osinfo_tree.c:342
+#: ../osinfo/osinfo_media.c:448 ../osinfo/osinfo_tree.c:342
 msgid "The expected ISO9660 system ID"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:445 ../osinfo/osinfo_tree.c:355
+#: ../osinfo/osinfo_media.c:461 ../osinfo/osinfo_tree.c:355
 msgid "The path to the kernel image"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:458
+#: ../osinfo/osinfo_media.c:474
 msgid "The path to the initrd image"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:471
+#: ../osinfo/osinfo_media.c:487
 msgid "Media provides an installer"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:484
+#: ../osinfo/osinfo_media.c:500
 msgid "Media can boot directly w/o installation"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:506
+#: ../osinfo/osinfo_media.c:522
 msgid "Number of installer reboots"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:524
+#: ../osinfo/osinfo_media.c:540
 msgid "Information about the operating system on this media"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:546
+#: ../osinfo/osinfo_media.c:562
 msgid "Supported languages"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:661
+#: ../osinfo/osinfo_media.c:574
+msgid "Expected ISO9660 volume size, in bytes"
+msgstr ""
+
+#: ../osinfo/osinfo_media.c:694
 msgid "Failed to read supplementary volume descriptor: "
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:668
+#: ../osinfo/osinfo_media.c:701
 #, c-format
 msgid "Supplementary volume descriptor was truncated"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:691
+#: ../osinfo/osinfo_media.c:724
 #, c-format
 msgid "Install media is not bootable"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:747
+#: ../osinfo/osinfo_media.c:787
 msgid "Failed to read primary volume descriptor: "
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:754
+#: ../osinfo/osinfo_media.c:794
 #, c-format
 msgid "Primary volume descriptor was truncated"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:779
+#: ../osinfo/osinfo_media.c:819
 #, c-format
 msgid "Insufficient metadata on installation media"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:814
+#: ../osinfo/osinfo_media.c:854
 #, c-format
 msgid "Failed to skip %d bytes"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:819
+#: ../osinfo/osinfo_media.c:859
 #, c-format
 msgid "No volume descriptors"
 msgstr ""
 
-#: ../osinfo/osinfo_media.c:851
+#: ../osinfo/osinfo_media.c:891
 msgid "Failed to open file"
 msgstr ""
 
-#: ../osinfo/osinfo_os.c:149
+#: ../osinfo/osinfo_os.c:151
 msgid "Generic Family"
 msgstr ""
 
-#: ../osinfo/osinfo_os.c:165
+#: ../osinfo/osinfo_os.c:167
 msgid "Generic Distro"
 msgstr ""
 
@@ -2112,7 +2686,7 @@ msgstr ""
 msgid "- Detect if media is bootable and the relevant OS and distribution."
 msgstr ""
 
-#: ../tools/osinfo-detect.c:250 ../tools/osinfo-install-script.c:334
+#: ../tools/osinfo-detect.c:250 ../tools/osinfo-install-script.c:344
 #: ../tools/osinfo-query.c:430
 #, c-format
 msgid "Error loading OS data: %s\n"
@@ -2165,7 +2739,7 @@ msgstr ""
 msgid "Do not display output filenames"
 msgstr ""
 
-#: ../tools/osinfo-install-script.c:141 ../tools/osinfo-install-script.c:243
+#: ../tools/osinfo-install-script.c:141
 #, c-format
 msgid "No install script for profile '%s' and OS '%s'"
 msgstr ""
@@ -2178,27 +2752,32 @@ msgstr ""
 msgid "optional"
 msgstr ""
 
-#: ../tools/osinfo-install-script.c:263
+#: ../tools/osinfo-install-script.c:243
+#, c-format
+msgid "No install script for profile '%s' and OS '%s'\n"
+msgstr ""
+
+#: ../tools/osinfo-install-script.c:272
 #, c-format
 msgid "Unable to generate install script: %s\n"
 msgstr ""
 
-#: ../tools/osinfo-install-script.c:303
+#: ../tools/osinfo-install-script.c:313
 msgid "- Generate an OS install script"
 msgstr ""
 
-#: ../tools/osinfo-install-script.c:306
+#: ../tools/osinfo-install-script.c:316
 #, c-format
 msgid "Error while parsing options: %s\n"
 msgstr ""
 
-#: ../tools/osinfo-install-script.c:324
+#: ../tools/osinfo-install-script.c:334
 msgid ""
 "Only one of --list-profile, --list-config and --list-injection-methods can "
 "be requested"
 msgstr ""
 
-#: ../tools/osinfo-install-script.c:343
+#: ../tools/osinfo-install-script.c:363
 #, c-format
 msgid "Error finding OS: %s\n"
 msgstr ""
