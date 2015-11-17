@@ -25,7 +25,6 @@ COMMON_LDADD = \
 	$(COVERAGE_LDFLAGS) \
 	$(GOBJECT_LIBS) \
 	$(SOUP_LIBS) \
-	$(SOUP_GNOME_LIBS) \
 	$(CHECK_LIBS) \
 	../osinfo/libosinfo-1.0.la
 COMMON_CFLAGS = \
@@ -33,7 +32,6 @@ COMMON_CFLAGS = \
 	$(COVERAGE_CFLAGS) \
 	$(GOBJECT_CFLAGS) \
 	$(SOUP_CFLAGS) \
-	$(SOUP_GNOME_CFLAGS) \
 	-I$(top_srcdir) \
 	-DSRCDIR="\"$(abs_top_srcdir)\"" \
 	-DBUILDDIR="\"$(abs_top_builddir)\"" \

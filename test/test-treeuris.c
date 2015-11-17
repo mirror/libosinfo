@@ -26,8 +26,6 @@
 #include <osinfo/osinfo.h>
 #include <check.h>
 #include <libsoup/soup.h>
-#define HAVE_LIBSOUP_GNOME
-#include <libsoup/soup-gnome.h>
 
 static void test_tree(OsinfoTreeList *treelist, GError **error, SoupSession *session)
 {
@@ -68,11 +66,8 @@ START_TEST(test_uris)
     GList *osel = NULL, *tmp;
     const gchar *debugstr;
 
-    session = soup_session_async_new_with_options(
-#ifdef HAVE_LIBSOUP_GNOME
-                                                  SOUP_SESSION_ADD_FEATURE_BY_TYPE,
-#endif
-                                                  NULL);
+    session = soup_session_new();
+
     if ((debugstr = g_getenv("LIBOSINFO_TEST_DEBUG"))) {
         SoupLogger *logger;
         int debug_level = atoi(debugstr);
