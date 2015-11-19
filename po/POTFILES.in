@@ -267,6 +267,7 @@ data/os/redhat.com/rhel-6.5.xml.in
 data/os/redhat.com/rhel-6.6.xml.in
 data/os/redhat.com/rhel-7.0.xml.in
 data/os/redhat.com/rhel-7.1.xml.in
+data/os/redhat.com/rhel-7.2.xml.in
 data/os/redhat.com/rhel-atomic-7.0.xml.in
 data/os/redhat.com/rhel-atomic-7.1.xml.in
 data/os/redhat.com/rhl-1.0.xml.in
