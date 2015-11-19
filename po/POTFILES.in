@@ -265,6 +265,7 @@ data/os/redhat.com/rhel-6.3.xml.in
 data/os/redhat.com/rhel-6.4.xml.in
 data/os/redhat.com/rhel-6.5.xml.in
 data/os/redhat.com/rhel-6.6.xml.in
+data/os/redhat.com/rhel-6.7.xml.in
 data/os/redhat.com/rhel-7.0.xml.in
 data/os/redhat.com/rhel-7.1.xml.in
 data/os/redhat.com/rhel-7.2.xml.in
