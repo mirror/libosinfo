@@ -22,6 +22,7 @@ data/os/centos.org/centos-6.2.xml.in
 data/os/centos.org/centos-6.3.xml.in
 data/os/centos.org/centos-6.4.xml.in
 data/os/centos.org/centos-6.5.xml.in
+data/os/centos.org/centos-6.6.xml.in
 data/os/centos.org/centos-7.0.xml.in
 data/os/debian.org/debian-1.1.xml.in
 data/os/debian.org/debian-1.2.xml.in
