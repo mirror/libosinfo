@@ -75,10 +75,7 @@ typedef struct _CreateFromLocationAsyncData CreateFromLocationAsyncData;
 struct _CreateFromLocationAsyncData {
     GFile *file;
 
-    gint priority;
-    GCancellable *cancellable;
-
-    GSimpleAsyncResult *res;
+    GTask *res;
 
     PrimaryVolumeDescriptor pvd;
     SupplementaryVolumeDescriptor svd;
@@ -91,7 +88,6 @@ static void create_from_location_async_data_free
                                 (CreateFromLocationAsyncData *data)
 {
    g_object_unref(data->file);
-   g_clear_object(&data->cancellable);
    g_object_unref(data->res);
 
    g_slice_free(CreateFromLocationAsyncData, data);
@@ -707,8 +703,8 @@ static void on_svd_read(GObject *source,
         g_input_stream_read_async(stream,
                                   ((gchar *)&data->svd + data->offset),
                                   data->length - data->offset,
-                                  data->priority,
-                                  data->cancellable,
+                                  g_task_get_priority(data->res),
+                                  g_task_get_cancellable(data->res),
                                   on_svd_read,
                                   data);
         return;
@@ -760,10 +756,9 @@ static void on_svd_read(GObject *source,
 
 EXIT:
     if (error != NULL)
-        g_simple_async_result_take_error(data->res, error);
+        g_task_return_error(data->res, error);
     else
-        g_simple_async_result_set_op_res_gpointer(data->res, media, NULL);
-    g_simple_async_result_complete(data->res);
+        g_task_return_pointer(data->res, media, NULL);
 
     g_object_unref(stream);
     create_from_location_async_data_free(data);
@@ -800,8 +795,8 @@ static void on_pvd_read(GObject *source,
         g_input_stream_read_async(stream,
                                   ((gchar*)&data->pvd) + data->offset,
                                   data->length - data->offset,
-                                  data->priority,
-                                  data->cancellable,
+                                  g_task_get_priority(data->res),
+                                  g_task_get_cancellable(data->res),
                                   on_pvd_read,
                                   data);
         return;
@@ -827,15 +822,14 @@ static void on_pvd_read(GObject *source,
     g_input_stream_read_async(stream,
                               (gchar *)&data->svd,
                               data->length,
-                              data->priority,
-                              data->cancellable,
+                              g_task_get_priority(data->res),
+                              g_task_get_cancellable(data->res),
                               on_svd_read,
                               data);
     return;
 
 ON_ERROR:
-    g_simple_async_result_take_error(data->res, error);
-    g_simple_async_result_complete(data->res);
+    g_task_return_error(data->res, error);
     create_from_location_async_data_free(data);
 }
 
@@ -857,8 +851,7 @@ static void on_location_skipped(GObject *source,
                         OSINFO_MEDIA_ERROR,
                         OSINFO_MEDIA_ERROR_NO_DESCRIPTORS,
                         _("No volume descriptors"));
-        g_simple_async_result_take_error(data->res, error);
-        g_simple_async_result_complete(data->res);
+        g_task_return_error(data->res, error);
         create_from_location_async_data_free(data);
 
         return;
@@ -870,8 +863,8 @@ static void on_location_skipped(GObject *source,
     g_input_stream_read_async(stream,
                               (gchar *)&data->pvd,
                               data->length,
-                              data->priority,
-                              data->cancellable,
+                              g_task_get_priority(data->res),
+                              g_task_get_cancellable(data->res),
                               on_pvd_read,
                               data);
 }
@@ -889,8 +882,7 @@ static void on_location_read(GObject *source,
     stream = g_file_read_finish(G_FILE(source), res, &error);
     if (error != NULL) {
         g_prefix_error(&error, _("Failed to open file"));
-        g_simple_async_result_take_error(data->res, error);
-        g_simple_async_result_complete(data->res);
+        g_task_return_error(data->res, error);
         create_from_location_async_data_free(data);
 
         return;
@@ -898,8 +890,8 @@ static void on_location_read(GObject *source,
 
     g_input_stream_skip_async(G_INPUT_STREAM(stream),
                               PVD_OFFSET,
-                              data->priority,
-                              data->cancellable,
+                              g_task_get_priority(data->res),
+                              g_task_get_cancellable(data->res),
                               on_location_skipped,
                               data);
 }
@@ -925,14 +917,13 @@ void osinfo_media_create_from_location_async(const gchar *location,
     g_return_if_fail(location != NULL);
 
     data = g_slice_new0(CreateFromLocationAsyncData);
-    data->res = g_simple_async_result_new
-                                (NULL,
-                                 callback,
-                                 user_data,
-                                 osinfo_media_create_from_location_async);
+    data->res = g_task_new(NULL,
+                           cancellable,
+                           callback,
+                           user_data);
+    g_task_set_priority(data->res, priority);
+
     data->file = g_file_new_for_commandline_arg(location);
-    data->priority = priority;
-    data->cancellable = cancellable;
     g_file_read_async(data->file,
                       priority,
                       cancellable,
@@ -953,14 +944,11 @@ void osinfo_media_create_from_location_async(const gchar *location,
 OsinfoMedia *osinfo_media_create_from_location_finish(GAsyncResult *res,
                                                       GError **error)
 {
-    GSimpleAsyncResult *simple = G_SIMPLE_ASYNC_RESULT(res);
+    GTask *task = G_TASK(res);
 
     g_return_val_if_fail(error == NULL || *error == NULL, NULL);
 
-    if (g_simple_async_result_propagate_error(simple, error))
-        return NULL;
-
-    return g_simple_async_result_get_op_res_gpointer(simple);
+    return g_task_propagate_pointer(task, error);
 }
 
 /**

@@ -36,10 +36,7 @@ struct _CreateFromLocationAsyncData {
     GFile *file;
     gchar *location;
 
-    gint priority;
-    GCancellable *cancellable;
-
-    GSimpleAsyncResult *res;
+    GTask *res;
 
     OsinfoTree *tree;
 };
@@ -49,7 +46,6 @@ static void create_from_location_async_data_free(CreateFromLocationAsyncData *da
     if (data->tree)
     g_object_unref(data->tree);
     g_object_unref(data->file);
-    g_clear_object(&data->cancellable);
     g_object_unref(data->res);
 
     g_slice_free(CreateFromLocationAsyncData, data);
@@ -604,8 +600,7 @@ static void on_location_read(GObject *source,
                                      NULL,
                                      &error)) {
         g_prefix_error(&error, _("Failed to load .treeinfo file: "));
-        g_simple_async_result_take_error(data->res, error);
-        g_simple_async_result_complete(data->res);
+        g_task_return_error(data->res, error);
         create_from_location_async_data_free(data);
         return;
     }
@@ -615,14 +610,13 @@ static void on_location_read(GObject *source,
                              length,
                              &error))) {
         g_prefix_error(&error, _("Failed to process keyinfo file: "));
-        g_simple_async_result_take_error(data->res, error);
+        g_task_return_error(data->res, error);
         goto cleanup;
     }
 
-    g_simple_async_result_set_op_res_gpointer(data->res, ret, NULL);
+    g_task_return_pointer(data->res, ret, NULL);
 
  cleanup:
-    g_simple_async_result_complete(data->res);
     create_from_location_async_data_free(data);
     g_free(content);
 }
@@ -651,15 +645,14 @@ void osinfo_tree_create_from_location_async(const gchar *location,
     treeinfo = g_strdup_printf("%s/.treeinfo", location);
 
     data = g_slice_new0(CreateFromLocationAsyncData);
-    data->res = g_simple_async_result_new
-        (NULL,
-         callback,
-         user_data,
-         osinfo_tree_create_from_location_async);
+    data->res = g_task_new(NULL,
+                           cancellable,
+                           callback,
+                           user_data);
+    g_task_set_priority(data->res, priority);
+
     data->file = g_file_new_for_uri(treeinfo);
     data->location = g_strdup(location);
-    data->priority = priority;
-    data->cancellable = cancellable;
 
     /* XXX priority ? */
     /* XXX probe other things besides just tree info */
@@ -685,14 +678,11 @@ void osinfo_tree_create_from_location_async(const gchar *location,
 OsinfoTree *osinfo_tree_create_from_location_finish(GAsyncResult *res,
                                                     GError **error)
 {
-    GSimpleAsyncResult *simple = G_SIMPLE_ASYNC_RESULT(res);
+    GTask *task = G_TASK(res);
 
     g_return_val_if_fail(error == NULL || *error == NULL, NULL);
 
-    if (g_simple_async_result_propagate_error(simple, error))
-        return NULL;
-
-    return g_simple_async_result_get_op_res_gpointer(simple);
+    return g_task_propagate_pointer(task, error);
 }
 
 /**

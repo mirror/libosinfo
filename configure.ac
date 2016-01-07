@@ -37,7 +37,7 @@ m4_if(m4_version_compare([2.61a.100],
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 PKG_CHECK_MODULES([GOBJECT], [gobject-2.0])
-PKG_CHECK_MODULES([GIO], [gio-2.0])
+PKG_CHECK_MODULES([GIO], [gio-2.0 >= 2.36])
 PKG_CHECK_MODULES([SOUP], [libsoup-2.4 >= 2.42])
 PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= 2.6.0])
 PKG_CHECK_MODULES([LIBXSLT], [libxslt >= 1.0.0])
