@@ -44,7 +44,7 @@ struct _CreateFromLocationAsyncData {
 static void create_from_location_async_data_free(CreateFromLocationAsyncData *data)
 {
     if (data->tree)
-    g_object_unref(data->tree);
+        g_object_unref(data->tree);
     g_object_unref(data->file);
     g_object_unref(data->res);
 
