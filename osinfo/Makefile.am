@@ -33,6 +33,7 @@ libosinfo_1_0_la_CFLAGS = \
 	$(LIBXML_CFLAGS) \
 	$(LIBXSLT_CFLAGS) \
 	$(GOBJECT_CFLAGS) \
+	$(GLIB_CFLAGS) \
 	$(GIO_CFLAGS) \
 	-DPKG_DATA_DIR='"$(pkgdatadir)"' \
 	-DSYS_CONF_DIR='"$(sysconfdir)"' \
@@ -43,6 +44,7 @@ libosinfo_1_0_la_LIBADD = \
 	$(LIBXML_LIBS) \
 	$(LIBXSLT_LIBS) \
 	$(GOBJECT_LIBS) \
+	$(GLIB_LIBS) \
 	$(GIO_LIBS)
 
 libosinfo_1_0_la_LDFLAGS = \

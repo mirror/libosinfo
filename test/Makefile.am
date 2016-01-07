@@ -23,6 +23,7 @@ check_PROGRAMS = \
 
 COMMON_LDADD = \
 	$(COVERAGE_LDFLAGS) \
+	$(GLIB_LIBS) \
 	$(GOBJECT_LIBS) \
 	$(SOUP_LIBS) \
 	$(CHECK_LIBS) \
@@ -30,6 +31,7 @@ COMMON_LDADD = \
 COMMON_CFLAGS = \
 	$(WARN_CFLAGS) \
 	$(COVERAGE_CFLAGS) \
+	$(GLIB_CFLAGS) \
 	$(GOBJECT_CFLAGS) \
 	$(SOUP_CFLAGS) \
 	-I$(top_srcdir) \
