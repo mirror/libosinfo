@@ -240,10 +240,6 @@ gint main(gint argc, gchar **argv)
         goto EXIT;
     }
 
-#if !GLIB_CHECK_VERSION(2,35,1)
-    g_type_init();
-#endif
-
     loader = osinfo_loader_new();
     osinfo_loader_process_default_path(loader, &error);
     if (error != NULL) {

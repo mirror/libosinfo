@@ -243,10 +243,6 @@ int main(void)
     Suite *s = productfilter_suite();
     SRunner *sr = srunner_create(s);
 
-#if !GLIB_CHECK_VERSION(2,35,1)
-    g_type_init();
-#endif
-
     /* Upfront so we don't confuse valgrind */
     osinfo_entity_get_type();
     osinfo_filter_get_type();

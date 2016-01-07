@@ -366,10 +366,6 @@ gint main(gint argc, gchar **argv)
     bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
     bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
 
-#if !GLIB_CHECK_VERSION(2,35,1)
-    g_type_init();
-#endif
-
     struct OsinfoType types[] = {
         { "os",
           (osinfo_list_func)osinfo_db_get_os_list,

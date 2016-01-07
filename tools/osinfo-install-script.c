@@ -304,10 +304,6 @@ gint main(gint argc, gchar **argv)
     bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
     bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
 
-#if !GLIB_CHECK_VERSION(2,35,1)
-    g_type_init();
-#endif
-
     config = osinfo_install_config_new("http://libosinfo.fedorahosted.org/config");
 
     context = g_option_context_new(_("- Generate an OS install script"));

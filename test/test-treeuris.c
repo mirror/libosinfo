@@ -128,10 +128,6 @@ int main(void)
     if (!g_getenv("LIBOSINFO_NETWORK_TESTS"))
         return 77; /* Skip */
 
-#if !GLIB_CHECK_VERSION(2,35,1)
-    g_type_init();
-#endif
-
     /* Upfront so we don't confuse valgrind */
     osinfo_entity_get_type();
     osinfo_db_get_type();
