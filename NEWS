@@ -1,3 +1,47 @@
+0.3.0 - Jan 08, 2016
+====================
+
+Changes since 0.2.12:
+
+- Ditch custom udev rule since udev/blkid already expose ISO9660 properties.
+- New layout for database to facilitate local admin customization. Refer to
+  docs/database-layout.txt for full details.
+- Many build-related fixes.
+- Plug many memory leaks.
+- Drop redundant information on PCI devices.
+- Fix the URI format for install scripts.
+- Memory corruption fixes.
+- Massive refactoring/cleanup of database.
+- Fixes to tests.
+- osinfo_loader_process_*() now expect a directory argument. Regular files are
+  still supported but this support is deprecated.
+- Ensure Linux install scripts install qemu-guest-agent. This allows
+  applications to do things like resyncing the clock of guest with that of host.
+- Add/improve/fix data on:
+  - Alt Linux
+  - CentOS
+  - Debian
+  - Fedora
+  - FreeBSD
+  - GNOME
+  - KVM
+  - Microsoft Windows 7, 8, 10 and Server 2012
+  - Novell Netware
+  - OpenBSD
+  - openSUSE
+  - PCI and PS/2 devices
+  - Qemu
+  - Red Hat Enterprise Linux
+  - Red Hat Linux
+  - Solaris
+  - Ubuntu
+  - Xen
+- Many internal cleanups.
+
+Dependencies changed:
+
+Require libsoup >= 2.42
+
 0.2.12 - May 27, 2015
 =====================
 
