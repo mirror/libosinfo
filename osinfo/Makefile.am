@@ -30,7 +30,6 @@ libosinfo_1_0_la_CFLAGS = \
 	$(WARN_CFLAGS) \
 	$(COVERAGE_CFLAGS) \
 	-I$(top_srcdir) \
-	-I$(top_builddir) \
 	$(LIBXML_CFLAGS) \
 	$(LIBXSLT_CFLAGS) \
 	$(GOBJECT_CFLAGS) \
@@ -95,11 +94,11 @@ OSINFO_HEADER_FILES =			\
   osinfo_resourceslist.h		\
   osinfo_tree.h				\
   osinfo_treelist.h			\
+  osinfo_version.h			\
   $(NULL)
 
 libosinfo_1_0_include_HEADERS =		\
   $(OSINFO_HEADER_FILES)		\
-  osinfo_version.h			\
   osinfo_enum_types.h			\
   $(NULL)
 
@@ -150,10 +149,10 @@ libosinfo_1_0_la_SOURCES =		\
   $(NULL)
 
 osinfo_enum_types.h: $(OSINFO_HEADER_FILES) osinfo_enum_types.h.template
-	$(AM_V_GEN) ( $(GLIB_MKENUMS) --template $(srcdir)/osinfo_enum_types.h.template $(OSINFO_HEADER_FILES:%=$(srcdir)/%) ) > $@
+	$(AM_V_GEN) ( $(GLIB_MKENUMS) --template $(srcdir)/osinfo_enum_types.h.template $(libosinfo_1_0_include_HEADERS:%=$(srcdir)/%) ) > $@
 
 osinfo_enum_types.c: $(OSINFO_HEADER_FILES) osinfo_enum_types.c.template osinfo_enum_types.h
-	$(AM_V_GEN) ( $(GLIB_MKENUMS) --template $(srcdir)/osinfo_enum_types.c.template $(OSINFO_HEADER_FILES:%=$(srcdir)/%) ) > $@
+	$(AM_V_GEN) ( $(GLIB_MKENUMS) --template $(srcdir)/osinfo_enum_types.c.template $(libosinfo_1_0_include_HEADERS:%=$(srcdir)/%) ) > $@
 
 DISTCLEANFILES +=				\
 	osinfo_enum_types.c			\

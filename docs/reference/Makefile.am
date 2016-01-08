@@ -3,7 +3,7 @@ DOC_MODULE=Libosinfo
 
 DOC_MAIN_SGML_FILE=$(DOC_MODULE)-docs.xml
 
-DOC_SOURCE_DIR=$(top_srcdir)/osinfo $(top_builddir)/osinfo
+DOC_SOURCE_DIR=$(top_srcdir)/osinfo
 
 SCANGOBJ_OPTIONS=
 
@@ -17,8 +17,8 @@ MKHTML_OPTIONS=
 
 FIXXREF_OPTIONS=
 
-HFILE_GLOB=$(top_srcdir)/osinfo/*.h $(top_builddir)/osinfo/*.h
-CFILE_GLOB=$(top_srcdir)/osinfo/*.c $(top_builddir)/osinfo/*.c
+HFILE_GLOB=$(top_srcdir)/osinfo/*.h
+CFILE_GLOB=$(top_srcdir)/osinfo/*.c
 
 IGNORE_HFILES=
 
