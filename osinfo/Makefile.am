@@ -191,7 +191,7 @@ Libosinfo_1_0_gir_INCLUDES = GObject-2.0 Gio-2.0 libxml2-2.0
 Libosinfo_1_0_gir_PACKAGES = gobject-2.0 gio-2.0 libxml-2.0 libxslt
 Libosinfo_1_0_gir_EXPORT_PACKAGES = libosinfo-1.0
 Libosinfo_1_0_gir_LIBS = libosinfo-1.0.la
-Libosinfo_1_0_gir_FILES = $(libosinfo_1_0_include_HEADERS) $(libosinfo_1_0_la_SOURCES) $(nodist_libosinfo_1_0_la_SOURCES)
+Libosinfo_1_0_gir_FILES = $(libosinfo_1_0_include_HEADERS) $(nodist_libosinfo_1_0_include_HEADERS) $(libosinfo_1_0_la_SOURCES) $(nodist_libosinfo_1_0_la_SOURCES)
 Libosinfo_1_0_gir_CFLAGS = $(libosinfo_1_0_la_CFLAGS)
 Libosinfo_1_0_gir_SCANNERFLAGS = --identifier-prefix=Osinfo --symbol-prefix=osinfo --c-include="osinfo/osinfo.h"
 INTROSPECTION_GIRS += Libosinfo-1.0.gir
