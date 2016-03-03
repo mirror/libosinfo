@@ -1,46 +1,5 @@
-libosinfo
-=========
+The libosinfo project master git repository has moved to
 
-libosinfo is a GObject based library API for managing information about
-operating systems, hypervisors and the (virtual) hardware devices they can
-support. It includes a database containing device metadata and provides APIs
-to match/identify optimal devices for deploying an operating system on a
-hypervisor. Via the magic of GObject Introspection, the API is available in all
-common programming languages with demos for javascript (GJS/Seed) and python
-(PyGObject). Also provided are Vala bindings.
+   https://gitlab.com/libosinfo/libosinfo
 
-libosinfo is Free Software and licenced under LGPLv2+.
-
-The latest official releases can be found at:
-
-    https://fedorahosted.org/releases/l/i/libosinfo/
-
-Dependencies
-============
-
-- Required:
-  - gobject-2.0
-  - gio-2.0
-  - libsoup-2.4
-  - libxml-2.0
-  - libxslt-1.0
-
-- Optional:
-  - gobject-introspection
-  - Vala (build-time only)
-
-Patch submissions
-=================
-
-Patch submissions are welcomed from any interested contributor. Please
-use the libosinfo list for any patch submissions, or discussions about
-the code:
-
-    https://www.redhat.com/mailman/listinfo/libosinfo
-
-For further information about libosinfo please consult the project
-homepage
-
-   https://fedorahosted.org/libosinfo/
-
---End
+Please update your local config
